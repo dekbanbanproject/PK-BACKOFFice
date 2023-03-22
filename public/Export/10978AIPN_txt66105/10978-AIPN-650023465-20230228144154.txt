@@ -1,0 +1,74 @@
+<CIPN>
+<Header>
+<DocClass>IPClaim</DocClass>
+<DocSysID version="2.1">AIPN</DocSysID>
+<serviceEvent>ADT</serviceEvent>
+<authorID>10978</authorID>
+<authorName>รพ.ภูเขียวเฉลิมพระเกียรติ</authorName>
+<effectiveTime>2023-02-28T14:41:54</effectiveTime>
+</Header>
+<ClaimAuth>
+<AuthCode></AuthCode>
+<AuthDT>2022-12-26T18:55:00</AuthDT>
+<UPayPlan>80</UPayPlan>
+<ServiceType>IP</ServiceType>
+<ProjectCode></ProjectCode>
+<EventCode> </EventCode>
+<UserReserve> </UserReserve>
+<Hmain>10702</Hmain>
+<Hcare>10978</Hcare>
+<CareAs>B</CareAs>
+<ServiceSubType> </ServiceSubType>
+</ClaimAuth>
+<IPADT>
+650023465|0226155|0|3361100026870|นาง|แสงเทียน สนธิสัมพันธ์|1967-08-16|2|2|36|11|99|C|O|2022-12-26T18:55:00|2023-01-01T15:37:00|0|02|01||06|02
+</IPADT>
+<IPDx Reccount="3">
+1|1|ICD-10|K573|Diverticular disease of large intestine without perforation or abscess|ว44350|
+2|2|ICD-10|E119|NIDM Without complications|ว44350|
+3|2|ICD-10|I10|Essential (primary) hypertension|ว44350|
+</IPDx>
+<IPOp Reccount="1">
+1|ICD9CM|4525|Diagnostic procedures on large intestine,Closed [endoscopic] biopsy of large intestine|ว44350|2022-12-29T16:50:00|2022-12-29T17:05:00|
+</IPOp>
+<Invoices>
+<InvNumber>650023465</InvNumber>
+<InvDT>2023-01-01T15:37:00</InvDT>
+<BillItems Reccount="29">
+1|2023-01-01|03|1000060|CEFTRIAXONE-Cef-3 1 g.|12|13.5|162|0|0|0|SS|03||TMT|548592|D|2023-01-01|0|0
+2|2023-01-01|03|1000215|NSS 0.9% 1000 ml 0.9 %|4|39.5|158|0|0|0|SS|03||TMT|770813|D|2023-01-01|0|0
+3|2023-01-01|03|1000216|NSS 0.9% 100 ml. 0.9 %|12|18.5|222|0|0|0|SS|03||TMT|777636|D|2023-01-01|0|0
+4|2023-01-01|03|1015001|METRONIDAZOLE INJ. 0.5 %|18|20|360|0|0|0|SS|03||TMT|570231|D|2023-01-01|0|0
+5|2023-01-01|03|1460348|TRANSAMIC ACID INJ. 250 mg/5ml|34|31|1054|0|0|0|SS|03||TMT|763383|D|2023-01-01|0|0
+6|2023-01-01|03|1490312|OMEPRAZOLE INJ. 40 mg.|12|21.5|258|0|0|0|SS|03||TMT|105322|D|2023-01-01|0|0
+7|2023-01-01|03|1600051|SIMVASTATIN 20 mg.|3|1|3|0|0|0|SS|03||TMT|117308|D|2023-01-01|0|0
+8|2023-01-01|07|3000037|Hct (Hematocrit) |2|30|60|0|0|0|SS|07|30104|TMLT|300011|D|2023-01-01|0|0
+9|2023-01-01|05|3002817|Disp Needle No.23x1.5นิ้ว |4|1|4|0|0|0|SS|05||||D|2023-01-01|0|0
+10|2023-01-01|05|3002830|Disp Syring 3 cc |8|1.5|12|0|0|0|SS|05||||D|2023-01-01|0|0
+11|2023-01-01|01|3000001|ค่าห้องและค่าอาหาร: เตียงสามัญ |6|400|2400|0|0|0|SS|01|21101|||D|2023-01-01|0|0
+13|2023-01-01|12|3002731|ค่าบริการพยาบาลทั่วไป: ผู้ป่วยใน (IPD) |7|500|3500|0|0|0|SS|12|55010|||D|2023-01-01|0|0
+14|2023-01-01|11|3001173|Other small-to-large intestinal anastomosis(45.93) |1|3500|3500|0|0|0|SS|11||||D|2023-01-01|0|0
+17|2023-01-01|05|3003188|Disp Syring 10 cc |3|3|9|0|0|0|SS|05||||D|2023-01-01|0|0
+18|2023-01-01|10|3002711|ค่าออกซิเจน(วัน) |1|450|450|0|0|0|SS|10|52321|||D|2023-01-01|0|0
+19|2023-01-01|05|3002813|Disp Needle No.18x1.5นิ้ว |3|1|3|0|0|0|SS|05||||D|2023-01-01|0|0
+22|2023-01-01|10|3002719|O2 sat monitor |5|100|500|0|0|0|SS|10|52441|||D|2023-01-01|0|0
+23|2023-01-01|04|1000223|OMEPRAZOLE CAP 20 mg.|20|1|20|0|0|0|SS|04||TMT|104539|D|2023-01-01|0|0
+24|2023-01-01|04|1000227|PARACETAMOL TAB. 500 mg.|20|1|20|0|0|0|SS|04||TMT|367977|D|2023-01-01|0|0
+25|2023-01-01|04|1500116|SENOKOT(มะขามแขก) 7.5 mg.|20|1.5|30|0|0|0|SS|04||TMT|742796|D|2023-01-01|0|0
+27|2023-01-01|07|3000178|Glucose, blood |5|40|200|0|0|0|SS|07|32203|TMLT|320062|D|2023-01-01|0|0
+28|2023-01-01|07|3000388|HIV-Ab (screening)  -  GPA, ELISA, MEIA, ECLIA |2|120|240|0|0|0|SS|07|36351|TMLT|350228|D|2023-01-01|0|0
+30|2023-01-01|05|3002870|Infusion Set (ใช้ในโรงพยาบาล) |3|10|30|0|0|0|SS|05||||D|2023-01-01|0|0
+31|2023-01-01|09|3000796|ECG (Electrocardiography) |1|200|200|0|0|0|SS|09|51410|||D|2023-01-01|0|0
+32|2023-01-01|11|3010137|บริการพักฟื้นที่ห้องผ่าตัด |1|150|150|0|0|0|SS|11||||D|2023-01-01|0|0
+33|2023-01-01|10|3002718|NIBP monitor |1|100|100|0|0|0|SS|10|52440|||D|2023-01-01|0|0
+34|2023-01-01|07|3000391|HIV-Ag |1|130|130|0|0|0|SS|07|36360|TMLT|350232|D|2023-01-01|0|0
+35|2023-01-01|11|3001986|บริการวางยาสลบทางเส้นเลือด (IVA) ต่อครั้ง(70120) |1|1700|1700|0|0|0|SS|11|70120|||D|2023-01-01|0|0
+36|2023-01-01|05|3002815|Disp Needle No.22x1นิ้ว |8|1|8|0|0|0|SS|05||||D|2023-01-01|0|0
+</BillItems>
+<InvAddDiscount>0.00</InvAddDiscount>
+<DRGCharge>15483</DRGCharge>
+<XDRGClaim>0.0000</XDRGClaim>
+</Invoices>
+<Coinsurance> </Coinsurance>
+</CIPN>
+
