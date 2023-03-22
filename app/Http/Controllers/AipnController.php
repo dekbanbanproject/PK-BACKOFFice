@@ -470,68 +470,72 @@ class AipnController extends Controller
            
 
             $aipn_data = DB::connection('mysql3')->select('   
-                SELECT
-                    i.an,  
-                    i.an as AN,i.hn as HN,"0" as IDTYPE 
-                    ,showcid(if(pt.nationality=99,pt.cid,pc.cardno)) as PIDPAT
-                    ,pt.pname as TITLE
-                    ,concat(pt.fname," ",pt.lname) as NAMEPAT 
-                    ,pt.birthday as DOB
-                    ,a.sex as SEX
-                    ,pt.marrystatus as MARRIAGE
-                    ,pt.chwpart as CHANGWAT
-                    ,pt.amppart as AMPHUR
-                    ,pt.citizenship as NATION
-                    ,"C" as AdmType
-                    ,"O" as AdmSource
-                    ,i.regdate as DTAdm_d
-                    ,i.regtime as DTAdm_t
-                    ,i.dchdate as DTDisch_d
-                    ,i.dchtime as DTDisch_t 
-                    ,"0" AS LeaveDay                
-                    ,i.dchstts as DischStat
-                    ,i.dchtype as DishType
-                    ,"" as AdmWt
-                    ,i.ward as DishWard
-                    ,a.spclty as Dept
-                    ,seekhipdata(ptt.hipdata_code,0) maininscl
-                    ,i.pttype
-                    ,concat(i.pttype,":",ptt.name) pttypename 
-                    ,hospmain(i.an) HMAIN
-                    ,"IP" as ServiceType
-                    ,a.vn,sum(oo.sum_price) ChargeAmt_
-                    from ipt i
-                    left join patient pt on pt.hn=i.hn
-                    left join ptcardno pc on pc.hn=pt.hn and pc.cardtype="02"
-                    left join an_stat a on a.an=i.an
-                    left join pttype ptt on ptt.pttype=i.pttype
-                    left join pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id 
-                    left join opitemrece oo on oo.an=i.an
-                    left join income inc on inc.income=oo.income
-                    left join s_drugitems d on d.icode=oo.icode 
-                    WHERE i.dchdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"                    
-                    AND ptt.pttype IN("A7","s7","14")
-                    group by i.an
-                    order by hn
+               
+               SELECT
+                i.an,  
+                i.an as AN,i.hn as HN,"0" as IDTYPE 
+                ,showcid(if(pt.nationality=99,pt.cid,pc.cardno)) as PIDPAT
+                ,pt.pname as TITLE
+                ,concat(pt.fname," ",pt.lname) as NAMEPAT 
+                ,pt.birthday as DOB
+                ,a.sex as SEX
+                ,pt.marrystatus as MARRIAGE
+                ,pt.chwpart as CHANGWAT
+                ,pt.amppart as AMPHUR
+                ,pt.citizenship as NATION
+                ,"C" as AdmType
+                ,"O" as AdmSource
+                ,i.regdate as DTAdm_d
+                ,i.regtime as DTAdm_t
+                ,i.dchdate as DTDisch_d
+                ,i.dchtime as DTDisch_t 
+                ,"0" AS LeaveDay                
+                ,i.dchstts as DischStat
+                ,i.dchtype as DishType
+                ,"" as AdmWt
+                ,i.ward as DishWard
+                ,a.spclty as Dept
+                ,seekhipdata(ptt.hipdata_code,0) maininscl
+                ,i.pttype
+                ,concat(i.pttype,":",ptt.name) pttypename 
+                ,hospmain(i.an) HMAIN
+                ,"IP" as ServiceType
+                ,a.vn,sum(oo.sum_price) ChargeAmt_
+                from ipt i
+                left join patient pt on pt.hn=i.hn
+               
+                left join ptcardno pc on pc.hn=pt.hn and pc.cardtype="02"
+                left join an_stat a on a.an=i.an
+                left join pttype ptt on ptt.pttype=i.pttype
+                left join pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id 
+                left join opitemrece oo on oo.an=i.an
+                left join income inc on inc.income=oo.income
+                left join s_drugitems d on d.icode=oo.icode 
+                WHERE i.dchdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"                    
+                AND ptt.pttype IN("A7","s7","14")
+                group by i.an
+                order by hn
             ');
             foreach ($aipn_data as $key => $value) {
                
-                $check_vn = Stm::where('VN','=',$value->vn)->count();
+                // $check_vn = Stm::where('VN','=',$value->vn)->count();
+                
+            $check_an = Stm::where('AN','=',$value->AN)->count();
                 $datenow = date('Y-m-d H:m:s');
                 
-                if ($check_vn > 0) {
-                    Stm::where('VN', $value->vn) 
-                            ->update([  
-                                'AN'             => $value->AN,
-                                'VN'                => $value->vn,
-                                'HN'                => $value->HN,
-                                'PID'               => $value->PIDPAT,
-                                'DCHDATE'           => $value->DTDisch_d,
-                                'FULLNAME'          => $value->NAMEPAT,  
-                                'MAININSCL'         => "SSIP",
-                                'created_at'        => $datenow, 
-                                'ClaimAmt'          =>$value->ChargeAmt_
-                            ]);
+                if ($check_an > 0) {
+                    // Stm::where('VN', $value->vn) 
+                    //         ->update([  
+                    //             'AN'             => $value->AN,
+                    //             'VN'                => $value->vn,
+                    //             'HN'                => $value->HN,
+                    //             'PID'               => $value->PIDPAT,
+                    //             'DCHDATE'           => $value->DTDisch_d,
+                    //             'FULLNAME'          => $value->NAMEPAT,  
+                    //             'MAININSCL'         => "SSIP",
+                    //             'created_at'        => $datenow, 
+                    //             'ClaimAmt'          =>$value->ChargeAmt_
+                    //         ]);
                     } else {
                         Stm::insert([          
                             'AN'             => $value->AN,              
@@ -842,6 +846,223 @@ class AipnController extends Controller
             'aipn_ipdx'        => $aipn_ipdx
         ]);
     } 
+    public function aipn_recheck(Request $request)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $an = $request->AN;
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        // dd($datestart);    
+        // $aipn_data = DB::connection('mysql7')->select('   
+        //     SELECT * FROM aipn_ipadt 
+        // '); 
+        $aipn_data = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_ipadt a 
+            left join stm s on s.AN=a.AN
+            where s.status = "PULL"
+            GROUP BY s.AN;
+        '); 
+        $aipn_billitems = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_billitems   
+        ');
+        $ssop_dispensing = DB::connection('mysql7')->select('   
+            SELECT * FROM ssop_dispensing   
+        ');   
+        $ssop_dispenseditems = DB::connection('mysql7')->select('   
+            SELECT * FROM ssop_dispenseditems   
+        ');  
+        $aipn_ipop = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_ipop   
+        ');
+        $aipn_ipdx = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_ipdx   
+        ');
+        
+        return view('claim.aipn_recheck',$data,[
+            'start'                => $datestart,
+            'end'                  => $dateend,
+            'aipn_data'            => $aipn_data,
+            'aipn_billitems'       => $aipn_billitems,
+            'ssop_dispensing'      => $ssop_dispensing,
+            'ssop_dispenseditems'  => $ssop_dispenseditems,
+            'an'                   => $an,
+            'aipn_ipop'            => $aipn_ipop, 
+            'aipn_ipdx'            => $aipn_ipdx
+        ]);
+    }
+    public function aipn_recheck_search(Request $request)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $an = $request->AN;
+       
+        
+        $aipn_data_ = DB::connection('mysql3')->select('   
+            SELECT
+                i.an,  
+                i.an as AN,i.hn as HN,"0" as IDTYPE 
+                ,showcid(if(pt.nationality=99,pt.cid,pc.cardno)) as PIDPAT
+                ,pt.pname as TITLE
+                ,concat(pt.fname," ",pt.lname) as NAMEPAT 
+                ,pt.birthday as DOB
+                ,a.sex as SEX
+                ,pt.marrystatus as MARRIAGE
+                ,pt.chwpart as CHANGWAT
+                ,pt.amppart as AMPHUR
+                ,pt.citizenship as NATION
+                ,"C" as AdmType
+                ,"O" as AdmSource
+                ,i.regdate as DTAdm_d
+                ,i.regtime as DTAdm_t
+                ,i.dchdate as DTDisch_d
+                ,i.dchtime as DTDisch_t 
+                ,"0" AS LeaveDay                
+                ,i.dchstts as DischStat
+                ,i.dchtype as DishType
+                ,"" as AdmWt
+                ,i.ward as DishWard
+                ,a.spclty as Dept
+                ,seekhipdata(ptt.hipdata_code,0) maininscl
+                ,i.pttype
+                ,concat(i.pttype,":",ptt.name) pttypename 
+                ,hospmain(i.an) HMAIN
+                ,"IP" as ServiceType
+                ,a.vn,sum(oo.sum_price) ChargeAmt_
+                from ipt i
+                left join patient pt on pt.hn=i.hn
+               
+                left join ptcardno pc on pc.hn=pt.hn and pc.cardtype="02"
+                left join an_stat a on a.an=i.an
+                left join pttype ptt on ptt.pttype=i.pttype
+                left join pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id 
+                left join opitemrece oo on oo.an=i.an
+                left join income inc on inc.income=oo.income
+                left join s_drugitems d on d.icode=oo.icode 
+                WHERE i.dchdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"                    
+                AND ptt.pttype IN("A7","s7","14")
+                group by i.an
+                order by hn
+        ');
+        // left join claim.stm s on s.an = i.an
+        foreach ($aipn_data_ as $key => $value) {
+        
+            $check_an = Stm::where('AN','=',$value->AN)->count();
+            $datenow = date('Y-m-d H:m:s');
+            
+            if ($check_an > 0) {
+                // Stm::where('AN', $value->AN) 
+                        // ->update([  
+                        //     'AN'               => $value->AN,
+                        //     'VN'                => $value->vn,
+                        //     'HN'                => $value->HN,
+                        //     'PID'               => $value->PIDPAT,
+                        //     'DCHDATE'           => $value->DTDisch_d,
+                        //     'FULLNAME'          => $value->NAMEPAT,  
+                        //     'MAININSCL'         => "SSIP",
+                        //     'created_at'        => $datenow, 
+                        //     'ClaimAmt'          =>$value->ChargeAmt_
+                        // ]);
+                } else {
+                    Stm::insert([          
+                        'AN'                => $value->AN,              
+                        'VN'                => $value->vn,
+                        'HN'                => $value->HN,
+                        'PID'               => $value->PIDPAT,
+                        'DCHDATE'           => $value->DTDisch_d,
+                        'FULLNAME'          => $value->NAMEPAT,  
+                        'MAININSCL'         => "SSIP",
+                        'created_at'        => $datenow, 
+                        'ClaimAmt'          =>$value->ChargeAmt_
+                    ]);
+                }
+
+            }
+
+        Aipn_ipadt::truncate();
+        foreach ($aipn_data_ as $key => $value) {     
+            Aipn_ipadt::insert([
+                'AN'             => $value->AN,
+                'HN'             => $value->HN,
+                'IDTYPE'         => $value->IDTYPE,
+                'PIDPAT'         => $value->PIDPAT,
+                'TITLE'          => $value->TITLE,
+                'NAMEPAT'        => $value->NAMEPAT,
+                'DOB'            => $value->DOB,
+                'SEX'            => $value->SEX,
+                'MARRIAGE'       => $value->MARRIAGE,
+                'CHANGWAT'       => $value->CHANGWAT,
+                'AMPHUR'         => $value->AMPHUR,
+                'NATION'         => $value->NATION,
+                'AdmType'        => $value->AdmType,
+                'AdmSource'      => $value->AdmSource,
+                'DTAdm_d'        => $value->DTAdm_d,
+                'DTAdm_t'        => $value->DTAdm_t,
+                'DTDisch_d'      => $value->DTDisch_d,
+                'DTDisch_t'      => $value->DTDisch_t,
+                'LeaveDay'       => $value->LeaveDay,
+                'DischStat'      => $value->DischStat,
+                'DishType'       => $value->DishType,
+                'AdmWt'          => $value->AdmWt,
+                'DishWard'       => $value->DishWard,
+                'Dept'           => $value->Dept,
+                'HMAIN'          => $value->HMAIN,
+                'ServiceType'    => $value->ServiceType 
+            ]);                
+        }
+        Aipn_billitems::truncate();
+        Aipn_ipdx::truncate();
+        Aipn_ipop::truncate();
+
+        $aipn_data = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_ipadt a 
+            left join stm s on s.AN=a.AN
+            where s.status = "PULL"
+            GROUP BY s.AN;
+        '); 
+        $aipn_billitems = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_billitems   
+        ');
+        $ssop_dispensing = DB::connection('mysql7')->select('   
+            SELECT * FROM ssop_dispensing   
+        ');   
+        $ssop_dispenseditems = DB::connection('mysql7')->select('   
+            SELECT * FROM ssop_dispenseditems   
+        ');  
+        $aipn_ipop = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_ipop   
+        ');
+        $aipn_ipdx = DB::connection('mysql7')->select('   
+            SELECT * FROM aipn_ipdx   
+        ');
+        
+        return view('claim.aipn_recheck',[
+            'start'                => $datestart,
+            'end'                  => $dateend,
+            'aipn_data'            => $aipn_data,
+            'aipn_billitems'       => $aipn_billitems,
+            'ssop_dispensing'      => $ssop_dispensing,
+            'ssop_dispenseditems'  => $ssop_dispenseditems,
+            'an'                   => $an,
+            'aipn_ipop'            => $aipn_ipop, 
+            'aipn_ipdx'            => $aipn_ipdx
+        ]);
+    }
+    public function aipn_update_status(Request $request,$an)
+    {
+        // $update = Stm::find($an);
+        // $update->status = "REP";
+        // $update->save();
+        // $an = $request->AN;
+        // dd( $an);
+        Stm::where('AN', $an) 
+            ->update([  
+                'status'   => "REP"
+            
+            ]);
+            return redirect()->back();
+        // return response()->json(['status' => '200']);
+    }
     public function aipn_send(Request $request)
     {
         $datestart = $request->startdate;

@@ -1458,6 +1458,10 @@ Route::match(['get','post'],'medicine_salt_subhn/{hn}',[App\Http\Controllers\Med
 //********************* */ Claim  ***********************************
 Route::match(['get','post'],'aipn',[App\Http\Controllers\AipnController::class, 'aipn'])->name('claim.aipn');//
 Route::match(['get','post'],'aipnsearch',[App\Http\Controllers\AipnController::class, 'aipnsearch'])->name('claim.aipnsearch');//
+Route::match(['get','post'],'aipn_recheck',[App\Http\Controllers\AipnController::class, 'aipn_recheck'])->name('claim.aipn_recheck');//
+Route::match(['get','post'],'aipn_recheck_search',[App\Http\Controllers\AipnController::class, 'aipn_recheck_search'])->name('claim.aipn_recheck_search');//
+
+Route::match(['get','post'],'aipn_update_status/{an}',[App\Http\Controllers\AipnController::class, 'aipn_update_status'])->name('claim.aipn_update_status');//
 
 Route::match(['get','post'],'aipn_plb',[App\Http\Controllers\AipnController::class, 'aipn_plb'])->name('claim.aipn_plb');//
 Route::match(['get','post'],'aipn_plb_search',[App\Http\Controllers\AipnController::class, 'aipn_plb_search'])->name('claim.aipn_plb_search');//

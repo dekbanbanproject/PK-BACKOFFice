@@ -281,6 +281,7 @@
                                 <li><a href="{{ url('ssop') }}">SSOP</a></li>
                                 <li><a href="{{ url('ssop_recheck') }}">SSOP RECHECK</a></li>
                                  <li><a href="{{ url('aipn') }}">AIPN</a></li>
+                                 <li><a href="{{ url('aipn_recheck') }}">AIPN RECHECK</a></li>
                                  <li><a href="{{ url('aipn_plb') }}">AIPN พรบ</a></li>
                                  <li><a href="{{ url('aipn_disability') }}">AIPN ทุภพพลภาพ </a></li>
                                  <li><a href="{{ url('aipn_equipdev') }}">SSIP-Equipdev</a></li> 

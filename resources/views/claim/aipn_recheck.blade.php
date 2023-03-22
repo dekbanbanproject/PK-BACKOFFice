@@ -114,7 +114,7 @@
             </div>
         </div>
         
-                    <form action="{{ route('claim.aipnsearch') }}" method="POST">
+                    <form action="{{ route('claim.aipn_recheck_search') }}" method="POST">
                     @csrf
 
                     <div class="row">  
@@ -151,8 +151,7 @@
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     ดึงข้อมูล 
                                 </button>
-                               
-                                {{-- <button class="btn btn-success" id="Export"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</button>    --}}
+                                
                                 <a href="{{url('aipn_send_an')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>  
                                 <a href="{{url('aipn_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
                                 
@@ -171,43 +170,27 @@
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card">
-                    <div class="card-body">
-
-                        {{-- <h4 class="card-title">Detail AIPN</h4>
-                        <p class="card-title-desc">รายละเอียดประกันสังคมผู้ป่วยใน</p> --}}
+                    <div class="card-body"> 
                         <div class="row">
                             <div class="col-md-4">
                                 <h4 class="card-title">Detail AIPN</h4>
                                 <p class="card-title-desc">รายละเอียดประกันสังคมผู้ป่วยใน</p>
                             </div>
                             <div class="col"></div>
-                            <div class="col-md-2 text-end">
-                                {{-- <button class="btn btn-secondary" id="Changbillitems"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>ปรับ bilitems</button>  --}}
-                                
+                            <div class="col-md-2 text-end"> 
                             </div>
                         </div>
 
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            {{-- <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#BillItems" role="tab">
-                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
-                                    <span class="d-none d-sm-block">BillItems</span>    
-                                </a>
-                            </li> --}}
+                            
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#IPADT" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                     <span class="d-none d-sm-block">IPADT</span>    
                                 </a>
                             </li>
-                            
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#BillItems" role="tab">
-                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
-                                    <span class="d-none d-sm-block">BillItems</span>    
-                                </a>
-                            </li> --}}
+                           
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#IPDx" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
@@ -225,75 +208,7 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted"> 
-                            {{-- <div class="tab-pane" id="BillItems" role="tabpanel">
-                                <p class="mb-0">
-                                    <div class="table-responsive">
-                                        <table id="selection-datatable" class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th width="5%" class="text-center">ลำดับ</th>   
-                                                    <th class="text-center">AN</th>
-                                                    <th class="text-center">sequence</th>
-                                                    <th class="text-center">ServDate</th>
-                                                    <th class="text-center">ServTime</th>
-                                                    <th class="text-center">BillGr</th>    
-                                                    <th class="text-center">BillGrCS</th>  
-                                                    <th class="text-center">CodeSys</th> 
-                                                    <th class="text-center">CSCode</th>
-                                                    <th class="text-center">STDCode</th>  
-                                                    <th class="text-center">ClaimCat</th> 
-                                                    <th class="text-center">LCCode</th> 
-                                                    <th class="text-center">Descript</th> 
-                                                    <th class="text-center">QTY</th> 
-                                                    <th class="text-center">UnitPrice</th> 
-                                                    <th class="text-center">ChargeAmt</th> 
-                                                    <th class="text-center">Discount</th> 
-                                                    <th class="text-center">ClaimUP</th> 
-                                                    <th class="text-center">ClaimAmt</th> 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $i = 1; ?>
-                                                @foreach ($aipn_billitems as $item2) 
-                                                    <tr id="sidb{{$item2->aipn_billitems_id }}">   
-                                                        <td class="text-center">{{ $i++ }}</td>  
-                                                        <td class="text-center">{{ $item2->AN }} </td>
-                                                        <td class="text-center">{{ $item2->sequence }}</td>
-                                                        <td class="text-center">{{ $item2->ServDate }} </td>
-                                                        <td class="text-center">{{ $item2->ServTime }} </td>
-                                                        <td class="text-center">{{ $item2->BillGr }} </td>                                                         
-                                                        <td class="p-2">{{ $item2->BillGrCS }}</td>   
-                                                       @if ($item2->CodeSys == 'TMT' && $item2->STDCode == '')
-                                                            <td class="text-center" style="background-color: pink">{{ $item2->CodeSys }} </td> 
-                                                        @elseif ($item2->CodeSys == 'TMLT' && $item2->STDCode == '')
-                                                            <td class="text-center" style="background-color: pink">{{ $item2->CodeSys }} </td> 
-                                                       @else
-                                                            <td class="text-center">{{ $item2->CodeSys }} </td> 
-                                                       @endif 
-                                                        <td class="p-2">{{ $item2->CSCode }}</td> 
-                                                        <td class="text-center">{{ $item2->STDCode }} </td> 
-                                                        <td class="text-center">{{ $item2->ClaimCat }} </td> 
-                                                        <td class="text-center">
-                                                            <a href="javascript:void(0)" onclick="aipn_billitems_destroy({{ $item2->aipn_billitems_id }})" data-bs-toggle="tooltip" data-bs-placement="left" title="ลบ" class="btn btn-outline-danger btn-sm"> 
-                                                                <i class="fa-solid fa-trash-can text-danger me-2"></i> 
-                                                                {{ $item2->LCCode }} 
-                                                            </a>                                                           
-                                                        </td> 
-                                                        <td class="p-2">{{ $item2->Descript }}</td>
-                                                        <td class="text-center">{{ $item2->QTY }}</td>
-                                                        <td class="text-center">{{ number_format($item2->UnitPrice, 2) }}</td>
-                                                        <td class="text-center">{{ number_format($item2->ChargeAmt, 2) }}</td>
-                                                        <td class="text-center">{{ number_format($item2->Discount, 2) }}</td> 
-                                                        <td class="text-center">{{ number_format($item2->ClaimUP, 2) }}</td>
-                                                        <td class="text-center">{{ number_format($item2->ClaimAmt, 2) }}</td> 
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </p>
-                            </div> --}}
+                           
                             <div class="tab-pane active" id="IPADT" role="tabpanel">
                                 <p class="mb-0">
                                     <div class="table-responsive">
@@ -304,7 +219,7 @@
                                                     <th width="5%" class="text-center">ลำดับ</th> 
                                                     <th class="text-center" width="5%">AN</th> 
                                                     <th class="text-center">HN</th>
-                                                    <th class="text-center" >IDTYPE</th>
+                                                    {{-- <th class="text-center" >IDTYPE</th> --}}
                                                     <th class="text-center" >PIDPAT</th>
                                                     <th class="text-center">TITLE</th>
                                                     <th class="text-center">NAMEPAT</th> 
@@ -318,25 +233,52 @@
                                                     <th class="text-center">AdmSource</th>
                                                     <th class="text-center">DTAdm_d</th>
                                                     <th class="text-center">DTDisch_d</th>
-                                                    <th class="text-center">LeaveDay</th>
+                                                    {{-- <th class="text-center">LeaveDay</th> --}}
 
                                                     <th class="text-center">DischStat</th>
                                                     <th class="text-center">DishType</th>
                                                     <th class="text-center">AdmWt</th>
                                                     <th class="text-center">DishWard</th>
                                                     <th class="text-center">Dept</th>
-                                                    <th class="text-center">HMAIN</th>
-                                                    <th class="text-center">ServiceType</th>
+                                                    {{-- <th class="text-center">HMAIN</th> --}}
+                                                    {{-- <th class="text-center">ServiceType</th> --}}
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $i = 1; ?>
                                                 @foreach ($aipn_data as $item) 
+                                                <?php 
+                                                // $check_an = DB::table('stm')->where('AN','=',$item->AN)->count();
+                                                $check_an_ = DB::connection('mysql7')->select('   
+                                                    SELECT count(an) as AN_C FROM stm 
+                                                    where AN = "'.$item->AN.'"
+                                                    and status = "REP";
+                                                  
+                                                ');
+                                                // SELECT * FROM aipn_ipadt a 
+                                                // left join stm s on s.AN=a.AN
+                                                // where s.status = "PULL"
+                                                // GROUP BY s.AN;
+                                                // and status = "REP";
+                                                foreach ($check_an_ as $key => $value) {
+                                                    $check_an = $value->AN_C;
+                                                }
+                                               ?>
                                                     <tr style="font-size: 12px;">   
-                                                        <td class="text-center">{{ $i++ }}</td>   
-                                                        <td class="text-center" width="5%">{{ $item->AN }}</td> 
-                                                        <td class="text-center">{{ $item->HN }}</td> 
-                                                        <td class="text-center">{{ $item->IDTYPE }}</td>  
+                                                        <td class="text-center">{{ $i++ }}</td>                
+                                                        <td class="text-center"  width="5%">  {{ $item->AN}}  </td> 
+                                                            @if ($check_an == 0) 
+                                                                    <td class="text-center"> 
+                                                                        {{ $item->HN}} 
+                                                                </td> 
+                                                            @else  
+                                                                <td class="text-center">                                                         
+                                                                    <a href="{{url('aipn_update_status/'.$item->AN)}}" class="btn btn-outline-info">
+                                                                        {{ $item->HN}}
+                                                                    </a> 
+                                                                </td> 
+                                                            @endif
+                                                        {{-- <td class="text-center">{{ $item->IDTYPE }}</td>   --}}
                                                         <td class="text-center">{{ $item->PIDPAT }}</td>  
                                                         <td class="text-center">{{ $item->TITLE }}</td> 
                                                         <td class="text-center">{{ $item->NAMEPAT }}</td>  
@@ -351,15 +293,15 @@
                                                         <td class="text-center">{{ $item->AdmSource }}</td> 
                                                         <td class="text-center">{{ $item->DTAdm_d }}</td> 
                                                         <td class="text-center">{{ $item->DTDisch_d }}</td> 
-                                                        <td class="text-center">{{ $item->LeaveDay }}</td> 
+                                                        {{-- <td class="text-center">{{ $item->LeaveDay }}</td>  --}}
 
                                                         <td class="text-center">{{ $item->DischStat }}</td>
                                                         <td class="text-center">{{ $item->DishType }}</td>
                                                         <td class="text-center">{{ $item->AdmWt }}</td>
                                                         <td class="text-center">{{ $item->DishWard }}</td>
                                                         <td class="text-center">{{ $item->Dept }}</td>
-                                                        <td class="text-center">{{ $item->HMAIN }}</td>
-                                                        <td class="text-center">{{ $item->ServiceType }}</td>
+                                                        {{-- <td class="text-center">{{ $item->HMAIN }}</td> --}}
+                                                        {{-- <td class="text-center">{{ $item->ServiceType }}</td> --}}
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -388,9 +330,11 @@
                                             <tbody>
                                                 <?php $i = 1; ?>
                                                 @foreach ($aipn_ipdx as $item3) 
+                                                   
                                                     <tr style="font-size: 12px;">   
-                                                        <td class="text-center">{{ $i++ }}</td>   
-                                                        <td class="text-center">{{ $item3->an }} </td>
+                                                        
+                                                        <td class="text-center">{{ $i++ }}</td>  
+                                                        <td class="text-center">{{ $item3->an }} </td> 
                                                         <td class="text-center">{{ $item3->sequence }}</td>
                                                         <td class="text-center" >{{ $item3->DxType }} </td>
                                                         <td class="text-center" >{{ $item3->CodeSys }} </td>
@@ -449,76 +393,7 @@
                             </div>
                              
                         </div>
-
-                        {{-- <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th width="5%" class="text-center">ลำดับ</th>   
-                                                <th class="text-center">AN</th>
-                                                <th class="text-center">sequence</th>
-                                                <th class="text-center">ServDate</th>
-                                                <th class="text-center">ServTime</th>
-                                                <th class="text-center">BillGr</th>    
-                                                <th class="text-center">BillGrCS</th>  
-                                                <th class="text-center">CodeSys</th> 
-                                                <th class="text-center">CSCode</th>
-                                                <th class="text-center">STDCode</th>  
-                                                <th class="text-center">ClaimCat</th> 
-                                                <th class="text-center">LCCode</th> 
-                                                <th class="text-center">Descript</th> 
-                                                <th class="text-center">QTY</th> 
-                                                <th class="text-center">UnitPrice</th> 
-                                                <th class="text-center">ChargeAmt</th> 
-                                                <th class="text-center">Discount</th> 
-                                                <th class="text-center">ClaimUP</th> 
-                                                <th class="text-center">ClaimAmt</th> 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $i = 1; ?>
-                                            @foreach ($aipn_billitems as $item2) 
-                                                <tr id="sidb{{$item2->aipn_billitems_id }}">   
-                                                    <td class="text-center">{{ $i++ }}</td>  
-                                                    <td class="text-center">{{ $item2->AN }} </td>
-                                                    <td class="text-center">{{ $item2->sequence }}</td>
-                                                    <td class="text-center">{{ $item2->ServDate }} </td>
-                                                    <td class="text-center">{{ $item2->ServTime }} </td>
-                                                    <td class="text-center">{{ $item2->BillGr }} </td>                                                         
-                                                    <td class="p-2">{{ $item2->BillGrCS }}</td>   
-                                                   @if ($item2->CodeSys == 'TMT' && $item2->STDCode == '')
-                                                        <td class="text-center" style="background-color: pink">{{ $item2->CodeSys }} </td> 
-                                                    @elseif ($item2->CodeSys == 'TMLT' && $item2->STDCode == '')
-                                                        <td class="text-center" style="background-color: pink">{{ $item2->CodeSys }} </td> 
-                                                   @else
-                                                        <td class="text-center">{{ $item2->CodeSys }} </td> 
-                                                   @endif 
-                                                    <td class="p-2">{{ $item2->CSCode }}</td> 
-                                                    <td class="text-center">{{ $item2->STDCode }} </td> 
-                                                    <td class="text-center">{{ $item2->ClaimCat }} </td> 
-                                                    <td class="text-center">
-                                                        <a href="javascript:void(0)" onclick="aipn_billitems_destroy({{ $item2->aipn_billitems_id }})" data-bs-toggle="tooltip" data-bs-placement="left" title="ลบ" class="btn btn-outline-danger btn-sm"> 
-                                                            <i class="fa-solid fa-trash-can text-danger me-2"></i> 
-                                                            {{ $item2->LCCode }} 
-                                                        </a>                                                           
-                                                    </td> 
-                                                    <td class="p-2">{{ $item2->Descript }}</td>
-                                                    <td class="text-center">{{ $item2->QTY }}</td>
-                                                    <td class="text-center">{{ number_format($item2->UnitPrice, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ChargeAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->Discount, 2) }}</td> 
-                                                    <td class="text-center">{{ number_format($item2->ClaimUP, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ClaimAmt, 2) }}</td> 
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div> --}}
+ 
 
                     </div>
                 </div>
@@ -544,10 +419,7 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>   
-                                                <th class="text-center">AN</th>
-                                                {{-- <th class="text-center">sequence</th> --}}
-                                                {{-- <th class="text-center">ServDate</th> --}}
-                                                {{-- <th class="text-center">ServTime</th> --}}
+                                                <th class="text-center">AN</th> 
                                                 <th class="text-center">BillGr</th>    
                                                 <th class="text-center">BillGrCS</th>  
                                                 <th class="text-center">CodeSys</th> 
@@ -558,10 +430,7 @@
                                                 <th class="text-center">Descript</th> 
                                                 <th class="text-center">QTY</th> 
                                                 <th class="text-center">UnitPrice</th> 
-                                                <th class="text-center">ChargeAmt</th> 
-                                                {{-- <th class="text-center">Discount</th> 
-                                                <th class="text-center">ClaimUP</th> 
-                                                <th class="text-center">ClaimAmt</th>  --}}
+                                                <th class="text-center">ChargeAmt</th>  
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -569,10 +438,7 @@
                                             @foreach ($aipn_billitems as $item2) 
                                                 <tr id="sidb{{$item2->aipn_billitems_id }}" style="font-size: 12px;">   
                                                     <td class="text-center">{{ $i++ }}</td>  
-                                                    <td class="text-center">{{ $item2->AN }} </td>
-                                                    {{-- <td class="text-center">{{ $item2->sequence }}</td> --}}
-                                                    {{-- <td class="text-center">{{ $item2->ServDate }} </td> --}}
-                                                    {{-- <td class="text-center">{{ $item2->ServTime }} </td> --}}
+                                                    <td class="text-center">{{ $item2->AN }} </td> 
                                                     <td class="text-center" width="5%">{{ $item2->BillGr }} </td>                                                         
                                                     <td class="text-center" width="5%">{{ $item2->BillGrCS }}</td>   
                                                    @if ($item2->CodeSys == 'TMT' && $item2->STDCode == '')
@@ -586,12 +452,7 @@
                                                     <td class="text-center" width="5%">{{ $item2->STDCode }} </td> 
                                                     <td class="text-center" width="5%">{{ $item2->ClaimCat }} </td> 
                                                     <td class="text-center" width="10%">
-                                                        {{-- <a href="javascript:void(0)" onclick="aipn_billitems_destroy({{ $item2->aipn_billitems_id }})" 
-                                                            data-bs-toggle="tooltip" data-bs-placement="left" title="ลบ" 
-                                                            class="btn btn-outline-danger btn-sm"> 
-                                                            <i class="fa-solid fa-trash-can text-danger me-2"></i> 
-                                                            {{ $item2->LCCode }} 
-                                                        </a>   --}}
+                                                        
                                                         <a href="{{url('aipn_billitems_destroy/'.$item2->aipn_billitems_id)}}" data-bs-toggle="tooltip" data-bs-placement="left" title="ลบ" class="btn btn-outline-danger btn-sm"> 
                                                             <i class="fa-solid fa-trash-can text-danger me-2"></i> 
                                                             {{ $item2->LCCode }} 
@@ -601,9 +462,7 @@
                                                     <td class="text-center" width="5%">{{ $item2->QTY }}</td>
                                                     <td class="text-center" width="5%">{{ number_format($item2->UnitPrice, 2) }}</td>
                                                     <td class="text-center" width="5%">{{ number_format($item2->ChargeAmt, 2) }}</td>
-                                                    {{-- <td class="text-center" width="5%">{{ number_format($item2->Discount, 2) }}</td> 
-                                                    <td class="text-center" width="5%">{{ number_format($item2->ClaimUP, 2) }}</td>
-                                                    <td class="text-center" width="5%">{{ number_format($item2->ClaimAmt, 2) }}</td>  --}}
+                                                    
                                                 </tr>
                                             @endforeach
                                         </tbody>
