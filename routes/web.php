@@ -12,7 +12,16 @@ use App\Http\Controllers\CrudController;
 use App\Http\Controllers\UserarticleController;
 use App\Http\Controllers\UserComController;
 
- 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -64,9 +73,13 @@ Route::match(['get','post'],'telemedicine',[App\Http\Controllers\TelemedicineCon
 Route::match(['get','post'],'import_stm',[App\Http\Controllers\UpstmController::class, 'import_stm'])->name('s.import_stm');// ทดสอบ Import
 Route::match(['get','post'],'import_stm_save',[App\Http\Controllers\UpstmController::class, 'import_stm_save'])->name('s.import_stm_save');// ทดสอบ Import
 
+Route::match(['get','post'],'stm_aipn',[App\Http\Controllers\UpstmController::class, 'stm_aipn'])->name('s.stm_aipn');// ทดสอบ Import
 Route::match(['get','post'],'import_stm_aipn',[App\Http\Controllers\UpstmController::class, 'import_stm_aipn'])->name('s.import_stm_aipn');// ทดสอบ Import
+Route::match(['get','post'],'import_stm_aipnmax',[App\Http\Controllers\UpstmController::class, 'import_stm_aipnmax'])->name('s.import_stm_aipnmax');// ทดสอบ Import
 Route::match(['get','post'],'import_stm_aipnsave',[App\Http\Controllers\UpstmController::class, 'import_stm_aipnsave'])->name('s.import_stm_aipnsave');// ทดสอบ Import
 
+Route::match(['get','post'],'import_rep_aipn',[App\Http\Controllers\UpstmController::class, 'import_rep_aipn'])->name('s.import_rep_aipn');// ทดสอบ Import
+Route::match(['get','post'],'import_rep_aipn_save',[App\Http\Controllers\UpstmController::class, 'import_rep_aipn_save'])->name('s.import_rep_aipn_save');// ทดสอบ Import
 
 Route::get('/', function () {
   if (Auth::check()) {
@@ -1142,6 +1155,8 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'anc_dent_send16',[App\Http\Controllers\AncController::class, 'anc_dent_send16'])->name('claim.anc_dent_send16');// 
      Route::match(['get','post'],'anc_dent_zip',[App\Http\Controllers\AncController::class, 'anc_dent_zip'])->name('claim.anc_dent_zip');// 
     
+     Route::match(['get','post'],'anc_dent_pull',[App\Http\Controllers\AncController::class, 'anc_dent_pull'])->name('claim.anc_dent_pull');// 
+     Route::match(['get','post'],'anc_dent_export',[App\Http\Controllers\AncController::class, 'anc_dent_export'])->name('claim.anc_dent_export');// 
    
 
      Route::match(['get','post'],'anc_dent_insert',[App\Http\Controllers\AncController::class, 'anc_dent_insert'])->name('claim.anc_dent_insert');// 
@@ -1449,10 +1464,6 @@ Route::match(['get','post'],'medicine_salt_subhn/{hn}',[App\Http\Controllers\Med
 //********************* */ Claim  ***********************************
 Route::match(['get','post'],'aipn',[App\Http\Controllers\AipnController::class, 'aipn'])->name('claim.aipn');//
 Route::match(['get','post'],'aipnsearch',[App\Http\Controllers\AipnController::class, 'aipnsearch'])->name('claim.aipnsearch');//
-Route::match(['get','post'],'aipn_recheck',[App\Http\Controllers\AipnController::class, 'aipn_recheck'])->name('claim.aipn_recheck');//
-Route::match(['get','post'],'aipn_recheck_search',[App\Http\Controllers\AipnController::class, 'aipn_recheck_search'])->name('claim.aipn_recheck_search');//
-
-Route::match(['get','post'],'aipn_update_status/{an}',[App\Http\Controllers\AipnController::class, 'aipn_update_status'])->name('claim.aipn_update_status');//
 
 Route::match(['get','post'],'aipn_plb',[App\Http\Controllers\AipnController::class, 'aipn_plb'])->name('claim.aipn_plb');//
 Route::match(['get','post'],'aipn_plb_search',[App\Http\Controllers\AipnController::class, 'aipn_plb_search'])->name('claim.aipn_plb_search');//
