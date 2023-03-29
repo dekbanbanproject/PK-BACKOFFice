@@ -63,7 +63,9 @@
               {{-- <li class="scroll-to-section"><a href="#top" class="active">Home</a></li> --}}
               <li class="scroll-to-section"><a href="#top">Home</a></li>
               <li class="scroll-to-section"><a href="{{url('import_stm')}}"> STM SSOP</a></li>
-              <li class="scroll-to-section"><a href="{{url('import_stm_aipn')}}">STM AIPN</a></li>
+              <li class="scroll-to-section"><a href="{{url('stm_aipn')}}">STM AIPN</a></li>
+
+              <li class="scroll-to-section"><a href="{{url('import_rep_aipn')}}">REP AIPN</a></li>
               {{-- <li class="scroll-to-section"><a href="#portfolio">Portfolio</a></li> --}}
               {{-- <li class="scroll-to-section"><a href="#video">Videos</a></li>  --}}
               {{-- <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>  --}}

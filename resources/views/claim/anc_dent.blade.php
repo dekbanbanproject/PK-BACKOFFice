@@ -25,8 +25,7 @@
     <div class="tabs-animation">
                 {{-- <form action="{{ route('claim.anc_dent_search') }}" method="POST">
                     @csrf
-                        <div class="row">
-                            
+                        <div class="row">                            
                             <div class="col-md-3 text-end">VN</div>
                             <div class="col-md-6 text-center">
                                 <div class="input-group" id="datepicker1">
@@ -44,7 +43,7 @@
 
                     </form>
                     <br> --}}
-                    <form action="{{ route('claim.anc_dent_search') }}" method="POST">
+                    <form action="{{ route('claim.anc_dent_pull') }}" method="POST">
                     @csrf
                     <div class="row"> 
                         <div class="col-md-2 text-end"></div>
@@ -67,8 +66,7 @@
                         <div class="col"></div>
                     </div> 
                 </form>
-               
-          
+                         
 
         <div class="row mt-3">
             <div class="col-xl-12">
@@ -96,9 +94,15 @@
  
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#data" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                    <span class="d-none d-sm-block">Detail</span>    
+                                </a>
+                            </li>
                              <!-- 1 adp-->
                             <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#adp" role="tab">
+                                <a class="nav-link" data-bs-toggle="tab" href="#adp" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                     <span class="d-none d-sm-block">adp</span>    
                                 </a>
@@ -220,13 +224,46 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
-                            <!-- 1 adp-->
-                            <div class="tab-pane active" id="adp" role="tabpanel">
+                             <!-- 1 adp-->
+                             <div class="tab-pane active" id="data" role="tabpanel">
                                 <p class="mb-0">
                                     <div class="table-responsive">
                                             <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
                                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
+                                                <tr>
+                                                    <th width="5%" class="text-center">ลำดับ</th> 
+                                                    <th class="text-center" width="5%">vn</th> 
+                                                    <th class="text-center">an</th>
+                                                    <th class="text-center" >hn</th>
+                                                    <th class="text-center" >cid</th>
+                                                    <th class="text-center">fullname</th>  
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i = 1; ?>
+                                                @foreach ($data_ as $item) 
+                                                    <tr>   
+                                                        <td class="text-center">{{ $i++ }}</td>   
+                                                        <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                                        <td class="text-center">{{ $item->an }}</td> 
+                                                        <td class="text-center">{{ $item->hn }}</td>  
+                                                        <td class="text-center">{{ $item->cid }}</td>  
+                                                        <td class="p-2">{{ $item->fullname }}</td>  
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </p>
+                            </div>
+                            <!-- 1 adp-->
+                            {{-- <div class="tab-pane active" id="adp" role="tabpanel">
+                                <p class="mb-0">
+                                    <div class="table-responsive">
+                                            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                            {{-- <thead>
                                                 <tr>
                                                     <th width="5%" class="text-center">ลำดับ</th> 
                                                     <th class="text-center" width="5%">Station</th> 
@@ -247,7 +284,7 @@
                                                     <th class="text-center">pttype</th>
                                                     <th class="text-center">Diag</th>
                                                 </tr>
-                                            </thead>
+                                            </thead> --}}
                                             {{-- <tbody>
                                                 <?php $i = 1; ?>
                                                 @foreach ($ssop_billtran as $item) 
@@ -273,10 +310,10 @@
                                                     </tr>
                                                 @endforeach
                                             </tbody> --}}
-                                        </table>
+                                        {{-- </table>
                                     </div>
                                 </p>
-                            </div>
+                            </div> --}}
                             <!-- 2 aer-->
                             <div class="tab-pane" id="aer" role="tabpanel">
                                 <p class="mb-0">

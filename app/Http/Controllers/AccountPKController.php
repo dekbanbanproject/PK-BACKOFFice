@@ -1476,9 +1476,9 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
         
         $acc_debtor = DB::select('
-                SELECT * from acc_debtor a                
-                WHERE stamp="N"  
-                and income <> 0 
+                SELECT * from acc_debtor 
+                WHERE account_code="1102050101.2166" 
+                AND stamp = "N" 
                 and account_code="1102050101.2166" 
                 and month(vstdate) = "'.$id.'";
             ');         

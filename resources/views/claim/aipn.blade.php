@@ -129,8 +129,8 @@
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                     ดึงข้อมูล 
                                 </button>
-                                {{-- <a href="{{url('aipn_send_all')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>   --}}
-                                {{-- <a href="{{url('aipn_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>    --}}
+                                <a href="{{url('aipn_send_all')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>  
+                                <a href="{{url('aipn_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
                             </div>
                           
                         </div>
@@ -308,12 +308,12 @@
                                                     <th class="text-center" >PIDPAT</th>
                                                     <th class="text-center">TITLE</th>
                                                     <th class="text-center">NAMEPAT</th> 
-                                                    {{-- <th class="text-center">DOB</th> --}}
-                                                    {{-- <th class="text-center" width="7%">SEX</th> --}}
-                                                    {{-- <th class="text-center">MARRIAGE</th> --}}
-                                                    {{-- <th class="text-center">CHANGWAT</th> --}}
-                                                    {{-- <th class="text-center" width="8%">AMPHUR</th> --}}
-                                                    {{-- <th class="text-center" width="8%">NATION</th>  --}}
+                                                    <th class="text-center">DOB</th>
+                                                    <th class="text-center" width="7%">SEX</th>
+                                                    <th class="text-center">MARRIAGE</th>
+                                                    <th class="text-center">CHANGWAT</th>
+                                                    <th class="text-center" width="8%">AMPHUR</th>
+                                                    <th class="text-center" width="8%">NATION</th> 
                                                     <th class="text-center" width="10%">AdmType</th> 
                                                     <th class="text-center">AdmSource</th>
                                                     <th class="text-center">DTAdm_d</th>
@@ -340,13 +340,13 @@
                                                         <td class="text-center">{{ $item->PIDPAT }}</td>  
                                                         <td class="text-center">{{ $item->TITLE }}</td> 
                                                         <td class="text-center">{{ $item->NAMEPAT }}</td>  
-                                                        {{-- <td class="text-center">{{ $item->DOB }}</td>  --}}
-                                                        {{-- <td class="text-center">{{ $item->SEX }}</td>  --}}
-                                                        {{-- <td class="text-center">{{ $item->MARRIAGE }}</td>  --}}
-                                                        {{-- <td class="p-2">{{ $item->CHANGWAT }}</td>  --}}
+                                                        <td class="text-center">{{ $item->DOB }}</td> 
+                                                        <td class="text-center">{{ $item->SEX }}</td> 
+                                                        <td class="text-center">{{ $item->MARRIAGE }}</td> 
+                                                        <td class="p-2">{{ $item->CHANGWAT }}</td> 
                                                         {{-- <td class="text-center">{{ number_format($item->Amount, 2) }}</td>  --}}
-                                                        {{-- <td class="text-center">{{ $item->AMPHUR }}</td>  --}}
-                                                        {{-- <td class="text-center">{{ $item->NATION }}</td>  --}}
+                                                        <td class="text-center">{{ $item->AMPHUR }}</td> 
+                                                        <td class="text-center">{{ $item->NATION }}</td> 
                                                         <td class="text-center">{{ $item->AdmType }}</td> 
                                                         <td class="text-center">{{ $item->AdmSource }}</td> 
                                                         <td class="text-center">{{ $item->DTAdm_d }}</td> 

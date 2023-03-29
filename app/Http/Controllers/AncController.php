@@ -72,7 +72,23 @@ use Illuminate\Support\Facades\Redirect;
 use Stevebauman\Location\Facades\Location; 
 use SoapClient; 
 use SplFileObject;
-// use File;
+use App\Models\D_dru;
+use App\Models\D_adp;
+use App\Models\D_aer;
+use App\Models\D_cha;  
+use App\Models\D_cht;
+use App\Models\D_idx;
+use App\Models\D_iop;
+use App\Models\D_ipd;
+use App\Models\D_opd;
+use App\Models\D_oop;
+use App\Models\D_odx;
+use App\Models\D_orf;
+use App\Models\D_pat;
+use App\Models\D_ins; 
+use App\Models\D_irf;
+use App\Models\D_lvd;
+use App\Models\Export_temp;
  
  
 
@@ -95,6 +111,9 @@ class AncController extends Controller
         $oop = DB::connection('mysql7')->select('   
             SELECT * FROM claim_sixteen_oop 
         ');
+        $data_ = DB::connection('mysql7')->select('   
+        SELECT * FROM export_temp 
+    ');
          
         return view('claim.anc_dent',[
             'start'   => $datestart,
@@ -103,9 +122,75 @@ class AncController extends Controller
             'opd'     => $opd, 
             'odx'     => $odx,
             'oop'     => $oop,
+            'data_'     => $data_,
         ]);
     }
-    
+    public function anc_dent_pull(Request $request)
+    { 
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        // INSERT INTO claim.export_temp
+        $dent_opd = DB::connection('mysql3')->select('                      
+                SELECT v.vn,oo.an,v.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) as fullname   
+                ,"" as created_at
+                ,"" as updated_at	 
+                from person_anc a
+                join person p on p.person_id=a.person_id 
+                join patient pt on pt.cid=p.cid
+                left join person_anc_service  ps on ps.person_anc_id=a.person_anc_id 
+                LEFT JOIN dtmain dt on dt.hn=pt.hn  and dt.vstdate>a.lmp 
+                left join ovstdiag o on o.vn=dt.vn 
+                inner JOIN hos.icd9cm1 ic on ic.code = o.icd10
+                LEFT JOIN hos.doctor d on d.code = o.doctor
+                left join opitemrece oo on oo.vn=o.vn
+                left join nondrugitems nd on nd.icode=oo.icode 
+                LEFT JOIN vn_stat v on v.vn = o.vn 
+                LEFT JOIN hos.pttype ptt on ptt.pttype = v.pttype
+                left join hos.ipt_pttype ap on ap.an = oo.an
+                left join hos.visit_pttype vp on vp.vn = v.vn
+                LEFT JOIN hos.rcpt_debt r on r.vn = v.vn 
+                where TIMESTAMPDIFF(MONTH,a.lmp,now())<=10  and dt.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+                and (a.labor_date is null or a.labor_date=" ")
+                and p.nationality="99" 
+                GROUP BY p.cid 
+                order by vn;
+        ');
+        Export_temp::truncate();
+        foreach ($dent_opd as $key => $value) {           
+            $add= new Export_temp();
+            $add->vn = $value->vn ;
+            $add->an = $value->an; 
+            $add->hn = $value->hn; 
+            $add->cid = $value->cid;
+            $add->fullname = $value->fullname; 
+            $add->save();
+        }
+        // return redirect()->back();
+        $data_ = DB::connection('mysql7')->select('   
+            SELECT * FROM export_temp 
+        ');
+        $ins = DB::connection('mysql7')->select('   
+            SELECT * FROM claim_sixteen_ins 
+        '); 
+        $opd = DB::connection('mysql7')->select('   
+            SELECT * FROM claim_sixteen_opd 
+        '); 
+        $odx = DB::connection('mysql7')->select('   
+            SELECT * FROM Claim_sixteen_odx 
+        ');
+        $oop = DB::connection('mysql7')->select('   
+            SELECT * FROM claim_sixteen_oop 
+        ');
+        return view('claim.anc_dent',[
+            'start'   => $datestart,
+            'end'     => $dateend,
+            'data_'     => $data_,
+            'ins'     => $ins,
+            'opd'     => $opd, 
+            'odx'     => $odx,
+            'oop'     => $oop,
+        ]);
+    }
     public function anc_dent_search(Request $request)
     { 
         $datestart = $request->startdate;

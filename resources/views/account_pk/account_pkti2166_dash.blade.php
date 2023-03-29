@@ -93,15 +93,25 @@
                     foreach ($countacc_debtor as $key => $value) {
                         $debtor_ = $value->VN;
                     }
-                    $acc_detail = DB::select('
+                    $acc_detail_stam = DB::select('
                         SELECT count(vn) as VN from acc_debtor 
                         WHERE account_code="1102050101.2166" 
                         and income <> 0
+                        and stamp="Y"
                         and month(vstdate) = "'.$item->month_year_code.'";
                     ');
                     // and income <> 0 
-                    foreach ($acc_detail as $key => $value) {
-                        $detail = $value->VN;
+                    foreach ($acc_detail_stam as $key => $value) {
+                        $stam = $value->VN;
+                    }
+                    $acc_detail_n = DB::select('
+                        SELECT count(vn) as VN from acc_debtor 
+                        WHERE account_code="1102050101.2166"  
+                        and month(vstdate) = "'.$item->month_year_code.'";
+                    ');
+                    // and income <> 0 
+                    foreach ($acc_detail_n as $key => $value) {
+                        $co_total = $value->VN;
                     }
                     $sumacc_debtor = DB::select('
                         SELECT SUM(debit) as debit from acc_debtor 
@@ -186,7 +196,7 @@
                                                     {{-- <h4 class="mb-2">{{$debtor_}} Visit</h4> --}}
                                                     <h4 class="mb-2">
                                                         <a href="{{url('ti2166_detail/'.$item->month_year_code)}}" target="_blank">
-                                                            {{$detail}} Visit
+                                                            {{$co_total}} Visit
                                                         </a>
                                                     </h4>
                                                     {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($sumdebtor_, 2) }}</span>บาท</p> --}}
@@ -209,7 +219,8 @@
                                                             <p style="font-size: 10px;">
                                                             <i class="fa-solid fa-stamp font-size-22 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sumdebtor_y, 2)}}"> </i>  
                                                             <br>
-                                                            {{$detail - $acc_stam_}}
+                                                            {{$stam}}
+                                                            {{-- {{$detail - $acc_stam_}} --}}
                                                         </p>
                                                             
                                                         </span>  

@@ -98,8 +98,10 @@
 
                         <p class="mb-0">
                             <div class="table-responsive"> 
-                                    <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                    style=" border-spacing: 0; width: 100%;">
+                                    {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap"
+                                    style=" border-spacing: 0; width: 100%;"> --}}
+                                    <table class="table table-striped table-bordered dt-responsive"
+                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr> 
                                             <th width="5%" class="text-center">ลำดับ</th>  
