@@ -90,16 +90,12 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
                                                 
-                                                        <p class="text-truncate font-size-14 mb-2">เดือน 222</p>
+                                                        <p class="text-start font-size-14 mb-2">เดือน 222</p>
                                                   
-                                                    <h4 class="mb-2">1000 Visit</h4>
-                                                    <h4 class="mb-2">
-                                                        {{-- <a href="{{url('ti2166_detail/'.$item->month_year_code)}}" target="_blank">
-                                                            {{$co_total}} Visit
-                                                        </a> --}}
-                                                    </h4>
+                                                    <h4 class="text-start mb-2">1000 Visit</h4>
+                                                    
                                                     {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($sumdebtor_, 2) }}</span>บาท</p> --}}
-                                                    <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>10</span>บาท</p>
+                                                    <p class="text-start mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>10</span>บาท</p>
                                                 </div>
                                                 
                                                 <div class="avatar-sm me-2">
@@ -109,25 +105,12 @@
                                                             <i class="fa-solid fa-stamp font-size-22 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ 100"> </i>  
                                                             <br>
                                                             2323 
-                                                        </p>
-                                                            
+                                                        </p>                                                            
                                                         </span>  
                                                     </a>
                                                 </div>
                                                
-                                               
-                                                <div class="avatar-sm">
-                                                   
-                                                    <a href="" target="_blank">
-                                                        <span class="avatar-title bg-light text-info rounded-3">
-                                                            <p style="font-size: 10px;">
-                                                                <i class="fa-solid fa-file-arrow-up font-size-24 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอด Statment 200"></i>
-                                                                <br>
-                                                             3333
-                                                            </p>
-                                                        </span> 
-                                                    </a>
-                                                </div>
+                                                
 
                                                 <div class="avatar-sm me-2">
                                                     <a href="" target="_blank">
