@@ -482,8 +482,7 @@ class UpstmController extends Controller
                 // @$AccPeriod = $result['AccPeriod'];
                 // @$STMdoc = $result['STMdoc']; //ชื่อไฟล์
                 // @$dateStart = $result['dateStart']; //"5  ธันวาคม  2565"
-            
-               
+                           
                 // @$STMdat = $result['STMdat'];  // array 
                 // @$TBills1 = $result['TBills']['ST']['HG']['TBill'];  // array
                 // @$TBills2 = $result['TBills']['ST']['HG'];  // array
@@ -493,12 +492,10 @@ class UpstmController extends Controller
                 
                 // $dates = date('Y-m-d H:m:s');
                 // $namedoc = $STMdoc.'.'.$extension;
-                // $check = Stm_head::where('STMdoc','=',$namedoc)->count();
-            
+                // $check = Stm_head::where('STMdoc','=',$namedoc)->count();           
                     
                 //     $hd_bills        = @$TBills1;
                 //     $hd_bills2       = @$TBills2;
-
                 //     // dd($hd_bills2);   
                 //     if ($hd_bills == null) {
                         // foreach ($hd_bills2 as $key => $value) {  
@@ -517,7 +514,7 @@ class UpstmController extends Controller
 
                         // }
                           
-                    // } else {
+                // } else {
                         // foreach ($hd_bills as $key => $item) {  
                         //     $invno = $item['invno'];
                         //     $dttran = $item['dttran'];    
@@ -548,7 +545,7 @@ class UpstmController extends Controller
                         //         'status'             =>'REP' 
                         //     ]);  
                         // }
-                    // }
+                // }
                                                    
         return redirect()->back();
     }

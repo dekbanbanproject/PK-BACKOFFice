@@ -255,7 +255,7 @@
 
             <div class="col-md-12 text-center"> 
                 @foreach ($datadetail as $item)
-                <label for="" class=" ms-5" style="color: white">2022 © {{$item->orginfo_name}}</label> 
+                <label for="" class=" ms-5" style="color: white">2023 © {{$item->orginfo_name}}</label> 
                 @endforeach             
                  
             </div> 
@@ -277,7 +277,8 @@
                 <a href="{{url('check_sit_day')}}" class="btn btn-primary btn-sm ms-2" target="_blank">Check Sit</a>
                 {{-- <a href="{{url('screening_cigarette')}}" class="btn btn-primary btn-sm ms-2" target="_blank">Special PP</a> --}}
                 {{-- <a href="{{url('surgery_index')}}" class="btn btn-success btn-sm ms-2" target="_blank">ศัลยกรรม</a> --}}
-                <a href="{{url('import_stm')}}" class="btn btn-warning btn-sm ms-2" target="_blank">UP STM </a> 
+                <a href="{{url('import_stm')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Up Stm </a> 
+                <a href="{{url('report_dashboard')}}" class="btn btn-success btn-sm ms-2" target="_blank">Report </a> 
             </div>       
         </div>
 

@@ -32,3 +32,5 @@ Route::get('patient_readonly', [App\Http\Controllers\ApiController::class, 'pati
 Route::get('ovst_key', [App\Http\Controllers\ApiController::class, 'ovst_key'])->name('ovst_key');
 
 Route::get('home_rpst', [App\Http\Controllers\ApiController::class, 'home_rpst'])->name('home_rpst');
+
+Route::get('pimc', [App\Http\Controllers\ApiController::class, 'pimc'])->name('pimc');
