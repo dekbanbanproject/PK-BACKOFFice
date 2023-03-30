@@ -138,12 +138,12 @@
                                                         
                                                     </div> 
                                                     <div class="avatar-sm me-2">
-                                                        <a href="" target="_blank">
+                                                        <a href="{{url('report_ormonth/'.$item->months)}}" target="_blank">
                                                             <span class="avatar-title bg-light text-danger rounded-3">
                                                                 <p style="font-size: 10px;">
                                                                     <i class="fa-solid fa-file-import font-size-24 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"></i>
                                                                     <br> 
-                                                                    000
+                                                                    {{$item->months}}
                                                                 </p>
                                                             </span> 
                                                         </a>

@@ -208,5 +208,55 @@ class ReportFontController extends Controller
             'count'          =>  $count
         ]);
     }
+    public function report_ormonth(Request $request,$month)
+    {
+        $year_id = $request->year_id;
+        $date = date('Y-m-d'); 
+ 
+        $datashow_ = DB::connection('mysql3')->select('   
+            SELECT
+                o.vn 
+                ,o.hn,o.an,pt.cid,ptname(o.hn,1) ptname
+                ,ce2be(o.vstdate) vstdate
+                ,a.dchdate 
+                ,ptt.pttype inscl 
+                ,a.pdx
+                ,w.name as ward
+                ,oo.icode
+                ,oit.name as ERCP
+                ,a.uc_money 
+                ,a.income-a.discount_money-a.rcpt_money debit 
+                ,a.rcpno_list rcpno 
+                ,s.AMOUNTPAY as "ชดเชย"
+                
+                from ovst o
+                LEFT JOIN an_stat a on a.an=o.an
+                LEFT JOIN patient pt on pt.hn=o.hn
+                LEFT JOIN pttype ptt on ptt.pttype=o.pttype
+                LEFT JOIN operation_list ol ON a.an = ol.an
+                LEFT JOIN operation_detail od ON od.operation_id=ol.operation_id
+                LEFT JOIN opitemrece oo on oo.an=o.an
+                LEFT JOIN operation_item oit on oit.icode=oo.icode
+                LEFT JOIN drugitems d on d.icode=oo.icode 
+                LEFT JOIN ward w on w.ward=a.ward
+                LEFT JOIN eclaimdb.m_registerdata m on m.opdseq = o.an  
+                LEFT JOIN hshooterdb.m_stm s on s.an = o.an 
+                
+                where a.dchdate between "2022-10-01" and "2023-09-30" 
+                AND oo.icode ="3010777"
+                AND month(a.dchdate) ="'.$month.'" 
+        ');
+        // month(a.dchdate) as months,count(o.vn) as cvn
+        // ,o.vn,o.hn,o.an,pt.cid,ptname(o.hn,1) ptname
+        // ,ce2be(o.vstdate) vstdate ,a.dchdate ,ptt.pttype inscl,a.pdx
+        // ,w.name as ward ,oo.icode ,oit.name as ERCP ,a.uc_money 
+        // ,a.income-a.discount_money-a.rcpt_money debit 
+        // ,a.rcpno_list rcpno,s.AMOUNTPAY as "ชดเชย"
+ 
+        return view('dashboard.report_ormonth', [ 
+            'datashow_'      =>  $datashow_, 
+            'year_ids'       =>  $year_id, 
+        ]);
+    }
     
 }
