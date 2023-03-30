@@ -8,6 +8,7 @@
    
     <?php  
         $ynow = date('Y')+543;
+        $yb =  date('Y')+542;
         $mo =  date('m');
     ?>  
      
@@ -67,7 +68,15 @@
         </div>  
         
             <div class="row">
-             
+                @foreach ($leave_month_year as $item) 
+                    <?php 
+                        $data_ = DB::connection('mysql3')->select('
+                            SELECT count(o.vn) as vn from ovst o LEFT JOIN opitemrece oo on oo.an=o.an LEFT JOIN an_stat a on a.an=o.an WHERE oo.icode ="3010777" AND month(a.dchdate) = "'.$item->month_year_code.'";
+                        ');
+                        foreach ($data_ as $key => $value) {
+                            $count_vn = $value->vn;
+                        }
+                    ?>
                     <div class="col-xl-3 col-md-3">
                         <div class="main-card mb-3 card">
                             <div class="grid-menu-col">
@@ -75,10 +84,20 @@
                                     <div class="col-sm-12">
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
-                                                    <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">ห้องผ่าตัด</p>
+                                                    <div class="flex-grow-1">
                                                     
-                                                        <h4 class="text-start mb-2">{{$count}} Visit</h4>
+                                                    {{-- <p class="text-start font-size-14 mb-2">ห้องผ่าตัด</p> --}}
+                                                    @if ($item->month_year_name =='ตุลาคม')
+                                                        <p class="text-start font-size-14 mb-2">เดือน {{$item->month_year_name}} {{$yb}}</p> 
+                                                    @elseif ($item->month_year_name =='พฤศจิกายน')
+                                                        <p class="text-start font-size-14 mb-2">เดือน {{$item->month_year_name}} {{$yb}}</p> 
+                                                    @elseif ($item->month_year_name =='ธันวาคม')
+                                                        <p class="text-start font-size-14 mb-2">เดือน {{$item->month_year_name}} {{$yb}}</p> 
+                                                    @else
+                                                        <p class="text-start font-size-14 mb-2">เดือน {{$item->month_year_name}} {{$ynow}}</p> 
+                                                    @endif
+                                                    {{-- <p class="text-start font-size-14 mb-2">เดือน {{$item->month_year_name}} {{$ynow}}</p>  --}}
+                                                        <h4 class="text-start mb-2">{{$count_vn}} Visit</h4>
                                                         
                                                         {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($sumdebtor_, 2) }}</span>บาท</p> --}}
                                                         {{-- <p class="text-start mb-0">
@@ -88,7 +107,8 @@
                                                             </span>
                                                             บาท
                                                         </p> --}}
-                                                    </div>                                                    
+                                                    </div>
+                                                    
                                                     <div class="avatar-sm me-2">
                                                         {{-- <a href="" target="_blank">
                                                             <span class="avatar-title bg-light text-danger rounded-3">
@@ -101,16 +121,18 @@
                                                         </a> --}}
                                                     </div> 
                                                     <div class="avatar-sm me-2">
-                                                        {{-- <a href="" target="_blank">
+                                                        <a href="" target="_blank">
                                                             <span class="avatar-title bg-light text-primary rounded-3">
                                                                 <p style="font-size: 10px;">
-                                                                    <i class="fa-solid fa-file-import font-size-24 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งการเงิน"></i>
+                                                                    <i class="fa-solid fa-file-import font-size-24 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"></i>
                                                                     <br> 
                                                                     000
                                                                 </p>
                                                             </span> 
-                                                        </a> --}}
+                                                        </a>
                                                     </div>
+
+
                                                 </div> 
                                         </div>                                           
                                     </div>  
@@ -118,7 +140,7 @@
                             </div> 
                         </div> 
                     </div> 
-               
+                @endforeach
                
             </div>
 

@@ -85,7 +85,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(216, 137, 150)">
+            <div class="navbar-header" style="background-color: rgb(219, 141, 154)">
               
 
                 <div class="d-flex">
@@ -174,12 +174,13 @@
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>STM อายลี่</span>
+                                {{-- <i class="fa-solid fa-money-check-dollar text-danger"></i> --}}
+                                <i class="fa-solid fa-user-nurse text-danger"></i>
+                                <span>ห้องผ่าตัด</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li> 
-                                <li><a href="{{ url('acc_repstm') }}">report stm</a></li> 
+                                <li><a href="{{ url('report_or') }}">Dashboard</a></li> 
+                                {{-- <li><a href="{{ url('acc_repstm') }}">report stm</a></li>  --}}
                             </ul>
                         </li> 
  

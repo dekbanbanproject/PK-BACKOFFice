@@ -27,6 +27,7 @@ use App\Http\Controllers\UserComController;
 //     return view('welcome');
 // });
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
+Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
 
 Route::get('book/bookmake_detail/{id}',[App\Http\Controllers\BookController::class, 'bookmake_detail'])->name('book.bookmake_detail'); 
 Route::get('computer/com_repair_add/{id}',[App\Http\Controllers\RepaireScanController::class, 'com_repair_add']);// แจ้งซ่อมคอมพิวเตอร์ ผ่านสแกน

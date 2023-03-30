@@ -30,37 +30,182 @@ class ReportFontController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;  
  
-        $datashow_ipd = DB::connection('mysql3')->select('   
-            select month(v.dchdate) as months
-            ,count(distinct v.hn) as HN 
-            ,count(distinct v.an) as AN
-            ,count(distinct ii.an) as IMC
-            ,count(distinct i1.an) as IMC_BRAIN
-            ,count(distinct i2.an) as IMC_INJURY 
-            from hos.an_stat v
-            left outer join hos.ipt i on i.an = v.an
-            inner join hos.referout r on r.vn = i.an
-            left outer join  hos.opitemrece o on o.an = v.an
-            left outer join  hos.nondrugitems n on n.icode = o.icode
-            left outer join eclaimdb.m_registerdata m on m.an = v.an
-            left outer join eclaimdb.m_sumfund mmm on mmm.eclaim_no = m.eclaim_no
-            left join hos.iptdiag ii on ii.an = v.an 
-            and (ii.icd10 between "i60" and "i64" or ii.icd10 between "g81" and "g83" or ii.icd10 between "g47" and "g48" or ii.icd10 between "g41" 
-            and "g419" or ii.icd10 between "g41" and "g419" or ii.icd10 between "g27" and "g279")
-            left join hos.iptdiag i1 on i1.an = v.an 
-            and (i1.icd10 between "s60" and "s609" or i1.icd10 = "t902"  or i1.icd10 = "t905")
-            left join hos.iptdiag i2 on i2.an = v.an 
-            and (i2.icd10 between "s14" and "s149" or i2.icd10 = "t913"  or i2.icd10 between "s24" and "s249" or i2.icd10 between "s34" and "s349")
-            where v.dchdate between "' . $startdate . '" and "' . $enddate . '"         
-            group by month(v.dchdate)
+        $datashow_ = DB::connection('mysql3')->select('   
+                SELECT
+                    month(a.dchdate) as months
+                    ,o.vn,o.hn,o.an,pt.cid,ptname(o.hn,1) ptname
+                    ,ce2be(o.vstdate) vstdate ,a.dchdate ,ptt.pttype inscl,a.pdx
+                    ,w.name as ward ,oo.icode ,oit.name as ERCP ,a.uc_money 
+                    ,a.income-a.discount_money-a.rcpt_money debit 
+                    ,a.rcpno_list rcpno,s.AMOUNTPAY as "ชดเชย"
+
+                    from ovst o
+                    LEFT JOIN an_stat a on a.an=o.an
+                    LEFT JOIN patient pt on pt.hn=o.hn
+                    LEFT JOIN pttype ptt on ptt.pttype=o.pttype
+                    LEFT JOIN operation_list ol ON a.an = ol.an
+                    LEFT JOIN operation_detail od ON od.operation_id=ol.operation_id
+                    LEFT JOIN opitemrece oo on oo.an=o.an
+                    LEFT JOIN operation_item oit on oit.icode=oo.icode
+                    LEFT JOIN drugitems d on d.icode=oo.icode 
+                    LEFT JOIN ward w on w.ward=a.ward
+                    LEFT JOIN eclaimdb.m_registerdata m on m.opdseq = o.an 
+                    left outer join hshooterdb.m_rep_ucs s1 on s1.an=o.an and s1.error_code ="P" and s1.nhso_pay >"0"
+                    LEFT JOIN hshooterdb.m_color_ref mc ON mc.an=o.an
+                    LEFT JOIN hshooterdb.claim_status c on c.status_id=m.`STATUS` or  c.status_id=mc.`STATUS`
+                    left join hshooterdb.m_stm s on s.an = o.an
+       
+                    where a.dchdate between "' . $newweek . '" and "' . $date . '"         
+                    AND oo.icode ="3010777"
         ');
-   
+        $datashow_count = DB::connection('mysql3')->select('   
+                SELECT
+                    count(o.vn) as vn
+                    from ovst o
+                    LEFT JOIN an_stat a on a.an=o.an
+                    LEFT JOIN patient pt on pt.hn=o.hn
+                    LEFT JOIN pttype ptt on ptt.pttype=o.pttype
+                    LEFT JOIN operation_list ol ON a.an = ol.an
+                    LEFT JOIN operation_detail od ON od.operation_id=ol.operation_id
+                    LEFT JOIN opitemrece oo on oo.an=o.an
+                    LEFT JOIN operation_item oit on oit.icode=oo.icode
+                    LEFT JOIN drugitems d on d.icode=oo.icode 
+                    LEFT JOIN ward w on w.ward=a.ward
+                    LEFT JOIN eclaimdb.m_registerdata m on m.opdseq = o.an 
+                    left outer join hshooterdb.m_rep_ucs s1 on s1.an=o.an and s1.error_code ="P" and s1.nhso_pay >"0"
+                    LEFT JOIN hshooterdb.m_color_ref mc ON mc.an=o.an
+                    LEFT JOIN hshooterdb.claim_status c on c.status_id=m.`STATUS` or  c.status_id=mc.`STATUS`
+                    left join hshooterdb.m_stm s on s.an = o.an
+       
+                    where a.dchdate between "' . $newweek . '" and "' . $date . '"         
+                    AND oo.icode ="3010777"
+        ');
+        foreach ($datashow_count as $key => $value) {
+            $count = $value->vn;
+        }
         $year = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
+        $leave_month_year = DB::table('leave_month_year')->get();
+        // $count = DB::connection('mysql3')->DB::table('budget_year')->count();
 
         return view('dashboard.report_dashboard', [ 
-            'datashow_ipd'      =>  $datashow_ipd,
-            'year'              =>  $year, 
-            'year_ids'           =>  $year_id
+            'datashow_'      =>  $datashow_,
+            'year'           =>  $year, 
+            'year_ids'       =>  $year_id,
+            'leave_month_year' =>  $leave_month_year,
+            'count'          =>  $count
+        ]);
+    }
+    public function report_or(Request $request)
+    {
+        $year_id = $request->year_id;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+        // $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน 
+        $newDate = date('Y-m-d', strtotime($date . ' 1 months')); // 1 เดือน 
+        // $newDate = date('Y-m-d') ; //
+        // dd($date);
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;  
+ 
+        $datashow_ = DB::connection('mysql3')->select('   
+                SELECT
+                    month(a.dchdate) as months,count(o.vn) as cvn
+                    ,o.vn,o.hn,o.an,pt.cid,ptname(o.hn,1) ptname
+                    ,ce2be(o.vstdate) vstdate ,a.dchdate ,ptt.pttype inscl,a.pdx
+                    ,w.name as ward ,oo.icode ,oit.name as ERCP ,a.uc_money 
+                    ,a.income-a.discount_money-a.rcpt_money debit 
+                    ,a.rcpno_list rcpno,s.AMOUNTPAY as "ชดเชย"
+
+                    from ovst o
+                    LEFT JOIN an_stat a on a.an=o.an
+                    LEFT JOIN patient pt on pt.hn=o.hn
+                    LEFT JOIN pttype ptt on ptt.pttype=o.pttype
+                    LEFT JOIN operation_list ol ON a.an = ol.an
+                    LEFT JOIN operation_detail od ON od.operation_id=ol.operation_id
+                    LEFT JOIN opitemrece oo on oo.an=o.an
+                    LEFT JOIN operation_item oit on oit.icode=oo.icode
+                    LEFT JOIN drugitems d on d.icode=oo.icode 
+                    LEFT JOIN ward w on w.ward=a.ward
+                    LEFT JOIN eclaimdb.m_registerdata m on m.opdseq = o.an 
+                    left outer join hshooterdb.m_rep_ucs s1 on s1.an=o.an and s1.error_code ="P" and s1.nhso_pay >"0"
+                    LEFT JOIN hshooterdb.m_color_ref mc ON mc.an=o.an
+                    LEFT JOIN hshooterdb.claim_status c on c.status_id=m.`STATUS` or  c.status_id=mc.`STATUS`
+                    left join hshooterdb.m_stm s on s.an = o.an
+                           
+                    where a.dchdate between "2022-10-01" and "2023-09-30" 
+                    AND oo.icode ="3010777"
+                    group by month(a.dchdate)
+        ');
+        // month(a.dchdate) as months,count(o.vn) as cvn
+        // ,o.vn,o.hn,o.an,pt.cid,ptname(o.hn,1) ptname
+        // ,ce2be(o.vstdate) vstdate ,a.dchdate ,ptt.pttype inscl,a.pdx
+        // ,w.name as ward ,oo.icode ,oit.name as ERCP ,a.uc_money 
+        // ,a.income-a.discount_money-a.rcpt_money debit 
+        // ,a.rcpno_list rcpno,s.AMOUNTPAY as "ชดเชย"
+
+        // where a.dchdate between "' . $newweek . '" and "' . $date . '"         
+        //             AND oo.icode ="3010777"
+        // $datashow_count = DB::connection('mysql3')->select('   
+        //         SELECT
+        //             count(o.vn) as vn
+        //             from ovst o
+        //             LEFT JOIN an_stat a on a.an=o.an
+        //             LEFT JOIN patient pt on pt.hn=o.hn
+        //             LEFT JOIN pttype ptt on ptt.pttype=o.pttype
+        //             LEFT JOIN operation_list ol ON a.an = ol.an
+        //             LEFT JOIN operation_detail od ON od.operation_id=ol.operation_id
+        //             LEFT JOIN opitemrece oo on oo.an=o.an
+        //             LEFT JOIN operation_item oit on oit.icode=oo.icode
+        //             LEFT JOIN drugitems d on d.icode=oo.icode 
+        //             LEFT JOIN ward w on w.ward=a.ward
+        //             LEFT JOIN eclaimdb.m_registerdata m on m.opdseq = o.an 
+        //             left outer join hshooterdb.m_rep_ucs s1 on s1.an=o.an and s1.error_code ="P" and s1.nhso_pay >"0"
+        //             LEFT JOIN hshooterdb.m_color_ref mc ON mc.an=o.an
+        //             LEFT JOIN hshooterdb.claim_status c on c.status_id=m.`STATUS` or  c.status_id=mc.`STATUS`
+        //             left join hshooterdb.m_stm s on s.an = o.an
+       
+        //             where oo.icode ="3010777"
+        // ');
+        $datashow_count = DB::connection('mysql3')->select('   
+                SELECT
+                    month(a.dchdate),
+                    count(o.vn) as vn
+                    from ovst o
+                    LEFT JOIN an_stat a on a.an=o.an
+                    LEFT JOIN patient pt on pt.hn=o.hn
+                    LEFT JOIN pttype ptt on ptt.pttype=o.pttype
+                    LEFT JOIN operation_list ol ON a.an = ol.an
+                    LEFT JOIN operation_detail od ON od.operation_id=ol.operation_id
+                    LEFT JOIN opitemrece oo on oo.an=o.an
+                    LEFT JOIN operation_item oit on oit.icode=oo.icode
+                    LEFT JOIN drugitems d on d.icode=oo.icode 
+                    LEFT JOIN ward w on w.ward=a.ward
+                    LEFT JOIN eclaimdb.m_registerdata m on m.opdseq = o.an 
+                    left outer join hshooterdb.m_rep_ucs s1 on s1.an=o.an and s1.error_code ="P" and s1.nhso_pay >"0"
+                    LEFT JOIN hshooterdb.m_color_ref mc ON mc.an=o.an
+                    LEFT JOIN hshooterdb.claim_status c on c.status_id=m.`STATUS` or  c.status_id=mc.`STATUS`
+                    left join hshooterdb.m_stm s on s.an = o.an
+       
+                    where a.dchdate between "2022-10-01" and "2023-09-30" 
+                    AND oo.icode ="3010777"
+                    group by month(a.dchdate)
+        ');
+        // where a.dchdate between "' . $newweek . '" and "' . $date . '"         
+        //             AND oo.icode ="3010777"
+        foreach ($datashow_count as $key => $value) {
+            $count = $value->vn;
+        }
+        $year = DB::table('budget_year')->orderBy('leave_year_id', 'DESC')->get();
+        $leave_month_year = DB::table('leave_month_year')->get();
+        // $count = DB::connection('mysql3')->DB::table('budget_year')->count();
+
+        return view('dashboard.report_or', [ 
+            'datashow_'      =>  $datashow_,
+            'year'           =>  $year, 
+            'year_ids'       =>  $year_id,
+            'leave_month_year' =>  $leave_month_year,
+            'count'          =>  $count
         ]);
     }
     
