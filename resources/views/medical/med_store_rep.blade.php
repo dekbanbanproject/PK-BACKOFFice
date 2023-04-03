@@ -87,8 +87,15 @@
                         class="form-select form-select-lg" style="width: 100%">
                         <option value=""></option>
                         @foreach ($article_data as $it)
-                            <option value="{{ $it->article_id }}">{{ $it->article_num }} {{ $it->article_name }} </option>
-                        @endforeach
+                        <?php  $idarticle = DB::table('medical_stock')->where('article_id','=',$it->article_id)->count();?>
+                        @if ($idarticle > 0)
+                        
+                        @else
+                        <option value="{{$it->article_id}}">{{ $it->article_num}} {{ $it->article_name}}</option>
+                        @endif
+                       
+                        @endforeach 
+                       
                     </select>
                 </div>
                 <div class="col-md-2 text-start">

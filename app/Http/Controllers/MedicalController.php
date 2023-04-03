@@ -343,6 +343,7 @@ class MedicalController extends Controller
             SELECT * FROM medical_stock m
             left join medical_typecat mt on mt.medical_typecat_id = m.medical_typecat_id
             left join article_data ad on ad.article_id = m.article_id 
+            where m.medical_typecat_id = "'.$id.'"
         ');
         // $data['article_data'] = DB::table('article_data')->get();
         $data['article_data'] = Article::where('article_categoryid', '=', '31')
@@ -364,9 +365,14 @@ class MedicalController extends Controller
         $article = Article::where('article_id','=',$id)->first(); 
         // $rep_id = $request->input('medical_store_rep_id');
 
-        $ddy = $article->article_id;
+        // $ddy = $article->article_id;
         $check = Medical_stock::where('article_id','=',$id)->count();
         if ($check > 0) {
+            // Medical_stock::where('article_id', $id) 
+            // ->update([  
+            //     'total_qty'    => 'total_qty' + 1,
+            //     'total_price'  => 'total_price' + $article->article_price * 1
+            // ]);
             return response()->json([
                 'status'     => '100'
             ]);
@@ -392,7 +398,7 @@ class MedicalController extends Controller
             $add2->price = $article->article_price; 
             $add2->total = $article->article_price * 1; 
             $add2->save();
-    
+               
             return response()->json([
                 'status'     => '200'
             ]);
