@@ -79,8 +79,7 @@
                     </div> 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="table-responsive me-2 ms-2 mb-2">
-                                {{-- <div class="table-responsive ms-3 me-3"> --}}
+                            <div class="table-responsive me-2 ms-2 mb-2"> 
                                 <table id="example" class="table table-hover table-sm dt-responsive nowrap"
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
@@ -107,7 +106,11 @@
                                                         {{ $item->AA }}
                                                     </a>
                                                 </td>  
-                                                <td class="text-center" width="10%">{{ $item->BB }}</td>  
+                                                <td class="text-center" width="10%">
+                                                    <a href="{{url('check_wardnonote/'.$item->ward)}}" target="_blank">
+                                                        {{ $item->BB }}
+                                                    </a>
+                                                </td>  
                                                 <td class="text-center" width="10%">{{ $item->CC }}</td> 
                                                 <td class="text-center" width="10%">{{ $item->DD }}</td>  
                                             </tr>
@@ -148,20 +151,44 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- <?php $i = 1; ?>
-                                        @foreach ($data_ward as $item) 
+                                        <?php $i = 1; ?>
+                                        @foreach ($data_ogclgo as $item2) 
                                             <tr style="font-size: 12px">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="0%">{{ $item->ward }}</td> 
-                                                <td class="p-2">{{ $item->wardname }}</td> 
-                                                <td class="text-center" width="10%">
-                                                    <a href="{{url('check_warddetail/'.$item->ward)}}" target="_blank">
-                                                        {{ $item->AA }}
-                                                    </a>
+                                             
+                                                    @if ($item2->months == '1')
+                                                        <td width="35%" class="p-2">มกราคม</td>
+                                                        @elseif ($item2->months == '2')
+                                                            <td width="35%" class="p-2">กุมภาพันธ์</td>
+                                                        @elseif ($item2->months == '3')
+                                                            <td width="35%" class="p-2">มีนาคม</td>
+                                                        @elseif ($item2->months == '4')
+                                                            <td width="35%" class="p-2">เมษายน</td>
+                                                        @elseif ($item2->months == '5')
+                                                            <td width="35%" class="p-2">พฤษภาคม</td>
+                                                        @elseif ($item2->months == '6')
+                                                            <td width="35%" class="p-2r">มิถุนายน</td>
+                                                        @elseif ($item2->months == '7')
+                                                            <td width="35%" class="p-2">กรกฎาคม</td>
+                                                        @elseif ($item2->months == '8')
+                                                            <td width="35%" class="p-2">สิงหาคม</td>
+                                                        @elseif ($item2->months == '9')
+                                                            <td width="35%" class="p-2">กันยายน</td>
+                                                        @elseif ($item2->months == '10')
+                                                            <td width="35%" class="p-2">ตุลาคม</td>
+                                                        @elseif ($item2->months == '11')
+                                                            <td width="35%" class="p-2">พฤษจิกายน</td>
+                                                        @else
+                                                        <td width="35%" class="p-2">ธันวาคม</td>
+                                                    @endif
+                                             
+                                                <td class="p-2">{{ $item2->cAN }}</td> 
+                                                <td class="text-center" width="25%">
+                                                    {{ $item2->poan }} 
                                                 </td>  
-                                                <td class="text-center" width="10%">{{ $item->BB }}</td> 
+                                                <td class="text-center" width="25%">{{ $item2->pian }}</td> 
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div> 
