@@ -157,5 +157,130 @@ class CheckwardController extends Controller
             'data_warddetatil'   => $data_warddetatil
         ]);
     }
+
+    public function check_wardnoclaim(Request $request,$id)
+    { 
+        $data['users'] = User::get();
+        
+        $data_wardsss = DB::connection('mysql3')->select('    
+        select a.hn,a.an,concat(p.pname,p.fname," ",p.lname) as fullname ,p.cid,pi.claim_code
+        ,i.pttype AS HOSpttype
+                ,cs.check_sit_subinscl AS spsch
+       ,ip.hospmain
+              ,group_concat(distinct cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income) as Aincome ,round(a.inc08,2) as inc08,
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1) as nn,r.name as abname 
+         
+       from hos.ipt i
+       left outer join hos.an_stat a on a.an = i.an
+       left outer join hos.patient p on p.hn = i.hn
+       left outer join hos.doctor d on d.code = i.dch_doctor
+       left outer join hos.ward w on w.ward = i.ward
+       left outer join hos.roomno r on r.an = i.an
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1)
+       left outer join hos.ipt_pttype ip on ip.an = i.an
+       left join money_bn.check_sit cs on cs.check_sit_vn = i.an
+       left outer join hos.ipt_pttype pi on pi.an = i.an 
+       where a.dchdate is null
+       
+       and a.pttype in("o1","o2","o3","o4","o5","20","l1","l2","l3","l4","l5","l6","l7","21")
+       and pi.claim_code is null
+       and w.ward = "'.$id.'" group by i.an
+       union
+       select a.hn,a.an,concat(p.pname,p.fname," ",p.lname) as name,p.cid,pi.claim_code
+       ,i.pttype AS HOSpttype
+                ,cs.check_sit_subinscl AS spsch
+       ,ip.hospmain
+              ,group_concat(distinct "<br/>",cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income),round(a.inc08,2),
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1),r.name
+       
+       from hos.ipt i
+       left outer join hos.an_stat a on a.an = i.an
+       left outer join hos.patient p on p.hn = i.hn
+       left outer join hos.doctor d on d.code = i.dch_doctor
+       left outer join hos.ward w on w.ward = i.ward
+       left outer join hos.roomno r on r.an = i.an
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1)
+       left outer join hos.ipt_pttype ip on ip.an = i.an
+       left join money_bn.check_sit cs on cs.check_sit_vn = i.an
+       left outer join hos.ipt_pttype pi on pi.an = i.an 
+       
+       where a.dchdate is null
+       and a.pttype in("o1","o2","o3","o4","o5","20","l1","l2","l3","l4","l5","l6","l7","21")
+       and pi.claim_code is null
+        and pt.hn is null
+        and w.ward = "'.$id.'" group by i.an
+ 
+        ');        
+
+        return view('ward.check_wardnoclaim', $data,[
+            'data_wardsss'   => $data_wardsss
+        ]);
+    }
+
+    public function check_wardsss(Request $request,$id)
+    { 
+        $data['users'] = User::get();
+        
+        $data_wardsss = DB::connection('mysql3')->select('    
+        select a.hn,a.an,concat(p.pname,p.fname," ",p.lname) as fullname ,p.cid,pi.claim_code
+        ,i.pttype AS HOSpttype
+                ,cs.check_sit_subinscl AS spsch
+       ,ip.hospmain
+              ,group_concat(distinct cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income) as Aincome ,round(a.inc08,2) as inc08,
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1) as nn,r.name as abname 
+         
+       from hos.ipt i
+       left outer join hos.an_stat a on a.an = i.an
+       left outer join hos.patient p on p.hn = i.hn
+       left outer join hos.doctor d on d.code = i.dch_doctor
+       left outer join hos.ward w on w.ward = i.ward
+       left outer join hos.roomno r on r.an = i.an
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1)
+       left outer join hos.ipt_pttype ip on ip.an = i.an
+       left join money_bn.check_sit cs on cs.check_sit_vn = i.an
+       left outer join hos.ipt_pttype pi on pi.an = i.an 
+       where a.dchdate is null
+       
+       and a.pttype in("a7","14","15","34","35","37")
+       and pi.claim_code is null
+       and w.ward = "'.$id.'" group by i.an
+       union
+       select a.hn,a.an,concat(p.pname,p.fname," ",p.lname) as name,p.cid,pi.claim_code
+       ,i.pttype AS HOSpttype
+                ,cs.check_sit_subinscl AS spsch
+       ,ip.hospmain
+              ,group_concat(distinct "<br/>",cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income),round(a.inc08,2),
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1),r.name
+       
+       from hos.ipt i
+       left outer join hos.an_stat a on a.an = i.an
+       left outer join hos.patient p on p.hn = i.hn
+       left outer join hos.doctor d on d.code = i.dch_doctor
+       left outer join hos.ward w on w.ward = i.ward
+       left outer join hos.roomno r on r.an = i.an
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       and hn=i.hn order by note_datetime desc limit 1)
+       left outer join hos.ipt_pttype ip on ip.an = i.an
+       left join money_bn.check_sit cs on cs.check_sit_vn = i.an
+       left outer join hos.ipt_pttype pi on pi.an = i.an 
+       
+       where a.dchdate is null
+       and a.pttype in("a7","14","15","34","35","37")
+       and pt.hn is null
+       and w.ward = "'.$id.'" group by i.an  
+
+        ');        
+
+        return view('ward.check_wardsss', $data,[
+            'data_wardsss'   => $data_wardsss
+        ]);
+    }
     
 }
