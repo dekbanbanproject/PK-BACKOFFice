@@ -721,6 +721,9 @@ Route::middleware(['type'])->group(function(){
  Route::match(['get','post'],'med_store_save',[App\Http\Controllers\MedicalController::class, 'med_store_save'])->name('med.med_store_save');//เครื่องมือแพทย์
  Route::match(['get','post'],'med_store_update',[App\Http\Controllers\MedicalController::class, 'med_store_update'])->name('med.med_store_update');//เครื่องมือแพทย์
 
+ Route::match(['get','post'],'med_store_rep/{id}',[App\Http\Controllers\MedicalController::class, 'med_store_rep'])->name('med.med_store_rep');//เครื่องมือแพทย์
+ Route::match(['get','post'],'med_store_repsave',[App\Http\Controllers\MedicalController::class, 'med_store_repsave'])->name('med.med_store_repsave');//เครื่องมือแพทย์
+
  Route::match(['get','post'],'med_store_subsave',[App\Http\Controllers\MedicalController::class, 'med_store_subsave'])->name('med.med_store_subsave');//เครื่องมือแพทย์
 //  ********************************* คลัง เครื่องมือแพทย์ **********************************
  Route::match(['get','post'],'medical_stock/{id}',[App\Http\Controllers\MedicalController::class, 'medical_stock'])->name('med.medical_stock');//คลังเครื่องมือแพทย์

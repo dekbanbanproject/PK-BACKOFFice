@@ -366,37 +366,39 @@ class MedicalController extends Controller
 
         $ddy = $article->article_id;
         $check = Medical_stock::where('article_id','=',$id)->count();
-        if ($check > 0) {
-            return response()->json([
-                'status'     => '100'
-            ]);
-        } else { 
-            $date = date('Y-m-d');
-            $add = new Medical_store_repsub();
-            // $add->medical_store_rep_id = $rep_id;
-            $add->daterep = $date;
-            $add->article_id = $article->article_id;
         
-            $add->article_unit_id = $article->article_unit_id;
-            $add->qty = '1';
-            $add->price = $article->article_price; 
-            $add->total = $article->article_price * 1;
-            $add->save();
+        $date = date('Y-m-d');
+        $add = new Medical_store_repsub();
+        // $add->medical_store_rep_id = $rep_id;
+        $add->daterep = $date;
+        $add->article_id = $article->article_id;
+       
+        $add->article_unit_id = $article->article_unit_id;
+        $add->qty = '1';
+        $add->price = $article->article_price; 
+        $add->total = $article->article_price * 1;
+        $add->save();
 
-            $add2 = new Medical_stock();
-            $add2->medical_typecat_id = $article->medical_typecat_id; 
-            $add2->article_id = $article->article_id; 
-            $add2->article_unit_id = $article->article_unit_id; 
-    
-            $add2->qty = 1; 
-            $add2->price = $article->article_price; 
-            $add2->total = $article->article_price * 1; 
-            $add2->save();
-    
-            return response()->json([
-                'status'     => '200'
-            ]);
-        }
+        $add2 = new Medical_stock();
+        $add2->medical_typecat_id = $article->medical_typecat_id; 
+        $add2->article_id = $article->article_id; 
+        $add2->article_unit_id = $article->article_unit_id; 
+ 
+        $add2->qty = 1; 
+        $add2->price = $article->article_price; 
+        $add2->total = $article->article_price * 1; 
+        $add2->save();
+ 
+        // $qt = Medical_store_rep::where('medical_store_rep_id','=',$rep_id)->first();
+        // Medical_store_rep::where('medical_store_rep_id', $rep_id) 
+        //         ->update([  
+        //             'total_qty'    => $qt->total_qty + 1,
+        //             'total_price'  => $qt->total_price + $article->article_price
+        //         ]);
+ 
+        return response()->json([
+            'status'     => '200'
+        ]);
     }
 
 

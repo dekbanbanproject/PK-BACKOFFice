@@ -80,49 +80,12 @@
                     <p class="card-title-desc">รายละเอียดคลังเครื่องมือแพทย์</p>
                 </div>
                 <div class="col"></div>
-                <div class="col-md-2 text-end">
-                    {{-- <button class="btn btn-secondary" id="Changbillitems"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>รับเข้าคลัง</button>  --}}
+                <div class="col-md-2 text-end"> 
                     <button type="button" style="font-size: 17px" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#insertdata"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>รับเข้าคลัง</button>
                 </div>
             </div>
             <div class="row "> 
-                {{-- <div class="card">
-                    <div class="table-responsive">
-                        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>ลำดับ</th>
-                                    <th>รูปภาพ</th>
-                                    <th>เลขครุภัณฑ์</th>
-                                    <th>ชื่อครุภัณฑ์</th>
-                                    <th>หน่วยงาน</th>
-                                    <th>สถานะ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 1; ?>
-                                @foreach ($article_data as $item) 
-                                    <tr style="font-size: 12px;" id="sid{{$item->article_id }}">  
-                                    <td width="5%">{{ $i++ }}</td>
-                                    <td width="10%">
-                                        @if ( $item->article_img == Null )
-                                        <img src="{{asset('assets/images/default-image.jpg')}}" height="50px" width="50px" alt="Image" class="img-thumbnail">
-                                        @else
-                                        <img src="{{asset('storage/article/'.$item->article_img)}}" height="50px" width="50px" alt="Image" class="img-thumbnail">                                 
-                                        @endif 
-                                    </td>
-                                    <td class="text-start">{{ $item->article_num }}</td>
-                                    <td class="text-start">{{ $item->article_name }}</td>
-                                    <td class="text-start">{{ $item->article_deb_subsub_name }}</td>
-                                    <td class="text-start">{{ $item->article_deb_subsub_name }}</td>
-                                   
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div> --}}
+                
                 @foreach ($medical_typecat as $item)
                         <div class="col-lg-12 col-xl-4">
                             <div class="main-card mb-3 card">
@@ -141,19 +104,7 @@
                                                 </div>
                                                 <div class="widget-numbers"> <label for="" style="color: red;font-size:17px">{{$item->medical_typecatname}}</label></div>
                                               
-                                                    {{-- <div class="row"> 
-                                                        <div class="col-md-2">
-                                                            <a href="{{url('medical_stock/'.$item->medical_typecat_id)}}" class="btn btn-outline-danger btn-sm me-4" style="font-size: 17px">คลัง</a>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <a href="{{url('medical_store_borrow/'.$item->medical_typecat_id)}}" class="btn btn-outline-info btn-sm ms-4 me-3" style="font-size: 17px">ยืม</a>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <a href="{{url('medical_store_night/'.$item->medical_typecat_id)}}" class="btn btn-outline-success btn-sm ms-5" style="font-size: 17px">คืน</a>
-                                                        </div>
-                                                       
-                                                    </div> --}}
-                                                    
+                                                   
                                                 <div class="widget-description ">
                                                     <?php 
                                                     
@@ -165,48 +116,25 @@
                                                     <div class="row">
                                                         <div class="col-lg-4 text-danger"> 
                                                             @foreach ($dataqty as $itemc)
-                                                                @if ($itemc->Totalqty > 0)
-                                                                {{-- <a class="btn btn-outline-danger btn-sm position-relative me-4 mt-3" href="">
-                                                                คลัง
-                                                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" >
-                                                                     
-                                                                        {{$itemc->Totalqty}} 
-                                                                        <span class="visually-hidden ms-1 me-1">unread messages</span>
-                                                                    </span>
-                                                                </a>   --}}
-                                                                <button class="mb-1 me-1 btn btn-primary">คลัง
+                                                                @if ($itemc->Totalqty > 0) 
+                                                                <a href="{{url('med_store_rep/'.$item->medical_typecat_id)}}" class="mb-1 me-1 btn btn-primary">คลัง
                                                                     <span class="badge rounded-pill bg-light">{{$itemc->Totalqty}} </span>
-                                                                </button>
+                                                                </a>
                                                                 @else 
-                                                                <button class="mb-1me-1 btn btn-primary">คลัง
+                                                                <a href="{{url('med_store_rep/'.$item->medical_typecat_id)}}" class="mb-1me-1 btn btn-primary">คลัง
                                                                     <span class="badge rounded-pill bg-light">0</span>
-                                                                </button>  
-                                                                @endif  
-                                                                                                                       
-                                                            @endforeach
-                                                           
-                                                           
+                                                                </a>  
+                                                                @endif                                          
+                                                            @endforeach 
                                                         </div>
                                                         <div class="col-lg-4 text-info">  
-                                                            {{-- <a class="btn btn-outline-info btn-sm position-relative me-4 mt-3" href="">
-                                                                ยืม
-                                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info" >
-                                                                    0
-                                                                    <span class="visually-hidden">unread messages</span>
-                                                                </span>
-                                                            </a>  --}}
+                                                            
                                                             <button class="mb-1 me-1 btn btn-info">ยืม
                                                                 <span class="badge rounded-pill bg-light">0</span>
                                                             </button>  
                                                         </div>
                                                         <div class="col-lg-4 text-success"> 
-                                                            {{-- <a class="btn btn-outline-success btn-sm position-relative me-4 mt-3" href="">
-                                                               คืน
-                                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" >
-                                                                    0
-                                                                    <span class="visually-hidden">unread messages</span>
-                                                                </span>
-                                                            </a>  --}}
+                                                           
                                                             <button class="mb-1 me-1 btn btn-success">คืน
                                                                 <span class="badge rounded-pill bg-light">0</span>
                                                             </button> 
@@ -224,270 +152,9 @@
                     
                 @endforeach 
             </div>
-            <div class="row ">
-                <div class="col-md-4">
-                    <label for="">รับเข้าคลัง</label>
-                    <div class="card mt-2">                        
-                        <div class="table-responsive">
-                            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">ลำดับ</th>
-                                        <th class="text-center">วันที่</th>
-                                        <th class="text-center">คลัง</th>
-                                        {{-- <th class="text-center">ผู้รับ</th>  --}}
-                                        {{-- <th class="text-center">สถานะ</th> --}}
-                                        <th class="text-center">จัดการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $i = 1; ?>
-                                    @foreach ($datarep as $item) 
-                                        <tr style="font-size: 13px;" id="sid{{$item->medical_store_rep_id }}">  
-                                        <td width="3%">{{ $i++ }}</td> 
-                                        <td class="text-center" width="10%">{{ $item->date_rep }}</td>
-                                        <td class="text-start">{{ $item->medical_typecatname }}</td>
-                                        {{-- <td class="text-start" width="15%">{{ $item->fname }} {{ $item->lname }}</td>  --}}
-                                        {{-- <td class="text-start" width="10%">{{ $item->active }}</td> --}}
-                                        <td width="10%">
-                                            <div class="btn-group">
-                                                <button type="button"
-                                                    class="btn btn-outline-secondary btn-sm dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    ทำรายการ 
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item text-info"
-                                                        href="{{ url('med_store_add/'.$item->medical_store_rep_id)}}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        data-bs-custom-class="custom-tooltip" title="เพิ่มรายการ">
-                                                        <i class="fa-solid fa-plus me-2"></i>
-                                                        <label for=""
-                                                            style="color: rgb(6, 176, 117);font-size:13px">เพิ่มรายการ</label>
-                                                    </a>
-                                                    {{-- <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-primary"
-                                                        href="{{ url('med_store_add/'.$item->medical_store_rep_id)}}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        data-bs-custom-class="custom-tooltip" title="คืน">
-                                                        <i class="fa-solid fa-plus me-2"></i>
-                                                        <label for=""
-                                                            style="color: rgb(35, 138, 242);font-size:13px">คืน</label>
-                                                    </a> --}}
-                                                    {{-- <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-danger"
-                                                    href="{{ url('med_store_add/'.$item->medical_store_rep_id)}}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                    data-bs-custom-class="custom-tooltip" title="ยืม">
-                                                    <i class="fa-solid fa-plus me-2"></i>
-                                                    <label for=""
-                                                        style="color: rgb(252, 7, 27);font-size:13px">ยืม</label>
-                                                </a> --}}
-                                                    {{-- <a class="dropdown-item text-warning"
-                                                    href="{{ url('medical/med_con_edit/'.$item->medical_typecat_id)}}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="left"
-                                                    data-bs-custom-class="custom-tooltip" title="แก้ไข">
-                                                    <i class="fa-solid fa-pen-to-square me-2"></i>
-                                                    <label for=""
-                                                        style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
-                                                </a> --}}
-
-                                                    {{-- <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                                        onclick="med_condestroy({{ $item->medical_typecat_id }})"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        data-bs-custom-class="custom-tooltip" title="ลบ">
-                                                        <i class="fa-solid fa-trash-can me-2 mb-1"></i>
-                                                        <label for=""
-                                                            style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
-                                                    </a> --}}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="">ยืม</label>
-                    <div class="card mt-2">                       
-                        <div class="table-responsive">
-                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">ลำดับ</th>
-                                        <th class="text-center">วันที่</th>
-                                        <th class="text-center">คลัง</th> 
-                                        <th class="text-center">จัดการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $i = 1; ?>
-                                    @foreach ($datarep as $item) 
-                                        <tr style="font-size: 13px;" id="sid{{$item->medical_store_rep_id }}">  
-                                        <td width="3%">{{ $i++ }}</td> 
-                                        <td class="text-center" width="10%">{{ $item->date_rep }}</td>
-                                        <td class="text-start">{{ $item->medical_typecatname }}</td> 
-                                        <td width="10%">
-                                            <div class="btn-group">
-                                                <button type="button"
-                                                    class="btn btn-outline-secondary btn-sm dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    ทำรายการ 
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item text-info"
-                                                        href="{{ url('med_store_add/'.$item->medical_store_rep_id)}}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        data-bs-custom-class="custom-tooltip" title="เพิ่มรายการ">
-                                                        <i class="fa-solid fa-plus me-2"></i>
-                                                        <label for=""
-                                                            style="color: rgb(6, 176, 117);font-size:13px">เพิ่มรายการ</label>
-                                                    </a>  
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div> 
-                <div class="col-md-4">
-                    <label for="">คืน</label>
-                    <div class="card mt-2">                       
-                        <div class="table-responsive">
-                            <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">ลำดับ</th>
-                                        <th class="text-center">วันที่</th>
-                                        <th class="text-center">คลัง</th> 
-                                        <th class="text-center">จัดการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $i = 1; ?>
-                                    @foreach ($datarep as $item) 
-                                        <tr style="font-size: 13px;" id="sid{{$item->medical_store_rep_id }}">  
-                                        <td width="3%">{{ $i++ }}</td> 
-                                        <td class="text-center" width="10%">{{ $item->date_rep }}</td>
-                                        <td class="text-start">{{ $item->medical_typecatname }}</td> 
-                                        <td width="10%">
-                                            <div class="btn-group">
-                                                <button type="button"
-                                                    class="btn btn-outline-secondary btn-sm dropdown-toggle"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    ทำรายการ 
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item text-info"
-                                                        href="{{ url('med_store_add/'.$item->medical_store_rep_id)}}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        data-bs-custom-class="custom-tooltip" title="เพิ่มรายการ">
-                                                        <i class="fa-solid fa-plus me-2"></i>
-                                                        <label for=""
-                                                            style="color: rgb(6, 176, 117);font-size:13px">เพิ่มรายการ</label>
-                                                    </a>  
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div> 
-            </div>
+            
         </div>
-
-         <!--  Modal content for the insert example -->
-         <div class="modal fade" id="insertdata" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myExtraLargeModalLabel">เปิดบิล</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="year">ปีงบ :</label>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <select id="year" name="year"
-                                        class="form-control" style="width: 100%">
-                                        <option value="">--เลือก--</option>
-                                        @foreach ($budget_year as $ye)
-                                            @if ($ye->leave_year_id == $date)
-                                                <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }} </option>
-                                            @else
-                                                <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }} </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <label for="date_rep">วันที่ :</label>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <input type="date" id="date_rep" name="date_rep" class="form-control" >
-                                </div>   
-                            </div>
-                            <div class="col-md-1">
-                                <label for="time_rep">เวลา :</label>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <input type="time" id="time_rep" name="time_rep" class="form-control" >
-                                </div>   
-                            </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-md-2">
-                                <label for="year">คลัง :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select id="medical_typecat_id" name="medical_typecat_id"
-                                        class="form-control" style="width: 100%">
-                                        <option value="">--เลือก--</option>
-                                        @foreach ($medical_typecat as $te)                                        
-                                                <option value="{{ $te->medical_typecat_id }}"> {{ $te->medical_typecatname }} </option>                                        
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>  
-                    </div>
-                    <input type="hidden" name="user_rep" id="user_rep" value="{{$iduser}}">
-                    <div class="modal-footer">
-                        <div class="col-md-12 text-end">
-                            <div class="form-group">
-                                <button type="button" id="Savebtn" class="btn btn-outline-info btn-sm">
-                                    <i class="fa-solid fa-floppy-disk me-2"></i>
-                                    บันทึกข้อมูล
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
-                                        class="fa-solid fa-xmark me-2"></i>Close</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
         
 @endsection
 @section('footer')

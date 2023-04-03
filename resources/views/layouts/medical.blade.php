@@ -80,7 +80,7 @@
     color: #2e43df;
 }
 </style>
-<body data-topbar="light" data-layout="horizontal" style="background-color: rgb(240, 238, 238)">
+<body data-topbar="light" data-layout="horizontal" style="background-color: rgb(253, 255, 255)">
     <!-- Loader -->
     <div id="preloader">
         <div id="status">
@@ -112,7 +112,7 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h4> 
                             </span>
                         </a>
                     </div>
@@ -129,7 +129,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(54, 53, 53)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
