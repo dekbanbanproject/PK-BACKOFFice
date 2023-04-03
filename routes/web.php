@@ -1538,6 +1538,8 @@ Route::match(['get','post'],'free_schedule',[App\Http\Controllers\FreescheduleCo
 Route::match(['get','post'],'check_ward',[App\Http\Controllers\CheckwardController::class, 'check_ward'])->name('ward.check_ward');//
 Route::match(['get','post'],'check_warddetail/{id}',[App\Http\Controllers\CheckwardController::class, 'check_warddetail'])->name('ward.check_warddetail');//
 Route::match(['get','post'],'check_wardnonote/{id}',[App\Http\Controllers\CheckwardController::class, 'check_wardnonote'])->name('ward.check_wardnonote');//
+Route::match(['get','post'],'check_wardnoclaim/{id}',[App\Http\Controllers\CheckwardController::class, 'check_wardnoclaim'])->name('ward.check_wardnoclaim');//
+Route::match(['get','post'],'check_wardsss/{id}',[App\Http\Controllers\CheckwardController::class, 'check_wardsss'])->name('ward.check_wardsss');//
 
 
 //********************* */ รพสต  ***********************************

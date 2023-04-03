@@ -111,8 +111,16 @@
                                                         {{ $item->BB }}
                                                     </a>
                                                 </td>  
-                                                <td class="text-center" width="10%">{{ $item->CC }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->DD }}</td>  
+                                                <td class="text-center" width="10%">
+                                                    <a href="{{url('check_wardnoclaim/'.$item->ward)}}" target="_blank">
+                                                        {{ $item->CC }}
+                                                    </a> 
+                                                </td> 
+                                                <td class="text-center" width="10%">
+                                                    <a href="{{url('check_wardsss/'.$item->ward)}}" target="_blank">
+                                                        {{ $item->DD }}
+                                                    </a> 
+                                                </td>  
                                             </tr>
                                         @endforeach
                                     </tbody>
