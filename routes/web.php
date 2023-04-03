@@ -1533,10 +1533,10 @@ Route::match(['get','post'],'opt',[App\Http\Controllers\ClaimController::class, 
 Route::match(['get','post'],'free_schedule',[App\Http\Controllers\FreescheduleController::class, 'free_schedule'])->name('claim.free_schedule');//
 
 
+//********************* */ Ward  ***********************************
 
-
-
-
+Route::match(['get','post'],'check_ward',[App\Http\Controllers\CheckwardController::class, 'check_ward'])->name('ward.check_ward');//
+Route::match(['get','post'],'check_warddetail/{id}',[App\Http\Controllers\CheckwardController::class, 'check_warddetail'])->name('ward.check_warddetail');//
 
 //********************* */ รพสต  ***********************************
 

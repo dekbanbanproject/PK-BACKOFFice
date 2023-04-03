@@ -119,9 +119,40 @@ class ApiController extends Controller
     }
     public function pimc(Request $request)
     {
+        $date = date("Y-m-d");
+        $dayback = date('Y-m-d', strtotime($date . ' -1 day')); //ย้อนหลัง 1 วัน  
+        // dd($date);
         $data_api = DB::connection('mysql3')->select('   
-            SELECT an FROM ipt
-                LIMIT 10 
+                SELECT nr.*,EXTRACT(hour FROM nr.ortime - nr.admit_time) AS waiting_time
+                FROM (SELECT i.an,i.hn,concat(p.pname,p.fname," ",p.lname)as fullname, p.pname,p.fname,p.lname,p.cid
+                ,p.birthday,p.hometel,p.addrpart,p.moopart, address3.name AS tmbpart,address2.name AS amppart,address1.name AS chwpart
+                , concat(p.addrpart,"หมู่ที่",p.moopart," ต. ",address3.name," อ. ",address2.name," จ. ",address1.name) as fulladdress,ptt.name as pttype
+                ,d.name as doctor_name,a.pdx,oi.icd9,oi.name,concat(a.regdate," ",i.regtime) AS admit_time, a.admdate,a.income,min(ot.in_datetime) AS ortime
+                ,concat(i.dchdate," ",i.dchtime) AS dc_time, CASE WHEN  p.sex="1" then "ชาย" else "หญิง" end as sexname,a.age_y,a.los,i.adjrw
+                ,i.ward,ward.name as wardname, " " as id,"Hip" as type, " " as operation,"yes" as find,"ชัยภูมิ" as fr_province
+                , "10978" as hospcode, "36" as provincecode
+                
+                FROM ipt i
+                LEFT JOIN operation_list ol on i.an=ol.an 
+                LEFT JOIN operation_detail od on ol.operation_id=od.operation_id  
+                INNER JOIN operation_item oi on od.operation_item_id=oi.operation_item_id  and  oi.operation_item_id in("1057","1058","1059","973","989","990","991")
+                LEFT JOIN operation_team ot on ot.operation_detail_id=od.operation_detail_id  
+                LEFT OUTER JOIN operation_anes_physical_status ops on ops.operation_anes_physical_status_id=ol.operation_anes_physical_status_id
+                LEFT JOIN operation_position op on op.position_id=ot.position_id  
+                LEFT JOIN doctor d on ot.doctor=d.code
+                LEFT JOIN patient p on p.hn=ol.hn  
+                LEFT JOIN ward on ward.ward = i.ward
+                LEFT JOIN pttype ptt on ptt.pttype = i.pttype 
+                LEFT JOIN an_stat a on a.an=i.an
+                LEFT OUTER JOIN thaiaddress address1 ON address1.chwpart = p.chwpart AND address1.amppart = "00" AND address1.tmbpart = "00" 
+                LEFT OUTER JOIN thaiaddress address2 ON address2.chwpart = p.chwpart AND address2.amppart = p.amppart AND address2.tmbpart = "00" 
+                LEFT OUTER JOIN thaiaddress address3 ON address3.chwpart = p.chwpart AND address3.amppart = p.amppart AND address3.tmbpart = p.tmbpart 
+                WHERE i.dchdate BETWEEN "'.$dayback.'" and "'.$date.'" 
+                AND ot.position_id="1" AND a.age_y > 49
+                GROUP BY  concat(p.pname,p.fname," ",p.lname),p.pname, p.fname, p.lname,i.hn,a.pdx,oi.icd9,oi.name,i.an,a.income,a.admdate
+                ,i.prediag,doctor_name,d.name,a.regdate,admit_time,dc_time,sexname,a.age_y,a.los,i.adjrw,ptt.name
+                ,p.cid,address3.name,address2.name,address1.name,p.addrpart,p.moopart,p.birthday,p.hometel,i.ward,ward.name) as nr
+                ORDER BY dc_time DESC 
         ');
         return response([
             $data_api 

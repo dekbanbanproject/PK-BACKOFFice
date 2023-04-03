@@ -136,7 +136,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(11, 192, 168)">
+            <div class="navbar-header" style="background-color: rgb(253, 255, 255)">
                 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -155,13 +155,13 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle"></i>
+                        <i class="ri-menu-2-line align-middle" style="color:rgb(54, 53, 53)"></i>
                     </button>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
@@ -172,7 +172,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h5 style="color:rgb(54, 53, 53)" class="mt-2">{{$item->orginfo_name}}</h5>
                             @endforeach
                             
                         </div>
@@ -186,7 +186,7 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(59, 59, 59)"></i>
                         </button>
                     </div>
 
@@ -200,18 +200,18 @@
                                 <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
                                     width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
                             @endif
-                            <span class="d-none d-xl-inline-block ms-1">
+                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
                                 {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                             </span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"><i
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}" style="font-size: 12px"><i
                                     class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                class="text-reset notification-item"
+                                {{-- class="text-reset notification-item" --}}
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                                     class="ri-shut-down-line align-middle me-1 text-danger"></i>
                                 Logout
@@ -235,7 +235,7 @@
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100">
+            <div data-simplebar class="h-100" style="background-color: antiquewhite">
 
                 <!-- User details -->
                 {{-- <div class="user-profile text-center mt-3">
@@ -260,7 +260,7 @@
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
-                    <ul class="metismenu list-unstyled" id="side-menu">
+                    <ul class="metismenu list-unstyled" id="side-menu" style="background-color: antiquewhite">
                         <li class="menu-title">Menu</li>
 
                         {{-- <li>
@@ -293,9 +293,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <ul class="sub-menu" aria-expanded="true">
-                                {{-- <li><a href="{{ url('Tranfer_stm') }}">Tranfer STM From Shooter </a></li> --}}
-                                {{-- <li><a href="{{ url('ssop') }}">SSOP</a></li>  --}}
+                            <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="javascript: void(0);" class="has-arrow">ANC-หญิงตั้งครรภ์</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('anc_dent') }}">ตรวจฟัน+ขัดฟัน</a></li> 
@@ -312,6 +310,15 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('request_report') }}">ยื่นใบงาน</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-user-tie text-danger"></i>
+                                <span>ตรวจตึกแยก ward</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('check_ward') }}">ตรวจตึก</a></li> 
                             </ul>
                         </li>
                         <li>
@@ -488,6 +495,8 @@
                                
                             </ul>
                         </li>
+
+                       
 
                        
                        

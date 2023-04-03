@@ -266,7 +266,7 @@ class AipnController extends Controller
                     WHERE i.an="'.$item->AN.'"                             
                     and oo.qty<>0
                     and oo.UnitPrice<>0  
-                    and inc.income NOT IN ("22" )      
+                    and inc.income NOT IN ("02","22" )      
                     group by oo.icode
                     order by i.an desc
                     ');
