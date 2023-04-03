@@ -81,7 +81,7 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-2 text-end"> 
-                    <button type="button" style="font-size: 17px" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#insertdata"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>รับเข้าคลัง</button>
+                    {{-- <button type="button" style="font-size: 17px" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#insertdata"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>รับเข้าคลัง</button> --}}
                 </div>
             </div>
             <div class="row "> 
