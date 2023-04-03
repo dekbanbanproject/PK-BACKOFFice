@@ -114,7 +114,7 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
                             </span>
                         </a>
                     </div>
@@ -131,7 +131,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(54, 53, 53)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h5 style="color:rgb(54, 53, 53)" class="mt-2">{{$item->orginfo_name}}</h5>
                             @endforeach
                             
                         </div>
