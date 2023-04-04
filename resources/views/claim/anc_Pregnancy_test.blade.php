@@ -96,8 +96,8 @@
                         </button>
                         <a href="{{ url('ssop_send') }}" class="btn btn-success"><i
                                 class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>
-                        <a href="{{ url('ssop_zip') }}" class="btn btn-danger"><i
-                                class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
+                        {{-- <a href="{{ url('ssop_zip') }}" class="btn btn-danger"><i
+                                class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}
                     </div>
                 </div>
                 <div class="col"></div>
