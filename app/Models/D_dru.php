@@ -36,8 +36,8 @@ class D_dru extends Authenticatable
         'USE_STATUS',     
         'STATUS1',
         'TOTAL',
-        'a1',
-        'a2',
+        'SIGCODE',
+        'SIGTEXT'
     ];
 
   

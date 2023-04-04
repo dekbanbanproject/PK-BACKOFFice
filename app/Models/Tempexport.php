@@ -8,13 +8,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class D_export extends Authenticatable
+class Tempexport extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $connection = 'mysql7';
-    protected $table = 'd_export';
-    protected $primaryKey = 'd_export_id';
+    protected $table = 'tempexport';
+    public $timestamps = false; 
+ 
     protected $fillable = [  
+        'ACTIVE',
         'vn',  
         'hn',  
         'an',

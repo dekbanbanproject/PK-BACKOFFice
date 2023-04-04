@@ -20,7 +20,8 @@ return new class extends Migration
                 $table->string('vn',255)->nullable(); 
                 $table->string('hn',255)->nullable();   
                 $table->string('an',255)->nullable(); 
-                $table->string('cid',255)->nullable();   
+                $table->string('cid',255)->nullable(); 
+                $table->enum('active', ['Y','N'])->default('N')->nullable();  
                 $table->timestamps();
             });
         }

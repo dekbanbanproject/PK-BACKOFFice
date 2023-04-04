@@ -22,6 +22,7 @@ return new class extends Migration
                 $table->string('hn',255)->nullable();   
                 $table->string('an',255)->nullable(); 
                 $table->string('cid',255)->nullable();  
+                $table->date('vstdate')->nullable(); 
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH','SEND'])->default('SEND')->nullable();
                 $table->timestamps();
             });

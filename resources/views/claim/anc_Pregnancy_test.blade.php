@@ -75,27 +75,7 @@
                 </div>
             </div>
         </div>
-
-        {{-- <form action="{{ route('claim.ssop_data_vn') }}" method="POST">
-                    @csrf
-                        <div class="row"> 
-                            <div class="col-md-3 text-end">VN</div>
-                            <div class="col-md-6 text-center">
-                                <div class="input-group" id="datepicker1">
-                                    <input type="text" class="form-control" name="VN" id="VN" placeholder="VN" required> 
-                                    <button type="submit" class="btn btn-info">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                        ดึงข้อมูล 
-                                    </button> 
-                                    <a href="{{url('ssop_send')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>    
-                                    <a href="{{url('ssop_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
-                                </div>
-                            </div>    
-                            <div class="col"></div>
-                        </div>
-
-                    </form>
-                    <br> --}}
+ 
         <form action="{{ route('k.anc_Pregnancy_testsearch') }}" method="POST">
             @csrf
             <div class="row">
@@ -205,50 +185,54 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center" width="5%">Station</th>
-                                                <th class="text-center">DTtran</th>
-                                                <th class="text-center">Hcode</th>
-                                                <th class="text-center">Invno</th>
-                                                <th class="text-center">VerCode</th>
-                                                <th class="text-center">HN</th>
-                                                <th class="text-center">Tflag</th>
-                                                <th class="text-center" width="7%">HMain</th>
-                                                <th class="text-center">Pid</th>
-                                                <th class="text-center">ชื่อ-สกุล </th>
-                                                <th class="text-center" width="8%">Amount</th>
-                                                <th class="text-center" width="8%">Paid</th>
-                                                <th class="text-center" width="10%">ClaimAmt</th>
-                                                <th class="text-center">PayPlan</th>
-                                                <th class="text-center">OtherPay</th>
-                                                <th class="text-center">pttype</th>
-                                                <th class="text-center">Diag</th>
+                                                <th class="text-center" width="5%">HN</th>
+                                                <th class="text-center">INSCL</th>
+                                                <th class="text-center">SUBTYPE</th>
+                                                <th class="text-center">CID</th>
+                                                <th class="text-center">DATEIN</th>
+                                                <th class="text-center">DATEEXP</th>
+                                                <th class="text-center">HOSPMAIN</th>
+                                                <th class="text-center" width="7%">HOSPSUB</th>
+                                                <th class="text-center">GOVCODE</th>
+                                                <th class="text-center">GOVNAME </th>
+                                                <th class="text-center" width="8%">PERMITNO</th>
+                                                <th class="text-center" width="8%">DOCNO</th>
+                                                <th class="text-center" width="10%">OWNRPID</th>
+                                                <th class="text-center">OWNRNAME</th>
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">SEQ</th>
+                                                <th class="text-center">SUBINSCL</th>
+                                                <th class="text-center">RELINSCL</th>
+                                                <th class="text-center">HTYPE</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_billtran as $item)
+                                            @foreach ($ins_ as $item)
                                                 <tr>
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center" width="5%">{{ $item->Station }}</td>
-                                                    <td class="text-center">{{ $item->DTtran }}</td>
-                                                    <td class="text-center">{{ $item->Hcode }}</td>
-                                                    <td class="text-center">{{ $item->Invno }}</td>
-                                                    <td class="text-center">{{ $item->VerCode }}</td>
-                                                    <td class="text-center">{{ $item->HN }}</td>
-                                                    <td class="text-center">{{ $item->Tflag }}</td>
-                                                    <td class="text-center">{{ $item->HMain }}</td>
-                                                    <td class="text-center">{{ $item->Pid }}</td>
-                                                    <td class="p-2">{{ $item->Name }}</td>
-                                                    <td class="text-center">{{ number_format($item->Amount, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->Paid, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->ClaimAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->PayPlan, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->OtherPay, 2) }}</td>
-                                                    <td class="text-center">{{ $item->pttype }}</td>
-                                                    <td class="text-center">{{ $item->Diag }}</td>
+                                                    <td class="text-center" width="5%">{{ $item->HN }}</td>
+                                                    <td class="text-center">{{ $item->INSCL }}</td>
+                                                    <td class="text-center">{{ $item->SUBTYPE }}</td>
+                                                    <td class="text-center">{{ $item->CID }}</td>
+                                                    <td class="text-center">{{ $item->DATEIN }}</td>
+                                                    <td class="text-center">{{ $item->DATEEXP }}</td>
+                                                    <td class="text-center">{{ $item->HOSPMAIN }}</td>
+                                                    <td class="text-center">{{ $item->HOSPSUB }}</td>
+                                                    <td class="text-center">{{ $item->GOVCODE }}</td>
+                                                    <td class="p-2">{{ $item->GOVNAME }}</td>
+                                                    <td class="text-center">{{ $item->PERMITNO }}</td>
+                                                    <td class="text-center">{{ $item->DOCNO }}</td>
+                                                    <td class="text-center">{{ $item->OWNRPID }}</td>
+                                                    <td class="text-center">{{ $item->OWNRNAME }}</td>
+                                                    <td class="text-center">{{ $item->AN }}</td>
+                                                    <td class="text-center">{{ $item->SEQ }}</td>
+                                                    <td class="text-center">{{ $item->SUBINSCL }}</td>
+                                                    <td class="text-center">{{ $item->RELINSCL }}</td>
+                                                    <td class="text-center">{{ $item->HTYPE }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>

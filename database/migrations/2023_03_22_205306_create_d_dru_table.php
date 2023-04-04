@@ -42,8 +42,8 @@ return new class extends Migration
                 $table->string('USE_STATUS')->nullable(); //
                 $table->string('STATUS1')->nullable(); //
                 $table->string('TOTAL')->nullable(); //
-                $table->string('a1')->nullable(); //
-                $table->string('a2')->nullable(); // 
+                $table->string('SIGCODE')->nullable(); //
+                $table->string('SIGTEXT')->nullable(); // 
    
                 $table->timestamps();
             });
