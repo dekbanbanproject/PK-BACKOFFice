@@ -277,7 +277,15 @@
                                 <span>Claim</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('Tranfer_stm') }}">Tranfer STM From Shooter </a></li>
+                                {{-- <li><a href="{{ url('Tranfer_stm') }}">Tranfer STM From Shooter </a></li> --}}
+                                {{-- <li><a href="{{ url('ktb') }}">KTB</a></li> --}}
+                                <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('anc_Pregnancy_test') }}">การทดสอบการตั้งครรภ์</a></li>
+                                        {{-- <li><a href="{{ url('prb_repipdpay') }}">ผู้ป่วยใน พรบ.ที่จำหน่าย(ชำระเงิน)</a></li> --}}
+                                        {{-- <li><a href="{{ url('prb_repipdover') }}">Admit อยู่แต่วงเงินเกิน 30000</a></li> --}}
+                                    </ul>
+                                </li>
                                 <li><a href="{{ url('ssop') }}">SSOP</a></li>
                                 <li><a href="{{ url('ssop_recheck') }}">SSOP RECHECK</a></li>
                                  <li><a href="{{ url('aipn') }}">AIPN</a></li>

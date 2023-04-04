@@ -1560,6 +1560,11 @@ Route::match(['get','post'],'home_rpst',[App\Http\Controllers\RpstController::cl
 
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 
+//********************* */ KTB CLAIM  ***********************************
+Route::match(['get','post'],'ktb',[App\Http\Controllers\KTBController::class, 'ktb'])->name('k.ktb');//
+Route::match(['get','post'],'anc_Pregnancy_test',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_test'])->name('k.anc_Pregnancy_test');//
+Route::match(['get','post'],'anc_Pregnancy_testsearch',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_testsearch'])->name('k.anc_Pregnancy_testsearch');//
+
 
 
 });
