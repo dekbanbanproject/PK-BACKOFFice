@@ -85,7 +85,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(255, 255, 255)">
+            <div class="navbar-header" style="background-color: rgb(252, 252, 252)">
               
 
                 <div class="d-flex">
@@ -105,13 +105,13 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle"></i>
+                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
@@ -122,7 +122,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
@@ -134,7 +134,7 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
                     </div>
 
@@ -148,7 +148,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href=""><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <a class="dropdown-item" href=""><i class="ri-user-line align-middle me-1" style="color: black"></i> Profile</a>
                             <div class="dropdown-divider"></div> 
                            
                         </div>
@@ -165,7 +165,7 @@
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100">
+            <div data-simplebar class="h-100" style="background-color: rgb(252, 175, 175)">
  
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
@@ -173,12 +173,14 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                {{-- <i class="fa-solid fa-money-check-dollar text-danger"></i> --}}
                                 <i class="fa-solid fa-user-nurse text-danger"></i>
-                                <span>ห้องผ่าตัด</span>
+                                <span>Authen KTB</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('report_or') }}">Dashboard</a></li>  
+                                <li><a href="{{ url('ktb_getcard') }}">Authen</a></li> 
+                                {{-- <li><a href="{{ url('acc_repstm') }}">report stm</a></li>  --}}
                             </ul>
                         </li> 
  
