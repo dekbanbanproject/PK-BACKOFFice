@@ -657,11 +657,11 @@ class KTBController extends Controller
         $datestart = $request->startdate;
         $dateend = $request->enddate;
 
-        $sss_date_now = date("Y-m-d");
+        $date_now = date("Y-m-d");
         $y = substr(date("Y"),2);
         $m = date('m');
         $t = date("His");
-        $sss_time_now = date("H:i:s");
+        $time_now = date("H:i:s");
       
          #ตัดขีด, ตัด : ออก
     // $year = substr(date("Y"),2) +43;
@@ -676,19 +676,20 @@ class KTBController extends Controller
 
         #ตัดขีด, ตัด : ออก
         $pattern_date = '/-/i';
-        $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        $date_now_preg = preg_replace($pattern_date, '', $date_now);
         $pattern_time = '/:/i';
-        $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+        $time_now_preg = preg_replace($pattern_time, '', $time_now);
         #ตัดขีด, ตัด : ออก
 
-        $folder='10978_KTBBIL_'.$session_no.'_01_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='10978_KTBBIL_'.$session_no.'_01_'.$date_now_preg.'-'.$time_now_preg;
 
         $add = new D_export();
         $add->session_no = $session_no;
-        $add->session_date = $sss_date_now;
-        $add->session_time = $sss_time_now;
+        $add->session_date = $date_now;
+        $add->session_time = $time_now;
         $add->session_filename = $folder;
         $add->session_ststus = "Send";
+        $add->ACTIVE = "Y";
         $add->save();
 
         mkdir ('C:/export/'.$folder, 0777, true);
@@ -698,26 +699,43 @@ class KTBController extends Controller
         // header("Cache-Control: no-store, no-cache");
         // header('Content-Disposition: attachment; filename="content.txt"');
 
-        // $file_name = "/ADP".$y."".$m."".$t.".txt";
         $file_pat = "C:/export/".$folder."/ADP".$y."".$m."".$t.".txt";     
         $objFopen_opd = fopen($file_pat, 'w');
 
         $file_pat2 = "C:/export/".$folder."/DRU".$y."".$m."".$t.".txt";     
-        $objFopen_opd = fopen($file_pat2, 'w');
+        $objFopen_opd2 = fopen($file_pat2, 'w');
 
         $file_pat3 = "C:/export/".$folder."/INS".$y."".$m."".$t.".txt";     
-        $objFopen_opd = fopen($file_pat3, 'w');
+        $objFopen_opd3 = fopen($file_pat3, 'w');
 
         $file_pat4 = "C:/export/".$folder."/ODX".$y."".$m."".$t.".txt";     
-        $objFopen_opd = fopen($file_pat4, 'w');
+        $objFopen_opd4 = fopen($file_pat4, 'w');
 
         $file_pat5 = "C:/export/".$folder."/OPD".$y."".$m."".$t.".txt";     
-        $objFopen_opd = fopen($file_pat5, 'w');
+        $objFopen_opd5 = fopen($file_pat5, 'w');
 
         $file_pat6 = "C:/export/".$folder."/PAT".$y."".$m."".$t.".txt";     
-        $objFopen_opd = fopen($file_pat6, 'w');
+        $objFopen_opd6 = fopen($file_pat6, 'w');
 
-     
+        $opd_head = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GLAVIDA|GA_WEEK|DCIP|LMP';
+        fwrite($objFopen_opd, $opd_head);
+
+        $opd_head2 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT';
+        fwrite($objFopen_opd2, $opd_head2);
+
+        $opd_head3 = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        fwrite($objFopen_opd3, $opd_head3);
+
+        $opd_head4 = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
+        fwrite($objFopen_opd4, $opd_head4);
+
+        $opd_head5 = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC';
+        fwrite($objFopen_opd5, $opd_head5);
+
+        $opd_head6 = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
+        fwrite($objFopen_opd6, $opd_head6);
+
+        
 
 
 
