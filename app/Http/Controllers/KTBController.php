@@ -23,7 +23,7 @@ use Storage;
 use GuzzleHttp\Client;
 use App\Models\Tempexport;
 use App\Models\D_aer;
-use App\Models\d_adp;
+use App\Models\D_adp;
 use App\Models\D_cha;  
 use App\Models\D_cht;
 use App\Models\D_oop;
