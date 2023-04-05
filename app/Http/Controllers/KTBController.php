@@ -643,7 +643,6 @@ class KTBController extends Controller
 
             ]);
         }
-
  
         // return response()->json(['status' => '200']); 
         return view('claim.anc_Pregnancy_test',[
