@@ -116,10 +116,23 @@
                                 <p class="card-title-desc">รายละเอียด</p>
                             </div>
                             <div class="col"></div>
-                            <div class="col-md-3 text-end"> 
+                            <div class="col-md-3 text-end">
+
+                                {{-- <button type="button" class="btn btn-outline-danger btn-sm Updateprescb"
+                                    data-url="{{ url('ssop_prescb_update') }}">
+                                    <i class="fa-solid fa-file-waveform me-2"></i>
+                                    Update Prescb
+                                </button> --}}
+                                {{-- <button type="button" class="btn btn-outline-warning btn-sm Updatesvpid"
+                                    data-url="{{ url('ssop_svpid_update') }}">
+                                    <i class="fa-solid fa-file-waveform me-2"></i>
+                                    Update SvPID
+                                </button> --}}
                             </div>
                         </div>
- 
+
+
+
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
