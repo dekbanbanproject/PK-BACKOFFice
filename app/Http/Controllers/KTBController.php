@@ -35,6 +35,7 @@ use App\Models\D_dru;
 use App\Models\D_opd;
 use App\Models\D_ktb_b17;
 use App\Models\Stm;
+use App\Models\D_export;
 
 class KTBController extends Controller
 {
@@ -648,6 +649,113 @@ class KTBController extends Controller
         return view('claim.anc_Pregnancy_test',[
             'start'            => $datestart,
             'end'              => $dateend,
+        ]);
+    }
+
+    public function anc_Pregnancy_test_export(Request $request)
+    { 
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+
+        $sss_date_now = date("Y-m-d");
+        $y = substr(date("Y"),2);
+        $m = date('m');
+        $t = date("His");
+        $sss_time_now = date("H:i:s");
+      
+         #ตัดขีด, ตัด : ออก
+    // $year = substr(date("Y"),2) +43;
+    // $mounts = date('m');
+    // $day = date('d');
+    // $time = date("His");  
+    // $vn = $year.''.$mounts.''.$day.''.$time;
+        // dd($y);
+        #sessionid เป็นค่าว่าง แสดงว่ายังไม่เคยส่งออก ต้องสร้างไอดีใหม่ จาก max+1
+        $maxid = D_export::max('session_no');
+        $session_no = $maxid+1;        
+
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        $pattern_time = '/:/i';
+        $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+        #ตัดขีด, ตัด : ออก
+
+        $folder='10978_KTBBIL_'.$session_no.'_01_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+
+        $add = new D_export();
+        $add->session_no = $session_no;
+        $add->session_date = $sss_date_now;
+        $add->session_time = $sss_time_now;
+        $add->session_filename = $folder;
+        $add->session_ststus = "Send";
+        $add->save();
+
+        mkdir ('C:/export/'.$folder, 0777, true);
+   
+        // ดาวโหลด
+        // header("Content-type: text/txt");
+        // header("Cache-Control: no-store, no-cache");
+        // header('Content-Disposition: attachment; filename="content.txt"');
+
+        // $file_name = "/ADP".$y."".$m."".$t.".txt";
+        $file_pat = "C:/export/".$folder."/ADP".$y."".$m."".$t.".txt";     
+        $objFopen_opd = fopen($file_pat, 'w');
+
+        $file_pat2 = "C:/export/".$folder."/DRU".$y."".$m."".$t.".txt";     
+        $objFopen_opd = fopen($file_pat2, 'w');
+
+        $file_pat3 = "C:/export/".$folder."/INS".$y."".$m."".$t.".txt";     
+        $objFopen_opd = fopen($file_pat3, 'w');
+
+        $file_pat4 = "C:/export/".$folder."/ODX".$y."".$m."".$t.".txt";     
+        $objFopen_opd = fopen($file_pat4, 'w');
+
+        $file_pat5 = "C:/export/".$folder."/OPD".$y."".$m."".$t.".txt";     
+        $objFopen_opd = fopen($file_pat5, 'w');
+
+        $file_pat6 = "C:/export/".$folder."/PAT".$y."".$m."".$t.".txt";     
+        $objFopen_opd = fopen($file_pat6, 'w');
+
+     
+
+
+
+
+
+
+
+
+
+
+        $ins_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_ins   
+        ');
+        $pat_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_pat   
+        ');
+        $opd_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_opd   
+        ');
+        $odx_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_odx   
+        ');
+        $adp_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_adp   
+        ');
+        $dru_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_dru   
+        ');
+
+        return view('claim.anc_Pregnancy_test',[
+            'start'            => $datestart,
+            'end'              => $dateend,
+            'ins_'              => $ins_,
+            'pat_'              => $pat_,
+            'opd_'              => $opd_,
+            'odx_'              => $odx_,
+            'adp_'              => $adp_,
+            'dru_'              => $dru_
         ]);
     }
 

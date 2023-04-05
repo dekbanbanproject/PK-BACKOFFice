@@ -17,10 +17,11 @@ return new class extends Migration
         {
             Schema::connection('mysql7')->create('d_export', function (Blueprint $table) {
                 $table->bigIncrements('d_export_id');  
-                $table->string('vn',255)->nullable(); 
-                $table->string('hn',255)->nullable();   
-                $table->string('an',255)->nullable(); 
-                $table->string('cid',255)->nullable(); 
+                $table->string('session_no',255)->nullable(); 
+                $table->string('session_date',255)->nullable();   
+                $table->string('session_time',255)->nullable(); 
+                $table->string('session_filename',255)->nullable(); 
+                $table->string('session_ststus',255)->nullable(); 
                 $table->enum('active', ['Y','N'])->default('N')->nullable();  
                 $table->timestamps();
             });

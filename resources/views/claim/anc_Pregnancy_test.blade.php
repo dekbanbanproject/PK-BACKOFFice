@@ -94,8 +94,8 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                             ดึงข้อมูล
                         </button>
-                        <a href="{{ url('ssop_send') }}" class="btn btn-success"><i
-                                class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>
+                        <a href="{{ url('anc_Pregnancy_test_export') }}" class="btn btn-danger"><i
+                                class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก 16 KTB</a>
                         {{-- <a href="{{ url('ssop_zip') }}" class="btn btn-danger"><i
                                 class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}
                     </div>
