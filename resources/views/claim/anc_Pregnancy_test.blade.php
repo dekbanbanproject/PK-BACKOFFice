@@ -193,12 +193,12 @@
                                                 <th class="text-center">DATEEXP</th>
                                                 <th class="text-center">HOSPMAIN</th>
                                                 <th class="text-center" width="7%">HOSPSUB</th>
-                                                <th class="text-center">GOVCODE</th>
+                                                {{-- <th class="text-center">GOVCODE</th>
                                                 <th class="text-center">GOVNAME </th>
                                                 <th class="text-center" width="8%">PERMITNO</th>
                                                 <th class="text-center" width="8%">DOCNO</th>
                                                 <th class="text-center" width="10%">OWNRPID</th>
-                                                <th class="text-center">OWNRNAME</th>
+                                                <th class="text-center">OWNRNAME</th> --}}
                                                 <th class="text-center">AN</th>
                                                 <th class="text-center">SEQ</th>
                                                 <th class="text-center">SUBINSCL</th>
@@ -219,12 +219,12 @@
                                                     <td class="text-center">{{ $item->DATEEXP }}</td>
                                                     <td class="text-center">{{ $item->HOSPMAIN }}</td>
                                                     <td class="text-center">{{ $item->HOSPSUB }}</td>
-                                                    <td class="text-center">{{ $item->GOVCODE }}</td>
+                                                    {{-- <td class="text-center">{{ $item->GOVCODE }}</td>
                                                     <td class="p-2">{{ $item->GOVNAME }}</td>
                                                     <td class="text-center">{{ $item->PERMITNO }}</td>
                                                     <td class="text-center">{{ $item->DOCNO }}</td>
                                                     <td class="text-center">{{ $item->OWNRPID }}</td>
-                                                    <td class="text-center">{{ $item->OWNRNAME }}</td>
+                                                    <td class="text-center">{{ $item->OWNRNAME }}</td> --}}
                                                     <td class="text-center">{{ $item->AN }}</td>
                                                     <td class="text-center">{{ $item->SEQ }}</td>
                                                     <td class="text-center">{{ $item->SUBINSCL }}</td>
@@ -247,45 +247,45 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">Invno</th>
-                                                <th class="text-center">SvDate</th>
-                                                <th class="text-center">BillMuad</th>
-                                                <th class="text-center">LCCode</th>
-                                                <th class="text-center">STDCode</th>
-                                                <th class="text-center">Desc</th>
-                                                <th class="text-center">QTY</th>
-                                                <th class="text-center">UnitPrice</th>
-                                                <th class="text-center">ChargeAmt</th>
-                                                <th class="text-center">ClaimUP</th>
-                                                <th class="text-center">ClaimAmount</th>
-                                                <th class="text-center">SvRefID</th>
-                                                <th class="text-center">ClaimCat</th>
-                                                <th class="text-center">paidst</th>
+                                                <th class="text-center">HCODE</th>
+                                                <th class="text-center">HN</th>
+                                                <th class="text-center">CHANGWAT</th>
+                                                <th class="text-center">AMPHUR</th>
+                                                <th class="text-center">SEX</th>
+                                                <th class="text-center">MARRIAGE</th>
+                                                <th class="text-center">OCCUPA</th>
+                                                <th class="text-center">NATION</th>
+                                                <th class="text-center">PERSON_ID</th>
+                                                <th class="text-center">NAMEPAT</th>
+                                                <th class="text-center">TITLE</th>
+                                                <th class="text-center">FNAME</th>
+                                                <th class="text-center">LNAME</th>
+                                                <th class="text-center">IDTYPE</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_billitems as $item2)
+                                            @foreach ($pat_ as $item2)
                                                 <tr>
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item2->Invno }} </td>
-                                                    <td class="text-center">{{ $item2->SvDate }}</td>
-                                                    <td class="text-center">{{ $item2->BillMuad }} </td>
-                                                    <td class="text-center">{{ $item2->LCCode }} </td>
-                                                    <td class="text-center">{{ $item2->STDCode }} </td>
-                                                    <td class="p-2">{{ $item2->Desc }}</td>
-                                                    <td class="text-center">{{ $item2->QTY }}</td>
-                                                    <td class="text-center">{{ number_format($item2->UnitPrice, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ChargeAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ClaimUP, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ClaimAmount, 2) }}
+                                                    <td class="text-center">{{ $item2->HCODE }} </td>
+                                                    <td class="text-center">{{ $item2->HN }}</td>
+                                                    <td class="text-center">{{ $item2->CHANGWAT }} </td>
+                                                    <td class="text-center">{{ $item2->AMPHUR }} </td>
+                                                    <td class="text-center">{{ $item2->SEX }} </td>
+                                                    <td class="text-center">{{ $item2->MARRIAGE }}</td>
+                                                    <td class="text-center">{{ $item2->OCCUPA }}</td>
+                                                    <td class="text-center">{{$item2->NATION }}</td>
+                                                    <td class="text-center">{{ $item2->PERSON_ID}}</td>
+                                                    <td class="p-2">{{ $item2->NAMEPAT }}</td>
+                                                    <td class="text-center">{{ $item2->TITLE }}
                                                     </td>
-                                                    <td class="text-center">{{ $item2->SvRefID }}</td>
-                                                    <td class="text-center">{{ $item2->ClaimCat }}</td>
-                                                    <td class="text-center">{{ $item2->paidst }}</td>
+                                                    <td class="text-center">{{ $item2->FNAME }}</td>
+                                                    <td class="text-center">{{ $item2->LNAME }}</td>
+                                                    <td class="text-center">{{ $item2->IDTYPE }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -300,65 +300,29 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">ProviderID</th>
-                                                <th class="text-center">DispID</th>
-                                                <th class="text-center">Invno</th>
                                                 <th class="text-center">HN</th>
-                                                <th class="text-center">PID</th>
-                                                <th class="text-center">Prescdt</th>
-                                                <th class="text-center">Dispdt</th>
-                                                <th class="text-center"><input type="checkbox" name="stamp"
-                                                        id="stamp" class="me-2">Prescb</th>
-                                                <th class="text-center">Itemcnt</th>
-                                                <th class="text-center">ChargeAmt</th>
-                                                <th class="text-center">ClaimAmt</th>
-                                                <th class="text-center">Paid</th>
-                                                <th class="text-center">OtherPay</th>
-                                                <th class="text-center">Reimburser</th>
-                                                <th class="text-center">BenefitPlan</th>
-                                                <th class="text-center">DispeStat</th>
-                                                <th class="text-center">SvID</th>
-                                                <th class="text-center">DayCover</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">DATEOPD</th>
+                                                <th class="text-center">TIMEOPD</th>
+                                                <th class="text-center">SEQ</th>
+                                                <th class="text-center">UUC</th>
+                                                
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_dispensing as $item3)
-                                                <tr id="prescbid{{ $item3->ssop_dispensing_id }}">
+                                            @foreach ($opd_ as $item3)
+                                                <tr>
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item3->ProviderID }} </td>
-                                                    <td class="text-center">{{ $item3->DispID }}</td>
-                                                    <td class="text-center">{{ $item3->Invno }} </td>
                                                     <td class="text-center">{{ $item3->HN }} </td>
-                                                    <td class="text-center">{{ $item3->PID }} </td>
-                                                    <td class="text-center">{{ $item3->Prescdt }}</td>
-                                                    <td class="text-center">{{ $item3->Dispdt }}</td>
-                                                    <td class="p-2">
-                                                        <input type="checkbox" class="sub_chk me-2"
-                                                            data-id="{{ $item3->ssop_dispensing_id }}">
-                                                        <button
-                                                            type="button"class="btn btn-outline-danger btn-sm Edit_prescb"
-                                                            value="{{ $item3->ssop_dispensing_id }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="แก้ไข">
-                                                            <i class="fa-solid fa-pen-to-square me-2 text-danger"></i>
-                                                            <label for="" class="text-danger"
-                                                                style="font-size:13px;"> {{ $item3->Prescb }}</label>
-                                                        </button>
-                                                    </td>
-                                                    <td class="text-center">{{ $item3->Itemcnt }}</td>
-                                                    <td class="text-center">{{ number_format($item3->ChargeAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item3->ClaimAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item3->Paid, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item3->OtherPay, 2) }}</td>
-                                                    <td class="text-center">{{ $item3->Reimburser }}</td>
-                                                    <td class="text-center">{{ $item3->BenefitPlan }}</td>
-                                                    <td class="text-center">{{ $item3->DispeStat }}</td>
-                                                    <td class="text-center">{{ $item3->SvID }}</td>
-                                                    <td class="text-center">{{ $item3->DayCover }}</td>
+                                                    <td class="text-center">{{ $item3->CLINIC }}</td>
+                                                    <td class="text-center">{{ $item3->DATEOPD }} </td>
+                                                    <td class="text-center">{{ $item3->TIMEOPD }} </td>
+                                                    <td class="text-center">{{ $item3->SEQ }} </td>
+                                                    <td class="text-center">{{ $item3->UUC }}</td> 
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -372,51 +336,34 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">DispID</th>
-                                                <th class="text-center">PrdCat</th>
-                                                <th class="text-center">HospDrgID</th>
-                                                <th class="text-center">DrgID</th>
-                                                <th class="text-center">dfsText</th>
-                                                <th class="text-center">Packsize</th>
-                                                <th class="text-center">sigCode</th>
-                                                <th class="text-center">sigText</th>
-                                                <th class="text-center">Quantity</th>
-                                                <th class="text-center">UnitPrice</th>
-                                                <th class="text-center">ChargeAmt</th>
-                                                <th class="text-center">ReimbPrice</th>
-                                                <th class="text-center">ReimbAmt</th>
-                                                <th class="text-center">PrdSeCode</th>
-                                                <th class="text-center">Claimcont</th>
-                                                <th class="text-center">ClaimCat</th>
-                                                <th class="text-center">paidst</th>
+                                                <th class="text-center">HN</th>
+                                                <th class="text-center">DATEDX</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">DIAG</th>
+                                                <th class="text-center">DXTYPE</th>
+                                                <th class="text-center">DRDX</th>
+                                                <th class="text-center">PERSON_ID</th>
+                                                <th class="text-center">SEQ</th>
+                                                 
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_dispenseditems as $item4)
+                                            @foreach ($odx_ as $item4)
                                                 <tr>
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item4->DispID }}</td>
-                                                    <td class="text-center">{{ $item4->PrdCat }} </td>
-                                                    <td class="text-center">{{ $item4->HospDrgID }} </td>
-                                                    <td class="text-center">{{ $item4->DrgID }} </td>
-                                                    <td class="p-2">{{ $item4->dfsText }}</td>
-                                                    <td class="p-2">{{ $item4->Packsize }}</td>
-                                                    <td class="text-center">{{ $item4->sigCode }}</td>
-                                                    <td class="p-2" width="15%">{{ $item4->sigText }}</td>
-                                                    <td class="text-center">{{ $item4->Quantity }}</td>
-                                                    <td class="text-center">{{ number_format($item4->UnitPrice, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item4->ChargeAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item4->ReimbPrice, 2) }}
-                                                    </td>
-                                                    <td class="text-center">{{ number_format($item4->ReimbAmt, 2) }}</td>
-                                                    <td class="text-center">{{ $item4->PrdSeCode }}</td>
-                                                    <td class="text-center">{{ $item4->Claimcont }}</td>
-                                                    <td class="text-center">{{ $item4->ClaimCat }}</td>
-                                                    <td class="text-center">{{ $item4->paidst }}</td>
+                                                    <td class="text-center">{{ $item4->HN }}</td>
+                                                    <td class="text-center">{{ $item4->DATEDX }} </td>
+                                                    <td class="text-center">{{ $item4->CLINIC }} </td>
+                                                    <td class="text-center">{{ $item4->DIAG }} </td>
+                                                    <td class="p-2">{{ $item4->DXTYPE }}</td>
+                                                    <td class="p-2">{{ $item4->DRDX }}</td>
+                                                    <td class="text-center">{{ $item4->PERSON_ID }}</td>
+                                                    <td class="p-2" width="15%">{{ $item4->SEQ }}</td>
+                                                    
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -429,73 +376,66 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">Invno</th>
-                                                <th class="text-center">SvID</th>
-                                                <th class="text-center">Class</th>
-                                                <th class="text-center">Hcode</th>
                                                 <th class="text-center">HN</th>
-                                                <th class="text-center">PID</th>
-                                                <th class="text-center">CareAccount</th>
-                                                <th class="text-center">TypeServ</th>
-                                                <th class="text-center">TypeIn</th>
-                                                <th class="text-center">TypeOut</th>
-                                                <th class="text-center">DTAppoint</th>
-                                                <th class="p-2"><input type="checkbox" name="stamp2" id="stamp2"
-                                                        class="me-2">SvPID</th>
-                                                <th class="text-center">Clinic</th>
-                                                <th class="text-center">BegDT</th>
-                                                <th class="text-center">EndDT</th>
-                                                <th class="text-center">LcCode</th>
-                                                <th class="text-center">CodeSet</th>
-                                                <th class="text-center">STDCode</th>
-                                                <th class="text-center">SvCharge</th>
-                                                <th class="text-center">Completion</th>
-                                                <th class="text-center">SvTxCode</th>
-                                                <th class="text-center">ClaimCat</th>
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">DATEOPD</th>
+                                                <th class="text-center">TYPE</th>
+                                                <th class="text-center">CODE</th>
+                                                <th class="text-center">QTY</th>
+                                                <th class="text-center">RATE</th>
+                                                <th class="text-center">SEQ</th>
+                                                {{-- <th class="text-center">a1</th>
+                                                <th class="text-center">a2</th>
+                                                <th class="text-center">a3</th>                                                
+                                                <th class="text-center">a4</th>
+                                                <th class="text-center">a5</th>
+                                                <th class="text-center">a6</th>
+                                                <th class="text-center">a7</th> --}}
+                                                <th class="text-center">TMLTCODE</th>
+                                                <th class="text-center">STATUS1</th>
+                                                <th class="text-center">BI</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">ITEMSRC</th>
+                                                <th class="text-center">PROVIDER</th>
+                                                <th class="text-center">GLAVIDA</th>
+                                                <th class="text-center">GA_WEEK</th>
+                                                <th class="text-center">DCIP</th>
+                                                <th class="text-center">LMP</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_opservices as $item5)
-                                                <tr id="prescbid{{ $item5->ssop_opservices_id }}">
+                                            @foreach ($adp_ as $item5)
+                                                <tr>
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item5->Invno }}</td>
-                                                    <td class="text-center">{{ $item5->SvID }} </td>
-                                                    <td class="text-center">{{ $item5->Class }} </td>
-                                                    <td class="text-center">{{ $item5->Hcode }} </td>
-                                                    <td class="p-2">{{ $item5->HN }}</td>
-                                                    <td class="p-2">{{ $item5->PID }}</td>
-                                                    <td class="text-center">{{ $item5->CareAccount }}</td>
-                                                    <td class="p-2">{{ $item5->TypeServ }}</td>
-                                                    <td class="text-center">{{ $item5->TypeIn }}</td>
-                                                    <td class="text-center">{{ $item5->TypeOut }}</td>
-                                                    <td class="text-center">{{ $item5->DTAppoint }}</td>
-                                                    <td class="p-2">
-                                                        <input type="checkbox" class="sub_chk2 me-2"
-                                                            data-id="{{ $item5->ssop_opservices_id }}">
-                                                        <button
-                                                            type="button"class="btn btn-outline-warning btn-sm Edit_svpid"
-                                                            value="{{ $item5->ssop_opservices_id }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="แก้ไข">
-                                                            <i class="fa-solid fa-pen-to-square me-2 text-warning"></i>
-                                                            <label for="" class="text-warning"
-                                                                style="font-size:13px;"> {{ $item5->SvPID }}</label>
-                                                        </button>
-                                                    </td>
-                                                    <td class="text-center">{{ $item5->Clinic }}</td>
-                                                    <td class="text-center" width="15%">{{ $item5->BegDT }}</td>
-                                                    <td class="text-center" width="15%">{{ $item5->EndDT }}</td>
-                                                    <td class="text-center">{{ $item5->LcCode }}</td>
-                                                    <td class="text-center">{{ $item5->CodeSet }}</td>
-                                                    <td class="text-center">{{ $item5->STDCode }}</td>
-                                                    <td class="text-center">{{ $item5->SvCharge }}</td>
-                                                    <td class="text-center">{{ $item5->Completion }}</td>
-                                                    <td class="text-center">{{ $item5->SvTxCode }}</td>
-                                                    <td class="text-center">{{ $item5->ClaimCat }}</td>
+                                                    <td class="text-center">{{ $item5->HN }}</td>
+                                                    <td class="text-center">{{ $item5->AN }} </td>
+                                                    <td class="text-center">{{ $item5->DATEOPD }} </td>
+                                                    <td class="text-center">{{ $item5->TYPE }} </td>
+                                                    <td class="p-2">{{ $item5->CODE }}</td>
+                                                    <td class="p-2">{{ $item5->QTY }}</td>
+                                                    <td class="text-center">{{ $item5->RATE }}</td>
+                                                    <td class="p-2">{{ $item5->SEQ }}</td>
+                                                    {{-- <td class="text-center">{{ $item5->a1 }}</td>
+                                                    <td class="text-center">{{ $item5->a2 }}</td>
+                                                    <td class="text-center">{{ $item5->a3 }}</td> 
+                                                    <td class="text-center">{{ $item5->a4 }}</td>
+                                                    <td class="text-center" width="15%">{{ $item5->a5 }}</td>
+                                                    <td class="text-center" width="15%">{{ $item5->a6 }}</td>
+                                                    <td class="text-center">{{ $item5->a7 }}</td> --}}
+                                                    <td class="text-center">{{ $item5->TMLTCODE }}</td>
+                                                    <td class="text-center">{{ $item5->STATUS1 }}</td>
+                                                    <td class="text-center">{{ $item5->BI }}</td>
+                                                    <td class="text-center">{{ $item5->CLINIC }}</td>
+                                                    <td class="text-center">{{ $item5->ITEMSRC }}</td>
+                                                    <td class="text-center">{{ $item5->PROVIDER }}</td>
+                                                    <td class="text-center">{{ $item5->GLAVIDA }}</td>
+                                                    <td class="text-center">{{ $item5->GA_WEEK }}</td>
+                                                    <td class="text-center">{{ $item5->DCIP }}</td>
+                                                    <td class="text-center">{{ $item5->LMP }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -508,28 +448,66 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">Class</th>
-                                                <th class="text-center">SvID</th>
-                                                <th class="text-center" width="15%">SL</th>
-                                                <th class="text-center" width="15%">CodeSet</th>
-                                                <th class="text-center">code</th>
-                                                <th class="text-center">Desc</th>
+                                                <th class="text-center">HCODE</th>
+                                                <th class="text-center">HN</th>
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">PERSON_ID</th>
+                                                <th class="text-center">DATE_SERV</th>
+
+                                                <th class="text-center">DID</th>
+                                                <th class="text-center">DIDNAME</th>
+                                                <th class="text-center">AMOUNT</th>
+                                                <th class="text-center">DRUGPRIC</th>
+                                                <th class="text-center">DRUGCOST</th>
+                                                <th class="text-center">DIDSTD</th>
+                                                <th class="text-center">UNIT</th>
+                                                <th class="text-center">UNIT_PACK</th>
+                                                <th class="text-center">SEQ</th>
+                                                <th class="text-center">DRUGREMARK</th>
+                                                <th class="text-center">PA_NO</th>
+
+                                                <th class="text-center">TOTCOPAY</th>
+                                                <th class="text-center">USE_STATUS</th>
+                                                <th class="text-center">STATUS1</th>
+                                                <th class="text-center">TOTAL</th>
+                                                <th class="text-center">SIGCODE</th>
+                                                <th class="text-center">SIGTEXT</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_opdx_ as $item6)
+                                            @foreach ($dru_ as $item6)
                                                 <tr>
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item6->Class }}</td>
-                                                    <td class="text-center">{{ $item6->SvID }} </td>
-                                                    <td class="text-center">{{ $item6->SL }} </td>
-                                                    <td class="text-center">{{ $item6->CodeSet }} </td>
-                                                    <td class="text-center">{{ $item6->code }}</td>
-                                                    <td class="text-center">{{ $item6->Desc }}</td>
+                                                    <td class="text-center">{{ $item6->HCODE }}</td>
+                                                    <td class="text-center">{{ $item6->HN }} </td>
+                                                    <td class="text-center">{{ $item6->AN }} </td>
+                                                    <td class="text-center">{{ $item6->CLINIC }} </td>
+                                                    <td class="text-center">{{ $item6->PERSON_ID }}</td>
+                                                    <td class="text-center">{{ $item6->DATE_SERV }}</td>
+
+                                                    <td class="text-center">{{ $item6->DID }}</td>
+                                                    <td class="p-2">{{ $item6->DIDNAME }}</td>
+                                                    <td class="text-center">{{ $item6->AMOUNT }}</td>
+                                                    <td class="text-center">{{ $item6->DRUGPRIC }}</td>
+                                                    <td class="text-center">{{ $item6->DRUGCOST }}</td>
+                                                    <td class="text-center">{{ $item6->DIDSTD }}</td>
+                                                    <td class="text-center">{{ $item6->UNIT }}</td>
+                                                    <td class="text-center">{{ $item6->UNIT_PACK }}</td>
+                                                    <td class="text-center">{{ $item6->SEQ }}</td>
+                                                    <td class="text-center">{{ $item6->DRUGREMARK }}</td>
+                                                    <td class="text-center">{{ $item6->PA_NO }}</td>
+
+                                                    <td class="text-center">{{ $item6->TOTCOPAY }}</td>
+                                                    <td class="text-center">{{ $item6->USE_STATUS }}</td>
+                                                    <td class="text-center">{{ $item6->STATUS1 }}</td>
+                                                    <td class="text-center">{{ $item6->TOTAL }}</td>
+                                                    <td class="text-center">{{ $item6->SIGCODE }}</td>
+                                                    <td class="text-center">{{ $item6->SIGTEXT }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
 
                                     </table>
                                 </div>
