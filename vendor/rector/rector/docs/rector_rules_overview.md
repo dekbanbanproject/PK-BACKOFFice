@@ -1,4 +1,4 @@
-# 413 Rules Overview
+# 414 Rules Overview
 
 <br>
 
@@ -6,7 +6,7 @@
 
 - [Arguments](#arguments) (5)
 
-- [CodeQuality](#codequality) (78)
+- [CodeQuality](#codequality) (79)
 
 - [CodingStyle](#codingstyle) (39)
 
@@ -706,16 +706,17 @@ Replace magic property fetch using `__get()` and `__set()` with existing method 
 
 ### FlipTypeControlToUseExclusiveTypeRector
 
-Flip type control to use exclusive type
+Flip type control from null compare to use exclusive instanceof type
 
 - class: [`Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector`](../rules/CodeQuality/Rector/Identical/FlipTypeControlToUseExclusiveTypeRector.php)
 
 ```diff
--/** @var PhpDocInfo|null $phpDocInfo */
- $phpDocInfo = $functionLike->getAttribute(AttributeKey::PHP_DOC_INFO);
--if ($phpDocInfo === null) {
-+if (! $phpDocInfo instanceof PhpDocInfo) {
-     return;
+ function process(?DateTime $dateTime)
+ {
+-    if ($dateTime === null) {
++    if (! $dateTime instanceof DateTime) {
+         return;
+     }
  }
 ```
 
@@ -1681,6 +1682,42 @@ Switch negated ternary condition rector
 
 <br>
 
+### SwitchTrueToIfRector
+
+Change switch (true) to if statements
+
+- class: [`Rector\CodeQuality\Rector\Switch_\SwitchTrueToIfRector`](../rules/CodeQuality/Rector/Switch_/SwitchTrueToIfRector.php)
+
+```diff
+ class SomeClass
+ {
+     public function run()
+     {
+-        switch (true) {
+-            case $value === 0:
+-                return 'no';
+-            case $value === 1:
+-                return 'yes';
+-            case $value === 2:
+-                return 'maybe';
+-        };
++        if ($value === 0) {
++            return 'no';
++        }
++
++        if ($value === 1) {
++            return 'yes';
++        }
++
++        if ($value === 2) {
++            return 'maybe';
++        }
+     }
+ }
+```
+
+<br>
+
 ### TernaryEmptyArrayArrayDimFetchToCoalesceRector
 
 Change ternary empty on array property with array dim fetch to coalesce operator
@@ -2060,19 +2097,13 @@ Change data provider in PHPUnit test case to newline per item
 
 ### EncapsedStringsToSprintfRector
 
-Convert enscaped {$string} to more readable sprintf
+Convert enscaped {$string} to more readable sprintf or concat, if no mask is used
 
 - class: [`Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector`](../rules/CodingStyle/Rector/Encapsed/EncapsedStringsToSprintfRector.php)
 
 ```diff
- final class SomeClass
- {
-     public function run(string $format)
-     {
--        return "Unsupported format {$format}";
-+        return sprintf('Unsupported format %s', $format);
-     }
- }
+-echo "Unsupported format {$format}";
++echo sprintf('Unsupported format %s', $format);
 ```
 
 <br>
