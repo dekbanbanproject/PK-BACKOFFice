@@ -2381,12 +2381,15 @@ class KTBController extends Controller
             ,"" DCIP
             ,"00000000" LMP
             from opitemrece v
-            inner JOIN s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            inner JOIN drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
             left join ipt i on i.an = v.an
             AND i.an is not NULL
             left join claim.tempexport x on x.vn = i.vn
             where x.ACTIVE="N"
-            and n.nhso_adp_code in ("31101","30014")
+            and n.did in ("202030120137819920381422","100488000004203120381169","100489000004320121881267","100489000004320121881267","100488000004203121781674","100488000004203120381442","100488000004203120381013","100488000004203121781144",
+            "100488000004203120381053","100488000004203120381144","100488000004203120381271","100488000004203120381341","100488000004203120381626","100488000004203121881626","100488000004203121781144","100488000004203121881442",
+            "100488000004203121881553","100489000004192121881506","100489000004320120381122","100489000004320120381506","100489000004203120381555","100489000004203120381084","100489000004203120381144","100489000004203120381619",
+            "100489000004203120381477","100489000004203120381544","100489000004203120381546")
             GROUP BY i.vn,n.nhso_adp_code,rate) a 
             GROUP BY an,CODE,rate
             UNION
@@ -2422,11 +2425,14 @@ class KTBController extends Controller
             ,"" DCIP
             ,"00000000" LMP
             from opitemrece v
-            inner JOIN s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            inner JOIN drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
             left join ipt i on i.an = v.an
             left join claim.tempexport x on x.vn = v.vn
             where x.ACTIVE="N"
-            and n.nhso_adp_code in ("31101","30014")
+            and n.did in ("202030120137819920381422","100488000004203120381169","100489000004320121881267","100489000004320121881267","100488000004203121781674","100488000004203120381442","100488000004203120381013","100488000004203121781144",
+            "100488000004203120381053","100488000004203120381144","100488000004203120381271","100488000004203120381341","100488000004203120381626","100488000004203121881626","100488000004203121781144","100488000004203121881442",
+            "100488000004203121881553","100489000004192121881506","100489000004320120381122","100489000004320120381506","100489000004203120381555","100489000004203120381084","100489000004203120381144","100489000004203120381619",
+            "100489000004203120381477","100489000004203120381544","100489000004203120381546")
             AND i.an is NULL
             GROUP BY v.vn,n.nhso_adp_code,rate) b 
             GROUP BY seq,CODE,rate ;              
@@ -2582,6 +2588,564 @@ class KTBController extends Controller
  
        
         return view('claim.ktb_ferrofolic',[
+            'start'            => $datestart,
+            'end'              => $dateend,
+            'ins_'              => $ins_,
+            'pat_'              => $pat_,
+            'opd_'              => $opd_,
+            'odx_'              => $odx_,
+            'adp_'              => $adp_,
+            'dru_'              => $dru_
+        ]);
+    }
+
+    public function ktb_kids_glasses(Request $request)
+    { 
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $ins_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_ins   
+        ');
+        $pat_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_pat   
+        ');
+        $opd_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_opd   
+        ');
+        $odx_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_odx   
+        ');
+        $adp_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_adp   
+        ');
+        $dru_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_dru   
+        ');
+
+        return view('claim.ktb_kids_glasses',[
+            'start'            => $datestart,
+            'end'              => $dateend,
+            'ins_'              => $ins_,
+            'pat_'              => $pat_,
+            'opd_'              => $opd_,
+            'odx_'              => $odx_,
+            'adp_'              => $adp_,
+            'dru_'              => $dru_
+        ]);
+    }
+    public function ktb_kids_glasses_search(Request $request)
+    { 
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+      
+        $data_opd = DB::connection('mysql3')->select(' 
+             
+            SELECT o.vn,pt.cid,o.hn,o.an,concat(pt.pname,pt.fname,"  ",pt.lname) as Fullname
+                ,o.vstdate,settime(o.vsttime) vsttime
+                ,ptt.pcode,o.pttype,ptt.name pttypename,v.pdx
+                ,group_concat(distinct concat(d.nhso_adp_code,":",d.name,"#",numberformat(sum_price,2))) list
+                ,v.income hosxp_money,v.discount_money,v.rcpt_money
+                ,sum(if(d.nhso_adp_type_id=2 and d.nhso_adp_code regexp "2206|2207",sum_price,0)) instrument  
+                ,v.rcpno_list billno
+                ,doctorname(o.doctor) doctorname                                
+                from ovst o 
+                left join patient pt on pt.hn=o.hn
+                left join vn_stat v on v.vn=o.vn
+                left join pttype ptt on ptt.pttype=o.pttype
+                left join opitemrece oo on oo.vn=o.vn
+                left join nondrugitems d on d.icode=oo.icode
+                left join hshooterdb.m_stm s on s.an = o.an
+                where o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+                and pt.nationality="99" and v.age_y between 3 and 12
+                and (o.an=" " or o.an is null)
+                and billcode IN("2206","2207") 
+                group by o.vn
+                order by vn;
+ 
+        ');
+       
+        Tempexport::truncate();
+        foreach ($data_opd as $key => $value) {           
+            $add= new Tempexport();
+            $add->vn = $value->vn ;
+            $add->hn = $value->hn; 
+            $add->an = $value->an; 
+            $add->cid = $value->cid; 
+            $add->ACTIVE = 'N';
+            $add->save();
+        }
+
+        $data_ktb_G01 = DB::connection('mysql3')->select(' 
+           SELECT o.vn,pt.cid,o.hn,o.an,concat(pt.pname,pt.fname," ",pt.lname) as FULLNAME
+                ,o.vstdate,settime(o.vsttime) vsttime
+                ,ptt.pcode,o.pttype,ptt.name pttypename,v.pdx
+                ,group_concat(distinct concat(d.nhso_adp_code,":",d.name,"#",numberformat(sum_price,2))) list
+                ,v.income hosxp_money,v.discount_money,v.rcpt_money,v.uc_money AS ClaimAmt
+                ,sum(if(d.nhso_adp_type_id=2 and d.nhso_adp_code regexp "2206|2207",sum_price,0)) instrument  
+                ,v.rcpno_list billno
+                ,doctorname(o.doctor) doctorname                                
+                from ovst o 
+                left join patient pt on pt.hn=o.hn
+                left join vn_stat v on v.vn=o.vn
+                left join pttype ptt on ptt.pttype=o.pttype
+                left join opitemrece oo on oo.vn=o.vn
+                left join nondrugitems d on d.icode=oo.icode
+                left join hshooterdb.m_stm s on s.an = o.an
+                where o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+                and pt.nationality="99" 
+                and v.age_y between 3 and 12
+                and (o.an=" " or o.an is null)
+                and d.billcode IN("2206","2207") 
+                group by o.vn
+                order by vn; 
+          
+                 
+        '); 
+       
+        // D_ktb_b17::truncate();
+        foreach ($data_ktb_G01 as $key => $item2) { 
+            // $checkvn = D_ktb_b17::where('vn','=',$item2->vn)->count();
+            $datenow = date('Y-m-d H:m:s');
+            // if ($checkvn > 0) { 
+            // } else { 
+            //     D_ktb_b17::insert([                        
+            //         'vn'         => $item2->vn,
+            //         'hn'         => $item2->hn,
+            //         'an'         => $item2->an,
+            //         'cid'        => $item2->cid,
+            //         'vstdate'    => $item2->vstdate,
+            //         'created_at' => $datenow, 
+            //     ]);
+            // }          
+
+            $check_vn = Stm::where('VN','=',$item2->vn)->count(); 
+            
+            if ($check_vn > 0) { 
+            } else {
+                Stm::insert([                        
+                        'AN'                => $item2->an, 
+                        'VN'                => $item2->vn,
+                        'HN'                => $item2->hn,
+                        'PID'               => $item2->cid,
+                        'VSTDATE'           => $item2->vstdate,
+                        'FULLNAME'          => $item2->FULLNAME,  
+                        'MAININSCL'         => "",
+                        'created_at'        => $datenow, 
+                        'ClaimAmt'          =>$item2->ClaimAmt
+                    ]);
+            }
+            
+        }
+
+        D_ins::truncate();
+        $inst_ = DB::connection('mysql3')->select('   
+                SELECT v.hn HN
+                ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL
+                ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE
+                ,v.cid CID
+                ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d")  DATEIN
+                ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d")   DATEEXP
+                ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN
+                ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
+                ,"" GOVCODE
+                ,"" GOVNAME
+                ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
+                ,"" DOCNO
+                ,"" OWNRPID 
+                ,"" OWNRNAME
+                ,i.an AN
+                ,v.vn SEQ
+                ,"" SUBINSCL 
+                ,"" RELINSCL
+                ,"" HTYPE
+                ,v.vstdate
+
+                from vn_stat v
+                LEFT JOIN opitemrece o on o.vn = v.vn
+                LEFT JOIN pttype p on p.pttype = v.pttype
+                LEFT JOIN ipt i on i.vn = v.vn 
+                LEFT JOIN pttype pp on pp.pttype = i.pttype
+                left join ipt_pttype ap on ap.an = i.an
+                left join visit_pttype vp on vp.vn = v.vn
+                LEFT JOIN rcpt_debt r on r.vn = v.vn
+                left join patient px on px.hn = v.hn
+                left join claim.tempexport x on x.vn = v.vn
+                where x.ACTIVE="N" 
+                GROUP BY v.hn,v.vstdate; 
+        ');
+        
+        foreach ($inst_ as $key => $ins) {
+            D_ins::insert([                        
+                'HN'                => $ins->HN, 
+                'INSCL'             => $ins->INSCL,
+                'SUBTYPE'            => $ins->SUBTYPE,
+                'CID'               => $ins->CID,
+                'DATEIN'            => $ins->DATEIN,
+                'DATEEXP'           => $ins->DATEEXP,  
+                'HOSPMAIN'          => $ins->HOSPMAIN,
+                'HOSPSUB'           => $ins->HOSPSUB, 
+                'GOVCODE'           =>$ins->GOVCODE,
+                'GOVNAME'           =>$ins->GOVNAME,
+                'PERMITNO'          =>$ins->PERMITNO,
+                'DOCNO'             =>$ins->DOCNO,
+                'OWNRPID'           =>$ins->OWNRPID,
+                'OWNRNAME'          =>$ins->OWNRNAME,
+                'AN'                =>$ins->AN,
+                'SEQ'               =>$ins->SEQ,
+                'SUBINSCL'          =>$ins->SUBINSCL,
+                'RELINSCL'          =>$ins->RELINSCL,
+                'HTYPE'             =>$ins->HTYPE
+            ]);
+        }
+
+        D_pat::truncate();
+        $patt_ = DB::connection('mysql3')->select('   
+                SELECT v.hcode HCODE
+                ,v.hn HN
+                ,pt.chwpart CHANGWAT
+                ,pt.amppart AMPHUR
+                ,DATE_FORMAT(pt.birthday, "%Y%m%d") DOB
+                ,pt.sex SEX
+                ,pt.marrystatus MARRIAGE 
+                ,pt.occupation OCCUPA
+                ,lpad(pt.nationality,3,0) NATION
+                ,pt.cid PERSON_ID
+                ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
+                ,pt.pname TITLE
+                ,pt.fname FNAME 
+                ,pt.lname LNAME
+                ,"1" IDTYPE
+                ,v.vstdate
+
+                from vn_stat v
+                LEFT JOIN opitemrece o on o.vn = v.vn
+                LEFT JOIN pttype p on p.pttype = v.pttype
+                LEFT JOIN ipt i on i.vn = v.vn  
+                left join patient pt on pt.hn = v.hn
+                left join claim.tempexport x on x.vn = v.vn
+                where x.ACTIVE="N" 
+                GROUP BY v.hn,v.vstdate; 
+        ');
+        
+        foreach ($patt_ as $key => $pat) {
+            D_pat::insert([                        
+                'HN'                => $pat->HN, 
+                'HCODE'             => $pat->HCODE,
+                'CHANGWAT'          => $pat->CHANGWAT,
+                'AMPHUR'            => $pat->AMPHUR,
+                'DOB'               => $pat->DOB,
+                'SEX'               => $pat->SEX,  
+                'MARRIAGE'          => $pat->MARRIAGE,
+                'OCCUPA'            => $pat->OCCUPA, 
+                'NATION'            => $pat->NATION,
+                'PERSON_ID'         => $pat->PERSON_ID,
+                'NAMEPAT'           => $pat->NAMEPAT,
+                'TITLE'             => $pat->TITLE,
+                'FNAME'             => $pat->FNAME,
+                'LNAME'             => $pat->LNAME,
+                'IDTYPE'            => $pat->IDTYPE  
+            ]);
+        }
+
+        D_opd::truncate();
+        $opdt_ = DB::connection('mysql3')->select('   
+                SELECT v.hn as HN
+                ,v.spclty as CLINIC
+                ,DATE_FORMAT(v.vstdate, "%Y%m%d") as DATEOPD
+                ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) as TIMEOPD
+                ,v.vn as SEQ 
+                ,"1" UUC
+                ,v.vstdate 
+
+                from vn_stat v
+                LEFT JOIN ovst o on o.vn = v.vn
+                LEFT JOIN pttype p on p.pttype = v.pttype
+                LEFT JOIN ipt i on i.vn = v.vn 
+                LEFT JOIN patient pt on pt.hn = v.hn
+                left join claim.tempexport x on x.vn = v.vn
+                where x.ACTIVE="N"                
+                GROUP BY SEQ; 
+        ');
+        
+        foreach ($opdt_ as $key => $opd) {
+            D_opd::insert([                        
+                'HN'                => $opd->HN, 
+                'CLINIC'            => $opd->CLINIC,
+                'DATEOPD'           => $opd->DATEOPD,
+                'TIMEOPD'           => $opd->TIMEOPD,
+                'SEQ'               => $opd->SEQ,
+                'UUC'               => $opd->UUC 
+            ]);
+        }
+
+        D_odx::truncate();
+        $odxt_ = DB::connection('mysql3')->select('   
+                SELECT v.hn HN
+                ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
+                ,v.spclty CLINIC
+                ,o.icd10 DIAG
+                ,o.diagtype DXTYPE
+                ,if(d.licenseno="","-99999",d.licenseno) DRDX
+                ,v.cid PERSON_ID 
+                ,v.vn SEQ
+                ,v.vstdate 
+                ,v.pttype
+
+                from vn_stat v
+                LEFT JOIN ovstdiag o on o.vn = v.vn
+                LEFT JOIN doctor d on d.`code` = o.doctor
+                inner JOIN icd101 i on i.code = o.icd10 
+                left join claim.tempexport x on x.vn = v.vn
+                where x.ACTIVE="N"  
+                GROUP BY SEQ; 
+        ');
+         
+        foreach ($odxt_ as $key => $odx) {
+            D_odx::insert([                        
+                'HN'                => $odx->HN, 
+                'CLINIC'            => $odx->CLINIC,
+                'DATEDX'            => $odx->DATEDX,
+                'DIAG'              => $odx->DIAG,
+                'DXTYPE'            => $odx->DXTYPE,
+                'DRDX'              => $odx->DRDX,
+                'PERSON_ID'         => $odx->PERSON_ID,
+                'SEQ'               => $odx->SEQ 
+            ]);
+        }
+
+        D_adp::truncate();
+        $adpt_ = DB::connection('mysql3')->select('   
+            SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY
+            ,RATE,SEQ
+            ,"" CAGCODE,"" DOSE,"" CA_TYPE,"" SERIALNO,"" TOTCOPAY,"" USE_STATUS,"" TOTAL ,"" QTYDAY
+            ,"" TMLTCODE
+            ,"" STATUS1
+            ,"" BI
+            ,"" CLINIC
+            ,"" ITEMSRC
+            ,"" PROVIDER
+            ,"" GLAVIDA
+            ,"" GA_WEEK
+            ,"" DCIP
+            ,"00000000" LMP
+            from (SELECT v.hn HN
+            ,if(v.an is null,"",v.an) AN
+            ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+            ,n.nhso_adp_type_id TYPE
+            ,n.nhso_adp_code CODE 
+            ,sum(v.QTY) QTY
+            ,round(v.unitprice,2) RATE
+            ,if(v.an is null,v.vn,"") SEQ
+            ,"" CAGCODE,"" DOSE,"" CA_TYPE,"" SERIALNO,"" TOTCOPAY,"" USE_STATUS,"" TOTAL ,"" QTYDAY
+            ,"" TMLTCODE
+            ,"" STATUS1
+            ,"" BI
+            ,"" CLINIC
+            ,"" ITEMSRC
+            ,"" PROVIDER
+            ,"" GLAVIDA
+            ,"" GA_WEEK
+            ,"" DCIP
+            ,"00000000" LMP
+            from opitemrece v
+            inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            left join ipt i on i.an = v.an
+            AND i.an is not NULL
+            left join claim.tempexport x on x.vn = i.vn
+            where x.ACTIVE="N"
+            and n.billcode IN("2206","2207") 
+            GROUP BY i.vn,n.nhso_adp_code,rate) a 
+            GROUP BY an,CODE,rate
+            UNION
+            SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" CAGCODE,"" DOSE,"" CA_TYPE,"" SERIALNO,"0" TOTCOPAY,"" USE_STATUS,"0" TOTAL ,"" QTYDAY
+            ,""TMLTCODE
+            ,"" STATUS1
+            ,"" BI
+            ,"" CLINIC
+            ,"" ITEMSRC
+            ,"" PROVIDER
+            ,"" GLAVIDA
+            ,"" GA_WEEK
+            ,"" DCIP
+            ,"00000000" LMP
+            from
+            (SELECT v.hn HN
+            ,if(v.an is null,"",v.an) AN
+            ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+            ,n.nhso_adp_type_id TYPE
+            ,n.nhso_adp_code CODE 
+            ,sum(v.QTY) QTY
+            ,round(v.unitprice,2) RATE
+            ,if(v.an is null,v.vn,"") SEQ
+            ,"" CAGCODE,"" DOSE,"" CA_TYPE,"" SERIALNO,"0" TOTCOPAY,"" USE_STATUS,"0" TOTAL ,"" QTYDAY
+            ,"" TMLTCODE
+            ,"" STATUS1
+            ,"" BI
+            ,"" CLINIC
+            ,"" ITEMSRC
+            ,"" PROVIDER
+            ,"" GLAVIDA
+            ,"" GA_WEEK
+            ,"" DCIP
+            ,"00000000" LMP
+            from opitemrece v
+            inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            left join ipt i on i.an = v.an
+            left join claim.tempexport x on x.vn = v.vn
+            where x.ACTIVE="N"
+            and n.billcode IN("2206","2207") 
+            AND i.an is NULL
+            GROUP BY v.vn,n.nhso_adp_code,rate) b 
+            GROUP BY seq,CODE,rate ;              
+        ');
+         
+        foreach ($adpt_ as $key => $adp) {
+            D_adp::insert([                        
+                'HN'                => $adp->HN, 
+                'AN'                => $adp->AN,
+                'DATEOPD'           => $adp->DATEOPD,
+                'TYPE'              => $adp->TYPE,
+                'CODE'              => $adp->CODE,
+                'QTY'               => $adp->QTY,
+                'RATE'              => $adp->RATE,
+                'SEQ'               => $adp->SEQ ,
+                'CAGCODE'           => $adp->CAGCODE ,
+                'DOSE'              => $adp->DOSE, 
+                'CA_TYPE'           => $adp->CA_TYPE ,
+                'SERIALNO'          => $adp->SERIALNO ,
+                'TOTCOPAY'          => $adp->TOTCOPAY ,
+                'USE_STATUS'        => $adp->USE_STATUS ,
+                'TOTAL'             => $adp->TOTAL, 
+                'QTYDAY'            => $adp->QTYDAY,
+                'TMLTCODE'          => $adp->TMLTCODE,
+                'STATUS1'           => $adp->STATUS1,
+                'BI'                => $adp->BI,
+                'CLINIC'            => $adp->CLINIC,
+                'ITEMSRC'           => $adp->ITEMSRC,
+                'PROVIDER'          => $adp->PROVIDER,
+                'GLAVIDA'           => $adp->GLAVIDA,
+                'GA_WEEK'           => $adp->GA_WEEK,
+                'DCIP'              => $adp->DCIP,
+                'LMP'               => $adp->LMP
+            ]);
+        }
+
+        D_dru::truncate();
+        $drut_ = DB::connection('mysql3')->select('   
+            SELECT vv.hcode HCODE
+            ,v.hn HN
+            ,v.an AN
+            ,vv.spclty CLINIC
+            ,vv.cid PERSON_ID
+            ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+            ,d.icode DID
+            ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+            ,v.qty AMOUNT
+            ,round(v.unitprice,2) DRUGPRIC
+            ,"0.00" DRUGCOST
+            ,d.did DIDSTD
+            ,d.units UNIT
+            ,concat(d.packqty,"x",d.units) UNIT_PACK
+            ,v.vn SEQ
+            ,oo.presc_reason DRUGREMARK
+            ,"" PA_NO
+            ,"" TOTCOPAY
+            ,if(v.item_type="H","2","1") USE_STATUS
+            , " " TOTAL,"" SIGCODE,""  SIGTEXT
+            from opitemrece v
+            LEFT JOIN drugitems d on d.icode = v.icode
+            LEFT JOIN vn_stat vv on vv.vn = v.vn
+            LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+            left join claim.tempexport x on x.vn = v.vn
+            where x.ACTIVE="N"
+            and d.billcode IN("2206","2207") 
+            and d.did is not null 
+            GROUP BY v.vn,did
+            UNION all
+            SELECT pt.hcode HCODE
+            ,v.hn HN
+            ,v.an AN
+            ,v1.spclty CLINIC
+            ,pt.cid PERSON_ID
+            ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+            ,d.icode DID
+            ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+            ,sum(v.qty) AMOUNT
+            ,round(v.unitprice,2) DRUGPRIC
+            ,"0.00" DRUGCOST
+            ,d.did DIDSTD
+            ,d.units UNIT
+            ,concat(d.packqty,"x",d.units) UNIT_PACK
+            ,ifnull(v.vn,v.an) SEQ
+            ,oo.presc_reason DRUGREMARK
+            ,"" PA_NO
+            ,"" TOTCOPAY
+            ,if(v.item_type="H","2","1") USE_STATUS
+            ," " TOTAL,"" SIGCODE,""  SIGTEXT
+            from opitemrece v
+            LEFT JOIN drugitems d on d.icode = v.icode
+            LEFT JOIN patient pt  on v.hn = pt.hn
+            inner JOIN ipt v1 on v1.an = v.an
+            LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
+            left join claim.tempexport x on x.vn = v1.vn
+            where x.ACTIVE="N"
+            and d.billcode IN("2206","2207") 
+            AND v.qty<>"0"
+            GROUP BY v.an,d.icode,USE_STATUS; 
+        ');
+        // and d.did is not null
+        // group by o.vn;
+        foreach ($drut_ as $key => $dru) {
+            D_dru::insert([                        
+                'HN'           => $dru->HN, 
+                'HCODE'         => $dru->HCODE,
+                'AN'            => $dru->AN,
+                'CLINIC'        => $dru->CLINIC,
+                'PERSON_ID'     => $dru->PERSON_ID,
+                'DATE_SERV'     => $dru->DATE_SERV,
+                'DID'           => $dru->DID,
+                'DIDNAME'       => $dru->DIDNAME,
+                'AMOUNT'        => $dru->AMOUNT,
+                'DRUGPRIC'      => $dru->DRUGPRIC,
+                'DRUGCOST'      => $dru->DRUGCOST,
+                'DIDSTD'        => $dru->DIDSTD,
+                'UNIT'          => $dru->UNIT,
+                'UNIT_PACK'     => $dru->UNIT_PACK,
+                'SEQ'           => $dru->SEQ,
+                'DRUGREMARK'    => $dru->DRUGREMARK,
+                'PA_NO'         => $dru->PA_NO,
+                'TOTCOPAY'      => $dru->TOTCOPAY,
+                'USE_STATUS'    => $dru->USE_STATUS,
+                // 'STATUS1'       => $dru->STATUS1,
+                'TOTAL'         => $dru->TOTAL,
+                'SIGCODE'       => $dru->SIGCODE,
+                'SIGTEXT'       => $dru->SIGTEXT 
+
+
+            ]);
+        }
+
+        $ins_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_ins   
+        ');
+        $pat_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_pat   
+        ');
+        $opd_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_opd   
+        ');
+        $odx_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_odx   
+        ');
+        $adp_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_adp   
+        ');
+        $dru_ = DB::connection('mysql7')->select('   
+            SELECT * FROM d_dru   
+        ');
+ 
+       
+        return view('claim.ktb_kids_glasses',[
             'start'            => $datestart,
             'end'              => $dateend,
             'ins_'              => $ins_,
