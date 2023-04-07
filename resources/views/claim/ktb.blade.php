@@ -96,190 +96,264 @@
 
 
                         <div id="accordion" class="custom-accordion">
-                            <div class="card mb-1 shadow-none">
-                                <a href="#collapseOne" class="text-dark" data-bs-toggle="collapse"
-                                                aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                    <div class="card-header" id="headingOne">
-                                        <h6 class="m-0">
-                                            การทดสอบการตั้งครรภ์ (Pregnancy test)***B17
-                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                        </h6>
-                                    </div>
-                                </a>
-                                <div id="collapseOne" class="collapse"
-                                        aria-labelledby="headingOne" data-bs-parent="#accordion">
-                                    <div class="card-body">
-                                        <form action="{{ route('k.ktb_search') }}" method="POST">
-                                            @csrf
-
-                                            <div class="row">
-                                                <div class="col"></div>
-                                                <div class="col-md-1 text-end">วันที่</div>
-                                                <div class="col-md-6 text-center">
-                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                            data-date-language="th-th" value="{{ $start }}" />
-                                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                            data-date-language="th-th" value="{{ $end }}" />
-                                                        <button type="submit" class="btn btn-info">
-                                                            <i class="fa-solid fa-magnifying-glass"></i>
-                                                            ดึงข้อมูล
-                                                        </button>
-                                                        {{-- <a href="{{ url('anc_Pregnancy_test_export') }}" class="btn btn-danger"><i
-                                                                class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก 16 KTB</a> --}}
-                                                        {{-- <a href="{{ url('ssop_zip') }}" class="btn btn-danger"><i
-                                                                class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}
-                                                    </div>
-                                                </div>
-                                            
-                                                <div class="col-md-1 text-end"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-1 shadow-none">
+                                        <a href="#collapseOne" class="text-dark" data-bs-toggle="collapse"
+                                                        aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                            <div class="card-header" id="headingOne">
+                                                <h6 class="m-0">
+                                                    การทดสอบการตั้งครรภ์ (Pregnancy test)***B17
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
                                             </div>
-                                        </form>
-                                         
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-1 shadow-none">
-                                <a href="#collapseTwo" class="text-dark collapsed" data-bs-toggle="collapse"
-                                                aria-expanded="false"
-                                                aria-controls="collapseTwo">
-                                    <div class="card-header" id="headingTwo">
-                                        <h6 class="m-0">
-                                            ค่าตรวจทางห้องปฏิบัติการ (ตรวจ VDRL และ HIV) ***B55
-                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                        </h6>
-                                    </div>
-                                </a>
-                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                        data-bs-parent="#accordion">
-                                    <div class="card-body">
-                                            ค่าตรวจทางห้องปฏิบัติการ (ตรวจ VDRL และ HIV)
-                                            sunt aliqua put a bird on it squid single-origin coffee
-                                            nulla assumenda shoreditch et. Nihil anim keffiyeh
-                                            helvetica, craft beer labore wes anderson cred nesciunt
-                                            Leggings occaecat craft beer farm-to-table, raw denim
-                                            accusamus labore sustainable VHS.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-0 shadow-none">
-                                <a href="#collapseThree" class="text-dark collapsed" data-bs-toggle="collapse"
-                                                aria-expanded="false"
-                                                aria-controls="collapseThree">
-                                    <div class="card-header" id="headingThree">
-                                        <h6 class="m-0">
-                                            บริการตรวจสุขภาพช่องปากและบริการขัดทำความสะอาดฟัน***D04
-                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                        </h6>
-                                    </div>
-                                </a>
-                                <div id="collapseThree" class="collapse"
-                                        aria-labelledby="headingThree" data-bs-parent="#accordion">
-                                    <div class="card-body">
-                                        <form action="{{ route('k.ktb_ancdental_search') }}" method="POST">
-                                            @csrf
-
-                                            <div class="row">
-                                                <div class="col"></div>
-                                                <div class="col-md-1 text-end">วันที่</div>
-                                                <div class="col-md-6 text-center">
-                                                    <div class="input-daterange input-group" id="datepicker11" data-date-format="dd M, yyyy"
-                                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker'>
-                                                        <input type="text" class="form-control" name="startdate" id="datepicker3" placeholder="Start Date"
-                                                            data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
-                                                            data-date-language="th-th" value="{{ $start }}" />
-                                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker4"
-                                                            data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
-                                                            data-date-language="th-th" value="{{ $end }}" />
-                                                        <button type="submit" class="btn btn-info">
-                                                            <i class="fa-solid fa-magnifying-glass"></i>
-                                                            ดึงข้อมูล
-                                                        </button>
-                                                        {{-- <a href="{{ url('anc_Pregnancy_test_export') }}" class="btn btn-danger"><i
-                                                                class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก 16 KTB</a>  --}}
+                                        </a>
+                                        <div id="collapseOne" class="collapse"
+                                                aria-labelledby="headingOne" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                <form action="{{ route('k.ktb_search') }}" method="POST">
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
                                                     </div>
-                                                </div>
-                                            
-                                                <div class="col"></div>
+                                                </form>
+                                                 
                                             </div>
-                                        </form>
-                                         
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-1 shadow-none">
+                                        <a href="#collapseTwo" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseTwo">
+                                            <div class="card-header" id="headingTwo">
+                                                <h6 class="m-0">
+                                                    ค่าตรวจทางห้องปฏิบัติการ (ตรวจ VDRL และ HIV) ***B55
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                                data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card mb-0 shadow-none">
-                                <a href="#collapseFoure" class="text-dark collapsed" data-bs-toggle="collapse"
-                                                aria-expanded="false"
-                                                aria-controls="collapseFoure">
-                                    <div class="card-header" id="headingThree">
-                                        <h6 class="m-0">
-                                            ค่าตรวจทางห้องปฏิบัติการ (ครบทุกรายการ)***P01
-                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                        </h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseThree" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    บริการตรวจสุขภาพช่องปากและบริการขัดทำความสะอาดฟัน***D04
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseThree" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                <form action="{{ route('k.ktb_ancdental_search') }}" method="POST">
+                                                    @csrf
+        
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker11" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker3" placeholder="Start Date"
+                                                                    data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker4"
+                                                                    data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="col"></div>
+                                                    </div>
+                                                </form>
+                                                 
+                                            </div>
+                                        </div>
                                     </div>
-                                </a>
-                                <div id="collapseFoure" class="collapse"
-                                        aria-labelledby="headingThree" data-bs-parent="#accordion">
-                                    <div class="card-body">
-                                        ค่าตรวจทางห้องปฏิบัติการ (ครบทุกรายการ)
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life
-                                        accusamus terry richardson ad squid. 3 wolf moon officia
-                                        aute, non cupidatat skateboard dolor brunch. Food truck
-                                        sunt aliqua put a bird on it squid single-origin coffee
-                                        nulla assumenda anderson cred nesciunt
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseFoure" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseFoure">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    ค่าตรวจทางห้องปฏิบัติการ (ครบทุกรายการ)***P01
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseFoure" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card mb-0 shadow-none">
-                                <a href="#collapseFire" class="text-dark collapsed" data-bs-toggle="collapse"
-                                                aria-expanded="false"
-                                                aria-controls="collapseFire">
-                                    <div class="card-header" id="headingThree">
-                                        <h6 class="m-0">
-                                            ค่าบริการดูแลการฝากครรภ์***P02
-                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                        </h6>
+                            <div class="row mt-1">
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseFire" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseFire">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    ค่าบริการดูแลการฝากครรภ์***P02
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseFire" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
                                     </div>
-                                </a>
-                                <div id="collapseFire" class="collapse"
-                                        aria-labelledby="headingThree" data-bs-parent="#accordion">
-                                    <div class="card-body">
-                                        ค่าบริการดูแลการฝากครรภ์
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life
-                                        accusamus terry richardson ad squid. 3 wolf moon officia
-                                        aute, non cupidatat skateboard dolor brunch. Food truck
-                                        sunt aliqua put a bird on it squid single-origin coffee
-                                        nulla assumenda anderson cred nesciunt
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseSix" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseSix">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    บริการตรวจอัลตร้าซาวด์***P69
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseSix" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card mb-0 shadow-none">
-                                <a href="#collapseSix" class="text-dark collapsed" data-bs-toggle="collapse"
-                                                aria-expanded="false"
-                                                aria-controls="collapseSix">
-                                    <div class="card-header" id="headingThree">
-                                        <h6 class="m-0">
-                                            บริการตรวจอัลตร้าซาวด์***P69
-                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                        </h6>
-                                    </div>
-                                </a>
-                                <div id="collapseSix" class="collapse"
-                                        aria-labelledby="headingThree" data-bs-parent="#accordion">
-                                    <div class="card-body">
-                                        บริการตรวจอัลตร้าซาวด์
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life
-                                        accusamus terry richardson ad squid. 3 wolf moon officia
-                                        aute, non cupidatat skateboard dolor brunch. Food truck
-                                        sunt aliqua put a bird on it squid single-origin coffee
-                                        nulla assumenda anderson cred nesciunt
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="row mt-4">
                             <div class="col"></div>

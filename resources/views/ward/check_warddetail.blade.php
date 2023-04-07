@@ -88,14 +88,15 @@
                                     <th class="text-center" >cid</th>
                                     <th class="text-center" >ICD10 PDX</th>
                                     <th class="text-center">วันที่ ADMIT</th>
-                                    <th class="text-center">วันที่ DISCHART</th>   
+                                    <th class="text-center">วันที่ DISCHART</th>  
+                                    <th class="text-center" >สิทธิ Hosxp</th>
+                                    <th class="text-center" >สิทธิ สปสช</th> 
                                     <th class="text-center" >วันนอน</th>
                                     <th class="text-center" >ค่ารักษา</th>
                                     <th class="text-center" >อุปกรณ์</th>
                                     <th class="text-center" >NOTE งานประกัน</th>
                                     <th class="text-center" >ห้องพิเศษ</th>
-                                    <th class="text-center" >สิทธิ Hosxp</th>
-                                    <th class="text-center" >สิทธิ สปสช</th>
+                                  
                                     <th class="text-center" >รพ.HOSXP</th>
                                     <th class="text-center" >รพ.สปสช/วันที่เริ่มใช้</th>
                                 </tr>
@@ -112,14 +113,14 @@
                                         <td class="text-center" width="10%">{{ $item->pdx }}</td>  
                                         <td class="text-center" width="10%">{{ $item->regdate }}</td> 
                                         <td class="text-center" width="10%">{{ $item->dchdate }}</td>  
-
+                                        <td class="text-center" width="10%">{{ $item->HOSpttype }}</td>  
+                                        <td class="text-center" width="10%">{{ $item->spsch }}</td>  
                                         <td class="text-center" width="10%">{{ $item->admdate }}</td>  
                                         <td class="text-center" width="10%">{{ $item->Aincome }}</td>  
                                         <td class="text-center" width="10%">{{ $item->inc08 }}</td>  
                                         <td class="text-center" width="10%">{{ $item->nn }}</td>  
                                         <td class="text-center" width="10%">{{ $item->abname }}</td>  
-                                        <td class="text-center" width="10%">{{ $item->HOSpttype }}</td>  
-                                        <td class="text-center" width="10%">{{ $item->spsch }}</td>  
+                                     
                                         <td class="text-center" width="10%">{{ $item->hospmain }}</td>  
                                         <td class="text-center" width="10%">{{ $item->datestart }}</td>  
                                     </tr>
