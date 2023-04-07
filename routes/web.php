@@ -1556,6 +1556,10 @@ Route::match(['get','post'],'ktb',[App\Http\Controllers\KTBController::class, 'k
 Route::match(['get','post'],'ktb_search',[App\Http\Controllers\KTBController::class, 'ktb_search'])->name('k.ktb_search');//
 Route::match(['get','post'],'ktb_ancdental_search',[App\Http\Controllers\KTBController::class, 'ktb_ancdental_search'])->name('k.ktb_ancdental_search');//
 
+
+Route::match(['get','post'],'ktb_ferrofolic',[App\Http\Controllers\KTBController::class, 'ktb_ferrofolic'])->name('k.ktb_ferrofolic');//
+Route::match(['get','post'],'ktb_ferrofolic_search',[App\Http\Controllers\KTBController::class, 'ktb_ferrofolic_search'])->name('k.ktb_ferrofolic_search');//
+
 Route::match(['get','post'],'anc_Pregnancy_test',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_test'])->name('k.anc_Pregnancy_test');//
 Route::match(['get','post'],'anc_Pregnancy_testsearch',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_testsearch'])->name('k.anc_Pregnancy_testsearch');//
 Route::match(['get','post'],'anc_Pregnancy_test_export',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_test_export'])->name('k.anc_Pregnancy_test_export');//

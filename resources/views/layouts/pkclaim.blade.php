@@ -284,6 +284,7 @@
                                         {{-- <li><a href="{{ url('anc_Pregnancy_test') }}">การทดสอบการตั้งครรภ์ (Pregnancy test)</a></li> --}}
                                         <li><a href="{{ url('ktb') }}">การฝากครรภ์ ANC</a></li>
                                         <li><a href="{{ url('ktb_spawn') }}">การตรวจหลังคลอด ANC</a></li>
+                                        <li><a href="{{ url('ktb_ferrofolic') }}">บริการยาเสริมธาตุเหล็ก</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="{{ url('ssop') }}">SSOP</a></li>
