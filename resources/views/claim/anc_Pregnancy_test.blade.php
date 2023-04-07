@@ -116,23 +116,10 @@
                                 <p class="card-title-desc">รายละเอียด</p>
                             </div>
                             <div class="col"></div>
-                            <div class="col-md-3 text-end">
-
-                                {{-- <button type="button" class="btn btn-outline-danger btn-sm Updateprescb"
-                                    data-url="{{ url('ssop_prescb_update') }}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    Update Prescb
-                                </button> --}}
-                                {{-- <button type="button" class="btn btn-outline-warning btn-sm Updatesvpid"
-                                    data-url="{{ url('ssop_svpid_update') }}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    Update SvPID
-                                </button> --}}
+                            <div class="col-md-3 text-end"> 
                             </div>
                         </div>
-
-
-
+ 
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
@@ -183,7 +170,7 @@
                                     <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
                                                 <th class="text-center" width="5%">HN</th>
                                                 <th class="text-center">INSCL</th>
@@ -209,7 +196,7 @@
                                         <tbody>
                                             <?php $i = 1; ?>
                                             @foreach ($ins_ as $item)
-                                                <tr>
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
                                                     <td class="text-center" width="5%">{{ $item->HN }}</td>
                                                     <td class="text-center">{{ $item->INSCL }}</td>
@@ -245,7 +232,7 @@
                                         class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
                                                 <th class="text-center">HCODE</th>
                                                 <th class="text-center">HN</th>
@@ -266,7 +253,7 @@
                                         <tbody>
                                             <?php $i = 1; ?>
                                             @foreach ($pat_ as $item2)
-                                                <tr>
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
                                                     <td class="text-center">{{ $item2->HCODE }} </td>
                                                     <td class="text-center">{{ $item2->HN }}</td>
@@ -298,7 +285,7 @@
                                         class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
                                                 <th class="text-center">HN</th>
                                                 <th class="text-center">CLINIC</th>
@@ -312,7 +299,7 @@
                                         <tbody>
                                             <?php $i = 1; ?>
                                             @foreach ($opd_ as $item3)
-                                                <tr>
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
                                                     <td class="text-center">{{ $item3->HN }} </td>
                                                     <td class="text-center">{{ $item3->CLINIC }}</td>
@@ -334,7 +321,7 @@
                                     <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
                                                 <th class="text-center">HN</th>
                                                 <th class="text-center">DATEDX</th>
@@ -350,7 +337,7 @@
                                         <tbody>
                                             <?php $i = 1; ?>
                                             @foreach ($odx_ as $item4)
-                                                <tr>
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
                                                     <td class="text-center">{{ $item4->HN }}</td>
                                                     <td class="text-center">{{ $item4->DATEDX }} </td>
@@ -374,7 +361,7 @@
                                     <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
                                                 <th class="text-center">HN</th>
                                                 <th class="text-center">AN</th>
@@ -406,7 +393,7 @@
                                         <tbody>
                                             <?php $i = 1; ?>
                                             @foreach ($adp_ as $item5)
-                                                <tr>
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
                                                     <td class="text-center">{{ $item5->HN }}</td>
                                                     <td class="text-center">{{ $item5->AN }} </td>
@@ -446,7 +433,7 @@
                                     <table id="example3" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
                                                 <th class="text-center">HCODE</th>
                                                 <th class="text-center">HN</th>
@@ -478,7 +465,7 @@
                                         <tbody>
                                             <?php $i = 1; ?>
                                             @foreach ($dru_ as $item6)
-                                                <tr>
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
                                                     <td class="text-center">{{ $item6->HCODE }}</td>
                                                     <td class="text-center">{{ $item6->HN }} </td>

@@ -497,7 +497,7 @@ class PrbController extends Controller
             left outer join nondrugitems n on n.icode = o.icode
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by i.name
             order by i.income
   
@@ -510,7 +510,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="01"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income  
         '); 
@@ -523,7 +523,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="02"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income  
         ');
@@ -535,7 +535,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'"  
             and o.income="03"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -549,7 +549,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'"  
             and o.income="17"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -562,7 +562,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="04"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -574,7 +574,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="05"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -586,7 +586,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="07"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -598,7 +598,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="08"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -610,7 +610,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="10"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -622,7 +622,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="11"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -634,7 +634,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="12"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -646,7 +646,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="14"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -658,7 +658,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="18"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -670,7 +670,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="20"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -682,7 +682,7 @@ class PrbController extends Controller
             where o.an ="'.$an.'"
             and o.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406"
             ,"3000407","3010640","3010641","3010697","3010698","3010677")
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -729,7 +729,7 @@ class PrbController extends Controller
             left outer join nondrugitems n on n.icode = o.icode
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by i.name
             order by i.income
   
@@ -742,7 +742,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="01"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income  
         '); 
@@ -755,7 +755,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="02"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income  
         ');
@@ -767,7 +767,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'"  
             and o.income="03"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -781,7 +781,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'"  
             and o.income="17"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -794,7 +794,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="04"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -806,7 +806,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="05"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -818,7 +818,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="07"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -830,7 +830,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="08"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -842,7 +842,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="10"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -854,7 +854,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="11"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -866,7 +866,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="12"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -878,7 +878,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="14"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -890,7 +890,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="18"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -902,7 +902,7 @@ class PrbController extends Controller
             left outer join income i on i.income = o.income
             where o.an ="'.$an.'" 
             and o.income="20"
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');
@@ -914,7 +914,7 @@ class PrbController extends Controller
             where o.an ="'.$an.'"
             and o.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406"
             ,"3000407","3010640","3010641","3010697","3010698","3010677")
-            and o.pttype in ("36","37","38") 
+            and o.pttype in ("36","37","38","39") 
             group by n.name
             order by i.income 
         ');

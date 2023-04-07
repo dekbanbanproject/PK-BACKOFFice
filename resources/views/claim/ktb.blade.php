@@ -75,86 +75,296 @@
                 </div>
             </div>
         </div>
-
-        {{-- <form action="{{ route('claim.ssop_data_vn') }}" method="POST">
-                    @csrf
-                        <div class="row"> 
-                            <div class="col-md-3 text-end">VN</div>
-                            <div class="col-md-6 text-center">
-                                <div class="input-group" id="datepicker1">
-                                    <input type="text" class="form-control" name="VN" id="VN" placeholder="VN" required> 
-                                    <button type="submit" class="btn btn-info">
-                                        <i class="fa-solid fa-magnifying-glass"></i>
-                                        ดึงข้อมูล 
-                                    </button> 
-                                    <a href="{{url('ssop_send')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>    
-                                    <a href="{{url('ssop_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
-                                </div>
-                            </div>    
-                            <div class="col"></div>
-                        </div>
-
-                    </form>
-                    <br> --}}
-        <form action="{{ route('claim.ssop_data') }}" method="POST">
-            @csrf
-            <div class="row">
-                <div class="col-md-2 text-end"></div>
-                <div class="col-md-1 text-end">วันที่</div>
-                <div class="col-md-6 text-center">
-                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            data-date-language="th-th" value="{{ $start }}" />
-                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            data-date-language="th-th" value="{{ $end }}" />
-                        <button type="submit" class="btn btn-info">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            ดึงข้อมูล
-                        </button>
-                        <a href="{{ url('ssop_send') }}" class="btn btn-success"><i
-                                class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>
-                        <a href="{{ url('ssop_zip') }}" class="btn btn-danger"><i
-                                class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
-                    </div>
-                </div>
-                <div class="col"></div>
-            </div>
-        </form>
-
+ 
 
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-4">
                                 <h4 class="card-title">Detail KTB</h4>
                                 <p class="card-title-desc">รายละเอียด</p>
                             </div>
                             <div class="col"></div>
                             <div class="col-md-3 text-end">
-
-                                {{-- <button type="button" class="btn btn-outline-danger btn-sm Updateprescb"
-                                    data-url="{{ url('ssop_prescb_update') }}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    Update Prescb
-                                </button> --}}
-                                {{-- <button type="button" class="btn btn-outline-warning btn-sm Updatesvpid"
-                                    data-url="{{ url('ssop_svpid_update') }}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    Update SvPID
-                                </button> --}}
+ 
                             </div>
+                        </div> --}}
+                        <h4 class="card-title">การฝากครรภ์ ANC</h4>
+                        <p class="card-title-desc">รายการกิจกรรมย่อย การฝากครรภ์ ANC</p>
+
+
+                        <div id="accordion" class="custom-accordion">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-1 shadow-none">
+                                        <a href="#collapseOne" class="text-dark" data-bs-toggle="collapse"
+                                                        aria-expanded="true"
+                                                        aria-controls="collapseOne">
+                                            <div class="card-header" id="headingOne">
+                                                <h6 class="m-0">
+                                                    การทดสอบการตั้งครรภ์ (Pregnancy test)***B17
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseOne" class="collapse"
+                                                aria-labelledby="headingOne" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                <form action="{{ route('k.ktb_search') }}" method="POST">
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                </form>
+                                                 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-1 shadow-none">
+                                        <a href="#collapseTwo" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseTwo">
+                                            <div class="card-header" id="headingTwo">
+                                                <h6 class="m-0">
+                                                    ค่าตรวจทางห้องปฏิบัติการ (ตรวจ VDRL และ HIV) ***B55
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                                data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseThree" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    บริการตรวจสุขภาพช่องปากและบริการขัดทำความสะอาดฟัน***D04
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseThree" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                <form action="{{ route('k.ktb_ancdental_search') }}" method="POST">
+                                                    @csrf
+        
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker11" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker3" placeholder="Start Date"
+                                                                    data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker4"
+                                                                    data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    
+                                                        <div class="col"></div>
+                                                    </div>
+                                                </form>
+                                                 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseFoure" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseFoure">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    ค่าตรวจทางห้องปฏิบัติการ (ครบทุกรายการ)***P01
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseFoure" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseFire" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseFire">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    ค่าบริการดูแลการฝากครรภ์***P02
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseFire" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-0 shadow-none">
+                                        <a href="#collapseSix" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                        aria-expanded="false"
+                                                        aria-controls="collapseSix">
+                                            <div class="card-header" id="headingThree">
+                                                <h6 class="m-0">
+                                                    บริการตรวจอัลตร้าซาวด์***P69
+                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                </h6>
+                                            </div>
+                                        </a>
+                                        <div id="collapseSix" class="collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordion">
+                                            <div class="card-body">
+                                                {{-- <form action="{{ route('k.ktb_search') }}" method="POST"> --}}
+                                                    @csrf 
+                                                    <div class="row"> 
+                                                        <div class="col-md-1 text-end">วันที่</div>
+                                                        <div class="col-md-10 text-center">
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                                <button type="submit" class="btn btn-info">
+                                                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                                                    ดึงข้อมูล
+                                                                </button> 
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-1 text-end"></div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col"></div>
+                            <div class="col-md-2">
+                                <a href="{{ url('anc_Pregnancy_test_export') }}" class="btn btn-danger"><i
+                                    class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก 16 KTB</a>
+                            </div> 
                         </div>
 
-
-
                         <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
+                        <ul class="nav nav-tabs mt-2" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#Ins" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
@@ -203,52 +413,56 @@
                                     <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center" width="5%">Station</th>
-                                                <th class="text-center">DTtran</th>
-                                                <th class="text-center">Hcode</th>
-                                                <th class="text-center">Invno</th>
-                                                <th class="text-center">VerCode</th>
-                                                <th class="text-center">HN</th>
-                                                <th class="text-center">Tflag</th>
-                                                <th class="text-center" width="7%">HMain</th>
-                                                <th class="text-center">Pid</th>
-                                                <th class="text-center">ชื่อ-สกุล </th>
-                                                <th class="text-center" width="8%">Amount</th>
-                                                <th class="text-center" width="8%">Paid</th>
-                                                <th class="text-center" width="10%">ClaimAmt</th>
-                                                <th class="text-center">PayPlan</th>
-                                                <th class="text-center">OtherPay</th>
-                                                <th class="text-center">pttype</th>
-                                                <th class="text-center">Diag</th>
+                                                <th class="text-center" width="5%">HN</th>
+                                                <th class="text-center">INSCL</th>
+                                                <th class="text-center">SUBTYPE</th>
+                                                <th class="text-center">CID</th>
+                                                <th class="text-center">DATEIN</th>
+                                                <th class="text-center">DATEEXP</th>
+                                                <th class="text-center">HOSPMAIN</th>
+                                                <th class="text-center" width="7%">HOSPSUB</th>
+                                                {{-- <th class="text-center">GOVCODE</th>
+                                                <th class="text-center">GOVNAME </th>
+                                                <th class="text-center" width="8%">PERMITNO</th>
+                                                <th class="text-center" width="8%">DOCNO</th>
+                                                <th class="text-center" width="10%">OWNRPID</th>
+                                                <th class="text-center">OWNRNAME</th> --}}
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">SEQ</th>
+                                                <th class="text-center">SUBINSCL</th>
+                                                <th class="text-center">RELINSCL</th>
+                                                <th class="text-center">HTYPE</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_billtran as $item)
-                                                <tr>
+                                            @foreach ($ins_ as $item)
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center" width="5%">{{ $item->Station }}</td>
-                                                    <td class="text-center">{{ $item->DTtran }}</td>
-                                                    <td class="text-center">{{ $item->Hcode }}</td>
-                                                    <td class="text-center">{{ $item->Invno }}</td>
-                                                    <td class="text-center">{{ $item->VerCode }}</td>
-                                                    <td class="text-center">{{ $item->HN }}</td>
-                                                    <td class="text-center">{{ $item->Tflag }}</td>
-                                                    <td class="text-center">{{ $item->HMain }}</td>
-                                                    <td class="text-center">{{ $item->Pid }}</td>
-                                                    <td class="p-2">{{ $item->Name }}</td>
-                                                    <td class="text-center">{{ number_format($item->Amount, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->Paid, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->ClaimAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->PayPlan, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item->OtherPay, 2) }}</td>
-                                                    <td class="text-center">{{ $item->pttype }}</td>
-                                                    <td class="text-center">{{ $item->Diag }}</td>
+                                                    <td class="text-center" width="5%">{{ $item->HN }}</td>
+                                                    <td class="text-center">{{ $item->INSCL }}</td>
+                                                    <td class="text-center">{{ $item->SUBTYPE }}</td>
+                                                    <td class="text-center">{{ $item->CID }}</td>
+                                                    <td class="text-center">{{ $item->DATEIN }}</td>
+                                                    <td class="text-center">{{ $item->DATEEXP }}</td>
+                                                    <td class="text-center">{{ $item->HOSPMAIN }}</td>
+                                                    <td class="text-center">{{ $item->HOSPSUB }}</td>
+                                                    {{-- <td class="text-center">{{ $item->GOVCODE }}</td>
+                                                    <td class="p-2">{{ $item->GOVNAME }}</td>
+                                                    <td class="text-center">{{ $item->PERMITNO }}</td>
+                                                    <td class="text-center">{{ $item->DOCNO }}</td>
+                                                    <td class="text-center">{{ $item->OWNRPID }}</td>
+                                                    <td class="text-center">{{ $item->OWNRNAME }}</td> --}}
+                                                    <td class="text-center">{{ $item->AN }}</td>
+                                                    <td class="text-center">{{ $item->SEQ }}</td>
+                                                    <td class="text-center">{{ $item->SUBINSCL }}</td>
+                                                    <td class="text-center">{{ $item->RELINSCL }}</td>
+                                                    <td class="text-center">{{ $item->HTYPE }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -261,47 +475,47 @@
                                         class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">Invno</th>
-                                                <th class="text-center">SvDate</th>
-                                                <th class="text-center">BillMuad</th>
-                                                <th class="text-center">LCCode</th>
-                                                <th class="text-center">STDCode</th>
-                                                <th class="text-center">Desc</th>
-                                                <th class="text-center">QTY</th>
-                                                <th class="text-center">UnitPrice</th>
-                                                <th class="text-center">ChargeAmt</th>
-                                                <th class="text-center">ClaimUP</th>
-                                                <th class="text-center">ClaimAmount</th>
-                                                <th class="text-center">SvRefID</th>
-                                                <th class="text-center">ClaimCat</th>
-                                                <th class="text-center">paidst</th>
+                                                <th class="text-center">HCODE</th>
+                                                <th class="text-center">HN</th>
+                                                <th class="text-center">CHANGWAT</th>
+                                                <th class="text-center">AMPHUR</th>
+                                                <th class="text-center">SEX</th>
+                                                <th class="text-center">MARRIAGE</th>
+                                                <th class="text-center">OCCUPA</th>
+                                                <th class="text-center">NATION</th>
+                                                <th class="text-center">PERSON_ID</th>
+                                                <th class="text-center">NAMEPAT</th>
+                                                <th class="text-center">TITLE</th>
+                                                <th class="text-center">FNAME</th>
+                                                <th class="text-center">LNAME</th>
+                                                <th class="text-center">IDTYPE</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_billitems as $item2)
-                                                <tr>
+                                            @foreach ($pat_ as $item2)
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item2->Invno }} </td>
-                                                    <td class="text-center">{{ $item2->SvDate }}</td>
-                                                    <td class="text-center">{{ $item2->BillMuad }} </td>
-                                                    <td class="text-center">{{ $item2->LCCode }} </td>
-                                                    <td class="text-center">{{ $item2->STDCode }} </td>
-                                                    <td class="p-2">{{ $item2->Desc }}</td>
-                                                    <td class="text-center">{{ $item2->QTY }}</td>
-                                                    <td class="text-center">{{ number_format($item2->UnitPrice, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ChargeAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ClaimUP, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item2->ClaimAmount, 2) }}
+                                                    <td class="text-center">{{ $item2->HCODE }} </td>
+                                                    <td class="text-center">{{ $item2->HN }}</td>
+                                                    <td class="text-center">{{ $item2->CHANGWAT }} </td>
+                                                    <td class="text-center">{{ $item2->AMPHUR }} </td>
+                                                    <td class="text-center">{{ $item2->SEX }} </td>
+                                                    <td class="text-center">{{ $item2->MARRIAGE }}</td>
+                                                    <td class="text-center">{{ $item2->OCCUPA }}</td>
+                                                    <td class="text-center">{{$item2->NATION }}</td>
+                                                    <td class="text-center">{{ $item2->PERSON_ID}}</td>
+                                                    <td class="p-2">{{ $item2->NAMEPAT }}</td>
+                                                    <td class="text-center">{{ $item2->TITLE }}
                                                     </td>
-                                                    <td class="text-center">{{ $item2->SvRefID }}</td>
-                                                    <td class="text-center">{{ $item2->ClaimCat }}</td>
-                                                    <td class="text-center">{{ $item2->paidst }}</td>
+                                                    <td class="text-center">{{ $item2->FNAME }}</td>
+                                                    <td class="text-center">{{ $item2->LNAME }}</td>
+                                                    <td class="text-center">{{ $item2->IDTYPE }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -314,67 +528,31 @@
                                         class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">ProviderID</th>
-                                                <th class="text-center">DispID</th>
-                                                <th class="text-center">Invno</th>
                                                 <th class="text-center">HN</th>
-                                                <th class="text-center">PID</th>
-                                                <th class="text-center">Prescdt</th>
-                                                <th class="text-center">Dispdt</th>
-                                                <th class="text-center"><input type="checkbox" name="stamp"
-                                                        id="stamp" class="me-2">Prescb</th>
-                                                <th class="text-center">Itemcnt</th>
-                                                <th class="text-center">ChargeAmt</th>
-                                                <th class="text-center">ClaimAmt</th>
-                                                <th class="text-center">Paid</th>
-                                                <th class="text-center">OtherPay</th>
-                                                <th class="text-center">Reimburser</th>
-                                                <th class="text-center">BenefitPlan</th>
-                                                <th class="text-center">DispeStat</th>
-                                                <th class="text-center">SvID</th>
-                                                <th class="text-center">DayCover</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">DATEOPD</th>
+                                                <th class="text-center">TIMEOPD</th>
+                                                <th class="text-center">SEQ</th>
+                                                <th class="text-center">UUC</th>
+                                                
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_dispensing as $item3)
-                                                <tr id="prescbid{{ $item3->ssop_dispensing_id }}">
+                                            @foreach ($opd_ as $item3)
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item3->ProviderID }} </td>
-                                                    <td class="text-center">{{ $item3->DispID }}</td>
-                                                    <td class="text-center">{{ $item3->Invno }} </td>
                                                     <td class="text-center">{{ $item3->HN }} </td>
-                                                    <td class="text-center">{{ $item3->PID }} </td>
-                                                    <td class="text-center">{{ $item3->Prescdt }}</td>
-                                                    <td class="text-center">{{ $item3->Dispdt }}</td>
-                                                    <td class="p-2">
-                                                        <input type="checkbox" class="sub_chk me-2"
-                                                            data-id="{{ $item3->ssop_dispensing_id }}">
-                                                        <button
-                                                            type="button"class="btn btn-outline-danger btn-sm Edit_prescb"
-                                                            value="{{ $item3->ssop_dispensing_id }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="แก้ไข">
-                                                            <i class="fa-solid fa-pen-to-square me-2 text-danger"></i>
-                                                            <label for="" class="text-danger"
-                                                                style="font-size:13px;"> {{ $item3->Prescb }}</label>
-                                                        </button>
-                                                    </td>
-                                                    <td class="text-center">{{ $item3->Itemcnt }}</td>
-                                                    <td class="text-center">{{ number_format($item3->ChargeAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item3->ClaimAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item3->Paid, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item3->OtherPay, 2) }}</td>
-                                                    <td class="text-center">{{ $item3->Reimburser }}</td>
-                                                    <td class="text-center">{{ $item3->BenefitPlan }}</td>
-                                                    <td class="text-center">{{ $item3->DispeStat }}</td>
-                                                    <td class="text-center">{{ $item3->SvID }}</td>
-                                                    <td class="text-center">{{ $item3->DayCover }}</td>
+                                                    <td class="text-center">{{ $item3->CLINIC }}</td>
+                                                    <td class="text-center">{{ $item3->DATEOPD }} </td>
+                                                    <td class="text-center">{{ $item3->TIMEOPD }} </td>
+                                                    <td class="text-center">{{ $item3->SEQ }} </td>
+                                                    <td class="text-center">{{ $item3->UUC }}</td> 
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -386,53 +564,36 @@
                                     <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">DispID</th>
-                                                <th class="text-center">PrdCat</th>
-                                                <th class="text-center">HospDrgID</th>
-                                                <th class="text-center">DrgID</th>
-                                                <th class="text-center">dfsText</th>
-                                                <th class="text-center">Packsize</th>
-                                                <th class="text-center">sigCode</th>
-                                                <th class="text-center">sigText</th>
-                                                <th class="text-center">Quantity</th>
-                                                <th class="text-center">UnitPrice</th>
-                                                <th class="text-center">ChargeAmt</th>
-                                                <th class="text-center">ReimbPrice</th>
-                                                <th class="text-center">ReimbAmt</th>
-                                                <th class="text-center">PrdSeCode</th>
-                                                <th class="text-center">Claimcont</th>
-                                                <th class="text-center">ClaimCat</th>
-                                                <th class="text-center">paidst</th>
+                                                <th class="text-center">HN</th>
+                                                <th class="text-center">DATEDX</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">DIAG</th>
+                                                <th class="text-center">DXTYPE</th>
+                                                <th class="text-center">DRDX</th>
+                                                <th class="text-center">PERSON_ID</th>
+                                                <th class="text-center">SEQ</th>
+                                                
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_dispenseditems as $item4)
-                                                <tr>
+                                            @foreach ($odx_ as $item4)
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item4->DispID }}</td>
-                                                    <td class="text-center">{{ $item4->PrdCat }} </td>
-                                                    <td class="text-center">{{ $item4->HospDrgID }} </td>
-                                                    <td class="text-center">{{ $item4->DrgID }} </td>
-                                                    <td class="p-2">{{ $item4->dfsText }}</td>
-                                                    <td class="p-2">{{ $item4->Packsize }}</td>
-                                                    <td class="text-center">{{ $item4->sigCode }}</td>
-                                                    <td class="p-2" width="15%">{{ $item4->sigText }}</td>
-                                                    <td class="text-center">{{ $item4->Quantity }}</td>
-                                                    <td class="text-center">{{ number_format($item4->UnitPrice, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item4->ChargeAmt, 2) }}</td>
-                                                    <td class="text-center">{{ number_format($item4->ReimbPrice, 2) }}
-                                                    </td>
-                                                    <td class="text-center">{{ number_format($item4->ReimbAmt, 2) }}</td>
-                                                    <td class="text-center">{{ $item4->PrdSeCode }}</td>
-                                                    <td class="text-center">{{ $item4->Claimcont }}</td>
-                                                    <td class="text-center">{{ $item4->ClaimCat }}</td>
-                                                    <td class="text-center">{{ $item4->paidst }}</td>
+                                                    <td class="text-center">{{ $item4->HN }}</td>
+                                                    <td class="text-center">{{ $item4->DATEDX }} </td>
+                                                    <td class="text-center">{{ $item4->CLINIC }} </td>
+                                                    <td class="text-center">{{ $item4->DIAG }} </td>
+                                                    <td class="p-2">{{ $item4->DXTYPE }}</td>
+                                                    <td class="p-2">{{ $item4->DRDX }}</td>
+                                                    <td class="text-center">{{ $item4->PERSON_ID }}</td>
+                                                    <td class="p-2" width="15%">{{ $item4->SEQ }}</td>
+                                                    
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -443,75 +604,68 @@
                                     <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">Invno</th>
-                                                <th class="text-center">SvID</th>
-                                                <th class="text-center">Class</th>
-                                                <th class="text-center">Hcode</th>
                                                 <th class="text-center">HN</th>
-                                                <th class="text-center">PID</th>
-                                                <th class="text-center">CareAccount</th>
-                                                <th class="text-center">TypeServ</th>
-                                                <th class="text-center">TypeIn</th>
-                                                <th class="text-center">TypeOut</th>
-                                                <th class="text-center">DTAppoint</th>
-                                                <th class="p-2"><input type="checkbox" name="stamp2" id="stamp2"
-                                                        class="me-2">SvPID</th>
-                                                <th class="text-center">Clinic</th>
-                                                <th class="text-center">BegDT</th>
-                                                <th class="text-center">EndDT</th>
-                                                <th class="text-center">LcCode</th>
-                                                <th class="text-center">CodeSet</th>
-                                                <th class="text-center">STDCode</th>
-                                                <th class="text-center">SvCharge</th>
-                                                <th class="text-center">Completion</th>
-                                                <th class="text-center">SvTxCode</th>
-                                                <th class="text-center">ClaimCat</th>
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">DATEOPD</th>
+                                                <th class="text-center">TYPE</th>
+                                                <th class="text-center">CODE</th>
+                                                <th class="text-center">QTY</th>
+                                                <th class="text-center">RATE</th>
+                                                <th class="text-center">SEQ</th>
+                                                {{-- <th class="text-center">a1</th>
+                                                <th class="text-center">a2</th>
+                                                <th class="text-center">a3</th>                                                
+                                                <th class="text-center">a4</th>
+                                                <th class="text-center">a5</th>
+                                                <th class="text-center">a6</th>
+                                                <th class="text-center">a7</th> --}}
+                                                <th class="text-center">TMLTCODE</th>
+                                                <th class="text-center">STATUS1</th>
+                                                <th class="text-center">BI</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">ITEMSRC</th>
+                                                <th class="text-center">PROVIDER</th>
+                                                <th class="text-center">GLAVIDA</th>
+                                                <th class="text-center">GA_WEEK</th>
+                                                <th class="text-center">DCIP</th>
+                                                <th class="text-center">LMP</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_opservices as $item5)
-                                                <tr id="prescbid{{ $item5->ssop_opservices_id }}">
+                                            @foreach ($adp_ as $item5)
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item5->Invno }}</td>
-                                                    <td class="text-center">{{ $item5->SvID }} </td>
-                                                    <td class="text-center">{{ $item5->Class }} </td>
-                                                    <td class="text-center">{{ $item5->Hcode }} </td>
-                                                    <td class="p-2">{{ $item5->HN }}</td>
-                                                    <td class="p-2">{{ $item5->PID }}</td>
-                                                    <td class="text-center">{{ $item5->CareAccount }}</td>
-                                                    <td class="p-2">{{ $item5->TypeServ }}</td>
-                                                    <td class="text-center">{{ $item5->TypeIn }}</td>
-                                                    <td class="text-center">{{ $item5->TypeOut }}</td>
-                                                    <td class="text-center">{{ $item5->DTAppoint }}</td>
-                                                    <td class="p-2">
-                                                        <input type="checkbox" class="sub_chk2 me-2"
-                                                            data-id="{{ $item5->ssop_opservices_id }}">
-                                                        <button
-                                                            type="button"class="btn btn-outline-warning btn-sm Edit_svpid"
-                                                            value="{{ $item5->ssop_opservices_id }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="แก้ไข">
-                                                            <i class="fa-solid fa-pen-to-square me-2 text-warning"></i>
-                                                            <label for="" class="text-warning"
-                                                                style="font-size:13px;"> {{ $item5->SvPID }}</label>
-                                                        </button>
-                                                    </td>
-                                                    <td class="text-center">{{ $item5->Clinic }}</td>
-                                                    <td class="text-center" width="15%">{{ $item5->BegDT }}</td>
-                                                    <td class="text-center" width="15%">{{ $item5->EndDT }}</td>
-                                                    <td class="text-center">{{ $item5->LcCode }}</td>
-                                                    <td class="text-center">{{ $item5->CodeSet }}</td>
-                                                    <td class="text-center">{{ $item5->STDCode }}</td>
-                                                    <td class="text-center">{{ $item5->SvCharge }}</td>
-                                                    <td class="text-center">{{ $item5->Completion }}</td>
-                                                    <td class="text-center">{{ $item5->SvTxCode }}</td>
-                                                    <td class="text-center">{{ $item5->ClaimCat }}</td>
+                                                    <td class="text-center">{{ $item5->HN }}</td>
+                                                    <td class="text-center">{{ $item5->AN }} </td>
+                                                    <td class="text-center">{{ $item5->DATEOPD }} </td>
+                                                    <td class="text-center">{{ $item5->TYPE }} </td>
+                                                    <td class="p-2">{{ $item5->CODE }}</td>
+                                                    <td class="p-2">{{ $item5->QTY }}</td>
+                                                    <td class="text-center">{{ $item5->RATE }}</td>
+                                                    <td class="p-2">{{ $item5->SEQ }}</td>
+                                                    {{-- <td class="text-center">{{ $item5->a1 }}</td>
+                                                    <td class="text-center">{{ $item5->a2 }}</td>
+                                                    <td class="text-center">{{ $item5->a3 }}</td> 
+                                                    <td class="text-center">{{ $item5->a4 }}</td>
+                                                    <td class="text-center" width="15%">{{ $item5->a5 }}</td>
+                                                    <td class="text-center" width="15%">{{ $item5->a6 }}</td>
+                                                    <td class="text-center">{{ $item5->a7 }}</td> --}}
+                                                    <td class="text-center">{{ $item5->TMLTCODE }}</td>
+                                                    <td class="text-center">{{ $item5->STATUS1 }}</td>
+                                                    <td class="text-center">{{ $item5->BI }}</td>
+                                                    <td class="text-center">{{ $item5->CLINIC }}</td>
+                                                    <td class="text-center">{{ $item5->ITEMSRC }}</td>
+                                                    <td class="text-center">{{ $item5->PROVIDER }}</td>
+                                                    <td class="text-center">{{ $item5->GLAVIDA }}</td>
+                                                    <td class="text-center">{{ $item5->GA_WEEK }}</td>
+                                                    <td class="text-center">{{ $item5->DCIP }}</td>
+                                                    <td class="text-center">{{ $item5->LMP }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
                                     </table>
                                 </div>
                                 </p>
@@ -522,30 +676,68 @@
                                     <table id="example3" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th width="5%" class="text-center">ลำดับ</th>
-                                                <th class="text-center">Class</th>
-                                                <th class="text-center">SvID</th>
-                                                <th class="text-center" width="15%">SL</th>
-                                                <th class="text-center" width="15%">CodeSet</th>
-                                                <th class="text-center">code</th>
-                                                <th class="text-center">Desc</th>
+                                                <th class="text-center">HCODE</th>
+                                                <th class="text-center">HN</th>
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">CLINIC</th>
+                                                <th class="text-center">PERSON_ID</th>
+                                                <th class="text-center">DATE_SERV</th>
+
+                                                <th class="text-center">DID</th>
+                                                <th class="text-center">DIDNAME</th>
+                                                <th class="text-center">AMOUNT</th>
+                                                <th class="text-center">DRUGPRIC</th>
+                                                <th class="text-center">DRUGCOST</th>
+                                                <th class="text-center">DIDSTD</th>
+                                                <th class="text-center">UNIT</th>
+                                                <th class="text-center">UNIT_PACK</th>
+                                                <th class="text-center">SEQ</th>
+                                                <th class="text-center">DRUGREMARK</th>
+                                                <th class="text-center">PA_NO</th>
+
+                                                <th class="text-center">TOTCOPAY</th>
+                                                <th class="text-center">USE_STATUS</th>
+                                                <th class="text-center">STATUS1</th>
+                                                <th class="text-center">TOTAL</th>
+                                                <th class="text-center">SIGCODE</th>
+                                                <th class="text-center">SIGTEXT</th>
                                             </tr>
                                         </thead>
-                                        {{-- <tbody>
+                                        <tbody>
                                             <?php $i = 1; ?>
-                                            @foreach ($ssop_opdx_ as $item6)
-                                                <tr>
+                                            @foreach ($dru_ as $item6)
+                                                <tr style="font-size: 12px">
                                                     <td class="text-center">{{ $i++ }}</td>
-                                                    <td class="text-center">{{ $item6->Class }}</td>
-                                                    <td class="text-center">{{ $item6->SvID }} </td>
-                                                    <td class="text-center">{{ $item6->SL }} </td>
-                                                    <td class="text-center">{{ $item6->CodeSet }} </td>
-                                                    <td class="text-center">{{ $item6->code }}</td>
-                                                    <td class="text-center">{{ $item6->Desc }}</td>
+                                                    <td class="text-center">{{ $item6->HCODE }}</td>
+                                                    <td class="text-center">{{ $item6->HN }} </td>
+                                                    <td class="text-center">{{ $item6->AN }} </td>
+                                                    <td class="text-center">{{ $item6->CLINIC }} </td>
+                                                    <td class="text-center">{{ $item6->PERSON_ID }}</td>
+                                                    <td class="text-center">{{ $item6->DATE_SERV }}</td>
+
+                                                    <td class="text-center">{{ $item6->DID }}</td>
+                                                    <td class="p-2">{{ $item6->DIDNAME }}</td>
+                                                    <td class="text-center">{{ $item6->AMOUNT }}</td>
+                                                    <td class="text-center">{{ $item6->DRUGPRIC }}</td>
+                                                    <td class="text-center">{{ $item6->DRUGCOST }}</td>
+                                                    <td class="text-center">{{ $item6->DIDSTD }}</td>
+                                                    <td class="text-center">{{ $item6->UNIT }}</td>
+                                                    <td class="text-center">{{ $item6->UNIT_PACK }}</td>
+                                                    <td class="text-center">{{ $item6->SEQ }}</td>
+                                                    <td class="text-center">{{ $item6->DRUGREMARK }}</td>
+                                                    <td class="text-center">{{ $item6->PA_NO }}</td>
+
+                                                    <td class="text-center">{{ $item6->TOTCOPAY }}</td>
+                                                    <td class="text-center">{{ $item6->USE_STATUS }}</td>
+                                                    <td class="text-center">{{ $item6->STATUS1 }}</td>
+                                                    <td class="text-center">{{ $item6->TOTAL }}</td>
+                                                    <td class="text-center">{{ $item6->SIGCODE }}</td>
+                                                    <td class="text-center">{{ $item6->SIGTEXT }}</td>
                                                 </tr>
                                             @endforeach
-                                        </tbody> --}}
+                                        </tbody>
 
                                     </table>
                                 </div>
@@ -553,6 +745,7 @@
                             </div>
 
                         </div>
+ 
 
                     </div>
                 </div>
@@ -576,235 +769,15 @@
                 format: 'yyyy-mm-dd'
             });
 
-            $('#stamp').on('click', function(e) {
-                if ($(this).is(':checked', true)) {
-                    $(".sub_chk").prop('checked', true);
-                } else {
-                    $(".sub_chk").prop('checked', false);
-                }
+            $('#datepicker3').datepicker({
+                format: 'yyyy-mm-dd'
             });
-            $('.Updateprescb').on('click', function(e) {
-                // alert('oo');
-                var allValls = [];
-                $(".sub_chk:checked").each(function() {
-                    allValls.push($(this).attr('data-id'));
-                });
-                if (allValls.length <= 0) {
-                    // alert("SSSS");
-                    Swal.fire({
-                        title: 'คุณยังไม่ได้เลือกรายการ ?',
-                        text: "กรุณาเลือกรายการก่อน",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                    }).then((result) => {
-
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "คุณต้องการปรับรายการที่เลือกใช่ไหม!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, UPdate it.!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            var check = true;
-                            if (check == true) {
-                                var join_selected_values = allValls.join(",");
-                                $.ajax({
-                                    url: $(this).data('url'),
-                                    type: 'POST',
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                            'content')
-                                    },
-                                    data: 'ids=' + join_selected_values,
-                                    success: function(data) {
-                                        if (data.status == 200) {
-                                            $(".sub_chk:checked").each(function() {
-                                                $(this).parents("tr").remove();
-                                            });
-                                            Swal.fire({
-                                                title: 'ปรับ Prescbสำเร็จ',
-                                                text: "You Debtor data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    // window.location="{{ url('warehouse/warehouse_index') }}";
-                                                }
-                                            })
-                                        } else {
-
-                                        }
-                                    }
-                                });
-                                $.each(allValls, function(index, value) {
-                                    $('table tr').filter("[data-row-id='" + value + "']")
-                                        .remove();
-                                });
-                            }
-                        }
-                    })
-
-                }
+            $('#datepicker4').datepicker({
+                format: 'yyyy-mm-dd'
             });
-
-
-            $('#stamp2').on('click', function(e) {
-                if ($(this).is(':checked', true)) {
-                    $(".sub_chk2").prop('checked', true);
-                } else {
-                    $(".sub_chk2").prop('checked', false);
-                }
-            });
-            $('.Updatesvpid').on('click', function(e) {
-                // alert('oo');
-                var allValls = [];
-                $(".sub_chk2:checked").each(function() {
-                    allValls.push($(this).attr('data-id'));
-                });
-                if (allValls.length <= 0) {
-                    // alert("SSSS");
-                    Swal.fire({
-                        title: 'คุณยังไม่ได้เลือกรายการ ?',
-                        text: "กรุณาเลือกรายการก่อน",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                    }).then((result) => {
-
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: "คุณต้องการปรับรายการที่เลือกใช่ไหม!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, UPdate it.!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            var check = true;
-                            if (check == true) {
-                                var join_selected_values = allValls.join(",");
-                                $.ajax({
-                                    url: $(this).data('url'),
-                                    type: 'POST',
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                            'content')
-                                    },
-                                    data: 'ids2=' + join_selected_values,
-                                    success: function(data) {
-                                        if (data.status == 200) {
-                                            $(".sub_chk2:checked").each(function() {
-                                                $(this).parents("tr").remove();
-                                            });
-                                            Swal.fire({
-                                                title: 'ปรับ SvPID สำเร็จ',
-                                                text: "You Debtor data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    // window.location="{{ url('warehouse/warehouse_index') }}";
-                                                }
-                                            })
-                                        } else {
-
-                                        }
-                                    }
-                                });
-                                $.each(allValls, function(index, value) {
-                                    $('table tr').filter("[data-row-id='" + value + "']")
-                                        .remove();
-                                });
-                            }
-                        }
-                    })
-
-                }
-            });
+ 
+            
         });
-        $(document).on('click', '.Edit_prescb', function() {
-            var ssop_dispensing_id = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "{{ url('ssop_edit_prescb') }}" + '/' + ssop_dispensing_id,
-                success: function(data) {
-                    if (data.status == 200) {
-                        Swal.fire({
-                            title: 'แก้ไขข้อมูลสำเร็จ',
-                            text: "You edit data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result
-                                .isConfirmed) {
-                                console.log(
-                                    data);
-
-                                window.location
-                                    .reload();
-                            }
-                        })
-                    } else {
-
-                    }
-                },
-            });
-        });
-
-        $(document).on('click', '.Edit_svpid', function() {
-            var ssop_opservices_id = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "{{ url('ssop_edit_svpid') }}" + '/' + ssop_opservices_id,
-                success: function(data) {
-                    if (data.status == 200) {
-                        Swal.fire({
-                            title: 'แก้ไขข้อมูลสำเร็จ',
-                            text: "You edit data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result
-                                .isConfirmed) {
-                                console.log(
-                                    data);
-
-                                window.location
-                                    .reload();
-                            }
-                        })
-                    } else {
-
-                    }
-                },
-            });
-        });
+         
     </script>
 @endsection
