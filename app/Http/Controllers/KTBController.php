@@ -1686,6 +1686,7 @@ class KTBController extends Controller
 
             ]);
         }
+<<<<<<< HEAD
 
         $ins_ = DB::connection('mysql7')->select('   
             SELECT * FROM d_ins   
@@ -1705,6 +1706,8 @@ class KTBController extends Controller
         $dru_ = DB::connection('mysql7')->select('   
             SELECT * FROM d_dru   
         ');
+=======
+>>>>>>> 041a1ef2527991f8a0c1e29566029914d47ab714
  
         // return response()->json(['status' => '200']); 
         return view('claim.anc_Pregnancy_test',[
