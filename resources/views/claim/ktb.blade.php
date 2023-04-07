@@ -104,7 +104,7 @@
                                                         aria-controls="collapseOne">
                                             <div class="card-header" id="headingOne">
                                                 <h6 class="m-0">
-                                                    การทดสอบการตั้งครรภ์ (Pregnancy test)***B17
+                                                    การทดสอบการตั้งครรภ์ (Pregnancy test)***B17=>"30014","31101"=>"Z321","Z320"
                                                     <i class="mdi mdi-minus float-end accor-plus-icon"></i>
                                                 </h6>
                                             </div>
@@ -112,7 +112,7 @@
                                         <div id="collapseOne" class="collapse"
                                                 aria-labelledby="headingOne" data-bs-parent="#accordion">
                                             <div class="card-body">
-                                                <form action="{{ route('k.ktb_search') }}" method="POST">
+                                                <form action="{{ route('k.anc_Pregnancy_testsearch') }}" method="POST">
                                                     @csrf 
                                                     <div class="row"> 
                                                         <div class="col-md-1 text-end">วันที่</div>

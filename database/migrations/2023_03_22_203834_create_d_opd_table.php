@@ -20,7 +20,7 @@ return new class extends Migration
 
                 $table->string('HN')->nullable();//
                 $table->string('CLINIC')->nullable();//
-                $table->date('DATEOPD')->nullable();// 
+                $table->string('DATEOPD')->nullable();// 
                 $table->string('TIMEOPD')->nullable();//  
                 $table->string('SEQ')->nullable(); //             
                 $table->string('UUC')->nullable(); //           

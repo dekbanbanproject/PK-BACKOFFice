@@ -23,7 +23,7 @@ return new class extends Migration
                 $table->string('CHANGWAT')->nullable();//
                 $table->string('AMPHUR')->nullable();//
 
-                $table->date('DOB')->nullable();// 
+                $table->string('DOB')->nullable();// 
                  
                 $table->string('SEX')->nullable();//  
                 $table->string('MARRIAGE')->nullable(); //             

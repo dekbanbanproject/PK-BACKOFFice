@@ -21,7 +21,7 @@ return new class extends Migration
                 $table->string('HN')->nullable();// 
                 $table->string('AN')->nullable();// 
 
-                $table->date('DATEOPD')->nullable();// 
+                $table->string('DATEOPD')->nullable();// 
                  
                 $table->string('TYPE')->nullable();//  
                 $table->string('CODE')->nullable(); //   

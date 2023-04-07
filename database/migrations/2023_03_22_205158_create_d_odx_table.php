@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->bigIncrements('d_odx_id');
 
                 $table->string('HN')->nullable();// 
-                $table->date('DATEDX')->nullable();// 
+                $table->string('DATEDX')->nullable();// 
                  
                 $table->string('CLINIC')->nullable();//  
                 $table->string('DIAG')->nullable(); //             

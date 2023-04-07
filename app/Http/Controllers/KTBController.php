@@ -1233,17 +1233,47 @@ class KTBController extends Controller
     { 
         $datestart = $request->startdate;
         $dateend = $request->enddate;
-        $data_opd = DB::connection('mysql3')->select('   
-                SELECT p.hn,v.vn,p.cid,i.an from hos.vn_stat v 
-                left join opitemrece o on o.vn = v.vn  
-                left join ipt i on i.vn=v.vn 
-                left outer join patient p on p.hn = v.hn
-                WHERE v.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"  
-                and o.icode = "3000149"
-                and o.pttype NOT IN ("98","99","50","49","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6") 
+        // $data_opd = DB::connection('mysql3')->select(' 
+        //     SELECT p.hn,v.vn,p.cid,i.an,v.vstdate 
+        //         from hos.ovst o 
+        //         left join vn_stat v on v.vn=o.vn
+        //         left join opitemrece oo on oo.vn = o.vn  
+        //         left join patient pt on pt.hn=o.hn
+        //         left join ipt i on i.vn=v.vn 
+        //         left outer join patient p on p.hn = v.hn
+        //         left join s_drugitems n on n.icode = oo.icode
+        //         left join pttype ptt on ptt.pttype=o.pttype   
+               
+        //         WHERE v.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"   
+        //         and n.nhso_adp_code in ("31101","30014")
+        //         and pt.sex=2
+        //         group by o.vn;
+        // ');
+        $data_opd = DB::connection('mysql3')->select(' 
+                SELECT o.vn,i.an
+                ,o.hn,p.cid
+                ,concat(p.pname,p.fname," ",p.lname) as ptname
+                ,o.pttype 
+                ,group_concat(distinct og.icd10) "icd10&9"
+                ,n.name as nname 
+                ,v.uc_money  
+                ,s.amountpay  
+                from vn_stat v
+                left join opitemrece o on o.vn = v.vn 
+                left join s_drugitems n on n.icode = o.icode
+                left join ipt i on i.vn=v.vn
+                left join opdscreen od on od.vn=v.vn
+                left join ovstdiag og on og.vn=v.vn
+                left outer join patient p on p.hn = v.hn  
+                left join hshooterdb.m_stm s on s.vn = v.vn
+                WHERE v.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"   
+                and n.nhso_adp_code in ("31101","30014")
+                and p.sex = 2 
                 and o.an is null
                 GROUP BY v.hn,v.vstdate;
         ');
+
+       
         Tempexport::truncate();
         foreach ($data_opd as $key => $value) {           
             $add= new Tempexport();
@@ -1255,18 +1285,24 @@ class KTBController extends Controller
             $add->save();
         }
 
-        $data_ktb_b17 = DB::connection('mysql3')->select('   
-                SELECT p.hn,v.vn,p.cid,i.an,v.uc_money,v.uc_money AS ClaimAmt
-                ,v.vstdate,CONCAT(p.pname,p.fname," ",p.lname) AS FULLNAME
-                 from hos.vn_stat v 
-                left join opitemrece o on o.vn = v.vn  
+        $data_ktb_b17 = DB::connection('mysql3')->select('  
+            SELECT p.hn,v.vn,p.cid,i.an,v.vstdate ,CONCAT(pt.pname,pt.fname," ",pt.lname) AS FULLNAME,v.uc_money,v.uc_money AS ClaimAmt
+                from hos.ovst o 
+                left join vn_stat v on v.vn=o.vn
+                left join opitemrece oo on oo.vn = o.vn  
+                left join patient pt on pt.hn=o.hn
                 left join ipt i on i.vn=v.vn 
-                left outer join patient p on p.hn = v.hn 
-                WHERE v.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"   
-                and o.icode = "3000149"
-                and o.pttype NOT IN ("98","99","50","49","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6") 
-                and o.an is null
-                GROUP BY v.hn;
+                left outer join patient p on p.hn = v.hn
+                left join nondrugitems d on d.icode=oo.icode  and d.nhso_adp_code in("30014","31101")
+                left join pttype ptt on ptt.pttype=o.pttype   
+               
+                WHERE v.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"  
+                and (o.an="" or o.an is null)
+                and pt.nationality="99" and pt.sex=2  and ptt.pttype_eclaim_id<>"27"
+                and ((d.nhso_adp_code in("30014","31101")) or v.pdx in("Z321","Z320"))
+                group by o.vn;
+
+              
         '); 
        
         // D_ktb_b17::truncate();
@@ -1494,7 +1530,7 @@ class KTBController extends Controller
             ,"" GLAVIDA
             ,"" GA_WEEK
             ,"" DCIP
-            ,"0000-00-00" LMP
+            ,"00000000" LMP
             from (SELECT v.hn HN
             ,if(v.an is null,"",v.an) AN
             ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
@@ -1513,13 +1549,14 @@ class KTBController extends Controller
             ,"" GLAVIDA
             ,"" GA_WEEK
             ,"" DCIP
-            ,"0000-00-00" LMP
+            ,"00000000" LMP
             from opitemrece v
-            inner JOIN drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            inner JOIN s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
             left join ipt i on i.an = v.an
             AND i.an is not NULL
             left join claim.tempexport x on x.vn = i.vn
             where x.ACTIVE="N"
+            and n.nhso_adp_code in ("31101","30014")
             GROUP BY i.vn,n.nhso_adp_code,rate) a 
             GROUP BY an,CODE,rate
             UNION
@@ -1533,7 +1570,7 @@ class KTBController extends Controller
             ,"" GLAVIDA
             ,"" GA_WEEK
             ,"" DCIP
-            ,"0000-00-00" LMP
+            ,"00000000" LMP
             from
             (SELECT v.hn HN
             ,if(v.an is null,"",v.an) AN
@@ -1553,12 +1590,13 @@ class KTBController extends Controller
             ,"" GLAVIDA
             ,"" GA_WEEK
             ,"" DCIP
-            ,"0000-00-00" LMP
+            ,"00000000" LMP
             from opitemrece v
-            inner JOIN drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            inner JOIN s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
             left join ipt i on i.an = v.an
             left join claim.tempexport x on x.vn = v.vn
             where x.ACTIVE="N"
+            and n.nhso_adp_code in ("31101","30014")
             AND i.an is NULL
             GROUP BY v.vn,n.nhso_adp_code,rate) b 
             GROUP BY seq,CODE,rate ;              
@@ -1707,7 +1745,7 @@ class KTBController extends Controller
         ');
  
         // return response()->json(['status' => '200']); 
-        return view('claim.anc_Pregnancy_test',[
+        return view('claim.ktb',[
             'start'            => $datestart,
             'end'              => $dateend,
             'ins_'              => $ins_,
@@ -1725,10 +1763,14 @@ class KTBController extends Controller
         $dateend = $request->enddate;
 
         $date_now = date("Y-m-d");
+        $yy = date("Y")+543;
         $y = substr(date("Y"),2);
+        $yx = substr($yy,2);
         $m = date('m');
-        $t = date("His");
-        $time_now = date("H:i:s");
+        $t = date("Hi");
+        $time_now = date("H:i");
+
+        // dd($yx);
       
          #ตัดขีด, ตัด : ออก
         // $year = substr(date("Y"),2) +43;
@@ -1766,22 +1808,22 @@ class KTBController extends Controller
         // header("Cache-Control: no-store, no-cache");
         // header('Content-Disposition: attachment; filename="content.txt"');
 
-        $file_pat = "C:/export/".$folder."/ADP".$y."".$m."".$t.".txt";     
+        $file_pat = "C:/export/".$folder."/ADP".$yx."".$m."".$t.".txt";     
         $objFopen_opd = fopen($file_pat, 'w');
 
-        $file_pat2 = "C:/export/".$folder."/DRU".$y."".$m."".$t.".txt";     
+        $file_pat2 = "C:/export/".$folder."/DRU".$yx."".$m."".$t.".txt";     
         $objFopen_opd2 = fopen($file_pat2, 'w');
 
-        $file_pat3 = "C:/export/".$folder."/INS".$y."".$m."".$t.".txt";     
+        $file_pat3 = "C:/export/".$folder."/INS".$yx."".$m."".$t.".txt";     
         $objFopen_opd3 = fopen($file_pat3, 'w');
 
-        $file_pat4 = "C:/export/".$folder."/ODX".$y."".$m."".$t.".txt";     
+        $file_pat4 = "C:/export/".$folder."/ODX".$yx."".$m."".$t.".txt";     
         $objFopen_opd4 = fopen($file_pat4, 'w');
 
-        $file_pat5 = "C:/export/".$folder."/OPD".$y."".$m."".$t.".txt";     
+        $file_pat5 = "C:/export/".$folder."/OPD".$yx."".$m."".$t.".txt";     
         $objFopen_opd5 = fopen($file_pat5, 'w');
 
-        $file_pat6 = "C:/export/".$folder."/PAT".$y."".$m."".$t.".txt";     
+        $file_pat6 = "C:/export/".$folder."/PAT".$yx."".$m."".$t.".txt";     
         $objFopen_opd6 = fopen($file_pat6, 'w');
 
         // ********* ADP****

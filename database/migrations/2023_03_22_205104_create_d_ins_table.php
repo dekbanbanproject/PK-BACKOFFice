@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->string('CID')->nullable();//
 
                 $table->date('DATEIN')->nullable();// 
-                $table->date('DATEEXP')->nullable();// 
+                $table->string('DATEEXP')->nullable();// 
 
                 $table->string('HOSPMAIN')->nullable();//  
                 $table->string('HOSPSUB')->nullable(); //             
