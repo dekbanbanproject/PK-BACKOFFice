@@ -113,7 +113,7 @@ class AncController extends Controller
         ');
         $data_ = DB::connection('mysql7')->select('   
         SELECT * FROM export_temp 
-    ');
+        ');
          
         return view('claim.anc_dent',[
             'start'   => $datestart,
