@@ -389,12 +389,12 @@
                                             เช็คสิทธิ์รายวัน
                                         </a>
                                     </li>  
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{ url('check_sit_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Checsit Auto
                                         </a>
-                                    </li>
+                                    </li> --}}
 
                                 </ul>
                             </li>

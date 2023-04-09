@@ -107,22 +107,10 @@ class ChecksitController extends Controller
             JOIN pttype pt on pt.pttype=o.pttype  
             JOIN opduser op on op.loginname = o.staff 
             WHERE o.vstdate = CURDATE()  
-            AND pt.pttype_eclaim_id not in("06","27","28","36")
+           
             group by p.cid
         ');  
-        } else {
-            $data_sits = DB::connection('mysql3')->select(' 
-            SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
-            FROM ovst o 
-            join patient p on p.hn=o.hn 
-            JOIN pttype pt on pt.pttype=o.pttype  
-            JOIN opduser op on op.loginname = o.staff 
-            WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"  
-            AND pt.pttype_eclaim_id not in("06","27","28","36")
-            group by p.cid
-        ');  
-        }                
-
+        // AND pt.pttype_eclaim_id not in("06","27","28","36")
         foreach ($data_sits as $key => $value) {
             // Check_sit_auto::truncate();
             $check = Check_sit_auto::where('vn', $value->vn)->count();
@@ -155,6 +143,52 @@ class ChecksitController extends Controller
             }                        
         }
 
+        } else {
+            $data_sits = DB::connection('mysql3')->select(' 
+            SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+            FROM ovst o 
+            join patient p on p.hn=o.hn 
+            JOIN pttype pt on pt.pttype=o.pttype  
+            JOIN opduser op on op.loginname = o.staff 
+            WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+            group by p.cid
+        ');  
+            foreach ($data_sits as $key => $value) {
+                // Check_sit_auto::truncate();
+                $check = Check_sit_auto::where('vn', $value->vn)->count();
+                if ($check > 0) {
+                    Check_sit_auto::where('vn', $value->vn) 
+                        ->update([   
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'pttype' => $value->pttype,
+                            'staff' => $value->staff 
+                        ]);     
+                } else {
+                    Check_sit_auto::insert([
+                        'vn' => $value->vn,
+                        'hn' => $value->hn,
+                        'cid' => $value->cid,
+                        'vstdate' => $value->vstdate,
+                        'vsttime' => $value->vsttime,
+                        'fullname' => $value->fullname,
+                        'pttype' => $value->pttype,
+                        'hospmain' => $value->hospmain,
+                        'hospsub' => $value->hospsub,
+                        'staff' => $value->staff 
+                    ]);
+                }                        
+            }
+
+        }     
+        // AND pt.pttype_eclaim_id not in("06","27","28","36")           
+
+        
         if ($datestart == '') {      
             $data_sit = DB::connection('mysql7')->select(' 
                 SELECT *

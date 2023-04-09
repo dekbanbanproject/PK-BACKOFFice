@@ -1,4 +1,4 @@
-@extends('layouts.checksit_new')
+@extends('layouts.checksit')
 @section('title', 'PK-BACKOFFice || checksit')
 @section('content')
 <style>
@@ -44,7 +44,7 @@
 </style>
   
 <div class="tabs-animation">
-    {{-- <form action="{{ route('claim.check_sit_day') }}" method="GET">
+    <form action="{{ route('claim.check_sit_day') }}" method="GET">
         @csrf
         <div class="row"> 
             <div class="col"></div>
@@ -69,20 +69,35 @@
                 </div>
             </div>    
             <div class="col-md-3">
-                <button type="submit" class="btn btn-info" > 
+                <button type="submit" class="btn btn-info" >
+                    {{-- <i class="fa-solid fa-magnifying-glass me-2"></i> --}}
+                    {{-- <i class="fa-solid fa-1 me-2"></i> --}}
                     ค้นหา
                 </button> 
-                <button type="button" class="btn btn-success" id="PullChecksitbtn"> 
+                <button type="button" class="btn btn-success" id="PullChecksitbtn">
+                    {{-- <i class="fa-solid fa-magnifying-glass me-2"></i> --}}
+                    {{-- <i class="fa-solid fa-2 me-2"></i> --}}
                     ดึงข้อมูล
                 </button> 
-                <button type="button" class="btn btn-warning" id="Checksitbtn">  
+                <button type="button" class="btn btn-warning" id="Checksitbtn"> 
+                    {{-- <i class="fa-solid fa-clipboard-check me-2"></i> --}}
+                    {{-- <i class="fa-solid fa-3 me-2"></i> --}}
                     ตรวจสอบสิทธิ์
                 </button>
             </div>  
-             <div class="col"></div>   
+             <div class="col"></div>    
+            {{-- <div id="spinner-div">
+                <div class="spinner-border text-primary" role="status">
+                </div>
+            </div>   --}}
+           
         </div> 
-    </form> --}}
-        <div class="row mt-3 text-center">  
+    </form>
+        <div class="row mt-3 text-center"> 
+            {{-- <div id="spinner-div">
+                <div class="spinner-border text-primary" role="status">
+                </div>
+            </div>  --}}
             <div id="overlay">
                 <div class="cv-spinner">
                   <span class="spinner"></span>
@@ -90,8 +105,8 @@
               </div>
         </div> 
         <div class="row mt-3"> 
-            <div class="col-md-12"> 
-                {{-- <div class="main-card mb-3 card"> --}}
+            <div class="col-sm-12"> 
+                <div class="main-card mb-3 card">
                     <div class="card-header">
                         Report check sit
                         <div class="btn-actions-pane-right">
@@ -101,47 +116,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-
-                        <form action="{{ route('claim.check_sit_day') }}" method="GET">
-                            @csrf
-                            <div class="row mt-3"> 
-                                <div class="col"></div>
-                                <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $start }}">
-                    
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 text-center">ถึงวันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $end }}">
-                    
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div>    
-                                <div class="col-md-3">
-                                    <button type="submit" class="btn btn-info" > 
-                                        ค้นหา
-                                    </button> 
-                                    <button type="button" class="btn btn-success" id="PullChecksitbtn"> 
-                                        ดึงข้อมูล
-                                    </button> 
-                                    <button type="button" class="btn btn-warning" id="Checksitbtn">  
-                                        ตรวจสอบสิทธิ์
-                                    </button>
-                                </div>  
-                                 <div class="col"></div>   
-                            </div> 
-                        </form>
-                        
-                        <div class="table-responsive mt-5">
+                        <div class="table-responsive">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
                                     <tr>
@@ -149,8 +124,8 @@
                                         <th>vn</th>
                                         <th>hn</th>
                                         <th>cid</th>
-                                        <th>pttype Hos</th>
-                                        <th>pttype สปสช</th>
+                                        <th>pttype</th>
+                                        <th>subinscl</th>
                                         <th>vstdate</th>
                                         <th>vsttime</th>
                                         <th>fullname</th>
@@ -167,49 +142,27 @@
                                             ');  
                                             $data_c = DB::connection('mysql7')->table('check_sit_auto')->where('subinscl','=',$item->pttype)->count(); 
                                     ?> 
-
-                                    @if ( $item->pttype != $item->subinscl)
-                                        <tr style="background-color: rgb(255, 255, 25)">
+                                    {{-- @if ($data_c == 0) --}}
+                                        <tr style="background-color: rgb(181, 236, 234)">
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td>
                                             <td>{{ $item->hn }}</td>
-                                            <td>{{ $item->cid }}</td>  
-
-                                            <td>
-                                                {{-- <a href="" data-toggle="tooltip" data-placement="top" title="222">
-                                                    {{ $item->pttype }}
-                                                </a> --}}
-                                                <button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
-                                                    {{ $item->pttype }}
-                                                </button>
-                                            
-                                            </td>                                       
-                                            <td data-bs-toggle="tooltip" data-bs-placement="top" title="333">{{ $item->subinscl }}</td>
-
+                                            <td>{{ $item->cid }}</td>
+                                            {{-- @if ($item->pttype <> $item->subinscl) --}}
+                                                {{-- <td style="background-color: rgb(181, 236, 234)">{{ $item->pttype }}</td>                                                --}}
+                                            {{-- @else --}}
+                                                <td style="background-color: rgb(247, 157, 134)">{{ $item->pttype }}</td>
+                                            {{-- @endif --}}
+                                            <td style="background-color: rgb(223, 154, 51)">{{ $item->subinscl }}</td>
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->vsttime }}</td>
                                             <td>{{ $item->fullname }}</td>
                                             <td>{{ $item->staff }}</td> 
                                         </tr>
-                                    @else
-                                        <tr style="background-color: rgb(255, 255, 255)">
-                                            <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->vn }}</td>
-                                            <td>{{ $item->hn }}</td>
-                                            <td>{{ $item->cid }}</td>  
-                                            {{--  <td style="background-color: rgb(249, 217, 210)">{{ $item->pttype }}</td>                                       
-                                            <td style="background-color: rgb(219, 247, 255)">{{ $item->subinscl }}</td> --}}
-                                            
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>                                       
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
-
-                                            <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->vsttime }}</td>
-                                            <td>{{ $item->fullname }}</td>
-                                            <td>{{ $item->staff }}</td> 
-                                        </tr>
-                                    @endif
-                                   
+                                    {{-- @else --}}
+                                        
+                                    {{-- @endif --}}
+                                        
                                     @endforeach
                                     
                                 </tbody>

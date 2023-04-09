@@ -20,7 +20,7 @@ use App\Http\Controllers\UserComController;
 //********************* */ KTB  ***********************************
 Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::class, 'ktb_getcard'])->name('env.ktb_getcard');//
 
-
+Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::class, 'ktb_test'])->name('env.ktb_test');//
 
 
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
