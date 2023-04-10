@@ -44,7 +44,44 @@
 </style>
   
 <div class="tabs-animation">
-    
+    {{-- <form action="{{ route('claim.check_sit_day') }}" method="GET">
+        @csrf
+        <div class="row"> 
+            <div class="col"></div>
+            <div class="col-md-1 text-end">วันที่</div>
+            <div class="col-md-2 text-center">
+                <div class="input-group" id="datepicker1">
+                    <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
+                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                        value="{{ $start }}">
+
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>
+            <div class="col-md-1 text-center">ถึงวันที่</div>
+            <div class="col-md-2 text-center">
+                <div class="input-group" id="datepicker1">
+                    <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
+                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                        value="{{ $end }}">
+
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>    
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-info" > 
+                    ค้นหา
+                </button> 
+                <button type="button" class="btn btn-success" id="PullChecksitbtn"> 
+                    ดึงข้อมูล
+                </button> 
+                <button type="button" class="btn btn-warning" id="Checksitbtn">  
+                    ตรวจสอบสิทธิ์
+                </button>
+            </div>  
+             <div class="col"></div>   
+        </div> 
+    </form> --}}
         <div class="row mt-3 text-center">  
             <div id="overlay">
                 <div class="cv-spinner">
@@ -54,7 +91,7 @@
         </div> 
         <div class="row mt-3"> 
             <div class="col-md-12"> 
-                 <div class="main-card mb-3 card">
+                {{-- <div class="main-card mb-3 card"> --}}
                     <div class="card-header">
                         Report check sit
                         <div class="btn-actions-pane-right">

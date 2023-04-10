@@ -34,6 +34,9 @@
     <link rel="stylesheet" href="{{ asset('telemed/assets/css/animated.css') }}">
     <link rel="stylesheet" href="{{ asset('telemed/assets/css/owl.css') }}">
 
+        <!-- Bootstrap Css -->
+    {{-- <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> --}}
+     
     <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
     <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
