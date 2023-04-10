@@ -288,7 +288,7 @@ class AUTHENCHECKController extends Controller
         // @$content = explode($content['content']);
         // $transId=$transId[0];
         // $hmain=$hmain[1];
-
+        // foreach ($request->input('product_id', []) as $key => $product_id)
         foreach ($content as $key => $value) {
             $transId = $value['transId'];  
             $hmain = $value['hmain'];
