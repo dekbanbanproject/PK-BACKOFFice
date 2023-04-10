@@ -171,7 +171,11 @@ class AuthenController extends Controller
             LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
             LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
             LEFT OUTER JOIN patient p on p.hn=o.hn
+<<<<<<< HEAD
             LEFT OUTER JOIN visit_pttype_authen_report wr on wr.personalId = p.cid
+=======
+            LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
             LEFT OUTER JOIN opduser op on op.loginname = o.staff
             WHERE o.vstdate = CURDATE()
             AND o.staff LIKE "kiosk%" 
@@ -227,12 +231,21 @@ class AuthenController extends Controller
         }
 
         $countkiosnofinish_newdata_show = DB::connection('mysql3')->select('
+<<<<<<< HEAD
                 SELECT o.vn,o.hn,wr.claimCode,p.hometel,v.project_code,o.vstdate,o.vsttime,p.cid,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname,sk.department
+=======
+                SELECT o.vn,o.hn,vp.claimCode,p.hometel,v.project_code,o.vstdate,o.vsttime,p.cid,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname,sk.department
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
                 FROM ovst o
                 LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
                 LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
                 LEFT OUTER JOIN patient p on p.hn=o.hn
+<<<<<<< HEAD
                 LEFT OUTER JOIN visit_pttype_authen_report wr on wr.personalId = p.cid
+=======
+                LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
                 LEFT OUTER JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate = CURDATE()
                 AND o.staff LIKE "kiosk%"
@@ -246,7 +259,11 @@ class AuthenController extends Controller
             LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
             LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
             LEFT OUTER JOIN patient p on p.hn=o.hn
+<<<<<<< HEAD
             LEFT OUTER JOIN visit_pttype_authen_report wr on wr.personalId = p.cid
+=======
+            LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
             LEFT OUTER JOIN opduser op on op.loginname = o.staff
             WHERE o.vstdate = CURDATE()
             AND o.staff LIKE "kiosk%"
@@ -316,7 +333,11 @@ class AuthenController extends Controller
             FROM ovst o
             LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
             LEFT OUTER JOIN patient p on p.hn=o.hn
+<<<<<<< HEAD
             LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid
+=======
+            LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
             LEFT OUTER JOIN opduser op on op.loginname = o.staff
             WHERE o.vstdate = CURDATE()
             AND wr.claimCode is not null
@@ -418,14 +439,22 @@ class AuthenController extends Controller
         ');
 
         $authenusersuccess = DB::connection('mysql3')->select('
+<<<<<<< HEAD
             SELECT o.vn,o.hn,o.vstdate,o.vsttime,p.cid,concat(p.pname,p.fname," ",p.lname) as fullname,oq.claim_code,wr.claimCode,oq.mobile,
+=======
+            SELECT o.vn,o.hn,o.vstdate,o.vsttime,p.cid,concat(p.pname,p.fname," ",p.lname) as fullname,oq.claim_code,vp.claimCode,oq.mobile,
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
             oq.claim_type,oq.authen_type,os.is_appoint,o.staff,op.name as fullname_staff,os.opd_dep,sk.department
             FROM ovst o
             LEFT OUTER JOIN ovst_queue_server os on os.vn = o.vn
             LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn = os.vn
             LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
             LEFT OUTER JOIN patient p on p.hn=o.hn
+<<<<<<< HEAD
             LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid
+=======
+            LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
             LEFT OUTER JOIN opduser op on op.loginname = o.staff
             WHERE o.vstdate = CURDATE()
             AND wr.claimCode is not null
@@ -455,12 +484,20 @@ class AuthenController extends Controller
             ORDER BY os.time_visit
         ');
         $authen_kios_finish = DB::connection('mysql3')->select('
+<<<<<<< HEAD
             SELECT o.vn,o.hn,wr.claimCode,p.hometel,v.project_code,o.vstdate,o.vsttime,p.cid,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname,sk.department
+=======
+            SELECT o.vn,o.hn,vp.claimCode,p.hometel,v.project_code,o.vstdate,o.vsttime,p.cid,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname,sk.department
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
             FROM ovst o
             LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
             LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
             LEFT OUTER JOIN patient p on p.hn=o.hn
+<<<<<<< HEAD
             LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid
+=======
+            LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+>>>>>>> fa35aaf5dab789122a78a5dd6b61e13fb38479d4
             LEFT OUTER JOIN opduser op on op.loginname = o.staff
             WHERE o.vstdate = CURDATE()
             AND o.staff LIKE "kiosk%" 

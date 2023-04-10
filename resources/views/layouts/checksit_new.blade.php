@@ -40,7 +40,7 @@
     <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
-   
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
 <body>
@@ -208,7 +208,7 @@
 
       <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       
       @yield('footer')
       <script>
