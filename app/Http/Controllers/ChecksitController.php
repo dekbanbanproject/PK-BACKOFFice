@@ -214,7 +214,7 @@ class ChecksitController extends Controller
         //     'end'        => $dateend,           
         // ]);
     }
-    public function check_sit_auto(Request $request)
+    public function check_sit_font(Request $request)
     {
         $datestart = $request->datepicker;
         $dateend = $request->datepicker2;
@@ -231,10 +231,12 @@ class ChecksitController extends Controller
         $data_sitss = DB::connection('mysql7')->select(' 
             SELECT *
             FROM check_sit_auto  
-            WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
-              
-            AND subinscl IS NULL  
+            WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"               
+            AND subinscl IS NULL AND person_id_nhso IS NULL
+            AND updated_at IS NULL
+           
         ');  
+        // AND status <> "จำหน่าย/เสียชีวิต"
         // dd($data_sitss);
         // WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
 

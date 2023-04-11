@@ -27,6 +27,8 @@
     <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+ 
+   
 </head>
 
 <body>
@@ -493,8 +495,8 @@
     </div>
 
     <div class="app-drawer-overlay d-none animated fadeIn"></div>
-    <!-- plugin dependencies -->
-    <script type="text/javascript" src="{{ asset('disacc/vendors/jquery/dist/jquery.min.js') }}"></script>
+ 
+    {{-- <script type="text/javascript" src="{{ asset('disacc/vendors/jquery/dist/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/vendors/moment/moment.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/vendors/metismenu/dist/metisMenu.js') }}"></script>
@@ -510,7 +512,7 @@
     <script type="text/javascript" src="{{ asset('disacc/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/vendors/chart.js/dist/Chart.min.js') }}"></script>
 
-    <!-- datatables.js -->
+ 
     <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap-table/dist/bootstrap-table.min.js') }}">
     </script>
     <script type="text/javascript" src="{{ asset('disacc/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -520,10 +522,10 @@
         src="{{ asset('disacc/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script type="text/javascript"
         src="{{ asset('disacc/vendors/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-    <!-- Loadding.js -->
+ 
     <script type="text/javascript" src="{{ asset('disacc/vendors/block-ui/jquery.blockUI.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/blockui.js') }}"></script>
-    <!-- custome.js -->
+  
     <script type="text/javascript" src="{{ asset('disacc/js/charts/apex-charts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/circle-progress.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/demo.js') }}"></script>
@@ -531,8 +533,7 @@
     <script type="text/javascript" src="{{ asset('disacc/js/toastr.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/treeview.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/form-components/toggle-switch.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('disacc/js/app.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script> 
 
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -544,9 +545,49 @@
     <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    <!-- plugin dependencies -->
+    <script type="text/javascript" src="{{ asset('disacc/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/moment/moment.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/metismenu/dist/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap4-toggle/js/bootstrap4-toggle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/jquery-circle-progress/dist/circle-progress.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/perfect-scrollbar/dist/perfect-scrollbar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/toastr/build/toastr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/jquery.fancytree/dist/jquery.fancytree-all-deps.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <!-- custome.js -->
+    <script type="text/javascript" src="{{ asset('disacc/js/charts/apex-charts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/circle-progress.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/demo.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/scrollbar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/toastr.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/treeview.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/form-components/toggle-switch.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/app.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap-table/dist/bootstrap-table.min.js') }}">
+    </script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}">
+    </script>
+    <script type="text/javascript"
+        src="{{ asset('disacc/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script type="text/javascript"
+        src="{{ asset('disacc/vendors/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+        <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
+        <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+        <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
+        <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
+
+        <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
     @yield('footer')
 
 

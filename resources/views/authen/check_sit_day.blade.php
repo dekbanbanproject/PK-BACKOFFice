@@ -2,45 +2,45 @@
 @section('title', 'PK-BACKOFFice || checksit')
 @section('content')
 <style>
-         #button{
-                display:block;
-                margin:20px auto;
-                padding:10px 30px;
-                background-color:#eee;
-                border:solid #ccc 1px;
-                cursor: pointer;
-                }
-                #overlay{	
-                position: fixed;
-                top: 0;
-                z-index: 100;
-                width: 100%;
-                height:100%;
-                display: none;
-                background: rgba(0,0,0,0.6);
-                }
-                .cv-spinner {
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;  
-                }
-                .spinner {
-                width: 40px;
-                height: 40px;
-                border: 4px #ddd solid;
-                border-top: 4px #2e93e6 solid;
-                border-radius: 50%;
-                animation: sp-anime 0.8s infinite linear;
-                }
-                @keyframes sp-anime {
-                100% { 
-                    transform: rotate(360deg); 
-                }
-                }
-                .is-hide{
-                display:none;
-                }
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:30px 30px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{	
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;  
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 10px #ddd solid;
+           border-top: 10px #1fdab1 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% { 
+               transform: rotate(390deg); 
+           }
+           }
+           .is-hide{
+           display:none;
+           }
 </style>
   
 <div class="tabs-animation">
@@ -51,6 +51,12 @@
                   <span class="spinner"></span>
                 </div>
               </div>
+              {{-- <div id="preloader">
+                <div id="status">
+                    <div class="spinner"> 
+                    </div>
+                </div>
+            </div> --}}
         </div> 
         <div class="row mt-3"> 
             <div class="col-md-12"> 
@@ -104,19 +110,21 @@
                             </div> 
                         </form>
                         
-                        <div class="table-responsive mt-5">
+                        <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
-                                        <th>vn</th>
-                                        <th>hn</th>
+                                        <th>vn</th> 
                                         <th>cid</th>
-                                        <th>pttype Hos</th>
-                                        <th>pttype สปสช</th>
-                                        <th>vstdate</th>
-                                        <th>vsttime</th>
+                                        <th>vstdate</th> 
                                         <th>fullname</th>
+                                        <th>pttype Hos</th>
+                                        <th>hospmain</th> 
+                                        <th>hospsub</th> 
+                                        <th>pttype สปสช</th>
+                                        <th>hmain สปสช</th> 
+                                        <th>hsub สปสช</th> 
                                         <th>staff</th>                                       
                                     </tr>
                                 </thead>
@@ -128,47 +136,66 @@
                                                 SELECT * FROM check_sit_auto  
                                                where subinscl = "'.$item->pttype.'"
                                             ');  
-                                            $data_c = DB::connection('mysql7')->table('check_sit_auto')->where('subinscl','=',$item->pttype)->count(); 
-                                    ?> 
-
-                                    @if ( $item->pttype != $item->subinscl)
-                                        <tr style="background-color: rgb(255, 255, 25)">
+                                            $data_c = DB::connection('mysql7')->table('check_sit_auto')->where('subinscl','=',$item->pttype)->count();  
+                                    ?>  
+                                    @if ( $item->pttype == 'A7' && $item->subinscl == 'S1' && $item->hospmain == $item->hmain)
+                                        <tr style="background-color: rgb(255, 255, 255)">
                                             <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->vn }}</td>
-                                            <td>{{ $item->hn }}</td>
+                                            <td>{{ $item->vn }}</td> 
                                             <td>{{ $item->cid }}</td>  
-
-                                            <td>
-                                                {{-- <a href="" data-toggle="tooltip" data-placement="top" title="222">
-                                                    {{ $item->pttype }}
-                                                </a> --}}
-                                                <a class="btn btn-secondary">
-                                                    {{ $item->pttype }}                                               
-                                                <i class="fa-solid fa-stamp font-size-22 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ "> </i>  
-                                                </a>
-                                            </td>                                       
-                                            <td >{{ $item->subinscl }}</td>
-                                            
-                                            <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->vsttime }}</td>
+                                            <td>{{ $item->vstdate }}</td> 
                                             <td>{{ $item->fullname }}</td>
+                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>  
+                                            <td>{{ $item->hospmain }}</td> 
+                                            <td>{{ $item->hospsub }}</td>                                            
+                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
+                                            <td>{{ $item->hmain }}</td> 
+                                            <td>{{ $item->hsub }}</td> 
                                             <td>{{ $item->staff }}</td> 
                                         </tr>
+                                    @elseif( $item->pttype != $item->subinscl )
+
+                                        <tr style="background-color: rgb(255, 255, 25)">
+                                            <td>{{ $ia++ }}</td>
+                                            <td>{{ $item->vn }}</td> 
+                                            <td>{{ $item->cid }}</td>   
+                                            <td>{{ $item->vstdate }}</td> 
+                                            <td>{{ $item->fullname }}</td> 
+                                            <td> 
+                                                <?php                                                       
+                                                      $pttype_hos = DB::connection('mysql3')->table('pttype')->where('pttype','=',$item->pttype)->first();
+                                                      $d = $pttype_hos->name;
+                                                ?>
+                                                <button type="button" class="btn btn-primary" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$d}}">
+                                                    {{ $item->pttype }}
+                                                </button>                                                
+                                            </td>    
+                                            <td>{{ $item->hospmain }}</td> 
+                                            <td>{{ $item->hospsub }}</td>  
+                                            <td >
+                                                <button type="button" class="btn btn-success" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$item->subinscl_name}}">
+                                                    {{ $item->subinscl }}
+                                                </button>  
+                                            </td> 
+                                            <td>{{ $item->hmain }}</td> 
+                                            <td>{{ $item->hsub }}</td> 
+                                            <td>{{ $item->staff }}</td> 
+                                        </tr> 
                                     @else
                                         <tr style="background-color: rgb(255, 255, 255)">
                                             <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->vn }}</td>
-                                            <td>{{ $item->hn }}</td>
-                                            <td>{{ $item->cid }}</td>  
-                                            {{--  <td style="background-color: rgb(249, 217, 210)">{{ $item->pttype }}</td>                                       
-                                            <td style="background-color: rgb(219, 247, 255)">{{ $item->subinscl }}</td> --}}
-                                            
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>                                       
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
-
-                                            <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->vsttime }}</td>
+                                            <td>{{ $item->vn }}</td> 
+                                            <td>{{ $item->cid }}</td>   
+                                            <td>{{ $item->vstdate }}</td> 
                                             <td>{{ $item->fullname }}</td>
+
+                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>  
+                                            <td>{{ $item->hospmain }}</td> 
+                                            <td>{{ $item->hospsub }}</td>  
+
+                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
+                                            <td>{{ $item->hmain }}</td> 
+                                            <td>{{ $item->hsub }}</td> 
                                             <td>{{ $item->staff }}</td> 
                                         </tr>
                                     @endif
@@ -278,20 +305,20 @@
                 var datepicker2 = $('#datepicker2').val();  
                 // alert(datepicker);
                 Swal.fire({
-                        title: 'ต้องการปรับข้อมูลใช่ไหม ?',
-                        text: "You won't Update Data!",
+                        title: 'ต้องการตรวจสอบสิทธิ์ใช่ไหม ?',
+                        text: "You won't Chaeck Data!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Update it!'
+                        confirmButtonText: 'Yes, Chaeck it!'
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 $("#overlay").fadeIn(300);　
                                 $("#spinner-div").show(); //Load button clicked show spinner
 
                                 $.ajax({
-                                    url: "{{ route('claim.check_sit_auto') }}",
+                                    url: "{{ route('claim.check_sit_font') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
@@ -302,7 +329,7 @@
                                         if (data.status == 200) {
                                             Swal.fire({
                                                 title: 'ปรับข้อมูลสำเร็จ',
-                                                text: "You Insert data success",
+                                                text: "You Update data success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',

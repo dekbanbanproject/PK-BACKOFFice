@@ -56,7 +56,7 @@ Route::match(['get','post'],'authen_getbar_days',[App\Http\Controllers\AUTHENCHE
 
 Route::match(['get','post'],'check_sit_day',[App\Http\Controllers\ChecksitController::class, 'check_sit_day'])->name('claim.check_sit_day');//
 Route::match(['get','post'],'check_sit_daysearch',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysearch'])->name('claim.check_sit_daysearch');//
-Route::match(['get','post'],'check_sit_auto',[App\Http\Controllers\ChecksitController::class, 'check_sit_auto'])->name('claim.check_sit_auto');//
+Route::match(['get','post'],'check_sit_font',[App\Http\Controllers\ChecksitController::class, 'check_sit_font'])->name('claim.check_sit_font');//
 
 Route::match(['get','post'],'screening_cigarette',[App\Http\Controllers\PPFSController::class, 'screening_cigarette'])->name('pp.screening_cigarette');//การคัดกรองและบำบัดผู้ติดบุหรี่
 Route::match(['get','post'],'screening_spirits',[App\Http\Controllers\PPFSController::class, 'screening_spirits'])->name('pp.screening_spirits');//การคัดกรองและบำบัดผู้ดื่มสุรา
