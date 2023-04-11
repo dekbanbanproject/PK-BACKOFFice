@@ -343,7 +343,7 @@ class ChecksitController extends Controller
         // ]);
         return response()->json([
             'status'     => '200',
-             'data_sit'    => $data_sit, 
+            'data_sit'    => $data_sit, 
             'start'     => $datestart, 
             'end'        => $dateend, 
         ]); 
@@ -438,4 +438,118 @@ class ChecksitController extends Controller
         ]);
     }
 
+    public function check_sit_money(Request $request)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+ 
+            $data_sit = DB::connection('mysql5')->select(' 
+                SELECT *
+                FROM pang_stamp_temp  
+                WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+            ');   
+        return view('authen.check_sit_money ',[            
+            'data_sit'    => $data_sit, 
+            'start'     => $datestart, 
+            'end'        => $dateend,           
+        ]);
+    }
+    public function check_sit_money_pk(Request $request)
+    {
+        $datestart = $request->datepicker;
+        $dateend = $request->datepicker2;
+        $date = date('Y-m-d');
+
+        $token_data = DB::connection('mysql7')->select('
+            SELECT cid,token FROM ssop_token 
+        '); 
+        foreach ($token_data as $key => $valuetoken) {
+            $cid_ = $valuetoken->cid;
+            $token_ = $valuetoken->token;
+        }
+ 
+        $data_sitss = DB::connection('mysql5')->select(' 
+            SELECT *
+            FROM pang_stamp_temp  
+            WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"   
+            AND pang_stamp IN("1102050101.401","1102050101.402","1102050102.801","1102050102.802","1102050102.803","1102050102.804")
+            AND check_sit_subinscl IS NULL;
+        ');  
+        
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn = $item->vn;
+            $hn = $item->hn; 
+            $vstdate = $item->vstdate;
+          
+            $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                array(
+                    "uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',
+                                    "trace"      => 1,    
+                                    "exceptions" => 0,    
+                                    "cache_wsdl" => 0 
+                    )
+                );
+                $params = array(
+                    'sequence' => array(
+                        "user_person_id" => "$cid_",
+                        "smctoken" => "$token_",
+                        "person_id" => "$pids"
+                )
+            ); 
+            $contents = $client->__soapCall('searchCurrentByPID',$params);           
+       
+            // dd($contents);
+            foreach ($contents as $key => $v) {  
+                @$status = $v->status ;  
+                @$maininscl = $v->maininscl;
+                @$startdate = $v->startdate;
+                @$hmain = $v->hmain ; 
+                @$subinscl = $v->subinscl ;
+                @$person_id_nhso = $v->person_id;
+
+                @$hmain_op = $v->hmain_op;  //"10978"
+                @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                @$hsub = $v->hsub;    //"04047"
+                @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+                // dd(@$maininscl);
+                IF(@$maininscl =="" || @$maininscl==null || @$status =="003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                    
+                  }elseif(@$maininscl !="" || @$subinscl !=""){ 
+                    $date_now2 = date('Y-m-d');
+                    Pang_stamp_temp::where('vn', $vn) 
+                    ->update([    
+                        // 'status' => @$status,
+                        // 'maininscl' => @$maininscl,
+                        // 'startdate' => @$startdate,
+                        // 'hmain' => @$hmain,
+                        'check_sit_subinscl' => @$subinscl,
+                        'pttype_stamp' => @$subinscl.' '.@$startdate
+
+                        // 'hmain_op' => @$hmain_op,
+                        // 'hmain_op_name' => @$hmain_op_name,
+                        // 'hsub' => @$hsub,
+                        // 'hsub_name' => @$hsub_name,
+                        // 'subinscl_name' => @$subinscl_name 
+                    ]); 
+ 
+                  }
+
+            }           
+        }
+        $data_sit = DB::connection('mysql5')->select(' 
+            SELECT *
+            FROM pang_stamp_temp  
+            WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"   
+            AND pang_stamp IN("1102050101.401","1102050101.402","1102050102.801","1102050102.802","1102050102.803","1102050102.804");
+        ');  
+ 
+        return response()->json([
+            'status'     => '200',
+            'data_sit'    => $data_sit, 
+            'start'     => $datestart, 
+            'end'        => $dateend, 
+        ]); 
+    }
 }

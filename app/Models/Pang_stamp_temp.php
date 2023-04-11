@@ -12,7 +12,7 @@ class Pang_stamp_temp extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     
-    protected $connection = 'mysql8';
+    protected $connection = 'mysql5';
     protected $table = 'pang_stamp_temp';
     protected $primaryKey = 'pang_stamp_id';
     public $timestamps = false;  

@@ -45,7 +45,7 @@
   
 <div class="tabs-animation">
     
-        <div class="row text-center">  
+        <div class="row mt-3 text-center">  
             <div id="overlay">
                 <div class="cv-spinner">
                   <span class="spinner"></span>
@@ -58,7 +58,7 @@
                 </div>
             </div> --}}
         </div> 
-        <div class="row"> 
+        <div class="row mt-3"> 
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -168,7 +168,7 @@
                                         </tr>
                                     @elseif( $item->pttype != $item->subinscl )
 
-                                        <tr style="background-color: rgb(201, 250, 239)">
+                                        <tr style="background-color: rgb(187, 222, 250)">
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td> 
                                             <td>{{ $item->cid }}</td>   
@@ -179,22 +179,22 @@
                                                       $pttype_hos = DB::connection('mysql3')->table('pttype')->where('pttype','=',$item->pttype)->first();
                                                       $d = $pttype_hos->name;
                                                 ?>
-                                                <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-danger" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$d}}">
+                                                {{-- <button type="button" class="btn btn-primary" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$d}}">
                                                     {{ $item->pttype }}
-                                                </button>     
-                                                {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$d}}">
+                                                </button>      --}}
+                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$d}}">
                                                       {{ $item->pttype }}
-                                                </button>                                            --}}
+                                                </button>                                           
                                             </td>    
                                             <td>{{ $item->hospmain }}</td> 
                                             <td>{{ $item->hospsub }}</td>  
                                             <td >
-                                                {{-- <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-warning" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="{{$item->subinscl_name}}">
+                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="{{$item->subinscl_name}}">
                                                     {{ $item->subinscl }}
-                                              </button>  --}}
-                                                <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-warning" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$item->subinscl_name}}">
+                                              </button> 
+                                                {{-- <button type="button" class="btn btn-success" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$item->subinscl_name}}">
                                                     {{ $item->subinscl }}
-                                                </button>  
+                                                </button>   --}}
                                             </td> 
                                             <td>{{ $item->hmain }}</td> 
                                             <td>{{ $item->hsub }}</td> 

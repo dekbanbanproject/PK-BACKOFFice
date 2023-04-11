@@ -16,6 +16,9 @@
     <meta name="msapplication-tap-highlight" content="no">
     <!-- Font Awesome -->
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
+      <!-- App favicon -->
+      <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
@@ -612,6 +615,41 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Token</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body"> 
+                <div class="input-group">
+                    <div class="input-group-text">
+                        <span class="">@cid</span>
+                    </div>
+                    <input type="text" id="cid" name="cid" class="form-control">
+                </div>
+                <br>
+                <div class="input-group input-group-sm">
+                    <div class="input-group-text">
+                        <span class="">@Token</span>
+                    </div>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script type="text/javascript">
         $(document).ready(function() {
