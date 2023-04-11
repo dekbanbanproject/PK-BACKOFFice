@@ -142,10 +142,10 @@
                                                 {{-- <a href="" data-toggle="tooltip" data-placement="top" title="222">
                                                     {{ $item->pttype }}
                                                 </a> --}}
-                                                <button type="button" class="btn btn-secondary">
+                                                <a class="btn btn-secondary">
                                                     {{ $item->pttype }}                                               
                                                 <i class="fa-solid fa-stamp font-size-22 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ "> </i>  
-                                            </button>
+                                                </a>
                                             </td>                                       
                                             <td >{{ $item->subinscl }}</td>
                                             
