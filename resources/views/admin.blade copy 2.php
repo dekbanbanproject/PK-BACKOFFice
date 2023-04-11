@@ -64,7 +64,47 @@ $pos = strrpos($url, '/') + 1;
 
  
 </style>
- 
+{{-- <style>
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:100px 100px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{	
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;  
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 5px #ddd solid;
+           border-top: 10px #c2f116 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% { 
+               transform: rotate(360deg); 
+           }
+           }
+           .is-hide{
+           display:none;
+           }
+</style> --}}
  
     <div class="container">
         <div id="preloader">
@@ -344,6 +384,45 @@ $pos = strrpos($url, '/') + 1;
                                 where orginfo_id = 1 
                                  ');
     ?>
-    
+   {{-- <footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-4">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+                @foreach ($datadetail as $item)
+                    <label for="" style="color: rgb(82, 11, 148);font-size:17px"> ©
+                        {{ $item->orginfo_name }}</label>
+                @endforeach
+
+            </div>
+            <div class="col"></div>
+            <div class="col-md-4 text-center">
+                <label for="" style="color: rgb(82, 11, 148);font-size:17px">PK-BACKOFFIce</label>
+            </div>
+
+        </div>
+    </div>
+</footer> --}}
   @endsection
- 
+
+  {{-- <script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+        $('#example2').DataTable();
+        $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('#datepicker2').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+        $('#spinner').hide();//Request is complete so hide spinner
+        setTimeout(function(){
+            $("#overlay").fadeOut(300);
+        },500);
+          
+    });
+</script> --}}
