@@ -258,5 +258,15 @@ class ReportFontController extends Controller
             'year_ids'       =>  $year_id, 
         ]);
     }
+
+    public function report_refer(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        return view('dashboard.report_refer',[
+            'start' => $startdate,
+            'end'   => $enddate 
+        ]);
+    }
     
 }

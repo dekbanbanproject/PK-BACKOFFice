@@ -26,6 +26,7 @@ Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::c
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
 Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
 Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\ReportFontController::class, 'report_ormonth'])->name('rep.report_ormonth');// report
+Route::match(['get','post'],'report_refer',[App\Http\Controllers\ReportFontController::class, 'report_refer'])->name('rep.report_refer');// report report_refer
 
 Route::get('book/bookmake_detail/{id}',[App\Http\Controllers\BookController::class, 'bookmake_detail'])->name('book.bookmake_detail'); 
 Route::get('computer/com_repair_add/{id}',[App\Http\Controllers\RepaireScanController::class, 'com_repair_add']);// แจ้งซ่อมคอมพิวเตอร์ ผ่านสแกน
@@ -49,6 +50,8 @@ Route::match(['get','post'],'authen/checkauthen_main',[App\Http\Controllers\AUTH
 Route::match(['get','post'],'authen/checkauthen_auto',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_auto'])->name('checkauthen_auto');
 
 Route::match(['get','post'],'authen/checkauthen_autospsch',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_autospsch'])->name('checkauthen_autospsch');
+Route::match(['get','post'],'authen/checkauthen_update_vn',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_update_vn'])->name('checkauthen_update_vn');
+Route::match(['get','post'],'checkauthen_update_vn_data',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_update_vn_data'])->name('Sit.checkauthen_update_vn_data');
 
 Route::match(['get','post'],'authen/getauthen_auto',[App\Http\Controllers\AUTHENCHECKController::class, 'getauthen_auto'])->name('getauthen_auto');
 Route::match(['get','post'],'authen_getbar',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar'])->name('authen_getbar');
