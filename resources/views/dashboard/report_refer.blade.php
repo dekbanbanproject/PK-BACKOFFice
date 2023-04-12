@@ -68,8 +68,8 @@
                     </div>
                     <div class="card-body">
 
-                        {{-- <form action="{{ route('Sit.checkauthen_update_vn_data') }}" method="POST" id="UpdateVNTO">
-                            @csrf --}}
+                        <form action="{{ route('rep.report_refer') }}" method="GET" >
+                            @csrf
                             <div class="row mt-3"> 
                                 <div class="col"></div>
                                 <div class="col-md-1 text-end">วันที่</div>
@@ -107,28 +107,86 @@
                                 </div>  
                                  <div class="col"></div>   
                             </div> 
-                        {{-- </form> --}}
+                        </form>
                         
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
-                                        <th>vn</th> 
-                                        <th>cid</th>
-                                        <th>vstdate</th> 
-                                        <th>fullname</th>
-                                        <th>pttype Hos</th>
-                                        <th>hospmain</th> 
-                                        <th>hospsub</th> 
-                                        <th>pttype สปสช</th>
-                                        <th>hmain สปสช</th> 
-                                        <th>hsub สปสช</th> 
-                                        <th>staff</th>                                       
+                                        {{-- <th>สถานะ</th>  --}}
+                                        <th>ทะเบียน</th>
+                                        <th>ประเภท</th> 
+                                        <th>บันทึกไป</th>
+                                        <th>บันทึกกลับ</th>
+                                        <th>วันที่ไป</th> 
+                                        <th>เวลา</th> 
+                                        <th>ถึงวันที่</th>
+                                        <th>เวลา</th> 
+                                        <th>พนักงานขับรถ</th> 
+                                        <th>หมายเหตุ</th>                                       
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    <?php $number = 0; ?>
+                                    @foreach ($datashow_ as $inforefer)
+                                    <?php $number++; ?>
+    
+                                        <tr height="20">
+                                            <td class="text-font" style="text-align: center;">{{$number}}</td>
+    
+                                            {{-- @if($inforefer->REFER == 'CANCEL')
+                                            <td style="border-color:#000000;text-align: center;"><span class="badge badge-danger" >ยกเลิก</span></td>
+                                            @else
+                                            <td  style="border-color:#000000;text-align: center;"><span class="badge badge-success" >ส่งต่อ</span></td>                            
+                                            @endif --}}
+    
+    
+                                            <td class="text-font text-pedding" style="border-color:#000000;text-align:left;">{{ $inforefer->CAR_REG }}</td>
+    
+                                            
+                                            @if($inforefer->REFER_TYPE_ID == '1')
+                                            <td class="text-font text-pedding" style="border-color:#000000;text-align: left;">REFER</td>
+                                            @elseif($inforefer->REFER_TYPE_ID== '2')
+                                            <td  class="text-font text-pedding" style="border-color:#000000;text-align: left;">EMS</td>
+                                            @elseif($inforefer->REFER_TYPE_ID == '3')
+                                            <td  class="text-font text-pedding" style="border-color:#000000;text-align: left;">รับ-ส่ง [ไม่ฉุกเฉิน]</td>
+                                           @else
+                                           <td class="text-font" style="border-color:#000000;text-align: left;" ></td>
+                                            @endif
+    
+                                            @if($inforefer->CAR_GO_MILE <> '')
+                                            <td class="text-font" style="text-align: center;">{{$inforefer->CAR_GO_MILE}}</td>
+                                            @else
+                                            <td class="text-font text-pedding" style="text-align: left;"></td>
+                                            @endif
+    
+                                            @if($inforefer->CAR_BACK_MILE <> '')
+                                            <td class="text-font" style="text-align: center;">{{$inforefer->CAR_BACK_MILE}}</td>
+                                            @else
+                                            <td class="text-font text-pedding" style="text-align: left;"></td>
+                                            @endif 
+    
+                                            <td class="text-font" style="text-align: center;">{{ DateThai($inforefer->OUT_DATE) }}</td>
+                                            <td class="text-font" style="text-align: center;">{{ formatetime($inforefer->OUT_TIME) }}</td>
+                                          
+                                            
+                                            <td class="text-font" style="text-align: center;">{{ DateThai($inforefer->BACK_DATE) }}</td>
+                                            <td class="text-font" style="text-align: center;">{{ formatetime($inforefer->BACK_TIME) }}</td>
+    
+    
+                                            <td class="text-font text-pedding" style="text-align: left;">{{ $inforefer->DRIVER_NAME }}</td>
+                                            {{-- <td class="text-font text-pedding" style="text-align: left;">{{ $inforefer->USER_REQUEST_NAME }}</td> --}}
+                                         
+                                            {{-- <td class="text-font text-pedding" style="text-align: right;">{{number_format($inforefer->ADD_OIL_BATH,2)}}</td> --}}
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->COMMENT}}</td>
+                                            
+                                           
+    
+                                        </tr>
+    
+    
+                                        @endforeach 
                                     
                                 </tbody>
                             </table>
@@ -158,6 +216,8 @@
         $('#datepicker2').datepicker({
             format: 'yyyy-mm-dd'
         });
+
+        $('#example').DataTable();
 
         $.ajaxSetup({
                 headers: {
