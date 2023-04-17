@@ -48,36 +48,12 @@
    <!-- select2 -->
     <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
+   <link rel="stylesheet"
+   href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
 <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 </head>
-<style>
-    .myTable thead tr{
-    background-color: #b56fca;
-    color: #ffffff;
-    text-align: center;
-    }
-    .myTable th .myTable td{
-        padding: 12px 15px;
-    }
-    .myTable tbody tr{
-        border-bottom: 1px solid #b329f3;
-    }
-    .myTable tbody td{
-        font-size:15px;
-    }
-    .myTable tbody tr:nth-of-type(even){
-        background-color: #f4e1f7;
-    }
-    .myTable tbody tr:last-of-type{
-        border-bottom: 3px solid #ccbcd1;
-    }
-    .myTable tbody tr .active-row{
-        color: #ccbcd1;
-    }
-</style>
- 
+  
 
 <body data-topbar="dark">
  
@@ -85,7 +61,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(255, 255, 255)">
+            <div class="navbar-header" style="background-color: rgb(252, 252, 252)">
               
 
                 <div class="d-flex">
@@ -105,13 +81,13 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle"></i>
+                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
@@ -122,7 +98,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
@@ -134,7 +110,7 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
                     </div>
 
@@ -165,76 +141,32 @@
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100">
+            <div data-simplebar class="h-100" style="background-color: rgb(218, 149, 245)">
  
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title">Menu</li>
+                        <li class="menu-title" style="color: white">Menu</li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-user-nurse text-danger"></i>
-                                <span>ห้องผ่าตัด</span>
+                                <span style="color: white">REFER</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('report_or') }}">Dashboard</a></li>  
+                                <li ><a href="{{ url('report_refer') }}" style="color: white">เทียบการใช้งานรถ Refer</a></li>  
                             </ul>
                         </li> 
- 
-
                         {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>ดึงข้อมูล</span>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-user-nurse text-danger"></i>
+                                <span style="color: white">ห้องผ่าตัด</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pk') }}">ดึงลูกหนี้จาก Hos-opd</a></li> 
-                                <li><a href="{{ url('account_pk_ipd') }}">ดึงลูกหนี้จาก Hos-ipd</a></li> 
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>UCS</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkucs') }}">ตั้งลูกหนี้</a></li> 
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>OFC</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkofc401_dash') }}">ตั้งลูกหนี้-401</a></li> 
-                                <li><a href="{{ url('account_pkofc402_dash') }}">ตั้งลูกหนี้-402</a></li> 
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>SSS</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pksss') }}">ตั้งลูกหนี้</a></li> 
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>LGO</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pklgo801_dash') }}">ตั้งลูกหนี้-801</a></li> 
-                                <li><a href="{{ url('account_pklgo802') }}">ตั้งลูกหนี้-802</a></li> 
-                                <li><a href="{{ url('account_pklgo803') }}">ตั้งลูกหนี้-803</a></li> 
-                                <li><a href="{{ url('account_pklgo804') }}">ตั้งลูกหนี้-804</a></li> 
+                                <li ><a href="{{ url('report_or') }}" style="color: white">Dashboard</a></li>  
                             </ul>
                         </li>  --}}
-                        
-                        
+  
 
                     </ul>
                 </div>

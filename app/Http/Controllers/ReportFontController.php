@@ -258,5 +258,23 @@ class ReportFontController extends Controller
             'year_ids'       =>  $year_id, 
         ]);
     }
+
+    public function report_refer(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $datashow_ = DB::connection('mysql6')->select(' 
+                SELECT ID,STATUS as REFER,CAR_GO_MILE,CAR_BACK_MILE ,OUT_DATE,OUT_TIME,BACK_DATE,BACK_TIME,DRIVER_NAME,USER_REQUEST_NAME,ADD_OIL_BATH,COMMENT,CAR_REG,REFER_TYPE_ID 
+                FROM vehicle_car_refer v
+                LEFT JOIN vehicle_car_index vc ON vc.CAR_ID = v.CAR_ID
+                WHERE REFER_TYPE_ID = "1"
+                AND OUT_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"  
+        ');
+        return view('dashboard.report_refer',[
+            'start'     => $startdate,
+            'end'       => $enddate ,
+            'datashow_' => $datashow_
+        ]);
+    }
     
 }

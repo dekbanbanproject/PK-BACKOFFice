@@ -23,16 +23,7 @@ class AuthenController extends Controller
     public function authen_dashboard(Request $request)
     {
         $date = date('Y-m-d');
-      
-        // $countalls_data = DB::connection('mysql3')->select('
-        //     SELECT COUNT(o.vn) as VN
-        //     FROM ovst o
-        //     LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-        //     LEFT OUTER JOIN patient p on p.hn=o.hn
-        //     LEFT OUTER JOIN opduser op on op.loginname = o.staff
-        //     WHERE o.vstdate = CURDATE()
-        //     ORDER BY o.vsttime
-        // ');
+       
         $countalls_data = DB::connection('mysql3')->select('
           
             SELECT 
@@ -131,160 +122,146 @@ class AuthenController extends Controller
           
  
         $countkiosallsdata = DB::connection('mysql3')->select('
-        SELECT COUNT(DISTINCT o.vn) as VN
-                ,COUNT(wr.claimType) as UserAuthen
-                ,COUNT(oq.claim_code) as KiosAuthen 
-                ,COUNT((wr.claimType)+(oq.claim_code)) as Authensend
-                ,COUNT(wr.tel) as Tel
-                ,MONTH(o.vstdate) as month
-                ,YEAR(o.vstdate) as year
-                ,DAY(o.vstdate) as day
-                ,o.vstdate
+            SELECT COUNT(DISTINCT o.vn) as VN
+                    ,COUNT(wr.claimType) as UserAuthen
+                    ,COUNT(oq.claim_code) as KiosAuthen 
+                    ,COUNT((wr.claimType)+(oq.claim_code)) as Authensend
+                    ,COUNT(wr.tel) as Tel
+                    ,MONTH(o.vstdate) as month
+                    ,YEAR(o.vstdate) as year
+                    ,DAY(o.vstdate) as day
+                    ,o.vstdate
 
-            FROM ovst o
-                LEFT OUTER JOIN visit_pttype v on v.vn=o.vn					
-                LEFT OUTER JOIN ovst_queue_server os on os.vn = o.vn
-                LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn = os.vn					
-                LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-                LEFT OUTER JOIN patient p on p.hn=o.hn
-                LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid
-                LEFT OUTER JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE()
-                AND os.staff LIKE "kiosk%"
-                ORDER BY o.vsttime
-        ');
-        foreach ($countkiosallsdata as $key => $value) {
-            $countkiosalls = $value->VN;
-        }
-
-        if ($countkiosalls == 0) {
-            $countkiosallst = 1;
-        } else {
-            $countonus = 100 / $countalls ; 
-            $countkiosallst = $countonus * $countkiosalls;
-            // dd($countkiosallst);
-        }
- 
-        $countkiosfinishdata = DB::connection('mysql3')->select('
-            SELECT COUNT(o.vn) as VN
-            FROM ovst o
-            LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
-            LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-            LEFT OUTER JOIN patient p on p.hn=o.hn
-            LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
-            LEFT OUTER JOIN opduser op on op.loginname = o.staff
-            WHERE o.vstdate = CURDATE()
-            AND o.staff LIKE "kiosk%" 
-            AND vp.claimCode is not null 
-        ');
-        foreach ($countkiosfinishdata as $key => $value) {
-            $countkiosfinish = $value->VN;
-        }
-
-        if ($countkiosfinish == 0) {
-            $countkiosfinisht = 1;
-        } else {
-            $countonus = 100 / $countalls ; 
-            $countkiosfinisht = $countonus * $countkiosfinish;
-            // dd($countkiosallst);
-        }
-
-        $countkiosnofinishdata1 = DB::connection('mysql3')->select('
-            SELECT COUNT(os.vn) as VN
-            FROM ovst_queue_server os
-            LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn=os.vn
-            WHERE os.date_visit = "'.$date.'"
-            AND os.staff LIKE "kiosk%"
-            AND oq.authen_type <>"S" 
-            ORDER BY os.time_visit
- 
-        ');
-        foreach ($countkiosnofinishdata1 as $key => $value) {
-            $countkiosnofinish1 = $value->VN;
-        }
-        $countkiosnofinishdata2 = DB::connection('mysql3')->select('
-            SELECT COUNT(os.vn) as VN
-            FROM ovst_queue_server os
-            LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn=os.vn
-            WHERE os.date_visit = "'.$date.'"
-            AND os.staff LIKE "kiosk%"
-            AND oq.authen_type IS NULL 
-            ORDER BY os.time_visit
-
-        ');
-        foreach ($countkiosnofinishdata2 as $key => $value) {
-            $countkiosnofinish2 = $value->VN;
-        }
-
-        $countkiosnofinish = $countkiosnofinish1 + $countkiosnofinish2;
-       
-        if ($countkiosnofinish == 0) {
-            $countkiosnofinisht = 1;
-        } else {
-            $countonus = 100 / $countalls ; 
-            $countkiosnofinisht = $countonus * $countkiosnofinish;
-            // dd($countkiosallst);
-        }
-
-        $countkiosnofinish_newdata_show = DB::connection('mysql3')->select('
-                SELECT o.vn,o.hn,vp.claimCode,p.hometel,v.project_code,o.vstdate,o.vsttime,p.cid,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname,sk.department
                 FROM ovst o
-                LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
-                LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-                LEFT OUTER JOIN patient p on p.hn=o.hn
-                LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+                    LEFT OUTER JOIN visit_pttype v on v.vn=o.vn					
+                    LEFT OUTER JOIN ovst_queue_server os on os.vn = o.vn
+                    LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn = os.vn					
+                    LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                    LEFT OUTER JOIN patient p on p.hn=o.hn
+                    LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid
+                    LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                    WHERE o.vstdate = CURDATE()
+                    AND os.staff LIKE "kiosk%"
+                    ORDER BY o.vsttime
+                ');
+                foreach ($countkiosallsdata as $key => $value) {
+                    $countkiosalls = $value->VN;
+                }
 
-                LEFT OUTER JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE()
-                AND o.staff LIKE "kiosk%"
-                AND vp.claimCode is null 
-                ORDER BY o.vsttime
-        ');
+                if ($countkiosalls == 0) {
+                    $countkiosallst = 1;
+                } else {
+                    $countonus = 100 / $countalls ; 
+                    $countkiosallst = $countonus * $countkiosalls;
+                    // dd($countkiosallst);
+                }
+        
+                $countkiosfinishdata = DB::connection('mysql3')->select('
+                    SELECT COUNT(o.vn) as VN
+                    FROM ovst o
+                    LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
+                    LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                    LEFT OUTER JOIN patient p on p.hn=o.hn
+                    LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+                    LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                    WHERE o.vstdate = CURDATE()
+                    AND o.staff LIKE "kiosk%" 
+                    AND vp.claimCode is not null 
+                ');
+                foreach ($countkiosfinishdata as $key => $value) {
+                    $countkiosfinish = $value->VN;
+                }
 
-        $countkiosnofinish_newdata = DB::connection('mysql3')->select('
-            SELECT COUNT(o.vn) as VN
-            FROM ovst o
-            LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
-            LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-            LEFT OUTER JOIN patient p on p.hn=o.hn
-            LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
-            LEFT OUTER JOIN opduser op on op.loginname = o.staff
-            WHERE o.vstdate = CURDATE()
-            AND o.staff LIKE "kiosk%"
-            AND vp.claimCode is null 
-            ORDER BY o.vsttime
-        ');
-        foreach ($countkiosnofinish_newdata as $key => $value) {
-            $countkiosnofinish_new = $value->VN;
-        }
-        if ($countkiosnofinish_new == 0) {
-            $countkiosnofinish_newt = 1;
-        } else {
-            $countonus = 100 / $countalls ; 
-            $countkiosnofinish_newt = $countonus * $countkiosnofinish_new;
-            // dd($countkiosallst);
-        }
+                if ($countkiosfinish == 0) {
+                    $countkiosfinisht = 1;
+                } else {
+                    $countonus = 100 / $countalls ; 
+                    $countkiosfinisht = $countonus * $countkiosfinish;
+                    // dd($countkiosallst);
+                }
 
-        // $count_success_data = DB::connection('mysql3')->select('
-        //     SELECT COUNT(DISTINCT o.vn) as VN 
-        //     FROM ovst o
-        //     LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
-        //     LEFT OUTER JOIN ovst_queue_server os on os.vn = o.vn
-        //     LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn = os.vn
-        //     LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-        //     LEFT OUTER JOIN patient p on p.hn=o.hn
-        //     LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid
-        //     LEFT OUTER JOIN opduser op on op.loginname = o.staff
-        //     WHERE o.vstdate = CURDATE()
-        //     AND wr.claimCode IS NOT NULL
-        //     AND wr.claimType IS NOT NULL
-        // ');
-        $count_success_data = DB::connection('mysql3')->select('
-                SELECT COUNT(*) as VN
-                    FROM visit_pttype_authen_report
-                    WHERE claimDate = CURDATE()
-						
-    ');
+                $countkiosnofinishdata1 = DB::connection('mysql3')->select('
+                    SELECT COUNT(os.vn) as VN
+                    FROM ovst_queue_server os
+                    LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn=os.vn
+                    WHERE os.date_visit = "'.$date.'"
+                    AND os.staff LIKE "kiosk%"
+                    AND oq.authen_type <>"S" 
+                    ORDER BY os.time_visit
+        
+                ');
+                foreach ($countkiosnofinishdata1 as $key => $value) {
+                    $countkiosnofinish1 = $value->VN;
+                }
+                $countkiosnofinishdata2 = DB::connection('mysql3')->select('
+                    SELECT COUNT(os.vn) as VN
+                    FROM ovst_queue_server os
+                    LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn=os.vn
+                    WHERE os.date_visit = "'.$date.'"
+                    AND os.staff LIKE "kiosk%"
+                    AND oq.authen_type IS NULL 
+                    ORDER BY os.time_visit
+
+                ');
+                foreach ($countkiosnofinishdata2 as $key => $value) {
+                    $countkiosnofinish2 = $value->VN;
+                }
+
+                $countkiosnofinish = $countkiosnofinish1 + $countkiosnofinish2;
+            
+                if ($countkiosnofinish == 0) {
+                    $countkiosnofinisht = 1;
+                } else {
+                    $countonus = 100 / $countalls ; 
+                    $countkiosnofinisht = $countonus * $countkiosnofinish;
+                    // dd($countkiosallst);
+                }
+
+                $countkiosnofinish_newdata_show = DB::connection('mysql3')->select('
+                        SELECT o.vn,o.hn,vp.claimCode,p.hometel,v.project_code,o.vstdate,o.vsttime,p.cid,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname,sk.department
+                        FROM ovst o
+                        LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
+                        LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                        LEFT OUTER JOIN patient p on p.hn=o.hn
+                        LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+
+                        LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                        WHERE o.vstdate = CURDATE()
+                        AND o.staff LIKE "kiosk%"
+                        AND vp.claimCode is null 
+                        ORDER BY o.vsttime
+                ');
+
+                $countkiosnofinish_newdata = DB::connection('mysql3')->select('
+                    SELECT COUNT(o.vn) as VN
+                    FROM ovst o
+                    LEFT OUTER JOIN visit_pttype v on v.vn=o.vn
+                    LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                    LEFT OUTER JOIN patient p on p.hn=o.hn
+                    LEFT OUTER JOIN visit_pttype_authen_report vp on vp.personalId = p.cid
+                    LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                    WHERE o.vstdate = CURDATE()
+                    AND o.staff LIKE "kiosk%"
+                    AND vp.claimCode is null 
+                    ORDER BY o.vsttime
+                ');
+                foreach ($countkiosnofinish_newdata as $key => $value) {
+                    $countkiosnofinish_new = $value->VN;
+                }
+                if ($countkiosnofinish_new == 0) {
+                    $countkiosnofinish_newt = 1;
+                } else {
+                    $countonus = 100 / $countalls ; 
+                    $countkiosnofinish_newt = $countonus * $countkiosnofinish_new;
+                    // dd($countkiosallst);
+                }
+        
+                $count_success_data = DB::connection('mysql3')->select('
+                        SELECT COUNT(*) as VN
+                            FROM visit_pttype_authen_report
+                            WHERE claimDate = CURDATE()
+                                
+            ');
         foreach ($count_success_data as $key => $value) {
             $count_success = $value->VN;
         }
@@ -300,18 +277,7 @@ class AuthenController extends Controller
  
 
         $countonusers = $countalls - $countkiosalls;
-
-
-
-
-
-
-
-
-
-
-       
-
+ 
         $countonuserssuccessdatanew = DB::connection('mysql3')->select('
             SELECT COUNT(o.vn) as VN
             FROM ovst o

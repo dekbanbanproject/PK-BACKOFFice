@@ -62,7 +62,7 @@
                         <h5 class="card-title">Authen Report Month</h5>
                         <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0">
                             <div style="height: auto;">
-                                <canvas id="Mychart"></canvas>
+                                {{-- <canvas id="Mychart"></canvas> --}}
                             </div>
                         </div>
 

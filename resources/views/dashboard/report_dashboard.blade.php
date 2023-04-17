@@ -76,40 +76,19 @@
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">ห้องผ่าตัด</p>
-                                                    
-                                                        <h4 class="text-start mb-2">{{$count}} Visit</h4>
-                                                        
-                                                        {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($sumdebtor_, 2) }}</span>บาท</p> --}}
-                                                        {{-- <p class="text-start mb-0">
-                                                            <span class="text-danger fw-bold font-size-12 me-2">
-                                                                <i class="ri-arrow-right-up-line me-1 align-middle"> </i>
-                                                                    10
-                                                            </span>
-                                                            บาท
-                                                        </p> --}}
-                                                    </div>                                                    
+                                                        <p class="text-start font-size-14 mb-2">Refer</p>                                                    
+                                                        <h4 class="text-start mb-2">15 Visit</h4>                                                        
+                                                    </div>    
                                                     <div class="avatar-sm me-2">
-                                                        {{-- <a href="" target="_blank">
-                                                            <span class="avatar-title bg-light text-danger rounded-3">
-                                                                <p style="font-size: 10px;">
-                                                                <i class="fa-solid fa-stamp font-size-22 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ 100"> </i>  
-                                                                <br>
-                                                                2323 
-                                                            </p>                                                            
-                                                            </span>  
-                                                        </a> --}}
-                                                    </div> 
-                                                    <div class="avatar-sm me-2">
-                                                        {{-- <a href="" target="_blank">
+                                                        <a href="" target="_blank">
                                                             <span class="avatar-title bg-light text-primary rounded-3">
-                                                                <p style="font-size: 10px;">
-                                                                    <i class="fa-solid fa-file-import font-size-24 mt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งการเงิน"></i>
-                                                                    <br> 
-                                                                    000
+                                                                <p style="font-size: 10px;"> 
+                                                                    <button type="submit" class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                        <i class="pe-7s-search btn-icon-wrapper font-size-24 mt-3"></i>ค้นหา
+                                                                    </button> 
                                                                 </p>
                                                             </span> 
-                                                        </a> --}}
+                                                        </a>
                                                     </div>
                                                 </div> 
                                         </div>                                           
@@ -118,8 +97,94 @@
                             </div> 
                         </div> 
                     </div> 
-               
-               
+                    <div class="col-xl-3 col-md-3">
+                        <div class="main-card mb-3 card">
+                            <div class="grid-menu-col">
+                                <div class="g-0 row">
+                                    <div class="col-sm-12">
+                                        <div class="widget-chart widget-chart-hover"> 
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">                                                    
+                                                        <p class="text-start font-size-14 mb-2">Refer</p>                                                    
+                                                        <h4 class="text-start mb-2">15 Visit</h4>                                                        
+                                                    </div>    
+                                                    <div class="avatar-sm me-2">
+                                                        <a href="" target="_blank">
+                                                            <span class="avatar-title bg-light text-danger rounded-3">
+                                                                <p style="font-size: 10px;"> 
+                                                                    <button type="submit" class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success avatar-title bg-light text-primary rounded-3">
+                                                                        <i class="pe-7s-search btn-icon-wrapper font-size-24 mt-3"></i>ค้นหา
+                                                                    </button> 
+                                                                </p>
+                                                            </span> 
+                                                        </a>
+                                                    </div>
+                                                </div> 
+                                        </div>                                           
+                                    </div>  
+                                </div>                                           
+                            </div> 
+                        </div> 
+                    </div> 
+                    <div class="col-xl-3 col-md-3">
+                        <div class="main-card mb-3 card">
+                            <div class="grid-menu-col">
+                                <div class="g-0 row">
+                                    <div class="col-sm-12">
+                                        <div class="widget-chart widget-chart-hover"> 
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">                                                    
+                                                        <p class="text-start font-size-14 mb-2">Refer</p>                                                    
+                                                        <h4 class="text-start mb-2">15 Visit</h4>                                                        
+                                                    </div>    
+                                                    <div class="avatar-sm me-2">
+                                                        <a href="" target="_blank">
+                                                            <span class="avatar-title bg-light text-primary rounded-3">
+                                                                <p style="font-size: 10px;"> 
+                                                                    <button type="submit" class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger avatar-title bg-light text-primary rounded-3">
+                                                                        <i class="pe-7s-search btn-icon-wrapper font-size-24 mt-3"></i>ค้นหา
+                                                                    </button> 
+                                                                </p>
+                                                            </span> 
+                                                        </a>
+                                                    </div>
+                                                </div> 
+                                        </div>                                           
+                                    </div>  
+                                </div>                                           
+                            </div> 
+                        </div> 
+                    </div> 
+                    <div class="col-xl-3 col-md-3">
+                        <div class="main-card mb-3 card">
+                            <div class="grid-menu-col">
+                                <div class="g-0 row">
+                                    <div class="col-sm-12">
+                                        <div class="widget-chart widget-chart-hover"> 
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">                                                    
+                                                        <p class="text-start font-size-14 mb-2">Refer</p>                                                    
+                                                        <h4 class="text-start mb-2">15 Visit</h4>                                                        
+                                                    </div>    
+                                                    <div class="avatar-sm me-2">
+                                                        <a href="" target="_blank">
+                                                            <span class="avatar-title bg-light text-primary rounded-3">
+                                                                <p style="font-size: 10px;"> 
+                                                                    <button type="submit" class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning avatar-title bg-light text-primary rounded-3">
+                                                                        <i class="pe-7s-search btn-icon-wrapper font-size-24 mt-3"></i>ค้นหา
+                                                                    </button> 
+                                                                </p>
+                                                            </span> 
+                                                        </a>
+                                                    </div>
+                                                </div> 
+                                        </div>                                           
+                                    </div>  
+                                </div>                                           
+                            </div> 
+                        </div> 
+                    </div>                     
+                              
             </div>
 
            
