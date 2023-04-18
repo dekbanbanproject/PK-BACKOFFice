@@ -1,5 +1,5 @@
 {{-- @extends('layouts.accpk') --}}
-@extends('layouts.warehouse')
+@extends('layouts.warehouse_new')
 @section('title', 'PK-BACKOFFice || คลังวัสดุ')
 @section('content')
 
