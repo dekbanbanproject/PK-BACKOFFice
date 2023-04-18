@@ -66,8 +66,8 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="{{ route('claim.check_sit_money_pk') }}" method="GET">
-                            @csrf
+                        {{-- <form action="{{ route('claim.check_sit_money_pk') }}" method="GET">
+                            @csrf --}}
                             <div class="row mt-3"> 
                                 <div class="col"></div>
                                 <div class="col-md-1 text-end">วันที่</div>
@@ -101,7 +101,7 @@
                                 </div>  
                                  <div class="col"></div>   
                             </div> 
-                        </form>
+                        {{-- </form> --}}
                         
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
@@ -142,9 +142,9 @@
 @section('footer')
 
 <script>
-     window.setTimeout(function() {             
-            window.location.reload();
-        },500000);
+    //  window.setTimeout(function() {             
+    //         window.location.reload();
+    //     },500000);
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
 

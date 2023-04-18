@@ -43,6 +43,7 @@ return new class extends Migration
                 $table->string('hmain_op')->nullable();// 
                 $table->string('hmain_op_name')->nullable();// 
                 $table->string('status')->nullable();// 
+                $table->date('upsit_date')->nullable();//  
                 $table->timestamps();
             });
         }

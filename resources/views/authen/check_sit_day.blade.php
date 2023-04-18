@@ -51,13 +51,7 @@
                   <span class="spinner"></span>
                 </div>
               </div>
-              {{-- <div id="preloader">
-                <div id="status">
-                    
-                    <div class="spinner"> 
-                    </div>
-                </div>
-            </div> --}}
+              
         </div> 
         <div class="row"> 
             <div class="col-md-12"> 
@@ -65,7 +59,13 @@
                     <div class="card-header">
                         Report check sit
                         <div class="btn-actions-pane-right">
-                            <div role="group" class="btn-group-sm btn-group">  
+                            <div role="group" class="btn-group-sm btn-group"> 
+                                <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="PullCheck">
+                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>ดึงข้อมูล
+                                </button>
+                                <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
+                                    <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
+                                </button> 
                                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="pe-7s-science btn-icon-wrapper"></i>Token
                                 </button>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="{{ route('claim.check_sit_day') }}" method="GET">
+                        <form action="{{ route('claim.check_sit_day') }}" method="POST">
                             @csrf
                             <div class="row mt-3"> 
                                 <div class="col"></div>
@@ -98,32 +98,27 @@
                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                     </div>
                                 </div>    
-                                <div class="col-md-4">
-                                    {{-- <button type="submit" class="btn btn-info" > 
-                                        ค้นหา
-                                    </button> 
-                                    <button type="button" class="btn btn-success" id="PullChecksitbtn"> 
-                                        ดึงข้อมูล
-                                    </button> 
-                                    <button type="button" class="btn btn-warning" id="Checksitbtn">  
-                                        ตรวจสอบสิทธิ์
+                                <div class="col-md-4"> 
+                                    {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                                     </button> --}}
 
-                                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                    </button>
-                                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="PullChecksitbtn">
+                                {{-- </form> --}}
+                                    {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="PullCheck">
                                         <i class="pe-7s-shuffle btn-icon-wrapper"></i>ดึงข้อมูล
                                     </button>
                                     <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
                                         <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
+                                    </button> --}}
+                                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                                     </button>
 
                                 </div>  
                                  <div class="col"></div>   
                             </div> 
+                       
                         </form>
-                        
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
@@ -232,15 +227,47 @@
         </div>
 </div> 
 
-
+<!-- Modal -->
+<div class="modal fade" id="exampleModal"  tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Token</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body"> 
+                <div class="input-group">
+                    <div class="input-group-text">
+                        <span class="">@cid</span>
+                    </div>
+                    <input type="text" id="cid" name="cid" class="form-control">
+                </div>
+                <br>
+                <div class="input-group input-group-sm">
+                    <div class="input-group-text">
+                        <span class="">@Token</span>
+                    </div>
+                    <input type="text" class="form-control" id="token" name="token">
+                </div>
+            </div>
+            <div class="modal-footer"> 
+                <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="TokenSave">
+                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
       
 @endsection
 @section('footer')
 
 <script>
-     window.setTimeout(function() {             
-            window.location.reload();
-        },500000);
+    //  window.setTimeout(function() {             
+    //         window.location.reload();
+    //     },500000);
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
 
@@ -259,10 +286,10 @@
 
         $("#spinner-div").hide(); //Request is complete so hide spinner
 
-        $('#PullChecksitbtn').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val();  
-                // alert(datepicker);
+        $('#PullCheck').click(function() {
+                var datestart = $('#datepicker').val(); 
+                var dateend = $('#datepicker2').val();  
+                // alert(datepicker2);
                
                     Swal.fire({
                         title: 'ต้องการดึงข้อมูลใช่ไหม ?',
@@ -276,14 +303,14 @@
                             if (result.isConfirmed) {
                                 $("#overlay").fadeIn(300);　
                                 $("#spinner-div").show(); //Load button clicked show spinner
-                                
+                                // url: "{{ route('claim.check_sit_daysearch') }}",
                                 $.ajax({
-                                        url: "{{ route('claim.check_sit_daysearch') }}",
+                                        url: "{{ route('claim.check_sit_pull') }}",
                                         type: "POST",
                                         dataType: 'json',
                                         data: {
-                                            datepicker,
-                                            datepicker2                      
+                                            datestart,
+                                            dateend                      
                                         },
                                         success: function(data) {
                                             if (data.status == 200) {
@@ -323,8 +350,8 @@
                 
         });
         $('#Checksitbtn').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val();  
+                var datestart = $('#datepicker').val(); 
+                var dateend = $('#datepicker2').val();  
                 // alert(datepicker);
                 Swal.fire({
                         title: 'ต้องการตรวจสอบสิทธิ์ใช่ไหม ?',
@@ -344,8 +371,8 @@
                                     type: "POST",
                                     dataType: 'json',
                                     data: {
-                                        datepicker,
-                                        datepicker2                      
+                                        datestart,
+                                        dateend                      
                                     },
                                     success: function(data) {
                                         if (data.status == 200) {
@@ -369,7 +396,26 @@
                                                 }
                                             })    
                                                                      
-                                        } else {   
+                                        } else { 
+                                            Swal.fire({
+                                                title: 'ปรับข้อมูลอีกครั้ง',
+                                                text: "You Update data Again",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                                }
+                                            })    
                                         }
                                          
                                     },
@@ -393,6 +439,50 @@
 
 
 
+        });
+
+        $('#TokenSave').click(function() {
+                var cid = $('#cid').val(); 
+                var token = $('#token').val();  
+                // alert(datepicker2);
+               
+                
+            $.ajax({
+                    url: "{{ route('claim.check_sit_token') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        cid,
+                        token                      
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload(); 
+                                }
+                            })
+                        } else {                                                
+                        }
+                    },
+                    complete: function () {
+                        
+                    }
+                
+            });
+ 
+                           
+                
         });
     });
 </script>

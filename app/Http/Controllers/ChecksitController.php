@@ -75,15 +75,14 @@ class ChecksitController extends Controller
 
         // if ($datestart == '') {      
         //     $data_sit = DB::connection('mysql7')->select(' 
-        //         SELECT *
+        //         SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
         //         FROM check_sit_auto  
         //         WHERE vstdate = CURDATE()                
         //     '); 
-            // WHERE vstdate = "2023-01-26"
-            // WHERE vstdate = CURDATE() 
+           
         // } else {
             $data_sit = DB::connection('mysql7')->select(' 
-                SELECT *
+                SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
                 FROM check_sit_auto  
                 WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
             ');             
@@ -96,63 +95,21 @@ class ChecksitController extends Controller
     }
     public function check_sit_daysearch(Request $request)
     {
-        $datestart = $request->datepicker;
-        $dateend = $request->datepicker2; 
+        $datestart = $request->datestart;
+        $dateend = $request->dateend; 
+        // dd($dateend);
 
         if ($datestart == '') {
             $data_sits = DB::connection('mysql3')->select(' 
-            SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
-            FROM ovst o 
-            join patient p on p.hn=o.hn 
-            JOIN pttype pt on pt.pttype=o.pttype  
-            JOIN opduser op on op.loginname = o.staff 
-            WHERE o.vstdate = CURDATE()  
-           
-            group by p.cid
-        ');  
-        // AND pt.pttype_eclaim_id not in("06","27","28","36")
-        foreach ($data_sits as $key => $value) {
-            // Check_sit_auto::truncate();
-            $check = Check_sit_auto::where('vn', $value->vn)->count();
-            if ($check > 0) {
-                Check_sit_auto::where('vn', $value->vn) 
-                    ->update([   
-                        'hn' => $value->hn,
-                        'cid' => $value->cid,
-                        'vstdate' => $value->vstdate,
-                        'vsttime' => $value->vsttime,
-                        'fullname' => $value->fullname,
-                        'hospmain' => $value->hospmain,
-                        'hospsub' => $value->hospsub,
-                        'pttype' => $value->pttype,
-                        'staff' => $value->staff 
-                    ]);     
-            } else {
-                Check_sit_auto::insert([
-                    'vn' => $value->vn,
-                    'hn' => $value->hn,
-                    'cid' => $value->cid,
-                    'vstdate' => $value->vstdate,
-                    'vsttime' => $value->vsttime,
-                    'fullname' => $value->fullname,
-                    'pttype' => $value->pttype,
-                    'hospmain' => $value->hospmain,
-                    'hospsub' => $value->hospsub,
-                    'staff' => $value->staff 
-                ]);
-            }                        
-        }
-
-        } else {
-            $data_sits = DB::connection('mysql3')->select(' 
-            SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
-            FROM ovst o 
-            join patient p on p.hn=o.hn 
-            JOIN pttype pt on pt.pttype=o.pttype  
-            JOIN opduser op on op.loginname = o.staff 
-            WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
-            group by p.cid
-        ');  
+                SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                FROM ovst o 
+                join patient p on p.hn=o.hn 
+                JOIN pttype pt on pt.pttype=o.pttype  
+                JOIN opduser op on op.loginname = o.staff 
+                WHERE o.vstdate = CURDATE()  
+                group by p.cid
+            ');  
+            // AND pt.pttype_eclaim_id not in("06","27","28","36")
             foreach ($data_sits as $key => $value) {
                 // Check_sit_auto::truncate();
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
@@ -185,23 +142,76 @@ class ChecksitController extends Controller
                 }                        
             }
 
-        }     
-        // AND pt.pttype_eclaim_id not in("06","27","28","36")           
-
-        
-        if ($datestart == '') {      
             $data_sit = DB::connection('mysql7')->select(' 
                 SELECT *
                 FROM check_sit_auto  
                 WHERE vstdate = CURDATE()  
             '); 
+
         } else {
+            $data_sits = DB::connection('mysql3')->select(' 
+                SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                FROM ovst o 
+                join patient p on p.hn=o.hn 
+                JOIN pttype pt on pt.pttype=o.pttype  
+                JOIN opduser op on op.loginname = o.staff 
+                WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+                group by p.cid
+            ');  
+                foreach ($data_sits as $key => $value) {
+                    // Check_sit_auto::truncate();
+                    $check = Check_sit_auto::where('vn', $value->vn)->count();
+                    if ($check > 0) {
+                        Check_sit_auto::where('vn', $value->vn) 
+                            ->update([   
+                                'hn' => $value->hn,
+                                'cid' => $value->cid,
+                                'vstdate' => $value->vstdate,
+                                'vsttime' => $value->vsttime,
+                                'fullname' => $value->fullname,
+                                'hospmain' => $value->hospmain,
+                                'hospsub' => $value->hospsub,
+                                'pttype' => $value->pttype,
+                                'staff' => $value->staff 
+                            ]);     
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn' => $value->vn,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff 
+                        ]);
+                    }                        
+                }
             $data_sit = DB::connection('mysql7')->select(' 
                 SELECT *
                 FROM check_sit_auto  
                 WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
-            ');             
-        }   
+            '); 
+
+        }     
+        // AND pt.pttype_eclaim_id not in("06","27","28","36")           
+
+        
+        // if ($datestart == '') {      
+        //     $data_sit = DB::connection('mysql7')->select(' 
+        //         SELECT *
+        //         FROM check_sit_auto  
+        //         WHERE vstdate = CURDATE()  
+        //     '); 
+        // } else {
+        //     $data_sit = DB::connection('mysql7')->select(' 
+        //         SELECT *
+        //         FROM check_sit_auto  
+        //         WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+        //     ');             
+        // }   
         return response()->json([
             'status'     => '200',
              'data_sit'    => $data_sit, 
@@ -214,10 +224,120 @@ class ChecksitController extends Controller
         //     'end'        => $dateend,           
         // ]);
     }
+
+    public function check_sit_pull(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend; 
+        // dd($datestart);
+
+        // if ($datestart == '') {
+        //     $data_sits = DB::connection('mysql3')->select(' 
+        //         SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+        //         FROM ovst o 
+        //         join patient p on p.hn=o.hn 
+        //         JOIN pttype pt on pt.pttype=o.pttype  
+        //         JOIN opduser op on op.loginname = o.staff 
+        //         WHERE o.vstdate = CURDATE()  
+        //         group by p.cid
+        //     ');  
+           
+        //     foreach ($data_sits as $key => $value) { 
+        //         $check = Check_sit_auto::where('vn', $value->vn)->count();
+        //         if ($check > 0) {
+        //             Check_sit_auto::where('vn', $value->vn) 
+        //                 ->update([   
+        //                     'hn' => $value->hn,
+        //                     'cid' => $value->cid,
+        //                     'vstdate' => $value->vstdate,
+        //                     'vsttime' => $value->vsttime,
+        //                     'fullname' => $value->fullname,
+        //                     'hospmain' => $value->hospmain,
+        //                     'hospsub' => $value->hospsub,
+        //                     'pttype' => $value->pttype,
+        //                     'staff' => $value->staff 
+        //                 ]);     
+        //         } else {
+        //             Check_sit_auto::insert([
+        //                 'vn' => $value->vn,
+        //                 'hn' => $value->hn,
+        //                 'cid' => $value->cid,
+        //                 'vstdate' => $value->vstdate,
+        //                 'vsttime' => $value->vsttime,
+        //                 'fullname' => $value->fullname,
+        //                 'pttype' => $value->pttype,
+        //                 'hospmain' => $value->hospmain,
+        //                 'hospsub' => $value->hospsub,
+        //                 'staff' => $value->staff 
+        //             ]);
+        //         }                        
+        //     }
+  
+        // } else {
+            $data_sits = DB::connection('mysql3')->select(' 
+                SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                FROM ovst o 
+                join patient p on p.hn=o.hn 
+                JOIN pttype pt on pt.pttype=o.pttype  
+                JOIN opduser op on op.loginname = o.staff 
+                WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+                group by p.cid
+            ');  
+                foreach ($data_sits as $key => $value) {
+                    // Check_sit_auto::truncate();
+                    $check = Check_sit_auto::where('vn', $value->vn)->count();
+                    if ($check > 0) {
+                        Check_sit_auto::where('vn', $value->vn) 
+                            ->update([   
+                                'hn' => $value->hn,
+                                'cid' => $value->cid,
+                                'vstdate' => $value->vstdate,
+                                'vsttime' => $value->vsttime,
+                                'fullname' => $value->fullname,
+                                'hospmain' => $value->hospmain,
+                                'hospsub' => $value->hospsub,
+                                'pttype' => $value->pttype,
+                                'staff' => $value->staff 
+                            ]);     
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn' => $value->vn,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff 
+                        ]);
+                    }                        
+                }
+            // $data_sit = DB::connection('mysql7')->select(' 
+            //     SELECT *
+            //     FROM check_sit_auto  
+            //     WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+            // '); 
+
+        // }     
+      
+        return response()->json([
+            'status'     => '200',
+            //  'data_sit'    => $data_sit, 
+            'start'     => $datestart, 
+            'end'        => $dateend, 
+        ]); 
+        // return view('authen.check_sit_day ',[            
+        //     'data_sit'    => $data_sit, 
+        //     'start'     => $datestart, 
+        //     'end'        => $dateend,           
+        // ]);
+    }
     public function check_sit_font(Request $request)
     {
-        $datestart = $request->datepicker;
-        $dateend = $request->datepicker2;
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
         $date = date('Y-m-d');
 
         $token_data = DB::connection('mysql7')->select('
@@ -229,13 +349,15 @@ class ChecksitController extends Controller
         }
  
         $data_sitss = DB::connection('mysql7')->select(' 
-            SELECT *
+            SELECT cid,vn
             FROM check_sit_auto  
             WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"               
-            AND subinscl IS NULL AND person_id_nhso IS NULL
-            AND updated_at IS NULL
-           
+            AND subinscl IS NULL  
+            AND upsit_date IS NULL
         ');  
+        // AND person_id_nhso IS NULL 
+
+        // AND upsit_date IS NULL
         // AND status <> "จำหน่าย/เสียชีวิต"
         // dd($data_sitss);
         // WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
@@ -247,11 +369,7 @@ class ChecksitController extends Controller
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
             $vn = $item->vn;
-            $hn = $item->hn;
-            $vsttime = $item->vsttime;
-            $vstdate = $item->vstdate;
-            $fullname = $item->fullname; 
-            $staff = $item->staff;  
+             
             // dd($pids); 
             $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                 array(
@@ -271,7 +389,7 @@ class ChecksitController extends Controller
             $contents = $client->__soapCall('searchCurrentByPID',$params);           
        
             // dd($contents);
-            foreach ($contents as $key => $v) {  
+            foreach ($contents as $v) {  
                 @$status = $v->status ;  
                 @$maininscl = $v->maininscl;
                 @$startdate = $v->startdate;
@@ -286,8 +404,7 @@ class ChecksitController extends Controller
                 @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
                 // dd(@$maininscl);
                 IF(@$maininscl =="" || @$maininscl==null || @$status =="003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
-                   
-                        $date_now = date('Y-m-d');
+                    
                         Check_sit_auto::where('vn', $vn) 
                                 ->update([    
                                     'status' => 'จำหน่าย/เสียชีวิต',
@@ -303,38 +420,39 @@ class ChecksitController extends Controller
                                     'hsub_name' => @$hsub_name,
                                     'subinscl_name' => @$subinscl_name 
                                 ]);      
-                  }elseif(@$maininscl !="" || @$subinscl !=""){ 
-                    $date_now2 = date('Y-m-d');
-                    Check_sit_auto::where('vn', $vn) 
-                    ->update([    
-                        'status' => @$status,
-                        'maininscl' => @$maininscl,
-                        'startdate' => @$startdate,
-                        'hmain' => @$hmain,
-                        'subinscl' => @$subinscl,
-                        'person_id_nhso' => @$person_id_nhso,
+                  }elseif(@$maininscl !="" || @$subinscl !=""){  
+                        $date = date("Y-m-d");
+                            Check_sit_auto::where('vn', $vn) 
+                            ->update([    
+                                'status' => @$status,
+                                'maininscl' => @$maininscl,
+                                'startdate' => @$startdate,
+                                'hmain' => @$hmain,
+                                'subinscl' => @$subinscl,
+                                'person_id_nhso' => @$person_id_nhso,
 
-                        'hmain_op' => @$hmain_op,
-                        'hmain_op_name' => @$hmain_op_name,
-                        'hsub' => @$hsub,
-                        'hsub_name' => @$hsub_name,
-                        'subinscl_name' => @$subinscl_name 
-                    ]); 
+                                'hmain_op' => @$hmain_op,
+                                'hmain_op_name' => @$hmain_op_name,
+                                'hsub' => @$hsub,
+                                'hsub_name' => @$hsub_name,
+                                'subinscl_name' => @$subinscl_name,
+                                'upsit_date'    => $date
+                            ]); 
  
                   }
 
             }           
         }
-        $data_sit = DB::connection('mysql3')->select(' 
-            SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code 
-            FROM ovst o 
-            join patient p on p.hn=o.hn 
-            JOIN pttype pt on pt.pttype = o.pttype  
-            JOIN opduser op on op.loginname = o.staff 
-            WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"  
-            AND pt.pttype_eclaim_id not in("06","27","28","36")
-            group by p.cid
-        ');  
+        // $data_sit = DB::connection('mysql3')->select(' 
+        //     SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code 
+        //     FROM ovst o 
+        //     join patient p on p.hn=o.hn 
+        //     JOIN pttype pt on pt.pttype = o.pttype  
+        //     JOIN opduser op on op.loginname = o.staff 
+        //     WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"  
+            
+        //     group by p.cid
+        // ');  
 
         // return view('authen.check_sit_auto ',[            
         //     'data_sit'    => $data_sit, 
@@ -343,11 +461,12 @@ class ChecksitController extends Controller
         // ]);
         return response()->json([
             'status'     => '200',
-            'data_sit'    => $data_sit, 
+            // 'data_sit'    => $data_sit, 
             'start'     => $datestart, 
             'end'        => $dateend, 
         ]); 
     }
+
  
     public function acc_checksit_spsch_pangstamp(Request $request)
     {
@@ -438,6 +557,27 @@ class ChecksitController extends Controller
         ]);
     }
 
+    public function check_sit_token(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $cid = $request->cid;
+        $token = $request->token;
+
+        Ssop_token::truncate();
+
+        $data_add = Ssop_token::create([
+            'cid'               => $cid,
+            'token'             => $token            
+        ]);
+        $data_add->save();
+        
+        return response()->json([
+            'status'     => '200', 
+            'start'     => $datestart, 
+            'end'        => $dateend, 
+        ]); 
+    }
     public function check_sit_money(Request $request)
     {
         $datestart = $request->startdate;
@@ -476,7 +616,7 @@ class ChecksitController extends Controller
             AND check_sit_subinscl IS NULL;
         ');  
         
-        foreach ($data_sitss as $key => $item) {
+        foreach ($data_sitss as $item) {
             $pids = $item->cid;
             $vn = $item->vn;
             $hn = $item->hn; 
@@ -525,7 +665,8 @@ class ChecksitController extends Controller
                         // 'startdate' => @$startdate,
                         // 'hmain' => @$hmain,
                         'check_sit_subinscl' => @$subinscl,
-                        'pttype_stamp' => @$subinscl.' '.@$startdate
+                        'pttype_stamp' => @$subinscl.'() 0000-00-00'
+                        // 'pttype_stamp' => @$subinscl.' '.@$startdate
 
                         // 'hmain_op' => @$hmain_op,
                         // 'hmain_op_name' => @$hmain_op_name,
