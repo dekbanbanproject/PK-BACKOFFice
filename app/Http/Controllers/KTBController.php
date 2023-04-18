@@ -61,7 +61,8 @@ class KTBController extends Controller
                 order by year(i.dchdate),month(i.dchdate)
                 ');
 
-                $url = "http://localhost:3000/moi/getCardData";
+                // $url = "http://localhost:3000/moi/getCardData";
+                $url = "https://3doctor.hss.moph.go.th/main/PersonalController/insert_person";
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => "$url",
@@ -76,7 +77,7 @@ class KTBController extends Controller
             $content = $response;
             $result = json_decode($content, true);
 
-            // dd($result);
+            dd($result);
 
             
             @$responseCode = $result['responseCode'];
@@ -3154,6 +3155,97 @@ class KTBController extends Controller
             'odx_'              => $odx_,
             'adp_'              => $adp_,
             'dru_'              => $dru_
+        ]);
+    }
+    public function treedoc(Request $request)
+    { 
+        $data['users'] = User::get();
+        $budget = DB::table('budget_year')->where('active','=','True')->first();
+        $datestart = $budget->date_begin;
+        $dateend = $budget->date_end;
+
+        $inputCid = '1234567891234';
+       
+                // $url = "http://localhost:3000/moi/getCardData";
+                $url = "https://3doctor.hss.moph.go.th/main/dashboard";
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "$url",
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
+         
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $content = $response;
+            $result = json_decode($content, true);
+
+            dd($result);
+
+            
+            @$responseCode = $result['responseCode'];
+            // dd($responseCode);
+            if (@$responseCode < 0) {
+                $smartcard = 'NO_CONNECT';
+            } else { 
+                $smartcard = 'CONNECT';
+            }
+            // dd($smartcard);
+                @$readerName = $result['readerName'];
+                @$responseDesc = $result['responseDesc'];
+                @$pid = $result['pid'];
+                @$cid = $result['cid'];
+                @$chipId = $result['chipId'];
+                @$fullNameTH = $result['fullNameTH'];
+                @$fullNameEN = $result['fullNameEN'];
+                @$birthTH = $result['birthTH'];
+                @$birthEN = $result['birthEN'];
+                @$sex = $result['sex'];
+                @$cardId = $result['cardId'];
+                @$sourceData = $result['sourceData'];
+                @$issueCode = $result['issueCode'];
+                @$dateIssueTH = $result['dateIssueTH'];
+                @$dateIssueEN = $result['dateIssueEN'];
+                @$dateExpTH = $result['dateExpTH'];
+                @$dateExpEN = $result['dateExpEN'];
+                @$address = $result['address'];
+                @$image = $result['image'];
+                @$imageNo = $result['imageNo'];
+                @$cardVersion = $result['cardVersion'];
+                @$customerPid = $result['customerPid'];
+                @$customerCid = $result['customerCid'];
+                @$ktbKeyY = $result['ktbKeyY'];
+                @$customerKeyY = $result['customerKeyY'];
+
+                $pid         = @$pid;
+                $cid         = @$cid;
+                $image_      = @$image;
+                $chipId      = @$chipId;
+                $fullNameTH  = @$fullNameTH;
+                $fullNameEN  = @$fullNameEN;
+                $birthTH     = @$birthTH;
+                $birthEN     = @$birthEN;
+                $address     = @$address;
+                $dateIssueTH = @$dateIssueTH;
+                $dateExpTH   = @$dateExpTH;
+                 
+                // dd( @$fullNameTH); 
+        return view('ktb.ktb_getcard', $data,[ 
+            'data_ogclgo'   =>  $data_ogclgo,
+            'smartcard'     =>  $smartcard,
+            'image_'        => $image_,
+            'pid'           => $pid,
+            'cid'           => $cid,
+            'chipId'        => $chipId,
+            'fullNameTH'    => $fullNameTH,
+            'fullNameEN'    => $fullNameEN,
+            'birthTH'       => $birthTH,
+            'birthEN'       => $birthEN,
+            'address'       => $address,
+            'dateIssueTH'   => $dateIssueTH,
+            'dateExpTH'     => $dateExpTH,
         ]);
     }
 

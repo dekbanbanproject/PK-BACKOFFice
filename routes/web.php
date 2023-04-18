@@ -23,6 +23,8 @@ Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::c
 Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::class, 'ktb_test'])->name('env.ktb_test');//
 
 
+Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class, 'treedoc'])->name('env.treedoc');//
+
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
 Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
 Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\ReportFontController::class, 'report_ormonth'])->name('rep.report_ormonth');// report
