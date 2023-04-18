@@ -77,7 +77,8 @@
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
                                                         <p class="text-start font-size-14 mb-2">Refer</p>                                                    
-                                                        <h4 class="text-start mb-2">15 Visit</h4>                                                        
+                                                        {{-- <h4 class="text-start mb-2">55 Visit</h4>  --}}
+                                                        <h4 class="text-start mb-2">{{$refer}} Visit</h4>                                                         
                                                     </div>    
                                                     <div class="avatar-sm me-2">
                                                         <a href="" target="_blank">
@@ -105,7 +106,7 @@
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">Refer</p>                                                    
+                                                        <p class="text-start font-size-14 mb-2">Refer__</p>                                                    
                                                         <h4 class="text-start mb-2">15 Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">
@@ -134,7 +135,7 @@
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">Refer</p>                                                    
+                                                        <p class="text-start font-size-14 mb-2">Refer__</p>                                                    
                                                         <h4 class="text-start mb-2">15 Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">
@@ -163,7 +164,7 @@
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">Refer</p>                                                    
+                                                        <p class="text-start font-size-14 mb-2">Refer__</p>                                                    
                                                         <h4 class="text-start mb-2">15 Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">

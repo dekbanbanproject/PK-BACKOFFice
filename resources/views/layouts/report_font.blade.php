@@ -151,10 +151,19 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-user-nurse text-danger"></i>
-                                <span style="color: white">REFER</span>
+                                <span style="color: white">Refer</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('report_refer') }}" style="color: white">เทียบการใช้งานรถ Refer</a></li>  
+                            </ul>
+                        </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-user-nurse text-danger"></i>
+                                <span style="color: white">อุปกรณเที่ยม</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('check_knee') }}" style="color: white">ตรวจสอบข้อเข่า</a></li>  
                             </ul>
                         </li> 
                         {{-- <li>

@@ -30,6 +30,8 @@ Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontControll
 Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\ReportFontController::class, 'report_ormonth'])->name('rep.report_ormonth');// report
 Route::match(['get','post'],'report_refer',[App\Http\Controllers\ReportFontController::class, 'report_refer'])->name('rep.report_refer');// report report_refer
 
+Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
+
 Route::get('book/bookmake_detail/{id}',[App\Http\Controllers\BookController::class, 'bookmake_detail'])->name('book.bookmake_detail'); 
 Route::get('computer/com_repair_add/{id}',[App\Http\Controllers\RepaireScanController::class, 'com_repair_add']);// แจ้งซ่อมคอมพิวเตอร์ ผ่านสแกน
 Route::match(['get','post'],'com_repairscan_save',[App\Http\Controllers\RepaireScanController::class, 'com_repairscan_save'])->name('com_repairscan_save');//
@@ -61,8 +63,9 @@ Route::match(['get','post'],'authen_getbar_days',[App\Http\Controllers\AUTHENCHE
 
 Route::match(['get','post'],'check_sit_day',[App\Http\Controllers\ChecksitController::class, 'check_sit_day'])->name('claim.check_sit_day');//
 Route::match(['get','post'],'check_sit_daysearch',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysearch'])->name('claim.check_sit_daysearch');//
+Route::match(['get','post'],'check_sit_pull',[App\Http\Controllers\ChecksitController::class, 'check_sit_pull'])->name('claim.check_sit_pull');//
 Route::match(['get','post'],'check_sit_font',[App\Http\Controllers\ChecksitController::class, 'check_sit_font'])->name('claim.check_sit_font');//
-
+Route::match(['get','post'],'check_sit_token',[App\Http\Controllers\ChecksitController::class, 'check_sit_token'])->name('claim.check_sit_token');//
 
 Route::match(['get','post'],'check_sit_money',[App\Http\Controllers\ChecksitController::class, 'check_sit_money'])->name('claim.check_sit_money');//
 Route::match(['get','post'],'check_sit_money_pk',[App\Http\Controllers\ChecksitController::class, 'check_sit_money_pk'])->name('claim.check_sit_money_pk');//

@@ -291,29 +291,29 @@ class UpstmController extends Controller
             // $json = json_encode($file);
             $result = json_decode($json, true); 
         
-            // dd($result);
+            dd($result);
             @$stmAccountID = $result['stmAccountID'];
             @$stmdat = $result['stmdat'];
             @$hname = $result['hname'];
-            // @$MADat = $result['MADat'];
+            @$MADat = $result['MADat'];
             @$ticket = $result['ticket']; //
             @$cfgs = $result['cfgs']; // 
             @$Remarks = $result['Remarks'];  // array
             // @$TBills2 = $result['TBills']['ST']['HG'];  // array
-            $madat_1      = $result['MADat'];  //มากกว่า 1 คน
+            // $madat_1      = $result['MADat'];  //มากกว่า 1 คน
             // $madat_2      = $result['MADat']['Bills'];
             // dd($result);
-            // foreach ($madat_1 as $key => $value) { 
-                $Ahcode = @$result['MADat']['Ahcode'];
+            foreach ($madat_1 as $key => $value) { 
+                $Ahcode = $value['Ahcode'];
                 // dd($Ahcode);
-                $Ahname = @$result['MADat']['Ahname'];
-                $Mhcode = @$result['MADat']['Mhcode'];
-                $Mhname = @$result['MADat']['Mhname'];
-                $Ref = @$result['MADat']['Ref'];
-                $cases = @$result['MADat']['cases'];
-                $adjrw1 = @$result['MADat']['adjrw'];
-                $STMdat = @$result['MADat']['STMdat'];
-                $Bills = @$result['MADat']['Bills']['Bill'];
+                $Ahname = @$value['Ahname'];
+                $Mhcode = @$value['Mhcode'];
+                $Mhname = @$value['Mhname'];
+                $Ref = @$value['Ref'];
+                $cases = @$value['cases'];
+                $adjrw1 = @$value['adjrw'];
+                $STMdat = @$value['STMdat'];
+                $Bills = @$value['Bills']['Bill'];
                 // dd($STMdat);
                 $bills_       = @$Bills; 
                 // dd($bills_);
@@ -345,7 +345,7 @@ class UpstmController extends Controller
                             'status'             => 'STATMENT'                                
                         ]); 
                 }
-            // }
+            }
 
                 return redirect()->back();
         // return view('upstm.import_stm_aipn', $data);
