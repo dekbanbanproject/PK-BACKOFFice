@@ -14,10 +14,13 @@ $url = Request::url();
 $pos = strrpos($url, '/') + 1;
 
 ?>
- 
+
 {{-- headerZ --}}
  <br> 
-    <div class="container mt-3">
+    {{-- <div class="container mt-3"> --}}
+        <div class="container mt-3">
+            {{-- <div class="circle1"> </div> --}}
+
         <div id="preloader">
             <div id="status">
                 <div class="spinner">                    
@@ -770,6 +773,7 @@ $pos = strrpos($url, '/') + 1;
             </div>               --}}
         </div>
      
+        
     </div>
 
     <?php
