@@ -113,35 +113,21 @@
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
                     </div>
-
-                    <div class="dropdown d-inline-block user-dropdown">
-                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            
-                            <img src="{{ asset('assets/images/default-image.jpg') }}" height="22px"
-                                    width="22px" alt="Header Avatar" class="rounded-circle header-profile-user">
-              
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <!-- item-->
-                            <a class="dropdown-item" href=""><i class="ri-user-line align-middle me-1"></i> Profile</a>
-                            <div class="dropdown-divider"></div> 
-                           
-                        </div>
-                    </div> 
-
-                    {{-- <div class="dropdown d-inline-block user-dropdown">
-
-                    </div> --}}
-
+ 
+ 
                 </div>
             </div>
         </header>
+        <style>
+            .nom6{ 
+                background: linear-gradient(to right, #c9ffbf, #ffafbd);
+            }
+        </style>
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100" style="background-color: rgb(218, 149, 245)">
+            <div data-simplebar class="h-100 nom6">
  
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
@@ -149,6 +135,13 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title" style="color: white">Menu</li>
                         <li>
+                            <a href="{{ url('report_dashboard') }}">  
+                                <i class="fa-solid fa-gauge-high text-info"></i>
+                                <span style="color: white">Dashboard</span>
+                            </a> 
+                        </li> 
+                        
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-user-nurse text-danger"></i>
                                 <span style="color: white">Refer</span>
@@ -156,27 +149,18 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('report_refer') }}" style="color: white">เทียบการใช้งานรถ Refer</a></li>  
                             </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-user-nurse text-danger"></i>
-                                <span style="color: white">อุปกรณเที่ยม</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('check_knee') }}" style="color: white">ตรวจสอบข้อเข่า</a></li>  
-                            </ul>
-                        </li> 
-                        {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-user-nurse text-danger"></i>
-                                <span style="color: white">ห้องผ่าตัด</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('report_or') }}" style="color: white">Dashboard</a></li>  
-                            </ul>
                         </li>  --}}
-  
-
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-wheelchair text-danger"></i>
+                                <span style="color: white">อุปกรณ์อวัยวะเที่ยม</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('check_knee_ipd') }}" style="color: white">ตรวจสอบข้อเข่า IPD</a></li> 
+                                <li ><a href="{{ url('check_knee_opd') }}" style="color: white">ตรวจสอบข้อเข่า OPD</a></li>  
+                            </ul>
+                        </li> 
+                        
                     </ul>
                 </div>
                 <!-- Sidebar -->

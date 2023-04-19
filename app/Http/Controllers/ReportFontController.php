@@ -18,18 +18,15 @@ use Intervention\Image\ImageManagerStatic as Image;
 class ReportFontController extends Controller
 {
     public function report_dashboard(Request $request)
-    {
-        $year_id = $request->year_id;
-        $date = date('Y-m-d');
+    { 
+        $datenow = date('Y-m-d');
         $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
-        // $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน 
-        $newDate = date('Y-m-d', strtotime($date . ' 1 months')); // 1 เดือน 
-        // $newDate = date('Y-m-d') ; //
-        // dd($date);
+        $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+        $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน 
+        // $newDate = date('Y-m-d', strtotime($date . ' 1 months')); // 1 เดือน   
         $startdate = $request->startdate;
         $enddate = $request->enddate;  
-  
+        // dd($date);
         $dataopd_ = DB::connection('mysql3')->select('   
             select COUNT(ro.hn) as OHN
                 from referout ro    
@@ -51,17 +48,88 @@ class ReportFontController extends Controller
         $refer_ = DB::connection('mysql8')->select(' 
             SELECT COUNT(hn) as HN FROM referout 
             WHERE loads_id="02"
-            AND refer_date =CURDATE() 
+            AND refer_date BETWEEN "'.$newDate.'" AND "'.$datenow.'" 
         ');
         foreach ($refer_ as $key => $value3) {
             $refer = $value3->HN;
         }
+        $dataknee_ = DB::connection('mysql3')->select(' 
+                SELECT COUNT(e.an) as AN                
+                from an_stat e
+                left outer join patient pt on pt.hn = e.hn
+                left outer join pttype p on p.pttype = e.pttype
+                left outer join iptdiag im on im.an=e.an
+                left join ipt ip on ip.an = e.an
+                left join ipt_pttype it2 on it2.an=e.an  
+                left join hos.ipdrent ir on ir.an =e.an
+                left outer join hos.opitemrece oo on oo.an = e.an 
+                LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id  
+                left join hos.nondrugitems n1 on n1.icode = oo.icode
+                left join hos.s_drugitems sd on sd.icode = oo.icode
+                where e.dchdate BETWEEN "'.$newDate.'" AND "'.$datenow.'"                  
+                and oo.icode IN("3009737","3010372","3010569");
+        ');
+        // SELECT ip.vn,e.hn,e.an,e.regdate,e.dchdate,group_concat(distinct it2.pttype) as pttype
+        //         ,concat(pt.pname,pt.fname," ",pt.lname) as fullname,oo.icode,e.pdx,e.dx0,e.dx1,e.dx2,e.dx3,e.dx4
+        //         ,sd.name as s_namec,e.inc08 as INCOMEKNEE
+        //         ,e.income as INCOMEc,e.paid_money as PAY
+        //         ,sum(distinct oo.sum_price) as PriceCov19
+        //         ,group_concat(distinct n1.name) as NameCov19 
+        //         ,e.uc_money,ip.pttype,pt.cid    
+        foreach ($dataknee_ as $value4) {
+            $dataknee = $value4->AN;
+        }
+        $Opdknee_ = DB::connection('mysql3')->select(' 
+                SELECT COUNT(v.vn) as VN           
+                from vn_stat v 
+                left outer join hos.opitemrece oo on oo.vn = v.vn   
+                left join hos.nondrugitems n1 on n1.icode = oo.icode
+                left join hos.s_drugitems sd on sd.icode = oo.icode
+                where v.vstdate BETWEEN "'.$newDate.'" AND "'.$datenow.'"                  
+                and oo.icode IN("3009737","3010372","3010569");
+        ');
+        foreach ($Opdknee_ as $value5) {
+            $Opdknee = $value5->VN;
+        }
         
-        // dd($total_refer);
+        // dd($dataknee_);
         return view('dashboard.report_dashboard', [ 
-            // 'datashow_'      =>  $datashow_,
-            'refer'           =>  $refer, 
+            'dataknee'          =>  $dataknee,
+            'refer'             =>  $refer, 
             'total_refer'       =>  $total_refer, 
+            'Opdknee'           =>  $Opdknee,
+            'newDate'           =>  $newDate,
+            'datenow'           =>  $datenow,
+        ]);
+    }
+    public function check_knee_ipddetail(Request $request,$newDate,$datenow)
+    { 
+        $dataknee_ = DB::connection('mysql3')->select('   
+                SELECT ip.vn,e.hn,e.an,e.regdate,e.dchdate,group_concat(distinct it2.pttype) as pttype
+                ,concat(pt.pname,pt.fname," ",pt.lname) as fullname,oo.icode,e.pdx,e.dx0,e.dx1,e.dx2,e.dx3,e.dx4
+                ,sd.name as s_name,e.inc08 as INCOMEKNEE,e.income as INCOME,e.paid_money as PAY,sum(distinct oo.sum_price) as Priceknee
+                ,group_concat(distinct n1.name) as Nameknee,e.uc_money,ip.pttype,pt.cid  
+                from an_stat e
+                    left outer join patient pt on pt.hn = e.hn
+                    left outer join pttype p on p.pttype = e.pttype
+                    left outer join iptdiag im on im.an=e.an
+                    left join ipt ip on ip.an = e.an
+                    left join ipt_pttype it2 on it2.an=e.an  
+                    left join hos.ipdrent ir on ir.an =e.an
+                    left outer join hos.opitemrece oo on oo.an = e.an 
+                    LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id  
+                    left join hos.nondrugitems n1 on n1.icode = oo.icode
+                    left join hos.s_drugitems sd on sd.icode = oo.icode
+                    where e.dchdate BETWEEN "'.$newDate.'" AND "'.$datenow.'"             
+                    and oo.icode IN("3009737","3010372","3010569")
+                    group by e.an;
+        ');
+       
+        
+        return view('dashboard.check_knee_detail', [ 
+            'dataknee_'      =>  $dataknee_,
+            'newDate'        =>  $newDate,
+            'datenow'        =>  $datenow,
         ]);
     }
     public function report_or(Request $request)
@@ -248,23 +316,82 @@ class ReportFontController extends Controller
             'datashow_'    => $datashow_
         ]);
     }
-    public function check_knee(Request $request)
+    public function check_knee_ipd(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $datashow_ = DB::connection('mysql3')->select(' 
-                SELECT ID,STATUS as REFER,CAR_GO_MILE,CAR_BACK_MILE ,OUT_DATE,OUT_TIME,BACK_DATE,BACK_TIME,DRIVER_NAME,USER_REQUEST_NAME,ADD_OIL_BATH,COMMENT,CAR_REG,REFER_TYPE_ID 
-                FROM vehicle_car_refer v
-                LEFT JOIN vehicle_car_index vc ON vc.CAR_ID = v.CAR_ID
-                WHERE REFER_TYPE_ID = "1"
-
-                AND OUT_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"  
+                SELECT ip.vn,e.hn,e.an,e.regdate,e.dchdate,group_concat(distinct it2.pttype) as pttype
+                        ,concat(pt.pname,pt.fname," ",pt.lname) as fullname,oo.icode,e.pdx,e.dx0,e.dx1,e.dx2,e.dx3,e.dx4
+                        ,sd.name as s_name 
+                        ,e.inc08 as INCOMEKNEE
+                        ,e.income as INCOME
+                        ,e.paid_money as PAY
+                        ,sum(distinct oo.sum_price) as Priceknee
+                        ,group_concat(distinct n1.name) as Nameknee 
+                        ,e.uc_money 
+                        ,ip.pttype 
+                        ,pt.cid 
+                        from an_stat e
+                        left outer join patient pt on pt.hn = e.hn
+                        left outer join pttype p on p.pttype = e.pttype
+                        left outer join iptdiag im on im.an=e.an
+                        left join ipt ip on ip.an = e.an
+                        left join ipt_pttype it2 on it2.an=e.an  
+                        left join hos.ipdrent ir on ir.an =e.an
+                        left outer join hos.opitemrece oo on oo.an = e.an 
+                        LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id  
+                        left join hos.nondrugitems n1 on n1.icode = oo.icode
+                        left join hos.s_drugitems sd on sd.icode = oo.icode
+                        where e.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                
+                        and oo.icode IN("3009737","3010372","3010569")
+                        group by e.an; 
         ');
     
-        return view('dashboard.check_knee',$data,[
+        return view('dashboard.check_knee_ipd',[
             'start'     => $startdate,
             'end'       => $enddate ,
-            // 'datashow_' => $datashow_
+            'datashow_' => $datashow_
+        ]);
+    }
+    public function check_knee_opd(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $datashow_ = DB::connection('mysql3')->select(' 
+                SELECT ip.vn,e.hn,e.an,e.regdate,e.dchdate,group_concat(distinct it2.pttype) as pttype
+                        ,concat(pt.pname,pt.fname," ",pt.lname) as fullname,oo.icode,e.pdx,e.dx0,e.dx1,e.dx2,e.dx3,e.dx4
+                        ,sd.name as s_name 
+                        ,e.inc08 as INCOMEKNEE
+                        ,e.income as INCOME
+                        ,e.paid_money as PAY
+                        ,sum(distinct oo.sum_price) as Priceknee
+                        ,group_concat(distinct n1.name) as Nameknee 
+                        ,e.uc_money 
+                        ,ip.pttype 
+                        ,pt.cid 
+                        from an_stat e
+                        left outer join patient pt on pt.hn = e.hn
+                        left outer join pttype p on p.pttype = e.pttype
+                        left outer join iptdiag im on im.an=e.an
+                        left join ipt ip on ip.an = e.an
+                        left join ipt_pttype it2 on it2.an=e.an  
+                        left join hos.ipdrent ir on ir.an =e.an
+                        left outer join hos.opitemrece oo on oo.an = e.an 
+                        LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id  
+                        left join hos.nondrugitems n1 on n1.icode = oo.icode
+                        left join hos.s_drugitems sd on sd.icode = oo.icode
+                        where e.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                
+                        and oo.icode IN("3009737","3010372","3010569")
+                        group by e.an; 
+        ');
+    
+        return view('dashboard.check_knee_opd',[
+            'start'     => $startdate,
+            'end'       => $enddate ,
+            'datashow_' => $datashow_
         ]);
     }
     

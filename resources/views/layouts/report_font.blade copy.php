@@ -53,82 +53,15 @@
 <!-- Plugins css -->
 <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 </head>
-<style>
-    #button{
-           display:block;
-           margin:20px auto;
-           padding:10px 30px;
-           background-color:#eee;
-           border:solid #ccc 1px;
-           cursor: pointer;
-           }
-           #overlay{	
-           position: fixed;
-           top: 0;
-           z-index: 100;
-           width: 100%;
-           height:100%;
-           display: none;
-           background: rgba(0,0,0,0.6);
-           }
-           .cv-spinner {
-           height: 100%;
-           display: flex;
-           justify-content: center;
-           align-items: center;  
-           }
-           .spinner {
-           width: 250px;
-           height: 250px;
-           border: 5px #ddd solid;
-           border-top: 10px #c2e20d solid;
-           border-radius: 50%;
-           animation: sp-anime 0.8s infinite linear;
-           }
-           @keyframes sp-anime {
-           100% { 
-               transform: rotate(360deg); 
-           }
-           }
-           .is-hide{
-           display:none;
-           }
-  </style>
+  
 
-<style>
-    *{
-        margin: 0;
-        padding: 0;
-    }
-    .headerZ{
-        z-index: 1;
-        background:linear-gradient(-45deg,red,rgb(201, 241, 154),rgb(184, 230, 226),rgb(238, 238, 107));
-        background-size: 400% 400%;
-        width: 100%;
-        height: 100vh;
-        animation: animate 5s ease infinite;
-    }
-    @keyframes animate{
-        0%{
-            background-position: 0 50%;
-        }
-        50%{
-            background-position: 100% 50%;
-        }
-        0%{
-            background-position: 0 50%;
-        }
-    }
-    
-    
-</style>
- <body data-topbar="dark">
-
+<body data-topbar="dark">
+ 
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-         <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)" >
+        <header id="page-topbar">
+            <div class="navbar-header" style="background-color: rgb(252, 252, 252)">
               
 
                 <div class="d-flex">
@@ -176,82 +109,119 @@
 
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
-                        <a href="{{url("setting/setting_index")}}" target="_blank">  
-                            <i class="fa-solid fa-gear text-danger ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ตั้งค่า"></i>
-                          </a>
-                          <a href="{{url("user/home")}}" target="_blank">  
-                            <i class="fa-solid fa-user-group text-info ms-4 me-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
-                          </a> 
-    
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
                     </div>
 
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @if (Auth::user()->img == null)
-                                <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
-                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
-                            @else
-                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
-                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
-                            @endif
-                            <span class="d-none d-xl-inline-block ms-1 " style="color: rgb(9, 75, 129)">
-                                {{ Auth::user()->fname }} {{ Auth::user()->lname }}
-                            </span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"
-                                style="color: rgb(9, 75, 129)"></i>
+                            
+                            <img src="{{ asset('assets/images/default-image.jpg') }}" height="22px"
+                                    width="22px" alt="Header Avatar" class="rounded-circle header-profile-user">
+              
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item " style="color: rgb(9, 75, 129)"
-                                href="{{ url('user/profile_edit/' . Auth::user()->id) }}"><i
-                                    class="ri-user-line align-middle me-1"></i> Profile</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                class="text-reset notification-item"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                    class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                            <a class="dropdown-item" href=""><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <div class="dropdown-divider"></div> 
+                           
                         </div>
-                    </div>
+                    </div> 
 
-                    <div class="dropdown d-inline-block user-dropdown">
-                    </div>
+                    {{-- <div class="dropdown d-inline-block user-dropdown">
+
+                    </div> --}}
 
                 </div>
             </div>
         </header>
-         <div class="mt-5 headerZ">
-            @yield('content')
-         </div>
+        <style>
+            body{
+                background: #70e1f5;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #ffd194, #70e1f5);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #ffd194, #70e1f5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
+            }
+        </style>
 
-               
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+
+            <div data-simplebar class="h-100" style="">
  
-    {{-- <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <script>
-                        document.write(new Date().getFullYear())
-                    </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title" style="color: white">Menu</li>
+                        <li>
+                            <a href="{{ url('report_refer') }}">  
+                                <i class="fa-solid fa-gauge-high text-info"></i>
+                                <span style="color: white">Dashboard</span>
+                            </a> 
+                        </li> 
+                        
+                        {{-- <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-user-nurse text-danger"></i>
+                                <span style="color: white">Refer</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('report_refer') }}" style="color: white">เทียบการใช้งานรถ Refer</a></li>  
+                            </ul>
+                        </li>  --}}
+                        {{-- <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-user-nurse text-danger"></i>
+                                <span style="color: white">อุปกรณ์อวัยวะเที่ยม</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('check_knee') }}" style="color: white">ตรวจสอบข้อเข่า</a></li>  
+                            </ul>
+                        </li>  --}}
+                        
+                    </ul>
                 </div>
-                <div class="col-sm-6">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - งานประกันสุขภาพ
-                    </div>
-                </div>
+                <!-- Sidebar -->
             </div>
         </div>
-    </footer> --}}
+        <!-- Left Sidebar End -->
 
 
-    </div>
-    <!-- end main content-->
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+
+                @yield('content')
+
+            </div>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - งานประกันสุขภาพ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+        </div>
+        <!-- end main content-->
 
     </div>
     <!-- END layout-wrapper -->
@@ -259,7 +229,6 @@
 
 
     <!-- Right bar overlay-->
-    <div class="rightbar-overlay"></div>
     <div class="rightbar-overlay"></div>
 
     <!-- JAVASCRIPT -->
@@ -326,22 +295,28 @@
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
     @yield('footer')
 
+    
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-            $('#example4').DataTable();
-            $('#example5').DataTable();
-            $('#example_user').DataTable();
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
+           
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
         });
- 
+
+        $(document).ready(function() {
+            
+        });
+
+       
     </script>
+
 </body>
 
 </html>

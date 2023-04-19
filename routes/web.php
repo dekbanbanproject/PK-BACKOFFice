@@ -31,6 +31,9 @@ Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\Repor
 Route::match(['get','post'],'report_refer',[App\Http\Controllers\ReportFontController::class, 'report_refer'])->name('rep.report_refer');// report report_refer
 
 Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
+Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า
+Route::match(['get','post'],'check_knee_ipd',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipd'])->name('rep.check_knee_ipd');// report ข้อเข่า
+Route::match(['get','post'],'check_knee_opd',[App\Http\Controllers\ReportFontController::class, 'check_knee_opd'])->name('rep.check_knee_opd');// report ข้อเข่า
 
 Route::get('book/bookmake_detail/{id}',[App\Http\Controllers\BookController::class, 'bookmake_detail'])->name('book.bookmake_detail'); 
 Route::get('computer/com_repair_add/{id}',[App\Http\Controllers\RepaireScanController::class, 'com_repair_add']);// แจ้งซ่อมคอมพิวเตอร์ ผ่านสแกน
