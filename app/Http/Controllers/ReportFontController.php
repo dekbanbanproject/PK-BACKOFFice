@@ -316,6 +316,55 @@ class ReportFontController extends Controller
             'datashow_'    => $datashow_
         ]);
     }
+    public function report_refer_hos(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $datashow_ = DB::connection('mysql3')->select(' 
+            SELECT  
+                ro.department,ro.hn,concat(p.pname,p.fname," ",p.lname) as ptname,
+                ro.refer_date,o.vstdate,o.vsttime,d.name as doctor_name,o.hospmain,
+                concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
+                ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,r.name as refername, 
+                ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name
+                FROM referout ro  
+                LEFT OUTER JOIN ovst o on o.vn = ro.vn  
+                LEFT OUTER JOIN patient p on p.hn=ro.hn  
+                LEFT OUTER JOIN hospcode h on h.hospcode = ro.refer_hospcode  
+                LEFT OUTER JOIN rfrcs r on r.rfrcs = ro.rfrcs  
+                LEFT OUTER JOIN doctor d on d.code = ro.doctor  
+                LEFT OUTER JOIN pttype pe on pe.pttype = o.pttype  
+                LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx  
+                WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND ro.department = "OPD"  
+
+                UNION 
+
+            SELECT 
+                ro.department,ro.hn,concat(p.pname,p.fname," ",p.lname) as ptname,
+                ro.refer_date,o.regdate as vstdate,o.regtime as vsttime,d.name as doctor_name,"" as hospmain
+                ,concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
+                ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,  
+                r.name as refername,ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name
+                from referout ro  
+                LEFT OUTER JOIN ipt o on o.an = ro.vn  
+                LEFT OUTER JOIN patient p on p.hn=ro.hn  
+                LEFT OUTER JOIN hospcode h on h.hospcode = ro.refer_hospcode 
+                LEFT OUTER JOIN rfrcs r on r.rfrcs = ro.rfrcs  
+                LEFT OUTER JOIN doctor d on d.code = ro.doctor  
+                LEFT OUTER JOIN pttype pe on pe.pttype = o.pttype  
+                LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx  
+                WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND ro.department = "IPD"
+        ');
+         
+        return view('dashboard.report_refer_hos',[
+            'start'        => $startdate,
+            'end'          => $enddate ,
+            // 'total_refer'  => $total_refer ,
+            'datashow_'    => $datashow_
+        ]);
+    }
     public function check_knee_ipd(Request $request)
     {
         $startdate = $request->startdate;

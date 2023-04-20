@@ -29,6 +29,8 @@ Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontC
 Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
 Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\ReportFontController::class, 'report_ormonth'])->name('rep.report_ormonth');// report
 Route::match(['get','post'],'report_refer',[App\Http\Controllers\ReportFontController::class, 'report_refer'])->name('rep.report_refer');// report report_refer
+Route::match(['get','post'],'report_refer_thairefer',[App\Http\Controllers\ReportFontController::class, 'report_refer_thairefer'])->name('rep.report_refer_thairefer');// report report_refer
+Route::match(['get','post'],'report_refer_hos',[App\Http\Controllers\ReportFontController::class, 'report_refer_hos'])->name('rep.report_refer_hos');// report report_refer
 
 Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า

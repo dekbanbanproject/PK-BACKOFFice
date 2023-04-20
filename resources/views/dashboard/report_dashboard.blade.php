@@ -76,7 +76,7 @@
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">OPD Refer 1 Month</p>   
+                                                        <p class="text-start font-size-14 mb-2">OPD ThaiRefer 1 Month</p>   
                                                         <h4 class="text-start mb-2">{{$refer}} Visit</h4>                                                         
                                                     </div>    
                                                     <div class="avatar-sm me-2">
@@ -99,7 +99,7 @@
                         </div> 
                     </div> 
                     <div class="col-xl-3 col-md-3">
-                        <div class="main-card mb-3 card">
+                        <div class="main-card mb-3 card" style="background-color: gray">
                             <div class="grid-menu-col">
                                 <div class="g-0 row">
                                     <div class="col-sm-12">
@@ -107,7 +107,7 @@
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
                                                         <p class="text-start font-size-14 mb-2">IPD Refer 1 Month</p>                                                    
-                                                        <h4 class="text-start mb-2">15 Visit</h4>                                                        
+                                                        <h4 class="text-start mb-2">0 Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">
                                                         <a href="" target="_blank">
@@ -129,7 +129,7 @@
                         </div> 
                     </div>
                     <div class="col-xl-3 col-md-3">
-                        <div class="main-card mb-3 card">
+                        <div class="main-card mb-3 card" style="background-color: gray">
                             <div class="grid-menu-col">
                                 <div class="g-0 row">
                                     <div class="col-sm-12">
@@ -167,7 +167,7 @@
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">IPD อุปกรณ์อวัยวะเที่ยม 1 เดือน</p>                                                    
+                                                        <p class="text-start font-size-14 mb-2">IPD อุปกรณ์(ข้อเข่า)ย้อนหลัง 1 เดือน</p>                                                    
                                                         <h4 class="text-start mb-2">{{$dataknee}} Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">

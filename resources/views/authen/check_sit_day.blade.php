@@ -1,4 +1,4 @@
-@extends('layouts.checksit')
+@extends('layouts.report_font')
 @section('title', 'PK-BACKOFFice || checksit')
 @section('content')
 <style>

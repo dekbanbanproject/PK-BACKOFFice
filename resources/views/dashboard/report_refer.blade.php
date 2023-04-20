@@ -57,7 +57,7 @@
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card">
                     <div class="card-header">
-                        Report REFER
+                        Report REFER BACKOFFice
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">  
                                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -226,120 +226,8 @@
         });
 
         $("#spinner-div").hide(); //Request is complete so hide spinner
-        $('#UpdateVNTO').on('submit', function(e) {
-                e.preventDefault();
-
-                var form = this;
-
-                $("#overlay").fadeIn(300);　
-                $("#spinner-div").show(); //Load button clicked show spinner
-                $.ajax({
-                    url: $(form).attr('action'),
-                    method: $(form).attr('method'),
-                    data: new FormData(form),
-                    processData: false,
-                    dataType: 'json',
-                    contentType: false,
-                    beforeSend: function() {
-                        $(form).find('span.error-text').text('');
-                    },
-                    success: function(data) {
-                        if (data.status == 0) {
-
-                        } else {
-                            Swal.fire({
-                                title: 'อัพเดทข้อมูลสำเร็จ',
-                                text: "You edit data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.reload();
-                                    $('#spinner-div').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                    },500);
-                                }
-                            })
-                        }
-                    }
-                });
-            });
- 
-        $('#UpdateVN').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val();  
-                // alert(datepicker);
-                Swal.fire({
-                        title: 'ต้องการอัพเดท VN ใช่ไหม ?',
-                        text: "You won't Update VN!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Chaeck it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner-div").show(); //Load button clicked show spinner
-
-                                $.ajax({
-                                    url: "{{ route('Sit.checkauthen_update_vn_data') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                      
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) {
-                                            Swal.fire({
-                                                title: 'ปรับข้อมูลสำเร็จ',
-                                                text: "You Update data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner-div').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                    },500);
-                                                }
-                                            })    
-                                                                     
-                                        } else {   
-                                        }
-                                         
-                                    },
-                                    // complete: function (data) {
-                                    //     $('#spinner-div').hide();//Request is complete so hide spinner
-                                    //     setTimeout(function(){
-                                    //         $("#overlay").fadeOut(300);
-                                    //     },500);
-                                    // }
-                                    })
-                                    // .done(function() {
-                                        // setTimeout(function(){
-                                        //     $("#overlay").fadeOut(300);
-                                        // },500);
-                                    // });
-                            }
-                        })
-                
-                
-
-
-
-
-        });
+         
+        
     });
 </script>
 @endsection

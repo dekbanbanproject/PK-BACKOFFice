@@ -120,15 +120,16 @@
         </header>
         <style>
             .nom6{ 
-                background: linear-gradient(to right, #c9ffbf, #ffafbd);
+                background: linear-gradient(to right,#ffafbd);
+                /* background: linear-gradient(to right, #c9ffbf, #ffafbd); */
             }
         </style>
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100 nom6">
- 
+            <div data-simplebar class="h-100" style="background-color: #ffafbd">
+                {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
@@ -140,16 +141,27 @@
                                 <span style="color: white">Dashboard</span>
                             </a> 
                         </li> 
-                        
-                        {{-- <li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-user-nurse text-danger"></i>
+                                <i class="fa-solid fa-clipboard-user text-info"></i>
+                                <span style="color: white">Check Sit</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('check_sit_day') }}">เช็คสิทธิ์รายวัน</a></li> 
+                                <li><a href="{{ url('check_sit_money') }}"> เช็คสิทธิ์ Money PK</a></li> 
+                            </ul>
+                        </li>
+                        
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-truck-medical text-danger"></i>
                                 <span style="color: white">Refer</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('report_refer') }}" style="color: white">เทียบการใช้งานรถ Refer</a></li>  
+                                <li ><a href="{{ url('report_refer') }}" style="color: white">การใช้งานรถ Refer BK</a></li>  
+                                <li ><a href="{{ url('report_refer_hos') }}" style="color: white">การใช้งานรถ Refer Hos</a></li>  
                             </ul>
-                        </li>  --}}
+                        </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-wheelchair text-danger"></i>
@@ -157,7 +169,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('check_knee_ipd') }}" style="color: white">ตรวจสอบข้อเข่า IPD</a></li> 
-                                <li ><a href="{{ url('check_knee_opd') }}" style="color: white">ตรวจสอบข้อเข่า OPD</a></li>  
+                                {{-- <li ><a href="{{ url('check_knee_opd') }}" style="color: white">ตรวจสอบข้อเข่า OPD</a></li>   --}}
                             </ul>
                         </li> 
                         

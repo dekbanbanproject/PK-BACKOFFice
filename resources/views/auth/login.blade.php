@@ -274,12 +274,12 @@
                 {{-- <a href="{{url('authencode_index')}}" class="btn btn-info btn-sm ms-2" target="_blank">ใช้งาน Authen </a> --}}
                 <a href="{{url('authen_dashboard')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Check Authen</a>
                 {{-- <a href="{{url('telemedicine')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Telemedicine </a> --}}
-                <a href="{{url('check_sit_day')}}" class="btn btn-primary btn-sm ms-2" target="_blank">Check Sit</a>
+                {{-- <a href="{{url('check_sit_day')}}" class="btn btn-primary btn-sm ms-2" target="_blank">Check Sit</a> --}}
                 {{-- <a href="{{url('screening_cigarette')}}" class="btn btn-primary btn-sm ms-2" target="_blank">Special PP</a> --}}
                 {{-- <a href="{{url('surgery_index')}}" class="btn btn-success btn-sm ms-2" target="_blank">ศัลยกรรม</a> --}}
-                <a href="{{url('import_stm')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Up Stm </a> 
+                {{-- <a href="{{url('import_stm')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Up Stm </a>  --}}
                 <a href="{{url('report_dashboard')}}" class="btn btn-success btn-sm ms-2" target="_blank">Report </a> 
-                <a href="{{url('ktb_getcard')}}" class="btn btn-secondary btn-sm ms-2" target="_blank">Test KTB </a> 
+                {{-- <a href="{{url('ktb_getcard')}}" class="btn btn-secondary btn-sm ms-2" target="_blank">Test KTB </a>  --}}
             </div>       
         </div>
 

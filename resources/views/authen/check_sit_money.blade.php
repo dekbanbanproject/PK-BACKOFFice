@@ -1,5 +1,5 @@
-@extends('layouts.checksit')
-@section('title', 'PK-BACKOFFice || checksit')
+@extends('layouts.report_font')
+@section('title', 'PK-BACKOFFice || checksit-money')
 @section('content')
 <style>
     #button{
