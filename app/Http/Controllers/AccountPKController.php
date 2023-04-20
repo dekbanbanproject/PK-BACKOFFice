@@ -474,7 +474,7 @@ class AccountPKController extends Controller
                 )
             ); 
             $contents = $client->__soapCall('searchCurrentByPID',$params);    
-       
+    //    dd($contents);
             foreach ($contents as $key => $v) {  
                 @$status = $v->status ;  
                 @$maininscl = $v->maininscl;
