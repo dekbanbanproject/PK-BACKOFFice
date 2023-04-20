@@ -169,7 +169,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('check_knee_ipd') }}" style="color: white">ข้อเข่า</a></li> 
-                                <li ><a href="{{ url('check_kradook') }}" style="color: white">แผ่นโลหะดามกระดูก</a></li>  
+                                <li ><a href="{{ url('check_kradook') }}" style="color: white">แผ่นโลหะกระดูก</a></li>  
                                 <li ><a href="{{ url('check_khosaphok') }}" style="color: white">ข้อสะโพก</a></li> 
                             </ul>
                         </li> 

@@ -99,18 +99,18 @@
                         </div> 
                     </div> 
                     <div class="col-xl-3 col-md-3">
-                        <div class="main-card mb-3 card" style="background-color: gray">
+                        <div class="main-card mb-3 card">
                             <div class="grid-menu-col">
                                 <div class="g-0 row">
                                     <div class="col-sm-12">
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">IPD Refer 1 Month</p>                                                    
-                                                        <h4 class="text-start mb-2">0 Visit</h4>                                                        
+                                                        <p class="text-start font-size-14 mb-2">ข้อสะโพกย้อนหลัง 1เดือน</p>                                                    
+                                                        <h4 class="text-start mb-2">{{$countsaphok}} Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">
-                                                        <a href="" target="_blank">
+                                                        <a href="{{url('check_khosaphokdetail/'.$newDate.'/'.$datenow)}}" target="_blank">
                                                             <span class="avatar-title bg-light text-primary rounded-3">
                                                                 <p style="font-size: 10px;"> 
                                                                     <button type="button" class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger avatar-title bg-light text-primary rounded-3">
@@ -129,18 +129,18 @@
                         </div> 
                     </div>
                     <div class="col-xl-3 col-md-3">
-                        <div class="main-card mb-3 card" style="background-color: gray">
+                        <div class="main-card mb-3 card">
                             <div class="grid-menu-col">
                                 <div class="g-0 row">
                                     <div class="col-sm-12">
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">OPD อุปกรณ์อวัยวะเที่ยม 1 เดือน</p>                                                    
-                                                        <h4 class="text-start mb-2">{{$Opdknee}} Visit</h4>                                                        
+                                                        <p class="text-start font-size-14 mb-2">แผ่นโลหะกระดูกย้อนหลัง 1เดือน</p>                                                    
+                                                        <h4 class="text-start mb-2">{{$countkradook}} Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">
-                                                        <a href="" target="_blank">
+                                                        <a href="{{url('check_kradookdetail/'.$newDate.'/'.$datenow)}}" target="_blank">
                                                             <span class="avatar-title bg-light text-danger rounded-3">
                                                                 <p style="font-size: 10px;"> 
                                                                     <button type="button" class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success avatar-title bg-light text-primary rounded-3">
@@ -167,7 +167,7 @@
                                         <div class="widget-chart widget-chart-hover"> 
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">                                                    
-                                                        <p class="text-start font-size-14 mb-2">IPD อุปกรณ์(ข้อเข่า)ย้อนหลัง 1 เดือน</p>                                                    
+                                                        <p class="text-start font-size-14 mb-2">ข้อเข่าย้อนหลัง 1เดือน</p>                                                    
                                                         <h4 class="text-start mb-2">{{$dataknee}} Visit</h4>                                                        
                                                     </div>    
                                                     <div class="avatar-sm me-2">

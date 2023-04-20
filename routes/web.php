@@ -36,8 +36,13 @@ Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontControl
 Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_ipd',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipd'])->name('rep.check_knee_ipd');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_opd',[App\Http\Controllers\ReportFontController::class, 'check_knee_opd'])->name('rep.check_knee_opd');// report ข้อเข่า
+
+
 Route::match(['get','post'],'check_kradook',[App\Http\Controllers\ReportFontController::class, 'check_kradook'])->name('rep.check_kradook');// report แผ่นโลหะดามกระดูก
+Route::match(['get','post'],'check_kradookdetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_kradookdetail'])->name('rep.check_kradookdetail');// report แผ่นโลหะดามกระดูก
+
 Route::match(['get','post'],'check_khosaphok',[App\Http\Controllers\ReportFontController::class, 'check_khosaphok'])->name('rep.check_khosaphok');// report ข้อสะโพก
+Route::match(['get','post'],'check_khosaphokdetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_khosaphokdetail'])->name('rep.check_khosaphokdetail');// report ข้อสะโพก
 
 Route::get('book/bookmake_detail/{id}',[App\Http\Controllers\BookController::class, 'bookmake_detail'])->name('book.bookmake_detail'); 
 Route::get('computer/com_repair_add/{id}',[App\Http\Controllers\RepaireScanController::class, 'com_repair_add']);// แจ้งซ่อมคอมพิวเตอร์ ผ่านสแกน
