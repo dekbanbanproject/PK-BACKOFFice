@@ -443,5 +443,79 @@ class ReportFontController extends Controller
             'datashow_' => $datashow_
         ]);
     }
+    public function check_kradook(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $datashow_ = DB::connection('mysql3')->select(' 
+                SELECT ip.vn,a.hn,a.an,pt.cid ,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype
+                ,concat(pt.pname,pt.fname," ",pt.lname) as fullname
+                ,oo.icode
+                ,sum(distinct oo.sum_price) as Price
+                ,group_concat(distinct n1.name) as ListName 
+                ,a.inc08 
+                ,a.income 
+                ,a.paid_money 
+                ,a.uc_money  
+                
+                from an_stat a
+                left outer join patient pt on pt.hn = a.hn
+                left outer join pttype p on p.pttype = a.pttype
+                left outer join iptdiag im on im.an=a.an
+                left join ipt ip on ip.an = a.an
+                left join ipt_pttype it2 on it2.an=a.an  
+                left join hos.ipdrent ir on ir.an =a.an
+                left outer join hos.opitemrece oo on oo.an = a.an 
+                LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id  
+                left join hos.nondrugitems n1 on n1.icode = oo.icode
+                left join hos.s_drugitems sd on sd.icode = oo.icode
+                where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                
+                and oo.icode IN("3011002","3009749")
+                group by a.an; 
+        ');
+    
+        return view('dashboard.check_kradook',[
+            'start'     => $startdate,
+            'end'       => $enddate ,
+            'datashow_' => $datashow_
+        ]);
+    }
+    public function check_khosaphok(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $datashow_ = DB::connection('mysql3')->select(' 
+            SELECT ip.vn,a.hn,a.an,pt.cid ,a.regdate,a.dchdate,group_concat(distinct it2.pttype) as pttype
+                ,concat(pt.pname,pt.fname," ",pt.lname) as fullname
+                ,oo.icode
+                ,sum(distinct oo.sum_price) as Price
+                ,group_concat(distinct n1.name) as ListName 
+                ,a.inc08 
+                ,a.income 
+                ,a.paid_money 
+                ,a.uc_money  
+                
+                from an_stat a
+                left outer join patient pt on pt.hn = a.hn
+                left outer join pttype p on p.pttype = a.pttype
+                left outer join iptdiag im on im.an=a.an
+                left join ipt ip on ip.an = a.an
+                left join ipt_pttype it2 on it2.an=a.an  
+                left join hos.ipdrent ir on ir.an =a.an
+                left outer join hos.opitemrece oo on oo.an = a.an 
+                LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id  
+                left join hos.nondrugitems n1 on n1.icode = oo.icode
+                left join hos.s_drugitems sd on sd.icode = oo.icode
+                where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                
+                and oo.icode IN("3009738","3009739","3010896","3009740","3010228")
+                group by a.an;  
+        ');
+    
+        return view('dashboard.check_khosaphok',[
+            'start'     => $startdate,
+            'end'       => $enddate ,
+            'datashow_' => $datashow_
+        ]);
+    }
     
 }

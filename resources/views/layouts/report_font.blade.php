@@ -168,8 +168,9 @@
                                 <span style="color: white">อุปกรณ์อวัยวะเที่ยม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('check_knee_ipd') }}" style="color: white">ตรวจสอบข้อเข่า IPD</a></li> 
-                                {{-- <li ><a href="{{ url('check_knee_opd') }}" style="color: white">ตรวจสอบข้อเข่า OPD</a></li>   --}}
+                                <li ><a href="{{ url('check_knee_ipd') }}" style="color: white">ข้อเข่า</a></li> 
+                                <li ><a href="{{ url('check_kradook') }}" style="color: white">แผ่นโลหะดามกระดูก</a></li>  
+                                <li ><a href="{{ url('check_khosaphok') }}" style="color: white">ข้อสะโพก</a></li> 
                             </ul>
                         </li> 
                         
