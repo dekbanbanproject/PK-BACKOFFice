@@ -122,10 +122,6 @@ class WarehouseController extends Controller
         order by wr.warehouse_rep_id desc
         ');
         // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
-        $data['users'] = User::get();
-        $data['budget_year'] = DB::table('budget_year')->get();
-        $data['products_vendor'] = Products_vendor::get();
-        $data['warehouse_inven'] = DB::table('warehouse_inven')->get();
         return view('warehouse.warehouse_index', $data);
     }
     public function warehouse_add(Request $request)
@@ -140,76 +136,6 @@ class WarehouseController extends Controller
         $data['product_unit'] = DB::table('product_unit')->get();
 
         return view('warehouse.warehouse_add', $data);
-    }
-
-    public function warehouse_billsave(Request $request)
-    {
-        $invenid = $request->warehouse_rep_inven_id;
-        $vendorid = $request->warehouse_rep_vendor_id;
-        $sendid = $request->warehouse_rep_send;
-        // $proid = $request->product_id;
-
-        if ($invenid == '') {
-            return response()->json([
-                'status'     => '100'
-            ]);
-        }else if ($vendorid == ''){
-            return response()->json([
-                'status'     => '150'
-            ]);        
-        } else {
-
-            // 2565-000002
-            
-            $add = new Warehouse_rep();
-            $add->warehouse_rep_code = $request->warehouse_rep_code;
-            $add->warehouse_rep_no_bill = $request->warehouse_rep_no_bill;
-            $add->warehouse_rep_po = $request->warehouse_rep_po;
-            $add->warehouse_rep_year = $request->warehouse_rep_year;
-            $add->warehouse_rep_date = $request->warehouse_rep_date;
-            $add->warehouse_rep_status = 'recieve';
-            // $add->warehouse_rep_send = $sendid;
-            $add->store_id = $request->store_id;
-
-            $iduser = $request->warehouse_rep_user_id;
-            if ($iduser != '') {
-                $usersave = DB::table('users')->where('id', '=', $iduser)->first();
-                $add->warehouse_rep_user_id = $usersave->id;
-                $add->warehouse_rep_user_name = $usersave->fname . '  ' . $usersave->lname;
-            } else {
-                $add->warehouse_rep_user_id = '';
-                $add->warehouse_rep_user_name = '';
-            }
-
-            
-            if ($invenid != '') {
-                $invensave = DB::table('warehouse_inven')->where('warehouse_inven_id', '=', $invenid)->first();
-                $add->warehouse_rep_inven_id = $invensave->warehouse_inven_id;
-                $add->warehouse_rep_inven_name = $invensave->warehouse_inven_name;
-            } else {
-                $add->warehouse_rep_inven_id = '';
-                $add->warehouse_rep_inven_name = '';
-            }
-
-            
-            if ($vendorid != '') {
-                $vendorsave = DB::table('products_vendor')->where('vendor_id', '=', $vendorid)->first();
-                $add->warehouse_rep_vendor_id = $vendorsave->vendor_id;
-                $add->warehouse_rep_vendor_name = $vendorsave->vendor_name;
-            } else {
-                $add->warehouse_rep_vendor_id = '';
-                $add->warehouse_rep_vendor_name = '';
-            }
-
-            $add->save();
-
-             
-            return response()->json([
-                'status'     => '200'
-            ]);
-
-        }        
-        
     }
 
     public function warehouse_save(Request $request)
@@ -785,7 +711,216 @@ class WarehouseController extends Controller
         // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
         return view('warehouse.warehouse_main_detail', $data);
     }
+
+
+    // public function warehouse_update_addsub(Request $request)
+    // {
+    //     $id = $request->warehouse_rep_id;
+    //     $code = $request->warehouse_rep_code;
+    //     $update = Warehouse_rep::find($id);         
+    //     $update->warehouse_rep_status = 'recieve';
+        
+    //     $update->save();
+
+    //     $inven = Warehouse_rep::where('warehouse_rep_id','=',$id)->first();
+    //     $checkproduct = Warehouse_rep_sub::where('warehouse_rep_id','=', $id)->get();
+
+    //     $couninven = DB::table('warehouse_stock')->where('warehouse_inven_id','=', $inven->warehouse_rep_inven_id)->count();
+
+    //     foreach ($checkproduct as $key => $item) { 
+
+    //         if ($couninven > 0) {                              
+    //                 // $counproduct = DB::table('warehouse_rep_sub')->where('product_id', '=',$item->product_id)->where('warehouse_rep_sub_status','=','2')->count(); 
+    //                 $counproduct = DB::table('warehouse_rep_sub')->where('product_id', '=',$item->product_id)->count();
+    //                 if ($counproduct > 0) {
+                       
+    //                     // $productlist = Warehouse_rep_sub::where('warehouse_rep_id','=',$inven->warehouse_rep_id)->where('product_id', '=', $item->product_id)->get(); 
+    //                     if ($request->product_id != '' || $request->product_id != null) {
+    //                         $product_id = $request->product_id;
+    //                         $product_type_id = $request->product_type_id;
+    //                         $product_qty = $request->product_qty;
+    //                         $product_price = $request->product_price;
+    //                         $product_unit_subid = $request->product_unit_subid;
+    //                         $product_lot = $request->product_lot;
+    //                         $warehouse_rep_sub_exedate = $request->warehouse_rep_sub_exedate;
+    //                         $warehouse_rep_sub_expdate = $request->warehouse_rep_sub_expdate;
+    //                         $warehouse_rep_sub_status = $request->warehouse_rep_sub_status;
+                
+    //                         $number = count($product_id);
+    //                         $count = 0;
+    //                         for ($count = 0; $count < $number; $count++) {
+                
+    //                             $idpro = DB::table('product_data')->where('product_id', '=', $product_id[$count])->first(); 
+    //                             $date = date("Y-m-d H:i:s");
+    //                             $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
+    //                             $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
+                
+    //                             $add2 = new Warehouse_rep_sub();
+    //                             $add2->warehouse_rep_id = $id;
+    //                             $add2->warehouse_rep_code = $code;
+    //                             $add2->product_id = $idpro->product_id;
+    //                             $add2->product_code = $idpro->product_code;
+    //                             $add2->product_name = $idpro->product_name;
+    //                             $add2->product_type_id = $idtype->products_typefree_id;
+    //                             $add2->product_type_name = $idtype->products_typefree_name;
+    //                             $add2->product_unit_subid = $idunit->unit_id;
+    //                             $add2->product_unit_subname = $idunit->unit_name;
+    //                             $add2->product_lot = $product_lot[$count];
+    //                             $add2->product_qty = $product_qty[$count];
+    //                             $add2->product_price = $product_price[$count];
+    //                             $add2->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
+    //                             $add2->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
+    //                             $add2->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
+    //                             $total = $product_qty[$count] * $product_price[$count];
+    //                             $add2->product_price_total = $total;
+    //                             $add2->save();
+                                
+    //                         } 
+    //                         $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$id)->sum('product_price_total');
+    //                          // $update->warehouse_rep_send = $request->warehouse_rep_send;
+    //                         $update3 = Warehouse_rep::find($id);
+    //                         $update3->warehouse_rep_total = $sumrecieve;
+    //                         $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$id)->where('warehouse_rep_sub_status', '=','2')->count(); 
+    //                         if ($countsttus == '0') {
+    //                             $update3->warehouse_rep_send = 'FINISH';
+    //                         } else {
+    //                             $update3->warehouse_rep_send = 'STALE';
+    //                         }
+    //                         $update3->save();
+    //                     } 
+    //                     // foreach ($productlist as $itemstock){
+    //                     //     $qtystock = $itemstock->product_qty + $item->product_qty;
+    //                     //     $pricetotakstock = $itemstock->product_price_total + $item->product_price_total;
+                             
+    //                     //     DB::table('warehouse_rep_sub')
+    //                     //     ->where('warehouse_rep_id','=', $id)
+    //                     //     ->where('product_id', '=', $itemstock->product_id)
+    //                     //     ->update([
+    //                     //         'product_qty' => $qtystock,
+    //                     //         'product_price_total'  => $pricetotakstock,
+    //                     //         'warehouse_rep_sub_status'  => '1'
+    //                     //     ]); 
+    //                     // }    
+
+    //                 } else {
+    //                     // if ($request->product_id != '' || $request->product_id != null) {
+    //                     //     $product_id = $request->product_id;
+    //                     //     $product_type_id = $request->product_type_id;
+    //                     //     $product_qty = $request->product_qty;
+    //                     //     $product_price = $request->product_price;
+    //                     //     $product_unit_subid = $request->product_unit_subid;
+    //                     //     $product_lot = $request->product_lot;
+    //                     //     $warehouse_rep_sub_exedate = $request->warehouse_rep_sub_exedate;
+    //                     //     $warehouse_rep_sub_expdate = $request->warehouse_rep_sub_expdate;
+    //                     //     $warehouse_rep_sub_status = $request->warehouse_rep_sub_status;
+                
+    //                     //     $number = count($product_id);
+    //                     //     $count = 0;
+    //                     //     for ($count = 0; $count < $number; $count++) {
+                
+    //                     //         $idpro = DB::table('product_data')->where('product_id', '=', $product_id[$count])->first(); 
+    //                     //         $date = date("Y-m-d H:i:s");
+    //                     //         $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
+    //                     //         $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
+                
+    //                     //         $add2 = new Warehouse_rep_sub();
+    //                     //         $add2->warehouse_rep_id = $id;
+    //                     //         $add2->warehouse_rep_code = $code;
+    //                     //         $add2->product_id = $idpro->product_id;
+    //                     //         $add2->product_code = $idpro->product_code;
+    //                     //         $add2->product_name = $idpro->product_name;
+    //                     //         $add2->product_type_id = $idtype->products_typefree_id;
+    //                     //         $add2->product_type_name = $idtype->products_typefree_name;
+    //                     //         $add2->product_unit_subid = $idunit->unit_id;
+    //                     //         $add2->product_unit_subname = $idunit->unit_name;
+    //                     //         $add2->product_lot = $product_lot[$count];
+    //                     //         $add2->product_qty = $product_qty[$count];
+    //                     //         $add2->product_price = $product_price[$count];
+    //                     //         $add2->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
+    //                     //         $add2->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
+    //                     //         $add2->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
+    //                     //         $total = $product_qty[$count] * $product_price[$count];
+    //                     //         $add2->product_price_total = $total;
+    //                     //         $add2->save();
+                                
+    //                     //     } 
+    //                     //     $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$id)->sum('product_price_total');
+    //                     //      // $update->warehouse_rep_send = $request->warehouse_rep_send;
+    //                     //     $update3 = Warehouse_rep::find($id);
+    //                     //     $update3->warehouse_rep_total = $sumrecieve;
+    //                     //     $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$id)->where('warehouse_rep_sub_status', '=','2')->count(); 
+    //                     //     if ($countsttus == '0') {
+    //                     //         $update3->warehouse_rep_send = 'FINISH';
+    //                     //     } else {
+    //                     //         $update3->warehouse_rep_send = 'STALE';
+    //                     //     }
+    //                     //     $update3->save();
+    //                     // }                        
+    //                 }    
+    //         } else {         
+    //             if ($request->product_id != '' || $request->product_id != null) {
+    //                 $product_id = $request->product_id;
+    //                 $product_type_id = $request->product_type_id;
+    //                 $product_qty = $request->product_qty;
+    //                 $product_price = $request->product_price;
+    //                 $product_unit_subid = $request->product_unit_subid;
+    //                 $product_lot = $request->product_lot;
+    //                 $warehouse_rep_sub_exedate = $request->warehouse_rep_sub_exedate;
+    //                 $warehouse_rep_sub_expdate = $request->warehouse_rep_sub_expdate;
+    //                 $warehouse_rep_sub_status = $request->warehouse_rep_sub_status;
+        
+    //                 $number = count($product_id);
+    //                 $count = 0;
+    //                 for ($count = 0; $count < $number; $count++) {
+        
+    //                     $idpro = DB::table('product_data')->where('product_id', '=', $product_id[$count])->first(); 
+    //                     $date = date("Y-m-d H:i:s");
+    //                     $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
+    //                     $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
+        
+    //                     $add2 = new Warehouse_rep_sub();
+    //                     $add2->warehouse_rep_id = $id;
+    //                     $add2->warehouse_rep_code = $code;
+    //                     $add2->product_id = $idpro->product_id;
+    //                     $add2->product_code = $idpro->product_code;
+    //                     $add2->product_name = $idpro->product_name;
+    //                     $add2->product_type_id = $idtype->products_typefree_id;
+    //                     $add2->product_type_name = $idtype->products_typefree_name;
+    //                     $add2->product_unit_subid = $idunit->unit_id;
+    //                     $add2->product_unit_subname = $idunit->unit_name;
+    //                     $add2->product_lot = $product_lot[$count];
+    //                     $add2->product_qty = $product_qty[$count];
+    //                     $add2->product_price = $product_price[$count];
+    //                     $add2->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
+    //                     $add2->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
+    //                     $add2->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
+    //                     $total = $product_qty[$count] * $product_price[$count];
+    //                     $add2->product_price_total = $total;
+    //                     $add2->save();
+                        
+    //                 } 
+    //                 $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$id)->sum('product_price_total');
+    //                  // $update->warehouse_rep_send = $request->warehouse_rep_send;
+    //                 $update3 = Warehouse_rep::find($id);
+    //                 $update3->warehouse_rep_total = $sumrecieve;
+    //                 $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$id)->where('warehouse_rep_sub_status', '=','2')->count(); 
+    //                 if ($countsttus == '0') {
+    //                     $update3->warehouse_rep_send = 'FINISH';
+    //                 } else {
+    //                     $update3->warehouse_rep_send = 'STALE';
+    //                 }
+    //                 $update3->save();
+    //             }                             
+    //         }
+                  
+    //         }  
+       
  
+
+    //     return response()->json([
+    //         'status'     => '200'
+    //     ]);
+    // }
     public function warehouse_addsub(Request $request,$id)
     {
         $data['budget_year'] = DB::table('budget_year')->get();

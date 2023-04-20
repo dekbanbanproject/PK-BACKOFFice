@@ -143,8 +143,8 @@
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100" style="background-color: rgb(12, 229, 207)">
- 
+            <div data-simplebar class="h-100" style="background-color: rgb(5, 125, 144)">
+               
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
@@ -295,7 +295,7 @@
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
     @yield('footer')
-
+    
     
     <script type="text/javascript">
         $(document).ready(function() {
@@ -312,7 +312,18 @@
         });
 
         $(document).ready(function() {
-            
+            $('#warehouse_rep_year').select2({
+                dropdownParent: $('#exampleModal')
+            });
+            $('#warehouse_rep_user_id').select2({
+                dropdownParent: $('#exampleModal')
+            });
+            $('#warehouse_rep_inven_id').select2({
+                dropdownParent: $('#exampleModal')
+            });
+            $('#warehouse_rep_vendor_id').select2({
+                dropdownParent: $('#exampleModal')
+            });
         });
 
        

@@ -530,7 +530,7 @@ $loter = $date.''.$time
     
 </script>
 <script>
-     $(document).ready(function() {
+    $(document).ready(function() {
         $('#warehouse_save').on('submit',function(e){
                     e.preventDefault();            
                     var form = this; 

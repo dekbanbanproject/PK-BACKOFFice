@@ -630,14 +630,16 @@
                 placeholder: "-เลือก-",
                 allowClear: true
             });
-            $('#warehouse_rep_year').select2({
-                placeholder: "-เลือก-",
-                allowClear: true
-            });
+            
             $('#warehouse_rep_sub_status').select2({
                 placeholder: "-เลือก-",
                 allowClear: true
             });
+            $('#warehouse_rep_year').select2({
+                placeholder: "-เลือก-",
+                allowClear: true
+            });
+            
         });
 
         

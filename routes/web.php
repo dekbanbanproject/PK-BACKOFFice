@@ -342,7 +342,10 @@ Route::middleware(['type'])->group(function(){
       Route::match(['get','post'],'warehouse/warehouse_index',[App\Http\Controllers\WarehouseController::class, 'warehouse_index'])->name('ware.warehouse_index');//
       Route::match(['get','post'],'warehouse/warehouse_add',[App\Http\Controllers\WarehouseController::class, 'warehouse_add'])->name('ware.warehouse_add');//
       Route::match(['get','post'],'warehouse/warehouse_addsub/{id}',[App\Http\Controllers\WarehouseController::class,'warehouse_addsub'])->name('ware.warehouse_addsub');//
+
+      Route::match(['get','post'],'warehouse_billsave',[App\Http\Controllers\WarehouseController::class, 'warehouse_billsave'])->name('ware.warehouse_billsave');//
       Route::match(['get','post'],'warehouse/warehouse_save',[App\Http\Controllers\WarehouseController::class, 'warehouse_save'])->name('ware.warehouse_save');//
+
       Route::get('warehouse/warehouse_edit/{id}',[App\Http\Controllers\WarehouseController::class, 'warehouse_edit'])->name('ware.warehouse_edit');//
       Route::match(['get','post'],'warehouse/warehouse_detail/{id}',[App\Http\Controllers\WarehouseController::class, 'warehouse_detail'])->name('ware.warehouse_detail');//
       Route::match(['get','post'],'warehouse/warehouse_update',[App\Http\Controllers\WarehouseController::class, 'warehouse_update'])->name('ware.warehouse_update');//
