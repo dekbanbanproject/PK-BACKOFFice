@@ -123,7 +123,7 @@ class WarehouseController extends Controller
         ');
         // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
         $data['users'] = User::get();
-        $data['budget_year'] = DB::table('budget_year')->get();
+        $data['budget_year'] = DB::table('budget_year')->where('active','=','True')->get();
         $data['products_vendor'] = Products_vendor::get();
         $data['warehouse_inven'] = DB::table('warehouse_inven')->get();
         return view('warehouse.warehouse_index', $data);
@@ -202,6 +202,66 @@ class WarehouseController extends Controller
             }
 
             $add->save();
+
+             
+            return response()->json([
+                'status'     => '200'
+            ]);
+
+        }        
+        
+    }
+    public function warehouse_billupdate(Request $request)
+    {
+        $invenid = $request->warehouse_rep_inven_id;
+        $vendorid = $request->warehouse_rep_vendor_id;
+        $sendid = $request->warehouse_rep_send;
+        $id = $request->warehouse_rep_id;
+        if ($invenid == '') {
+            return response()->json([
+                'status'     => '100'
+            ]);
+        }else if ($vendorid == ''){
+            return response()->json([
+                'status'     => '150'
+            ]);        
+        } else {
+            $update = Warehouse_rep::find($id);
+            $update->warehouse_rep_code = $request->warehouse_rep_code;
+            $update->warehouse_rep_no_bill = $request->warehouse_rep_no_bill;
+            $update->warehouse_rep_po = $request->warehouse_rep_po;
+            $update->warehouse_rep_year = $request->warehouse_rep_year;
+            $update->warehouse_rep_date = $request->warehouse_rep_date;
+            // $update->warehouse_rep_status = 'recieve';
+            // $update->warehouse_rep_send = $sendid;
+            $update->store_id = $request->store_id;
+            $iduser = $request->warehouse_rep_user_id;
+            if ($iduser != '') {
+                $usersave = DB::table('users')->where('id', '=', $iduser)->first();
+                $update->warehouse_rep_user_id = $usersave->id;
+                $update->warehouse_rep_user_name = $usersave->fname . '  ' . $usersave->lname;
+            } else {
+                $update->warehouse_rep_user_id = '';
+                $update->warehouse_rep_user_name = '';
+            }            
+            if ($invenid != '') {
+                $invensave = DB::table('warehouse_inven')->where('warehouse_inven_id', '=', $invenid)->first();
+                $update->warehouse_rep_inven_id = $invensave->warehouse_inven_id;
+                $update->warehouse_rep_inven_name = $invensave->warehouse_inven_name;
+            } else {
+                $update->warehouse_rep_inven_id = '';
+                $update->warehouse_rep_inven_name = '';
+            }
+            
+            if ($vendorid != '') {
+                $vendorsave = DB::table('products_vendor')->where('vendor_id', '=', $vendorid)->first();
+                $update->warehouse_rep_vendor_id = $vendorsave->vendor_id;
+                $update->warehouse_rep_vendor_name = $vendorsave->vendor_name;
+            } else {
+                $update->warehouse_rep_vendor_id = '';
+                $update->warehouse_rep_vendor_name = '';
+            }
+            $update->save();
 
              
             return response()->json([

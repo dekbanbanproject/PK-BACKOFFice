@@ -145,18 +145,123 @@
     date_default_timezone_set('Asia/Bangkok');
     $date = date('Y') + 543;
     $datefull = date('Y-m-d H:i:s');
-    $time = date('H:i:s');
-    $loter = $date . '' . $time;
+    $time = date("H:i:s");
+    $loter = $date.''.$time
     ?>
+    {{-- <style>
+         body {
+            font-size: 13px;
+        }
+        .btn {
+            font-size: 13px;
+        }
+        .bgc {
+            background-color: #264886;
+        }
+        .bga {
+            background-color: #fbff7d;
+        }
+        .boxpdf {
+            /* height: 1150px; */
+            height: auto;
+        }
+        .page {
+            width: 90%;
+            margin: 10px;
+            box-shadow: 0px 0px 5px #000;
+            animation: pageIn 1s ease;
+            transition: all 1s ease, width 0.2s ease;
+        }
+        @keyframes pageIn {
+            0% {
+                transform: translateX(-300px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0px);
+                opacity: 1;
+            }
+        }
+        @media (min-width: 950px) {
+            .modal {
+                --bs-modal-width: 950px;
+            }
+        }
+        @media (min-width: 1500px) {
+            .modal-xls {
+                --bs-modal-width: 1500px;
+            }
+        }
+        @media (min-width: 1500px) {
+            .container-fluids {
+                width: 1500px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: auto;
+            }
+            .dataTables_wrapper .dataTables_filter {
+                float: right
+            }
 
+            .dataTables_wrapper .dataTables_length {
+                float: left
+            }
+
+            .dataTables_info {
+                float: left;
+            }
+
+            .dataTables_paginate {
+                float: right
+            }
+
+            .custom-tooltip {
+                --bs-tooltip-bg: var(--bs-primary);
+            }
+
+            .table thead tr th {
+                font-size: 14px;
+            }
+
+            .table tbody tr td {
+                font-size: 13px;
+            }
+
+            .menu {
+                font-size: 13px;
+            }
+        }
+        .hrow{
+            height: 2px;
+            margin-bottom: 9px;
+        }
+        
+    </style> --}}
     <div class="container-fluid">
         <div class="row ">
             <div class="col-md-12">
                 <div class="main-card mb-3 card shadow">
+                    {{-- <div class="card-header ">
+                        <div class="d-flex">
+                            <div class="p-2">
+                                <label for="">รายการตรวจรับ</label>
+                            </div>
+                            <div class="ms-auto p-2">
+                                <a href="{{ url('warehouse/warehouse_add') }}" class="btn btn-info btn-sm">
+                                    <i class="fa-solid fa-folder-plus text-white me-2"></i>
+                                    ตรวจรับทั่วไป
+                                </a>
+                            </div>
+                        </div>
+                    </div> --}}
                     <div class="card-header">
-                        รายการตรวจรับ 
+                        รายการตรวจรับ
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">
+                                {{-- <a href="{{ url('warehouse/warehouse_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>ตรวจรับทั่วไป
+                                </a> --}}
+
                                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="pe-7s-shuffle btn-icon-wrapper"></i>เปิดบิล
@@ -164,10 +269,13 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card-body shadow-lg">
                         <div class="table-responsive">
+                            {{-- <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
+                                id="example"> --}}
                             <table style="width: 100%;" id="example"
-                                class="table table-hover table-striped table-bordered myTable">
+                                class="table table-hover table-striped table-bordered myTable" {{-- class="table table-hover table-bordered table-sm myTable" --}}>
                                 <thead>
                                     <tr>
                                         <th width="3%" class="text-center">ลำดับ</th>
@@ -179,7 +287,7 @@
                                         <th width="8%" class="text-center">ประเภทรับ</th>
                                         {{-- <th width="8%" class="text-center">สถานะส่ง</th> --}}
                                         <th width="8%" class="text-center">สถานะคลัง</th>
-                                        {{-- <th class="text-center">ตัวแทนจำหน่าย</th> --}}
+                                        <th class="text-center">ตัวแทนจำหน่าย</th>
                                         <th width="10%" class="text-center">ผู้รับ</th>
                                         <th width="5%" class="text-center">จัดการ</th>
                                     </tr>
@@ -246,7 +354,7 @@
                                                 </td>
                                             @endif
 
-                                            {{-- <td class="p-2" width="14%">{{ $item->warehouse_rep_vendor_name }}</td> --}}
+                                            <td class="p-2" width="14%">{{ $item->warehouse_rep_vendor_name }}</td>
                                             <td class="text-center" width="9%">{{ $item->warehouse_rep_user_name }}
                                             </td>
                                             <td class="text-center" width="5%">
@@ -267,21 +375,13 @@
                                                                     style="font-size:13px"></i>
                                                                 <span>รายละเอียด</span></a>
                                                             <div class="dropdown-divider"></div>
-                                                            {{-- <a class="dropdown-item text-warning"
+                                                            <a class="dropdown-item text-warning"
                                                                 href="{{ url('warehouse/warehouse_edit/' . $item->warehouse_rep_id) }}"
                                                                 style="font-size:13px">
-                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning"
+                                                                    style="font-size:13px"></i>
                                                                 <span>แก้ไข</span>
-                                                            </a> --}}
-                                                            {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning"
-                                                                data-bs-toggle="modal" data-bs-target="#editModal">
-                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
-                                                                <span>แก้ไข</span>
-                                                            </button> --}}
-                                                            <button class="dropdown-item text-warning" style="font-size:13px" data-bs-toggle="modal" data-bs-target=".editModal{{ $item->warehouse_rep_id }}">
-                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
-                                                                <span>แก้ไข</span>
-                                                            </button>
+                                                            </a>
                                                         @else
                                                         @endif
 
@@ -374,119 +474,6 @@
 
                                             </td>
                                         </tr>
-
-                                        <!-- Modal Edit-->
-                                        <div class="modal fade editModal{{ $item->warehouse_rep_id }}" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editModalLabel">แก้ไขบิล</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('ware.warehouse_billupdate') }}" method="POST" id="Wbillupdate" enctype="multipart/form-data">
-                                                            @csrf
-
-                                                            <input id="warehouse_rep_id" type="hidden" name="warehouse_rep_id" value="{{ $item->warehouse_rep_id }}"> 
-                                                            <input id="warehouse_rep_code" type="hidden" name="warehouse_rep_code" value="{{ $item->warehouse_rep_code }}"> 
-                                                            <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
-                                                            <input type="hidden" name="warehouse_rep_user_id" id="warehouse_rep_user_id" value="{{ Auth::user()->id }}">
-
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="row"> 
-                                                                        <div class="col-md-1">
-                                                                            <label for="warehouse_rep_no_bill">เลขที่บิล :</label>
-                                                                        </div>
-                                                                        <div class="col-md-2">
-                                                                            <div class="form-group">
-                                                                                <input id="warehouse_rep_no_bill" type="text"
-                                                                                    class="form-control-sm form-control" name="warehouse_rep_no_bill" value="{{ $item->warehouse_rep_no_bill }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-1 ">
-                                                                            <label for="warehouse_rep_po">เลขที่ PO :</label>
-                                                                        </div>
-                                                                        <div class="col-md-2">
-                                                                            <div class="form-group">
-                                                                                <input id="warehouse_rep_po" type="text"
-                                                                                    class="form-control-sm form-control" name="warehouse_rep_po" value="{{ $item->warehouse_rep_po }}">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2 text-end">
-                                                                            <label for="warehouse_rep_year">ปีงบ :</label>
-                                                                        </div>
-                                                                        <div class="col-md-2">
-                                                                            <div class="form-group">
-                                                                                <select id="warehouse_rep_year_edit" name="warehouse_rep_year"
-                                                                                    class="form-select form-select-lg" style="width: 100%"> 
-                                                                                    @foreach ($budget_year as $ye)
-                                                                                        @if ($ye->leave_year_id == $item->warehouse_rep_year)
-                                                                                            <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }} </option>
-                                                                                        @else
-                                                                                            <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }}</option>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div> 
-                                                                    </div>
-
-                                                                    <div class="row mt-3"> 
-                                                                        <div class="col-md-2">
-                                                                            <label for="warehouse_rep_inven_id">รับเข้าคลัง :</label>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <select id="warehouse_rep_inven_id_edit" name="warehouse_rep_inven_id"
-                                                                                    class="form-select form-select-lg" style="width: 100%">
-                                                                                    <option value="">--เลือก--</option>
-                                                                                    @foreach ($warehouse_inven as $inven)
-                                                                                    @if ($inven->warehouse_inven_id == $item->warehouse_rep_inven_id)
-                                                                                        <option value="{{ $inven->warehouse_inven_id }}" selected> {{ $inven->warehouse_inven_name }} </option>
-                                                                                    @else
-                                                                                        <option value="{{ $inven->warehouse_inven_id }}"> {{ $inven->warehouse_inven_name }} </option>
-                                                                                    @endif
-                                                                                       
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-2 text-end">
-                                                                            <label for="warehouse_rep_vendor_id">รับจาก :</label>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
-                                                                                <select id="warehouse_rep_vendor_id_edit" name="warehouse_rep_vendor_id"
-                                                                                    class="form-select form-select-lg" style="width: 100%">
-                                                                                    <option value="">--เลือก--</option>
-                                                                                    @foreach ($products_vendor as $ven)
-                                                                                    @if ($ven->vendor_id == $item->warehouse_rep_vendor_id)
-                                                                                        <option value="{{ $ven->vendor_id }}" selected> {{ $ven->vendor_name }} </option>
-                                                                                    @else
-                                                                                        <option value="{{ $ven->vendor_id }}"> {{ $ven->vendor_name }} </option>
-                                                                                    @endif
-                                                                                        
-                                                                                    @endforeach
-                                                                                </select>
-                                                                            </div>
-                                                                        </div> 
-                                                                        <input class="form-control form-control-sm" type="hidden" id="example-datetime-local-input" name="warehouse_rep_date"
-                                                                            value="{{ $datefull }}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>                    
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                            <i class="pe-7s-diskette btn-icon-wrapper"></i>Update Data
-                                                        </button>
-                                                    </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
 
 
                                         <!--  Modal content for the above example -->
@@ -613,12 +600,12 @@
                                                         <?php $ii = 1;
                                                         $datadetail = DB::connection('mysql')->select(
                                                             '   
-                                                                                                                                                                        select product_code,product_name,product_type_name,product_qty,product_price,product_price_total,product_unit_subname
-                                                                                                                                                                        from warehouse_rep_sub 
-                                                                                                                                                                        where warehouse_rep_id ="' .
+                                                                                                                select product_code,product_name,product_type_name,product_qty,product_price,product_price_total,product_unit_subname
+                                                                                                                from warehouse_rep_sub 
+                                                                                                                where warehouse_rep_id ="' .
                                                                 $item->warehouse_rep_id .
                                                                 '"  
-                                                                                                                                                                          ',
+                                                                                                                  ',
                                                         );
                                                         $total = 0;
                                                         ?>
@@ -665,7 +652,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     @endforeach
                                 </tbody>
                             </table>
@@ -688,16 +674,23 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('ware.warehouse_billsave') }}" method="POST" id="Wbillsave" enctype="multipart/form-data">
+                    <form class="custom-validation" action="{{ route('ware.warehouse_billsave') }}" method="POST" id="Wbillsave" enctype="multipart/form-data">
                         @csrf
 
-                        <input id="warehouse_rep_code" type="hidden" name="warehouse_rep_code" value="{{ $refnumber }}"> 
                         <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
                         <input type="hidden" name="warehouse_rep_user_id" id="warehouse_rep_user_id" value="{{ Auth::user()->id }}">
 
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="row"> 
+                                <div class="row">
+                                    {{-- <div class="col-md-1">
+                                        <label for="warehouse_rep_code">เลขที่รับ :</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group"> --}}
+                                            <input id="warehouse_rep_code" type="hidden" class="form-control form-control-sm" name="warehouse_rep_code" value="{{ $refnumber }}" readonly>
+                                        {{-- </div>
+                                    </div> --}}
                                     <div class="col-md-1">
                                         <label for="warehouse_rep_no_bill">เลขที่บิล :</label>
                                     </div>
@@ -712,31 +705,53 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input id="warehouse_rep_po" type="text"
-                                                class="form-control-sm form-control" name="warehouse_rep_po">
+                                            <input id="warehouse_rep_po" type="text" class="form-control-sm form-control"
+                                                name="warehouse_rep_po">
                                         </div>
                                     </div>
                                     <div class="col-md-2 text-end">
-                                        <label for="warehouse_rep_year">ปีงบ :</label>
+                                        <label for="warehouse_rep_year" >ปีงบ :</label>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <select id="warehouse_rep_year" name="warehouse_rep_year"
                                                 class="form-select form-select-lg" style="width: 100%">
-                                                {{-- <option value="">--เลือก--</option> --}}
+                                                <option value="">--เลือก--</option>
                                                 @foreach ($budget_year as $ye)
                                                     @if ($ye->leave_year_id == $date)
-                                                        <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }} </option>
+                                                        <option value="{{ $ye->leave_year_id }}" selected>
+                                                            {{ $ye->leave_year_id }} </option>
                                                     @else
-                                                        <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }}</option>
+                                                        <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }}
+                                                        </option>
                                                     @endif
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div> 
+                                    </div>
+                                    {{-- <div class="col-md-1">
+                                        <label for="warehouse_rep_user_id">ผู้รับ :</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <select id="warehouse_rep_user_id" name="warehouse_rep_user_id"
+                                                class="form-select form-select-lg" style="width: 100%">
+                                                <option value="">--เลือก--</option>
+                                                @foreach ($users as $itemu)
+                                                @if ($iduser == $itemu->id)
+                                                <option value="{{ $itemu->id }}" selected> {{ $itemu->fname }} {{ $itemu->lname }} </option>
+                                                @else
+                                                <option value="{{ $itemu->id }}"> {{ $itemu->fname }} {{ $itemu->lname }} </option>
+                                                @endif
+                                                    
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div> --}}
                                 </div>
 
-                                <div class="row mt-3"> 
+                                <div class="row mt-3">
+                                    
                                     <div class="col-md-2">
                                         <label for="warehouse_rep_inven_id">รับเข้าคลัง :</label>
                                     </div>
@@ -767,55 +782,48 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div> 
-                                    <input class="form-control form-control-sm" type="hidden" id="example-datetime-local-input" name="warehouse_rep_date"
-                                        value="{{ $datefull }}">
- 
+                                    </div>
+                                    {{-- <div class="col-md-1">
+                                        <label for="warehouse_rep_date">วันที่รับ :</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group"> --}}
+                                            <input class="form-control form-control-sm" type="hidden"
+                                                id="example-datetime-local-input" name="warehouse_rep_date" value="{{$datefull}}">
+
+                                        {{-- </div>
+                                    </div> --}}
+
                                 </div>
 
 
                             </div>
                         </div>
-                        
+                        {{-- <div class="input-group">
+                            <div class="input-group-text">
+                                <span class="">@cid</span>
+                            </div>
+                            <input type="text" id="cid" name="cid" class="form-control">
+                        </div>
+                        <br>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-text">
+                                <span class="">@Token</span>
+                            </div>
+                            <input type="text" class="form-control" id="token" name="token">
+                        </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
                     </button>
                 </div>
-                </form>
+            </form>
             </div>
         </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#warehouse_rep_year').select2({
-                dropdownParent: $('#exampleModal')
-            });
-            // $('#warehouse_rep_user_id').select2({
-            //     dropdownParent: $('#exampleModal')
-            // });
-            $('#warehouse_rep_inven_id').select2({
-                dropdownParent: $('#exampleModal')
-            });
-            $('#warehouse_rep_vendor_id').select2({
-                dropdownParent: $('#exampleModal')
-            });
-
-            $('#warehouse_rep_year_edit').select2({
-                dropdownParent: $('#editModal')
-            }); 
-            $('#warehouse_rep_inven_id_edit').select2({
-                dropdownParent: $('#editModal')
-            });
-            $('#warehouse_rep_vendor_id_edit').select2({
-                dropdownParent: $('#editModal')
-            });
-        });
-
-
-
         $(document).on('click', '.detail', function() {
             var an = $(this).val();
             // alert(line_token_id);
@@ -836,129 +844,68 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#Wbillsave').on('submit', function(e) {
-                e.preventDefault();
-                var form = this;
-                $.ajax({
-                    url: $(form).attr('action'),
-                    method: $(form).attr('method'),
-                    data: new FormData(form),
-                    processData: false,
-                    dataType: 'json',
-                    contentType: false,
-                    beforeSend: function() {
-                        $(form).find('span.error-text').text('');
-                    },
-                    success: function(data) {
-                        if (data.status == 100) {
-                            Swal.fire({
+        $('#Wbillsave').on('submit',function(e){
+                    e.preventDefault();            
+                    var form = this; 
+                    $.ajax({
+                          url:$(form).attr('action'),
+                          method:$(form).attr('method'),
+                          data:new FormData(form),
+                          processData:false,
+                          dataType:'json',
+                          contentType:false,
+                          beforeSend:function(){
+                            $(form).find('span.error-text').text('');
+                          },
+                          success:function(data){
+                            if (data.status == 100 ) {
+                                Swal.fire({
                                 icon: 'error',
                                 title: 'คุณยังไม่ได้เลือกรับเข้าคลัง...!!',
                                 text: 'กรุณาเลือกรับเข้าคลังอะไร!',
-                            }).then((result) => {
-                                if (result.isConfirmed) {}
-                            })
-                        } else if (data.status == 150) {
-                            Swal.fire({
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                    }
+                                })
+                            }else if (data.status == 150 ) {
+                                Swal.fire({
                                 icon: 'error',
                                 title: 'คุณยังไม่ได้เลือกรับจาก...!!',
                                 text: 'กรุณาเลือกรับจากตัวแทนจำหน่ายอะไร!',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
 
-                                }
-                            })
-                        } else if (data.status == 500) {
-                            Swal.fire({
+                                    }
+                                })
+                            }else if (data.status == 500 ) {
+                                Swal.fire({
                                 icon: 'error',
                                 title: 'คุณยังไม่ได้เลือกรายการวัสดุ...!!',
                                 text: 'กรุณาเลือกรายการวัสดุ!',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
 
-                                }
-                            })
-                        } else {
-                            Swal.fire({
+                                    }
+                                })
+                            } else {          
+                              Swal.fire({
                                 title: 'บันทึกข้อมูลสำเร็จ',
                                 text: "You Insert data success",
                                 icon: 'success',
                                 showCancelButton: false,
-                                confirmButtonColor: '#06D177',
+                                confirmButtonColor: '#06D177', 
                                 confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location =
-                                        "{{ url('warehouse/warehouse_index') }}";
+                              }).then((result) => {
+                                if (result.isConfirmed) {                  
+                                  window.location="{{url('warehouse/warehouse_index')}}";
                                 }
-                            })
-                        }
-                    }
-                });
-            });
-
-            $('#Wbillupdate').on('submit', function(e) {
-                e.preventDefault();
-                var form = this;
-                $.ajax({
-                    url: $(form).attr('action'),
-                    method: $(form).attr('method'),
-                    data: new FormData(form),
-                    processData: false,
-                    dataType: 'json',
-                    contentType: false,
-                    beforeSend: function() {
-                        $(form).find('span.error-text').text('');
-                    },
-                    success: function(data) {
-                        if (data.status == 100) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'คุณยังไม่ได้เลือกรับเข้าคลัง...!!',
-                                text: 'กรุณาเลือกรับเข้าคลังอะไร!',
-                            }).then((result) => {
-                                if (result.isConfirmed) {}
-                            })
-                        } else if (data.status == 150) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'คุณยังไม่ได้เลือกรับจาก...!!',
-                                text: 'กรุณาเลือกรับจากตัวแทนจำหน่ายอะไร!',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-
-                                }
-                            })
-                        } else if (data.status == 500) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'คุณยังไม่ได้เลือกรายการวัสดุ...!!',
-                                text: 'กรุณาเลือกรายการวัสดุ!',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-
-                                }
-                            })
-                        } else {
-                            Swal.fire({
-                                title: 'แก้ไขข้อมูลสำเร็จ',
-                                text: "You Update data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location =
-                                        "{{ url('warehouse/warehouse_index') }}";
-                                }
-                            })
-                        }
-                    }
-                });
-            });
-        });
+                              })      
+                            }
+                          }
+                    });
+              });
+    });
     </script>
-
+  
 
 @endsection

@@ -310,21 +310,7 @@
 
         });
 
-        $(document).ready(function() {
-            $('#warehouse_rep_year').select2({
-                dropdownParent: $('#exampleModal')
-            });
-            $('#warehouse_rep_user_id').select2({
-                dropdownParent: $('#exampleModal')
-            });
-            $('#warehouse_rep_inven_id').select2({
-                dropdownParent: $('#exampleModal')
-            });
-            $('#warehouse_rep_vendor_id').select2({
-                dropdownParent: $('#exampleModal')
-            });
-        });
-
+        
        
     </script>
 

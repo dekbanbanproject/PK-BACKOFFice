@@ -79,8 +79,8 @@
                     <h4 class="card-title">Detail Medical</h4>
                     <p class="card-title-desc">รายละเอียดคลัง {{$medical_typecat->medical_typecatname}}</p>
                 </div>
-                {{-- <div class="col"></div> --}}
-                <div class="col-md-1">รายการ
+              
+                {{-- <div class="col-md-1">รายการ
                 </div>
                 <div class="col-md-4 text-center">
                     <select id="article_id" name="article_id"
@@ -88,23 +88,26 @@
                         <option value=""></option>
                         @foreach ($article_data as $it)
                         <?php  $idarticle = DB::table('medical_stock')->where('article_id','=',$it->article_id)->count();?>
-                        @if ($idarticle > 0)
-                        
+                        @if ($idarticle > 0)                        
                         @else
                         <option value="{{$it->article_id}}">{{ $it->article_num}} {{ $it->article_name}}</option>
-                        @endif
-                       
-                        @endforeach 
-                       
+                        @endif                       
+                        @endforeach                        
                     </select>
                 </div>
                 <div class="col-md-2 text-start">
                     <button class="btn btn-outline-secondary btn-sm" id="rep"> 
                         <i class="fa-solid fa-circle-plus me-2"></i>
-                        รับเข้าคลัง</button> 
-                    {{-- <button type="button" style="font-size: 17px" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#insertdata"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>รับเข้าคลัง</button> --}}
-                </div>
+                        รับเข้าคลัง
+                    </button>   
+                </div> --}}
                 <div class="col"></div>
+                <div class="col-md-1 text-start">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="pe-7s-shuffle btn-icon-wrapper"></i>เปิดบิล
+                    </button>
+                </div>
+               
             </div>
             
                 <div class="col-md-12">

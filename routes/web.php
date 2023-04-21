@@ -344,6 +344,7 @@ Route::middleware(['type'])->group(function(){
       Route::match(['get','post'],'warehouse/warehouse_addsub/{id}',[App\Http\Controllers\WarehouseController::class,'warehouse_addsub'])->name('ware.warehouse_addsub');//
 
       Route::match(['get','post'],'warehouse_billsave',[App\Http\Controllers\WarehouseController::class, 'warehouse_billsave'])->name('ware.warehouse_billsave');//
+      Route::match(['get','post'],'warehouse_billupdate',[App\Http\Controllers\WarehouseController::class, 'warehouse_billupdate'])->name('ware.warehouse_billupdate');//
       Route::match(['get','post'],'warehouse/warehouse_save',[App\Http\Controllers\WarehouseController::class, 'warehouse_save'])->name('ware.warehouse_save');//
 
       Route::get('warehouse/warehouse_edit/{id}',[App\Http\Controllers\WarehouseController::class, 'warehouse_edit'])->name('ware.warehouse_edit');//

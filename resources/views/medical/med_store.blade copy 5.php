@@ -94,16 +94,17 @@
                                         
                                         <div class="col-sm-12">
                                             <div class="widget-chart widget-chart-hover">
-                                                {{-- <div class="icon-wrapper rounded-circle" >
+                                                <div class="icon-wrapper rounded-circle" >
                                                     <div class="icon-wrapper-bg bg-primary"></div>
                                                     @if ( $item->img == Null )
                                                     <img src="{{asset('assets/images/default-image.jpg')}}" height="50px" width="auto;" alt="Image" class="img-thumbnail">
                                                     @else
                                                     <img src="{{asset('storage/article/'.$item->img)}}" height="50px" alt="Image" class="img-thumbnai">                                 
                                                     @endif 
-                                                </div> --}}
+                                                </div>
                                                 <div class="widget-numbers"> <label for="" style="color: red;font-size:17px">{{$item->medical_typecatname}}</label></div>
-                                                                                                 
+                                              
+                                                   
                                                 <div class="widget-description ">
                                                     <?php 
                                                     
@@ -116,12 +117,11 @@
                                                         <div class="col-lg-4 text-danger"> 
                                                             @foreach ($dataqty as $itemc)
                                                                 @if ($itemc->Totalqty > 0) 
-                                                                <a href="{{url('med_store_rep/'.$item->medical_typecat_id)}}" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                                    คลัง
+                                                                <a href="{{url('med_store_rep/'.$item->medical_typecat_id)}}" class="mb-1 me-1 btn btn-primary">คลัง
                                                                     <span class="badge rounded-pill bg-light">{{$itemc->Totalqty}} </span>
                                                                 </a>
                                                                 @else 
-                                                                <a href="{{url('med_store_rep/'.$item->medical_typecat_id)}}" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-info">คลัง
+                                                                <a href="{{url('med_store_rep/'.$item->medical_typecat_id)}}" class="mb-1me-1 btn btn-primary">คลัง
                                                                     <span class="badge rounded-pill bg-light">0</span>
                                                                 </a>  
                                                                 @endif                                          
@@ -129,13 +129,13 @@
                                                         </div>
                                                         <div class="col-lg-4 text-info">  
                                                             
-                                                            <button class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ยืม
+                                                            <button class="mb-1 me-1 btn btn-info">ยืม
                                                                 <span class="badge rounded-pill bg-light">0</span>
                                                             </button>  
                                                         </div>
                                                         <div class="col-lg-4 text-success"> 
                                                            
-                                                            <button class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-success">คืน
+                                                            <button class="mb-1 me-1 btn btn-success">คืน
                                                                 <span class="badge rounded-pill bg-light">0</span>
                                                             </button> 
                                                            
@@ -174,7 +174,64 @@
         $('#year').select2({ 
             dropdownParent: $('#insertdata') 
         });
-         
+        $('#medical_typecat_id').select2({ 
+            dropdownParent: $('#insertdata') 
+        });
+        
+        $('#Savebtn').click(function() {
+            var year = $('#year').val();  
+            var date_rep = $('#date_rep').val(); 
+            var time_rep = $('#time_rep').val(); 
+            var medical_typecat_id = $('#medical_typecat_id').val(); 
+            var user_rep = $('#user_rep').val(); 
+            $.ajax({
+                url: "{{ route('med.med_store_save') }}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    year,date_rep,time_rep,medical_typecat_id,user_rep
+                },
+                success: function(data) {
+                    if (data.status == 200) {
+                        Swal.fire({
+                            title: 'บันทึกข้อมูลสำเร็จ',
+                            text: "You Insert data success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result
+                                .isConfirmed) {
+                                console.log(
+                                    data);
+                                window.location.reload();
+                                // window.location="{{url('warehouse/warehouse_index')}}";
+                            }
+                        })
+                    } else {
+                        Swal.fire({
+                            title: 'ข้อมูลมีแล้ว',
+                            text: "You Have data ",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result
+                                .isConfirmed) {
+                                console.log(
+                                    data);
+                                window.location.reload();
+                                // window.location="{{url('warehouse/warehouse_index')}}";
+                            }
+                        })
+
+                    }
+
+                },
+            });
+        });
          
     });
     

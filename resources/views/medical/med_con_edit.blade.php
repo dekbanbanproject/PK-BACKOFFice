@@ -181,7 +181,7 @@
                                     </div>
                                     <div class="row mt-3"> 
                                         <div class="col-md-12 text-end">
-                                            <button type="submit" class="btn btn-primary btn-sm">
+                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                                 <i class="fa-solid fa-floppy-disk me-2"></i>
                                                 แก้ไขข้อมูล
                                             </button>
