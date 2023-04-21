@@ -1,92 +1,138 @@
-@extends('layouts.warehouse')
+@extends('layouts.warehouse_new')
 @section('title', 'PK-BACKOFFice || คลังวัสดุ')
-<script>
-    function TypeAdmin() {
-        window.location.href = '{{ route('index') }}';
-    }
-    function warehouse_inven_destroy(warehouse_inven_id)
-    {
-      Swal.fire({
-      title: 'ต้องการลบใช่ไหม?',
-      text: "ข้อมูลนี้จะถูกลบไปเลย !!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
-      cancelButtonText: 'ไม่, ยกเลิก'
-      }).then((result) => {
-      if (result.isConfirmed) {
-          $.ajax({
-          url:"{{url('warehouse_inven_destroy')}}" +'/'+ warehouse_inven_id,  
-          type:'DELETE',
-          data:{
-              _token : $("input[name=_token]").val()
-          },
-          success:function(response)
-          {          
-              Swal.fire({
-                title: 'ลบข้อมูล!',
-                text: "You Delet data success",
-                icon: 'success',
-                showCancelButton: false,
-                confirmButtonColor: '#06D177',
-                // cancelButtonColor: '#d33',
-                confirmButtonText: 'เรียบร้อย'
-              }).then((result) => {
-                if (result.isConfirmed) {                  
-                  $("#sid"+warehouse_inven_id).remove();     
-                  window.location.reload(); 
-                //   window.location = "/person/person_index"; //     
-                }
-              }) 
-          }
-          })        
-        }
-        })
-    }
-</script>
-
-<?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
-?>
-
 @section('content')
+    <style>
+        #button {
+            display: block;
+            margin: 20px auto;
+            padding: 30px 30px;
+            background-color: #eee;
+            border: solid #ccc 1px;
+            cursor: pointer;
+        }
 
-    <div class="container-fluid" style="width: 97%">
+        #overlay {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cv-spinner {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 250px;
+            height: 250px;
+            border: 10px #ddd solid;
+            border-top: 10px #1fdab1 solid;
+            border-radius: 50%;
+            animation: sp-anime 0.8s infinite linear;
+        }
+
+        @keyframes sp-anime {
+            100% {
+                transform: rotate(390deg);
+            }
+        }
+
+        .is-hide {
+            display: none;
+        }
+    </style>
+    <script>
+        function TypeAdmin() {
+            window.location.href = '{{ route('index') }}';
+        }
+
+        function warehouse_inven_destroy(warehouse_inven_id) {
+            Swal.fire({
+                title: 'ต้องการลบใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('warehouse_inven_destroy') }}" + '/' + warehouse_inven_id,
+                        type: 'DELETE',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ลบข้อมูล!',
+                                text: "You Delet data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + warehouse_inven_id).remove();
+                                    window.location.reload();
+                                    //   window.location = "/person/person_index"; //     
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+
+    <?php
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
+    ?>
+    <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div>
+
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow">
-                    <div class="card-header ">
-                        <div class="d-flex">
-                            <div class="p-2">
-                                <label for="">รายการคลังวัสดุ</label>
-                            </div>
-                            <div class="ms-auto p-2">
-                                {{-- <a href="{{ url('warehouse/warehouse_inven_add') }}" class="btn btn-info btn-sm"> 
-                                    <i class="fa-solid fa-folder-plus text-white me-2"></i>
-                                    เพิ่มคลังวัสดุ
-                                </a> --}}
-                                <button type="button" class="btn btn-info btn-sm waves-effect waves-light"
+                    <div class="card-header">
+                        รายการคลังวัสดุ
+                        <div class="btn-actions-pane-right">
+                            <div role="group" class="btn-group-sm btn-group">
+
+                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"
                                     data-bs-toggle="modal" data-bs-target=".inven">
-                                    <i class="fa-solid fa-folder-plus text-white me-2"></i>
-                                    เพิ่มคลังวัสดุ
+                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>เพิ่มคลังวัสดุ
                                 </button>
                             </div>
                         </div>
                     </div>
 
+
                     <div class="card-body shadow-lg">
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
+                            <table class="table table-hover table-striped table-bordered myTable" style="width: 100%;"
                                 id="example">
                                 <thead>
                                     <tr height="10px">
@@ -99,20 +145,21 @@ $pos = strrpos($url, '/') + 1;
                                 </thead>
                                 <tbody>
                                     @foreach ($warehouse_inven as $key => $item)
-                                    <tr id="sid{{ $item->warehouse_inven_id }}">
+                                        <tr id="sid{{ $item->warehouse_inven_id }}">
                                             <td class="text-center" width="5%">{{ $key + 1 }}</td>
                                             <td class="p-2">{{ $item->warehouse_inven_name }}</td>
                                             <td class="p-2" width="20%">{{ $item->fname }} {{ $item->lname }}</td>
-                                           
-                                            <td class="text-center" width="7%">
+
+                                            <td class="text-center" width="10%">
                                                 {{-- <button type="button"
                                                     class="btn btn-success waves-effect waves-light btn-sm add_user"
                                                     value="{{ $item->warehouse_inven_id }}">
                                                     <i class="fa-solid fa-user-plus"></i>
                                                 </button> --}}
-                                                <a class="btn btn-success waves-effect waves-light btn-sm" href="{{url('warehouse/warehouse_inven_addper/'.$item->warehouse_inven_id)}}">
+                                                <a class="btn btn-success waves-effect waves-light btn-sm"
+                                                    href="{{ url('warehouse/warehouse_inven_addper/' . $item->warehouse_inven_id) }}">
                                                     <i class="fa-solid fa-user-plus"></i>
-                                            </a>
+                                                </a>
 
 
                                             </td>
@@ -131,12 +178,12 @@ $pos = strrpos($url, '/') + 1;
                                                                 style="color: rgb(243, 168, 7)">แก้ไข</label>
                                                         </button>
                                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                                        onclick="warehouse_inven_destroy({{ $item->warehouse_inven_id }})"
-                                                        style="font-size:13px">
-                                                        <i class="fa-solid fa-trash-can ms-2 me-2 text-danger"
-                                                            style="font-size:13px"></i>
-                                                        <span>ลบ</span>
-                                                    </a>
+                                                            onclick="warehouse_inven_destroy({{ $item->warehouse_inven_id }})"
+                                                            style="font-size:13px">
+                                                            <i class="fa-solid fa-trash-can ms-2 me-2 text-danger"
+                                                                style="font-size:13px"></i>
+                                                            <span>ลบ</span>
+                                                        </a>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -154,7 +201,8 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </div>
     <!--  Modal content for the above example -->
-    <div class="modal fade inven" id="invenModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal fade inven" id="invenModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -166,8 +214,8 @@ $pos = strrpos($url, '/') + 1;
                         <div class="col-md-12">
                             <label for="">ชื่อคลังวัสดุ</label>
                             <div class="form-group">
-                                <input id="warehouse_inven_name" name="warehouse_inven_name" class="form-control form-control-sm"
-                                    style="width: 100%">
+                                <input id="warehouse_inven_name" name="warehouse_inven_name"
+                                    class="form-control form-control-sm" style="width: 100%">
                             </div>
                         </div>
                     </div>
@@ -177,10 +225,12 @@ $pos = strrpos($url, '/') + 1;
                             <div class="form-group">
                                 {{-- <select name="warehouse_inven_userid" id="warehouse_inven_userid" class="form-control"
                                 multiple="multiple" style="width: 100%;"> --}}
-                                <select name="warehouse_inven_userid" id="warehouse_inven_userid" class="form-control form-control-sm" style="width: 100%;">
+                                <select name="warehouse_inven_userid" id="warehouse_inven_userid"
+                                    class="form-control form-control-sm" style="width: 100%;">
                                     <option>--เลือก--</option>
                                     @foreach ($users as $item1)
-                                        <option value="{{ $item1->id }}"> {{ $item1->fname }} {{ $item1->lname }}</option>
+                                        <option value="{{ $item1->id }}"> {{ $item1->fname }} {{ $item1->lname }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -204,57 +254,59 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </div>
 
-   <!--  Modal content Updte -->
- <div class="modal fade" id="updteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="invenModalLabel">แก้ไขคลังวัสดุ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input id="editwarehouse_inven_id" type="hidden" class="form-control form-control-sm">
-                <div class="row">
-                    <div class="col-md-12">
-                        <label for="">ชื่อคลังวัสดุ</label>
-                        <div class="form-group">
-                            <input id="editwarehouse_inven_name" type="text" class="form-control form-control-sm">
+    <!--  Modal content Updte -->
+    <div class="modal fade" id="updteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="invenModalLabel">แก้ไขคลังวัสดุ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input id="editwarehouse_inven_id" type="hidden" class="form-control form-control-sm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">ชื่อคลังวัสดุ</label>
+                            <div class="form-group">
+                                <input id="editwarehouse_inven_name" type="text" class="form-control form-control-sm">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12">
-                        <label for="">ผู้สั่งจ่าย</label>
-                        <div class="form-group">
-                            {{-- <select name="warehouse_inven_userid" id="warehouse_inven_userid" class="form-control"
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="">ผู้สั่งจ่าย</label>
+                            <div class="form-group">
+                                {{-- <select name="warehouse_inven_userid" id="warehouse_inven_userid" class="form-control"
                             multiple="multiple" style="width: 100%;"> --}}
-                            <select id="editwarehouse_inven_userid" class="form-control form-control-sm" style="width: 100%;">
-                                <option>--เลือก--</option>
-                                @foreach ($users as $item1)
-                                    <option value="{{ $item1->id }}"> {{ $item1->fname }} {{ $item1->lname }}</option>
-                                @endforeach
-                            </select>
+                                <select id="editwarehouse_inven_userid" class="form-control form-control-sm"
+                                    style="width: 100%;">
+                                    <option>--เลือก--</option>
+                                    @foreach ($users as $item1)
+                                        <option value="{{ $item1->id }}"> {{ $item1->fname }} {{ $item1->lname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-12 text-end">
-                    <div class="form-group">
-                        <button type="button" id="updateBtn" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-floppy-disk me-2"></i>
-                            แก้ไขข้อมูล
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
-                                class="fa-solid fa-xmark me-2"></i>Close</button>
+                <div class="modal-footer">
+                    <div class="col-md-12 text-end">
+                        <div class="form-group">
+                            <button type="button" id="updateBtn" class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-floppy-disk me-2"></i>
+                                แก้ไขข้อมูล
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
+                                    class="fa-solid fa-xmark me-2"></i>Close</button>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-    
+
 
 @endsection
 @section('footer')
@@ -273,7 +325,7 @@ $pos = strrpos($url, '/') + 1;
             $('#editwarehouse_inven_userid').select2({
                 dropdownParent: $('#updteModal')
             });
-           
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -319,64 +371,60 @@ $pos = strrpos($url, '/') + 1;
                     },
                 });
             });
-             $('#updateBtn').click(function() {
-                    var warehouse_inven_id = $('#editwarehouse_inven_id').val();
-                    var warehouse_inven_name = $('#editwarehouse_inven_name').val();
-                    var warehouse_inven_userid = $('#editwarehouse_inven_userid').val();
-                    $.ajax({
-                        url: "{{ route('ware.warehouse_invenupdate') }}",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            warehouse_inven_id,
-                            warehouse_inven_name,
-                            warehouse_inven_userid
-                        },
-                        success: function(data) {
-                            if (data.status == 200) {
-                                Swal.fire({
-                                    title: 'แก้ไขข้อมูลสำเร็จ',
-                                    text: "You edit data success",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#06D177',
-                                    confirmButtonText: 'เรียบร้อย'
-                                }).then((result) => {
-                                    if (result
-                                        .isConfirmed) {
-                                        console.log(
-                                            data);
+            $('#updateBtn').click(function() {
+                var warehouse_inven_id = $('#editwarehouse_inven_id').val();
+                var warehouse_inven_name = $('#editwarehouse_inven_name').val();
+                var warehouse_inven_userid = $('#editwarehouse_inven_userid').val();
+                $.ajax({
+                    url: "{{ route('ware.warehouse_invenupdate') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        warehouse_inven_id,
+                        warehouse_inven_name,
+                        warehouse_inven_userid
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'แก้ไขข้อมูลสำเร็จ',
+                                text: "You edit data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
 
-                                        window.location
-                                            .reload();
-                                    }
-                                })
-                            } else {
+                                    window.location
+                                        .reload();
+                                }
+                            })
+                        } else {
 
-                            }
+                        }
 
-                        },
-                    });
+                    },
                 });
+            });
 
         });
- 
+
         $(document).on('click', '.edit_data', function() {
-            var warehouse_inven_id = $(this).val();                   
+            var warehouse_inven_id = $(this).val();
             $('#updteModal').modal('show');
             $.ajax({
                 type: "GET",
-                url: "{{ url('warehouse/warehouse_inven_edit')}}" + '/' + warehouse_inven_id,
-                success: function(data) {                            
+                url: "{{ url('warehouse/warehouse_inven_edit') }}" + '/' + warehouse_inven_id,
+                success: function(data) {
                     $('#editwarehouse_inven_name').val(data.inven.warehouse_inven_name)
                     $('#warehouse_inven_userid').val(data.inven.warehouse_inven_userid)
                     $('#editwarehouse_inven_id').val(data.inven.warehouse_inven_id)
                 },
             });
         });
-
-
-
-       
     </script>
 @endsection

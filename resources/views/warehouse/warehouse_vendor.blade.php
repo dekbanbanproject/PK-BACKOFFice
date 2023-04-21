@@ -1,4 +1,4 @@
-@extends('layouts.warehouse')
+@extends('layouts.warehouse_new')
 @section('title', 'PK-BACKOFFice || คลังวัสดุ')
 <script>
     function TypeAdmin() {
@@ -59,80 +59,125 @@ $pos = strrpos($url, '/') + 1;
 ?>
 
 @section('content')
+<style>
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:30px 30px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{	
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;  
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 10px #ddd solid;
+           border-top: 10px #1fdab1 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% { 
+               transform: rotate(390deg); 
+           }
+           }
+           .is-hide{
+           display:none;
+           }
+</style>
 
-    <div class="container-fluid" style="width: 97%">
-        <div class="row">
+<div class="tabs-animation">
+        <div class="row text-center">  
+            <div id="overlay">
+                <div class="cv-spinner">
+                  <span class="spinner"></span>
+                </div>
+              </div>
+              
+        </div> 
+        <div class="row ">
             <div class="col-md-12">
-                <div class="card shadow">
-                    <div class="card-header ">
-                        <div class="d-flex">
-                            <div class="p-2">
-                                <label for="">รายการตัวแทนจำหน่าย</label>
-                            </div>
-                            <div class="ms-auto p-2">
-                                <button type="button" class="btn btn-info btn-sm waves-effect waves-light"
+                <div class="main-card mb-3 card shadow">
+                    <div class="card-header">
+                        รายการตัวแทนจำหน่าย
+                        <div class="btn-actions-pane-right">
+                            <div role="group" class="btn-group-sm btn-group">
+
+                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"
                                     data-bs-toggle="modal" data-bs-target="#invenModal">
-                                    <i class="fa-solid fa-folder-plus text-white me-2"></i>
-                                    เพิ่มตัวแทนจำหน่าย
+                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>เพิ่มตัวแทนจำหน่าย
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                    <div class="card-body shadow-lg">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
-                                id="example">
-                                <thead>
-                                    <tr height="10px">
-                                        <th width="5%" class="text-center">ลำดับ</th>
-                                        <th class="text-center">ตัวแทนจำหน่าย</th>
-                                        <th width="10%" class="text-center">Manage</th>
+              
+                <div class="card-body shadow-lg">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered myTable" style="width: 100%;"
+                            id="example">
+                            <thead>
+                                <tr height="10px">
+                                    <th width="5%" class="text-center">ลำดับ</th>
+                                    <th class="text-center">ตัวแทนจำหน่าย</th>
+                                    <th width="10%" class="text-center">Manage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($products_vendor as $key => $item)
+                                    <tr id="sid{{ $item->vendor_id }}">
+                                        <td class="text-center" width="5%">{{ $key + 1 }}</td>
+                                        <td class="p-2">{{ $item->vendor_name }}</td>
+                                        </td>
+                                        <td class="text-center" width="10%">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info dropdown-toggle menu btn-sm"
+                                                    type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">ทำรายการ</button>
+                                                <ul class="dropdown-menu">
+                                                    <button type="button"class="dropdown-item menu edit_vendor"
+                                                        value="{{ $item->vendor_id }}" data-bs-toggle="tooltip"
+                                                        data-bs-placement="left" title="แก้ไข">
+                                                        <i
+                                                            class="fa-solid fa-pen-to-square mt-2 ms-2 mb-2 me-2 text-warning"></i>
+                                                        <label for="" style="color: rgb(243, 168, 7)">แก้ไข</label>
+                                                    </button>
+                                                    <a class="dropdown-item text-danger" href="javascript:void(0)"
+                                                        onclick="warehouse_vendor_destroy({{ $item->vendor_id }})"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" title="ลบ">
+                                                        <i class="fa-solid fa-trash-can  ms-2 mb-2 me-2"></i>
+                                                        <label for=""
+                                                            style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                    </a>
+                                                </ul>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($products_vendor as $key => $item)
-                                        <tr id="sid{{ $item->vendor_id }}">
-                                            <td class="text-center" width="5%">{{ $key + 1 }}</td>
-                                            <td class="p-2">{{ $item->vendor_name }}</td>
-                                            </td>
-                                            <td class="text-center" width="10%">
-                                                <div class="dropdown">
-                                                    <button class="btn btn-outline-info dropdown-toggle menu btn-sm"
-                                                        type="button" data-bs-toggle="dropdown"
-                                                        aria-expanded="false">ทำรายการ</button>
-                                                    <ul class="dropdown-menu">
-                                                        <button type="button"class="dropdown-item menu edit_vendor"
-                                                            value="{{ $item->vendor_id }}" data-bs-toggle="tooltip"
-                                                            data-bs-placement="left" title="แก้ไข">
-                                                            <i
-                                                                class="fa-solid fa-pen-to-square mt-2 ms-2 mb-2 me-2 text-warning"></i>
-                                                            <label for=""
-                                                                style="color: rgb(243, 168, 7)">แก้ไข</label>
-                                                        </button>
-                                                        <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                                            onclick="warehouse_vendor_destroy({{ $item->vendor_id }})"
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="ลบ">
-                                                            <i class="fa-solid fa-trash-can  ms-2 mb-2 me-2"></i>
-                                                            <label for=""
-                                                                style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
-                                                        </a>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                @endforeach
 
-                                </tbody>
-                            </table>
+                            </tbody>
+                        </table>
 
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!--  Modal content Insert -->
     <div class="modal fade" id="invenModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

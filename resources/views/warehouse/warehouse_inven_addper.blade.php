@@ -1,4 +1,4 @@
-@extends('layouts.warehouse')
+@extends('layouts.warehouse_new')
 @section('title', 'PK-BACKOFFice || คลังวัสดุ')
 <script>
     function TypeAdmin() {
@@ -60,29 +60,77 @@ $pos = strrpos($url, '/') + 1;
 ?>
 
 @section('content')
+<style>
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:30px 30px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{	
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;  
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 10px #ddd solid;
+           border-top: 10px #1fdab1 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% { 
+               transform: rotate(390deg); 
+           }
+           }
+           .is-hide{
+           display:none;
+           }
+</style>
 
-    <div class="container-fluid" style="width: 97%">
+<div class="tabs-animation">
+        <div class="row text-center">  
+            <div id="overlay">
+                <div class="cv-spinner">
+                  <span class="spinner"></span>
+                </div>
+              </div>
+              
+        </div> 
         <div class="row">
             <div class="col-md-12">
                 <div class="card shadow">
-                    <div class="card-header ">
-                        <div class="d-flex">
-                            <div class="p-2">
-                                <label for="">ผู้ดูแลคลังวัสดุ</label>
-                            </div>
-                            <div class="ms-auto p-2"> 
-                                <button type="button" class="btn btn-info btn-sm waves-effect waves-light"
+                    <div class="card-header">
+                        ผู้ดูแลคลังวัสดุ
+                        <div class="btn-actions-pane-right">
+                            <div role="group" class="btn-group-sm btn-group">
+
+                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"
                                     data-bs-toggle="modal" data-bs-target="#invenModal">
-                                    <i class="fa-solid fa-folder-plus text-white me-2"></i>
-                                    เพิ่มผู้ดูแลคลังวัสดุ
+                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>เพิ่มผู้ดูแลคลังวัสดุ
                                 </button>
                             </div>
                         </div>
                     </div>
+                     
 
                     <div class="card-body shadow-lg">
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
+                            <table class="table table-hover table-striped table-bordered myTable" style="width: 100%;"
                                 id="example">
                                 <thead>
                                     <tr height="10px">
