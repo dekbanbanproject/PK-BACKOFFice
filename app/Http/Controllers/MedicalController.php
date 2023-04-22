@@ -397,6 +397,7 @@ class MedicalController extends Controller
             $add2->qty = 1; 
             $add2->price = $article->article_price; 
             $add2->total = $article->article_price * 1; 
+            $add2->total_qty = 1; 
             $add2->save();
                
             return response()->json([

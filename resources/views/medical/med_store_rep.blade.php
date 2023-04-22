@@ -80,7 +80,7 @@
                     <p class="card-title-desc">รายละเอียดคลัง {{$medical_typecat->medical_typecatname}}</p>
                 </div>
               
-                {{-- <div class="col-md-1">รายการ
+                <div class="col-md-1">รายการ
                 </div>
                 <div class="col-md-4 text-center">
                     <select id="article_id" name="article_id"
@@ -96,18 +96,18 @@
                     </select>
                 </div>
                 <div class="col-md-2 text-start">
-                    <button class="btn btn-outline-secondary btn-sm" id="rep"> 
+                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="rep"> 
                         <i class="fa-solid fa-circle-plus me-2"></i>
                         รับเข้าคลัง
                     </button>   
-                </div> --}}
-                <div class="col"></div>
+                </div>
+                {{-- <div class="col"></div>
                 <div class="col-md-1 text-start">
                     <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="pe-7s-shuffle btn-icon-wrapper"></i>เปิดบิล
+                        <i class="pe-7s-shuffle btn-icon-wrapper"></i>รับเข้าคลัง
                     </button>
                 </div>
-               
+                --}}
             </div>
             
                 <div class="col-md-12">
@@ -122,7 +122,7 @@
                                         <th class="text-center">รหัส</th>
                                         <th class="text-center">รายการ</th>
                                         <th class="text-center">จำนวน</th> 
-                                        <th class="text-center">จัดการ</th>
+                                        {{-- <th class="text-center">จัดการ</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -133,7 +133,7 @@
                                         <td class="text-start" width="10%">{{ $item->article_num }}</td> 
                                         <td class="p-2" width="50%">{{ $item->article_name }}</td>
                                         <td class="text-center" width="10%">{{ $item->qty }}</td> 
-                                        <td class="text-center" width="10%">
+                                        {{-- <td class="text-center" width="10%">
                                             <div class="btn-group">
                                                 <button type="button"
                                                     class="btn btn-outline-secondary btn-sm dropdown-toggle"
@@ -141,18 +141,18 @@
                                                     ทำรายการ 
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    {{-- <a class="dropdown-item text-info"
+                                                    <a class="dropdown-item text-info"
                                                         href="{{ url('med_store_add/'.$item->medical_store_rep_id)}}"
                                                         data-bs-toggle="tooltip" data-bs-placement="left"
                                                         data-bs-custom-class="custom-tooltip" title="เพิ่มรายการ">
                                                         <i class="fa-solid fa-plus me-2"></i>
                                                         <label for=""
                                                             style="color: rgb(6, 176, 117);font-size:13px">เพิ่มรายการ</label>
-                                                    </a> --}}
+                                                    </a>
                                                     
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                     @endforeach
                                 </tbody>
