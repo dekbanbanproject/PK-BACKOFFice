@@ -342,7 +342,7 @@ class ReportFontController extends Controller
                 ro.refer_date,o.vstdate,o.vsttime,d.name as doctor_name,o.hospmain,
                 concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,r.name as refername, 
-                ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name
+                ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price
                 FROM referout ro  
                 LEFT OUTER JOIN ovst o on o.vn = ro.vn  
                 LEFT OUTER JOIN patient p on p.hn=ro.hn  
@@ -350,7 +350,8 @@ class ReportFontController extends Controller
                 LEFT OUTER JOIN rfrcs r on r.rfrcs = ro.rfrcs  
                 LEFT OUTER JOIN doctor d on d.code = ro.doctor  
                 LEFT OUTER JOIN pttype pe on pe.pttype = o.pttype  
-                LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx  
+                LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx
+                left outer join opitemrece ot ON ot.vn = ro.vn  
                 WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND ro.department = "OPD"  
 
@@ -361,7 +362,7 @@ class ReportFontController extends Controller
                 ro.refer_date,o.regdate as vstdate,o.regtime as vsttime,d.name as doctor_name,"" as hospmain
                 ,concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,  
-                r.name as refername,ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name
+                r.name as refername,ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price
                 from referout ro  
                 LEFT OUTER JOIN ipt o on o.an = ro.vn  
                 LEFT OUTER JOIN patient p on p.hn=ro.hn  
@@ -369,7 +370,8 @@ class ReportFontController extends Controller
                 LEFT OUTER JOIN rfrcs r on r.rfrcs = ro.rfrcs  
                 LEFT OUTER JOIN doctor d on d.code = ro.doctor  
                 LEFT OUTER JOIN pttype pe on pe.pttype = o.pttype  
-                LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx  
+                LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx 
+                left outer join opitemrece ot ON ot.vn = ro.vn 
                 WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND ro.department = "IPD"
         ');

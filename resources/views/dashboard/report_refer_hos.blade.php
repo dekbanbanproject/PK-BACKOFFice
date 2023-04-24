@@ -116,7 +116,8 @@
                                         <th>hospmain</th>
                                         <th>hospname</th> 
                                         <th>AMBULANCE</th> 
-                                        <th>พยาบาล</th>                                       
+                                        <th>พยาบาล</th>  
+                                        <th>sum_price</th>                                      
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,6 +138,7 @@
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospname}}</td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_ambulance}}</td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>  
+                                            <td class="text-font text-pedding" style="text-align: left;">{{number_format($inforefer->sum_price,2)}}</td>
                                         </tr>
     
     
