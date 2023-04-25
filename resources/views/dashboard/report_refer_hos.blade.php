@@ -117,18 +117,42 @@
                                         <th>hospname</th> 
                                         <th>AMBULANCE</th> 
                                         <th>พยาบาล</th>  
-                                        <th>sum_price</th>                                      
+                                      
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $number = 0; ?>
                                     @foreach ($datashow_ as $inforefer)
-                                    <?php $number++; ?>
+                                    <?php $number++; 
+                                        $detail_ = DB::connection('mysql3')->select('
+                                        SELECT o.item_no,concat(s.name," ",s.strength," ",s.units) as listname ,o.qty,o.sum_price,o.unitprice
+                                            from opitemrece o  
+                                            left outer join s_drugitems s on s.icode=o.icode  
+                                            left outer join drugusage d on d.drugusage=o.drugusage  
+                                            left outer join sp_use u on u.sp_use = o.sp_use  
+                                            left outer join drugitems i on i.icode=o.icode  
+                                            WHERE o.vn="'.$inforefer.'"  order by o.item_no  
+                                        ');
+                                    
+                                    ?>
     
                                         <tr height="20">
                                             <td class="text-font" style="text-align: center;">{{$number}}</td>  
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->department}}</td>
-                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hn}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">
+                                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"  data-bs-toggle="popover" data-bs-placement="top"
+                                                data-bs-content=" 
+                                                <?php
+                                                 @foreach ($detail_ as $data)
+
+                                                 @endforeach 
+                                                ?>
+                                                ">
+                                                    {{-- <i class="pe-7s-search btn-icon-wrapper"></i> --}}
+                                                    <i class="fa-solid fa-file-prescription me-2"></i>
+                                                    {{$inforefer->hn}}
+                                                </button>                                                
+                                            </td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->ptname}}</td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->refer_date)}}</td>  
                                             <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->vstdate)}}</td>
@@ -137,8 +161,7 @@
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospmain}}</td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospname}}</td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_ambulance}}</td>
-                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>  
-                                            <td class="text-font text-pedding" style="text-align: left;">{{number_format($inforefer->sum_price,2)}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>   
                                         </tr>
     
     

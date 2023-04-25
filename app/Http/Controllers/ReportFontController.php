@@ -338,7 +338,7 @@ class ReportFontController extends Controller
         $enddate = $request->enddate; 
         $datashow_ = DB::connection('mysql3')->select(' 
             SELECT  
-                ro.department,ro.hn,concat(p.pname,p.fname," ",p.lname) as ptname,
+                ro.department,ro.hn,ro.vn,concat(p.pname,p.fname," ",p.lname) as ptname,
                 ro.refer_date,o.vstdate,o.vsttime,d.name as doctor_name,o.hospmain,
                 concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,r.name as refername, 
@@ -352,13 +352,18 @@ class ReportFontController extends Controller
                 LEFT OUTER JOIN pttype pe on pe.pttype = o.pttype  
                 LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx
                 left outer join opitemrece ot ON ot.vn = ro.vn  
+                left outer join s_drugitems s on s.icode=ot.icode  
+                left outer join drugusage du on du.drugusage=ot.drugusage  
+                left outer join sp_use u on u.sp_use = ot.sp_use  
+                left outer join drugitems i on i.icode=ot.icode
                 WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND ro.department = "OPD"  
+                GROUP BY ro.vn
 
                 UNION 
 
             SELECT 
-                ro.department,ro.hn,concat(p.pname,p.fname," ",p.lname) as ptname,
+                ro.department,ro.hn,ro.vn,concat(p.pname,p.fname," ",p.lname) as ptname,
                 ro.refer_date,o.regdate as vstdate,o.regtime as vsttime,d.name as doctor_name,"" as hospmain
                 ,concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,  
@@ -372,8 +377,13 @@ class ReportFontController extends Controller
                 LEFT OUTER JOIN pttype pe on pe.pttype = o.pttype  
                 LEFT OUTER JOIN icd101 ic on ic.code = ro.pdx 
                 left outer join opitemrece ot ON ot.vn = ro.vn 
+                left outer join s_drugitems s on s.icode=ot.icode  
+                left outer join drugusage du on du.drugusage=ot.drugusage  
+                left outer join sp_use u on u.sp_use = ot.sp_use  
+                left outer join drugitems i on i.icode=ot.icode
                 WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND ro.department = "IPD"
+                GROUP BY ro.vn
         ');
          
         return view('dashboard.report_refer_hos',[
