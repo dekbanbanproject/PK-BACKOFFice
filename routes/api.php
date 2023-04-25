@@ -16,10 +16,15 @@ use Illuminate\Support\Facades\Route;
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
-
-
-
 // });
+
+//********************* */ AuthenMobile  ***********************************
+Route::get('/test',function(Request $request){
+    return 'Authenticated';
+});
+
+Route::match(['get','post'],'getmobile',[App\Http\Controllers\AuthenmobileController::class, 'getmobile'])->name('mo.getmobile');//
+Route::match(['get','post'],'getmobile_api',[App\Http\Controllers\AuthenmobileController::class, 'getmobile_api'])->name('mo.getmobile_api');//
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

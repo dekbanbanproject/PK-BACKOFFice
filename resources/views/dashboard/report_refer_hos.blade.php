@@ -107,7 +107,7 @@
                                     <tr>
                                         <th>ลำดับ</th>
                                         <th>department</th> 
-                                        <th>hn</th>
+                                        <th>vn</th>
                                         <th>ชื่อ-นามสกุล</th> 
                                         <th>refer_date</th>
                                         <th>vstdate</th>
@@ -123,35 +123,20 @@
                                 <tbody>
                                     <?php $number = 0; ?>
                                     @foreach ($datashow_ as $inforefer)
-                                    <?php $number++; 
-                                        $detail_ = DB::connection('mysql3')->select('
-                                        SELECT o.item_no,concat(s.name," ",s.strength," ",s.units) as listname ,o.qty,o.sum_price,o.unitprice
-                                            from opitemrece o  
-                                            left outer join s_drugitems s on s.icode=o.icode  
-                                            left outer join drugusage d on d.drugusage=o.drugusage  
-                                            left outer join sp_use u on u.sp_use = o.sp_use  
-                                            left outer join drugitems i on i.icode=o.icode  
-                                            WHERE o.vn="'.$inforefer.'"  order by o.item_no  
-                                        ');
-                                    
-                                    ?>
-    
+                                        <?php $number++; ?>    
                                         <tr height="20">
                                             <td class="text-font" style="text-align: center;">{{$number}}</td>  
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->department}}</td>
                                             <td class="text-font text-pedding" style="text-align: left;">
-                                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"  data-bs-toggle="popover" data-bs-placement="top"
-                                                data-bs-content=" 
-                                                <?php
-                                                 @foreach ($detail_ as $data)
-
-                                                 @endforeach 
-                                                ?>
-                                                ">
-                                                    {{-- <i class="pe-7s-search btn-icon-wrapper"></i> --}}
+                                                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"  data-bs-toggle="popover" data-bs-placement="top"
+                                                data-bs-content="  "> 
                                                     <i class="fa-solid fa-file-prescription me-2"></i>
-                                                    {{$inforefer->hn}}
-                                                </button>                                                
+                                                    {{$inforefer->vn}}                                                   
+                                                </button>  --}}
+                                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"
+                                                    data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
+                                                    {{$inforefer->vn}} 
+                                                </button>
                                             </td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->ptname}}</td>
                                             <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->refer_date)}}</td>  
@@ -164,7 +149,78 @@
                                             <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>   
                                         </tr>
     
-    
+                                        <?php   
+                                            $detail_ = DB::connection('mysql3')->select('
+                                                SELECT o.item_no,o.icode,concat(s.name," ",s.strength," ",s.units) as listname ,o.qty,o.sum_price,o.unitprice,s.nhso_adp_code
+                                                from opitemrece o  
+                                                left outer join s_drugitems s on s.icode=o.icode   
+                                                WHERE o.vn="'.$inforefer->vn.'" 
+                                                AND s.nhso_adp_code = "S1801" 
+                                              
+                                            ');    
+                                            // AND s.nhso_adp_code = "S1801"                               
+                                        ?> 
+                                        <!-- Large modal -->
+                                        <div class="modal fade bd-example-modal-lg{{$inforefer->vn}}" tabindex="-1" role="dialog"
+                                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">VN = {{$inforefer->vn}}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body"> 
+                                                        <div class="row">
+                                                            <div class="col-md-2"><p>icode</p></div>
+                                                            <div class="col-md-5"><p>listname</p></div>
+                                                            <div class="col-md-1"><p>qty</p></div>
+                                                            <div class="col-md-2"><p>unitprice</p></div>
+                                                            <div class="col-md-2"><p>sum_price</p></div>
+                                                        </div>
+
+                                                        @foreach ($detail_ as $item)  
+                                                           
+                                                            <div class="row">
+
+                                                                {{-- @if ($item->icode = '3003086')
+                                                                <div class="col-md-2"><p style="background-color: red">{{$item->icode}}</p></div>
+                                                                @else --}}
+                                                                <div class="col-md-2"><p>{{$item->icode}}</p></div>
+                                                                {{-- @endif   --}}
+
+                                                                <div class="col-md-5"><p>{{$item->listname}}</p></div>
+                                                                <div class="col-md-1"><p>{{$item->qty}}</p></div>
+                                                                <div class="col-md-2"><p>{{$item->unitprice}}</p></div>
+                                                                <div class="col-md-2"><p>{{$item->sum_price}}</p></div>
+                                                            </div>
+                                                                
+                                                           
+                                                            {{-- <div class="row" style="background-color: red">
+                                                                <div class="col-md-2"><p>{{$item->icode}}</p></div>
+                                                                <div class="col-md-5"><p>{{$item->listname}}</p></div>
+                                                                <div class="col-md-1"><p>{{$item->qty}}</p></div>
+                                                                <div class="col-md-2"><p>{{$item->unitprice}}</p></div>
+                                                                <div class="col-md-2"><p>{{$item->sum_price}}</p></div>
+                                                            </div> --}}
+                                                                
+                                                                                                                   
+                                                            
+                                                        @endforeach
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">
+                                                            <i class="fa-solid fa-xmark me-2"></i>
+                                                            Close
+                                                        </button>
+                                                        {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                         @endforeach 
                                     
                                 </tbody>

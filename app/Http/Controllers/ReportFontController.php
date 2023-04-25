@@ -342,7 +342,7 @@ class ReportFontController extends Controller
                 ro.refer_date,o.vstdate,o.vsttime,d.name as doctor_name,o.hospmain,
                 concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,r.name as refername, 
-                ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price
+                ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price,s.nhso_adp_code
                 FROM referout ro  
                 LEFT OUTER JOIN ovst o on o.vn = ro.vn  
                 LEFT OUTER JOIN patient p on p.hn=ro.hn  
@@ -367,7 +367,7 @@ class ReportFontController extends Controller
                 ro.refer_date,o.regdate as vstdate,o.regtime as vsttime,d.name as doctor_name,"" as hospmain
                 ,concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,  
-                r.name as refername,ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price
+                r.name as refername,ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price,s.nhso_adp_code
                 from referout ro  
                 LEFT OUTER JOIN ipt o on o.an = ro.vn  
                 LEFT OUTER JOIN patient p on p.hn=ro.hn  

@@ -17,13 +17,15 @@ use App\Http\Controllers\UserComController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+
 //********************* */ KTB  ***********************************
-Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::class, 'ktb_getcard'])->name('env.ktb_getcard');//
+Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::class, 'ktb_getcard'])->name('ktb.ktb_getcard');//
 
-Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::class, 'ktb_test'])->name('env.ktb_test');//
+Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::class, 'ktb_test'])->name('ktb.ktb_test');//
 
 
-Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class, 'treedoc'])->name('env.treedoc');//
+Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class, 'treedoc'])->name('ktb.treedoc');//
 
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
 Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
