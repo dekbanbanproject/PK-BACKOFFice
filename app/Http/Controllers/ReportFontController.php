@@ -358,7 +358,8 @@ class ReportFontController extends Controller
                 left outer join drugitems i on i.icode=ot.icode
                 WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND ro.department = "OPD"  
-                GROUP BY ro.vn
+                GROUP BY ro.vn 
+                
 
                 UNION 
 
@@ -382,8 +383,9 @@ class ReportFontController extends Controller
                 left outer join sp_use u on u.sp_use = ot.sp_use  
                 left outer join drugitems i on i.icode=ot.icode
                 WHERE ro.refer_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND ro.department = "IPD"
+                AND ro.department = "IPD"  
                 GROUP BY ro.vn
+                
         ');
          
         return view('dashboard.report_refer_hos',[

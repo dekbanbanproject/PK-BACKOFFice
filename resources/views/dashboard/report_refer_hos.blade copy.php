@@ -109,7 +109,7 @@
                                         <th>department</th> 
                                         <th>vn</th>
                                         <th>hn</th>
-                                        {{-- <th>icode</th> --}}
+                                        <th>icode</th>
                                         <th>ชื่อ-นามสกุล</th> 
                                         <th>refer_date</th>
                                         <th>vstdate</th>
@@ -135,86 +135,61 @@
                                                 WHERE o.vn="'.$inforefer->vn.'" 
                                                 AND s.nhso_adp_code = "S1801" 
                                               
-                                            ');                           
+                                            ');    
+                                            // AND s.nhso_adp_code = "S1801"                               
                                         ?> 
-                                        @if ($inforefer->with_ambulance == 'Y' && $inforefer->with_nurse == 'Y')
-                                            <tr height="20" style="background-color: rgb(182, 243, 238)">
-                                                <td class="text-font" style="text-align: center;">{{$number}}</td>  
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->department}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">
-                                                
-                                                    @foreach ($detail_ as $item) 
-                                                        @if ($item->icode !='3003086')
-                                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"
-                                                            data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
-                                                            {{$inforefer->vn}} 
-                                                        </button>
-                                                        @else
-                                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"
-                                                            data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
-                                                            {{$inforefer->vn}} 
-                                                        </button>
-                                                        @endif 
-                                                    
-                                                    @endforeach
-                                                </td>
-                                                <td class="text-font text-pedding" style="text-align: left;">
-                                                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning"
+                                        <tr height="20">
+                                            <td class="text-font" style="text-align: center;">{{$number}}</td>  
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->department}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">
+                                                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"  data-bs-toggle="popover" data-bs-placement="top"
+                                                data-bs-content="  "> 
+                                                    <i class="fa-solid fa-file-prescription me-2"></i>
+                                                    {{$inforefer->vn}}                                                   
+                                                </button>  --}}
+                                                @foreach ($detail_ as $item) 
+                                                    @if ($item->icode !='3003086')
+                                                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"
                                                         data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
-                                                        {{$inforefer->hn}} 
+                                                        {{$inforefer->vn}} 
                                                     </button>
-                                                
-                                                </td>  
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->ptname}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->refer_date)}}</td>  
-                                                <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->vstdate)}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->vsttime}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->doctor_name}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospmain}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospname}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_ambulance}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>   
-                                            </tr>
-                                        @else
-                                            <tr height="20">
-                                                <td class="text-font" style="text-align: center;">{{$number}}</td>  
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->department}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">
-                                                
-                                                    @foreach ($detail_ as $item) 
-                                                        @if ($item->icode !='3003086')
-                                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"
-                                                            data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
-                                                            {{$inforefer->vn}} 
-                                                        </button>
-                                                        @else
-                                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"
-                                                            data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
-                                                            {{$inforefer->vn}} 
-                                                        </button>
-                                                        @endif 
-                                                    
-                                                    @endforeach
-                                                </td>
-                                                <td class="text-font text-pedding" style="text-align: left;">
-                                                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning"
+                                                    @else
+                                                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"
                                                         data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
-                                                        {{$inforefer->hn}} 
+                                                        {{$inforefer->vn}} 
                                                     </button>
+                                                    @endif 
                                                 
-                                                </td>  
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->ptname}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->refer_date)}}</td>  
-                                                <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->vstdate)}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->vsttime}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->doctor_name}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospmain}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospname}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_ambulance}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>   
-                                            </tr>
-                                        @endif
-                                       
+                                                @endforeach
+                                            </td>
+                                            <td class="text-font text-pedding" style="text-align: left;">
+                                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning"
+                                                    data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg{{$inforefer->vn}} ">
+                                                    {{$inforefer->hn}} 
+                                                </button>
+                                               
+                                            </td>
+
+                                            {{-- @foreach ($detail_ as $item)  
+                                                @if ($item->icode =='3003086')
+                                                <td class="text-font text-pedding" style="text-align: left;">{{$item->icode}}</td>
+                                                @else
+                                                <td class="text-font text-pedding" style="text-align: left;">ไม่ได้ลงข้อมูล</td>
+                                                @endif    
+                                                
+                                               
+                                            @endforeach --}}
+
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->ptname}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->refer_date)}}</td>  
+                                            <td class="text-font text-pedding" style="text-align: left;">{{DateThai($inforefer->vstdate)}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->vsttime}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->doctor_name}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospmain}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospname}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_ambulance}}</td>
+                                            <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>   
+                                        </tr>
     
                                         
                                         <!-- Large modal -->
