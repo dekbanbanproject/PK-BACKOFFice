@@ -249,7 +249,7 @@ class AUTHENCHECKController extends Controller
         // dd($date_now);
 
         // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=100000";
-        $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_start&claimDateTo=$date_end&page=0&size=1000&sort=claimDate,desc";
+        $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
         // dd($url);
         $curl = curl_init();
