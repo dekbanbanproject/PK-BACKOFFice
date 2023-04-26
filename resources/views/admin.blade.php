@@ -18,7 +18,7 @@ $pos = strrpos($url, '/') + 1;
 {{-- headerZ --}}
  <br> 
     {{-- <div class="container mt-3"> --}}
-        <div class="container mt-3">
+        <div class="container mt-3 mb-4">
             {{-- <div class="circle1"> </div> --}}
 
         <div id="preloader">
@@ -664,6 +664,36 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">                                                    
                                                 <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                <h4 class="text-start mb-2">ระบบลงเวลา</h4>                                                         
+                                            </div>    
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('time_dashboard') }}" target="_blank">
+                                                    <span class="avatar-title bg-light text-danger rounded-3">
+                                                        <p style="font-size: 10px;"> 
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                       
+                                                                <i class="fa-regular fa-3x fa-clock font-size-30 mt-3" style="color: rgb(21, 198, 192)"></i>
+                                                            </button> 
+                                                        </p>
+                                                    </span> 
+                                                </a>
+                                            </div>
+                                        </div> 
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
+            </div>
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">                                                    
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
                                                 <h4 class="text-start mb-2">โอที</h4>                                                         
                                             </div>    
                                             <div class="avatar-sm me-2">
@@ -771,10 +801,12 @@ $pos = strrpos($url, '/') + 1;
                     </div> 
                 </div> 
             </div>               --}}
+        
         </div>
      
         
     </div>
+
 
     <?php
     $datadetail = DB::connection('mysql')->select('   
