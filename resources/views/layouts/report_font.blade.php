@@ -160,6 +160,7 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('report_refer') }}" style="color: white">การใช้งานรถ Refer BK</a></li>  
                                 <li ><a href="{{ url('report_refer_hos') }}" style="color: white">การใช้งานรถ Refer Hos</a></li>  
+                                <li ><a href="{{ url('report_refer_opd') }}" style="color: white">การบันทึกข้อมูล OPD Refer</a></li>
                             </ul>
                         </li> 
                         <li>

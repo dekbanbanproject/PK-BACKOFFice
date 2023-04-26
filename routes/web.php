@@ -33,6 +33,7 @@ Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\Repor
 Route::match(['get','post'],'report_refer',[App\Http\Controllers\ReportFontController::class, 'report_refer'])->name('rep.report_refer');// report report_refer
 Route::match(['get','post'],'report_refer_thairefer',[App\Http\Controllers\ReportFontController::class, 'report_refer_thairefer'])->name('rep.report_refer_thairefer');// report report_refer
 Route::match(['get','post'],'report_refer_hos',[App\Http\Controllers\ReportFontController::class, 'report_refer_hos'])->name('rep.report_refer_hos');// report report_refer
+Route::match(['get','post'],'report_refer_opd',[App\Http\Controllers\ReportFontController::class, 'report_refer_opd'])->name('rep.report_refer_opd');// report report_refer
 
 Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า
