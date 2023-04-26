@@ -34,7 +34,7 @@
         width: 100%;
         height: 100vh;
         background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-            url(/pkclaim/public/sky16/images/bgPK.jpg)no-repeat 50%;
+            url(/pkbackoffice/public/sky16/images/bgPK.jpg)no-repeat 50%;
         /* url(/sky16/images/bgPK.jpg)no-repeat 50%; */
         /* url(/sky16/images/logo.png)no-repeat 50%; */
         background-size: cover;
@@ -66,7 +66,7 @@
         width: 200px;
         height: 200px;
         background:
-            url(/pkclaim/public/sky16/images/logo250.png)no-repeat 50%;
+            url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
         /* background-attachment: fixed; */

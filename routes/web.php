@@ -33,7 +33,10 @@ Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\Repor
 Route::match(['get','post'],'report_refer',[App\Http\Controllers\ReportFontController::class, 'report_refer'])->name('rep.report_refer');// report report_refer
 Route::match(['get','post'],'report_refer_thairefer',[App\Http\Controllers\ReportFontController::class, 'report_refer_thairefer'])->name('rep.report_refer_thairefer');// report report_refer
 Route::match(['get','post'],'report_refer_hos',[App\Http\Controllers\ReportFontController::class, 'report_refer_hos'])->name('rep.report_refer_hos');// report report_refer
-Route::match(['get','post'],'report_refer_opd',[App\Http\Controllers\ReportFontController::class, 'report_refer_opd'])->name('rep.report_refer_opd');// report report_refer
+Route::match(['get','post'],'report_refer_opds',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds'])->name('rep.report_refer_opds');// report report_refer
+Route::match(['get','post'],'report_refer_opds_sub/{months}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_sub'])->name('rep.report_refer_opds_sub');// report report_refer
+Route::match(['get','post'],'report_refer_opds_subvn/{months}/{hospcode}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_subvn'])->name('rep.report_refer_opds_subvn');// report report_refer
+Route::match(['get','post'],'report_refer_opds_subct/{months}/{hospcode}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_subct'])->name('rep.report_refer_opds_subct');// report report_refer
 
 Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า

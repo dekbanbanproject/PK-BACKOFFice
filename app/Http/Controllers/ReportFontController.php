@@ -332,6 +332,186 @@ class ReportFontController extends Controller
             'datashow_'    => $datashow_
         ]);
     }
+    public function report_refer_opds(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $datashow_ = DB::connection('mysql3')->select(' 
+                SELECT m1.doc,count(DISTINCT m1.TRAN_ID) as tran
+                from eclaimdb.r9opch m1 
+                where m1.HCODE ="10978"
+                group by m1.doc 
+        ');
+        $datashow_2 = DB::connection('mysql3')->select(' 
+            SELECT year(v.vstdate) as year,month(v.vstdate) as months,count(distinct v.hn) as hn,count(distinct v.vn) as vn,round(sum(o.sum_price),2) as sum_price,
+            round(sum(IF(v.income<600,"600","")),2) as total from vn_stat v
+            LEFT OUTER JOIN patient p ON p.hn=v.hn
+            left outer join pttype pt on pt.pttype = v.pttype
+            left outer join hospcode h on h.hospcode = v.hospmain
+            left outer join opitemrece o on o.vn = v.vn 
+            left outer join ovstdiag vp on vp.vn = v.vn
+            left join ipt i on i.vn = v.vn
+            where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"  
+            and v.hospmain in ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007") 
+            and v.pttype not in ("co","xo","m3","x1","p1","su","si") 
+            and pt.hipdata_code ="ucs"
+            and (v.pdx not in("u119","n185","z115","u071","b24") and v.pdx not like "c%")
+            and v.uc_money >"0"
+            and i.an is null
+            group by year(v.vstdate),month(v.vstdate)
+        ');
+        
+        // dd($total_refer);
+        return view('dashboard.report_refer_opds',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate , 
+            'datashow_'        => $datashow_,
+            'datashow_2'       => $datashow_2
+        ]);
+    }
+    public function report_refer_opds_sub(Request $request,$months,$startdate,$enddate)
+    { 
+        // $startdate = $request->startdate;
+        // $enddate = $request->enddate; 
+        $datashow_ = DB::connection('mysql3')->select(' 
+            SELECT month(v.vstdate) as months,h.hospcode,h.name as hname,count(distinct v.vn) as vn
+            ,count(distinct o5.vn) as o5vn
+            from hos.vn_stat v
+            left join hos.ovst ov on ov.vn = v.vn 
+            LEFT OUTER JOIN eclaimdb.opitemrece_refer o ON o.vn=v.vn
+            LEFT OUTER JOIN eclaimdb.opitemrece_refer o5 ON o5.vn=v.vn and o5.icode in
+            (3009140,3009139,3010044,3009193,3009148,3009147,3010634,3009178,3010633,3009183,3009171,3009170,3009194,3009157,3009158,3009146,3009162,3009161,3009191
+            ,3009176,3009187,3009156,3009164,3009165,3009173,3009175,3009169,3009159,3009172,3009190,3009163,3009166,3009167,3009168,3009155,3009150,3009151,3009160
+            ,3009177,3010113,3009186,3009188,3009144,3010635,3009180,3009181,3009184,3009196,3009149,3009189,3009174,3009145,3009192,3009185)
+            LEFT OUTER JOIN hos.nondrugitems n5 ON n5.icode=o.icode
+            LEFT OUTER JOIN patient p ON p.hn=v.hn
+            left outer join pttype pt on pt.pttype = v.pttype
+            
+            left outer join eclaimdb.vn_stat_ncd vv on vv.vn = v.vn
+            left outer join hospcode h on h.hospcode = v.hospmain
+            where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"  
+            and month(v.vstdate) = "'.$months.'"
+            and v.hospmain in ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007")
+            and v.uc_money >"0"
+            and pt.hipdata_code ="ucs"
+            and (v.pdx not in("u119","n185","z115","u071","b24") and v.pdx not like "c%")
+            and v.pttype not in ("co","xo","m3","x1","p1","su","si") 
+            group by h.name
+            order by count(distinct v.hn) desc
+        ');
+  
+        // dd($total_refer);
+        return view('dashboard.report_refer_opds_sub',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate , 
+            'datashow_'        => $datashow_,
+            // 'datashow_2'       => $datashow_2
+        ]);
+    }
+    public function report_refer_opds_subvn(Request $request,$months,$hospcode,$startdate,$enddate)
+    {  
+        $datashow_ = DB::connection('mysql3')->select(' 
+            SELECT v.vn,v.hn,v.vstdate
+                from vn_stat v
+                left outer join hospcode h on h.hospcode = v.hospmain
+                left join eclaimdb.m_registerdata m on m.opdseq = v.vn
+                left outer join pttype pt on pt.pttype = v.pttype
+ 
+                where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                and month(v.vstdate) = "'.$months.'"
+                and v.hospmain  = "'.$hospcode.'" 
+                and v.hospmain in ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007")
+                and v.pttype not in ("co","xo","m3","x1","p1","su","si")                 
+                and pt.hipdata_code ="ucs"
+
+                group by v.vstdate,v.hn HAVING count(v.vn) > "1"
+                ORDER BY v.hn,v.vstdate,v.vn
+        ');
+        // $ct = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo LEFT JOIN nondrugitems n on n.icode = oo.icode where oo.vn = o.vn and n.name like "ct%" limit 1');
+        // $mri = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo LEFT JOIN nondrugitems n on n.icode = oo.icode where oo.vn = o.vn and n.name like "mri%" limit 1');
+        // $ins = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode in(select icode from hos.nondrugitems where income="02")  limit 1');
+        // $hd = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode = "3010058" limit 1');
+        // $labhd = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode = "3000034" and v.pdx ="n185"limit 1');
+        // $b = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode in("1460073","1000085","1000084","1530009","1500094","1540010") limit 1');
+        // $covid = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406","3000407","3010640","3010641","3010697","3010698","3010677")  limit 1');
+        // $ivp = DB::connection('mysql3')->select('select sum(oo.sum_price) from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode = "3000616" limit 1');
+        // $refer = DB::connection('mysql3')->select('
+        //         select sum((select case(r.refer_hospcode) 
+        //         when "10702" then "1220" 
+        //         when "10666" then "1300" 
+        //         when "10972" then "660"
+        //         when "10981" then "908"
+        //         when "10979" then "780"
+        //         when "10980" then "804"
+        //         when "10670" then "1300" 
+        //         when "13777" then "1300" 
+        //         when "10666" then "1300" else null end)) from vn_stat vv 
+        //         left outer join referout r on r.vn = vv.vn where vv.vn = v.vn and vv.inc15 > "1000"
+        // ');
+        // $cctotal = DB::connection('mysql3')->select('
+        //         if($cc is null,if(vv.vn is null,if(v.uc_money > 700,700,v.uc_money),if(v.uc_money > 1000,1000,v.uc_money))
+        //         ,if($cc > 700,if(vv.vn is null,if($cc > 700,700,$cc),1000),$cc))');
+
+        $datashow_2 = DB::connection('mysql3')->select(' 
+                SELECT v.vn,v.vstdate,v.hn,v.pdx,group_concat(distinct o9.icd10) as icd10
+                ,v.pttype,c.check_sit_subinscl,c.check_sit_hmain,concat(p.pname,p.fname,"",p.lname) as fullname,v.cid
+                ,round((v.inc16),0) as inc16,round((v.inc01),0) as inc01
+                ,round(v.inc04,0) as inc04,round(v.inc05,0) as inc05
+                ,round(v.inc06,0) as inc06 ,round(v.inc08,0) as inc08
+                ,round(v.inc09,0) as inc09 ,round(v.inc10,0) as inc10
+                ,round(v.inc12,0) as inc12 ,round(v.inc13,0) as inc13
+                ,round(v.inc14,0) as inc14,round(v.inc17,0) as inc17
+                ,round(v.inc11,0) as inc11,round((v.income-v.paid_money),0) as paid_money
+                ,if(o9.vn is not null,"1000","") as ovn
+
+
+
+
+
+                
+                from hos.vn_stat v
+                left join hos.ovst ov on ov.vn = v.vn 
+                left join hos.ovstdiag o5 on o5.vn = v.vn 
+                LEFT OUTER JOIN patient p ON p.hn=v.hn
+                left outer join pttype pt on pt.pttype = v.pttype
+                LEFT OUTER JOIN eclaimdb.opitemrece_refer o ON o.vn=v.vn
+                left outer join eclaimdb.vn_stat_ncd vv on vv.vn = v.vn
+                left join hos.ovstdiag o9 on o9.vn = vv.vn 
+                and (o9.icd10  between "e110" and "e149"
+                or o9.icd10  between "i10" and "i150" 
+                or o9.icd10  between "j44" and "j46")
+                left outer join hospcode h on h.hospcode = v.hospmain
+                left outer join money_pk.check_sit c on c.check_sit_vn = v.vn
+                where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                and month(v.vstdate) = "'.$months.'"
+                and v.hospmain  = "'.$hospcode.'" 
+                and v.uc_money > "0"
+                and v.pttype not in ("co","xo","m3","x1","p1","su","si") 
+                and (v.pdx not in("u119","n185","z115","u071","b24") and v.pdx not like "c%")
+                and pt.hipdata_code ="ucs"
+                group by v.vn
+                order by p.fname,v.vstdate
+   
+        ');
+        // "'.$ct.'" as ct,
+        // "'.$mri.'" as mri,
+        // "'.$ins.'" as ins,
+        // "'.$hd.'" as hd,
+        // "'.$labhd.'" as labhd,
+        // "'.$b.'" as b,
+        // "'.$covid.'" as covid,
+        // "'.$ivp.'" as ivp,
+        // "'.$refer.'" as refer,                
+        // "'.$cctotal.'" as cctotal  
+  
+        // dd($total_refer);
+        return view('dashboard.report_refer_opds_subvn',[
+            // 'startdate'        => $startdate,
+            // 'enddate'          => $enddate , 
+            'datashow_'        => $datashow_,
+            'datashow_2'       => $datashow_2
+        ]);
+    }
     public function report_refer_hos(Request $request)
     {
         $startdate = $request->startdate;
