@@ -62,7 +62,7 @@
                     </div>
                     <div class="card-body">
                         {{-- <form action="{{ route('rep.check_kradook') }}" method="POST">
-                            @csrf --}}
+                            @csrf
                             <div class="row mt-3"> 
                                 <div class="col"></div>
                                 <div class="col-md-1 text-end">วันที่</div>
@@ -93,7 +93,7 @@
                                  <div class="col"></div>   
                             </div> 
                        
-                        {{-- </form> --}}
+                        </form> --}}
  
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
