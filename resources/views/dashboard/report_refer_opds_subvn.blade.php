@@ -205,6 +205,9 @@
                                             foreach ($b24_ as $it7){
                                                 $b24 = $it7->sum_price;
                                             } 
+
+                                            // $covid = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406","3000407","3010640","3010641","3010697","3010698","3010677")  limit 1');
+
                                         $ivp_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode = "3000616" limit 1');
                                             foreach ($ivp_ as $it8){
                                                 $ivp = $it8->sum_price;
@@ -233,7 +236,7 @@
                                         <td class="text-font text-pedding" style="text-align: center;"> {{$mri}}</td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> NO02  </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{$hd}} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> NO{{$labhd}}</td>  
+                                        <td class="text-font text-pedding" style="text-align: center;"> {{$b}}</td>  
                                          <td class="text-font text-pedding" style="text-align: center;"> {{$b24}} </td> 
                                          <td class="text-font text-pedding" style="text-align: center;"> 07  </td> 
                                          <td class="text-font text-pedding" style="text-align: center;"> 08 </td>  
