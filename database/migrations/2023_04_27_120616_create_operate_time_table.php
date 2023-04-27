@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('operate_time_personid',10)->nullable();//ID hrd_person
             $table->string('operate_time_person',255)->nullable();//NAME hrd_person
             $table->string('operate_time_typeid',10)->nullable();// ประเภท
+            $table->string('operate_time_typename',10)->nullable();// ประเภท
             $table->Time('operate_time_in')->nullable();// เวลา IN
             $table->Time('operate_time_out')->nullable();// เวลา OUT
             $table->Time('operate_time_otin')->nullable();// เวลา OT IN

@@ -75,131 +75,124 @@ if (Auth::check()) {
               </div>
               
         </div> 
+        <form action="{{ route('t.time_index') }}" method="POST">
+            @csrf
+            <div class="row"> 
+                <div class="col"></div>
+                <div class="col-md-1 text-end">วันที่</div>
+                <div class="col-md-2 text-center">
+                    @if ($startdate == '')
+                        <div class="input-group" id="datepicker1">
+                            <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
+                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                value="{{ $newDate }}">                    
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    @else
+                        <div class="input-group" id="datepicker1">
+                            <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
+                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                value="{{ $startdate }}">                    
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    @endif                                    
+                </div>
+                <div class="col-md-1 text-center">ถึงวันที่</div>
+                <div class="col-md-2 text-center">
+                    @if ($enddate == '')
+                        <div class="input-group" id="datepicker1">
+                            <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
+                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                value="{{ $datenow }}">                    
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    @else
+                        <div class="input-group" id="datepicker1">
+                            <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
+                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                value="{{ $enddate }}">                    
+                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                        </div>
+                    @endif
+                    
+                </div> 
+                <div class="col"></div>
+            </div>
+            <div class="row mt-3"> 
+                <div class="col"></div>
+                <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
+                <div class="col-md-2 text-center">
+                    <div class="input-group">
+                        <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
+                        
+                            @foreach ($department as $items0) 
+                            @if ($deb == $items0->HR_DEPARTMENT_ID)
+                                <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                            @else
+                                <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                            @endif
+                               
+                               
+                            @endforeach
+                    </select>
+                    </div>
+                </div> 
+                <div class="col-md-1 text-center">ฝ่าย/แผนก</div>
+                <div class="col-md-2 text-center">
+                    <div class="input-group">
+                        <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg department_sub" style="width: 100%"> 
+                        
+                            @foreach ($department_sub as $items) 
+                            @if ($debsub == $items->HR_DEPARTMENT_SUB_ID)
+                                <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}" selected> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 
+                            @else
+                                <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}"> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 
+                            @endif
+                               
+                               
+                            @endforeach
+                    </select>
+                    </div>
+                </div> 
+                <div class="col-md-1 text-center">หน่วยงาน</div>
+                <div class="col-md-2 text-center">
+                    <div class="input-group">
+                        <select id="HR_DEPARTMENT_SUB_SUB_ID" name="HR_DEPARTMENT_SUB_SUB_ID" class="form-select form-select-lg department_sub_sub" style="width: 100%"> 
+                        
+                            @foreach ($department_subsub as $items2) 
+                            @if ($debsubsub == $items2->HR_DEPARTMENT_SUB_SUB_ID)
+                                <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}" selected> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
+                            @else
+                                <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}"> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
+                            @endif
+                               
+                               
+                            @endforeach
+                    </select>
+                    </div>
+                </div> 
+                <div class="col-md-2 me-2">  
+                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                    </button>  
+                    <a href="{{url('time_index_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                        <i class="fa-solid fa-file-excel me-2"></i>
+                        Export
+                    </a>
+                 
+                </div> 
+                
+                 <div class="col"></div>   
+            </div> 
+       
+        </form>
         <div class="row"> 
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card">
                     <div class="card-header">
-                        ลงเวลาเข้า-ออก
-                        
+                        ลงเวลาเข้า-ออก      
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('t.time_index') }}" method="POST">
-                            @csrf
-                            <div class="row mt-3"> 
-                                <div class="col"></div>
-                                <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-2 text-center">
-                                    @if ($startdate == '')
-                                        <div class="input-group" id="datepicker1">
-                                            <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                                value="{{ $newDate }}">                    
-                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                        </div>
-                                    @else
-                                        <div class="input-group" id="datepicker1">
-                                            <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                                value="{{ $startdate }}">                    
-                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                        </div>
-                                    @endif                                    
-                                </div>
-                                <div class="col-md-1 text-center">ถึงวันที่</div>
-                                <div class="col-md-2 text-center">
-                                    @if ($enddate == '')
-                                        <div class="input-group" id="datepicker1">
-                                            <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                                value="{{ $datenow }}">                    
-                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                        </div>
-                                    @else
-                                        <div class="input-group" id="datepicker1">
-                                            <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                                value="{{ $enddate }}">                    
-                                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                        </div>
-                                    @endif
-                                    
-                                </div> 
-                                <div class="col"></div>
-                            </div>
-                            <div class="row mt-3"> 
-                                <div class="col"></div>
-                                <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group">
-                                        <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
-                                        
-                                            @foreach ($department as $items0) 
-                                            @if ($deb == $items0->HR_DEPARTMENT_ID)
-                                                <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                            @else
-                                                <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                            @endif
-                                               
-                                               
-                                            @endforeach
-                                    </select>
-                                    </div>
-                                </div> 
-                                <div class="col-md-1 text-center">ฝ่าย/แผนก</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group">
-                                        <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg department_sub" style="width: 100%"> 
-                                        
-                                            @foreach ($department_sub as $items) 
-                                            @if ($debsub == $items->HR_DEPARTMENT_SUB_ID)
-                                                <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}" selected> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 
-                                            @else
-                                                <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}"> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 
-                                            @endif
-                                               
-                                               
-                                            @endforeach
-                                    </select>
-                                    </div>
-                                </div> 
-                                <div class="col-md-1 text-center">หน่วยงาน</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group">
-                                        <select id="HR_DEPARTMENT_SUB_SUB_ID" name="HR_DEPARTMENT_SUB_SUB_ID" class="form-select form-select-lg department_sub_sub" style="width: 100%"> 
-                                        
-                                            @foreach ($department_subsub as $items2) 
-                                            @if ($debsubsub == $items2->HR_DEPARTMENT_SUB_SUB_ID)
-                                                <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}" selected> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
-                                            @else
-                                                <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}"> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
-                                            @endif
-                                               
-                                               
-                                            @endforeach
-                                    </select>
-                                    </div>
-                                </div> 
-                                <div class="col-md-2 me-2">  
-                                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                    </button> 
-                                {{-- </div>  --}}
-                                {{-- <div class="col-md-1 ">   --}}
-                                    <a href="{{url('time_index_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                        <i class="fa-solid fa-file-excel me-2"></i>
-                                        Excel
-                                    </a>
-                                    {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="ExportExcel">
-                                        <i class="fa-solid fa-file-excel me-2"></i>
-                                        Excel
-                                    </button>  --}}
-                                </div> 
-                                
-                                 <div class="col"></div>   
-                            </div> 
-                       
-                        </form>
- 
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
