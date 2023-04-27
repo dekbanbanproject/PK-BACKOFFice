@@ -442,7 +442,7 @@ class ReportFontController extends Controller
         //         when "10972" then "660"
         //         when "10981" then "908"
         //         when "10979" then "780"
-        //         when "10980" then "804"
+        //         when "10980" then "804" 
         //         when "10670" then "1300" 
         //         when "13777" then "1300" 
         //         when "10666" then "1300" else null end)) from vn_stat vv 
@@ -468,7 +468,7 @@ class ReportFontController extends Controller
 
 
 
-                
+
                 from hos.vn_stat v
                 left join hos.ovst ov on ov.vn = v.vn 
                 left join hos.ovstdiag o5 on o5.vn = v.vn 
