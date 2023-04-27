@@ -135,7 +135,7 @@
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
-                        <a href="" class="logo logo-dark">
+                        <a href="{{url('admin/home')}}" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
                             </span>
@@ -144,7 +144,7 @@
                             </span>
                         </a>
 
-                        <a href="" class="logo logo-light">
+                        <a href="{{url('admin/home')}}" class="logo logo-light">
                             <span class="logo-sm"> 
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
@@ -177,6 +177,9 @@
 
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <a href="{{url("admin/home")}}">   
+                            <i class="fa-solid fa-gauge-high text-success ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Dashboard"></i>
+                          </a>
                         <a href="{{url("setting/setting_index")}}" target="_blank">  
                             <i class="fa-solid fa-gear text-danger ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ตั้งค่า"></i>
                           </a>
@@ -187,6 +190,13 @@
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129)"></i>
                         </button>
+
+                        <div class="dropdown d-none d-lg-inline-block ms-1">
+                            <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword"> 
+                                <i class="fa-solid fa-key" style="color: rgb(207, 34, 115)"></i>
+                            </button>
+                        </div>
+
                     </div>
 
                     <div class="dropdown d-inline-block user-dropdown">
@@ -227,6 +237,42 @@
                 </div>
             </div>
         </header>
+
+         <!--  Modal content for the Keypassword example -->
+         <div class="modal fade" id="Keypassword" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myExtraLargeModalLabel">เปลี่ยนรหัสผ่าน </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body"> 
+                        <div class="row">                    
+                            <div class="col-md-4 text-end"><label for="">รหัสผ่าน New</label></div>
+                            <div class="col-md-7"> 
+                                <div class="form-group text-center">
+                                    <input type="password" class="form-control form-control-sm" id="password" name="password">
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-12 text-end">
+                            <div class="form-group"> 
+                                <button type="button" id="SaveChang" class="btn btn-outline-info btn-sm" > 
+                                    <i class="fa-solid fa-floppy-disk me-1"></i>
+                                    เปลี่ยน
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
+                                        class="fa-solid fa-xmark me-2"></i>ปิด</button>
+
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
          <div class="mt-5 headerZ">
             @yield('content')
          </div>

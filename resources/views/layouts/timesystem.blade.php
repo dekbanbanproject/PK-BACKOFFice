@@ -128,7 +128,7 @@
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100" style="background-color: rgb(21, 198, 192)">
+            <div data-simplebar class="h-100" style="background-color: rgb(11, 170, 165)">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
@@ -137,17 +137,17 @@
                         <li class="menu-title" style="color: white">Menu</li>
                         <li>
                             <a href="{{ url('time_dashboard') }}">  
-                                <i class="fa-solid fa-gauge-high text-info"></i>
+                                <i class="fa-solid fa-gauge-high text-white"></i>
                                 <span style="color: white">Dashboard</span>
                             </a> 
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-clipboard-user text-info"></i>
+                                <i class="fa-solid fa-clipboard-user text-white"></i>
                                 <span style="color: white">ระบบลงเวลา</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('time_index') }}">เวลาเข้า-ออก</a></li> 
+                                <li><a href="{{ url('time_index') }}" style="color: white">เวลาเข้า-ออก</a></li> 
                                 {{-- <li><a href="{{ url('time_dashboard') }}"> เช็คสิทธิ์ Money PK</a></li>  --}}
                             </ul>
                         </li>

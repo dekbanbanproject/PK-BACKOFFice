@@ -365,13 +365,13 @@
             <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myExtraLargeModalLabel">เปลี่ยนรหัสผ่าน</h5>
+                        <h5 class="modal-title" id="myExtraLargeModalLabel">เปลี่ยนรหัสผ่าน </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body"> 
                         <div class="row">                    
-                            <div class="col-md-2 text-end"><label for="">รหัสผ่าน</label></div>
-                            <div class="col-md-9"> 
+                            <div class="col-md-4 text-end"><label for="">รหัสผ่าน New</label></div>
+                            <div class="col-md-7"> 
                                 <div class="form-group text-center">
                                     <input type="password" class="form-control form-control-sm" id="password" name="password">
                                 </div>

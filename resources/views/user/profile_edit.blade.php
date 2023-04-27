@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.admindashboard')
 
 @section('title', 'PK-BACKOFFice || บุคลากร')
 
@@ -54,8 +54,8 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-
-    <div class="container-fluid">
+<br>
+    <div class="container mt-3">
         <div class="row ">
             <div class="col-md-12">
                 <div class="card">

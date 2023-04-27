@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="col-md-1 text-center">ประเภท</div>
                                 <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
+                                    <div class="input-group">
                                         <select id="ot_type_pk" name="ot_type_pk" class="form-select form-select-lg" style="width: 100%">
                                             {{-- <option value="">--เลือก--</option> --}}
                                             @foreach ($ot_type_pk as $reqshow)

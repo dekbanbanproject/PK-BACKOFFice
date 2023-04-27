@@ -144,6 +144,7 @@ Route::middleware(['type'])->group(function(){
 
   Route::match(['get','post'],'time_dashboard',[App\Http\Controllers\TimerController::class, 'time_dashboard'])->name('t.time_dashboard');// ระบบลงเวลา
   Route::match(['get','post'],'time_index',[App\Http\Controllers\TimerController::class, 'time_index'])->name('t.time_index');// ระบบลงเวลา
+  Route::match(['get','post'],'time_index_excel',[App\Http\Controllers\TimerController::class, 'time_index_excel'])->name('t.time_index_excel');// excel
 
     // ******************** ผู้ดูแลงานบุคลากร ***********************
     Route::match(['get','post'],'person/person_index',[App\Http\Controllers\PersonController::class, 'person_index'])->name('person.person_index');//

@@ -123,57 +123,13 @@ if (Auth::check()) {
                                         </div>
                                     @endif
                                     
-                                </div> 
-                                <div class="col"></div>
-                            </div>
-                            <div class="row mt-3"> 
-                                <div class="col"></div>
-                                <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
+                                </div>   
+                                <div class="col-md-1 text-center">ฝ่าย</div>
                                 <div class="col-md-2 text-center">
                                     <div class="input-group">
-                                        <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
-                                        
-                                            @foreach ($department as $items0) 
-                                            @if ($deb == $items0->HR_DEPARTMENT_ID)
-                                                <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                            @else
-                                                <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                            @endif
-                                               
-                                               
-                                            @endforeach
-                                    </select>
-                                    </div>
-                                </div> 
-                                <div class="col-md-1 text-center">ฝ่าย/แผนก</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group">
-                                        <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg department_sub" style="width: 100%"> 
-                                        
+                                        <select id="HR_DEPARTMENT_SUB_ID" name="HR_DEPARTMENT_SUB_ID" class="form-select form-select-lg" style="width: 100%"> 
                                             @foreach ($department_sub as $items) 
-                                            @if ($debsub == $items->HR_DEPARTMENT_SUB_ID)
-                                                <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}" selected> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 
-                                            @else
                                                 <option value="{{ $items->HR_DEPARTMENT_SUB_ID }}"> {{ $items->HR_DEPARTMENT_SUB_NAME }} </option> 
-                                            @endif
-                                               
-                                               
-                                            @endforeach
-                                    </select>
-                                    </div>
-                                </div> 
-                                <div class="col-md-1 text-center">หน่วยงาน</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group">
-                                        <select id="HR_DEPARTMENT_SUB_SUB_ID" name="HR_DEPARTMENT_SUB_SUB_ID" class="form-select form-select-lg department_sub_sub" style="width: 100%"> 
-                                        
-                                            @foreach ($department_subsub as $items2) 
-                                            @if ($debsubsub == $items2->HR_DEPARTMENT_SUB_SUB_ID)
-                                                <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}" selected> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
-                                            @else
-                                                <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}"> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
-                                            @endif
-                                               
                                                
                                             @endforeach
                                     </select>
@@ -185,17 +141,13 @@ if (Auth::check()) {
                                     </button> 
                                 {{-- </div>  --}}
                                 {{-- <div class="col-md-1 ">   --}}
-                                    <a href="{{url('time_index_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Export">
                                         <i class="fa-solid fa-file-excel me-2"></i>
                                         Excel
-                                    </a>
-                                    {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="ExportExcel">
-                                        <i class="fa-solid fa-file-excel me-2"></i>
-                                        Excel
-                                    </button>  --}}
+                                    </button> 
                                 </div> 
                                 
-                                 <div class="col"></div>   
+                                 {{-- <div class="col"></div>    --}}
                             </div> 
                        
                         </form>
@@ -219,8 +171,31 @@ if (Auth::check()) {
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->CHEACKIN_DATE }}</td> 
                                             <td>{{ $item->hrname }}</td>   
-                                            <td>{{ $item->CHEACKINTIME }}</td>  
-                                            <td>{{ $item->CHEACKOUTTIME }}</td>   
+                                            <td>{{ $item->CHEACKINTIME }}</td> 
+                                            <?php 
+                                                $dataout_ = DB::connection('mysql6')->select(' 
+                                                        SELECT c.CHECKIN_PERSON_ID
+                                                            ,c.CHEACKIN_DATE
+                                                            ,c.CHECKIN_TYPE_ID
+                                                            ,c.CHEACKIN_TIME as Timeout
+                                                            
+                                                            FROM checkin_index c
+                                                            LEFT JOIN hrd_person p on p.ID = c.CHECKIN_PERSON_ID
+                                                            LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
+                                                            LEFT OUTER JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                                                            LEFT JOIN checkin_type t on t.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
+                                                            LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                                                            LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                                                            LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                                                            WHERE c.CHECKIN_TYPE_ID ="2" and c.CHECKIN_PERSON_ID ="'.$item->CHECKIN_PERSON_ID.'"
+                                                            GROUP BY c.CHEACKIN_DATE
+                                                ');
+                                                foreach ($dataout_ as $it){
+                                                        $timeout = $it->Timeout;
+                                                    } 
+                                            
+                                            ?>
+                                            <td>{{ $timeout }}</td>   
                                         </tr>    
                                     @endforeach
                                     
@@ -256,100 +231,14 @@ if (Auth::check()) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
         });
-        $('#HR_DEPARTMENT_ID').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
         $('#HR_DEPARTMENT_SUB_ID').select2({
                 placeholder: "--เลือก--",
                 allowClear: true
             });
-        $('#HR_DEPARTMENT_SUB_SUB_ID').select2({
-            placeholder: "--เลือก--",
-            allowClear: true
-        });
 
         $("#spinner-div").hide(); //Request is complete so hide spinner
-        // $('#ExportExcel').click(function() {
-        //     var startdate = $('#datepicker').val();
-        //     var enddate = $('#datepicker2').val();
-        //     var HR_DEPARTMENT_SUB_ID = $('#HR_DEPARTMENT_SUB_ID').val();
-        //     var HR_DEPARTMENT_SUB_SUB_ID = $('#HR_DEPARTMENT_SUB_SUB_ID').val(); 
-        //     $.ajax({
-        //         url: "{{ route('t.time_index_excel') }}",
-        //         type: "POST",
-        //         dataType: 'json',
-        //         data: {
-        //             startdate,
-        //             enddate,
-        //             HR_DEPARTMENT_SUB_ID,
-        //             HR_DEPARTMENT_SUB_SUB_ID
-        //         },
-        //         success: function(data) {
-        //             if (data.status == 200) { 
-        //                 Swal.fire({
-        //                     title: 'บันทึกข้อมูลสำเร็จ',
-        //                     text: "You Insert data success",
-        //                     icon: 'success',
-        //                     showCancelButton: false,
-        //                     confirmButtonColor: '#06D177',
-        //                     confirmButtonText: 'เรียบร้อย'
-        //                 }).then((result) => {
-        //                     if (result
-        //                         .isConfirmed) {
-        //                         console.log(
-        //                             data);
 
-        //                         window.location
-        //                             .reload();
-        //                     }
-        //                 })
-        //             } else {
-
-        //             }
-
-        //         },
-        //     });
-        // });  
-    });
-</script>
-<script>
-    $('.department').change(function () {
-            if ($(this).val() != '') {
-                    var select = $(this).val();
-                    var _token = $('input[name="_token"]').val();
-                    $.ajax({
-                            url: "{{route('person.department')}}",
-                            method: "GET",
-                            data: {
-                                    select: select,
-                                    _token: _token
-                            },
-                            success: function (result) {
-                                    $('.department_sub').html(result);
-                            }
-                    })
-                    // console.log(select);
-            }
-    });
-
-    $('.department_sub').change(function () {
-            if ($(this).val() != '') {
-                    var select = $(this).val();
-                    var _token = $('input[name="_token"]').val();
-                    $.ajax({
-                            url: "{{route('person.departmenthsub')}}",
-                            method: "GET",
-                            data: {
-                                    select: select,
-                                    _token: _token
-                            },
-                            success: function (result) {
-                                    $('.department_sub_sub').html(result);
-                            }
-                    })
-                    // console.log(select);
-            }
+        
     });
 </script>
 @endsection
