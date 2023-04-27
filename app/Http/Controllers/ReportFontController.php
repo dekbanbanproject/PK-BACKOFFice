@@ -462,7 +462,7 @@ class ReportFontController extends Controller
                 ,round(v.inc12,0) as inc12 ,round(v.inc13,0) as inc13
                 ,round(v.inc14,0) as inc14,round(v.inc17,0) as inc17
                 ,round(v.inc11,0) as inc11,round((v.income-v.paid_money),0) as paid_money
-                ,if(o9.vn is not null,"1000","") as ovn
+                ,if(o9.vn is not null,"1000","") as E11
 
 
 

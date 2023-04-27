@@ -181,63 +181,66 @@
                                             foreach ($ct_ as $it1){
                                                 $ctt = $it1->sum_price;
                                             }  
-                                            $mri_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo LEFT JOIN nondrugitems n on n.icode = oo.icode where oo.vn = "'.$item2->vn.'" and n.name like "mri%" limit 1');
-                                            foreach ($mri_ as $it2){
-                                                $mri = $it2->sum_price;
+                                            // $mri_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo LEFT JOIN nondrugitems n on n.icode = oo.icode where oo.vn = "'.$item2->vn.'" and n.name like "mri%" limit 1');
+                                            // foreach ($mri_ as $it2){
+                                            //     $mri = $it2->sum_price;
+                                            // } 
+                                        $mri_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode in(select icode from hos.nondrugitems where income="02")  limit 1');
+                                            foreach ($mri_ as $it3){
+                                                $mri = $it3->sum_price;
                                             } 
-                                        $ins_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode in(select icode from hos.nondrugitems where income="02")  limit 1');
-                                            foreach ($ins_ as $it3){
-                                                $ins = $it3->sum_price;
-                                            } 
-                                        $hd_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode = "3010058" limit 1');
+                                        $hd_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode = "3010058" limit 1');
                                             foreach ($hd_ as $it4){
                                                 $hd = $it4->sum_price;
                                             } 
-                                        $labhd_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode = "3000034" and v.pdx ="n185"limit 1');
+                                        $labhd_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode = "3000034" and "'.$item2->pdx.'" ="n185"limit 1');
                                             foreach ($labhd_ as $it5){
                                                 $labhd = $it5->sum_price;
                                             } 
-                                        $b_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode in("1460073","1000085","1000084","1530009","1500094","1540010") limit 1');
+                                        $b_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode in("1460073","1000085","1000084","1530009","1500094","1540010") limit 1');
                                             foreach ($b_ as $it6){
                                                 $b = $it6->sum_price;
                                             } 
-                                        $covid_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406","3000407","3010640","3010641","3010697","3010698","3010677")  limit 1');
-                                            foreach ($covid_ as $it7){
-                                                $covid = $it7->sum_price;
+                                        $b24_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode in("3010601","3010605","3010590","3010604","3010602","3010603","3010592","3010591","3010600","3000406","3000407","3010640","3010641","3010697","3010698","3010677")  limit 1');
+                                            foreach ($b24_ as $it7){
+                                                $b24 = $it7->sum_price;
                                             } 
-                                        $ivp_" = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = o.vn and oo.icode = "3000616" limit 1');
+                                        $ivp_ = DB::connection('mysql3')->select('select sum(oo.sum_price) as sum_price from eclaimdb.opitemrece_refer oo where oo.vn = "'.$item2->vn.'" and oo.icode = "3000616" limit 1');
                                             foreach ($ivp_ as $it8){
                                                 $ivp = $it8->sum_price;
                                             } 
+                                            //   $cctotal = DB::connection('mysql3')->select('
+                                            //     if($cc is null,if(vv.vn is null,if(v.uc_money > 700,700,v.uc_money),if(v.uc_money > 1000,1000,v.uc_money))
+                                            //     ,if($cc > 700,if(vv.vn is null,if($cc > 700,700,$cc),1000),$cc))');
                                         ?>  
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc01 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc04 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc05 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc06 }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;">   </td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc08 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc09 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc10 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc12 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc11 }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{$ctt}} </td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> 00000 </td> 
                                        
                                         {{-- 650908073723 --}}
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item2->inc17 }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> 00 ---{{$mri}}</td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> 00 </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ number_format($item2->paid_money ,2)}} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> 01 </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;">02</td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> 03</td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> 04 </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> 05 </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ number_format($item2->paid_money ,2)}}</td>  
-                                         <td class="text-font text-pedding" style="text-align: center;"> {{$ctt}} </td> 
-                                         <td class="text-font text-pedding" style="text-align: center;"> 06</td> 
-
-                                         <td class="text-font text-pedding" style="text-align: center;"> 07 </td> 
-                                         <td class="text-font text-pedding" style="text-align: center;"> 08 </td> 
+                                        <td class="text-font text-pedding" style="text-align: center;">{{$ctt}}</td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> {{$mri}}</td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> NO02  </td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> {{$hd}} </td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> NO{{$labhd}}</td>  
+                                         <td class="text-font text-pedding" style="text-align: center;"> {{$b24}} </td> 
+                                         <td class="text-font text-pedding" style="text-align: center;"> 07  </td> 
+                                         <td class="text-font text-pedding" style="text-align: center;"> 08 </td>  
                                          <td class="text-font text-pedding" style="text-align: center;"> 09 </td> 
                                          <td class="text-font text-pedding" style="text-align: center;"> 10 </td> 
+                                         <td class="text-font text-pedding" style="text-align: center;"> 11 {{ $item2->E11 }} </td> 
+                                         {{-- <td class="text-font text-pedding" style="text-align: center;"> 11 </td>  --}}
                                     </tr>
                                 @endforeach
                                 {{-- ,c.check_sit_subinscl,c.check_sit_hmain --}}
