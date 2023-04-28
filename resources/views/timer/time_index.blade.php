@@ -75,7 +75,7 @@ if (Auth::check()) {
               </div>
               
         </div> 
-        <form action="{{ route('t.time_index') }}" method="POST">
+        <form action="{{ route('t.time_index_search') }}" method="POST">
             @csrf
             <div class="row"> 
                 <div class="col"></div>
@@ -202,6 +202,7 @@ if (Auth::check()) {
                                         <th>ชื่อ-นามสกุล</th>
                                         <th>เวลาเข้า</th> 
                                         <th>เวลาออก</th> 
+                                        <th>ประเภท</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -213,7 +214,8 @@ if (Auth::check()) {
                                             <td>{{ $item->CHEACKIN_DATE }}</td> 
                                             <td>{{ $item->hrname }}</td>   
                                             <td>{{ $item->CHEACKINTIME }}</td>  
-                                            <td>{{ $item->CHEACKOUTTIME }}</td>   
+                                            <td>{{ $item->CHEACKOUTTIME }}</td>  
+                                            <td>{{ $item->OPERATE_TYPE_NAME }}</td>   
                                         </tr>    
                                     @endforeach
                                     
