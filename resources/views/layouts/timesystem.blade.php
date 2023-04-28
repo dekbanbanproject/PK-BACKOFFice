@@ -81,7 +81,7 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
                             </span>
                         </a>
                     </div>
@@ -104,9 +104,7 @@
                         </div>
                     </form>                                         
                 </div>
-
-
-
+ 
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
@@ -118,23 +116,42 @@
                 </div>
             </div>
         </header>
-        <style>
+        {{-- <style>
             .nom6{ 
                 background: linear-gradient(to right,#ffafbd);
-                /* background: linear-gradient(to right, #c9ffbf, #ffafbd); */
+              
             }
-        </style>
+        </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu">
 
-            <div data-simplebar class="h-100" style="background-color: rgb(11, 170, 165)">
+            <div data-simplebar class="h-100" style="background-color: rgb(128, 216, 209)">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
-                    <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title" style="color: white">Menu</li>
+                    {{-- <ul class="metismenu list-unstyled" id="side-menu"> --}}
+                        <ul class="metismenu list-unstyled" id="side-menu" style="background-color: rgb(128, 216, 209)">
+                        {{-- <li class="menu-title" style="color: white">Menu</li> --}}
+                        {{-- <li>
+                            <a href="{{ url('time_dashboard') }}">  
+                                <i class="fa-solid fa-gauge-high text-white"></i>
+                                <span style="color: white">Dashboard</span>
+                            </a> 
+                        </li>  --}}
+                        {{-- <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-clipboard-user text-white"></i>
+                                <span style="color: white">ระบบลงเวลา</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('time_index') }}" style="color: white">เวลาเข้า-ออก</a></li> 
+                                
+                            </ul>
+                        </li> --}}
+
+                        <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('time_dashboard') }}">  
                                 <i class="fa-solid fa-gauge-high text-white"></i>
@@ -142,13 +159,14 @@
                             </a> 
                         </li> 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-clipboard-user text-white"></i>
-                                <span style="color: white">ระบบลงเวลา</span>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <span>ระบบลงเวลา</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('time_index') }}" style="color: white">เวลาเข้า-ออก</a></li> 
-                                {{-- <li><a href="{{ url('time_dashboard') }}"> เช็คสิทธิ์ Money PK</a></li>  --}}
+                                <li><a href="{{ url('time_index') }}">เวลาเข้า-ออก (backoffice)</a></li>
+                                <li><a href="{{ url('time_index_nurh') }}">เวลาเข้า-ออก (Nurh)</a></li>
+                                <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li>
                             </ul>
                         </li>
                       
@@ -203,7 +221,7 @@
     <div class="rightbar-overlay"></div>
 
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> --}}
 
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>

@@ -174,11 +174,7 @@
                         </div>
                     </form>                                         
                 </div>
-
-
-
-
-
+  
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">

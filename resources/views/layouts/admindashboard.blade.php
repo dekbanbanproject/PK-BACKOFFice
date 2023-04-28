@@ -53,7 +53,7 @@
 <!-- Plugins css -->
 <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 </head>
-<style>
+{{-- <style>
     #button{
            display:block;
            margin:20px auto;
@@ -93,7 +93,7 @@
            .is-hide{
            display:none;
            }
-  </style>
+  </style> --}}
 
 <style>
     *{

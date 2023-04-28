@@ -70,6 +70,7 @@ public function permiss_save(Request $request)
         $update->permiss_medicine = $request->input('permiss_medicine'); 
         $update->permiss_ot = $request->input('permiss_ot'); 
         $update->permiss_p4p = $request->input('permiss_p4p'); 
+        $update->permiss_timeer = $request->input('permiss_timeer'); 
         $update->save();    
         return response()->json([
             'status'     => '200'

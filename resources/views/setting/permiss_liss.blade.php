@@ -590,6 +590,24 @@ $pos = strrpos($url, '/') + 1;
                         </div>
 
 
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-regular fa-clock text-primary me-2 ms-2"></i>  
+                                        
+                                            @if ($dataedits->permiss_timeer == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_timeer" name="permiss_timeer" checked/>
+                                        @else
+                                        <input class="form-check-input" type="checkbox" id="permiss_timeer" name="permiss_timeer"/>
+                                        @endif
+                                        <label class="form-check-label" for="permiss_timeer">ระบบลงเวลา</label> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
 
                     </div>
 

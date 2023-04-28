@@ -204,6 +204,11 @@ class StaticController extends Controller
     $comcountp4p =  User::where('id','=',$iduser)->where('permiss_p4p','=','on')->count();   
     return $comcountp4p;
   }
+  public static function permiss_timeer($iduser)
+  {
+    $comcounttime =  User::where('id','=',$iduser)->where('permiss_timeer','=','on')->count();   
+    return $comcounttime;
+  }
 
 
 

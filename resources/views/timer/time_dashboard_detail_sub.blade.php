@@ -3,12 +3,7 @@
   
 
 @section('content')
-   
-    <?php  
-        $ynow = date('Y')+543;
-        $mo =  date('m');
-    ?>  
-     
+    
      <style>
         #button{
                display:block;
@@ -50,11 +45,29 @@
                display:none;
                }
     </style>
-      <?php
-      use App\Http\Controllers\StaticController;
-      use Illuminate\Support\Facades\DB;   
-      $count_meettingroom = StaticController::count_meettingroom();
-  ?>
+      <script>
+        function TypeAdmin() {
+            window.location.href = '{{ route('index') }}';
+        }
+    </script>
+    <?php
+    if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+            $iddep =  Auth::user()->dep_subsubtrueid;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+    
+        $datenow = date("Y-m-d");
+        $y = date('Y') + 543;
+        $mo =  date('m');
+        $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+        $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน 
+    ?>
     <div class="container-fluid">
         <div id="preloader">
             <div id="status">
@@ -70,7 +83,7 @@
              
             <?php 
                 $depsubsub_count_ = DB::connection('mysql6')->select(' 
-                    SELECT COUNT(p.ID) as CountID
+                    SELECT COUNT(DISTINCT p.ID) as CountID
                         FROM checkin_index c
                         LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
                         LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
@@ -92,22 +105,22 @@
             ?>  
                       
                 <div class="col-xl-4 col-md-3">
-                    <div class="main-card mb-3 card" style="height: 120px">
+                    <div class="main-card mb-3 card" style="height: 150px">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
                                     <div class="widget-chart widget-chart-hover"> 
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
-                                                    <p class="text-start font-size-14 mb-2">{{$item->HR_DEPARTMENT_SUB_SUB_NAME}}</p>   
-                                                    <h4 class="text-start mb-2">{{$depsubsub_count}} คน</h4>                                                         
+                                                    <p class="text-start mb-2" style="font-size: 17px">{{$item->HR_DEPARTMENT_SUB_SUB_NAME}}</p>   
+                                                    <h3 class="text-start mb-2 text-primary">{{$depsubsub_count}} คน</h3>                                                         
                                                 </div>    
-                                                <div class="avatar-sm me-2">
+                                                <div class="avatar-sm me-2" style="height: 120px">
                                                     <a href="{{url('time_dashboard_detail_sub_person/'.$item->HR_DEPARTMENT_SUB_SUB_ID)}}" target="_blank">
-                                                        <span class="avatar-title bg-light text-primary rounded-3" style="height: 100px">
+                                                        <span class="avatar-title bg-light text-primary rounded-3 mt-3" style="height: 70px">
                                                             <p style="font-size: 10px;"> 
-                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
-                                                                    <i class="pe-7s-search btn-icon-wrapper font-size-17 mt-2"></i>
+                                                                <button type="button" style="height: 100px;width: 100px" class="mt-4 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                    <i class="fa-solid fa-people-group font-size-24"></i><br> 
                                                                     Detail
                                                                 </button> 
                                                             </p>
@@ -125,6 +138,47 @@
             @endforeach
                   
         </div>
+
+        <div class="row"> 
+            <div class="col-md-12"> 
+                 <div class="main-card mb-3 card shadow-lg">
+                    <div class="card-header">
+                        ลงเวลาเข้า-ออก      
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive mt-3">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                                <thead>
+                                    <tr>
+                                        <th>ลำดับ</th> 
+                                        <th>วันที่</th>
+                                        <th>ชื่อ-นามสกุล</th>
+                                        <th>เวลาเข้า</th> 
+                                        <th>เวลาออก</th> 
+                                        <th>ประเภท</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $ia = 1; ?>
+                                    @foreach ($datashow_ as $item)                                          
+                                        <tr>
+                                            <td>{{ $ia++ }}</td>
+                                            <td>{{ $item->CHEACKIN_DATE }}</td> 
+                                            <td>{{ $item->hrname }}</td>   
+                                            <td>{{ $item->CHEACKINTIME }}</td>  
+                                            <td>{{ $item->CHEACKOUTTIME }}</td>  
+                                            <td>{{ $item->OPERATE_TYPE_NAME }}</td>   
+                                        </tr>    
+                                    @endforeach
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                    </div>
+                </div>
+            </div>  
+        </div> 
 
          
     </div>

@@ -59,6 +59,9 @@
     $permiss_ot = StaticController::permiss_ot($iduser);
     $permiss_medicine = StaticController::permiss_medicine($iduser);
     $permiss_p4p = StaticController::permiss_p4p($iduser);
+    $permiss_timeer = StaticController::permiss_timeer($iduser);
+
+    
     ?>
  
 <style>
@@ -422,6 +425,21 @@
                         <label for="" class="mt-2">โอที</label>
                     </a>
                 </div>
+            </div>
+        </div>
+        @endif
+        @if ($permiss_timeer != 0)
+        <div class="col-6 col-md-4 col-xl-2 mt-2">
+            <div class="card cir">
+                <div class="card-body cir shadow-lg">
+                    <a href="{{ url('time_dashboard') }}" class="nav-link text-dark text-center" target="_blank">
+                        {{-- <i class="fa-solid fa-3x fa-people-line" style="color: rgb(9, 106, 197)"></i>  --}}
+                        <i class="fa-regular fa-3x fa-clock text-primary"></i> 
+                        <br>
+                        <label for="" class="mt-2">ระบบลงเวลา</label>
+                    </a>
+                </div>
+ 
             </div>
         </div>
     @endif

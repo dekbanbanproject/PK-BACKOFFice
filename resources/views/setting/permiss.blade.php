@@ -376,14 +376,25 @@ $pos = strrpos($url, '/') + 1;
                         </div>
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
-                                <div class="card-body shadow-lg">
-
-                                    <div class="form-check mt-2">
-                                        {{-- <i class="fa-solid fa-solid fa-hospital-user me-2 ms-2" style="color: rgb(170, 7, 97)"></i> --}}
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
                                         <i class="fa-solid fa-p text-primary"></i> <i class="fa-solid fa-4 text-primary"></i><i class="fa-solid fa-p text-primary"></i>
                                         <input class="form-check-input" type="checkbox" id="permiss_p4p"
                                             name="permiss_p4p" />
                                         <label class="form-check-label ms-3" for="permiss_p4p">P4P</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-regular fa-clock text-primary me-2 ms-2"></i>  
+                                        <input class="form-check-input" type="checkbox" id="permiss_timeer"
+                                            name="permiss_timeer"/>
+                                        <label class="form-check-label" for="permiss_timeer">ระบบลงเวลา</label> 
                                     </div>
                                 </div>
                             </div>

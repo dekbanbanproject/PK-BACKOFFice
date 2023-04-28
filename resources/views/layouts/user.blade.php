@@ -206,14 +206,13 @@
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">งานบริหารบุคคล</li> 
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-user-tie text-danger"></i>
                                 <span>ข้อมูลการลา</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user/gleave_data_sick') }}">ลาป่วย</a></li> 
-                                {{-- <li><a href="{{ url('user/gleave_data_leave') }}">ยื่นใบลา</a></li>  --}}
+                                <li><a href="{{ url('user/gleave_data_sick') }}">ลาป่วย</a></li>  
                                 <li><a href="{{ url('user/gleave_data_vacation') }}">ลาพักผ่อน</a></li> 
                                 <li><a href="{{ url('user/gleave_data_study') }}">ลาศึกษา ฝึกอบรม</a></li> 
                                 <li><a href="{{ url('user/gleave_data_work') }}">ลาทำงานต่างประเทศ</a></li> 
@@ -256,10 +255,8 @@
                         </li>
                         <li class="menu-title">งานบริหารทั่วไป</li> 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                {{-- <i class="fa-solid fa-book-medical text-danger"></i> --}}
-                                <i class="fa-solid fa-p text-danger"></i>
-                                {{-- <i class="fa-solid fa-4 text-warning"></i><i class="fa-solid fa-p text-info"></i> --}}
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">   
+                                <i class="fa-solid fa-p text-danger"></i> 
                                 <span>P4P</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -276,7 +273,6 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('user/book_inside/' . Auth::user()->id) }}">หนังสือเข้า</a></li>     
-                                {{-- <li><a href="{{ url('user/book_send/' . Auth::user()->id) }}">หนังสือส่ง</a></li>   --}}
                             </ul>
                         </li> 
                         <li>
@@ -352,7 +348,7 @@
                                 <li><a href="{{ url('user_ware/warehouse_stock_sub') }}">รายการคลังวัสดุ</a></li>     
                                 <li><a href="{{ url('user_ware/warehouse_stock_sub_add') }}">ขอเบิกคลังวัสดุ</a></li>  
                             </ul>
-                        </li> 
+                        </li>  --}}
                     </ul>
                 </div>
                 <!-- Sidebar -->
