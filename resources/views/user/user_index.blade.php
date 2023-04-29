@@ -61,29 +61,76 @@
     $permiss_p4p = StaticController::permiss_p4p($iduser);
     $permiss_timeer = StaticController::permiss_timeer($iduser);
 
+    $permiss_env = StaticController::permiss_env($iduser);
+    $permiss_account = StaticController::permiss_account($iduser);
     
     ?>
  
 <style>
-    body {
-        width: 100%;
-        height: 100vh;
+    /* body { */
+        /* width: 100%; */
+        /* height: 100vh; */
        
-        background: url(/pkclaim/public/sky16/images/bgPK.jpg)no-repeat 50%;
+        /* background: url(/pkclaim/public/sky16/images/bgPK.jpg)no-repeat 50%; */
        
-    }
+    /* } */
  
-    .cir {
+    /* .cir {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 150px;
     height: 150px;
     background: #fff;
-    border-radius: 50%;
+    border-radius: 50%; */
     /* transform: rotate(calc(360deg / -15 * var(--i))); */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
+    /* } */
+
+    /* * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        .chartMenu {
+            width: 100vw;
+            height: 40px;
+            background: #1A1A1A;
+            color: rgba(255, 26, 104, 1);
+        }
+
+        .chartMenu p {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        .chartCard {
+            width: 100vw;
+            height: calc(100vh - 40px);
+            background: rgba(255, 26, 104, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chartBox {
+            width: 700px;
+            padding: 20px;
+            border-radius: 20px;
+            border: solid 3px rgba(255, 26, 104, 1);
+            background: white;
+        }
+
+        .chartgooglebar {
+            width: auto;
+            height: auto;
+        }
+
+        .chartgoogle {
+            width: auto;
+            height: auto;
+        } */
 </style>
 <style>
     #button{
@@ -136,312 +183,749 @@
             </div>
         </div>
         <div class="row mt-3"> 
-            @if ($countpesmiss_per != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('person/person_index') }}" class="nav-link text-dark text-center" target="_blank">
-                                <i class="fa-solid fa-3x fa-user-tie text-primary "></i><br>
-                                <label for="" class="mt-2">บุคคลากร</label>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            @if ($countpesmiss_per != 0)                 
+                <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">                                                    
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                <h4 class="text-start mb-2">บุคคลากร</h4>                                                         
+                                            </div>    
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('person/person_index') }}" target="_blank">
+                                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                                        <p style="font-size: 10px;"> 
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                <i class="fa-solid fa-3x fa-user-tie font-size-30 mt-3" style="color: rgb(164, 7, 179)"></i> 
+                                                            </button> 
+                                                        </p>
+                                                    </span> 
+                                                </a>
+                                            </div>
+                                        </div> 
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
+                </div> 
             @endif
 
             @if($countpermiss_gleave != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('gleave') }}" class="nav-link text-dark text-center" target="_blank">
-                                <i class="fa-solid fa-3x fa-hospital-user" style="color: rgb(170, 7, 97)"></i><br>
-                                <label for="" class="mt-2">ระบบการลา</label>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">ระบบการลา</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('gleave') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                    <i class="fa-solid fa-3x fa-hospital-user font-size-30 mt-3" style="color: rgb(170, 7, 97)"></i>
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
+                </div> 
             @endif
 
 
             @if ($countpesmiss_book != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('book/bookmake_index') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-book-open-reader text-secondary"></i>
-                                <br>
-                                <label for="" class="mt-2">สารบรรณ</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">สารบรรณ</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('book/bookmake_index') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-book-open-reader font-size-30 mt-3" style="color: rgb(128, 5, 139)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_car != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('car/car_narmal_calenda') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-truck-medical text-info"></i>
-                                <br>
-                                <label for="" class="mt-2">ยานพาหนะ</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">ยานพาหนะ</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('car/car_narmal_calenda') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-truck-medical font-size-30 mt-3" style="color: rgb(21, 220, 238)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_meetting != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('meetting/meettingroom_dashboard') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-house-laptop text-success"></i>
-                                <br>
-                                <label for="" class="mt-2">ห้องประชุม</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">ห้องประชุม</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                    <i class="fa-solid fa-3x fa-house-laptop font-size-30 mt-3" style="color: rgb(13, 205, 119)"></i>
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_repair != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('repaire_narmal') }}" class="nav-link text-dark text-center" target="_blank">
-                                <i class="fa-solid fa-3x fa-screwdriver-wrench text-info"></i>
-                                <br>
-                                <label for="" class="mt-2">ซ่อมบำรุง</label>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">ซ่อมบำรุง</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('repaire_narmal') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-screwdriver-wrench font-size-30 mt-3" style="color: rgb(42, 157, 245)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
+                </div> 
             @endif
 
 
 
             @if ($countpesmiss_com != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('computer/com_staff_calenda') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-computer text-secondary"></i>
-                                <br>
-                                <label for="" class="mt-2">คอมพิวเตอร์</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">คอมพิวเตอร์</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('computer/com_staff_calenda') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-computer font-size-30 mt-3" style="color: rgb(85, 88, 87)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_medical != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('medical/med_dashboard') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-pump-medical text-warning"></i>
-                                <br>
-                                <label for="" class="mt-2">เครื่องมือแพทย์</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">เครื่องมือแพทย์</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('medical/med_calenda') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                    <i class="fa-solid fa-3x fa-microscope font-size-30 mt-3" style="color: rgb(248, 166, 44)"></i>
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_hosing != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('housing/housing_dashboard') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-house-chimney-user text-info"></i>
-                                <br>
-                                <label for="" class="mt-2">บ้านพัก</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">บ้านพัก</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('housing/housing_dashboard') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-house-chimney-user font-size-30 mt-3" style="color: rgb(8, 71, 120)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_plan != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('plan') }}" class="nav-link text-dark text-center" target="_blank">
-                                <i class="fa-solid fa-3x fa-clipboard text-danger"></i>
-                                <br>
-                                <label for="" class="mt-2"> แผนงาน</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">แผนงาน</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('plan') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-clipboard font-size-30 mt-3" style="color: rgb(198, 31, 31)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
+            @endif
+
+            @if ($countpesmiss_asset != 0)
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">ทรัพย์สิน</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('article/article_index') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-building-shield font-size-30 mt-3" style="color: rgb(126, 130, 128)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
+                </div> 
             @endif
 
             @if ($countpesmiss_supplies != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('article/article_dashboard') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-
-                                <i class="fa-solid fa-3x fa-building-shield text-secondary"></i>
-                                <br>
-                                <label for="" class="mt-2"> ทรัพย์สิน</label>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">พัสดุ</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('supplies/supplies_index') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                    <i class="fa-solid fa-3x fa-paste font-size-30 mt-3" style="color: rgb(6, 159, 93)"></i>
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
+                </div>  
             @endif
 
-            @if ($countpesmiss_store != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('supplies/supplies_dashboard') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-paste text-success"></i>
-                                <br>
-                                <label for="" class="mt-2"> พัสดุ</label>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
 
             @if ($countpesmiss_store != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('warehouse/warehouse_dashboard') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-shop-lock text-primary"></i>
-                                <br>
-                                <label for="" class="mt-2">คลังวัสดุ</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">คลังวัสดุ</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('warehouse/warehouse_index') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-shop-lock font-size-30 mt-3" style="color: rgb(5, 125, 144)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_store_dug != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="#" class="nav-link text-dark text-center" target="_blank">
-                                <i class="fa-solid fa-3x fa-prescription text-success"></i>
-                                <br>
-                                <label for="" class="mt-2">คลังยา</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">คลังยา</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-prescription font-size-30 mt-3" style="color: rgb(4, 112, 112)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_pay != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="#" class="nav-link text-dark text-center" target="_blank">
-                                <i class="fa-solid fa-3x fa-person-booth text-danger"></i>
-                                <br>
-                                <label for="" class="mt-2">จ่ายกลาง</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">จ่ายกลาง</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-person-booth font-size-30 mt-3" style="color: rgb(155, 50, 50)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
             @if ($countpesmiss_claim != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('pkclaim/pkclaim_info') }}" class="nav-link text-dark text-center"
-                                target="_blank">
-                                <i class="fa-solid fa-3x fa-sack-dollar text-danger"></i>
-                                <br>
-                                <label for="" class="mt-2">งานประกัน</label>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">งานประกัน</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('pkclaim/pkclaim_info') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                    <i class="fa-solid fa-3x fa-sack-dollar font-size-30 mt-3" style="color: rgb(221, 8, 89)"></i>
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
+                </div> 
             @endif
 
             @if ($countpesmiss_money != 0)
-                <div class="col-6 col-md-4 col-xl-2 mt-2">
-                    <div class="card cir">
-                        <div class="card-body cir shadow-lg">
-                            <a href="{{ url('account_info') }}" class="nav-link text-dark text-center" target="_blank">
-                                <i class="fa-solid fa-3x fa-file-invoice-dollar text-warning"></i>
-                                <br>
-                                <label for="" class="mt-2">การเงิน</label>
-                            </a>
-                        </div>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">การเงิน</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('account_info') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-money-check-dollar font-size-30 mt-3" style="color: rgb(182, 6, 82)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
             @endif
 
+            @if ($permiss_account != 0)
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">การบัญชี</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('account_pk') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-30 mt-3" style="color: rgb(109, 105, 107)"></i> 
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
+                </div> 
+            @endif
+
             @if ($permiss_p4p != 0)
-            <div class="col-6 col-md-4 col-xl-2 mt-2">
-                <div class="card cir">
-                    <div class="card-body cir shadow-lg">
-                        <a href="{{ url('p4p') }}" class="nav-link text-dark text-center" target="_blank">
-                            <i class="fa-solid fa-2x fa-p text-primary"></i> <i class="fa-solid fa-2x fa-4 text-primary"></i><i class="fa-solid fa-2x fa-p text-primary ms-2"></i>
-                            <br>
-                            <label for="" class="mt-2">P4P</label>
-                        </a>
-                    </div>
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover"> 
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">                                                    
+                                                    <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                    <h4 class="text-start mb-2">P4P</h4>                                                         
+                                                </div>    
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{ url('p4p') }}" target="_blank">
+                                                        <span class="avatar-title bg-light text-primary rounded-3">
+                                                            <p style="font-size: 10px;"> 
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                    {{-- <i class="fa-solid fa-3x fa-person-booth font-size-30 mt-3" style="color: rgb(155, 50, 50)"></i>  --}}
+                                                                    <i class="fa-solid fa-p text-danger font-size-50 mt-3"></i> 
+                                                                    <i class="fa-solid fa-4 text-warning font-size-50 mt-3"></i>
+                                                                    <i class="fa-solid fa-p text-info font-size-50 mt-3"></i>
+                                                                </button> 
+                                                            </p>
+                                                        </span> 
+                                                    </a>
+                                                </div>
+                                            </div> 
+                                    </div>                                           
+                                </div>  
+                            </div>                                           
+                        </div> 
+                    </div> 
                 </div>
-            </div>
-        @endif
+            @endif
 
         @if ($permiss_medicine != 0)
-            <div class="col-6 col-md-4 col-xl-2 mt-2">
-                <div class="card cir">
-                    <div class="card-body cir shadow-lg">
-                        <a href="{{ url('medicine_salt') }}" class="nav-link text-dark text-center" target="_blank">
-                            <i class="fa-solid fa-3x fa-square-person-confined" style="color: rgb(159, 9, 197)"></i> 
-                            <br>
-                            <label for="" class="mt-2">แพทย์แผนไทย</label>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">                                                    
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                <h4 class="text-start mb-2">แพทย์แผนไทย</h4>                                                         
+                                            </div>    
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('medicine_salt') }}" target="_blank">
+                                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                                        <p style="font-size: 10px;"> 
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-square-person-confined font-size-30 mt-3" style="color: rgb(159, 9, 197)"></i>
+                                                            </button> 
+                                                        </p>
+                                                    </span> 
+                                                </a>
+                                            </div>
+                                        </div> 
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
+            </div> 
         @endif
 
         @if ($permiss_ot != 0)
-        <div class="col-6 col-md-4 col-xl-2 mt-2">
-            <div class="card cir">
-                <div class="card-body cir shadow-lg">
-                    <a href="{{ url('otone') }}" class="nav-link text-dark text-center" target="_blank">
-                        <i class="fa-solid fa-3x fa-people-line" style="color: rgb(9, 106, 197)"></i> 
-                        <br>
-                        <label for="" class="mt-2">โอที</label>
-                    </a>
-                </div>
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">                                                    
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                <h4 class="text-start mb-2">โอที</h4>                                                         
+                                            </div>    
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('otone') }}" target="_blank">
+                                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                                        <p style="font-size: 10px;"> 
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                <i class="fa-solid fa-3x fa-people-line font-size-30 mt-3" style="color: rgb(87, 37, 203)"></i> 
+                                                            </button> 
+                                                        </p>
+                                                    </span> 
+                                                </a>
+                                            </div>
+                                        </div> 
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
             </div>
-        </div>
         @endif
-        @if ($permiss_timeer != 0)
-        <div class="col-6 col-md-4 col-xl-2 mt-2">
-            <div class="card cir">
-                <div class="card-body cir shadow-lg">
-                    <a href="{{ url('time_dashboard') }}" class="nav-link text-dark text-center" target="_blank">
-                        {{-- <i class="fa-solid fa-3x fa-people-line" style="color: rgb(9, 106, 197)"></i>  --}}
-                        <i class="fa-regular fa-3x fa-clock text-primary"></i> 
-                        <br>
-                        <label for="" class="mt-2">ระบบลงเวลา</label>
-                    </a>
-                </div>
- 
+
+        @if ($permiss_env != 0)
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">                                                    
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                <h4 class="text-start mb-2">ENV</h4>                                                         
+                                            </div>    
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('env_dashboard') }}" target="_blank">
+                                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                                        <p style="font-size: 10px;"> 
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                                <i class="fa-solid fa-3x fa-hand-holding-droplet font-size-30 mt-3" style="color: rgb(9, 169, 197)"></i> 
+                                                            </button> 
+                                                        </p>
+                                                    </span> 
+                                                </a>
+                                            </div>
+                                        </div> 
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
             </div>
-        </div>
+        @endif
+
+
+        @if ($permiss_timeer != 0)
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">                                                    
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>   
+                                                <h4 class="text-start mb-2">ระบบลงเวลา</h4>                                                         
+                                            </div>    
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('time_dashboard') }}" target="_blank">
+                                                    <span class="avatar-title bg-light text-danger rounded-3">
+                                                        <p style="font-size: 10px;"> 
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
+                                                    
+                                                                <i class="fa-regular fa-3x fa-clock font-size-30 mt-3" style="color: rgb(21, 198, 192)"></i>
+                                                            </button> 
+                                                        </p>
+                                                    </span> 
+                                                </a>
+                                            </div>
+                                        </div> 
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
+            </div>
     @endif
 
             <?php

@@ -210,6 +210,17 @@ class StaticController extends Controller
     return $comcounttime;
   }
 
+  public static function permiss_env($iduser)
+  {
+    $comcountenv =  User::where('id','=',$iduser)->where('permiss_env','=','on')->count();   
+    return $comcountenv;
+  }
+  public static function permiss_account($iduser)
+  {
+    $comcountaccount=  User::where('id','=',$iduser)->where('permiss_account','=','on')->count();   
+    return $comcountaccount;
+  }
+
 
 
 

@@ -307,7 +307,7 @@
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
-    <div class="rightbar-overlay"></div>
+ 
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>

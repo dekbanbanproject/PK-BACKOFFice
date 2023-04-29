@@ -71,6 +71,9 @@ public function permiss_save(Request $request)
         $update->permiss_ot = $request->input('permiss_ot'); 
         $update->permiss_p4p = $request->input('permiss_p4p'); 
         $update->permiss_timeer = $request->input('permiss_timeer'); 
+
+        $update->permiss_env = $request->input('permiss_env'); 
+        $update->permiss_account = $request->input('permiss_account'); 
         $update->save();    
         return response()->json([
             'status'     => '200'

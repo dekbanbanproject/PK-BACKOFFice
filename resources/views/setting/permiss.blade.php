@@ -67,7 +67,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="card ">
 
             <div class="row p-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="table-responsive">
                         <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example">
                             <thead>
@@ -101,9 +101,9 @@ $pos = strrpos($url, '/') + 1;
                     </div>
 
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
 
-                    <div class="row mt-2 me-3 mb-3 ms-3">
+                    <div class="row me-1 mb-1 ms-1">
 
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
@@ -111,7 +111,7 @@ $pos = strrpos($url, '/') + 1;
 
                                     <!-- Default checkbox -->
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-user-tie text-primary me-2 ms-2"></i>
+                                        <i class="fa-solid fa-user-tie text-primary"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_person"
                                             name="permiss_person" />
                                         <label class="form-check-label" for="permiss_person">บุคคลากร</label>
@@ -125,7 +125,7 @@ $pos = strrpos($url, '/') + 1;
 
                                     <!-- Default checkbox -->
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-book-open-reader text-secondary me-2 ms-2"></i>
+                                        <i class="fa-solid fa-book-open-reader text-secondary"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_book"
                                             name="permiss_book" />
                                         <label class="form-check-label" for="permiss_book">สารบรรณ</label>
@@ -138,7 +138,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-truck-medical text-info me-2 ms-2"></i>
+                                        <i class="fa-solid fa-truck-medical text-info"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_car"
                                             name="permiss_car" />
                                         <label class="form-check-label" for="permiss_car">ยานพาหนะ</label>
@@ -151,7 +151,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-house-laptop text-success me-2 ms-2"></i>
+                                        <i class="fa-solid fa-house-laptop text-success"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_meetting"
                                             name="permiss_meetting" />
                                         <label class="form-check-label" for="permiss_meetting">ห้องประชุม</label>
@@ -161,16 +161,16 @@ $pos = strrpos($url, '/') + 1;
 
                         </div>
 
-                    </div>
+                    {{-- </div> --}}
 
 
-                    <div class="row mt-2 me-3 mb-3 ms-3">
+                    {{-- <div class="row me-1 mb-1 ms-1"> --}}
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-screwdriver-wrench text-info me-2 ms-2"></i>
+                                        <i class="fa-solid fa-screwdriver-wrench text-info"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_repair"
                                             name="permiss_repair" />
                                         <label class="form-check-label" for="permiss_repair">ซ่อมบำรุง</label>
@@ -183,7 +183,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-computer text-secondary me-2 ms-2"></i>
+                                        <i class="fa-solid fa-computer text-secondary"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_com"
                                             name="permiss_com" />
                                         <label class="form-check-label" for="permiss_com">คอมพิวเตอร์</label>
@@ -196,7 +196,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-pump-medical text-warning me-1 ms-1"></i>
+                                        <i class="fa-solid fa-pump-medical text-warning"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_medical" name="permiss_medical" />
                                         <label class="form-check-label" for="permiss_medical">เครื่องมือแพทย์</label>
@@ -209,7 +209,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-house-chimney-user text-info me-2 ms-2"></i>
+                                        <i class="fa-solid fa-house-chimney-user text-info"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_hosing" name="permiss_hosing" />
                                         <label class="form-check-label" for="permiss_hosing">บ้านพัก</label>
@@ -218,17 +218,17 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
 
-                    </div>
+                    {{-- </div> --}}
 
 
-                    <div class="row mt-3 me-3 mb-3 ms-3">
+                    {{-- <div class="row me-1 mb-1 ms-1"> --}}
 
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-clipboard text-danger me-2 ms-2"></i>
+                                        <i class="fa-solid fa-clipboard text-danger"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_plan"
                                             name="permiss_plan" />
                                         <label class="form-check-label" for="permiss_plan">แผนงาน</label>
@@ -241,7 +241,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-building-shield text-secondary me-2 ms-2"></i>
+                                        <i class="fa-solid fa-building-shield text-secondary"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_asset" name="permiss_asset" />
                                         <label class="form-check-label" for="permiss_asset">ทรัพย์สิน</label>
@@ -254,7 +254,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-paste text-success me-2 ms-2"></i>
+                                        <i class="fa-solid fa-paste text-success"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_supplies" name="permiss_supplies" />
                                         <label class="form-check-label" for="permiss_supplies">พัสดุ</label>
@@ -267,7 +267,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-shop-lock text-primary me-2 ms-2"></i>
+                                        <i class="fa-solid fa-shop-lock text-primary"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_store" name="permiss_store" />
                                         <label class="form-check-label" for="permiss_store">คลังวัสดุ</label>
@@ -276,16 +276,16 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
 
-                    </div>
+                    {{-- </div> --}}
 
-                    <div class="row mt-3 me-3 mb-3 ms-3">
+                    {{-- <div class="row me-1 mb-1 ms-1"> --}}
 
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-prescription text-success me-2 ms-2"></i>
+                                        <i class="fa-solid fa-prescription text-success"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_store_dug" name="permiss_store_dug" />
                                         <label class="form-check-label" for="permiss_store_dug">คลังยา</label>
@@ -298,7 +298,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-person-booth text-danger me-2 ms-2"></i>
+                                        <i class="fa-solid fa-person-booth text-danger"></i>
                                         <input class="form-check-input" type="checkbox" value="" id="permiss_pay"
                                             name="permiss_pay" />
                                         <label class="form-check-label" for="permiss_pay">จ่ายกลาง</label>
@@ -311,7 +311,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-file-invoice-dollar text-warning me-2 ms-2"></i>
+                                        <i class="fa-solid fa-file-invoice-dollar text-warning"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_money" name="permiss_money" />
                                         <label class="form-check-label" for="permiss_money">การเงิน</label>
@@ -324,7 +324,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-sack-dollar text-danger me-2 ms-2"></i>
+                                        <i class="fa-solid fa-sack-dollar text-danger"></i>
                                         <input class="form-check-input" type="checkbox" value=""
                                             id="permiss_claim" name="permiss_claim" />
                                         <label class="form-check-label" for="permiss_claim">งานประกัน</label>
@@ -333,14 +333,15 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
 
-                    </div>
-                    <div class="row mt-3 me-3 mb-3 ms-3">
+                    {{-- </div> --}}
+
+                    {{-- <div class="row me-1 mb-1 ms-1"> --}}
                         <div class="col-4 col-md-3 col-xl-3">
                             <div class="card">
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-square-person-confined me-2 ms-2" style="color: rgb(159, 9, 197)"></i>
+                                        <i class="fa-solid fa-square-person-confined" style="color: rgb(159, 9, 197)"></i>
                                         <input class="form-check-input" type="checkbox"
                                             id="permiss_medicine" name="permiss_medicine" />
                                         <label class="form-check-label" for="permiss_medicine">แพทย์แผนไทย</label>
@@ -353,7 +354,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-solid fa-people-line me-2 ms-2" style="color: rgb(9, 106, 197)"></i>
+                                        <i class="fa-solid fa-solid fa-people-line" style="color: rgb(9, 106, 197)"></i>
                                         <input class="form-check-input" type="checkbox" id="permiss_ot"
                                             name="permiss_ot" />
                                         <label class="form-check-label" for="permiss_ot">โอที</label>
@@ -366,7 +367,7 @@ $pos = strrpos($url, '/') + 1;
                                 <div class="card-body shadow-lg">
 
                                     <div class="form-check mt-2">
-                                        <i class="fa-solid fa-solid fa-hospital-user me-2 ms-2" style="color: rgb(170, 7, 97)"></i>
+                                        <i class="fa-solid fa-solid fa-hospital-user" style="color: rgb(170, 7, 97)"></i>
                                         <input class="form-check-input" type="checkbox" id="permiss_gleave"
                                             name="permiss_gleave" />
                                         <label class="form-check-label" for="permiss_gleave">ระบบการลา</label>
@@ -378,10 +379,10 @@ $pos = strrpos($url, '/') + 1;
                             <div class="card">
                                 <div class="card-body shadow-lg"> 
                                     <div class="form-check mt-2"> 
-                                        <i class="fa-solid fa-p text-primary"></i> <i class="fa-solid fa-4 text-primary"></i><i class="fa-solid fa-p text-primary"></i>
+                                        <i class="fa-solid fa-p text-primary"></i><i class="fa-solid fa-4 text-primary"></i><i class="fa-solid fa-p text-primary"></i>
                                         <input class="form-check-input" type="checkbox" id="permiss_p4p"
                                             name="permiss_p4p" />
-                                        <label class="form-check-label ms-3" for="permiss_p4p">P4P</label>
+                                        <label class="form-check-label ms-3" for="permiss_p4p">งาน P4P</label>
                                     </div>
                                 </div>
                             </div>
@@ -391,7 +392,7 @@ $pos = strrpos($url, '/') + 1;
                             <div class="card">
                                 <div class="card-body shadow-lg"> 
                                     <div class="form-check mt-2"> 
-                                        <i class="fa-regular fa-clock text-primary me-2 ms-2"></i>  
+                                        <i class="fa-regular fa-clock text-primary"></i>  
                                         <input class="form-check-input" type="checkbox" id="permiss_timeer"
                                             name="permiss_timeer"/>
                                         <label class="form-check-label" for="permiss_timeer">ระบบลงเวลา</label> 
@@ -399,6 +400,33 @@ $pos = strrpos($url, '/') + 1;
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-hand-holding-droplet" style="color: rgb(9, 169, 197)"></i> 
+                                    
+                                        <input class="form-check-input" type="checkbox" id="permiss_env"
+                                            name="permiss_env"/>
+                                        <label class="form-check-label" for="permiss_env">ระบบ ENV</label> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-3 col-xl-3">
+                            <div class="card">
+                                <div class="card-body shadow-lg"> 
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(109, 105, 107)"></i>  
+                                        <input class="form-check-input" type="checkbox" id="permiss_account"
+                                            name="permiss_account"/>
+                                        <label class="form-check-label" for="permiss_account">การบัญชี</label> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

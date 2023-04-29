@@ -67,6 +67,12 @@ return new class extends Migration
             $table->string('permiss_medicine')->nullable();
             $table->string('permiss_gleave')->nullable();
             $table->string('permiss_p4p')->nullable();
+
+            $table->string('permiss_timeer')->nullable();
+            $table->string('permiss_env')->nullable();
+            $table->string('permiss_account')->nullable();
+            // $table->string('permiss_')->nullable();
+
             $table->string('store_id')->nullable();
             $table->string('member_id')->nullable();
             $table->string('img')->nullable();
