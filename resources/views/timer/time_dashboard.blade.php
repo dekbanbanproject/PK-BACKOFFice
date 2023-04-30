@@ -94,22 +94,20 @@
                                             <p class="text-start mb-4" style="font-size: 25px">จำนวนที่ลงเวลาทั้งหมด</p>
                                             <h1 class="text-start text-danger mb-2">{{ $dep_count_all }} / {{$per}} คน</h1>
                                         </div>
-                                        <div class="avatar-sm me-2 me-2" style="height: 150px">
-                                            {{-- <div class="avatar-sm me-2" style="height: 100px"> --}}
-                                            {{-- <a href=""> --}}
+                                        <div class="avatar-sm me-2 me-2" style="height: 150px"> 
                                                 <span class="avatar-title bg-light mt-3" style="height: 70px">
-                                                    {{-- <span class="avatar-title bg-light text-primary rounded-3" > --}}
+                                                  
                                                     <p style="font-size: 10px;">
                                                         <button type="button" style="height: 100px;width: 100px"
                                                             class="mt-5 mb-3 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
-                                                            {{-- <i class="pe-7s-search btn-icon-wrapper font-size-24 mt-1"></i> --}}
+                                                           
                                                             <i class="fa-solid fa-3x fa-building-user text-danger"></i>
                                                             <br><br>
                                                             Detail
                                                         </button>
                                                     </p>
                                                 </span>
-                                            {{-- </a> --}}
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -121,38 +119,34 @@
             <div class="col"></div>
         </div>
         <div class="row">
-
             @foreach ($department as $item)
                 <?php
-                $dep_count_ = DB::connection('mysql6')->select(
-                    ' 
-                                SELECT COUNT(DISTINCT p.ID) as CountID
-                                    FROM checkin_index c
-                                    LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
-                                    LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                    LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID = p.HR_DEPARTMENT_ID
-                                    LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                    LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
+                    $dep_count_ = DB::connection('mysql6')->select(' 
+                            SELECT COUNT(DISTINCT p.ID) as CountID
+                                FROM checkin_index c
+                                LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
+                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID = p.HR_DEPARTMENT_ID
+                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID                                    
+                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                                LEFT JOIN hrd_position hp on hp.HR_POSITION_ID=p.HR_POSITION_ID
+                                WHERE c.CHEACKIN_DATE = CURDATE()
+                                AND h.HR_DEPARTMENT_ID = "' . $item->HR_DEPARTMENT_ID . '"
                                     
-                                    LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                    LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                    LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                    LEFT JOIN hrd_position hp on hp.HR_POSITION_ID=p.HR_POSITION_ID
-                                    WHERE c.CHEACKIN_DATE = CURDATE()
-                                    AND h.HR_DEPARTMENT_ID = "' . $item->HR_DEPARTMENT_ID . '"
-                                  
-                            ',
-                );
-                foreach ($dep_count_ as $key => $value) {
-                    $dep_count = $value->CountID;
-                }
-                $perdep_ = DB::connection('mysql6')->select('
-                    SELECT COUNT(DISTINCT ID) as ccd
-                    FROM hrd_person WHERE HR_STATUS_ID ="1" AND HR_DEPARTMENT_ID = "' . $item->HR_DEPARTMENT_ID . '"           
-                ');
-                foreach ($perdep_ as $key => $value2) {
-                    $perdep = $value2->ccd;
-                }
+                    ',);
+                    foreach ($dep_count_ as $key => $value) {
+                        $dep_count = $value->CountID;
+                    }
+                    $perdep_ = DB::connection('mysql6')->select('
+                        SELECT COUNT(DISTINCT ID) as ccd
+                        FROM hrd_person WHERE HR_STATUS_ID ="1" AND HR_DEPARTMENT_ID = "' . $item->HR_DEPARTMENT_ID . '"           
+                    ');
+                    foreach ($perdep_ as $key => $value2) {
+                        $perdep = $value2->ccd;
+                    }
                 ?>
 
                 <div class="col-xl-4 col-md-3">
@@ -173,7 +167,7 @@
                                                         <p style="font-size: 10px;">
                                                             <button type="button" style="height: 100px;width: 100px"
                                                                 class="mt-4 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
-                                                                {{-- <i class="pe-7s-search btn-icon-wrapper font-size-24 mt-3"></i> --}}
+                                                            
                                                                     <i class="fa-solid fa-people-group font-size-24"></i>   <br> 
                                                                 Detail
                                                             </button>
@@ -196,7 +190,13 @@
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card shadow-lg">
                     <div class="card-header">
-                        ลงเวลาเข้า-ออก      
+                        ลงเวลาเข้า-ออกทั้งหมด      
+                        <div class="btn-actions-pane-right">
+                            <a href="{{url('time_dashboard_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                <i class="fa-solid fa-file-excel me-2"></i>
+                                Export To Excel
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive mt-3">
@@ -206,6 +206,7 @@
                                         <th>ลำดับ</th> 
                                         <th>วันที่</th>
                                         <th>ชื่อ-นามสกุล</th>
+                                        <th>หน่วยงาน</th> 
                                         <th>เวลาเข้า</th> 
                                         <th>เวลาออก</th> 
                                         <th>ประเภท</th> 
@@ -217,8 +218,9 @@
                                         
                                         <tr>
                                             <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->CHEACKIN_DATE }}</td> 
-                                            <td>{{ $item->hrname }}</td>   
+                                            <td>{{ dateThaifromFull($item->CHEACKIN_DATE) }}</td> 
+                                            <td>{{ $item->hrname }}</td> 
+                                            <td>{{ $item->HR_DEPARTMENT_SUB_SUB_NAME }}</td>   
                                             <td>{{ $item->CHEACKINTIME }}</td>  
                                             <td>{{ $item->CHEACKOUTTIME }}</td>  
                                             <td>{{ $item->OPERATE_TYPE_NAME }}</td>   
@@ -231,21 +233,10 @@
                 
                     </div>
                 </div>
-            </div>  
-            {{-- <div class="col-md-4"> 
-                <div class="main-card mb-3 card shadow-lg">
-                    <div class="card-header">
-                        ลงเวลาเข้า-ออก      
-                    </div>
-                    <div class="card-body">
-
-                    </div>
-                </div>
-            </div>            --}}
+            </div>   
         </div>
 
     </div>
-
 
 
     </div>

@@ -13,6 +13,7 @@ use App\Models\Operate_time;
 use App\Models\Hrd_person;
 use App\Models\m_registerdata;
 use PDF;
+use Auth;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
 use Illuminate\Support\Facades\File;
@@ -302,7 +303,7 @@ class TimerController extends Controller
                 ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
                 ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
                 ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,hp.HR_POSITION_NAME 
-                ,ot.OPERATE_TYPE_NAME 
+                ,ot.OPERATE_TYPE_NAME,d.HR_DEPARTMENT_SUB_SUB_NAME  
                 FROM checkin_index c
                 LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
                 LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
@@ -334,6 +335,46 @@ class TimerController extends Controller
             'per'     =>  $per
         ]);
     }
+    public function time_dashboard_excel(Request $request)
+    {  
+        $deb = Auth::user()->dep_id;  
+        $debsub = Auth::user()->dep_subid; 
+        $debsubsub = Auth::user()->dep_subsubtrueid; 
+        $debname_ = DB::connection('mysql6')->table('hrd_department')->where('HR_DEPARTMENT_ID', '=', $deb)->first();
+        $debsubname_ = DB::connection('mysql6')->table('hrd_department_sub')->where('HR_DEPARTMENT_SUB_ID', '=', $debsub)->first();
+        $debsubsubname_ = DB::connection('mysql6')->table('hrd_department_sub_sub')->where('HR_DEPARTMENT_SUB_SUB_ID', '=', $debsubsub)->first();
+        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
+
+        $export = DB::connection('mysql6')->select(' 
+            SELECT p.ID,c.CHEACKIN_DATE
+                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,hp.HR_POSITION_NAME 
+                ,ot.OPERATE_TYPE_NAME,d.HR_DEPARTMENT_SUB_SUB_NAME 
+                FROM checkin_index c
+                LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
+                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID = p.HR_DEPARTMENT_ID
+                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID = p.HR_DEPARTMENT_SUB_SUB_ID
+                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                LEFT JOIN hrd_position hp on hp.HR_POSITION_ID=p.HR_POSITION_ID
+                WHERE c.CHEACKIN_DATE = CURDATE()        
+                GROUP BY c.CHECKIN_PERSON_ID
+                ORDER BY CHEACKINTIME DESC           
+        ');
+ 
+        return view('timer.time_dashboard_excel', [ 
+            'export'        =>  $export,
+            'debname'          => $debname_->HR_DEPARTMENT_NAME,
+            'debsubname'       => $debsubname_->HR_DEPARTMENT_SUB_NAME,  
+            'debsubsubname'    => $debsubsubname_->HR_DEPARTMENT_SUB_SUB_NAME,
+            'org'              => $org_->orginfo_name,  
+            
+        ]);
+    }
     public function time_dashboard_detail(Request $request,$id)
     {  
             $dep_show_all_ = DB::connection('mysql6')->select(' 
@@ -358,7 +399,7 @@ class TimerController extends Controller
                     ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
                     ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
                     ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,hp.HR_POSITION_NAME 
-                    ,ot.OPERATE_TYPE_NAME 
+                    ,ot.OPERATE_TYPE_NAME,d.HR_DEPARTMENT_SUB_SUB_NAME 
                     FROM checkin_index c
                     LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
                     LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
@@ -374,9 +415,64 @@ class TimerController extends Controller
                     GROUP BY c.CHECKIN_PERSON_ID
                     ORDER BY CHEACKINTIME DESC           
             ');
+            $dep_ = DB::connection('mysql6')->select('
+                SELECT * FROM hrd_department WHERE HR_DEPARTMENT_ID = "'.$id.'"            
+            ');
+            foreach ($dep_ as $key => $val) {
+                $dep = $val->HR_DEPARTMENT_NAME;
+            }
         return view('timer.time_dashboard_detail', [ 
-            'dep_show_all' =>  $dep_show_all_,
-            'datashow_'     =>  $datashow_
+            'dep_show_all'  =>  $dep_show_all_,
+            'datashow_'     =>  $datashow_,
+            'dep'           =>  $dep,
+            'id'            =>  $id
+        ]);
+    }
+    public function time_dashboard_detail_excel(Request $request,$id)
+    {  
+        $deb = Auth::user()->dep_id;  
+        $debsub = Auth::user()->dep_subid; 
+        $debsubsub = Auth::user()->dep_subsubtrueid; 
+        $debname_ = DB::connection('mysql6')->table('hrd_department')->where('HR_DEPARTMENT_ID', '=', $deb)->first();
+        $debsubname_ = DB::connection('mysql6')->table('hrd_department_sub')->where('HR_DEPARTMENT_SUB_ID', '=', $debsub)->first();
+        $debsubsubname_ = DB::connection('mysql6')->table('hrd_department_sub_sub')->where('HR_DEPARTMENT_SUB_SUB_ID', '=', $debsubsub)->first();
+        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
+
+        $export = DB::connection('mysql6')->select(' 
+            SELECT p.ID,c.CHEACKIN_DATE
+                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,hp.HR_POSITION_NAME 
+                ,ot.OPERATE_TYPE_NAME,d.HR_DEPARTMENT_SUB_SUB_NAME 
+                FROM checkin_index c
+                LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
+                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID = p.HR_DEPARTMENT_ID
+                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID = p.HR_DEPARTMENT_SUB_SUB_ID
+                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                LEFT JOIN hrd_position hp on hp.HR_POSITION_ID=p.HR_POSITION_ID
+                WHERE c.CHEACKIN_DATE = CURDATE()  
+                AND h.HR_DEPARTMENT_ID ="'.$id.'" 
+                GROUP BY c.CHECKIN_PERSON_ID
+                ORDER BY CHEACKINTIME DESC           
+        ');
+        $dep_ = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department WHERE HR_DEPARTMENT_ID = "'.$id.'"            
+        ');
+        foreach ($dep_ as $key => $val) {
+            $depname = $val->HR_DEPARTMENT_NAME;
+        }
+ 
+        return view('timer.time_dashboard_detail_excel', [ 
+            'export'        =>  $export,
+            'debname'          => $debname_->HR_DEPARTMENT_NAME,
+            'debsubname'       => $debsubname_->HR_DEPARTMENT_SUB_NAME,  
+            'debsubsubname'    => $debsubsubname_->HR_DEPARTMENT_SUB_SUB_NAME,
+            'org'              => $org_->orginfo_name,  
+            'depname'        =>  $depname,
         ]);
     }
     public function time_dashboard_detail_sub(Request $request,$id)
@@ -419,10 +515,67 @@ class TimerController extends Controller
                     GROUP BY c.CHECKIN_PERSON_ID
                     ORDER BY CHEACKINTIME DESC           
             ');
+            $depsub_ = DB::connection('mysql6')->select('
+                SELECT * FROM hrd_department_sub WHERE HR_DEPARTMENT_SUB_ID = "'.$id.'"            
+            ');
+            foreach ($depsub_ as $key => $val) {
+                $depsub = $val->HR_DEPARTMENT_SUB_NAME;
+            }
              
         return view('timer.time_dashboard_detail_sub', [ 
-            'depsub_show_all' =>  $depsub_show_all_,
-            'datashow_'     =>  $datashow_
+            'depsub_show_all'  =>  $depsub_show_all_,
+            'datashow_'        =>  $datashow_,
+            'depsub'           =>  $depsub,
+            'id'               =>  $id
+        ]);
+    }
+    public function time_dashboard_detail_subexcel(Request $request,$id)
+    {  
+        $deb = Auth::user()->dep_id;  
+        $debsub = Auth::user()->dep_subid; 
+        $debsubsub = Auth::user()->dep_subsubtrueid; 
+        $debname_ = DB::connection('mysql6')->table('hrd_department')->where('HR_DEPARTMENT_ID', '=', $deb)->first();
+        $debsubname_ = DB::connection('mysql6')->table('hrd_department_sub')->where('HR_DEPARTMENT_SUB_ID', '=', $debsub)->first();
+        $debsubsubname_ = DB::connection('mysql6')->table('hrd_department_sub_sub')->where('HR_DEPARTMENT_SUB_SUB_ID', '=', $debsubsub)->first();
+        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
+
+        $export = DB::connection('mysql6')->select(' 
+            SELECT p.ID,c.CHEACKIN_DATE
+                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,hp.HR_POSITION_NAME 
+                ,ot.OPERATE_TYPE_NAME,d.HR_DEPARTMENT_SUB_SUB_NAME 
+                FROM checkin_index c
+                LEFT JOIN checkin_type ct on ct.CHECKIN_TYPE_ID=c.CHECKIN_TYPE_ID
+                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID = p.HR_DEPARTMENT_ID
+                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID = p.HR_DEPARTMENT_SUB_SUB_ID
+                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                LEFT JOIN hrd_position hp on hp.HR_POSITION_ID=p.HR_POSITION_ID
+                WHERE c.CHEACKIN_DATE = CURDATE()  
+                AND hs.HR_DEPARTMENT_SUB_ID ="'.$id.'" 
+                GROUP BY c.CHECKIN_PERSON_ID
+                ORDER BY CHEACKINTIME DESC    
+                       
+                พร้อมเพย์0973435546 444 พินโย
+        ');
+        $depsub_ = DB::connection('mysql6')->select('
+                SELECT * FROM hrd_department_sub WHERE HR_DEPARTMENT_SUB_ID = "'.$id.'"            
+        ');
+        foreach ($depsub_ as $key => $val) {
+            $depsubname = $val->HR_DEPARTMENT_SUB_NAME;
+        }
+ 
+        return view('timer.time_dashboard_detail_subexcel', [ 
+            'export'        =>  $export,
+            'debname'          => $debname_->HR_DEPARTMENT_NAME,
+            'debsubname'       => $debsubname_->HR_DEPARTMENT_SUB_NAME,  
+            'debsubsubname'    => $debsubsubname_->HR_DEPARTMENT_SUB_SUB_NAME,
+            'org'              => $org_->orginfo_name,  
+            'depsubname'       =>  $depsubname,
         ]);
     }
     public function time_dashboard_detail_sub_person(Request $request,$id)

@@ -60,7 +60,7 @@
     }
     .headerZ{
         z-index: 1;
-        background:linear-gradient(-45deg,red,rgb(201, 241, 154),rgb(184, 230, 226),rgb(238, 238, 107));
+        background:linear-gradient(-45deg,rgb(253, 89, 89),rgb(201, 241, 154),rgb(184, 230, 226),rgb(238, 238, 107));
         background-size: 400% 400%;
         width: 100%;
         height: 100vh;
@@ -77,44 +77,11 @@
             background-position: 0 50%;
         }
     } 
-    /* .myTable thead tr{
-    background-color: #6e6d6e;
-    color: #ffffff;
-    text-align: center;
-    }
-    .myTable th .myTable td{
-        padding: 12px 15px;
-    }
-    .myTable tbody tr{
-        border-bottom: 1px solid #6e6d6e;
-    }
-    .myTable tbody td{
-        font-size:15px;
-    }
-    .myTable tbody tr:nth-of-type(even){
-        background-color: #f4e1f7;
-    }
-    .myTable tbody tr:last-of-type{
-        border-bottom: 3px solid #ccbcd1;
-    }
-    .myTable tbody tr .active-row{
-        color: #ccbcd1;
-    } */
+    
 </style>
 
 <body data-topbar="dark">
-
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-
-    <!-- Loader -->
-    {{-- <div id="preloader">
-        <div id="status">
-            <div class="spinner">
-                <i class="ri-loader-line spin-icon"></i>
-            </div>
-        </div>
-    </div> --}}
-
+ 
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -208,9 +175,7 @@
                             </form>
                         </div>
                     </div>
-
-
-
+ 
                     <div class="dropdown d-inline-block user-dropdown">
 
                     </div>
@@ -230,8 +195,7 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">งานบริหารบุคคล</li> 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                {{-- <i class="fa-solid fa-user-tie text-danger"></i> --}}
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-regular fa-clock text-danger"></i>
                                 <span>ระบบลงเวลา</span>
                             </a>
@@ -241,149 +205,7 @@
                                 <li><a href="{{ url('user_timeindex_day') }}">เวลาเข้า-ออก (รายวัน)</a></li>
                             </ul>
                         </li>  
-                        {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-user-tie text-danger"></i>
-                                <span>ข้อมูลการลา</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user/gleave_data_sick') }}">ลาป่วย</a></li>  
-                                <li><a href="{{ url('user/gleave_data_vacation') }}">ลาพักผ่อน</a></li> 
-                                <li><a href="{{ url('user/gleave_data_study') }}">ลาศึกษา ฝึกอบรม</a></li> 
-                                <li><a href="{{ url('user/gleave_data_work') }}">ลาทำงานต่างประเทศ</a></li> 
-                                <li><a href="{{ url('user/gleave_data_occupation') }}">ลาฟื้นฟูอาชีพ</a></li> 
-                                <li><a href="{{ url('user/gleave_data_soldier') }}">ลาเกณฑ์ทหาร</a></li> 
-                                <li><a href="{{ url('user/gleave_data_helpmaternity') }}">ลาช่วยภริยาคลอด</a></li> 
-                                <li><a href="{{ url('user/gleave_data_maternity') }}">ลาคลอดบุตร</a></li> 
-                                <li><a href="{{ url('user/gleave_data_spouse') }}">ลาติดตามคู่สมรส</a></li> 
-                            </ul>
-                        </li>                        
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-user-tie text-danger"></i>
-                                <span>ข้อมูล OT</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user_otone') }}">บันทึก OT</a></li> 
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-user-tie text-danger"></i>
-                                <span>ประชุม/อบรม/ดูงาน</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user/persondev_index/'.Auth::user()->id)}}">ประชุมภายนอก</a></li> 
-                                <li><a href="{{ url('user/persondev_inside/'.Auth::user()->id)}}">ประชุมภายใน</a></li>     
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">   
-                                <i class="fa-solid fa-house-chimney-user text-danger"></i>
-                                <span>บ้านพัก</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user/house_detail/' . Auth::user()->id) }}">ข้อมูลบ้านพัก</a></li> 
-                                <li><a href="{{ url('user/house_petition/' . Auth::user()->id) }}">ยื่นคำร้อง</a></li> 
-                                <li><a href="{{ url('user/house_problem/' . Auth::user()->id) }}">แจ้งปัญหา</a></li>     
-                            </ul>
-                        </li>
-                        <li class="menu-title">งานบริหารทั่วไป</li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">   
-                                <i class="fa-solid fa-p text-danger"></i> 
-                                <span>P4P</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('p4p_dashboarduser') }}">Dashboard</a></li> 
-                                <li><a href="{{ url('p4p_user') }}">บันทึก P4P</a></li> 
-                                <li><a href="{{ url('workgroupset') }}">หมวดภาระงาน</a></li> 
-                                <li><a href="{{ url('workset') }}">รายการภาระงาน</a></li>    
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-book-medical text-danger"></i>
-                                <span>สารบรรณ</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user/book_inside/' . Auth::user()->id) }}">หนังสือเข้า</a></li>     
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-people-roof text-danger"></i>
-                                <span>ห้องประชุม</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user_meetting/meetting_calenda') }}">ปฎิทินการใช้ห้องประชุม</a></li>     
-                                <li><a href="{{ url('user_meetting/meetting_index') }}">ช้อมูลการจองห้องประชุม</a></li>  
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-car-side text-danger"></i>
-                                <span>จองรถ</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user_car/car_calenda/' . Auth::user()->id) }}">ปฎิทินการใช้รถ</a></li>     
-                                <li><a href="{{ url('user_car/car_narmal/' . Auth::user()->id) }}">ช้อมูลการการใช้รถทั่วไป</a></li> 
-                                <li><a href="{{ url('user_car/car_ambulance/' . Auth::user()->id) }}">ช้อมูลการการใช้รถพยาบาล</a></li>  
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">   
-                                <i class="fa-solid fa-desktop text-danger"></i>
-                                <span>แจ้งซ่อมคอมพิวเตอร์</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user_com/repair_com_calenda') }}">ปฎิทินการแจ้งซ่อมคอมพิวเตอร์</a></li>     
-                                <li><a href="{{ url('user_com/repair_com') }}">ทะเบียนซ่อมคอมพิวเตอร์</a></li> 
-                                <li><a href="{{ url('user_com/repair_com_add') }}">แจ้งซ่อมคอมพิวเตอร์</a></li>  
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">   
-                                <i class="fa-solid fa-screwdriver-wrench text-danger"></i>
-                                <span>แจ้งซ่อมทั่วไป</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user_com/repair_com_calenda') }}">ปฎิทินการแจ้งซ่อมทั่วไป</a></li>     
-                                <li><a href="{{ url('user_com/repair_com') }}">ทะเบียนซ่อมทั่วไป</a></li> 
-                                <li><a href="{{ url('user_com/repair_com_add') }}">แจ้งซ่อมทั่วไป</a></li>  
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-building-shield text-danger"></i>
-                                <span>งานทรัพย์สิน</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user_article') }}">ทะเบียนทรัพย์สิน</a></li>     
-                                <li><a href="{{ url('user_article_borrow') }}">ทะเบียนยืม</a></li> 
-                                <li><a href="{{ url('user_article_return') }}">ทะเบียนคืน</a></li>  
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-paste text-danger"></i>
-                                <span>งานพัสดุ</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user/supplies_data/' . Auth::user()->id) }}">รายการจัดซื้อ-จัดจ้าง</a></li>     
-                                <li><a href="{{ url('user/supplies_data_add/' . Auth::user()->id) }}">ขอจัดซื้อ-จัดจ้าง</a></li>  
-                            </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-shop-lock text-danger"></i>
-                                <span>คลังวัสดุ</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('user_ware/warehouse_stock_sub') }}">รายการคลังวัสดุ</a></li>     
-                                <li><a href="{{ url('user_ware/warehouse_stock_sub_add') }}">ขอเบิกคลังวัสดุ</a></li>  
-                            </ul>
-                        </li>  --}}
+                        
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -431,7 +253,7 @@
         <!-- ============================================================== -->
         <div class="main-content">
 
-            <div class="page-content">
+            <div class="page-content headerZ">
 
                 @yield('content')
 

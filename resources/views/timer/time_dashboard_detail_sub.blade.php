@@ -102,6 +102,13 @@
                 foreach ($depsubsub_count_ as $key => $value) {
                     $depsubsub_count = $value->CountID;
                 }
+                $perdep_ = DB::connection('mysql6')->select('
+                        SELECT COUNT(DISTINCT ID) as ccd
+                        FROM hrd_person WHERE HR_STATUS_ID ="1" AND HR_DEPARTMENT_SUB_SUB_ID = "' . $item->HR_DEPARTMENT_SUB_SUB_ID . '"           
+                    ');
+                    foreach ($perdep_ as $key => $value2) {
+                        $perdep = $value2->ccd;
+                    }
             ?>  
                       
                 <div class="col-xl-4 col-md-3">
@@ -113,7 +120,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">                                                    
                                                     <p class="text-start mb-2" style="font-size: 17px">{{$item->HR_DEPARTMENT_SUB_SUB_NAME}}</p>   
-                                                    <h3 class="text-start mb-2 text-primary">{{$depsubsub_count}} คน</h3>                                                         
+                                                    <h3 class="text-start mb-2 text-primary">{{$depsubsub_count}} / {{$perdep}} คน</h3>                                                         
                                                 </div>    
                                                 <div class="avatar-sm me-2" style="height: 120px">
                                                     <a href="{{url('time_dashboard_detail_sub_person/'.$item->HR_DEPARTMENT_SUB_SUB_ID)}}" target="_blank">
@@ -143,7 +150,14 @@
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card shadow-lg">
                     <div class="card-header">
-                        ลงเวลาเข้า-ออก      
+                        ลงเวลาเข้า-ออก  {{$depsub}}   
+                        <div class="btn-actions-pane-right">
+                            <a href="{{ url('time_dashboard_detail_subexcel/'.$id) }}"
+                                class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                <i class="fa-solid fa-file-excel me-2"></i>
+                                Export To Excel
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive mt-3">

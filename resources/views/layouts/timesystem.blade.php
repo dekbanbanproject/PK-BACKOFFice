@@ -51,7 +51,7 @@
    <link rel="stylesheet"
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
-<link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
   
 
@@ -61,7 +61,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(252, 252, 252)">
+            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)">
               
 
                 <div class="d-flex">
@@ -69,10 +69,10 @@
                     <div class="navbar-brand-box">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
+                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
+                                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20">
                             </span>
                         </a>
 
@@ -124,33 +124,14 @@
         </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu">
+        <div class="vertical-menu" style="background-color: rgb(128, 216, 209)">
 
-            <div data-simplebar class="h-100" style="background-color: rgb(128, 216, 209)">
+            <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
-                <div id="sidebar-menu">
-                    <!-- Left Menu Start -->
-                    {{-- <ul class="metismenu list-unstyled" id="side-menu"> --}}
-                        <ul class="metismenu list-unstyled" id="side-menu" style="background-color: rgb(128, 216, 209)">
-                        {{-- <li class="menu-title" style="color: white">Menu</li> --}}
-                        {{-- <li>
-                            <a href="{{ url('time_dashboard') }}">  
-                                <i class="fa-solid fa-gauge-high text-white"></i>
-                                <span style="color: white">Dashboard</span>
-                            </a> 
-                        </li>  --}}
-                        {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-clipboard-user text-white"></i>
-                                <span style="color: white">ระบบลงเวลา</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('time_index') }}" style="color: white">เวลาเข้า-ออก</a></li> 
-                                
-                            </ul>
-                        </li> --}}
-
+                <div id="sidebar-menu"> 
+                        <ul class="metismenu list-unstyled" id="side-menu" >
+                    
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('time_dashboard') }}">  
@@ -165,7 +146,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('time_index') }}">เวลาเข้า-ออก (backoffice)</a></li>
-                                <li><a href="{{ url('time_index_nurh') }}">เวลาเข้า-ออก (Nurh)</a></li>
+                                <li><a href="{{ url('time_index_nurh') }}">เวลาเข้า-ออก (Nurs)</a></li>
                                 <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li>
                             </ul>
                         </li>
@@ -201,7 +182,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - งานประกันสุขภาพ
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>

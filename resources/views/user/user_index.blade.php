@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.userdashboard')
 @section('title', 'PKClaim || ผู้ใช้งานทั่วไป')
 
 @section('content')
@@ -17,17 +17,7 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
-    
-    // $NAME_USER = Auth::user()->name;
-    //   $url = Request::url();
-    //   $pos = strrpos($url, '/') + 1;
-    
-    // if($status=='ADMIN'){
-    //     $user_id = substr($url, $pos);
-    // }else{
-    //     $user_id = $iduser;
-    // }
-    
+     
     use App\Http\Controllers\UsersuppliesController;
     use App\Http\Controllers\StaticController;
     use App\Models\Products_request_sub;

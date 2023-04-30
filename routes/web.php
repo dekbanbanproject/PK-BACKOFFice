@@ -152,8 +152,11 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'user_timeindex_day',[App\Http\Controllers\UserstimerController::class, 'user_timeindex_day'])->name('usertime.user_timeindex_day');// ระบบลงเวลา
 
   Route::match(['get','post'],'time_dashboard',[App\Http\Controllers\TimerController::class, 'time_dashboard'])->name('t.time_dashboard');// ระบบลงเวลา
+  Route::match(['get','post'],'time_dashboard_excel',[App\Http\Controllers\TimerController::class, 'time_dashboard_excel'])->name('t.time_dashboard_excel');// ระบบลงเวลา
   Route::match(['get','post'],'time_dashboard_detail/{id}',[App\Http\Controllers\TimerController::class, 'time_dashboard_detail'])->name('t.time_dashboard_detail');// ระบบลงเวลา
+  Route::match(['get','post'],'time_dashboard_detail_excel/{id}',[App\Http\Controllers\TimerController::class, 'time_dashboard_detail_excel'])->name('t.time_dashboard_detail_excel');// ระบบลงเวลา
   Route::match(['get','post'],'time_dashboard_detail_sub/{id}',[App\Http\Controllers\TimerController::class, 'time_dashboard_detail_sub'])->name('t.time_dashboard_detail_sub');// ระบบลงเวลา
+  Route::match(['get','post'],'time_dashboard_detail_subexcel/{id}',[App\Http\Controllers\TimerController::class, 'time_dashboard_detail_subexcel'])->name('t.time_dashboard_detail_subexcel');// ระบบลงเวลา
   Route::match(['get','post'],'time_dashboard_detail_sub_person/{id}',[App\Http\Controllers\TimerController::class, 'time_dashboard_detail_sub_person'])->name('t.time_dashboard_detail_sub_person');// ระบบลงเวลา
 
   Route::match(['get','post'],'time_index',[App\Http\Controllers\TimerController::class, 'time_index'])->name('t.time_index');// ระบบลงเวลา

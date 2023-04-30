@@ -171,7 +171,7 @@ if (Auth::check()) {
                     </select>
                     </div>
                 </div> 
-                <div class="col-md-2 me-2">  
+                <di v class="col-md-2 me-2">  
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                     </button>  
