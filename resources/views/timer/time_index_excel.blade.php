@@ -19,13 +19,43 @@
        $then = strtotime($birthday);
        return(floor((time()-$then)/31556926));
    }
+   $datenow = date("Y-m-d");
+    $y = date('Y') + 543;
+    $m_ = date('m');
+
+    if ( $m_ == '1') {
+        $m = 'มกราคม';
+    } else if( $m_ == '2'){
+        $m = 'กุมภาพันธ์';
+    } else if( $m_ == '3'){
+        $m = 'มีนาคม';
+    } else if( $m_ == '4'){
+        $m = 'เมษายน';
+    } else if( $m_ == '5'){
+        $m = 'พฤษภาคม';
+    } else if( $m_ == '6'){
+        $m = 'มิถุนายน';
+    } else if( $m_ == '7'){
+        $m = 'กรกฎาคม';
+    } else if( $m_ == '8'){
+        $m = 'สิงหาคม';
+    } else if( $m_ == '9'){
+        $m = 'กันยายน';
+    } else if( $m_ == '10'){
+        $m = 'ตุลาคม';
+    } else if( $m_ == '11'){
+        $m = 'พฤษจิกายน';
+    } else{
+        $m = 'ธันวาคม';  
+    }
    
    ?>
 <center>
     <br><br>
-   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>บัญชีรายชื่อการปฏิบัติงานลักษณะเป็นเวร/ผลัด</b></label><br>
-   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>กลุ่มงาน/งาน</b>  1010101   <b>กลุ่มภารกิจ </b>2020202</label><br>
-   <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>ประจำวันที่…………............เดือน…………………………………….…….พ.ศ…………..…..</b></label><br>
+    <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>บัญชีรายชื่อการปฏิบัติงาน </b>กลุ่มภารกิจ {{$debname}}</label><br>
+    <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>กลุ่มงาน/งาน</b>{{$debsubname}}<b>หน่วยงาน </b>{{$debsubsubname}}</label><br>
+    <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>{{$org}}</b></label><br>
+    <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"><b>ประจำเดือน…{{$m}}….พ.ศ…{{$y}}</b></label><br>
 </center>
    <br><br>
    <table class="table" style="width: 100%">
@@ -37,7 +67,7 @@
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;">ชื่อ-สกุล</th>
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="15%">เวลาเข้า</th>              
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="15%">เวลาออก</th> 
-               <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="10%">ชม.</th> 
+               <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="10%">ประเภท</th> 
            </tr>
        </thead>
        <tbody>
@@ -45,11 +75,11 @@
         @foreach ($export as $item) 
             <tr>
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="10%">{{ $i++ }} </td>
-                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="15%">{{ $item->operate_time_date }}</td>
-                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: left;border: 1px solid black;">{{ $item->operate_time_person }}</td>
-                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="15%">&nbsp;&nbsp;{{ $item->operate_time_in }}</td>
-                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="15%">{{ $item->operate_time_out }} </td> 
-                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="10%">{{ $item->totaltime_narmal }} </td> 
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="15%">{{ $item->CHEACKIN_DATE }}</td>
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: left;border: 1px solid black;">{{ $item->hrname }}</td>
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="15%">&nbsp;&nbsp;{{ $item->CHEACKINTIME }}</td>
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="15%">{{ $item->CHEACKOUTTIME }} </td> 
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="10%">{{ $item->OPERATE_TYPE_NAME }} </td> 
             </tr>
         @endforeach        
        </tbody> 

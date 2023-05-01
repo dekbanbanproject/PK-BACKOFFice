@@ -1,4 +1,4 @@
-@extends('layouts.pkclaim')
+@extends('layouts.otsystem')
 @section('title', 'PK-BACKOFFice || OT Report')
 @section('content')
 <script>

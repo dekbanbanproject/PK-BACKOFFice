@@ -160,14 +160,9 @@
                                                     <div class="row"> 
                                                         <div class="col-md-2 text-end">วันที่</div>
                                                         <div class="col-md-9 text-center">
-                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                                    data-date-language="th-th" value="{{ $start }}" />
-                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $end }}" />
                                                                 <button type="submit" class="btn btn-info">
                                                                     <i class="fa-solid fa-magnifying-glass"></i>
                                                                     ดึงข้อมูล
@@ -204,14 +199,9 @@
                                                     <div class="row"> 
                                                         <div class="col-md-2 text-end">วันที่</div>
                                                         <div class="col-md-9 text-center">
-                                                            <div class="input-daterange input-group" id="datepicker11" data-date-format="dd M, yyyy"
-                                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker'>
-                                                                <input type="text" class="form-control" name="startdate" id="datepicker3" placeholder="Start Date"
-                                                                    data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
-                                                                    data-date-language="th-th" value="{{ $start }}" />
-                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker4"
-                                                                    data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true"
-                                                                    data-date-language="th-th" value="{{ $end }}" />
+                                                            <div class="input-daterange input-group" id="datepicker11" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker'>
+                                                                <input type="text" class="form-control" name="startdate" id="datepicker3" placeholder="Start Date" data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $start }}" />
+                                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker4" data-date-container='#datepicker11' data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $end }}" />
                                                                 <button type="submit" class="btn btn-info">
                                                                     <i class="fa-solid fa-magnifying-glass"></i>
                                                                     ดึงข้อมูล

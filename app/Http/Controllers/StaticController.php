@@ -189,33 +189,33 @@ class StaticController extends Controller
     $countgleave =  User::where('id','=',$iduser)->where('permiss_gleave','=','on')->count();   
     return $countgleave;
   }
-  public static function permiss_ot($iduser)
+  public static function countpermiss_ot($iduser)
   {
     $countot =  User::where('id','=',$iduser)->where('permiss_ot','=','on')->count();   
     return $countot;
   }
-  public static function permiss_medicine($iduser)
+  public static function countpermiss_medicine($iduser)
   {
     $countmedicine =  User::where('id','=',$iduser)->where('permiss_medicine','=','on')->count();   
     return $countmedicine;
   }
-  public static function permiss_p4p($iduser)
+  public static function countpermiss_p4p($iduser)
   {
     $comcountp4p =  User::where('id','=',$iduser)->where('permiss_p4p','=','on')->count();   
     return $comcountp4p;
   }
-  public static function permiss_timeer($iduser)
+  public static function countpermiss_time($iduser)
   {
-    $comcounttime =  User::where('id','=',$iduser)->where('permiss_timeer','=','on')->count();   
+    $comcounttime =  User::where('id','=',$iduser)->where('permiss_time','=','on')->count();   
     return $comcounttime;
   }
 
-  public static function permiss_env($iduser)
+  public static function countpermiss_env($iduser)
   {
     $comcountenv =  User::where('id','=',$iduser)->where('permiss_env','=','on')->count();   
     return $comcountenv;
   }
-  public static function permiss_account($iduser)
+  public static function countpermiss_account($iduser)
   {
     $comcountaccount=  User::where('id','=',$iduser)->where('permiss_account','=','on')->count();   
     return $comcountaccount;

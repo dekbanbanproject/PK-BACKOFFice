@@ -46,82 +46,16 @@
     $countpesmiss_claim = StaticController::countpesmiss_claim($iduser);
 
     $countpermiss_gleave = StaticController::countpermiss_gleave($iduser);
-    $permiss_ot = StaticController::permiss_ot($iduser);
-    $permiss_medicine = StaticController::permiss_medicine($iduser);
-    $permiss_p4p = StaticController::permiss_p4p($iduser);
-    $permiss_timeer = StaticController::permiss_timeer($iduser);
+    $countpermiss_ot = StaticController::countpermiss_ot($iduser);
+    $countpermiss_medicine = StaticController::countpermiss_medicine($iduser);
+    $countpermiss_p4p = StaticController::countpermiss_p4p($iduser);
+    $countpermiss_time = StaticController::countpermiss_time($iduser);
 
-    $permiss_env = StaticController::permiss_env($iduser);
-    $permiss_account = StaticController::permiss_account($iduser);
+    $countpermiss_env = StaticController::countpermiss_env($iduser);
+    $countpermiss_account = StaticController::countpermiss_account($iduser);
     
     ?>
- 
-<style>
-    /* body { */
-        /* width: 100%; */
-        /* height: 100vh; */
-       
-        /* background: url(/pkclaim/public/sky16/images/bgPK.jpg)no-repeat 50%; */
-       
-    /* } */
- 
-    /* .cir {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px;
-    height: 150px;
-    background: #fff;
-    border-radius: 50%; */
-    /* transform: rotate(calc(360deg / -15 * var(--i))); */
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
-    /* } */
-
-    /* * {
-            margin: 0;
-            padding: 0;
-            font-family: sans-serif;
-        }
-
-        .chartMenu {
-            width: 100vw;
-            height: 40px;
-            background: #1A1A1A;
-            color: rgba(255, 26, 104, 1);
-        }
-
-        .chartMenu p {
-            padding: 10px;
-            font-size: 20px;
-        }
-
-        .chartCard {
-            width: 100vw;
-            height: calc(100vh - 40px);
-            background: rgba(255, 26, 104, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chartBox {
-            width: 700px;
-            padding: 20px;
-            border-radius: 20px;
-            border: solid 3px rgba(255, 26, 104, 1);
-            background: white;
-        }
-
-        .chartgooglebar {
-            width: auto;
-            height: auto;
-        }
-
-        .chartgoogle {
-            width: auto;
-            height: auto;
-        } */
-</style>
+  
 <style>
     #button{
            display:block;
@@ -721,7 +655,7 @@
                 </div>
             @endif
 
-            @if ($permiss_account != 0)
+            @if ($countpermiss_account != 0)
                 <div class="col-xl-3 col-md-3">
                     <div class="main-card mb-3 card">
                         <div class="grid-menu-col">
@@ -753,7 +687,7 @@
                 </div> 
             @endif
 
-            @if ($permiss_p4p != 0)
+            @if ($countpermiss_p4p != 0)
                 <div class="col-xl-3 col-md-3">
                     <div class="main-card mb-3 card">
                         <div class="grid-menu-col">
@@ -788,7 +722,7 @@
                 </div>
             @endif
 
-        @if ($permiss_medicine != 0)
+        @if ($countpermiss_medicine != 0)
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
@@ -820,7 +754,7 @@
             </div> 
         @endif
 
-        @if ($permiss_ot != 0)
+        @if ($countpermiss_ot != 0)
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
@@ -852,7 +786,7 @@
             </div>
         @endif
 
-        @if ($permiss_env != 0)
+        @if ($countpermiss_env != 0)
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
@@ -885,7 +819,7 @@
         @endif
 
 
-        @if ($permiss_timeer != 0)
+        @if ($countpermiss_time != 0)
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
@@ -916,7 +850,7 @@
                     </div> 
                 </div> 
             </div>
-    @endif
+        @endif
 
             <?php
             $datadetail = DB::connection('mysql')->select('   

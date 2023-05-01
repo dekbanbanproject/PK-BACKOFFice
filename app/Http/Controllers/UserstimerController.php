@@ -50,7 +50,7 @@ class UserstimerController extends Controller
                 WHERE c.CHEACKIN_DATE = CURDATE() 
                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                 GROUP BY p.ID,j.OPERATE_JOB_ID,c.CHEACKIN_DATE
-                ORDER BY c.CHEACKIN_DATE,c.CHECKIN_TYPE_ID             
+                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID            
             ');
         } else {
             $datashow_ = DB::connection('mysql6')->select(' 
@@ -72,7 +72,7 @@ class UserstimerController extends Controller
                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"  
                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                 GROUP BY p.ID,j.OPERATE_JOB_ID,c.CHEACKIN_DATE
-                ORDER BY c.CHEACKIN_DATE,c.CHECKIN_TYPE_ID             
+                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID          
             ');
 
             Operate_time::truncate();
@@ -157,7 +157,7 @@ class UserstimerController extends Controller
                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"  
                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                 GROUP BY p.ID,j.OPERATE_JOB_ID,c.CHEACKIN_DATE
-                ORDER BY c.CHEACKIN_DATE,c.CHECKIN_TYPE_ID             
+                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID            
         ');  
 
          
@@ -280,7 +280,31 @@ class UserstimerController extends Controller
         $debsubsubname_ = DB::connection('mysql6')->table('hrd_department_sub_sub')->where('HR_DEPARTMENT_SUB_SUB_ID', '=', $debsubsub)->first();
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
 
-        $export = DB::connection('mysql6')->select('                      
+        if ($startdate == '') {
+                $export = DB::connection('mysql6')->select('                      
+                    SELECT p.ID
+                        ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
+                        ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+                        ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+                        ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
+                        ,h.HR_DEPARTMENT_ID ,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
+                        FROM checkin_index c
+                        LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+                        LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
+                        LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                        LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
+                        LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                        LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                        LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                        WHERE c.CHEACKIN_DATE = CURDATE()
+                        
+                        AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                        GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
+                        ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID
+            ');
+            // AND p.HR_POSITION_ID = "4"
+        } else {
+            $export = DB::connection('mysql6')->select('                      
                 SELECT p.ID
                     ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
                     ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
@@ -296,11 +320,14 @@ class UserstimerController extends Controller
                     LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
                     LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
                     WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                    AND p.HR_POSITION_ID = "4"
+                   
                     AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                     GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                     ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID
-        ');          
+        ');
+        }
+        
+                  
          
         return view('user_time.user_timeindex_nurh_excel', [
             'export'           => $export,

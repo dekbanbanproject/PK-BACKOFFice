@@ -124,7 +124,7 @@
         </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu" style="background-color: rgb(128, 216, 209)">
+        <div class="vertical-menu" style="background-color: rgb(217, 199, 247)">
 
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
@@ -133,21 +133,21 @@
                         <ul class="metismenu list-unstyled" id="side-menu" >
                     
                         <li class="menu-title">Menu</li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ url('time_dashboard') }}">  
                                 <i class="fa-solid fa-gauge-high text-white"></i>
                                 <span style="color: white">Dashboard</span>
                             </a> 
-                        </li> 
+                        </li>  --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
                                 <span>ระบบลงเวลา</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('time_index') }}">เวลาเข้า-ออก (backoffice)</a></li>
-                                <li><a href="{{ url('time_index_nurh') }}">เวลาเข้า-ออก (Nurs)</a></li>
-                                <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li>
+                                <li><a href="{{ url('otone') }}">ข้อมูลโอที</a></li>
+                                <li><a href="{{ url('otone_add') }}">ลงโอที</a></li>
+                                {{-- <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li> --}}
                             </ul>
                         </li>
                       
@@ -271,8 +271,6 @@
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-            $('#example4').DataTable();
-            $('#example5').DataTable();
            
             $.ajaxSetup({
                 headers: {

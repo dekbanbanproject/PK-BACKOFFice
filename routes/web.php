@@ -163,6 +163,15 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'time_index_search',[App\Http\Controllers\TimerController::class, 'time_index_search'])->name('t.time_index_search');// ระบบลงเวลา
   Route::match(['get','post'],'time_index_excel',[App\Http\Controllers\TimerController::class, 'time_index_excel'])->name('t.time_index_excel');// excel
 
+  Route::match(['get','post'],'time_dep',[App\Http\Controllers\TimerController::class, 'time_dep'])->name('t.time_dep');// ระบบลงเวลา
+  Route::match(['get','post'],'time_depsub',[App\Http\Controllers\TimerController::class, 'time_depsub'])->name('t.time_depsub');// ระบบลงเวลา
+  Route::match(['get','post'],'time_depsubsub',[App\Http\Controllers\TimerController::class, 'time_depsubsub'])->name('t.time_depsubsub');// ระบบลงเวลา
+
+  Route::match(['get','post'],'time_dep_excel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_dep_excel'])->name('t.time_dep_excel');// ระบบลงเวลา
+  Route::match(['get','post'],'time_depsub_excel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_depsub_excel'])->name('t.time_depsub_excel');// ระบบลงเวลา
+  Route::match(['get','post'],'time_depsubsub_excel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_depsubsub_excel'])->name('t.time_depsubsub_excel');// ระบบลงเวลา
+
+
     // ******************** ผู้ดูแลงานบุคลากร ***********************
     Route::match(['get','post'],'person/person_index',[App\Http\Controllers\PersonController::class, 'person_index'])->name('person.person_index');//
     Route::match(['get','post'],'person/person_index_add',[App\Http\Controllers\PersonController::class, 'person_index_add'])->name('person.person_index_add');//

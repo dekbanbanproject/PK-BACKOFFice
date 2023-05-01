@@ -153,30 +153,30 @@ public function member_save(Request $request)
 }
 public function member_update(Request $request)
 {    
-$id = $request->id;
-$p = $request->password; 
-$update = User::find($id);
-$update->fname = $request->fname;
-$update->lname = $request->lname;
-$update->email = $request->email; 
-$update->tel = $request->tel;   
-$update->username = $request->username;   
-$update->password = $request->password;  
-if ($p != '') {
-    $update->password = Hash::make($p);  
-}   
- 
-$update->member_id =  $request->member_id; 
-$update->type =  $request->type; 
-$update->save();
-return redirect()->route('member.home');
+    $id = $request->id;
+    $p = $request->password; 
+    $update = User::find($id);
+    $update->fname = $request->fname;
+    $update->lname = $request->lname;
+    $update->email = $request->email; 
+    $update->tel = $request->tel;   
+    $update->username = $request->username;   
+    $update->password = $request->password;  
+    if ($p != '') {
+        $update->password = Hash::make($p);  
+    }   
+    
+    $update->member_id =  $request->member_id; 
+    $update->type =  $request->type; 
+    $update->save();
+    return redirect()->route('member.home');
 }
 public function member_destroy(Request $request)
 {    
-$id = $request->id;
-User::where('id','=',$id)->delete(); 
+    $id = $request->id;
+    User::where('id','=',$id)->delete(); 
 
-return redirect()->route('member.home');
-}
+    return redirect()->route('member.home');
+    }
 }
 

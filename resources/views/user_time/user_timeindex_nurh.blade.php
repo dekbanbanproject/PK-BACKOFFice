@@ -72,63 +72,9 @@ if (Auth::check()) {
                 <div class="cv-spinner">
                   <span class="spinner"></span>
                 </div>
-              </div>
-              
+              </div> 
         </div> 
-        {{-- <form action="{{ route('t.time_index_search') }}" method="POST">
-            @csrf
-            <div class="row"> 
-                <div class="col"></div>
-                <div class="col-md-1 text-end">วันที่</div>
-                <div class="col-md-2 text-center">
-                    @if ($startdate == '')
-                        <div class="input-group" id="datepicker1">
-                            <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                value="{{ $newDate }}">                    
-                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                        </div>
-                    @else
-                        <div class="input-group" id="datepicker1">
-                            <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                value="{{ $startdate }}">                    
-                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                        </div>
-                    @endif                                    
-                </div>
-                <div class="col-md-1 text-center">ถึงวันที่</div>
-                <div class="col-md-2 text-center">
-                    @if ($enddate == '')
-                        <div class="input-group" id="datepicker1">
-                            <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                value="{{ $datenow }}">                    
-                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                        </div>
-                    @else
-                        <div class="input-group" id="datepicker1">
-                            <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                value="{{ $enddate }}">                    
-                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                        </div>
-                    @endif
-                    
-                </div> 
-                <div class="col-md-2 me-2">  
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                    </button>  
-                    <a href="{{url('time_index_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                        <i class="fa-solid fa-file-excel me-2"></i>
-                        Export
-                    </a>
-                 
-                </div> 
-                <div class="col"></div>
-            </div>                     
-        </form> --}}
+         
         <div class="row"> 
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card">
@@ -140,7 +86,7 @@ if (Auth::check()) {
                                 <div class="row"> 
                                     <div class="col"></div>
                                     <div class="col-md-1 text-end">วันที่</div>
-                                    <div class="col-md-3 text-center">
+                                    <div class="col-md-2 text-center">
                                         @if ($startdate == '')
                                             <div class="input-group" id="datepicker1">
                                                 <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
@@ -158,7 +104,7 @@ if (Auth::check()) {
                                         @endif                                    
                                     </div>
                                     <div class="col-md-1 text-center">ถึงวันที่</div>
-                                    <div class="col-md-3 text-center">
+                                    <div class="col-md-2 text-center">
                                         @if ($enddate == '')
                                             <div class="input-group" id="datepicker1">
                                                 <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
@@ -176,15 +122,26 @@ if (Auth::check()) {
                                         @endif
                                         
                                     </div> 
-                                    <div class="col-md-2 me-2">  
+                                    <div class="col-md-4 me-2">  
                                         <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                            <i class="pe-7s-search btn-icon-wrapper"></i>2 ค้นหา
                                         </button>  
 
-                                        <a href="{{url('user_timeindex_nurh_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                            <i class="fa-solid fa-file-excel me-2"></i>
-                                            Export
-                                        </a>
+                                       
+                                        @if ($startdate == '')
+                                            <a href="{{url('user_timeindex_nurh_excel/'.$datenow.'/'.$datenow)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                <i class="fa-solid fa-file-excel me-2"></i>
+                                                3 Export
+                                            </a>
+                                        @else
+                                            <a href="{{url('user_timeindex_nurh_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                <i class="fa-solid fa-file-excel me-2"></i>
+                                                3 Export
+                                            </a>
+                                        @endif
+                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Bookdata">
+                                            <i class="pe-7s-news-paper btn-icon-wrapper"></i> คู่มือการใช้งาน
+                                        </button>  
                                        
                                     </div> 
                                     <div class="col"></div>
@@ -230,7 +187,35 @@ if (Auth::check()) {
         </div>
 </div> 
 
- 
+  <!--  Modal content for the Keypassword example -->
+  <div class="modal fade" id="Bookdata" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">คู่มือการใช้งาน </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> 
+                <div class="row"> 
+                    <div class="col-md-12"> 
+                        <div class="form-group ">
+                            <img src="{{ asset('images/nurs_1.jpg') }}" alt="Image" class="img-thumbnail" height="600px">
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 text-end">
+                    <div class="form-group">  
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
+                                class="fa-solid fa-xmark me-2"></i>ปิด</button>
+
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
       
 @endsection
 @section('footer')

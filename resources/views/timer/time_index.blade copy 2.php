@@ -75,10 +75,9 @@ if (Auth::check()) {
               </div>
               
         </div> 
-
-        {{-- <form action="{{ route('t.time_index') }}" method="POST">
+        <form action="{{ route('t.time_index') }}" method="POST">
             @csrf
-            <div class="row">                 
+            <div class="row"> 
                 <div class="col"></div>
                 <div class="col-md-1 text-end">วันที่</div>
                 <div class="col-md-2 text-center">
@@ -176,7 +175,13 @@ if (Auth::check()) {
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                     </button> 
-                   
+                    {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Savetime">
+                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                    </button>  --}}
+                     {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="fa-solid fa-file-excel me-2"></i>
+                        Export
+                    </button>   --}}
                     <a href="{{url('time_index_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                         <i class="fa-solid fa-file-excel me-2"></i>
                         Export
@@ -185,10 +190,10 @@ if (Auth::check()) {
                 </div> 
                 
                  <div class="col"></div>   
-            </div>        
-        </form> --}}
-
-        {{-- <div class="row"> 
+            </div> 
+       
+        </form>
+        <div class="row"> 
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -230,167 +235,6 @@ if (Auth::check()) {
                     </div>
                 </div>
             </div>            
-        </div> --}}
-
-        <div class="main-card mb-3 card">
-            <div class="card-header">
-                {{-- <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
-                ลงเวลาเข้า-ออก --}}
-                {{-- <form action="{{ route('t.time_index') }}" method="POST">
-                    @csrf
-                    <div class="row">                 
-                     
-                        <div class="col-md-1 text-end">วันที่</div>
-                        <div class="col-md-2 text-center">
-                            @if ($startdate == '')
-                                <div class="input-group" id="datepicker1">
-                                    <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                        value="{{ $newDate }}">                    
-                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                </div>
-                            @else
-                                <div class="input-group" id="datepicker1">
-                                    <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                        value="{{ $startdate }}">                    
-                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                </div>
-                            @endif                                    
-                        </div>
-                        <div class="col-md-1 text-center">ถึงวันที่</div>
-                        <div class="col-md-2 text-center">
-                            @if ($enddate == '')
-                                <div class="input-group" id="datepicker1">
-                                    <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                        value="{{ $datenow }}">                    
-                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                </div>
-                            @else
-                                <div class="input-group" id="datepicker1">
-                                    <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                        value="{{ $enddate }}">                    
-                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                </div>
-                            @endif
-                            
-                        </div> 
-                        <div class="col-md-1 text-center">เลือก</div>
-                        <div class="col-md-3 text-center">
-                            <div class="input-group">
-                                <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%">  
-                                    @foreach ($department as $items0) 
-                                    @if ($deb == $items0->HR_DEPARTMENT_ID)
-                                        <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                    @else
-                                        <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                    @endif 
-                                    @endforeach
-                            </select>
-                            </div>
-                        </div> 
-                        <div class="col-md-2 text-center"> 
-                        <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                            <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                        </button>
-                    </div>
-                    </div>
-                </form> --}}
-                <div class="btn-actions-pane-right">
-                    <div class="nav">
-                        <a data-bs-toggle="tab" href="{{ url('time_dep') }}" class="btn-pill btn-wide active btn btn-outline-alternate btn-sm">กลุ่มภารกิจ</a>
-                        <a href="{{ url('time_depsub') }}" class="btn-pill btn-wide me-1 ms-1  btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
-                        <a href="{{ url('time_depsubsub') }}" class="btn-pill btn-wide  btn btn-outline-alternate btn-sm">หน่วยงาน</a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
-                        <p> 
-                            <form action="{{ route('t.time_dep') }}" method="POST">
-                                @csrf
-                                    <div class="row"> 
-                                        <div class="col-md-2 text-end">วันที่</div>
-                                        <div class="col-md-4 text-center">
-                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $startdate }}" />
-                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $enddate }}" /> 
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
-                                            <div class="col-md-2 text-center">
-                                                <div class="input-group">
-                                                    <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
-                                                    
-                                                        @foreach ($department as $items0) 
-                                                        @if ($deb == $items0->HR_DEPARTMENT_ID)
-                                                            <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                                        @else
-                                                            <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
-                                                        @endif    
-                                                        @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 me-2">  
-                                            <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                            </button> 
-                                        
-                                            <a href="{{url('time_dep_excel/'.$deb.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                                <i class="fa-solid fa-file-excel me-2"></i>
-                                                Export
-                                            </a>
-                                        
-                                        </div>
-                                        
-                                    </div>
-                            </form>  
-                            <div class="table-responsive mt-3">
-                                <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example2">
-                                    <thead>
-                                        <tr>
-                                            <th>ลำดับ</th> 
-                                            <th>วันที่</th>
-                                            <th>ชื่อ-นามสกุล</th>
-                                            <th>หน่วยงาน</th> 
-                                            <th>เวลาเข้า</th> 
-                                            <th>เวลาออก</th> 
-                                            <th>ประเภท</th> 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $ia = 1; ?>
-                                        @foreach ($datashow_ as $item)  
-                                            
-                                            <tr>
-                                                <td>{{ $ia++ }}</td>
-                                                <td>{{ $item->CHEACKIN_DATE }}</td> 
-                                                <td class="p-2">{{ $item->hrname }}</td>   
-                                                <td class="p-2">{{ $item->HR_DEPARTMENT_SUB_SUB_NAME }}</td> 
-                                                <td>{{ $item->CHEACKINTIME }}</td>  
-                                                <td>{{ $item->CHEACKOUTTIME }}</td>  
-                                                <td>{{ $item->OPERATE_TYPE_NAME }}</td>   
-                                            </tr>    
-                                        @endforeach
-                                        
-                                    </tbody>
-                                </table>
-                            </div> 
-                        </p>
-                    </div>
-                     
-                </div>
-            </div>
-            
         </div>
 </div> 
 
@@ -408,13 +252,6 @@ if (Auth::check()) {
             format: 'yyyy-mm-dd'
         });
         $('#datepicker2').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-
-        $('#datepicker3').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-        $('#datepicker4').datepicker({
             format: 'yyyy-mm-dd'
         });
 
