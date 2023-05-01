@@ -146,8 +146,9 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('time_index') }}">เวลาเข้า-ออก (backoffice)</a></li>
-                                <li><a href="{{ url('time_index_nurh') }}">เวลาเข้า-ออก (Nurs)</a></li>
-                                <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li>
+                                <li><a href="{{ url('time_backot') }}">OT(backoffice)</a></li>
+                                <li><a href="{{ url('time_nurs') }}">เวลาเข้า-ออก (Nurs)</a></li>
+                                {{-- <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li> --}}
                             </ul>
                         </li>
                       

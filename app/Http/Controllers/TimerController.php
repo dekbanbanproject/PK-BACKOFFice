@@ -1121,5 +1121,62 @@ class TimerController extends Controller
             'enddate'          => $enddate,
         ]);
     }
+
+    public function time_nurs(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $deb = $request->HR_DEPARTMENT_ID; 
+        $debsub = $request->HR_DEPARTMENT_SUB_ID;
+        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+
+        // dd($debsub);
+        $datashow_ = DB::connection('mysql6')->select('  
+            
+                SELECT p.ID 
+                    ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
+                    ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+                    ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+                    ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
+                    ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
+                    ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
+                    ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID 
+                FROM checkin_index c
+                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
+                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
+                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"            
+                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
+                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
+                ORDER BY c.CHEACKIN_DATE,d.HR_DEPARTMENT_SUB_SUB_ID,p.ID,ot.OPERATE_TYPE_ID
+        ');
+         
+        $department = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department
+        ');
+        $department_sub = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department_sub
+        ');
+        $department_subsub = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department_sub_sub
+        ');
+        
+        return view('timer.time_nurs', [
+            'datashow_'        => $datashow_,
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'department'       => $department,
+            'department_sub'   => $department_sub,
+            'department_subsub'=> $department_subsub,
+            'deb'              => $deb,
+            'debsub'           => $debsub,
+            'debsubsub'        => $debsubsub
+        ]);
+    }
     
 }

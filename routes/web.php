@@ -171,7 +171,11 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'time_depsub_excel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_depsub_excel'])->name('t.time_depsub_excel');// ระบบลงเวลา
   Route::match(['get','post'],'time_depsubsub_excel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_depsubsub_excel'])->name('t.time_depsubsub_excel');// ระบบลงเวลา
 
+  Route::match(['get','post'],'time_backot',[App\Http\Controllers\TimerController::class, 'time_backot'])->name('t.time_backot');// ระบบลงเวลา
+  Route::match(['get','post'],'time_backot_excel',[App\Http\Controllers\TimerController::class, 'time_backot_excel'])->name('t.time_backot_excel');// ระบบลงเวลา
 
+  Route::match(['get','post'],'time_nurs',[App\Http\Controllers\TimerController::class, 'time_nurs'])->name('t.time_nurs');// ระบบลงเวลา
+  Route::match(['get','post'],'time_nurs_excel',[App\Http\Controllers\TimerController::class, 'time_nurs_excel'])->name('t.time_nurs_excel');// ระบบลงเวลา
     // ******************** ผู้ดูแลงานบุคลากร ***********************
     Route::match(['get','post'],'person/person_index',[App\Http\Controllers\PersonController::class, 'person_index'])->name('person.person_index');//
     Route::match(['get','post'],'person/person_index_add',[App\Http\Controllers\PersonController::class, 'person_index_add'])->name('person.person_index_add');//
