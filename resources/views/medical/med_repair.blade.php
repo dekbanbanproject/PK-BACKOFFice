@@ -1,5 +1,5 @@
-@extends('layouts.medical')
-@section('title', 'ZOFFice || เครื่องมือแพทย์')
+@extends('layouts.medicalslide')
+@section('title', 'PK-BACKOFFice || เครื่องมือแพทย์')
 
 @section('menu')
     <style>

@@ -245,7 +245,13 @@
                                         <input type="text" name="medical_borrow_date" id="medical_borrow_date" class="form-control form-control-sm">
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-2">
+                                    <label for="">วันที่คืน</label>
+                                    <div class="form-group mt-2">
+                                        <input type="text" name="medical_borrow_backdate" id="medical_borrow_backdate" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <label for="">รายการ</label>
                                     <div class="form-group mt-2">
                                         <input type="text" name="medical_borrow_article_id" id="medical_borrow_article_id" class="form-control form-control-sm">
@@ -335,6 +341,7 @@
                                 url:"{{ url('med_calenda_detail') }}" +'/'+ id,  
                                 success: function(data) { 
                                     $('#medical_borrow_date').val(data.med_calenda.medical_borrow_date)  
+                                    $('#medical_borrow_backdate').val(data.med_calenda.medical_borrow_backdate) 
                                     $('#medical_borrow_article_id').val(data.med_calenda.article_name) 
                                     $('#medical_borrow_qty').val(data.med_calenda.medical_borrow_qty) 
                                     $('#medical_borrow_debsubsub_id').val(data.med_calenda.DEPARTMENT_SUB_SUB_NAME)   

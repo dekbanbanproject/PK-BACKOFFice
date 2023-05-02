@@ -11,11 +11,11 @@
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
    
 
@@ -23,9 +23,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
 
     <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
-    {{-- <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet"> --}}
-    {{-- <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css"> --}}
-    {{-- <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
 
     <!-- jquery.vectormap css -->
     <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
@@ -56,7 +56,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- <link href="{{ asset('css/tableclaim.css') }}" rel="stylesheet"> --}}
     <!-- App Css-->
-    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" /> --}}
+    <link rel="stylesheet"
+    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 </head>
 <style>
@@ -219,14 +221,14 @@
                                 <li><a href="{{ url('medical/med_calenda') }}">ปฎิทิน</a></li>
                                 <li><a href="{{ url('medical/med_dashboard') }}">Dsahboard</a></li>
                                 <li><a href="{{ url('medical/med_index') }}">ทะเบียนเครื่องมือแพทย์</a></li>
-                                <li><a href="{{ url('med_store') }}">คลังเครื่องมือแพทย์</a></li>
+                                {{-- <li><a href="{{ url('med_store') }}">คลังเครื่องมือแพทย์</a></li> --}}
                                 <li><a href="{{ url('medical/med_borrow') }}">ยืม-คืน </a></li>
                             </ul>
                         </li>
 
 
                         
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-chart-line text-danger"></i>
                                 <span>รายงาน</span>
@@ -236,7 +238,7 @@
                                 <li><a href="{{ url('medical/med_rep2') }}">รายงานยืม/การใช้เครื่องมือแพทย์</a></li>
                                 <li><a href="{{ url('medical/med_rep3') }}">รายงานยืม/การใช้เครื่องมือแพทย์(ใช้เกินกำหนด(14 วัน))</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-gears text-danger"></i>
@@ -372,7 +374,8 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-
+    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    
     @yield('footer')
 
     

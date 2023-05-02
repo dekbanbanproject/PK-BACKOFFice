@@ -155,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body shadow-lg">
+                    <div class="card-body">
                         
                         <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
                         <input type="hidden" name="article_typeid" id="PRODUCT_TYPEID" value="2">
@@ -505,12 +505,12 @@
                                     <div class="card-footer">
                                         <div class="col-md-12 text-end">
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                                     บันทึกข้อมูล
                                                 </button>
                                                 <a href="{{ url('medical/med_index') }}"
-                                                    class="btn btn-danger btn-sm">
+                                                    class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                     <i class="fa-solid fa-xmark me-2"></i>
                                                     ยกเลิก
                                                 </a>

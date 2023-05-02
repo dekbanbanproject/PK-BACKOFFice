@@ -21,31 +21,30 @@
     $pos = strrpos($url, '/') + 1;
     $date = date('Y-m-d');
     ?>
-    <div class="container-fluid">
- 
-        <div class="row mt-3">
+    <div class="tabs-animation">
 
-            <div class="col-md-12">
-
-                <div class="card shadow-lg">
-                    <div class="card-header ">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5>แก้ไขทะเบียนยืม-คืน เครื่องมือแพทย์ </h5>
-                            </div>
-                            <div class="col"></div>
-
-                            <div class="col-md-2 text-end">
-                                {{-- <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#insertborrowdata">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    ยืม-คืน
-                                </button> --}}
-                            </div>
-
-                        </div>
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div>
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                แก้ไขทะเบียนยืม-คืน เครื่องมือแพทย์
+                <div class="btn-actions-pane-right">
+                    <div class="nav">
+                        {{-- <a href="{{ url('medical/med_add') }}"
+                            class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                            <i class="fa-solid fa-folder-plus text-primary me-2"></i>
+                            เพิ่มเครื่องมือแพทย์
+                        </a> --}}
                     </div>
-                    <div class="card-body shadow-lg mt-2">
+                </div>
+            </div>
+                   
+                    <div class="card-body mt-2">
                         <form class="custom-validation" action="{{ route('med.med_borrowupdate_Noalert') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
@@ -128,12 +127,12 @@
                     <div class="card-footer">
                         <div class="col-md-12 text-end"> 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-sm">
+                                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                     แก้ไขข้อมูล
                                 </button> 
                                 <a href="{{ url('medical/med_borrow') }}"
-                                    class="btn btn-danger btn-sm">
+                                    class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                     <i class="fa-solid fa-xmark me-2"></i>
                                     ยกเลิก
                                 </a>

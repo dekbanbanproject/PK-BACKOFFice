@@ -86,6 +86,47 @@
         }
     </script>
     <style>
+        #button{
+               display:block;
+               margin:20px auto;
+               padding:30px 30px;
+               background-color:#eee;
+               border:solid #ccc 1px;
+               cursor: pointer;
+               }
+               #overlay{	
+               position: fixed;
+               top: 0;
+               z-index: 100;
+               width: 100%;
+               height:100%;
+               display: none;
+               background: rgba(0,0,0,0.6);
+               }
+               .cv-spinner {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;  
+               }
+               .spinner {
+               width: 250px;
+               height: 250px;
+               border: 10px #ddd solid;
+               border-top: 10px #1fdab1 solid;
+               border-radius: 50%;
+               animation: sp-anime 0.8s infinite linear;
+               }
+               @keyframes sp-anime {
+               100% { 
+                   transform: rotate(390deg); 
+               }
+               }
+               .is-hide{
+               display:none;
+               }
+    </style>
+    <style>
         .table th {
             font-family: sans-serif;
             font-size: 12px;
@@ -93,7 +134,7 @@
 
         .table td {
             font-family: sans-serif;
-            font-size: 12px;
+            font-size: 11px;
         }
     </style>
     <?php
@@ -108,10 +149,19 @@
     $pos = strrpos($url, '/') + 1;
     $date = date('Y-m-d');
     ?>
-    <div class="container-fluid">
+    <div class="tabs-animation">
+
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div>
+        <div class="main-card mb-3 card">
 
         <div class="row mt-3">
-            <div class="card shadow-lg">
+            <div class="card">
                 <div class="card-header ">
                     <form action="{{ url('medical/med_borrow_search') }}" method="POST">
                         @csrf
@@ -153,140 +203,138 @@
 
                     </form>
                 </div>
-            {{-- </div> --}}
-        {{-- </div> --}}
+             
 
-
-        <div class="card-body shadow-lg mt-2">
-            <div class="table-responsive">
-                <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered myTable">
-                    <thead>
-                        <tr>
-                            <th width="5%" class="text-center">ลำดับ</th>
-                            <th class="text-center">สถานะ</th>
-                            <th class="text-center">วันที่ยืม</th>
-                            <th class="text-center">วันที่คืน</th>
-                            <th width="15%" class="text-center">รหัสครุภัณฑ์</th>
-                            <th class="text-center">รายการ</th>
-                            <th class="text-center">หน่วยงานที่ยืม</th>
-                            <th class="text-center">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1; ?>
-                        @foreach ($medical_borrow as $item)
-                            <?php
-                            
-                            $colorstatus = $item->medical_borrow_active;
-                            if ($colorstatus == 'REQUEST') {
-                                $color_new = 'background-color: rgb(181, 236, 234)';
-                            } elseif ($colorstatus == 'APPROVE') {
-                                $color_new = 'background-color: rgb(6, 206, 143)';
-                            } else {
-                                $color_new = 'background-color: rgb(107, 180, 248)';
-                            }
-                            
-                            ?>
-                            <tr id="sid{{ $item->medical_borrow_id }}">
-                                <td width="5%">{{ $i++ }}</td>
-                                <td class="text-center" width="5%">
-
-                                    @if ($item->medical_borrow_active == 'REQUEST')
-                                        <span class="badge text-bg-danger">ร้องขอ</span>
-                                    @elseif ($item->medical_borrow_active == 'SENDEB')
-                                        <span class="badge"
-                                            style="background-color: rgb(89, 10, 235);font-size:13px;color:white">ส่งคืน</span>
-                                    @elseif ($item->medical_borrow_active == 'APPROVE')
-                                        <span class="badge"
-                                            style="background-color: rgb(3, 150, 104);font-size:13px;color:white">จัดสรร</span>
-                                    @else
-                                    @endif
-                                </td>
-                                <td width="10%" class="text-center" style="font-size: 13px">
-                                    {{ DateThai($item->medical_borrow_date) }}</td>
-                                <td width="10%" class="text-center" style="font-size: 13px">
-                                    {{ DateThai($item->medical_borrow_backdate) }}</td>
-                                <td width="15%" class="p-2" style="font-size: 13px">
-                                    {{ $item->article_num }}
-                                </td>
-                                <td class="p-2" style="font-size: 13px;">{{ $item->article_name }}</td>
-                                <td class="p-2" style="font-size: 13px;">{{ $item->DEPARTMENT_SUB_SUB_NAME }}
-                                </td>
-                                <td class="text-center" width="7%">
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-primary dropdown-toggle menu btn-sm" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">ทำรายการ</button>
-                                        <ul class="dropdown-menu">
-                                            <a class="dropdown-item menu btn btn-outline-warning btn-sm"
-                                                href="{{ url('medical/med_borroweditpage/' . $item->medical_borrow_id) }}"
-                                                data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
-                                                <i class="fa-solid fa-file-pen me-2" style="color: rgb(252, 153, 23)"></i>
-                                                <label for="" style="color: rgb(252, 153, 23)">แก้ไข</label>
-                                            </a>
-                                            {{-- <button type="button"
-                                                        class="dropdown-item menu btn btn-outline-warning btn-sm"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target=".editborrowdata{{ $item->medical_borrow_id }}"
+                <div class="card-body shadow-lg mt-2">
+                    <div class="table-responsive">
+                        <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered myTable">
+                            <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">ลำดับ</th>
+                                    <th class="text-center">สถานะ</th>
+                                    <th class="text-center">วันที่ยืม</th>
+                                    <th class="text-center">วันที่คืน</th>
+                                    <th width="15%" class="text-center">รหัสครุภัณฑ์</th>
+                                    <th class="text-center">รายการ</th>
+                                    <th class="text-center">หน่วยงานที่ยืม</th>
+                                    <th class="text-center">จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; ?>
+                                @foreach ($medical_borrow as $item)
+                                    <?php
+                                    
+                                    $colorstatus = $item->medical_borrow_active;
+                                    if ($colorstatus == 'REQUEST') {
+                                        $color_new = 'background-color: rgb(181, 236, 234)';
+                                    } elseif ($colorstatus == 'APPROVE') {
+                                        $color_new = 'background-color: rgb(6, 206, 143)';
+                                    } else {
+                                        $color_new = 'background-color: rgb(107, 180, 248)';
+                                    }
+                                    
+                                    ?>
+                                    <tr id="sid{{ $item->medical_borrow_id }}">
+                                        <td width="5%">{{ $i++ }}</td>
+                                        <td class="text-center" width="5%">
+                                            @if ($item->medical_borrow_active == 'REQUEST')
+                                                <span class="badge text-bg-danger">ร้องขอ</span>
+                                            @elseif ($item->medical_borrow_active == 'SENDEB')
+                                                
+                                                    <span class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">ส่งคืน</span>
+                                            @elseif ($item->medical_borrow_active == 'APPROVE')
+                                            <span class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">จัดสรร</span>
+                                                
+                                            @else
+                                            @endif
+                                        </td>
+                                        <td width="10%" class="text-center" style="font-size: 13px">
+                                            {{ DateThai($item->medical_borrow_date) }}</td>
+                                        <td width="10%" class="text-center" style="font-size: 13px">
+                                            {{ DateThai($item->medical_borrow_backdate) }}</td>
+                                        <td width="20%" class="p-2" style="font-size: 13px">
+                                            {{ $item->article_num }}
+                                        </td>
+                                        <td class="p-2" style="font-size: 13px;">{{ $item->article_name }}</td>
+                                        <td class="p-2" style="font-size: 13px;">{{ $item->DEPARTMENT_SUB_SUB_NAME }}
+                                        </td>
+                                        <td class="text-center" width="7%">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-primary dropdown-toggle menu btn-sm" type="button"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">ทำรายการ</button>
+                                                <ul class="dropdown-menu">
+                                                    <a class="dropdown-item menu btn btn-outline-warning btn-sm"
+                                                        href="{{ url('medical/med_borroweditpage/' . $item->medical_borrow_id) }}"
                                                         data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
-                                                        <i class="fa-solid fa-file-pen me-2"
-                                                            style="color: rgb(252, 153, 23)"></i>
-                                                        <label for=""
-                                                            style="color: rgb(252, 153, 23)">แก้ไข</label>
-                                                    </button> --}}
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <button type="button"
-                                                class="dropdown-item menu btn btn-outline-warning btn-sm editData2"
-                                                value="{{ $item->medical_borrow_id }}" data-bs-toggle="tooltip"
-                                                data-bs-placement="left" title="รายละเอียด">
-                                                <i class="fa-solid fa-file-pen me-2" style="color: rgb(135, 19, 202)"></i>
-                                                <label for="" style="color: rgb(135, 19, 202)">รายละเอียด</label>
-                                            </button>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <a class="dropdown-item menu btn btn-outline-success btn-sm"
-                                                href="javascript:void(0)"
-                                                onclick="med_borrowupdate_status({{ $item->medical_borrow_id }})"
-                                                data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                                data-bs-placement="left" title="จัดสรร">
-                                                <i class="fa-solid fa-file-pen text-success me-2"></i>
-                                                <label for="" style="color: rgb(3, 94, 212)">จัดสรร</label>
-                                            </a>
+                                                        <i class="fa-solid fa-file-pen me-2" style="color: rgb(252, 153, 23)"></i>
+                                                        <label for="" style="color: rgb(252, 153, 23)">แก้ไข</label>
+                                                    </a>
+                                                    {{-- <button type="button"
+                                                                class="dropdown-item menu btn btn-outline-warning btn-sm"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target=".editborrowdata{{ $item->medical_borrow_id }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                                                <i class="fa-solid fa-file-pen me-2"
+                                                                    style="color: rgb(252, 153, 23)"></i>
+                                                                <label for=""
+                                                                    style="color: rgb(252, 153, 23)">แก้ไข</label>
+                                                            </button> --}}
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <button type="button"
+                                                        class="dropdown-item menu btn btn-outline-warning btn-sm editData2"
+                                                        value="{{ $item->medical_borrow_id }}" data-bs-toggle="tooltip"
+                                                        data-bs-placement="left" title="รายละเอียด">
+                                                        <i class="fa-solid fa-file-pen me-2" style="color: rgb(135, 19, 202)"></i>
+                                                        <label for="" style="color: rgb(135, 19, 202)">รายละเอียด</label>
+                                                    </button>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <a class="dropdown-item menu btn btn-outline-success btn-sm"
+                                                        href="javascript:void(0)"
+                                                        onclick="med_borrowupdate_status({{ $item->medical_borrow_id }})"
+                                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                        data-bs-placement="left" title="จัดสรร">
+                                                        <i class="fa-solid fa-file-pen text-success me-2"></i>
+                                                        <label for="" style="color: rgb(3, 94, 212)">จัดสรร</label>
+                                                    </a>
 
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <button type="button"
-                                                class="dropdown-item menu btn btn-outline-primary btn-sm sendData"
-                                                value="{{ $item->medical_borrow_id }}" data-bs-toggle="tooltip"
-                                                data-bs-placement="left" title="ส่งคืน">
-                                                <i class="fa-solid fa-file-pen text-primary me-2"></i>
-                                                <label for="" style="color: rgb(3, 94, 212)">ส่งคืน</label>
-                                            </button>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <a class="dropdown-item menu btn btn-outline-success btn-sm"
-                                                href="javascript:void(0)"
-                                                onclick="med_borrowdestroy({{ $item->medical_borrow_id }})"
-                                                data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                                data-bs-placement="left" title="ลบ">
-                                                <i class="fa-solid fa-trash-can text-danger me-2"></i>
-                                                <label for="" style="color: rgb(212, 10, 3)">ลบ</label>
-                                            </a>
-                                        </ul>
-                                    </div>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <button type="button"
+                                                        class="dropdown-item menu btn btn-outline-primary btn-sm sendData"
+                                                        value="{{ $item->medical_borrow_id }}" data-bs-toggle="tooltip"
+                                                        data-bs-placement="left" title="ส่งคืน">
+                                                        <i class="fa-solid fa-file-pen text-primary me-2"></i>
+                                                        <label for="" style="color: rgb(3, 94, 212)">ส่งคืน</label>
+                                                    </button>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <a class="dropdown-item menu btn btn-outline-success btn-sm"
+                                                        href="javascript:void(0)"
+                                                        onclick="med_borrowdestroy({{ $item->medical_borrow_id }})"
+                                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                        data-bs-placement="left" title="ลบ">
+                                                        <i class="fa-solid fa-trash-can text-danger me-2"></i>
+                                                        <label for="" style="color: rgb(212, 10, 3)">ลบ</label>
+                                                    </a>
+                                                </ul>
+                                            </div>
 
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 
   
@@ -354,11 +402,11 @@
                 <div class="modal-footer">
                     <div class="col-md-12 text-end">
                         <div class="form-group">
-                            <button type="button" id="Savebtn" class="btn btn-primary btn-sm">
+                            <button type="button" id="Savebtn" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                 <i class="fa-solid fa-floppy-disk me-2"></i>
                                 บันทึกข้อมูล
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
+                            <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal"><i
                                     class="fa-solid fa-xmark me-2"></i>Close</button>
 
                         </div>
@@ -423,11 +471,11 @@
                 <div class="modal-footer">
                     <div class="col-md-12 text-end">
                         <div class="form-group">
-                            <button type="button" id="Updatebtn" class="btn btn-primary btn-sm">
+                            <button type="button" id="Updatebtn" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                 <i class="fa-solid fa-floppy-disk me-2"></i>
                                 บันทึกข้อมูล
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
+                            <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal"><i
                                     class="fa-solid fa-xmark me-2"></i>Close</button>
 
                         </div>
@@ -507,7 +555,7 @@
                     <div class="col-md-12 text-end">
                         <div class="form-group">
 
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
+                            <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal"><i
                                     class="fa-solid fa-xmark me-2"></i>Close</button>
 
                         </div>

@@ -89,6 +89,27 @@ class MedicalController extends Controller
 
         return view('medical.med_dashboard', $data);
     }
+
+    public function med_dashboard_detail(Request $request,$id)
+    {  
+        // $data['med_detail'] =  Medical_borrow::leftjoin('article_data', 'article_data.article_id', '=', 'medical_borrow.medical_borrow_article_id')
+        //         ->leftjoin('department_sub_sub', 'department_sub_sub.DEPARTMENT_SUB_SUB_ID', '=', 'medical_borrow.medical_borrow_debsubsub_id')
+        //         ->leftjoin('users', 'users.id', '=', 'medical_borrow.medical_borrow_backusers_id')
+        //         ->where($id); 
+                
+                $med_detail = DB::connection('mysql')->select( '
+                        SELECT a.article_id,a.article_num,a.article_name
+                            ,d.DEPARTMENT_SUB_SUB_NAME,a.article_deb_subsub_id
+                            ,a.article_status_id
+                            FROM article_data a  
+                            LEFT JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID=a.article_deb_subsub_id
+                            WHERE a.article_categoryid="31" AND a.article_status_id = "3"
+                            AND a.medical_typecat_id="'.$id. '"
+                    '); 
+                return view('medical.med_dashboard_detail', [
+                    'med_detail'    => $med_detail
+                ]);
+    }
     
     public function med_con(Request $request)
     {
@@ -436,6 +457,7 @@ class MedicalController extends Controller
         $data['product_buy'] = Product_buy::get();
         $data['building_data'] = Building::leftjoin('product_decline', 'product_decline.decline_id', '=', 'building_data.building_decline_id')->where('building_type_id', '!=', '1')->where('building_type_id', '!=', '5')->orderBy('building_id', 'DESC')->get();
         $data['article_data'] = Article::where('article_categoryid', '=', '31')->orwhere('article_categoryid', '=', '63')
+            ->leftjoin('department_sub_sub', 'department_sub_sub.DEPARTMENT_SUB_SUB_ID', '=', 'article_data.article_deb_subsub_id')
             ->orderBy('article_id', 'DESC')
             ->get();
         $data['medical_typecat'] = DB::table('medical_typecat')->get();
@@ -890,12 +912,12 @@ class MedicalController extends Controller
         // if ($startdate == '' || $enddate = '') {
 
             $data['medical_borrow'] = DB::connection('mysql')->select('
-            select m.medical_borrow_id,m.medical_borrow_active,m.medical_borrow_date,m.medical_borrow_backdate
+            select m.medical_borrow_id,m.medical_borrow_active,m.medical_borrow_date,m.medical_borrow_backdate,a.article_deb_subsub_id
             ,a.article_name,d.DEPARTMENT_SUB_SUB_NAME,m.medical_borrow_qty,m.medical_borrow_debsubsub_id
             ,m.medical_borrow_users_id,m.medical_borrow_backusers_id,a.article_num,m.medical_borrow_article_id
             from medical_borrow m
             LEFT JOIN article_data a on a.article_id =m.medical_borrow_article_id
-            LEFT JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID=m.medical_borrow_debsubsub_id
+            LEFT JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID=a.article_deb_subsub_id
             
             where m.medical_borrow_date between "' . $newDate . '" AND "' . $date . '"
         

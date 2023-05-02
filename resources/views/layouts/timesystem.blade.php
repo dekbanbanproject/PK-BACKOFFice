@@ -315,6 +315,7 @@
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    
     @yield('footer')
 
     
