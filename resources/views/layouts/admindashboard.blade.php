@@ -218,7 +218,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
                             <a class="dropdown-item " style="color: rgb(9, 75, 129)"
-                                href="{{ url('user/profile_edit/' . Auth::user()->id) }}"><i
+                                href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"><i
                                     class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"

@@ -110,9 +110,38 @@
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
+                    </div> 
+                    <div class="dropdown d-inline-block user-dropdown">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @if (Auth::user()->img == null)
+                                <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @else
+                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @endif
+                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
+                                {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                            </span>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}" style="font-size: 12px"><i
+                                    class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                {{-- class="text-reset notification-item" --}}
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="ri-shut-down-line align-middle me-1 text-danger"></i>
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
                     </div>
- 
- 
                 </div>
             </div>
         </header>
