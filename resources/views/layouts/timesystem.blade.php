@@ -53,10 +53,30 @@
 <!-- Plugins css -->
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
-  
+  <style>
+        body{   
+        background:
+            url(/pkbackoffice/public/images/bg7.png);
+            /* url(/pkbackoffice/public/images/bg5.jpg); */
+            /* -webkit-background-size: cover; */
+        background-repeat: no-repeat;
+		background-attachment: fixed;
+		/* background-size: cover; */
+        background-size: 100% 100%;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* width: 100vw;   ให้เต็มพอดี */
+        /* height: 100vh; ให้เต็มพอดี  */ 
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+  </style>
 
 <body data-topbar="dark">
- 
+    {{-- <body style="background-image: url('my_bg.jpg');"> --}}
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -153,8 +173,9 @@
         </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu" style="background-color: rgb(128, 216, 209)">
-
+        {{-- <div class="vertical-menu "> --}}
+            <div class="vertical-menu Bgsidebar">
+        {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
@@ -165,7 +186,8 @@
                         <li>
                             <a href="{{ url('time_dashboard') }}">  
                                 <i class="fa-solid fa-gauge-high text-white"></i>
-                                <span style="color: white">Dashboard</span>
+                                <span>Dashboard</span>
+                                {{-- <span style="color: white">Dashboard</span> --}}
                             </a> 
                         </li> 
                         <li>
@@ -175,8 +197,8 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('time_index') }}">เวลาเข้า-ออก (backoffice)</a></li>
-                                <li><a href="{{ url('time_backot') }}">OT(backoffice)</a></li>
-                                <li><a href="{{ url('time_nurs') }}">เวลาเข้า-ออก (Nurs)</a></li>
+                                <li><a href="{{ url('time_backot_dep') }}">OT(backoffice)</a></li>
+                                <li><a href="{{ url('time_nurs_dep') }}">เวลาเข้า-ออก (Nurs)</a></li>
                                 {{-- <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li> --}}
                             </ul>
                         </li>
@@ -194,8 +216,8 @@
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
-
-            <div class="page-content">
+            {{-- background:url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%; --}}
+            <div class="page-content Backgroupbody">
 
                 @yield('content')
 

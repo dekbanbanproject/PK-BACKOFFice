@@ -53,7 +53,19 @@
 <!-- Plugins css -->
 <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
 </head>
-  
+<style>
+    body{   
+    background:
+        url(/pkbackoffice/public/images/bg7.png); 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%; 
+    }
+.Bgsidebar {
+      background-image: url('/pkbackoffice/public/images/bgside.jpg');
+    background-repeat: no-repeat;
+}
+</style>
 
 <body data-topbar="dark">
  
@@ -126,25 +138,25 @@
         </style>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu">
-
-            <div data-simplebar class="h-100" style="background-color: #ffafbd">
-                {{-- <div data-simplebar class="h-100 nom6"> --}}
+        <div class="vertical-menu Bgsidebar">
+            <div data-simplebar class="h-100">
+            {{-- <div data-simplebar class="h-100" style="background-color: #ffafbd"> --}}
+                {{-- <div data-simplebar class="h-100 nom6"> --}} 
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title" style="color: white">Menu</li>
+                        <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('report_dashboard') }}">  
                                 <i class="fa-solid fa-gauge-high text-info"></i>
-                                <span style="color: white">Dashboard</span>
+                                <span>Dashboard</span>
                             </a> 
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-clipboard-user text-info"></i>
-                                <span style="color: white">Check Sit</span>
+                                <span>Check Sit</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('check_sit_day') }}">เช็คสิทธิ์รายวัน</a></li> 
@@ -155,23 +167,24 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-truck-medical text-danger"></i>
-                                <span style="color: white">Refer</span>
+                                <span>Refer</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('report_refer') }}" style="color: white">การใช้งานรถ Refer BK</a></li>  
-                                <li ><a href="{{ url('report_refer_hos') }}" style="color: white">การใช้งานรถ Refer Hos</a></li>  
-                                <li ><a href="{{ url('report_refer_opds') }}" style="color: white">การบันทึกข้อมูล OPD Refer</a></li>
+                                <li ><a href="{{ url('report_refer') }}">การใช้งานรถ Refer BK</a></li>  
+                                <li ><a href="{{ url('report_refer_hos') }}">การใช้งานรถ Refer Hos</a></li>  
+                                <li ><a href="{{ url('report_refer_opds') }}">การบันทึกข้อมูล OPD Refer</a></li>
+                                <li ><a href="{{ url('refer_opds_cross') }}" >Referข้าม CUP ภายในจังหวัด</a></li>
                             </ul>
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-wheelchair text-danger"></i>
-                                <span style="color: white">อุปกรณ์อวัยวะเที่ยม</span>
+                                <span>อุปกรณ์อวัยวะเที่ยม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('check_knee_ipd') }}" style="color: white">ข้อเข่า</a></li> 
-                                <li ><a href="{{ url('check_kradook') }}" style="color: white">แผ่นโลหะกระดูก</a></li>  
-                                <li ><a href="{{ url('check_khosaphok') }}" style="color: white">ข้อสะโพก</a></li> 
+                                <li ><a href="{{ url('check_knee_ipd') }}" >ข้อเข่า</a></li> 
+                                <li ><a href="{{ url('check_kradook') }}" >แผ่นโลหะกระดูก</a></li>  
+                                <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li> 
                             </ul>
                         </li> 
                         
@@ -206,7 +219,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - งานประกันสุขภาพ
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>

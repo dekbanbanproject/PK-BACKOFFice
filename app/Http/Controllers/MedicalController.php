@@ -823,11 +823,11 @@ class MedicalController extends Controller
 
         foreach ($medical as $item) {
             if ($item->medical_borrow_active == 'REQUEST') {
-                $color = 'rgb(235, 81, 10)';
+                $color = 'rgb(230, 143, 103)';
             } elseif ($item->medical_borrow_active == 'SENDEB') {
-                $color = 'rgb(89, 10, 235)';
+                $color = 'rgb(137, 183, 235)';
             } elseif ($item->medical_borrow_active == 'APPROVE') {
-                $color = 'rgb(4, 117, 81)';
+                $color = 'rgb(89, 196, 162)';
             } elseif ($item->medical_borrow_active == 'cancel') {
                 $color = '#ff0606';
             } else {
@@ -835,7 +835,15 @@ class MedicalController extends Controller
             }
             $datestart = $item->medical_borrow_date;
             $backdate = $item->medical_borrow_backdate;
+            $iddep = $item->DEPARTMENT_SUB_SUB_ID;
             $showtitle = $item->DEPARTMENT_SUB_SUB_NAME;
+            // if ($showtitle_ == 'งานการพยาบาลผู้ป่วยหนัก ICU1') {
+            //     $showtitle = 'rgb(230, 143, 103)';
+            // } else {
+            //     $showtitle = '';
+            // }
+            
+           
             $event[] = [
                 'id' => $item->medical_borrow_id,
                 'title' => $showtitle,
@@ -849,6 +857,17 @@ class MedicalController extends Controller
             'events'     =>  $event,
             // 'dataedits'  =>  $dataedit
         ]);
+    }
+    public function med_calenda_detail(Request $request,$id)
+    {  
+        $med_calenda =  Medical_borrow::leftjoin('article_data', 'article_data.article_id', '=', 'medical_borrow.medical_borrow_article_id')
+                ->leftjoin('department_sub_sub', 'department_sub_sub.DEPARTMENT_SUB_SUB_ID', '=', 'medical_borrow.medical_borrow_debsubsub_id')
+                ->leftjoin('users', 'users.id', '=', 'medical_borrow.medical_borrow_backusers_id')
+                ->find($id);  
+            return response()->json([
+                'status'         => '200',
+                'med_calenda'    =>  $med_calenda, 
+                ]);
     }
     public function med_borrow(Request $request)
     {

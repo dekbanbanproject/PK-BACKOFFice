@@ -234,6 +234,7 @@ if (Auth::check()) {
 
         <div class="main-card mb-3 card">
             <div class="card-header">
+                ลงเวลาเข้า-ออก
                 {{-- <i class="header-icon lnr-license icon-gradient bg-plum-plate"></i>
                 ลงเวลาเข้า-ออก --}}
                 {{-- <form action="{{ route('t.time_index') }}" method="POST">
@@ -319,10 +320,10 @@ if (Auth::check()) {
                                                 data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                                 <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $startdate }}" />
+                                                    data-date-language="th-th" value="{{ $startdate }}" required/>
                                                 <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $enddate }}" /> 
+                                                    data-date-language="th-th" value="{{ $enddate }}" required/> 
                                             </div>
                                         </div> 
                                         <div class="col-md-1 text-center">กลุ่มภารกิจ</div>

@@ -55,6 +55,27 @@
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
+    body{   
+        background:
+            url(/pkbackoffice/public/images/bg7.png);
+            /* url(/pkbackoffice/public/images/bg5.jpg); */
+            /* -webkit-background-size: cover; */
+        background-repeat: no-repeat;
+		background-attachment: fixed;
+		/* background-size: cover; */
+        background-size: 100% 100%;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* width: 100vw;   ให้เต็มพอดี */
+        /* height: 100vh; ให้เต็มพอดี  */ 
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+</style>
+<style>
     #button{
            display:block;
            margin:20px auto;

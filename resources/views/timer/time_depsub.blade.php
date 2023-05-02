@@ -98,10 +98,10 @@ if (Auth::check()) {
                                                 data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                                 <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $startdate }}" />
+                                                    data-date-language="th-th" value="{{ $startdate }}" required/>
                                                 <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                    data-date-language="th-th" value="{{ $enddate }}" /> 
+                                                    data-date-language="th-th" value="{{ $enddate }}" required/> 
                                             </div>
                                         </div> 
                                         <div class="col-md-1 text-center">ฝ่าย/แผนก</div>

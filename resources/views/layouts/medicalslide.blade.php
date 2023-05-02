@@ -11,15 +11,21 @@
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
    
 
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> --}}
+
     <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet"> --}}
+    {{-- <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    {{-- <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet"> --}}
 
     <!-- jquery.vectormap css -->
     <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
@@ -54,12 +60,24 @@
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 </head>
 <style>
-    .myTable thead tr{
+     body{   
+        background:
+            url(/pkbackoffice/public/images/bg7.png); 
+        background-repeat: no-repeat;
+		background-attachment: fixed;
+		/* background-size: cover; */
+        background-size: 100% 100%; 
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+    /* .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;
     text-align: center;
-    }
-    .myTable th .myTable td{
+    } */
+    /* .myTable th .myTable td{
         padding: 12px 15px;
     }
     .myTable tbody tr{
@@ -76,22 +94,11 @@
     }
     .myTable tbody tr .active-row{
         color: #ccbcd1;
-    }
+    } */
 </style>
 
 <body data-topbar="dark">
-
-    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
-
-    <!-- Loader -->
-    {{-- <div id="preloader">
-        <div id="status">
-            <div class="spinner">
-                <i class="ri-loader-line spin-icon"></i>
-            </div>
-        </div>
-    </div> --}}
-
+ 
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -192,9 +199,9 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu">
+        <div class="vertical-menu Bgsidebar">
 
-            <div data-simplebar class="h-100" style="background-color: antiquewhite">
+            <div data-simplebar class="h-100">
  
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
@@ -209,7 +216,7 @@
                                 <span>เครื่องมือแพทย์</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                {{-- <li><a href="{{ url('medical/med_calenda') }}">ปฎิทิน</a></li> --}}
+                                <li><a href="{{ url('medical/med_calenda') }}">ปฎิทิน</a></li>
                                 <li><a href="{{ url('medical/med_dashboard') }}">Dsahboard</a></li>
                                 <li><a href="{{ url('medical/med_index') }}">ทะเบียนเครื่องมือแพทย์</a></li>
                                 <li><a href="{{ url('med_store') }}">คลังเครื่องมือแพทย์</a></li>
@@ -274,7 +281,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by PKClaim
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>
@@ -302,6 +309,7 @@
     <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
 
     <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script>
+
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
@@ -344,14 +352,22 @@
     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
 
 
-    <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
-    {{-- <script src="{{ asset('js/select2.min.js') }}"></script> --}}
-    <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
+    <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script> 
 
-    {{-- <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.bootstrap5.min.js') }}"></script> --}}
+
+    {{-- <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script> --}}
+
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script> --}}
+
+    {{-- <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+    <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
+   
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- App js -->

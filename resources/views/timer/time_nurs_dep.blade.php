@@ -72,16 +72,21 @@ if (Auth::check()) {
                 <div class="cv-spinner">
                   <span class="spinner"></span>
                 </div>
-              </div>              
+              </div>
+              
         </div> 
+
        
+
         <div class="main-card mb-3 card">
-            <div class="card-header">               
+            <div class="card-header">
+                ลงเวลาเข้า-ออก
+                
                 <div class="btn-actions-pane-right">
-                    <div class="nav"> 
-                        <a href="{{ url('time_dep') }}" class="btn-pill btn-wide btn btn-outline-alternate btn-sm">กลุ่มภารกิจ</a>
-                        <a href="{{ url('time_depsub') }}" class="btn-pill btn-wide me-1 ms-1  btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
-                        <a href="{{ url('time_depsubsub') }}" class="btn-pill btn-wide active btn btn-outline-alternate btn-sm">หน่วยงาน</a>
+                    <div class="nav">
+                        <a data-bs-toggle="tab" href="{{ url('time_nurs_dep') }}" class="btn-pill btn-wide active btn btn-outline-alternate btn-sm">กลุ่มภารกิจ</a>
+                        <a href="{{ url('time_nurs_depsub') }}" class="btn-pill btn-wide me-1 ms-1  btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
+                        <a href="{{ url('time_nurs_depsubsub') }}" class="btn-pill btn-wide  btn btn-outline-alternate btn-sm">หน่วยงาน</a>
                     </div>
                 </div>
             </div>
@@ -89,7 +94,7 @@ if (Auth::check()) {
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
                         <p> 
-                            <form action="{{ route('t.time_depsubsub') }}" method="POST">
+                            <form action="{{ route('t.time_nurs_dep') }}" method="POST">
                                 @csrf
                                     <div class="row"> 
                                         <div class="col-md-2 text-end">วันที่</div>
@@ -104,27 +109,27 @@ if (Auth::check()) {
                                                     data-date-language="th-th" value="{{ $enddate }}" required/> 
                                             </div>
                                         </div> 
-                                        <div class="col-md-1 text-center">หน่วยงาน</div>
-                                        <div class="col-md-2 text-center">
-                                            <div class="input-group">
-                                                <select id="HR_DEPARTMENT_SUB_SUB_ID" name="HR_DEPARTMENT_SUB_SUB_ID" class="form-select form-select-lg department_sub_sub" style="width: 100%"> 
-                                                
-                                                    @foreach ($department_subsub as $items2) 
-                                                    @if ($debsubsub == $items2->HR_DEPARTMENT_SUB_SUB_ID)
-                                                        <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}" selected> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
-                                                    @else
-                                                        <option value="{{ $items2->HR_DEPARTMENT_SUB_SUB_ID }}"> {{ $items2->HR_DEPARTMENT_SUB_SUB_NAME }} </option> 
-                                                    @endif   
-                                                    @endforeach
-                                            </select>
+                                        <div class="col-md-1 text-center">กลุ่มภารกิจ</div>
+                                            <div class="col-md-2 text-center">
+                                                <div class="input-group">
+                                                    <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
+                                                    
+                                                        @foreach ($department as $items0) 
+                                                        @if ($deb == $items0->HR_DEPARTMENT_ID)
+                                                            <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                                                        @else
+                                                            <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                                                        @endif    
+                                                        @endforeach
+                                                </select>
                                             </div>
-                                        </div> 
+                                        </div>
                                         <div class="col-md-2 me-2">  
                                             <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                                 <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                                             </button> 
                                         
-                                            <a href="{{url('time_depsubsub_excel/'.$debsubsub.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                            <a href="{{url('time_nurs_depexcel/'.$deb.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                 <i class="fa-solid fa-file-excel me-2"></i>
                                                 Export
                                             </a>
@@ -166,7 +171,7 @@ if (Auth::check()) {
                             </div> 
                         </p>
                     </div>
-                    
+                     
                 </div>
             </div>
             

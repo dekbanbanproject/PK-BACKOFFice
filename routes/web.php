@@ -37,6 +37,8 @@ Route::match(['get','post'],'report_refer_opds',[App\Http\Controllers\ReportFont
 Route::match(['get','post'],'report_refer_opds_sub/{months}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_sub'])->name('rep.report_refer_opds_sub');// report report_refer
 Route::match(['get','post'],'report_refer_opds_subvn/{months}/{hospcode}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_subvn'])->name('rep.report_refer_opds_subvn');// report report_refer
 Route::match(['get','post'],'report_refer_opds_subct/{months}/{hospcode}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_subct'])->name('rep.report_refer_opds_subct');// report report_refer
+Route::match(['get','post'],'refer_opds_cross',[App\Http\Controllers\ReportFontController::class, 'refer_opds_cross'])->name('rep.refer_opds_cross');// report report_refer
+Route::match(['get','post'],'refer_opds_cross_excel/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'refer_opds_cross_excel'])->name('rep.refer_opds_cross_excel');// report report_refer
 
 Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า
@@ -175,11 +177,26 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'time_depsub_excel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_depsub_excel'])->name('t.time_depsub_excel');// ระบบลงเวลา
   Route::match(['get','post'],'time_depsubsub_excel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_depsubsub_excel'])->name('t.time_depsubsub_excel');// ระบบลงเวลา
 
-  Route::match(['get','post'],'time_backot',[App\Http\Controllers\TimerController::class, 'time_backot'])->name('t.time_backot');// ระบบลงเวลา
-  Route::match(['get','post'],'time_backot_excel',[App\Http\Controllers\TimerController::class, 'time_backot_excel'])->name('t.time_backot_excel');// ระบบลงเวลา
+  Route::match(['get','post'],'time_backot_dep',[App\Http\Controllers\TimerController::class, 'time_backot_dep'])->name('t.time_backot_dep');// ระบบลงเวลา
+  Route::match(['get','post'],'time_backot_depexcel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_backot_depexcel'])->name('t.time_backot_depexcel');// ระบบลงเวลา
 
-  Route::match(['get','post'],'time_nurs',[App\Http\Controllers\TimerController::class, 'time_nurs'])->name('t.time_nurs');// ระบบลงเวลา
-  Route::match(['get','post'],'time_nurs_excel',[App\Http\Controllers\TimerController::class, 'time_nurs_excel'])->name('t.time_nurs_excel');// ระบบลงเวลา
+  Route::match(['get','post'],'time_backot_depsub',[App\Http\Controllers\TimerController::class, 'time_backot_depsub'])->name('t.time_backot_depsub');// ระบบลงเวลา
+  Route::match(['get','post'],'time_backot_depsubexcel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_backot_depsubexcel'])->name('t.time_backot_depsubexcel');// ระบบลงเวลา
+
+  Route::match(['get','post'],'time_backot_depsubsub',[App\Http\Controllers\TimerController::class, 'time_backot_depsubsub'])->name('t.time_backot_depsubsub');// ระบบลงเวลา
+  Route::match(['get','post'],'time_backot_depsubsubexcel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_backot_depsubsubexcel'])->name('t.time_backot_depsubsubexcel');// ระบบลงเวลา
+
+  // Route::match(['get','post'],'time_backot_dep',[App\Http\Controllers\TimerController::class, 'time_backot_dep'])->name('t.time_backot_dep');// ระบบลงเวลา
+  // Route::match(['get','post'],'time_backot_depexcel',[App\Http\Controllers\TimerController::class, 'time_backot_depexcel'])->name('t.time_backot_depexcel');// ระบบลงเวลา
+
+  Route::match(['get','post'],'time_nurs_dep',[App\Http\Controllers\TimerController::class, 'time_nurs_dep'])->name('t.time_nurs_dep');// ระบบลงเวลา
+  Route::match(['get','post'],'time_nurs_depexcel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_nurs_depexcel'])->name('t.time_nurs_depexcel');// ระบบลงเวลา
+
+  Route::match(['get','post'],'time_nurs_depsub',[App\Http\Controllers\TimerController::class, 'time_nurs_depsub'])->name('t.time_nurs_depsub');// ระบบลงเวลา
+  Route::match(['get','post'],'time_nurs_depsubexcel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_nurs_depsubexcel'])->name('t.time_nurs_depsubexcel');// ระบบลงเวลา
+
+  Route::match(['get','post'],'time_nurs_depsubsub',[App\Http\Controllers\TimerController::class, 'time_nurs_depsubsub'])->name('t.time_nurs_depsubsub');// ระบบลงเวลา
+  Route::match(['get','post'],'time_nurs_depsubsubexcel/{id}/{startdate}/{enddate}',[App\Http\Controllers\TimerController::class, 'time_nurs_depsubsubexcel'])->name('t.time_nurs_depsubsubexcel');// ระบบลงเวลา
     // ******************** ผู้ดูแลงานบุคลากร ***********************
     Route::match(['get','post'],'person/person_index',[App\Http\Controllers\PersonController::class, 'person_index'])->name('person.person_index');//
     Route::match(['get','post'],'person/person_index_add',[App\Http\Controllers\PersonController::class, 'person_index_add'])->name('person.person_index_add');//
@@ -684,6 +701,8 @@ Route::middleware(['type'])->group(function(){
  
  //***************** ยานพาหนะ รถทั่วไป ผู้ดูแล**************************
     Route::match(['get','post'],'car/car_narmal_calenda',[App\Http\Controllers\CarController::class, 'car_narmal_calenda'])->name('car.car_narmal_calenda');//รถทั่วไป Calenda
+    
+
     Route::match(['get','post'],'car/car_narmal_calenda_add/{id}',[App\Http\Controllers\CarController::class, 'car_narmal_calenda_add'])->name('car.car_narmal_calenda_add');//รถทั่วไป Calenda
     Route::match(['get','post'],'car/car_narmal_index',[App\Http\Controllers\CarController::class, 'car_narmal_index'])->name('car.car_narmal_index');//รถทั่วไป
     Route::match(['get','post'],'car/car_narmal_updatecancel/{id}',[App\Http\Controllers\CarController::class, 'car_narmal_updatecancel'])->name('car.car_narmal_updatecancel');//
@@ -784,6 +803,7 @@ Route::middleware(['type'])->group(function(){
  Route::delete('med_condestroy/{id}',[App\Http\Controllers\MedicalController::class, 'med_condestroy'])->name('med.med_condestroy');//
 
  Route::match(['get','post'],'medical/med_calenda',[App\Http\Controllers\MedicalController::class, 'med_calenda'])->name('med.med_calenda');//
+ Route::match(['get','post'],'med_calenda_detail/{id}',[App\Http\Controllers\MedicalController::class, 'med_calenda_detail'])->name('car.med_calenda_detail');//รถทั่วไป Calenda
 
  Route::match(['get','post'],'med_store',[App\Http\Controllers\MedicalController::class, 'med_store'])->name('med.med_store');//เครื่องมือแพทย์
  Route::match(['get','post'],'med_store_add/{id}',[App\Http\Controllers\MedicalController::class, 'med_store_add'])->name('med.med_store_add');//เครื่องมือแพทย์

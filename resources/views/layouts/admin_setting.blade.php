@@ -421,7 +421,7 @@ $countadmin = StaticController::countadmin($userid);
             </div>
             <div class="textmenu">
                 <div class="brand-logo bg-danger">
-                    <img src="{{ asset('apkclaim/images/logo150.png') }}" width="40" height="40px" alt="" />
+                    <img src="{{ asset('sky16/images/logo250.png') }}" width="40" height="40px" alt="" />
                     <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
                             aria-haspopup="false" aria-expanded="false">
                             <h6 style="color:rgb(255, 255, 255)" class="mt-3">PKBACKOFFice</h6>

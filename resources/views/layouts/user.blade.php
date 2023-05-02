@@ -54,7 +54,18 @@
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style> 
-    *{
+ body{   
+        background:
+            url(/pkbackoffice/public/images/bg7.png); 
+        background-repeat: no-repeat;
+		background-attachment: fixed; 
+        background-size: 100% 100%; 
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+    /* *{
         margin: 0;
         padding: 0;
     }
@@ -76,7 +87,10 @@
         0%{
             background-position: 0 50%;
         }
-    } 
+    }  */
+
+
+    
     /* .myTable thead tr{
     background-color: #6e6d6e;
     color: #ffffff;
@@ -220,7 +234,7 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu">
+        <div class="vertical-menu Bgsidebar">
 
             <div data-simplebar class="h-100">
  

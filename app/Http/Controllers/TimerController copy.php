@@ -824,7 +824,82 @@ class TimerController extends Controller
             'debsubsub'        => $debsubsub
         ]);
     }
-    
+    // public function time_depsub(Request $request)
+    // { 
+    //     $startdate = $request->startdate;
+    //     $enddate = $request->enddate;
+    //     $deb = $request->HR_DEPARTMENT_ID; 
+    //     $debsub = $request->HR_DEPARTMENT_SUB_ID;
+    //     $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+    //     $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
+    //     $datashow_ = DB::connection('mysql6')->select('  
+    //             SELECT p.ID 
+    //                 ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
+    //                 ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+    //                 ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+    //                 ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
+    //                 ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
+    //                 ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
+    //                 ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID 
+    //             FROM checkin_index c
+    //             LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+    //             LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
+    //             LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+    //             LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
+    //             LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+    //             LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+    //             LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+    //             WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"            
+    //             AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"             
+    //             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
+    //             ORDER BY c.CHEACKIN_DATE,d.HR_DEPARTMENT_SUB_SUB_ID,p.ID,ot.OPERATE_TYPE_ID
+    //     ');
+        
+    //     $datashow2_ = DB::connection('mysql6')->select('  
+    //             SELECT p.ID 
+    //                 ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
+    //                 ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+    //                 ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+    //                 ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
+    //                 ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
+    //                 ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
+    //                 ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID 
+    //             FROM checkin_index c
+    //             LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+    //             LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
+    //             LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+    //             LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
+    //             LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+    //             LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+    //             LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+    //             WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"            
+    //             AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"             
+    //             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
+    //             ORDER BY c.CHEACKIN_DATE,d.HR_DEPARTMENT_SUB_SUB_ID,p.ID,ot.OPERATE_TYPE_ID
+    //     ');
+    //     $department = DB::connection('mysql6')->select('
+    //         SELECT * FROM hrd_department
+    //     ');
+    //     $department_sub = DB::connection('mysql6')->select('
+    //         SELECT * FROM hrd_department_sub
+    //     ');
+    //     $department_subsub = DB::connection('mysql6')->select('
+    //         SELECT * FROM hrd_department_sub_sub
+    //     ');
+        
+    //     return view('timer.time_index', [
+    //         'datashow_'        => $datashow_,
+    //         'datashow2_'        => $datashow2_,
+    //         'startdate'        => $startdate,
+    //         'enddate'          => $enddate,
+    //         'department'       => $department,
+    //         'department_sub'   => $department_sub,
+    //         'department_subsub'=> $department_subsub,
+    //         'deb'              => $deb,
+    //         'debsub'           => $debsub,
+    //         'debsubsub'        => $debsubsub
+    //     ]);
+    // }
     public function time_depsub_excel(Request $request,$deb,$startdate,$enddate)
     {   
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
@@ -954,330 +1029,69 @@ class TimerController extends Controller
         ]);
     }
 
-    // public function time_nurs_dep(Request $request)
-    // { 
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     $deb = $request->HR_DEPARTMENT_ID; 
-    //     $debsub = $request->HR_DEPARTMENT_SUB_ID;
-    //     $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
- 
-    //     $datashow_ = DB::connection('mysql6')->select(' 
-                // SELECT p.ID
-                // ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                // ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                // ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                // ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                // ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME,,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                // FROM checkin_index c
-                // LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                // LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                // LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                // LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                // LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                // LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                // LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                // WHERE c.CHEACKIN_DATE = CURDATE() 
-                // AND h.HR_DEPARTMENT_ID = "'.$debsubsub.'"
-                // GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                // ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-    //     '); 
-    //     $department = DB::connection('mysql6')->select('
-    //         SELECT * FROM hrd_department
-    //     ');
-    //     $department_sub = DB::connection('mysql6')->select('
-    //         SELECT * FROM hrd_department_sub
-    //     ');
-    //     $department_subsub = DB::connection('mysql6')->select('
-    //         SELECT * FROM hrd_department_sub_sub
-    //     ');
+    public function time_nurs(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $deb = $request->HR_DEPARTMENT_ID; 
+        $debsub = $request->HR_DEPARTMENT_SUB_ID;
+        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
+
+        // dd($debsub);
+        $datashow_ = DB::connection('mysql6')->select('  
+            
+                SELECT p.ID 
+                    ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
+                    ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
+                    ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
+                    ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
+                    ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
+                    ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
+                    ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID 
+                FROM checkin_index c
+                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
+                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
+                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
+                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
+                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"            
+                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
+                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
+                ORDER BY c.CHEACKIN_DATE,d.HR_DEPARTMENT_SUB_SUB_ID,p.ID,ot.OPERATE_TYPE_ID
+        ');
+         
+        $department = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department
+        ');
+        $department_sub = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department_sub
+        ');
+        $department_subsub = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department_sub_sub
+        ');
         
-    //     return view('timer.time_nurs_dep', [
-    //         'datashow_'        => $datashow_,
-    //         'startdate'        => $startdate,
-    //         'enddate'          => $enddate,
-    //         'department'       => $department,
-    //         'department_sub'   => $department_sub,
-    //         'department_subsub'=> $department_subsub,
-    //         'deb'              => $deb,
-    //         'debsub'           => $debsub,
-    //         'debsubsub'        => $debsubsub
-    //     ]);
-    // }
+        return view('timer.time_nurs', [
+            'datashow_'        => $datashow_,
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'department'       => $department,
+            'department_sub'   => $department_sub,
+            'department_subsub'=> $department_subsub,
+            'deb'              => $deb,
+            'debsub'           => $debsub,
+            'debsubsub'        => $debsubsub
+        ]);
+    }
 
     public function time_backot_dep(Request $request)
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $deb = $request->HR_DEPARTMENT_ID;  
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
- 
-        if ($startdate == '') {
-                $datashow_ = DB::connection('mysql6')->select('  
-                    SELECT p.ID
-                            ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                            ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                            ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                            ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                            ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                            FROM checkin_index c
-                            LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                            LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                            LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                            LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                            LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                            LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                            LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                            WHERE c.CHEACKIN_DATE = CURDATE()  
-                            AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                            AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                            GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                            ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } else {
-                $datashow_ = DB::connection('mysql6')->select('  
-                        SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                                ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                                ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                                ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                                AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                                AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        }
-         
-        $department = DB::connection('mysql6')->select('
-            SELECT * FROM hrd_department
-        '); 
-        
-        return view('timer.time_backot_dep', [
-            'datashow_'        => $datashow_,
-            'startdate'        => $startdate,
-            'enddate'          => $enddate, 
-            'deb'              => $deb, 
-            'department'       => $department, 
-        ]);
-    }
-    public function time_backot_depexcel(Request $request,$deb,$startdate,$enddate)
-    {   
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
-        $org = $org_->orginfo_name;
-         
-        if ($startdate == '') {
-                $export = DB::connection('mysql6')->select('  
-                    SELECT p.ID
-                            ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                            ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                            ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                            ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                            ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                            FROM checkin_index c
-                            LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                            LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                            LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                            LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                            LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                            LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                            LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                            WHERE c.CHEACKIN_DATE = CURDATE()  
-                            AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                            AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                            GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                            ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } else {
-                $export = DB::connection('mysql6')->select('  
-                        SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                                ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                                ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                                ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                                AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                                AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } 
-        
-        $debname_ = DB::connection('mysql6')->table('hrd_department')->where('HR_DEPARTMENT_ID', '=', $deb)->first();
-          
-        return view('timer.time_backot_depexcel', [ 
-            'export'           =>  $export,
-            'deb'              => $debname_->HR_DEPARTMENT_NAME, 
-            'org'              => $org,  
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-        ]);
-    }
-
-    public function time_backot_depsub(Request $request)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate; 
-        $debsub = $request->HR_DEPARTMENT_SUB_ID; 
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
- 
-        if ($startdate == '') {
-                $datashow_ = DB::connection('mysql6')->select('  
-                    SELECT p.ID
-                            ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                            ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                            ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                            ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                            ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                            FROM checkin_index c
-                            LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                            LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                            LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                            LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                            LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                            LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                            LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                            WHERE c.CHEACKIN_DATE = CURDATE()  
-                            AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                            AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
-                            GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                            ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } else {
-                $datashow_ = DB::connection('mysql6')->select('  
-                        SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                                ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                                ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                                ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                                AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        }  
-        $department_sub = DB::connection('mysql6')->select('
-            SELECT * FROM hrd_department_sub
-        '); 
-        
-        return view('timer.time_backot_depsub', [
-            'datashow_'        => $datashow_,
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,  
-            'debsub'           => $debsub, 
-            'department_sub'   => $department_sub, 
-        ]);
-    }
-    public function time_backot_depsubexcel(Request $request,$debsub,$startdate,$enddate)
-    {   
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
-        $org = $org_->orginfo_name;
-         
-        if ($startdate == '') {
-                $export = DB::connection('mysql6')->select('  
-                    SELECT p.ID
-                            ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                            ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                            ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                            ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                            ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                            ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                            FROM checkin_index c
-                            LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                            LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                            LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                            LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                            LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                            LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                            LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                            WHERE c.CHEACKIN_DATE = CURDATE()  
-                            AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                            AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
-                            GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                            ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } else {
-                $export = DB::connection('mysql6')->select('  
-                        SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                                ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                                ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                                ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                                AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } 
-        
-        $debsubname_ = DB::connection('mysql6')->table('hrd_department_sub')->where('HR_DEPARTMENT_SUB_ID', '=', $debsub)->first();
-          
-        return view('timer.time_backot_depsubexcel', [ 
-            'export'           =>  $export,
-            'deb'              => $debsubname_->HR_DEPARTMENT_SUB_NAME, 
-            'org'              => $org,  
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-        ]);
-    }
-
-    public function time_backot_depsubsub(Request $request)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate; 
+        $deb = $request->HR_DEPARTMENT_ID; 
+        $debsub = $request->HR_DEPARTMENT_SUB_ID;
         $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
  
@@ -1301,7 +1115,7 @@ class TimerController extends Controller
                             LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
                             WHERE c.CHEACKIN_DATE = CURDATE()  
                             AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                            AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                            AND h.HR_DEPARTMENT_ID = "'.$deb.'"
                             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                             ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
@@ -1325,32 +1139,49 @@ class TimerController extends Controller
                                 LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                                AND h.HR_DEPARTMENT_ID = "'.$deb.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
-        }  
-        // AND d.HR_DEPARTMENT_SUB_SUB_ID = "29" 
-      
-        $department_subsub = DB::connection('mysql6')->select('
-            SELECT * FROM hrd_department_sub_sub
+        }
+               
+        // AND h.HR_DEPARTMENT_ID = "3"
+        // AND hs.HR_DEPARTMENT_SUB_ID = "22"
+        // AND d.HR_DEPARTMENT_SUB_SUB_ID = "29"
+        $department = DB::connection('mysql6')->select('
+            SELECT * FROM hrd_department
         ');
+        // $department_sub = DB::connection('mysql6')->select('
+        //     SELECT * FROM hrd_department_sub
+        // ');
+        // $department_subsub = DB::connection('mysql6')->select('
+        //     SELECT * FROM hrd_department_sub_sub
+        // ');
         
-        return view('timer.time_backot_depsubsub', [
+        return view('timer.time_backot_dep', [
             'datashow_'        => $datashow_,
             'startdate'        => $startdate,
-            'enddate'          => $enddate,  
-            'debsubsub'        => $debsubsub, 
-            'department_subsub'=> $department_subsub,
+            'enddate'          => $enddate, 
+            'deb'              => $deb,
+            // 'debsub'           => $debsub,
+            // 'debsubsub'        => $debsubsub,
+            'department'       => $department,
+            // 'department_sub'   => $department_sub,
+            // 'department_subsub'=> $department_subsub,
         ]);
     }
-    public function time_backot_depsubsubexcel(Request $request,$debsubsub,$startdate,$enddate)
-    {   
+
+    public function time_backot_depsub(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $deb = $request->HR_DEPARTMENT_ID; 
+        $debsub = $request->HR_DEPARTMENT_SUB_ID;
+        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID;
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
-        $org = $org_->orginfo_name;
-        
+ 
         if ($startdate == '') {
-                $export = DB::connection('mysql6')->select('  
+                $datashow_ = DB::connection('mysql6')->select('  
                     SELECT p.ID
                             ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
                             ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
@@ -1369,12 +1200,12 @@ class TimerController extends Controller
                             LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
                             WHERE c.CHEACKIN_DATE = CURDATE()  
                             AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                            AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                            AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
                             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                             ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
         } else {
-                $export = DB::connection('mysql6')->select('  
+                $datashow_ = DB::connection('mysql6')->select('  
                         SELECT p.ID
                                 ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
                                 ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
@@ -1393,398 +1224,29 @@ class TimerController extends Controller
                                 LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
                                 AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
-                                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
                 '); 
         }  
-        
-        $debsubsubname_ = DB::connection('mysql6')->table('hrd_department_sub_sub')->where('HR_DEPARTMENT_SUB_SUB_ID', '=', $debsubsub)->first();
-        $department = DB::connection('mysql6')->select('
-            SELECT * FROM hrd_department_sub_sub
-        ');
-           
-        return view('timer.time_backot_depsubsubexcel', [ 
-            'export'           =>  $export,
-            'deb'              => $debsubsubname_->HR_DEPARTMENT_SUB_SUB_NAME, 
-            'org'              => $org,  
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-        ]);
-    }
-
-    public function time_nurs_dep(Request $request)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $deb = $request->HR_DEPARTMENT_ID;  
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
- 
-        if ($startdate == '') {
-                $datashow_ = DB::connection('mysql6')->select('   
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE = CURDATE()                            
-                                AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID  
-                '); 
-        } else {
-                $datashow_ = DB::connection('mysql6')->select(' 
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
-                                AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                         
-                '); 
-        }
-         
-        $department = DB::connection('mysql6')->select('
-            SELECT * FROM hrd_department
-        '); 
-        
-        return view('timer.time_nurs_dep', [
-            'datashow_'        => $datashow_,
-            'startdate'        => $startdate,
-            'enddate'          => $enddate, 
-            'deb'              => $deb, 
-            'department'       => $department, 
-        ]);
-    }
-    public function time_nurs_depexcel(Request $request,$deb,$startdate,$enddate)
-    {   
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
-        $org = $org_->orginfo_name;
-         
-        if ($startdate == '') {
-                $export = DB::connection('mysql6')->select('   
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE = CURDATE()                            
-                                AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } else {
-                $export = DB::connection('mysql6')->select('  
-                        SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
-                                AND h.HR_DEPARTMENT_ID = "'.$deb.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
- 
-                '); 
-        } 
-        
-        $debname_ = DB::connection('mysql6')->table('hrd_department')->where('HR_DEPARTMENT_ID', '=', $deb)->first();
-          
-        return view('timer.time_nurs_depexcel', [ 
-            'export'           =>  $export,
-            'deb'              => $debname_->HR_DEPARTMENT_NAME, 
-            'org'              => $org,  
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-        ]);
-    }
-
-    public function time_nurs_depsub(Request $request)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $debsub = $request->HR_DEPARTMENT_SUB_ID; 
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
- 
-        if ($startdate == '') {
-                $datashow_ = DB::connection('mysql6')->select('   
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE = CURDATE()   
-                                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID  
-                '); 
-        } else {
-                $datashow_ = DB::connection('mysql6')->select(' 
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
-                                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                         
-                '); 
-        }
-         
+        // AND d.HR_DEPARTMENT_SUB_SUB_ID = "29" 
         $department_sub = DB::connection('mysql6')->select('
             SELECT * FROM hrd_department_sub
-        '); 
+        ');
+        // $department_subsub = DB::connection('mysql6')->select('
+        //     SELECT * FROM hrd_department_sub_sub
+        // ');
         
-        return view('timer.time_nurs_depsub', [
+        return view('timer.time_backot_depsub', [
             'datashow_'        => $datashow_,
             'startdate'        => $startdate,
             'enddate'          => $enddate, 
-            'debsub'           => $debsub, 
-            'department_sub'   => $department_sub, 
-        ]);
-    }
-    public function time_nurs_depsubexcel(Request $request,$debsup,$startdate,$enddate)
-    {   
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
-        $org = $org_->orginfo_name;
-         
-        if ($startdate == '') {
-                $export = DB::connection('mysql6')->select('   
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE = CURDATE()                            
-                                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsup.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } else {
-                $export = DB::connection('mysql6')->select('  
-                        SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
-                                AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsup.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
- 
-                '); 
-        } 
-        
-        $debname_ = DB::connection('mysql6')->table('hrd_department_sub')->where('HR_DEPARTMENT_SUB_ID', '=', $debsup)->first();
-          
-        return view('timer.time_nurs_depsubexcel', [ 
-            'export'           =>  $export,
-            'deb'              => $debname_->HR_DEPARTMENT_SUB_NAME, 
-            'org'              => $org,  
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-        ]);
-    }
-
-    public function time_nurs_depsubsub(Request $request)
-    { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $debsubsub = $request->HR_DEPARTMENT_SUB_SUB_ID; 
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
- 
-        if ($startdate == '') {
-                $datashow_ = DB::connection('mysql6')->select('   
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE = CURDATE()   
-                                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID  
-                '); 
-        } else {
-                $datashow_ = DB::connection('mysql6')->select(' 
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
-                                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                         
-                '); 
-        }
-         
-        $department_subsub = DB::connection('mysql6')->select('
-            SELECT * FROM hrd_department_sub_sub
-        '); 
-        
-        return view('timer.time_nurs_depsubsub', [
-            'datashow_'        => $datashow_,
-            'startdate'        => $startdate,
-            'enddate'          => $enddate, 
-            'debsubsub'           => $debsubsub, 
-            'department_subsub'   => $department_subsub, 
-        ]);
-    }
-    public function time_nurs_depsubsubexcel(Request $request,$debsubsub,$startdate,$enddate)
-    {   
-        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
-        $org = $org_->orginfo_name;
-         
-        if ($startdate == '') {
-                $export = DB::connection('mysql6')->select('   
-                            SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE = CURDATE()                            
-                                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
-                '); 
-        } else {
-                $export = DB::connection('mysql6')->select('  
-                        SELECT p.ID
-                                ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                                ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                                ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname,d.HR_DEPARTMENT_SUB_SUB_NAME,hs.HR_DEPARTMENT_SUB_NAME
-                                ,h.HR_DEPARTMENT_ID ,h.HR_DEPARTMENT_NAME,hs.HR_DEPARTMENT_SUB_ID ,d.HR_DEPARTMENT_SUB_SUB_ID ,ot.OPERATE_TYPE_ID,ot.OPERATE_TYPE_NAME
-                                FROM checkin_index c
-                                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
-                                AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
-                                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
- 
-                '); 
-        } 
-        
-        $debname_ = DB::connection('mysql6')->table('hrd_department_sub_sub')->where('HR_DEPARTMENT_SUB_SUB_ID', '=', $debsubsub)->first();
-          
-        return view('timer.time_nurs_depsubsubexcel', [ 
-            'export'           =>  $export,
-            'deb'              => $debname_->HR_DEPARTMENT_SUB_SUB_NAME, 
-            'org'              => $org,  
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
+            // 'deb'              => $deb,
+            'debsub'           => $debsub,
+            // 'debsubsub'        => $debsubsub,
+            // 'department'       => $department,
+            'department_sub'   => $department_sub,
+            // 'department_subsub'=> $department_subsub,
         ]);
     }
     

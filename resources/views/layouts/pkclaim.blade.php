@@ -49,6 +49,25 @@
 
 </head>
 <style>
+     body{   
+        background:
+            url(/pkbackoffice/public/images/bg7.png);
+            /* url(/pkbackoffice/public/images/bg5.jpg); */
+            /* -webkit-background-size: cover; */
+        background-repeat: no-repeat;
+		background-attachment: fixed;
+		/* background-size: cover; */
+        background-size: 100% 100%;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* width: 100vw;   ให้เต็มพอดี */
+        /* height: 100vh; ให้เต็มพอดี  */ 
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
     .myTable thead tr{
     background-color: #32cab1;
     color: #ffffff;
@@ -225,9 +244,9 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu">
-
-            <div data-simplebar class="h-100" style="background-color: antiquewhite">
+        <div class="vertical-menu Bgsidebar">
+            {{-- <div data-simplebar class="h-100" style="background-color: antiquewhite"> --}}
+            <div data-simplebar class="h-100">
 
                 <!-- User details -->
                 {{-- <div class="user-profile text-center mt-3">
@@ -250,9 +269,9 @@
                 </div> --}}
 
                 <!--- Sidemenu -->
-                <div id="sidebar-menu">
+                <div id="sidebar-menu ">
                     <!-- Left Menu Start -->
-                    <ul class="metismenu list-unstyled" id="side-menu" style="background-color: antiquewhite">
+                    <ul class="metismenu list-unstyled" id="side-menu" >
                         <li class="menu-title">Menu</li>
 
                         {{-- <li>

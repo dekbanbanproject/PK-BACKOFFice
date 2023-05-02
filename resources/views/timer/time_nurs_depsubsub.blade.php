@@ -72,16 +72,20 @@ if (Auth::check()) {
                 <div class="cv-spinner">
                   <span class="spinner"></span>
                 </div>
-              </div>              
+              </div>
+              
         </div> 
+
        
+
         <div class="main-card mb-3 card">
-            <div class="card-header">               
+            <div class="card-header">
+                รายละเอียดโอที กลุ่มงาน/ฝ่าย
                 <div class="btn-actions-pane-right">
-                    <div class="nav"> 
-                        <a href="{{ url('time_dep') }}" class="btn-pill btn-wide btn btn-outline-alternate btn-sm">กลุ่มภารกิจ</a>
-                        <a href="{{ url('time_depsub') }}" class="btn-pill btn-wide me-1 ms-1  btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
-                        <a href="{{ url('time_depsubsub') }}" class="btn-pill btn-wide active btn btn-outline-alternate btn-sm">หน่วยงาน</a>
+                    <div class="nav">
+                        <a href="{{ url('time_nurs_dep') }}" class="btn-pill btn-wide btn btn-outline-alternate btn-sm">กลุ่มภารกิจ</a>
+                        <a href="{{ url('time_nurs_depsub') }}" class="btn-pill btn-wide me-1 ms-1 active btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
+                        <a href="{{ url('time_nurs_depsubsub') }}" class="btn-pill btn-wide  btn btn-outline-alternate btn-sm">หน่วยงาน</a>
                     </div>
                 </div>
             </div>
@@ -89,7 +93,7 @@ if (Auth::check()) {
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
                         <p> 
-                            <form action="{{ route('t.time_depsubsub') }}" method="POST">
+                            <form action="{{ route('t.time_nurs_depsubsub') }}" method="POST">
                                 @csrf
                                     <div class="row"> 
                                         <div class="col-md-2 text-end">วันที่</div>
@@ -124,7 +128,7 @@ if (Auth::check()) {
                                                 <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                                             </button> 
                                         
-                                            <a href="{{url('time_depsubsub_excel/'.$debsubsub.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                            <a href="{{url('time_nurs_depsubsubexcel/'.$debsubsub.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                 <i class="fa-solid fa-file-excel me-2"></i>
                                                 Export
                                             </a>
@@ -166,7 +170,7 @@ if (Auth::check()) {
                             </div> 
                         </p>
                     </div>
-                    
+                     
                 </div>
             </div>
             

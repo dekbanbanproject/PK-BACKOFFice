@@ -16,7 +16,7 @@
   
    
 
-    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
@@ -37,77 +37,71 @@
     <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
         rel="stylesheet" type="text/css" />
 
+
     <!-- Bootstrap Css -->
     <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-
+    {{-- <link href="{{ asset('css/laravelten.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
-   <!-- select2 -->
-    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
-   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <link rel="stylesheet"
-   href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-<!-- Plugins css -->
-<link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet"> --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <link href="{{ asset('css/tableclaim.css') }}" rel="stylesheet"> --}}
+    <!-- App Css-->
+    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 </head>
- <style>
-    body{   
+<style>
+     body{   
         background:
-            url(/pkbackoffice/public/images/bg7.png);
-            /* -webkit-background-size: cover; */
+            url(/pkbackoffice/public/images/bg7.png); 
         background-repeat: no-repeat;
 		background-attachment: fixed;
 		/* background-size: cover; */
         background-size: 100% 100%; 
         }
- </style>
-
-
-<style>
-      
-    *{
-        margin: 0;
-        padding: 0;
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+    .myTable thead tr{
+    background-color: #b56fca;
+    color: #ffffff;
+    text-align: center;
     }
-    .headerZ{
-        z-index: 1;
-        background:linear-gradient(-45deg,red,rgb(201, 241, 154),rgb(184, 230, 226),rgb(238, 238, 107));
-        background-size: 400% 400%;
-        width: 100%;
-        height: 100vh;
-        animation: animate 5s ease infinite;
+    .myTable th .myTable td{
+        padding: 12px 15px;
     }
-    @keyframes animate{
-        0%{
-            background-position: 0 50%;
-        }
-        50%{
-            background-position: 100% 50%;
-        }
-        0%{
-            background-position: 0 50%;
-        }
+    .myTable tbody tr{
+        border-bottom: 1px solid #b329f3;
     }
-    
-    
+    .myTable tbody td{
+        font-size:15px;
+    }
+    .myTable tbody tr:nth-of-type(even){
+        background-color: #f4e1f7;
+    }
+    .myTable tbody tr:last-of-type{
+        border-bottom: 3px solid #ccbcd1;
+    }
+    .myTable tbody tr .active-row{
+        color: #ccbcd1;
+    }
 </style>
 
- <body data-topbar="dark">
-
+<body data-topbar="dark">
+ 
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-         <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)" >
-              
-
+        <header id="page-topbar">
+            <div class="navbar-header" style="background-color: rgb(253, 255, 255)">
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
-                        <a href="{{url('admin/home')}}" class="logo logo-dark">
+                        <a href="" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
                             </span>
@@ -116,18 +110,18 @@
                             </span>
                         </a>
 
-                        <a href="{{url('admin/home')}}" class="logo logo-light">
+                        <a href="" class="logo logo-light">
                             <span class="logo-sm"> 
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                        <i class="ri-menu-2-line align-middle" style="color:rgb(54, 53, 53)"></i>
                     </button>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
@@ -138,7 +132,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h5 style="color:rgb(54, 53, 53)" class="mt-2">{{$item->orginfo_name}}</h5>
                             @endforeach
                             
                         </div>
@@ -147,28 +141,13 @@
 
 
 
+
+
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
-                        <a href="{{url("admin/home")}}">   
-                            <i class="fa-solid fa-gauge-high text-success ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Dashboard"></i>
-                          </a>
-                        <a href="{{url("setting/setting_index")}}" target="_blank">  
-                            <i class="fa-solid fa-gear text-danger ms-4" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ตั้งค่า"></i>
-                          </a>
-                          <a href="{{url("user/home")}}" target="_blank">  
-                            <i class="fa-solid fa-user-group text-info ms-4 me-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="ผู้ใช้งานทั่วไป"></i>
-                          </a> 
-    
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(9, 75, 129)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(59, 59, 59)"></i>
                         </button>
-
-                        <div class="dropdown d-none d-lg-inline-block ms-1">
-                            <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword"> 
-                                <i class="fa-solid fa-key" style="color: rgb(207, 34, 115)"></i>
-                            </button>
-                        </div>
-
                     </div>
 
                     <div class="dropdown d-inline-block user-dropdown">
@@ -181,97 +160,131 @@
                                 <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
                                     width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
                             @endif
-                            <span class="d-none d-xl-inline-block ms-1 " style="color: rgb(9, 75, 129)">
+                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
                                 {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                             </span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"
-                                style="color: rgb(9, 75, 129)"></i>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item " style="color: rgb(9, 75, 129)"
-                                href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"><i
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"><i
                                     class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
                                 class="text-reset notification-item"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                    class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                                    class="ri-shut-down-line align-middle me-1 text-danger"></i>
+                                Logout
+                            </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
                         </div>
                     </div>
 
+
+
                     <div class="dropdown d-inline-block user-dropdown">
+
                     </div>
 
                 </div>
             </div>
         </header>
 
-         <!--  Modal content for the Keypassword example -->
-         <div class="modal fade" id="Keypassword" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myExtraLargeModalLabel">เปลี่ยนรหัสผ่าน </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body"> 
-                        <div class="row">                    
-                            <div class="col-md-4 text-end"><label for="">รหัสผ่าน New</label></div>
-                            <div class="col-md-7"> 
-                                <div class="form-group text-center">
-                                    <input type="password" class="form-control form-control-sm" id="password" name="password">
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-md-12 text-end">
-                            <div class="form-group"> 
-                                <button type="button" id="SaveChang" class="btn btn-outline-info btn-sm" > 
-                                    <i class="fa-solid fa-floppy-disk me-1"></i>
-                                    เปลี่ยน
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
-                                        class="fa-solid fa-xmark me-2"></i>ปิด</button>
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu Bgsidebar">
 
-                            </div>
-                        </div>
-                    </div> 
+            <div data-simplebar class="h-100">
+ 
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title">Menu</li>
+ 
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-laptop-code text-danger"></i>
+                                <span>เครื่องมือแพทย์</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('medical/med_calenda') }}">ปฎิทิน</a></li>
+                                <li><a href="{{ url('medical/med_dashboard') }}">Dsahboard</a></li>
+                                <li><a href="{{ url('medical/med_index') }}">ทะเบียนเครื่องมือแพทย์</a></li>
+                                <li><a href="{{ url('med_store') }}">คลังเครื่องมือแพทย์</a></li>
+                                <li><a href="{{ url('medical/med_borrow') }}">ยืม-คืน </a></li>
+                            </ul>
+                        </li>
+
+
+                        
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-chart-line text-danger"></i>
+                                <span>รายงาน</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('medical/med_rep1') }}">สถานะ การยืม/การใช้ (ตามประเภท-หน่วยงาน)</a></li>
+                                <li><a href="{{ url('medical/med_rep2') }}">รายงานยืม/การใช้เครื่องมือแพทย์</a></li>
+                                <li><a href="{{ url('medical/med_rep3') }}">รายงานยืม/การใช้เครื่องมือแพทย์(ใช้เกินกำหนด(14 วัน))</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-gears text-danger"></i>
+                                <span>ตั้งค่า</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('medical/med_con') }}">คลัง  </a></li>
+                                
+                            </ul>
+                        </li>
+                       
+
+
+                    </ul>
                 </div>
+                <!-- Sidebar -->
             </div>
         </div>
+        <!-- Left Sidebar End -->
 
-         <div class="mt-5">
-            {{-- <div class="mt-5 headerZ"> --}}
-            @yield('content')
-         </div>
 
-               
- 
-        {{-- <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-end d-none d-sm-block">
-                            Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - งานประกันสุขภาพ
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+
+                @yield('content')
+
+            </div>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </footer> --}}
+            </footer>
 
 
-    </div>
-    <!-- end main content-->
+        </div>
+        <!-- end main content-->
 
     </div>
     <!-- END layout-wrapper -->
@@ -280,18 +293,16 @@
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
- 
 
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-
+    {{-- <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
 
-    <script src="{{ asset('js/select2.min.js') }}"></script>
-    {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
+    <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
@@ -335,17 +346,21 @@
 
 
     <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
+    {{-- <script src="{{ asset('js/select2.min.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
 
+    {{-- <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap5.min.js') }}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+
     @yield('footer')
 
+    
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
@@ -354,14 +369,102 @@
             $('#example4').DataTable();
             $('#example5').DataTable();
             $('#example_user').DataTable();
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
+
+            
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
         });
+
+        $(document).ready(function() {
  
+
+            $('#insert_medForm').on('submit',function(e){
+                  e.preventDefault();
+              
+                  var form = this;
+                    //   alert('OJJJJOL');
+                  $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data:new FormData(form),
+                    processData:false,
+                    dataType:'json',
+                    contentType:false,
+                    beforeSend:function(){
+                      $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                      if (data.status == 0 ) {
+                        
+                      } else {          
+                        Swal.fire({
+                          title: 'บันทึกข้อมูลสำเร็จ',
+                          text: "You Insert data success",
+                          icon: 'success',
+                          showCancelButton: false,
+                          confirmButtonColor: '#06D177',
+                          // cancelButtonColor: '#d33',
+                          confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                          if (result.isConfirmed) {         
+                            // window.location.reload(); 
+                            // medical/med_index
+                            window.location="{{url('medical/med_index')}}"; 
+                          }
+                        })      
+                      }
+                    }
+                  });
+            });
+
+            $('#update_medForm').on('submit',function(e){
+                  e.preventDefault();
+              
+                  var form = this;
+                    //   alert('OJJJJOL');
+                  $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data:new FormData(form),
+                    processData:false,
+                    dataType:'json',
+                    contentType:false,
+                    beforeSend:function(){
+                      $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                      if (data.status == 0 ) {
+                        
+                      } else {          
+                        Swal.fire({
+                          title: 'แก้ไขข้อมูลสำเร็จ',
+                          text: "You Edit data success",
+                          icon: 'success',
+                          showCancelButton: false,
+                          confirmButtonColor: '#06D177',
+                          // cancelButtonColor: '#d33',
+                          confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                          if (result.isConfirmed) {         
+                            // window.location.reload();
+                            window.location="{{url('medical/med_index')}}";  
+                          }
+                        })      
+                      }
+                    }
+                  });
+            });            
+          
+        });
+
+       
     </script>
+
 </body>
 
 </html>

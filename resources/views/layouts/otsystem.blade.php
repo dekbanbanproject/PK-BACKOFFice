@@ -53,7 +53,27 @@
 <!-- Plugins css -->
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
-  
+  <style>
+     body{   
+        background:
+            url(/pkbackoffice/public/images/bg7.png);
+            /* url(/pkbackoffice/public/images/bg5.jpg); */
+            /* -webkit-background-size: cover; */
+        background-repeat: no-repeat;
+		background-attachment: fixed;
+		/* background-size: cover; */
+        background-size: 100% 100%;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* width: 100vw;   ให้เต็มพอดี */
+        /* height: 100vh; ให้เต็มพอดี  */ 
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+  </style>
 
 <body data-topbar="dark">
  
@@ -124,7 +144,7 @@
         </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu" style="background-color: rgb(217, 199, 247)">
+        <div class="vertical-menu Bgsidebar" >
 
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
