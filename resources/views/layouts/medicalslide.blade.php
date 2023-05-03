@@ -105,7 +105,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(253, 255, 255)">
+            <div class="navbar-header shadow-lg" style="background-color: rgb(253, 255, 255)">
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
@@ -175,7 +175,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"><i
+                            <a class="dropdown-item" href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"><i
                                     class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
@@ -245,7 +245,7 @@
                                 <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('medical/med_con') }}">คลัง  </a></li>
+                                <li><a href="{{ url('medical/med_con') }}">ประเภทเครื่องมือ  </a></li>
                                 
                             </ul>
                         </li>
