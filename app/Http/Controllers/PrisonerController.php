@@ -201,14 +201,14 @@ class PrisonerController extends Controller
                     group by v.vn asc
             '); 
         }
-        
-        
+         
         return view('prisoner.prisoner_opd_detail',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,          
             'datashow'         => $datashow_,
             'newyear'          => $newyear,
             'date'             => $date,
+            'month'             => $month,
         ]);
     }
     public function prisoner_opd_detail_show(Request $request, $vn)
@@ -238,31 +238,46 @@ class PrisonerController extends Controller
         ]);
     }
   
+    public function prisoner_opd_detail_excel(Request $request,$month,$startdate,$enddate)
+    {   
+        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
+        $org = $org_->orginfo_name;
+        $export = DB::connection('mysql3')->select('              
+                SELECT 
+                month(v.vstdate) as months,v.pdx
+                ,year(v.vstdate) as year,v.cid,pt.name as tname
+                ,l.MONTH_NAME,concat(p.pname,p.fname," ",p.lname) as fullname,v.pttype
+                ,v.hn ,v.vn,v.vstdate,v.income,v.paid_money  
+                ,sum(oo.sum_price) money_hosxp
+                ,v.discount_money,v.rcpt_money
+                ,v.income-v.discount_money-v.rcpt_money as debit 
+                ,v.rcpno_list rcpno  
+                ,m.amountpay
 
-    // public function medicine_salt_sub (Request $request,$months,$startdate,$enddate)
-    // { 
-    //     $datashow = DB::connection('mysql3')->select('
-    //         SELECT a.hn,a.an,pt.cid,i.labor_date,d.deliver_name 
-                
-    //             from hos.an_stat a
-    //             left outer join hos.ipt_pregnancy i on i.an = a.an
-             
-    //             LEFT JOIN hos.person_anc pa on pa.person_id = pp.person_id
-    //             left outer join hos.deliver_type d on d.deliver_type = i.deliver_type
-    //             where i.labor_date between "'.$startdate.'" AND "'.$enddate.'"
-    //             and p.hipdata_code ="UCS"
-    //             and ii.hospmain ="10978"
-    //             and month(i.labor_date) = "'.$months.'"
-    //             GROUP BY a.an
-    //             ORDER BY ii.hospsub 
-    //         ');
+                FROM vn_stat v 
+                left outer join hos.opitemrece oo on oo.vn = v.vn 
+                left outer join hos.patient p on p.hn = v.hn   
+                left outer join hos.pttype pt on pt.pttype = v.pttype
+                left outer join hos.rcpt_print r on r.vn =v.vn
+                left outer join hos.social_aid s on s.vn = v.vn
+                left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
+                left outer join hshooterdb.m_stm m on m.vn = v.vn
+                WHERE v.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                AND p.addrpart = "438"
+                AND month(v.vstdate) ="'.$month.'"
+                group by v.vn asc
+        ');
+        
+        return view('prisoner.prisoner_opd_detail_excel', [ 
+            'export'           =>  $export, 
+            'org'              => $org,  
+            'm_'                => $month, 
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+        ]);
+    }
 
-    //     return view('medicine.medicine_salt_sub ',[
-    //         'start'     => $startdate,
-    //         'end'       => $enddate,
-    //         'datashow'  => $datashow, 
-    //     ]);
-    // }
+    
  
 
 }

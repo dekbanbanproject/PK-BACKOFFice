@@ -57,7 +57,13 @@
             <div class="col-md-12"> 
                  <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายละเอียดข้อมูลนักโทษที่มารักษา OPD ช่วงวันที่ {{DateThai($startdate)}} - {{DateThai($enddate)}}                       
+                        รายละเอียดข้อมูลนักโทษที่มารักษา OPD ช่วงวันที่ {{DateThai($startdate)}} - {{DateThai($enddate)}}   
+                        <div class="btn-actions-pane-right">
+                            <a href="{{url('prisoner_opd_detail_excel/'.$month.'/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                <i class="fa-solid fa-file-excel me-2"></i>
+                                Export To Excel
+                            </a>
+                        </div>                    
                     </div>
                     <div class="card-body">
                         
