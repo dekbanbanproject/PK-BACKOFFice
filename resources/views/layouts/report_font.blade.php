@@ -51,7 +51,7 @@
    <link rel="stylesheet"
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
-<link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
     body{   
@@ -139,9 +139,7 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu Bgsidebar">
-            <div data-simplebar class="h-100">
-            {{-- <div data-simplebar class="h-100" style="background-color: #ffafbd"> --}}
-                {{-- <div data-simplebar class="h-100 nom6"> --}} 
+            <div data-simplebar class="h-100"> 
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
@@ -149,13 +147,13 @@
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('report_dashboard') }}">  
-                                <i class="fa-solid fa-gauge-high text-info"></i>
+                                <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard</span>
                             </a> 
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-clipboard-user text-info"></i>
+                                <i class="fa-solid fa-clipboard-user text-danger"></i>
                                 <span>Check Sit</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -185,6 +183,16 @@
                                 <li ><a href="{{ url('check_knee_ipd') }}" >ข้อเข่า</a></li> 
                                 <li ><a href="{{ url('check_kradook') }}" >แผ่นโลหะกระดูก</a></li>  
                                 <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li> 
+                            </ul>
+                        </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-square-person-confined text-danger"></i>
+                                <span>ข้อมูลการรักษานักโทษ</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('prisoner_opd') }}" >OPD</a></li>  
+                                <li ><a href="{{ url('prisoner_ipd') }}" >IPD</a></li> 
                             </ul>
                         </li> 
                         
@@ -316,14 +324,8 @@
             });
 
         });
-
-        $(document).ready(function() {
-            
-        });
-
-       
-    </script>
-
+ 
+    </script> 
 </body>
 
 </html>

@@ -93,14 +93,10 @@ Route::match(['get','post'],'check_sit_money_pk',[App\Http\Controllers\ChecksitC
 Route::match(['get','post'],'screening_cigarette',[App\Http\Controllers\PPFSController::class, 'screening_cigarette'])->name('pp.screening_cigarette');//การคัดกรองและบำบัดผู้ติดบุหรี่
 Route::match(['get','post'],'screening_spirits',[App\Http\Controllers\PPFSController::class, 'screening_spirits'])->name('pp.screening_spirits');//การคัดกรองและบำบัดผู้ดื่มสุรา
 
-
-
 Route::match(['get','post'],'surgery_index',[App\Http\Controllers\SurgeryController::class, 'surgery_index'])->name('s.surgery_index');// รายงานศัลยกรรม
 Route::match(['get','post'],'surgery_page/{dep}',[App\Http\Controllers\SurgeryController::class, 'surgery_page'])->name('s.surgery_page');// รายงานศัลยกรรม
 
 Route::match(['get','post'],'telemedicine',[App\Http\Controllers\TelemedicineController::class, 'telemedicine'])->name('s.telemedicine');// telemedicine
-
-
 
 
 Route::match(['get','post'],'import_stm',[App\Http\Controllers\UpstmController::class, 'import_stm'])->name('s.import_stm');// ทดสอบ Import
@@ -113,6 +109,18 @@ Route::match(['get','post'],'import_stm_aipnsave',[App\Http\Controllers\UpstmCon
 
 Route::match(['get','post'],'import_rep_aipn',[App\Http\Controllers\UpstmController::class, 'import_rep_aipn'])->name('s.import_rep_aipn');// ทดสอบ Import
 Route::match(['get','post'],'import_rep_aipn_save',[App\Http\Controllers\UpstmController::class, 'import_rep_aipn_save'])->name('s.import_rep_aipn_save');// ทดสอบ Import
+
+// ********************************* นักโทษ  *****************************************
+Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438
+Route::match(['get','post'],'prisoner_opd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail'])->name('prisoner.prisoner_opd_detail');  //นักโทษ 438
+Route::match(['get','post'],'prisoner_opd_detail_show/{vn}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail_show'])->name('prisoner.prisoner_opd_detail_show');  //นักโทษ 438
+
+Route::match(['get','post'],'prisoner_ipd',[App\Http\Controllers\PrisonerController::class, 'prisoner_ipd'])->name('prisoner.prisoner_ipd');  //นักโทษ
+
+
+
+
+
 
 Route::get('/', function () {
   if (Auth::check()) {
@@ -1664,5 +1672,8 @@ Route::match(['get','post'],'anc_Pregnancy_testsearch',[App\Http\Controllers\KTB
 Route::match(['get','post'],'anc_Pregnancy_test_export',[App\Http\Controllers\KTBController::class, 'anc_Pregnancy_test_export'])->name('k.anc_Pregnancy_test_export');//
 
 Route::match(['get','post'],'ktb_spawn',[App\Http\Controllers\KTBController::class, 'ktb_spawn'])->name('k.ktb_spawn');//การตรวจหลังคลอด ANC
+
+
+
 
 });

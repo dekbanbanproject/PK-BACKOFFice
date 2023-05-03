@@ -74,29 +74,7 @@
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
 		background-repeat: no-repeat;
 	}
-    /* .myTable thead tr{
-    background-color: #b56fca;
-    color: #ffffff;
-    text-align: center;
-    } */
-    /* .myTable th .myTable td{
-        padding: 12px 15px;
-    }
-    .myTable tbody tr{
-        border-bottom: 1px solid #b329f3;
-    }
-    .myTable tbody td{
-        font-size:15px;
-    }
-    .myTable tbody tr:nth-of-type(even){
-        background-color: #f4e1f7;
-    }
-    .myTable tbody tr:last-of-type{
-        border-bottom: 3px solid #ccbcd1;
-    }
-    .myTable tbody tr .active-row{
-        color: #ccbcd1;
-    } */
+    
 </style>
 
 <body data-topbar="dark">

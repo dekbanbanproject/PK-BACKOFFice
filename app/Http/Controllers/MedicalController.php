@@ -496,7 +496,8 @@ class MedicalController extends Controller
         $data['building_data'] = Building::leftjoin('product_decline', 'product_decline.decline_id', '=', 'building_data.building_decline_id')->where('building_type_id', '!=', '1')->where('building_type_id', '!=', '5')->orderBy('building_id', 'DESC')->get();
         $data['article_data'] = Article::where('article_categoryid', '=', '31')->orwhere('article_categoryid', '=', '63')
             ->leftjoin('department_sub_sub', 'department_sub_sub.DEPARTMENT_SUB_SUB_ID', '=', 'article_data.article_deb_subsub_id')
-            ->orderBy('article_id', 'DESC')
+            // ->groupBy('medical_typecat_id')
+            ->orderBy('medical_typecat_id', 'DESC')
             ->get();
         $data['medical_typecat'] = DB::table('medical_typecat')->get();
 
