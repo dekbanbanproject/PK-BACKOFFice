@@ -148,10 +148,11 @@
                                                         @endif
                                                     @endforeach
                                                 </div>
+                                                {{-- med_dashboard_night --}}
                                                 <div class="col-md-3 text-center">
                                                     @foreach ($qty_borrow as $item_borrow)
                                                         @if ($item_borrow->Totalqty > 0)
-                                                            <a href="" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ถูกยืม<br>
+                                                            <a href="{{url('med_dashboard_night/'.$item->medical_typecat_id)}}" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ถูกยืม<br>
                                                                 <span class="badge rounded-pill bg-light">{{ $item_borrow->Totalqty }}</span>
                                                             </a>                                                            
                                                         @else
@@ -164,7 +165,7 @@
                                                 <div class="col-md-3 text-center">
                                                     @foreach ($qty_repaire as $item_repaire)
                                                         @if ($item_repaire->Totalqty > 0)
-                                                            <a href="" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-success">ส่งซ่อม<br>
+                                                            <a href="{{url('med_dashboard_repaire/'.$item->medical_typecat_id)}}" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-success">ส่งซ่อม<br>
                                                                 <span class="badge rounded-pill bg-light">{{ $item_repaire->Totalqty }}</span>
                                                             </a>
                                                         @else
@@ -177,7 +178,7 @@
                                                 <div class="col-md-3 text-center">
                                                     @foreach ($qty_deal as $item_deal)
                                                         @if ($item_deal->Totalqty > 0)
-                                                            <a href="" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-danger">จำหน่าย<br>
+                                                            <a href="{{url('med_dashboard_deal/'.$item->medical_typecat_id)}}" class="mb-1 me-1 btn-icon btn-shadow btn-dashed btn btn-outline-danger">จำหน่าย<br>
                                                                 <span class="badge rounded-pill bg-light">{{ $item_deal->Totalqty }}</span>
                                                             </a>
                                                         @else

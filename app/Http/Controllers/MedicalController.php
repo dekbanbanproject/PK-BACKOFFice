@@ -110,6 +110,51 @@ class MedicalController extends Controller
                     'med_detail'    => $med_detail
                 ]);
     }
+    public function med_dashboard_night(Request $request,$id)
+    {  
+         $med_detail = DB::connection('mysql')->select( '
+                    SELECT a.article_id,a.article_num,a.article_name
+                        ,d.DEPARTMENT_SUB_SUB_NAME,a.article_deb_subsub_id
+                        ,a.article_status_id
+                        FROM article_data a  
+                        LEFT JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID=a.article_deb_subsub_id
+                        WHERE a.article_categoryid="31" AND a.article_status_id = "1"
+                        AND a.medical_typecat_id="'.$id. '"
+                '); 
+            return view('medical.med_dashboard_night', [
+                'med_detail'    => $med_detail
+            ]);
+    }
+    public function med_dashboard_repaire(Request $request,$id)
+    {  
+         $med_detail = DB::connection('mysql')->select( '
+                    SELECT a.article_id,a.article_num,a.article_name
+                        ,d.DEPARTMENT_SUB_SUB_NAME,a.article_deb_subsub_id
+                        ,a.article_status_id
+                        FROM article_data a  
+                        LEFT JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID=a.article_deb_subsub_id
+                        WHERE a.article_categoryid="31" AND a.article_status_id = "2"
+                        AND a.medical_typecat_id="'.$id. '"
+                '); 
+            return view('medical.med_dashboard_repaire', [
+                'med_detail'    => $med_detail
+            ]);
+    }
+    public function med_dashboard_deal(Request $request,$id)
+    {  
+         $med_detail = DB::connection('mysql')->select( '
+                    SELECT a.article_id,a.article_num,a.article_name
+                        ,d.DEPARTMENT_SUB_SUB_NAME,a.article_deb_subsub_id
+                        ,a.article_status_id
+                        FROM article_data a  
+                        LEFT JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID=a.article_deb_subsub_id
+                        WHERE a.article_categoryid="31" AND a.article_status_id = "6"
+                        AND a.medical_typecat_id="'.$id. '"
+                '); 
+            return view('medical.med_dashboard_deal', [
+                'med_detail'    => $med_detail
+            ]);
+    }
     
     public function med_con(Request $request)
     {
@@ -426,14 +471,7 @@ class MedicalController extends Controller
             ]);
         }
     }
-
-
-
-
-
-
-
-
+ 
     public function med_index(Request $request)
     {
         $data['department_sub_sub'] = Department_sub_sub::get();

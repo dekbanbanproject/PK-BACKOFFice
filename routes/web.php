@@ -797,6 +797,9 @@ Route::middleware(['type'])->group(function(){
  // ***************** เครื่องมือแพทย์ ผู้ดูแล***************************
  Route::match(['get','post'],'medical/med_dashboard',[App\Http\Controllers\MedicalController::class, 'med_dashboard'])->name('med.med_dashboard');//เครื่องมือแพทย์
  Route::match(['get','post'],'med_dashboard_detail/{id}',[App\Http\Controllers\MedicalController::class, 'med_dashboard_detail'])->name('med.med_dashboard_detail');//เครื่องมือแพทย์
+ Route::match(['get','post'],'med_dashboard_night/{id}',[App\Http\Controllers\MedicalController::class, 'med_dashboard_night'])->name('med.med_dashboard_night');//คืนคลังเครื่องมือแพทย์
+ Route::match(['get','post'],'med_dashboard_repaire/{id}',[App\Http\Controllers\MedicalController::class, 'med_dashboard_repaire'])->name('med.med_dashboard_repaire');//คืนคลังเครื่องมือแพทย์
+ Route::match(['get','post'],'med_dashboard_deal/{id}',[App\Http\Controllers\MedicalController::class, 'med_dashboard_deal'])->name('med.med_dashboard_deal');//คืนคลังเครื่องมือแพทย์
 
  Route::match(['get','post'],'medical/med_con',[App\Http\Controllers\MedicalController::class, 'med_con'])->name('med.med_con');//เครื่องมือแพทย์
  Route::match(['get','post'],'medical/med_consave',[App\Http\Controllers\MedicalController::class, 'med_consave'])->name('med.med_consave');//เครื่องมือแพทย์
