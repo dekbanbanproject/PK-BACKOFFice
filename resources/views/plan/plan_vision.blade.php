@@ -291,42 +291,42 @@ $pos = strrpos($url, '/') + 1;
             });
 
             $('#updateBtn').click(function() {
-                    var plan_vision_id = $('#editplan_vision_id').val();
-                    var plan_vision_name = $('#editplan_vision_name').val();
-                    $.ajax({
-                        url: "{{ route('p.plan_vision_update') }}",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            plan_vision_id,
-                            plan_vision_name
-                        },
-                        success: function(data) {
-                            if (data.status == 200) {
-                                Swal.fire({
-                                    title: 'แก้ไขข้อมูลสำเร็จ',
-                                    text: "You edit data success",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#06D177',
-                                    confirmButtonText: 'เรียบร้อย'
-                                }).then((result) => {
-                                    if (result
-                                        .isConfirmed) {
-                                        console.log(
-                                            data);
+                var plan_vision_id = $('#editplan_vision_id').val();
+                var plan_vision_name = $('#editplan_vision_name').val();
+                $.ajax({
+                    url: "{{ route('p.plan_vision_update') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        plan_vision_id,
+                        plan_vision_name
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'แก้ไขข้อมูลสำเร็จ',
+                                text: "You edit data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
 
-                                        window.location
-                                            .reload();
-                                    }
-                                })
-                            } else {
+                                    window.location
+                                        .reload();
+                                }
+                            })
+                        } else {
 
-                            }
+                        }
 
-                        },
-                    });
+                    },
                 });
+            });
 
 
 
