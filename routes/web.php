@@ -115,7 +115,10 @@ Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerControl
 Route::match(['get','post'],'prisoner_opd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail'])->name('prisoner.prisoner_opd_detail');  //นักโทษ 438
 Route::match(['get','post'],'prisoner_opd_detail_show/{vn}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail_show'])->name('prisoner.prisoner_opd_detail_show');  //นักโทษ 438
 Route::match(['get','post'],'prisoner_opd_detail_excel/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail_excel'])->name('prisoner.prisoner_opd_detail_excel');  //นักโทษ 438
+
 Route::match(['get','post'],'prisoner_ipd',[App\Http\Controllers\PrisonerController::class, 'prisoner_ipd'])->name('prisoner.prisoner_ipd');  //นักโทษ
+Route::match(['get','post'],'prisoner_ipd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_ipd_detail'])->name('prisoner.prisoner_ipd_detail');  //นักโทษ 438
+Route::match(['get','post'],'prisoner_ipd_detail_excel/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_ipd_detail_excel'])->name('prisoner.prisoner_ipd_detail_excel');  //นักโทษ 438
 
 
 
