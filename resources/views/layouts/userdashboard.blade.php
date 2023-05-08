@@ -216,6 +216,29 @@
                                 <li><a href="{{ url('user_timeindex_day') }}">เวลาเข้า-ออก (รายวัน)</a></li>
                             </ul>
                         </li>  
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-user-tie text-danger"></i>
+                                <span>ข้อมูล OT</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('user_otone') }}">บันทึก OT</a></li> 
+                            </ul>
+                        </li>
+
+                        <li class="menu-title">งานบริหารทั่วไป</li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">   
+                                <i class="fa-solid fa-p text-danger"></i> 
+                                <span>P4P</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('p4p_dashboarduser') }}">Dashboard</a></li> 
+                                <li><a href="{{ url('p4p_user') }}">บันทึก P4P</a></li> 
+                                <li><a href="{{ url('workgroupset') }}">หมวดภาระงาน</a></li> 
+                                <li><a href="{{ url('workset') }}">รายการภาระงาน</a></li>    
+                            </ul>
+                        </li> 
                         
                     </ul>
                 </div>

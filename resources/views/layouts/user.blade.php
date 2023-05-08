@@ -255,7 +255,7 @@
                                 <li><a href="{{ url('user_timeindex_day') }}">เวลาเข้า-ออก (รายวัน)</a></li>
                             </ul>
                         </li>  
-                        {{-- <li>
+                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-user-tie text-danger"></i>
                                 <span>ข้อมูลการลา</span>
@@ -271,7 +271,7 @@
                                 <li><a href="{{ url('user/gleave_data_maternity') }}">ลาคลอดบุตร</a></li> 
                                 <li><a href="{{ url('user/gleave_data_spouse') }}">ลาติดตามคู่สมรส</a></li> 
                             </ul>
-                        </li>                        
+                        </li>                         --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-user-tie text-danger"></i>
@@ -281,7 +281,7 @@
                                 <li><a href="{{ url('user_otone') }}">บันทึก OT</a></li> 
                             </ul>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-user-tie text-danger"></i>
                                 <span>ประชุม/อบรม/ดูงาน</span>
@@ -290,8 +290,8 @@
                                 <li><a href="{{ url('user/persondev_index/'.Auth::user()->id)}}">ประชุมภายนอก</a></li> 
                                 <li><a href="{{ url('user/persondev_inside/'.Auth::user()->id)}}">ประชุมภายใน</a></li>     
                             </ul>
-                        </li>
-                        <li>
+                        </li> --}}
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">   
                                 <i class="fa-solid fa-house-chimney-user text-danger"></i>
                                 <span>บ้านพัก</span>
@@ -301,7 +301,7 @@
                                 <li><a href="{{ url('user/house_petition/' . Auth::user()->id) }}">ยื่นคำร้อง</a></li> 
                                 <li><a href="{{ url('user/house_problem/' . Auth::user()->id) }}">แจ้งปัญหา</a></li>     
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="menu-title">งานบริหารทั่วไป</li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">   
@@ -315,7 +315,7 @@
                                 <li><a href="{{ url('workset') }}">รายการภาระงาน</a></li>    
                             </ul>
                         </li> 
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-book-medical text-danger"></i>
                                 <span>สารบรรณ</span>
@@ -323,8 +323,9 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('user/book_inside/' . Auth::user()->id) }}">หนังสือเข้า</a></li>     
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-people-roof text-danger"></i>
                                 <span>ห้องประชุม</span>
@@ -333,8 +334,9 @@
                                 <li><a href="{{ url('user_meetting/meetting_calenda') }}">ปฎิทินการใช้ห้องประชุม</a></li>     
                                 <li><a href="{{ url('user_meetting/meetting_index') }}">ช้อมูลการจองห้องประชุม</a></li>  
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-car-side text-danger"></i>
                                 <span>จองรถ</span>
@@ -344,8 +346,9 @@
                                 <li><a href="{{ url('user_car/car_narmal/' . Auth::user()->id) }}">ช้อมูลการการใช้รถทั่วไป</a></li> 
                                 <li><a href="{{ url('user_car/car_ambulance/' . Auth::user()->id) }}">ช้อมูลการการใช้รถพยาบาล</a></li>  
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">   
                                 <i class="fa-solid fa-desktop text-danger"></i>
                                 <span>แจ้งซ่อมคอมพิวเตอร์</span>
@@ -355,8 +358,9 @@
                                 <li><a href="{{ url('user_com/repair_com') }}">ทะเบียนซ่อมคอมพิวเตอร์</a></li> 
                                 <li><a href="{{ url('user_com/repair_com_add') }}">แจ้งซ่อมคอมพิวเตอร์</a></li>  
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">   
                                 <i class="fa-solid fa-screwdriver-wrench text-danger"></i>
                                 <span>แจ้งซ่อมทั่วไป</span>
@@ -366,8 +370,9 @@
                                 <li><a href="{{ url('user_com/repair_com') }}">ทะเบียนซ่อมทั่วไป</a></li> 
                                 <li><a href="{{ url('user_com/repair_com_add') }}">แจ้งซ่อมทั่วไป</a></li>  
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-building-shield text-danger"></i>
                                 <span>งานทรัพย์สิน</span>
@@ -377,8 +382,9 @@
                                 <li><a href="{{ url('user_article_borrow') }}">ทะเบียนยืม</a></li> 
                                 <li><a href="{{ url('user_article_return') }}">ทะเบียนคืน</a></li>  
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-paste text-danger"></i>
                                 <span>งานพัสดุ</span>
@@ -387,8 +393,9 @@
                                 <li><a href="{{ url('user/supplies_data/' . Auth::user()->id) }}">รายการจัดซื้อ-จัดจ้าง</a></li>     
                                 <li><a href="{{ url('user/supplies_data_add/' . Auth::user()->id) }}">ขอจัดซื้อ-จัดจ้าง</a></li>  
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">  
                                 <i class="fa-solid fa-shop-lock text-danger"></i>
                                 <span>คลังวัสดุ</span>
@@ -397,7 +404,8 @@
                                 <li><a href="{{ url('user_ware/warehouse_stock_sub') }}">รายการคลังวัสดุ</a></li>     
                                 <li><a href="{{ url('user_ware/warehouse_stock_sub_add') }}">ขอเบิกคลังวัสดุ</a></li>  
                             </ul>
-                        </li>  --}}
+                        </li>    --}}
+                        
                     </ul>
                 </div>
                 <!-- Sidebar -->
