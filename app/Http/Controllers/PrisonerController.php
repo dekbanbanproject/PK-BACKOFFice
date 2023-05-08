@@ -279,6 +279,166 @@ class PrisonerController extends Controller
         ]);
     }
 
+    public function prisoner_ipd(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน 
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
+ 
+        if ($startdate == '') {
+            $datashow_ =  DB::connection('mysql3')->select('  
+                    SELECT 
+			            month(i.dchdate) as months,year(i.dchdate) as year,l.MONTH_NAME
+                        ,count(distinct a.hn) as hn
+                        ,count(distinct a.an) as an 
+                        ,sum(a.paid_money) as paid_money 
+                        ,sum(a.income) as income 
+                        
+                        FROM ipt i
+                        left outer join hos.an_stat a on a.an = i.an
+                        left outer join hos.opitemrece oo on oo.an = i.an
+                        left outer join hos.patient p on p.hn = i.hn   
+                        left outer join hos.pttype pt on pt.pttype = i.pttype 
+                        left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
+
+                        WHERE i.dchdate BETWEEN "'.$newyear.'" and "'.$date.'"
+                        AND p.addrpart = "438"
+                        group by month(i.dchdate) asc
+            '); 
+        } else {
+            $datashow_ =  DB::connection('mysql3')->select('
+                    SELECT 
+			            month(i.dchdate) as months,year(i.dchdate) as year,l.MONTH_NAME
+                        ,count(distinct a.hn) as hn
+                        ,count(distinct a.an) as an 
+                        ,sum(a.paid_money) as paid_money 
+                        ,sum(a.income) as income 
+                        
+                        FROM ipt i
+                        left outer join hos.an_stat a on a.an = i.an
+                        left outer join hos.opitemrece oo on oo.an = i.an
+                        left outer join hos.patient p on p.hn = i.hn   
+                        left outer join hos.pttype pt on pt.pttype = i.pttype 
+                        left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
+
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        AND p.addrpart = "438"
+                        group by month(i.dchdate) asc
+ 
+            '); 
+        }
+         
+        return view('prisoner.prisoner_ipd',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'leave_month_year' => $leave_month_year,
+            'datashow'         => $datashow_,
+            'newyear'          => $newyear,
+            'date'             => $date,
+        ]);
+    }
+    public function prisoner_ipd_detail(Request $request,$month,$startdate,$enddate)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน 
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
+
+        if ($startdate == '') {
+            $datashow_ =  DB::connection('mysql3')->select('
+                    SELECT 
+                            month(i.dchdate) as months,a.pdx
+                            ,year(i.dchdate) as year,p.cid,pt.name as tname
+                            ,l.MONTH_NAME,concat(p.pname,p.fname," ",p.lname) as fullname,i.pttype
+                            ,i.hn ,i.an,i.dchdate,a.income,a.paid_money
+                            ,sum(oo.sum_price) money_hosxp
+                            ,a.discount_money 
+                            ,m.amountpay     
+                            FROM ipt i
+                            left outer join hos.an_stat a on a.an = i.an
+                            left outer join hos.opitemrece oo on oo.an = i.an
+                            left outer join hos.patient p on p.hn = i.hn   
+                            left outer join hos.pttype pt on pt.pttype = i.pttype 
+                            left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
+                            left outer join hshooterdb.m_stm m on m.an = i.an
+                            WHERE i.dchdate BETWEEN "'.$newyear.'" and "'.$date.'"
+                            AND p.addrpart = "438"
+                            AND month(i.dchdate) ="'.$month.'" 
+                            group by i.an asc 
+            '); 
+        } else {
+            $datashow_ =  DB::connection('mysql3')->select('
+                        SELECT 
+                            month(i.dchdate) as months,a.pdx
+                            ,year(i.dchdate) as year,p.cid,pt.name as tname
+                            ,l.MONTH_NAME,concat(p.pname,p.fname," ",p.lname) as fullname,i.pttype
+                            ,i.hn ,i.an,i.dchdate,a.income,a.paid_money
+                            ,sum(oo.sum_price) money_hosxp
+                            ,a.discount_money 
+                            ,m.amountpay     
+                            FROM ipt i
+                            left outer join hos.an_stat a on a.an = i.an
+                            left outer join hos.opitemrece oo on oo.an = i.an
+                            left outer join hos.patient p on p.hn = i.hn   
+                            left outer join hos.pttype pt on pt.pttype = i.pttype 
+                            left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
+                            left outer join hshooterdb.m_stm m on m.an = i.an
+                            WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                            AND p.addrpart = "438"
+                            AND month(i.dchdate) ="'.$month.'" 
+                            group by i.an asc  
+            '); 
+        }
+         
+        return view('prisoner.prisoner_ipd_detail',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,          
+            'datashow'         => $datashow_,
+            'newyear'          => $newyear,
+            'date'             => $date,
+            'month'             => $month,
+        ]);
+    }
+    public function prisoner_ipd_detail_excel(Request $request,$month,$startdate,$enddate)
+    {   
+        $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
+        $org = $org_->orginfo_name;
+        $export = DB::connection('mysql3')->select('              
+                SELECT 
+                month(i.dchdate) as months,a.pdx
+                ,year(i.dchdate) as year,p.cid,pt.name as tname
+                ,l.MONTH_NAME,concat(p.pname,p.fname," ",p.lname) as fullname,i.pttype
+                ,i.hn ,i.an,i.dchdate,a.income,a.paid_money
+                ,sum(oo.sum_price) money_hosxp
+                ,a.discount_money 
+                ,m.amountpay     
+                FROM ipt i
+                left outer join hos.an_stat a on a.an = i.an
+                left outer join hos.opitemrece oo on oo.an = i.an
+                left outer join hos.patient p on p.hn = i.hn   
+                left outer join hos.pttype pt on pt.pttype = i.pttype 
+                left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
+                left outer join hshooterdb.m_stm m on m.an = i.an
+                WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                AND p.addrpart = "438"
+                AND month(i.dchdate) ="'.$month.'" 
+                group by i.an asc  
+        ');
+        
+        return view('prisoner.prisoner_ipd_detail_excel', [ 
+            'export'           =>  $export, 
+            'org'              => $org,  
+            'm_'                => $month, 
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+        ]);
+    }
     
  
 

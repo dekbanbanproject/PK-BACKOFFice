@@ -191,8 +191,8 @@
                                 <span>ข้อมูลการรักษานักโทษ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('prisoner_opd') }}" >OPD</a></li>  
-                                <li ><a href="{{ url('prisoner_ipd') }}" >IPD</a></li> 
+                                <li ><a href="{{ url('prisoner_opd') }}" >438-OPD</a></li>  
+                                <li ><a href="{{ url('prisoner_ipd') }}" >438-IPD</a></li> 
                             </ul>
                         </li> 
                         
