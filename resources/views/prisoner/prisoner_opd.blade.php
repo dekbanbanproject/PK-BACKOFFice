@@ -107,7 +107,8 @@
                                                     <p class="text-truncate font-size-14 mb-2">เดือน {{$item->MONTH_NAME}} {{$ynew}}</p>
                                                     <h4 class="mb-2">{{$item->vn}} Visit</h4> 
                                                     <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
-                                                </div>                                      
+                                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($item->AMOUNTPAY, 2) }}</span>บาท</p>
+                                                </div>                               
                                             
                                                 <div class="avatar-sm me-2 me-2" style="height: 120px"> 
                                                     <span class="avatar-title bg-light mt-3" style="height: 70px">
@@ -145,6 +146,7 @@
                                                     <p class="text-truncate font-size-14 mb-2">เดือน {{$item->MONTH_NAME}} {{$ynew}}</p>
                                                     <h4 class="mb-2">{{$item->vn}} Visit</h4> 
                                                     <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
+                                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($item->AMOUNTPAY, 2) }}</span>บาท</p>
                                                 </div>                                      
                                             
                                                 <div class="avatar-sm me-2 me-2" style="height: 120px"> 

@@ -90,8 +90,8 @@ class PrisonerController extends Controller
                     ,count(distinct v.vn) as vn 
                     ,sum(v.paid_money) as paid_money
                     ,sum(r.bill_amount) as bill_amount
-                    ,sum(v.income) as income
-                    ,sum(v.income)-sum(r.bill_amount) as total
+                    ,sum(v.income) as income                 
+                    ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as total
                     ,sum(m.AMOUNTPAY) as AMOUNTPAY 
                     
                     FROM vn_stat v 
@@ -106,6 +106,7 @@ class PrisonerController extends Controller
                     AND p.addrpart = "438"
                     group by month(v.vstdate) asc
             '); 
+            // ,sum(v.income)-sum(r.bill_amount) as total
         } else {
             $datashow_ =  DB::connection('mysql3')->select('
                 SELECT month(v.vstdate) as months,year(v.vstdate) as year,l.MONTH_NAME
@@ -114,7 +115,7 @@ class PrisonerController extends Controller
                     ,sum(v.paid_money) as paid_money
                     ,sum(r.bill_amount) as bill_amount
                     ,sum(v.income) as income
-                    ,sum(v.income)-sum(r.bill_amount) as total
+                    ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as total
                     ,sum(m.AMOUNTPAY) as AMOUNTPAY 
 
                     FROM vn_stat v 
@@ -160,6 +161,7 @@ class PrisonerController extends Controller
                     ,sum(oo.sum_price) money_hosxp
                     ,v.discount_money,v.rcpt_money
                     ,v.income-v.discount_money-v.rcpt_money as debit 
+                    
                     ,v.rcpno_list rcpno  
                     ,m.AMOUNTPAY
 
@@ -298,6 +300,7 @@ class PrisonerController extends Controller
                         ,count(distinct a.an) as an 
                         ,sum(a.paid_money) as paid_money 
                         ,sum(a.income) as income 
+                        ,sum(m.AMOUNTPAY) as AMOUNTPAY
                         
                         FROM ipt i
                         left outer join hos.an_stat a on a.an = i.an
@@ -305,7 +308,7 @@ class PrisonerController extends Controller
                         left outer join hos.patient p on p.hn = i.hn   
                         left outer join hos.pttype pt on pt.pttype = i.pttype 
                         left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
-
+                        left outer join hshooterdb.m_stm m on m.an = i.an
                         WHERE i.dchdate BETWEEN "'.$newyear.'" and "'.$date.'"
                         AND p.addrpart = "438"
                         group by month(i.dchdate) asc
@@ -318,14 +321,14 @@ class PrisonerController extends Controller
                         ,count(distinct a.an) as an 
                         ,sum(a.paid_money) as paid_money 
                         ,sum(a.income) as income 
-                        
+                        ,sum(m.AMOUNTPAY) as AMOUNTPAY
                         FROM ipt i
                         left outer join hos.an_stat a on a.an = i.an
                         left outer join hos.opitemrece oo on oo.an = i.an
                         left outer join hos.patient p on p.hn = i.hn   
                         left outer join hos.pttype pt on pt.pttype = i.pttype 
                         left outer join hos.leave_month l on l.MONTH_ID = month(i.dchdate)
-
+                        left outer join hshooterdb.m_stm m on m.an = i.an
                         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
                         AND p.addrpart = "438"
                         group by month(i.dchdate) asc
