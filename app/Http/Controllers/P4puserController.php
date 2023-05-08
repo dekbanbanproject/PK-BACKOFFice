@@ -77,7 +77,8 @@ class P4puserController extends Controller
         $dateend = $request->enddate;
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
         // $data['y'] = date('Y')+543;
         $data['y'] = date('Y');
         // dd($m);
@@ -106,7 +107,8 @@ class P4puserController extends Controller
         $dateend = $request->enddate;
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
         // $data['y'] = date('Y')+543;
         $data['y'] = date('Y');
         // dd($m);

@@ -1,8 +1,6 @@
 @extends('layouts.user')
 @section('title', 'PK-BACKOFFice || P4P')
-
-   
-
+ 
 
 @section('content')
     <script>
@@ -84,7 +82,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header ">
-                        <div class="row">
+                        <h5>บันทึกรายการภาระงาน P4P </h5>
+                        <div class="btn-actions-pane-right">
+                        {{-- <div class="row">
                             <div class="col-md-4">
                                 <h5>บันทึกรายการภาระงาน P4P </h5>
                             </div>
@@ -93,7 +93,8 @@
                            
                             </div>
     
-                        </div>
+                        </div> --}}
+                    </div>
                     </div>
                     <div class="card-body shadow-lg">
                          {{-- <div class="row mb-3 mt-3"> 

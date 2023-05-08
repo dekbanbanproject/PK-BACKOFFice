@@ -143,32 +143,20 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header ">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5>บันทึกรายการภาระงาน P4P </h5>
-                            </div> 
-                            <div class="col"></div> 
-                            {{-- <div class="col-md-2">
-                                <a href="" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" target="_blank"> 
-                                    <i class="fa-solid fa-print me-1 text-danger" style="font-size:13px"></i> 
-                                    Print P4P
-                                </a>
-                            </div> --}}
-                            <div class="col-md-3 text-end">
-                                <a href="{{url('work_export_excel/'.$p4p_work_id)}}" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" target="_blank"> 
-                                    {{-- <i class="fa-solid fa-print me-1 text-danger" style="font-size:13px"></i> 
-                                   
-                                    Print P4P --}}
-                                    <i class="fa-solid fa-file-excel me-1"></i>
-                                Export To Excel 
-                                </a>
-                                <a href="{{ url('p4p_user') }}"
-                                    class="btn btn-outline-primary btn-sm"> 
-                                    <i class="fa-regular fa-circle-left me-1"></i>
-                                    ย้อนกลับ
-                                </a>
-                            </div>
-                        </div>
+                        <h5>บันทึกรายการภาระงาน P4P  เดือน {{$monthth}} ปี {{$check_year}}</h5>
+                        <div class="btn-actions-pane-right">
+                            <a href="{{url('work_export_excel/'.$p4p_work_id)}}" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" target="_blank"> 
+                                    
+                                <i class="fa-solid fa-file-excel me-1"></i>
+                            Export To Excel 
+                            </a>
+                            <a href="{{ url('p4p_user') }}"
+                                class="btn btn-outline-primary btn-sm"> 
+                                <i class="fa-regular fa-circle-left me-1"></i>
+                                ย้อนกลับ
+                            </a> 
+                        </div> 
+ 
                         <div class="row">
                             <div class="col-md-3">
                                 <h6 style="color: rgb(163, 162, 162)"> เดือน {{$monthth}} ปี {{$check_year}}</h6>
