@@ -604,13 +604,13 @@ $pos = strrpos($url, '/') + 1;
                                             </div>    
                                             <div class="avatar-sm me-2">
                                                 <a href="{{ url('p4p') }}" target="_blank">
-                                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                                        <p style="font-size: 10px;"> 
-                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 
-                                                                {{-- <i class="fa-solid fa-3x fa-person-booth font-size-30 mt-3" style="color: rgb(155, 50, 50)"></i>  --}}
-                                                                <i class="fa-solid fa-p text-danger font-size-50 mt-3"></i> 
-                                                                <i class="fa-solid fa-4 text-warning font-size-50 mt-3"></i>
-                                                                <i class="fa-solid fa-p text-info font-size-50 mt-3"></i>
+                                                    {{-- <span class="avatar-title bg-light text-primary rounded-3"> --}}
+                                                        <span class="avatar-title bg-light rounded-3 mt-2" style="height: 10px">
+                                                        <p style="font-size: 15px;"> 
+                                                            <button class="mt-5 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3" style="height: 70px;width: 90px">  
+                                                                <i class="fa-solid fa-p text-danger font-size-24 mt-3"></i> 
+                                                                <i class="fa-solid fa-4 text-warning font-size-24 mt-3"></i>
+                                                                <i class="fa-solid fa-p text-info font-size-24 mt-3"></i>
                                                             </button> 
                                                         </p>
                                                     </span> 

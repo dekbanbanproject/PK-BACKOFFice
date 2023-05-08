@@ -120,7 +120,7 @@
                                     บันทึกข้อมูล
                                 </button>
                             </div>
-                        </div>
+                        </div>  
                         <hr>
                         <div class="row mt-3">
                             <div class="col-md-12">
