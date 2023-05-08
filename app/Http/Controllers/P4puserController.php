@@ -161,7 +161,8 @@ class P4puserController extends Controller
     { 
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
         $data['y'] = date('Y')+543;
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
@@ -458,7 +459,8 @@ class P4puserController extends Controller
     { 
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
         $data['y'] = date('Y')+543;
         // dd($m); 
         $data_user = DB::table('users')->where('id','=',$iduser)->first();
@@ -519,7 +521,8 @@ class P4puserController extends Controller
     {
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
         $data['y'] = date('Y')+543;
         // dd($m); 
         $data_user = DB::table('users')->where('id','=',$iduser)->first();
