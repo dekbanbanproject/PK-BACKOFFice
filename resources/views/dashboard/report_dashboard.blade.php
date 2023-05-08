@@ -1,9 +1,6 @@
 @extends('layouts.report_font')
 @section('title', 'PK-BACKOFFice || DASHBOARD')
-
-   
-
-
+ 
 @section('content')
    
     <?php  
@@ -80,7 +77,7 @@
                                                         <h4 class="text-start mb-2">{{$refer}} Visit</h4>                                                         
                                                     </div>    
                                                     <div class="avatar-sm me-2">
-                                                        <a href="" target="_blank">
+                                                        <a href="{{url('report_refer_thairefer_detail/'.$newDate.'/'.$datenow)}}" target="_blank">
                                                             <span class="avatar-title bg-light text-primary rounded-3">
                                                                 <p style="font-size: 10px;"> 
                                                                     <button type="button" class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">

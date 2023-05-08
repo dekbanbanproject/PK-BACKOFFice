@@ -81,7 +81,8 @@ class ChecksitController extends Controller
         //     '); 
            
         // } else {
-            $data_sit = DB::connection('mysql7')->select(' 
+            // $data_sit = DB::connection('mysql7')->select(' 
+            $data_sit = DB::connection('mysql')->select(' 
                 SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
                 FROM check_sit_auto  
                 WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
@@ -340,15 +341,15 @@ class ChecksitController extends Controller
         $dateend = $request->dateend;
         $date = date('Y-m-d');
 
-        $token_data = DB::connection('mysql7')->select('
+        $token_data = DB::connection('mysql')->select('
             SELECT cid,token FROM ssop_token 
         '); 
         foreach ($token_data as $key => $valuetoken) {
             $cid_ = $valuetoken->cid;
             $token_ = $valuetoken->token;
         }
- 
-        $data_sitss = DB::connection('mysql7')->select(' 
+        // $data_sitss = DB::connection('mysql7')->select('
+        $data_sitss = DB::connection('mysql')->select(' 
             SELECT cid,vn
             FROM check_sit_auto  
             WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"               
@@ -443,28 +444,30 @@ class ChecksitController extends Controller
 
             }           
         }
-        // $data_sit = DB::connection('mysql3')->select(' 
-        //     SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code 
-        //     FROM ovst o 
-        //     join patient p on p.hn=o.hn 
-        //     JOIN pttype pt on pt.pttype = o.pttype  
-        //     JOIN opduser op on op.loginname = o.staff 
-        //     WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"  
-            
-        //     group by p.cid
-        // ');  
+        $data_sit = DB::connection('mysql')->select(' 
+                SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
+                FROM check_sit_auto  
+                WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+            '); 
 
         // return view('authen.check_sit_auto ',[            
         //     'data_sit'    => $data_sit, 
         //     'start'     => $datestart, 
         //     'end'        => $dateend,           
         // ]);
-        return response()->json([
-            'status'     => '200',
-            // 'data_sit'    => $data_sit, 
-            'start'     => $datestart, 
-            'end'        => $dateend, 
-        ]); 
+        return redirect()->back();
+        //  return view('authen.check_sit_day ',[   
+        //     'status'     => '200',         
+        //     'data_sit'    => $data_sit, 
+        //     'start'     => $datestart, 
+        //     'end'        => $dateend,           
+        // ]);
+        // return response()->json([
+        //     'status'     => '200',
+        //     // 'data_sit'    => $data_sit, 
+        //     // 'start'     => $datestart, 
+        //     // 'end'        => $dateend, 
+        // ]); 
     }
 
  

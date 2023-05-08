@@ -15,7 +15,8 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('check_sit_auto'))
         {
-            Schema::connection('mysql7')->create('check_sit_auto', function (Blueprint $table) {
+            // Schema::connection('mysql7')->create('check_sit_auto', function (Blueprint $table) {
+            Schema::connection('mysql')->create('check_sit_auto', function (Blueprint $table) {
                 $table->bigIncrements('check_sit_auto_id'); 
                 $table->string('vn')->nullable();// รหัส
                 $table->string('hn')->nullable();// 

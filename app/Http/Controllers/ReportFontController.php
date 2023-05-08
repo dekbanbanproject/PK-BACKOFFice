@@ -332,6 +332,21 @@ class ReportFontController extends Controller
             'datashow_'    => $datashow_
         ]);
     }
+    public function report_refer_thairefer_detail(Request $request,$newDate,$datenow)
+    { 
+        $datashow_ = DB::connection('mysql8')->select('   
+                SELECT * FROM referout r
+                LEFT JOIN hospcode h on h.hospcode = r.refer_hospcode
+                WHERE r.loads_id="02"
+                and r.refer_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"  
+        ');
+               
+        return view('dashboard.report_refer_thairefer_detail', [ 
+            'datashow_'      =>  $datashow_,
+            'newDate'        =>  $newDate,
+            'datenow'        =>  $datenow,
+        ]);
+    }
     public function report_refer_opds(Request $request)
     { 
         $startdate = $request->startdate;
