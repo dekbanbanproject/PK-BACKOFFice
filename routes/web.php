@@ -1682,6 +1682,10 @@ Route::match(['get','post'],'anc_Pregnancy_test_export',[App\Http\Controllers\KT
 Route::match(['get','post'],'ktb_spawn',[App\Http\Controllers\KTBController::class, 'ktb_spawn'])->name('k.ktb_spawn');//การตรวจหลังคลอด ANC
 
 
+Route::match(['get','post'],'timein',[App\Http\Controllers\TimeINController::class, 'timein'])->name('TT.timein');//ลงเวลา
+Route::match(['get','post'],'timein_save',[App\Http\Controllers\TimeINController::class, 'timein_save'])->name('TT.timein_save');//ลงเวลา
+
+
 
 
 });

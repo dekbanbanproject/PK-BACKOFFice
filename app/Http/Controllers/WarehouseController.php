@@ -126,6 +126,7 @@ class WarehouseController extends Controller
         $data['budget_year'] = DB::table('budget_year')->where('active','=','True')->get();
         $data['products_vendor'] = Products_vendor::get();
         $data['warehouse_inven'] = DB::table('warehouse_inven')->get();
+        
         return view('warehouse.warehouse_index', $data);
     }
     public function warehouse_add(Request $request)
