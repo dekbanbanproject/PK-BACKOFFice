@@ -92,6 +92,7 @@ class PrisonerController extends Controller
                     ,sum(r.bill_amount) as bill_amount
                     ,sum(v.income) as income
                     ,sum(v.income)-sum(r.bill_amount) as total
+                    ,sum(m.AMOUNTPAY) as AMOUNTPAY 
                     
                     FROM vn_stat v 
                     left outer join hos.opitemrece oo on oo.vn = v.vn 
@@ -100,7 +101,7 @@ class PrisonerController extends Controller
                     left outer join hos.rcpt_print r on r.vn =v.vn
                     left outer join hos.social_aid s on s.vn = v.vn
                     left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
-
+                    left outer join hshooterdb.m_stm m on m.vn = v.vn
                     WHERE v.vstdate between "'.$newyear.'" and "'.$date.'"
                     AND p.addrpart = "438"
                     group by month(v.vstdate) asc
@@ -114,7 +115,8 @@ class PrisonerController extends Controller
                     ,sum(r.bill_amount) as bill_amount
                     ,sum(v.income) as income
                     ,sum(v.income)-sum(r.bill_amount) as total
-                    
+                    ,sum(m.AMOUNTPAY) as AMOUNTPAY 
+
                     FROM vn_stat v 
                     left outer join hos.opitemrece oo on oo.vn = v.vn 
                     left outer join hos.patient p on p.hn = v.hn   
@@ -122,7 +124,7 @@ class PrisonerController extends Controller
                     left outer join hos.rcpt_print r on r.vn =v.vn
                     left outer join hos.social_aid s on s.vn = v.vn
                     left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)
-
+                    left outer join hshooterdb.m_stm m on m.vn = v.vn
                     WHERE v.vstdate between "'.$startdate.'" and "'.$enddate.'"                    
                     AND p.addrpart = "438"
                     group by month(v.vstdate) asc
@@ -159,7 +161,7 @@ class PrisonerController extends Controller
                     ,v.discount_money,v.rcpt_money
                     ,v.income-v.discount_money-v.rcpt_money as debit 
                     ,v.rcpno_list rcpno  
-                    ,m.amountpay
+                    ,m.AMOUNTPAY
 
                     FROM vn_stat v 
                     left outer join hos.opitemrece oo on oo.vn = v.vn 
@@ -185,7 +187,7 @@ class PrisonerController extends Controller
                     ,v.discount_money,v.rcpt_money
                     ,v.income-v.discount_money-v.rcpt_money as debit 
                     ,v.rcpno_list rcpno  
-                    ,m.amountpay
+                    ,m.AMOUNTPAY
 
                     FROM vn_stat v 
                     left outer join hos.opitemrece oo on oo.vn = v.vn 
@@ -252,7 +254,7 @@ class PrisonerController extends Controller
                 ,v.discount_money,v.rcpt_money
                 ,v.income-v.discount_money-v.rcpt_money as debit 
                 ,v.rcpno_list rcpno  
-                ,m.amountpay
+                ,m.AMOUNTPAY
 
                 FROM vn_stat v 
                 left outer join hos.opitemrece oo on oo.vn = v.vn 

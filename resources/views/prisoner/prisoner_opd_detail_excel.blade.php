@@ -95,7 +95,7 @@
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="5%">{{ $item->rcpt_money }} </td>  
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="5%">{{ $item->debit }} </td> 
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="5%">{{ $item->rcpno }} </td> 
-                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="5%">{{ $item->amountpay }} </td> 
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" align="center" width="5%">{{ $item->AMOUNTPAY }} </td> 
             </tr>
         @endforeach        
        </tbody> 

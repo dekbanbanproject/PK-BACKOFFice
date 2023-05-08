@@ -115,7 +115,7 @@
                                             <td>{{ number_format($item->rcpt_money,2) }}</td> 
                                             <td>{{ number_format($item->debit,2) }}</td> 
                                             <td>{{ $item->rcpno }}</td>  
-                                            <td>{{ number_format($item->amountpay,2) }}</td> 
+                                            <td>{{ number_format($item->AMOUNTPAY,2) }}</td> 
                                         </tr>    
 
                                         <div class="modal fade" id="DetailModal{{ $item->vn }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
