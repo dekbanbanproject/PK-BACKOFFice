@@ -327,15 +327,21 @@ class P4pController extends Controller
         $dateend = $request->enddate;
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
         // $data['y'] = date('Y')+543;
         $data['y'] = date('Y');
-        // dd($m);
+
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
+         // $mounts = date('m');
+
+        //    dd($m);
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
         $data_month = DB::table('leave_month')->where('MONTH_ID','=',$m)->first();
-        $month = $data_month->MONTH_ID;
+
         // dd($data_month);
+        $month = $data_month->MONTH_ID;
+        // dd($month);
         $data['p4p_workgroupset_unit'] = DB::table('p4p_workgroupset_unit')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
         $data['p4p_work'] = DB::table('p4p_work')
@@ -381,7 +387,8 @@ class P4pController extends Controller
     { 
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
         $data['y'] = date('Y')+543;
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
@@ -427,7 +434,8 @@ class P4pController extends Controller
     { 
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
-        $m = date('m');
+        // $m = date('m');
+        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
         $data['y'] = date('Y')+543;
         // dd($m); 
         $data_user = DB::table('users')->where('id','=',$iduser)->first();
