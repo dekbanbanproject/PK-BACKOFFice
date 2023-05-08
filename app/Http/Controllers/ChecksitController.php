@@ -355,6 +355,7 @@ class ChecksitController extends Controller
             WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"               
             AND subinscl IS NULL  
             AND upsit_date IS NULL
+            LIMIT 30
         ');  
         // AND person_id_nhso IS NULL 
 
@@ -367,10 +368,14 @@ class ChecksitController extends Controller
         // WHERE vstdate = "2023-01-25"  
         // WHERE vstdate = CURDATE()
         // BETWEEN "'.$datestart.'" AND "'.$dateend.'"  
+        // set_time_limit(1000);
+        // $i = 0;
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
             $vn = $item->vn;
              
+            // sleep(1000);
+            // $i++;
             // dd($pids); 
             $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                 array(
@@ -402,11 +407,10 @@ class ChecksitController extends Controller
                 @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
                 @$hsub = $v->hsub;    //"04047"
                 @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
-                @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
-                // dd(@$maininscl);
-                IF(@$maininscl =="" || @$maininscl==null || @$status =="003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
-                    
-                        Check_sit_auto::where('vn', $vn) 
+                @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี" 
+                IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                    $date = date("Y-m-d");
+                    Check_sit_auto::where('vn', $vn) 
                                 ->update([    
                                     'status' => 'จำหน่าย/เสียชีวิต',
                                     'maininscl' => @$maininscl,
@@ -419,10 +423,11 @@ class ChecksitController extends Controller
                                     'hmain_op_name' => @$hmain_op_name,
                                     'hsub' => @$hsub,
                                     'hsub_name' => @$hsub_name,
-                                    'subinscl_name' => @$subinscl_name 
+                                    'subinscl_name' => @$subinscl_name,
+                                    'upsit_date'    => $date
                                 ]);      
-                  }elseif(@$maininscl !="" || @$subinscl !=""){  
-                        $date = date("Y-m-d");
+                }elseif(@$maininscl !="" || @$subinscl !=""){  
+                        $date2 = date("Y-m-d");
                             Check_sit_auto::where('vn', $vn) 
                             ->update([    
                                 'status' => @$status,
@@ -437,10 +442,10 @@ class ChecksitController extends Controller
                                 'hsub' => @$hsub,
                                 'hsub_name' => @$hsub_name,
                                 'subinscl_name' => @$subinscl_name,
-                                'upsit_date'    => $date
+                                'upsit_date'    => $date2
                             ]); 
  
-                  }
+                }
 
             }           
         }
@@ -455,19 +460,19 @@ class ChecksitController extends Controller
         //     'start'     => $datestart, 
         //     'end'        => $dateend,           
         // ]);
-        return redirect()->back();
+        // return redirect()->back();
         //  return view('authen.check_sit_day ',[   
         //     'status'     => '200',         
         //     'data_sit'    => $data_sit, 
         //     'start'     => $datestart, 
         //     'end'        => $dateend,           
         // ]);
-        // return response()->json([
-        //     'status'     => '200',
-        //     // 'data_sit'    => $data_sit, 
-        //     // 'start'     => $datestart, 
-        //     // 'end'        => $dateend, 
-        // ]); 
+        return response()->json([
+            'status'     => '200',
+            // 'data_sit'    => $data_sit, 
+            'start'     => $datestart, 
+            'end'        => $dateend, 
+        ]); 
     }
 
  

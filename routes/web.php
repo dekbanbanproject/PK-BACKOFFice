@@ -82,6 +82,10 @@ Route::match(['get','post'],'authen/getauthen_auto',[App\Http\Controllers\AUTHEN
 Route::match(['get','post'],'authen_getbar',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar'])->name('authen_getbar');
 Route::match(['get','post'],'authen_getbar_days',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar_days'])->name('authen_getbar_days');
 
+Route::match(['get','post'],'sit',[App\Http\Controllers\AutoController::class, 'sit'])->name('sit.sit');//
+Route::match(['get','post'],'sit_pull_auto',[App\Http\Controllers\AutoController::class, 'sit_pull_auto'])->name('sit.sit_pull_auto');//
+Route::match(['get','post'],'sit_auto',[App\Http\Controllers\AutoController::class, 'sit_auto'])->name('sit.sit_auto');//
+
 Route::match(['get','post'],'check_sit_day',[App\Http\Controllers\ChecksitController::class, 'check_sit_day'])->name('claim.check_sit_day');//
 Route::match(['get','post'],'check_sit_daysearch',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysearch'])->name('claim.check_sit_daysearch');//
 Route::match(['get','post'],'check_sit_pull',[App\Http\Controllers\ChecksitController::class, 'check_sit_pull'])->name('claim.check_sit_pull');//
