@@ -88,14 +88,8 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header ">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5>เพิ่มหมวดภาระงาน P4P </h5>
-                            </div>
-                            <div class="col"></div> 
-                            <div class="col-md-2 text-end">
-                           
-                            </div>
+                        <h5>เพิ่มหมวดภาระงาน P4P </h5>
+                        <div class="btn-actions-pane-right"> 
     
                         </div>
                     </div>
