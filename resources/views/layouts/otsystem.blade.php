@@ -162,7 +162,7 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
-                                <span>ระบบลงเวลา</span>
+                                <span>OT</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('otone') }}">ข้อมูลโอที</a></li>
