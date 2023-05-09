@@ -418,6 +418,12 @@
                                             Department Authen Auto
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ url('authen/checkauthen_autospsch') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Authen Report สปสช Auto
+                                        </a>
+                                    </li>
                                     {{-- <li>
                                         <a href="{{ url('authen/checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>

@@ -388,19 +388,19 @@
                                             Dashboard
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{ url('authen/checkauthen_main') }}">
                                             <i class="metismenu-icon"></i>
                                             Authen Main
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     {{-- <li>
                                         <a href="{{ url('authen/checkauthen_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Auto
                                         </a>
                                     </li> --}}
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{ url('authen/checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Report สปสช
@@ -411,7 +411,7 @@
                                             <i class="metismenu-icon"></i>
                                             Update VN Authen Report
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </li>
 
