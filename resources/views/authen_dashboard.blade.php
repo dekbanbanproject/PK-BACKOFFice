@@ -265,7 +265,7 @@
         
     </div>
 
-    {{-- <div class="row">
+    <div class="row">
         <div class="col-lg-12 col-xl-12">
             <div class="main-card mb-3 card">
                 <div class="card-body table-responsive">
@@ -289,7 +289,7 @@
                             @foreach ($data_dep as $item)
                                 <?php
                                 $count_authen_codedata = DB::connection('mysql3')->select('
-                                SELECT COUNT(DISTINCT o.vn) as VN                                       
+                                    SELECT COUNT(DISTINCT o.vn) as VN                                       
                                         FROM ovst o 
                                         LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
                                         LEFT OUTER JOIN patient p on p.hn=o.hn
@@ -327,7 +327,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
 
 

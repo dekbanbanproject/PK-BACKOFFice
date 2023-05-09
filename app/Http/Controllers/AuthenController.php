@@ -24,21 +24,21 @@ class AuthenController extends Controller
     {
         $date = date('Y-m-d');
         
-        // $data_dep = DB::connection('mysql3')->select(' 
-        //         SELECT o.main_dep,sk.department,COUNT(o.vn) as VN   
-        //         FROM ovst o 
-        //         LEFT JOIN visit_pttype v on v.vn=o.vn
-        //         LEFT JOIN vn_stat vs on vs.vn=o.vn
-        //         LEFT JOIN visit_pttype_authen vpa on vpa.visit_pttype_authen_vn=o.vn
-        //         LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-        //         WHERE o.vstdate = CURDATE()  
+        $data_dep = DB::connection('mysql3')->select(' 
+                SELECT o.main_dep,sk.department,COUNT(o.vn) as VN   
+                FROM ovst o 
+                LEFT JOIN visit_pttype v on v.vn=o.vn
+                LEFT JOIN vn_stat vs on vs.vn=o.vn
+                LEFT JOIN visit_pttype_authen vpa on vpa.visit_pttype_authen_vn=o.vn
+                LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                WHERE o.vstdate = CURDATE()  
                 
-        //         GROUP BY o.main_dep
-        // ');
+                GROUP BY o.main_dep
+        ');
         
-        // foreach ($data_dep as $key => $value2) {
-        //     $maindep = $value2->main_dep;
-        // }
+        foreach ($data_dep as $key => $value2) {
+            $maindep = $value2->main_dep;
+        }
         $data_ = DB::connection('mysql')->select(' 
                 SELECT *   
                 FROM dashboard_authen_day 
@@ -56,7 +56,7 @@ class AuthenController extends Controller
             'Kios'             => $Kios_,
             'Staff'            => $Staff_,
             'Success'          => $Success_,
-            // 'Unsuccess'        => $Unsuccess_,
+            'data_dep'        => $data_dep,
         ] );
     }
     // public function authen_dashboard(Request $request)
@@ -599,14 +599,12 @@ class AuthenController extends Controller
         $datadetail = DB::connection('mysql3')->select(' 
                 SELECT                
                 o.main_dep,o.vn as VN
-               ,p.cid,o.hn,wr.patientName,cp.claimCode,wr.tel,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname
-                 
-                
-                FROM ovst o 
-                LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
-                LEFT OUTER JOIN patient p on p.hn=o.hn
-                LEFT OUTER JOIN visit_pttype_authen_report vp ON vp.personalId = p.cid and wr.claimDate = o.vstdate
-                LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                ,p.cid,o.hn,vp.patientName,vp.claimCode,vp.tel,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname 
+                 FROM ovst o 
+                 LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                 LEFT OUTER JOIN patient p on p.hn=o.hn
+                 LEFT OUTER JOIN visit_pttype_authen_report vp ON vp.personalId = p.cid and vp.claimDate = o.vstdate
+                 LEFT OUTER JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate = CURDATE() and sk.depcode = "'.$dep.'"
                 
         ');

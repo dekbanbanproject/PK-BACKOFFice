@@ -242,12 +242,12 @@ class AUTHENCHECKController extends Controller
         //date_default_timezone_set('UTC');
     
         $date_now = date('Y-m-d');
-        $date_start = "2023-04-14";
-        $date_end = "2023-04-30";
+        $date_start = "2023-05-04";
+        $date_end = "2023-05-07";
         // $date = date_create("2013-03-15");
         // $dates = $date_format($date,'Y-m-d');
         // dd($date_now);
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_end&page=0&size=100000";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=100000";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
@@ -283,41 +283,30 @@ class AUTHENCHECKController extends Controller
         $result = json_decode($contents, true);
 
         @$content = $result['content']; 
-        // dd($content);
+        dd($content);
         // @$transId = $content['transId']; 
         // @$content = explode($content['content']);
         // $transId=$transId[0];
         // $hmain=$hmain[1];
         // foreach ($request->input('product_id', []) as $key => $product_id)
         foreach ($content as $key => $value) {
-            $transId = $value['transId'];  
-            
-            isset( $value['hmain'] ) ? $hmain = $value['hmain'] : $hmain = "";
-            isset( $value['personalId'] ) ? $personalId = $value['personalId'] : $personalId = "";
-            isset( $value['patientName'] ) ? $patientName = $value['patientName'] : $patientName = "";
-            isset( $value['addrNo'] ) ? $addrNo = $value['addrNo'] : $addrNo = "";
-            isset( $value['moo'] ) ? $moo = $value['moo'] : $moo = "";
-            isset( $value['moonanName'] ) ? $moonanName = $value['moonanName'] : $moonanName = "";
-            isset( $value['tumbonName'] ) ? $tumbonName = $value['tumbonName'] : $tumbonName = "";
-            isset( $value['amphurName'] ) ? $amphurName = $value['amphurName'] : $amphurName = "";
-            isset( $value['changwatName'] ) ? $changwatName = $value['changwatName'] : $changwatName = "";
-            isset( $value['birthdate'] ) ? $birthdate = $value['birthdate'] : $birthdate = "";
-            isset( $value['tel'] ) ? $tel = $value['tel'] : $tel = "";
-            isset( $value['mainInscl'] ) ? $mainInscl = $value['mainInscl'] : $mainInscl = "";
-            isset( $value['mainInsclName'] ) ? $mainInsclName = $value['mainInsclName'] : $mainInsclName = "";
-            isset( $value['subInscl'] ) ? $subInscl = $value['subInscl'] : $subInscl = "";
-            isset( $value['subInsclName'] ) ? $subInsclName = $value['subInsclName'] : $subInsclName = "";
-            isset( $value['claimStatus'] ) ? $claimStatus = $value['claimStatus'] : $claimStatus = "";
-            isset( $value['patientType'] ) ? $patientType = $value['patientType'] : $patientType = "";
+            $transId = $value['transId'];   
+            $pid = $value['pid'];   
+            $titleName = $value['titleName'];
+
+            isset( $value['fname'] ) ? $fname = $value['fname'] : $fname = "";
+            isset( $value['lname'] ) ? $lname = $value['lname'] : $lname = "";
             isset( $value['claimCode'] ) ? $claimCode = $value['claimCode'] : $claimCode = "";
             isset( $value['claimType'] ) ? $claimType = $value['claimType'] : $claimType = "";
             isset( $value['claimTypeName'] ) ? $claimTypeName = $value['claimTypeName'] : $claimTypeName = "";
-            isset( $value['hnCode'] ) ? $hnCode = $value['hnCode'] : $hnCode = ""; 
-            isset( $value['createDate'] ) ? $createDate = $value['createDate'] : $createDate = "";
+         
+            isset( $value['claimStatus'] ) ? $claimStatus = $value['claimStatus'] : $claimStatus = "";
+            isset( $value['hospName'] ) ? $hospName = $value['hospName'] : $hospName = "";
+            isset( $value['hospCode'] ) ? $hospCode = $value['hospCode'] : $hospCode = "";
             isset( $value['claimAuthen'] ) ? $claimAuthen = $value['claimAuthen'] : $claimAuthen = "";
-            isset( $value['createBy'] ) ? $createBy = $value['createBy'] : $createBy = "";
-            isset( $value['mainInsclWithName'] ) ? $mainInsclWithName = $value['mainInsclWithName'] : $mainInsclWithName = "";
-          
+            isset( $value['fullName'] ) ? $fullName = $value['fullName'] : $fullName = "";
+            isset( $value['daysBetweenClaimDateAndSysdate'] ) ? $daysBetweenClaimDateAndSysdate = $value['daysBetweenClaimDateAndSysdate'] : $daysBetweenClaimDateAndSysdate = "";
+            isset( $value['cancelable'] ) ? $cancelable = $value['cancelable'] : $cancelable = "";
             $claimDate = explode("T",$value['claimDate']);
             $checkdate = $claimDate[0];
             $checktime = $claimDate[1];
@@ -325,77 +314,58 @@ class AUTHENCHECKController extends Controller
                 $datenow = date("Y-m-d");               
                     $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count();
                     if ($checktransId > 0) {
-                       
+                        // Visit_pttype_authen_report::leftjoin('vn_stat','vn_stat.cid','=',$pid)->where('transId', $transId)->where('vn_stat.vstdate', $checkdate)                
+                        // $data = DB::connection('mysql3')->table('vn_stat')->where('cid','=',$pid)->where('vn_stat.vstdate', $checkdate)->first();
+                        // dd($data->vn);
+                        // $update = Visit_pttype_authen_report::find($transId);
+                        // $data = DB::connection('mysql3')->table('vn_stat')->where('cid','=',$pid)->where('vn_stat.vstdate', $checkdate)->first();
+                        // dd($data->vn);
+
+                        // $update->vn = $data->vn;
+                        // $update->save();
+
+                        // $data = DB::connection('mysql3')->table('vn_stat')->where('vn_stat.vstdate', $checkdate)->where('vn_stat.cid', $pid)->get();                   
+                        // foreach ($data as $key => $value) { 
+                            // Visit_pttype_authen_report::where('personalId', $value->cid)->where('claimDate', $value->vstdate)
                             Visit_pttype_authen_report::where('transId', $transId)
                                 ->update([
-                                            'transId'                           => $transId, 
-                                            'personalId'                        => $personalId,
-                                            'patientName'                       => $patientName, 
-                                            'addrNo'                            => $addrNo,                            
-                                            'moo'                               => $moo,
-                                            'moonanName'                        => $moonanName,
-                                            'tumbonName'                        => $tumbonName,
-                                            'amphurName'                        => $amphurName,
-                                            'changwatName'                      => $changwatName,
-                                            'birthdate'                         => $birthdate,
-                                            'tel'                               => $tel,
-                                            'mainInscl'                         => $mainInscl,
-                                            'mainInsclName'                     => $mainInsclName,
-                                            'subInscl'                          => $subInscl,
-                                            'subInsclName'                      => $subInsclName,
-                                            'claimCode'                         => $claimCode,
-                                            'claimType'                         => $claimType,
-                                            'claimTypeName'                     => $claimTypeName,
-                                            'hnCode'                            => $hnCode, 
-                                            'createBy'                          => $createBy, 
-                                            'mainInsclWithName'                 => $mainInsclWithName,
-                                            'claimAuthen'                        => $claimAuthen,  
-                                            'date_data'                          => $datenow
+                            //         'transId'                          => $transId,
+                            //         'titleName'                         => $titleName,
+                                    // 'vn'                               => $value->vn,
+                            //         'fname'                            => $fname,
+                            //         'lname'                            => $lname,
+                            //         'personalId'                       => $pid,
+                            //         'patientName'                      => $fullName, 
+                            //         'claimStatus'                      => $claimStatus,                            
+                            //         'claimCode'                        => $claimCode,
+                            //         'claimType'                        => $claimType,
+                            //         'claimTypeName'                    => $claimTypeName,
+                            //         'hmain'                           => $hospCode, 
+                            //         'hname'                           => $hospName, 
+                            //         'claimDate'                       => $checkdate,
+                                    'claimAuthen'                        => $claimAuthen,  
+                                    'date_data'                          => $datenow
                                 ]);
                         // }
                     } else {
                         // $data_add = Visit_pttype_authen_report::leftjoin('vn_stat','vn_stat.cid','=',$pid)->create([
                             $data_add = Visit_pttype_authen_report::create([
-                                // 'transId'                          => $transId,
-                                // 'titleName'                         => $titleName,
-                                // 'fname'                            => $fname,
-                                // 'lname'                            => $lname,
-                                // 'personalId'                       => $pid,
-                                // 'patientName'                      => $fullName, 
-                                // 'claimStatus'                      => $claimStatus,                            
-                                // 'claimCode'                        => $claimCode,
-                                // 'claimType'                        => $claimType,
-                                // 'claimTypeName'                    => $claimTypeName,
-                                // 'hmain'                           => $hospCode, 
-                                // 'hname'                           => $hospName, 
-                                // 'claimDate'                       => $checkdate,
-                                // 'claimTime'                        => $checktime,
-                                // 'claimAuthen'                        => $claimAuthen,                                
-                                // 'date_data'                        => $datenow
-
-                                    'transId'                           => $transId, 
-                                    'personalId'                        => $personalId,
-                                    'patientName'                       => $patientName, 
-                                    'addrNo'                            => $addrNo,                            
-                                    'moo'                               => $moo,
-                                    'moonanName'                        => $moonanName,
-                                    'tumbonName'                        => $tumbonName,
-                                    'amphurName'                        => $amphurName,
-                                    'changwatName'                      => $changwatName,
-                                    'birthdate'                         => $birthdate,
-                                    'tel'                               => $tel,
-                                    'mainInscl'                         => $mainInscl,
-                                    'mainInsclName'                     => $mainInsclName,
-                                    'subInscl'                          => $subInscl,
-                                    'subInsclName'                      => $subInsclName,
-                                    'claimCode'                         => $claimCode,
-                                    'claimType'                         => $claimType,
-                                    'claimTypeName'                     => $claimTypeName,
-                                    'hnCode'                            => $hnCode, 
-                                    'createBy'                          => $createBy, 
-                                    'mainInsclWithName'                 => $mainInsclWithName,
-                                    'claimAuthen'                       => $claimAuthen,  
-                                    'date_data'                         => $datenow
+                                'transId'                          => $transId,
+                                'titleName'                         => $titleName,
+                                'fname'                            => $fname,
+                                'lname'                            => $lname,
+                                'personalId'                       => $pid,
+                                'patientName'                      => $fullName, 
+                                'claimStatus'                      => $claimStatus,                            
+                                'claimCode'                        => $claimCode,
+                                'claimType'                        => $claimType,
+                                'claimTypeName'                    => $claimTypeName,
+                                'hmain'                           => $hospCode, 
+                                'hname'                           => $hospName, 
+                                'claimDate'                       => $checkdate,
+                                'claimTime'                        => $checktime,
+                                'claimAuthen'                        => $claimAuthen,                                
+                                'date_data'                        => $datenow
                         ]);
                         $data_add->save();
                     }   
