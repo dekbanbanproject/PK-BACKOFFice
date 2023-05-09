@@ -51,12 +51,19 @@ class AuthenController extends Controller
             $Success_ = $value->Total_Success;
             // $Unsuccess_ = $value->Unsuccess;
         } 
+        $data_department = DB::connection('mysql')->select(' 
+                SELECT *   
+                FROM dashboard_department_authen 
+                WHERE vstdate = CURDATE()  
+                ORDER BY main_dep DESC 
+        ');
         return view('authen_dashboard',[ 
             'vn'               => $vn_,
             'Kios'             => $Kios_,
             'Staff'            => $Staff_,
             'Success'          => $Success_,
-            'data_dep'        => $data_dep,
+            'data_dep'         => $data_dep,
+            'data_department'  => $data_department,
         ] );
     }
     // public function authen_dashboard(Request $request)
@@ -605,7 +612,9 @@ class AuthenController extends Controller
                  LEFT OUTER JOIN patient p on p.hn=o.hn
                  LEFT OUTER JOIN visit_pttype_authen_report vp ON vp.personalId = p.cid and vp.claimDate = o.vstdate
                  LEFT OUTER JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE() and sk.depcode = "'.$dep.'"
+                WHERE o.vstdate = CURDATE() 
+                and o.main_dep = "'.$dep.'"
+                GROUP BY o.vn
                 
         ');
                 // AND wr.claimCode is not null

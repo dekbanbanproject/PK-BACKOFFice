@@ -690,8 +690,8 @@
     @yield('footer')
 
 
-    <!-- Large modal รายละเอียด(คน)-->
-   <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+   <!-- Large modal รายละเอียด(คน)-->
+ <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg w-auto">
         <div class="modal-content">
             <div class="modal-header">

@@ -119,12 +119,11 @@
                                             <small> </small>
                                         </div>
                                         <div class="widget-description ms-auto text-white">
-                                            <?php $kiosper =  100 / $vn * $Kios ?>
         
                                             @if ($Kios == '0')
                                                 <span class="pe-1">0 %</span>
                                             @else
-                                                <span class="pe-1">{{ number_format($kiosper, 2) }} %</span>
+                                                {{-- <span class="pe-1">{{ number_format($countkiosallst, 2) }} %</span> --}}
                                             @endif
                                             <i class="fa fa-angle-up "></i>
                                         </div>
@@ -132,16 +131,16 @@
                                 </div>
                                 <div class="widget-progress-wrapper">
                                     <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                        @if ($Kios == '0')
+                                        {{-- @if ($countkiosalls == '0')
                                             <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0"
                                                 aria-valuemin="0" aria-valuemax="100" style="width:0%">
                                             </div>
                                         @else
                                             <div class="progress-bar bg-warning" role="progressbar"
-                                                aria-valuenow="{{ number_format($kiosper, 0) }}" aria-valuemin="0"
-                                                aria-valuemax="100" style="width:{{ number_format($kiosper, 0) }}%;">
+                                                aria-valuenow="{{ number_format($countkiosallst, 0) }}" aria-valuemin="0"
+                                                aria-valuemax="100" style="width:{{ number_format($countkiosallst, 0) }}%;">
                                             </div>
-                                        @endif
+                                        @endif --}}
         
                                     </div>
                                     <div class="progress-sub-label text-white">นับรวมทุก Visit</div>
@@ -167,15 +166,10 @@
                                         </div>
                                         <div class="widget-description ms-auto text-white">
                                             <i class="fa fa-arrow-right "></i>
-                                            <?php 
-                                                $uu = $vn - $Kios;
-                                                $userper =  100 / $vn * $uu
-                                            ?>
-
                                             @if ($vn - $Kios == '0')
                                                 <span class="ps-1">0 %</span>
                                             @else
-                                                <span class="ps-1">{{ number_format($userper, 2) }} %</span>
+                                                {{-- <span class="ps-1">{{ number_format($countonuserst, 2) }} %</span> --}}
                                             @endif
                                         </div>
                                     </div>
@@ -183,16 +177,16 @@
                                 <div class="widget-progress-wrapper">
                                     <div class="progress-bar-sm progress-bar-animated-alt progress">
         
-                                        @if ($userper == '0')
+                                        {{-- @if ($countonuserst == '0')
                                             <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="0"
                                                 aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                                             </div>
                                         @else
                                             <div class="progress-bar bg-primary" role="progressbar"
-                                                aria-valuenow="{{ number_format($userper, 0) }}" aria-valuemin="0"
-                                                aria-valuemax="100" style="width: {{ number_format($userper, 0) }}%;">
+                                                aria-valuenow="{{ number_format($countonuserst, 0) }}" aria-valuemin="0"
+                                                aria-valuemax="100" style="width: {{ number_format($countonuserst, 0) }}%;">
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                     <div class="progress-sub-label text-white">นับรวมทุก Visit</div>
                                 </div>
@@ -214,14 +208,12 @@
                                             <small> </small>
                                         </div>
                                         <div class="widget-description ms-auto text-dark">
-                                            <?php  
-                                            $sus =  100 / $vn * $Success
-                                        ?>
-                                            @if ($Success == '0')
+        
+                                            {{-- @if ($Success == '0')
                                                 <span class="pe-1">0 %</span>
                                             @else
-                                                <span class="ps-1">{{ number_format($sus, 0) }} %</span>
-                                            @endif
+                                                <span class="ps-1">{{ number_format($count_successt, 0) }} %</span>
+                                            @endif --}}
                                             <i class="fa fa-arrow-left "></i>
                                         </div>
                                     </div>
@@ -230,17 +222,17 @@
                                 <div class="widget-progress-wrapper">
                                     <div class="progress-bar-sm progress-bar-animated-alt progress">
         
-                                        @if ($sus == '0')
+                                        {{-- @if ($count_success == '0')
                                             <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0"
                                                 aria-valuemin="0" aria-valuemax="100" style="width:0%;">
                                             </div>
                                         @else
                                             <div class="progress-bar bg-danger" role="progressbar"
-                                                aria-valuenow="{{ number_format($sus, 0) }}" aria-valuemin="0"
+                                                aria-valuenow="{{ number_format($count_successt, 0) }}" aria-valuemin="0"
                                                 aria-valuemax="100"
-                                                style="width: {{ number_format($sus, 0) }}%;">
+                                                style="width: {{ number_format($count_successt, 0) }}%;">
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                     <div class="progress-sub-label text-white">นับรวมทุก Visit</div>
                                 </div>
@@ -294,20 +286,38 @@
                             <?php $i = 1;
                             $date = date('Y-m-d');
                             ?>
-                            @foreach ($data_department as $item)
-                               
+                            @foreach ($data_dep as $item)
+                                <?php
+                                $count_authen_codedata = DB::connection('mysql3')->select('
+                                    SELECT COUNT(DISTINCT o.vn) as VN                                       
+                                        FROM ovst o 
+                                        LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                                        LEFT OUTER JOIN patient p on p.hn=o.hn
+                                        LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid and wr.claimDate = o.vstdate
+                                        LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                                        WHERE o.vstdate = CURDATE() and sk.depcode = "'.$item->main_dep.'"
+                                        AND wr.claimCode is not null
+                                        AND wr.tel is not null
+                                ');
+                                foreach ($count_authen_codedata as $key => $value) {
+                                    $count_authen_codes = $value->VN;
+                                }
+                                $count_authen_code = $count_authen_codes;
+                                 
+                                $count_authen_codeunsuccess = $item->VN - $count_authen_code;
+                                ?>
                                 <tr id="sid{{ $item->main_dep }}">
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td class="p-2">
                                         <button type="button" class="btn authen_detail" value="{{ $item->main_dep }}">{{ $item->department }}</button>                                            
                                     </td>
-                                    <td class="text-center">{{ $item->vn }}</td> 
+                                    <td class="text-center">{{ $item->VN }}</td> 
                                     <td class="text-center"> 
-                                            <label for="" style="color:green"> {{ $item->Success }}</label>
+                                            <label for="" style="color:green"> {{ $count_authen_code }}</label>
                                     </td>
                                     <td class="text-center" >
                                         <label for="" style="color:red;">
-                                            {{ $item->Unsuccess }} </label>
+                                            {{ $count_authen_codeunsuccess }} </label>
                                     </td>
                                 </tr>
  
@@ -319,7 +329,7 @@
         </div>
     </div>
 
- 
+
 
 @endsection
 @section('footer')

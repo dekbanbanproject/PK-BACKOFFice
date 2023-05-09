@@ -867,6 +867,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\D_opd' => __DIR__ . '/../..' . '/app/Models/D_opd.php',
         'App\\Models\\D_orf' => __DIR__ . '/../..' . '/app/Models/D_orf.php',
         'App\\Models\\D_pat' => __DIR__ . '/../..' . '/app/Models/D_pat.php',
+        'App\\Models\\Dashboard_authen_day' => __DIR__ . '/../..' . '/app/Models/Dashboard_authen_day.php',
         'App\\Models\\Department' => __DIR__ . '/../..' . '/app/Models/Department.php',
         'App\\Models\\Department_sub_sub' => __DIR__ . '/../..' . '/app/Models/Department_sub_sub.php',
         'App\\Models\\Departmentsub' => __DIR__ . '/../..' . '/app/Models/Departmentsub.php',

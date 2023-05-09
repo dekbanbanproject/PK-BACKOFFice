@@ -89,6 +89,7 @@ Route::match(['get','post'],'repage',[App\Http\Controllers\AutoController::class
 
 
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//
+Route::match(['get','post'],'depauthen_auto',[App\Http\Controllers\AutoController::class, 'depauthen_auto'])->name('db.depauthen_auto');//
 
 Route::match(['get','post'],'check_sit_day',[App\Http\Controllers\ChecksitController::class, 'check_sit_day'])->name('claim.check_sit_day');//
 Route::match(['get','post'],'check_sit_daysearch',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysearch'])->name('claim.check_sit_daysearch');//

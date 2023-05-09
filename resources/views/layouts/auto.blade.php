@@ -412,6 +412,12 @@
                                             Dashboard Auto
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ url('depauthen_auto') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Department Authen Auto
+                                        </a>
+                                    </li>
                                     {{-- <li>
                                         <a href="{{ url('authen/checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
