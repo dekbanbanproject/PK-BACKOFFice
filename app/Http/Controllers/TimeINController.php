@@ -27,69 +27,50 @@ class TimeINController extends Controller
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
+        $iduser =  Auth::user()->id;
         $iddep =  Auth::user()->dep_subsubtrueid;
+        $datenow = date('Y-m-d');
         $oper_ = DB::connection('mysql6')->table('operate_job')->where('OPERATE_DEPARTMENT_SUB_SUB_ID', '=', $iddep)->get();
+        $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+        $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน 
         // dd($debsub);
-        $datashow_ = DB::connection('mysql6')->select('   
-                SELECT p.ID 
-                    ,CONCAT(DAY(c.CHEACKIN_DATE), "-",MONTH(c.CHEACKIN_DATE), "-", YEAR(c.CHEACKIN_DATE)+543) AS CHEACKIN_DATE
-                    ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "1" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKINTIME
-                    ,SUBSTRING_INDEX(GROUP_CONCAT((SELECT CONCAT(c.CHEACKIN_TIME) WHERE c.CHECKIN_TYPE_ID = "2" AND c.CHECKIN_PERSON_ID = p.ID)),",",1) AS CHEACKOUTTIME
-                    ,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname
-                    ,h.HR_DEPARTMENT_ID,h.HR_DEPARTMENT_NAME
-                    ,hs.HR_DEPARTMENT_SUB_ID,hs.HR_DEPARTMENT_SUB_NAME,d.HR_DEPARTMENT_SUB_SUB_ID,d.HR_DEPARTMENT_SUB_SUB_NAME
-                    ,ot.OPERATE_TYPE_NAME,ot.OPERATE_TYPE_ID 
-                FROM checkin_index c
-                LEFT JOIN hrd_person p on p.ID=c.CHECKIN_PERSON_ID
-                LEFT JOIN hrd_department h on h.HR_DEPARTMENT_ID=p.HR_DEPARTMENT_ID
-                LEFT JOIN hrd_department_sub hs on hs.HR_DEPARTMENT_SUB_ID=p.HR_DEPARTMENT_SUB_ID
-                LEFT JOIN hrd_department_sub_sub d on d.HR_DEPARTMENT_SUB_SUB_ID=p.HR_DEPARTMENT_SUB_SUB_ID
-                LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
-                LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
-                LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
-                WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"   
-                GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                ORDER BY c.CHEACKIN_DATE,d.HR_DEPARTMENT_SUB_SUB_ID,p.ID,ot.OPERATE_TYPE_ID
-        ');
-        
-        Operate_time::truncate();
-        foreach ($datashow_ as $key => $value) {  
-        
-            $start = strtotime($value->CHEACKINTIME);
-            $end = strtotime($value->CHEACKOUTTIME);
+        if ( $startdate != '') {
+            $datashow_ = DB::connection('mysql6')->select(' 
+                    SELECT c.*,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname 
+                    ,j.OPERATE_JOB_NAME,ot.OPERATE_TYPE_NAME,l.checktime                   
+                    FROM checkin_index c
+                    LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                    LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                    LEFT JOIN hrd_person p on p.ID = c.CHECKIN_PERSON_ID 
+                    LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                    LEFT JOIN line_checktime l on l.cid = p.HR_CID
+                    
+                    WHERE c.CHECKIN_PERSON_ID ="'.$iduser.'"
+                    AND c.CHEACKIN_DATE BETWEEN "'.$startdate.'" AND "'.$enddate.'"   
+                    ORDER BY CHEACKIN_DATE DESC                 
+            ');
+         
+        } else {
+            $datashow_ = DB::connection('mysql6')->select('   
+                       SELECT c.*,CONCAT(f.HR_PREFIX_NAME,p.HR_FNAME," ",p.HR_LNAME) as hrname 
+                       ,j.OPERATE_JOB_NAME,ot.OPERATE_TYPE_NAME,l.checktime
+                    FROM checkin_index c
+                    LEFT JOIN operate_job j on j.OPERATE_JOB_ID=c.OPERATE_JOB_ID
+                    LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
+                    LEFT JOIN hrd_person p on p.ID = c.CHECKIN_PERSON_ID 
+                    LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
+                    LEFT JOIN line_checktime l on l.cid = p.HR_CID
 
-            if ($end == '') {
-                $tot = ''; 
-            }elseif ($start == '') { 
-                $tot = ''; 
-            }elseif ($end < $start) { 
-                $tot = ''; 
-            } else {
-                $tot_ = ($end - $start) / 3600; 
-                $tot = number_format($tot_,2);
-            }
-  
-            $date1 = date_create($value->CHEACKINTIME);
-            $date2 = date_create($value->CHEACKOUTTIME);
-            
-            $diff = date_diff($date1, $date2);
-            $totalhr = $diff->format('%R%H ชม.');
-
-            Operate_time::insert([
-                'operate_time_date'        => $value->CHEACKIN_DATE,
-                'operate_time_personid'    => $value->ID,
-                'operate_time_person'      => $value->hrname,
-                'operate_time_typeid'      => $value->OPERATE_TYPE_ID,
-                'operate_time_typename'    => $value->OPERATE_TYPE_NAME,
-                'operate_time_in'          => $value->CHEACKINTIME,
-                'operate_time_out'         => $value->CHEACKOUTTIME,
-                'operate_time_otin'        => '',
-                'operate_time_otout'       => '',
-                'totaltime_narmal'         => $tot,
-                'totaltime_ot'             => '' 
-            ]);  
-       
+                    WHERE c.CHECKIN_PERSON_ID ="'.$iduser.'"
+                    AND c.CHEACKIN_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'"  
+                    ORDER BY CHEACKIN_DATE DESC  
+ 
+            ');
         }
+        
+       
+        
+       
          
         return view('timer.timein', [
             'datashow_'        => $datashow_,

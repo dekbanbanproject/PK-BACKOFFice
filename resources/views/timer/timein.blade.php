@@ -97,7 +97,7 @@ if (Auth::check()) {
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
                         <p> 
-                            <form action="{{ route('TT.timein') }}" method="POST">
+                            <form action="{{ route('TT.timein') }}" method="GET">
                                 @csrf
                                     <div class="row"> 
                                         <div class="col-md-2 text-end">วันที่</div>
@@ -128,26 +128,97 @@ if (Auth::check()) {
                                         <tr>
                                             <th>ลำดับ</th> 
                                             <th>วันที่</th>
-                                            <th>ชื่อ-นามสกุล</th>
-                                            <th>หน่วยงาน</th> 
+                                            <th>ชื่อ-นามสกุล</th> 
                                             <th>เวลาเข้า</th> 
-                                            <th>เวลาออก</th> 
-                                            <th>ประเภท</th> 
+                                            <th>CHECKIN_TYPE_ID</th>  
+                                            <th>OPERATE_TYPE_NAME</th>
+                                            <th>OPERATE_JOB_ID</th>  
+                                            <th>OPERATE_JOB_NAME</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $ia = 1; ?>
                                         @foreach ($datashow_ as $item)  
                                             
-                                            <tr>
+                                            <tr >
                                                 <td>{{ $ia++ }}</td>
                                                 <td>{{ $item->CHEACKIN_DATE }}</td> 
-                                                <td class="p-2">{{ $item->hrname }}</td>   
-                                                <td class="p-2">{{ $item->HR_DEPARTMENT_SUB_SUB_NAME }}</td> 
-                                                <td>{{ $item->CHEACKINTIME }}</td>  
-                                                <td>{{ $item->CHEACKOUTTIME }}</td>  
-                                                <td>{{ $item->OPERATE_TYPE_NAME }}</td>   
-                                            </tr>    
+                                                <td class="p-2">{{ $item->hrname }}</td>    
+                                                <td>
+                                                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal{{$item->CHECKIN_ID}}">
+                                                        <i class="pe-7s-science btn-icon-wrapper"></i> {{ $item->CHEACKIN_TIME }}
+                                                    </button>                                                   
+                                                </td>  
+                                                <td>{{ $item->CHECKIN_TYPE_ID }}</td>  
+                                                <td>{{ $item->OPERATE_TYPE_NAME }}</td>  
+                                                <td>{{ $item->OPERATE_JOB_ID }}</td>  
+                                                <td>{{ $item->OPERATE_JOB_NAME }}</td> 
+                                            </tr> 
+
+                                             <!-- Modal -->
+                                            <div class="modal fade" id="editModal{{$item->CHECKIN_ID}}"  tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">แก้ไข เข้า-ออก</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body"> 
+                                                            {{-- <form action="{{ route('TT.timein_save') }}" method="POST">
+                                                                @csrf --}}
+                                                            
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-text">
+                                                                            <span class="">วันที่</span>
+                                                                        </div>
+                                                                        <input type="datetime-local" id="CHEACKIN_DATE" name="CHEACKIN_DATE" class="form-control" value="{{$item->checktime}}">
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            {{-- <div class="row mt-3">
+                                                                <div class="col-md-6">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-text">
+                                                                            <span class="">ประเภท</span>
+                                                                        </div>
+                                                                        <select name="CHECKIN_TYPE_ID" id="CHECKIN_TYPE_ID" class="form-control">
+                                                                            <option value="1">เข้า</option>
+                                                                            <option value="2">ออก</option>
+                                                                        </select> 
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-text">
+                                                                            <span class="">วันทำการ</span>
+                                                                        </div>
+                                                                        <select name="OPERATE_JOB_ID" id="OPERATE_JOB_ID" class="form-control">
+                                                                            <option value="">-เลือก-</option> 
+                                                                            @foreach ($oper_ as $item)
+                                                                                <option value="{{$item->OPERATE_JOB_ID}}">{{$item->OPERATE_JOB_NAME}}</option> 
+                                                                            @endforeach
+                                                                        </select>  
+                                                                    </div>
+                                                                </div>
+                                                            </div>  --}}
+                                                        </div>
+
+                                                        <div class="modal-footer"> 
+                                                            <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="TimeUpdate">
+                                                            {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> --}}
+                                                                <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                {{-- </form> --}}
+                                                </div>
+                                            </div>
+
                                         @endforeach
                                         
                                     </tbody>
