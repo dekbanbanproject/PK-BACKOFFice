@@ -242,12 +242,12 @@ class AUTHENCHECKController extends Controller
         //date_default_timezone_set('UTC');
     
         $date_now = date('Y-m-d');
-        $date_start = "2023-04-14";
-        $date_end = "2023-04-30";
+        $date_start = "2023-05-07";
+        $date_end = "2023-05-09";
         // $date = date_create("2013-03-15");
         // $dates = $date_format($date,'Y-m-d');
         // dd($date_now);
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_end&page=0&size=100000";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=100000";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
