@@ -175,7 +175,7 @@ if (Auth::check()) {
                                                                         <div class="input-group-text">
                                                                             <span class="">วันที่</span>
                                                                         </div>
-                                                                        <input type="datetime-local" id="CHEACKIN_DATE" name="CHEACKIN_DATE" class="form-control" value="{{$item->checktime}}">
+                                                                        <input type="datetime-local" id="CHEACKIN_DATE" name="CHEACKIN_DATE" class="form-control" value="{{$item->CHEACKIN_DATE}}">
                                                                     </div>
                                                                 </div>
                                                                 

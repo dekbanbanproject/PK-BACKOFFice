@@ -46,7 +46,8 @@ class TimeINController extends Controller
                     LEFT JOIN line_checktime l on l.cid = p.HR_CID
                     
                     WHERE c.CHECKIN_PERSON_ID ="'.$iduser.'"
-                    AND c.CHEACKIN_DATE BETWEEN "'.$startdate.'" AND "'.$enddate.'"   
+                    AND c.CHEACKIN_DATE BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                    GROUP BY c.CHEACKIN_TIME 
                     ORDER BY CHEACKIN_DATE DESC                 
             ');
          
@@ -63,6 +64,7 @@ class TimeINController extends Controller
 
                     WHERE c.CHECKIN_PERSON_ID ="'.$iduser.'"
                     AND c.CHEACKIN_DATE BETWEEN "'.$newDate.'" AND "'.$datenow.'"  
+                    GROUP BY c.CHEACKIN_TIME
                     ORDER BY CHEACKIN_DATE DESC  
  
             ');
