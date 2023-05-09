@@ -400,6 +400,18 @@
                                             Checksit Auto
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ url('repage') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Repage Auto
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('dbday_auto') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Dashboard Auto
+                                        </a>
+                                    </li>
                                     {{-- <li>
                                         <a href="{{ url('authen/checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>

@@ -8,7 +8,7 @@
             <div class="col-lg-12 col-xl-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        Pull Data Hos To Checksit Auto
+                        REPAGE Auto
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">
                                 <button class="active btn btn-focus">สปสช</button>
@@ -62,7 +62,7 @@
         $('#success').hide(); 
         window.setTimeout(function() {             
             window.location.reload();
-        },10000); 
+        },30000000); 
         $(document).ajaxStart(function() {
         
             }).ajaxSuccess(function() {

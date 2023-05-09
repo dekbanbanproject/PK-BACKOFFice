@@ -1289,39 +1289,57 @@ class AccountPKController extends Controller
                 ,CONCAT(rn.receipt_book_id,"/",rn.receipt_number_id) AS receipt_n
                 ,rn.receipt_date
                 ,ps.pang_stamp_rcpt
+                ,SUM(ati.price_approve) as price_approve
                 ,CONCAT(ps.pang_stamp_pname,ps.pang_stamp_fname," ",ps.pang_stamp_lname) AS pt_name
                 
                 FROM pang_stamp ps
                 LEFT JOIN receipt_number rn ON ps.pang_stamp_stm_file_name = rn.receipt_number_stm_file_name
-                WHERE pang_stamp_vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-               
-                AND ps.pang_stamp_send IS NOT NULL
-                AND ps.pang_stamp_uc_money <> 0
+
+                 
+                LEFT JOIN acc_stm_ti ati ON ati.hn = ps.pang_stamp_hn and ati.vstdate = ps.pang_stamp_vstdate
+
+                WHERE ati.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                
+                AND pang_stamp = "1102050101.2166"
+                GROUP BY ati.cid,ati.vstdate
                 ORDER BY ps.pang_stamp_hn ;
         '); 
         $filen_ = DB::connection('mysql9')->select('SELECT pang_stamp_stm_file_name FROM pang_stamp group by pang_stamp_stm_file_name');
         $sum_uc_money_ = DB::connection('mysql9')->select('
-            SELECT SUM(pang_stamp_uc_money) as sumuc_money 
+            SELECT SUM(pang_stamp_uc_money) as sumuc_money
             FROM pang_stamp 
             WHERE pang_stamp_vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND pang_stamp_send IS NOT NULL
+            AND pang_stamp_uc_money <> 0
+            AND pang_stamp = "1102050101.2166"
         ');
         foreach ($sum_uc_money_ as $key => $value) {
             $sum_uc_money = $value->sumuc_money;
+           
         }
 
         $sum_stmuc_money_ = DB::connection('mysql9')->select('
-            SELECT SUM(pang_stamp_stm_money) as sumstmuc_money 
-            FROM pang_stamp 
-            WHERE pang_stamp_vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            SELECT SUM(ps.pang_stamp_stm_money) as sumstmuc_money ,SUM(ati.price_approve) as price_approve
+            FROM pang_stamp ps
+            LEFT JOIN acc_stm_ti ati ON ati.hn = ps.pang_stamp_hn and ati.vstdate = ps.pang_stamp_vstdate
+            WHERE ati.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND ps.pang_stamp_send IS NOT NULL
+            AND ps.pang_stamp_uc_money <> 0
+            AND ps.pang_stamp = "1102050101.2166"
+           
         ');
         foreach ($sum_stmuc_money_ as $key => $value2) {
             $sum_stmuc_money = $value2->sumstmuc_money;
+            $price_approve = $value2->price_approve;
         }
 
         $sum_hiegt_money_ = DB::connection('mysql9')->select('
             SELECT SUM(pang_stamp_uc_money_minut_stm_money) as sumsthieg_money 
             FROM pang_stamp 
             WHERE pang_stamp_vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            AND pang_stamp_send IS NOT NULL
+            AND pang_stamp_uc_money <> 0
+            AND pang_stamp = "1102050101.2166"
         ');
         foreach ($sum_hiegt_money_ as $key => $value3) {
             $sum_hiegt_money = $value3->sumsthieg_money;
@@ -1336,6 +1354,7 @@ class AccountPKController extends Controller
             'filen_'        =>     $filen_,
             'sum_uc_money'  =>     $sum_uc_money,
             'sum_stmuc_money'  =>  $sum_stmuc_money,
+            'price_approve'  =>  $price_approve,
             'sum_hiegt_money'  =>  $sum_hiegt_money,
             // 'file_n'  =>  $file_n
         ]);

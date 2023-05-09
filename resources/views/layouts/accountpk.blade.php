@@ -289,7 +289,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li> 
-                                <li><a href="{{ url('acc_repstm') }}">report stm</a></li> 
+                                <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li> 
                             </ul>
                         </li> 
  

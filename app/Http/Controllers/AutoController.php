@@ -53,6 +53,7 @@ use App\Models\Claim_sixteen_pat;
 use App\Models\Claim_sixteen_ins;
 use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
+use App\Models\Dashboard_authen_day;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -69,9 +70,51 @@ use SplFileObject;
 class AutoController extends Controller
 {  
     public function sit(Request $request)
-    { 
-            
+    {             
         return view('authen.sit');
+    }
+    public function repage(Request $request)
+    {             
+        $date_now = date('Y-m-d');
+        // $date_start = "2023-05-04";
+        // $date_end = "2023-05-07"; 
+        // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=100000";
+        $url = "https://authenservice.nhso.go.th/authencode/#/report/eclaim";
+
+        // dd($url);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            // CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-01-05&claimDateTo=2023-01-05&page=0&size=1000',
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json, text/plain, */*',
+                'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
+                'Connection: keep-alive',
+                'Cookie: SESSION=Zjg0MGQ4YjQtYzc0OS00OGEyLWEzYjAtZTQxMDU5MGExMTIz; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Referer: https://authenservice.nhso.go.th/authencode/',
+                'Sec-Fetch-Dest: empty',
+                'Sec-Fetch-Mode: cors',
+                'Sec-Fetch-Site: same-origin',
+                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+                'sec-ch-ua: "Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+                'sec-ch-ua-mobile: ?0',
+                'sec-ch-ua-platform: "Windows"'
+            ),
+        ));
+ 
+        $response = curl_exec($curl);
+        curl_close($curl);
+        // dd($curl);
+        $contents = $response;
+        // dd($contents);
+        $result = json_decode($contents, true);
+
+        @$content = $result['content']; 
+        return view('authen.repage');
     }
     public function sit_pull_auto(Request $request)
     { 
@@ -83,7 +126,7 @@ class AutoController extends Controller
                 JOIN opduser op on op.loginname = o.staff 
                 WHERE o.vstdate = CURDATE()
                 group by p.cid
-                limit 30
+                limit 1500
             ');  
             foreach ($data_sits as $key => $value) { 
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
@@ -105,7 +148,6 @@ class AutoController extends Controller
             return view('authen.sit_pull_auto');
     }
 
-
     public function sit_auto(Request $request)
     {
         $datestart = $request->datestart;
@@ -125,7 +167,7 @@ class AutoController extends Controller
             WHERE vstdate = CURDATE()              
             AND subinscl IS NULL  
             AND upsit_date IS NULL
-            LIMIT 30
+            LIMIT 5
         ');  
          
         foreach ($data_sitss as $key => $item) {
@@ -205,6 +247,116 @@ class AutoController extends Controller
        
         return view('authen.sit_auto');
        
+    }
+
+    public function dbday_auto(Request $request)
+    { 
+            $data_sits = DB::connection('mysql3')->select(' 
+                    SELECT v.vstdate 
+                    ,count(distinct v.hn) as hn
+                    ,count(distinct v.vn) as vn 
+                    ,count(distinct v.cid) as cid
+                    ,"" as Kios
+                    ,"" as Staff
+                    ,"" as Success
+                    ,"" as Unsuccess                     
+                    FROM vn_stat v 
+                    left outer join hos.ovst o on o.vn = v.vn 
+                    left outer join hos.patient p on p.hn = v.hn   
+                    left outer join hos.pttype pt on pt.pttype = v.pttype 
+                    left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)                    
+                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09" 
+                    group by DAY(v.vstdate)
+            ');  
+            foreach ($data_sits as $key => $value) { 
+                $check = Dashboard_authen_day::where('vstdate', $value->vstdate)->count(); 
+                if ($check == 0) {
+                    Dashboard_authen_day::insert([
+                        'vn' => $value->vn,
+                        'hn' => $value->hn,
+                        'cid' => $value->cid,
+                        'vstdate' => $value->vstdate                        
+                    ]);
+                } else { 
+                    Dashboard_authen_day::where('vstdate', $value->vstdate) 
+                        ->update([    
+                            'vn' => $value->vn,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'vstdate' => $value->vstdate
+                            
+                        ]);     
+                }
+                      
+            }
+            $data_kios_all = DB::connection('mysql3')->select(' 
+                    SELECT v.vstdate 
+                    ,COUNT(DISTINCT o.vn) as vn
+                    ,count(DISTINCT p.cid) as cid                    
+                    FROM ovst o
+                    LEFT OUTER JOIN hos.vn_stat v on v.vn = o.vn 
+                    LEFT OUTER JOIN visit_pttype vp on vp.vn = o.vn
+                    LEFT OUTER JOIN ovst_queue_server os on os.vn = o.vn
+                    LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn = os.vn 
+                    LEFT OUTER JOIN patient p on p.hn=o.hn
+     
+                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09"
+                    AND os.staff LIKE "kiosk%"
+                    GROUP BY o.vstdate
+            ');  
+            // = CURDATE()
+            foreach ($data_kios_all as $key => $value2) { 
+                $check2 = Dashboard_authen_day::where('vstdate', $value2->vstdate)->count(); 
+                if ($check2 == 0) {
+                    Dashboard_authen_day::insert([
+                        'Kios' => $value2->vn                       
+                    ]);
+                } else { 
+                    Dashboard_authen_day::where('vstdate', $value2->vstdate) 
+                        ->update([    
+                            'Kios' => $value2->vn                             
+                        ]);     
+                }
+                      
+            }
+
+            $data_user_all = DB::connection('mysql3')->select(' 
+                    SELECT v.vstdate,COUNT(o.vn) as VN                    
+                    FROM ovst o
+                    LEFT OUTER JOIN hos.vn_stat v on v.vn = o.vn   
+                    LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = v.cid AND v.vstdate = wr.claimDate
+                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09"
+                    AND o.staff not LIKE "kiosk%" 
+                    GROUP BY o.vstdate
+            '); 
+
+
+
+
+            $data_total_all = DB::connection('mysql3')->select(' 
+                    SELECT v.vstdate,count(DISTINCT wr.claimCode) as claimCode                    
+                    FROM ovst o
+                    LEFT OUTER JOIN hos.vn_stat v on v.vn = o.vn   
+                    LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = v.cid AND v.vstdate = wr.claimDate
+                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09" 
+                    GROUP BY o.vstdate
+            ');  
+            foreach ($data_total_all as $key => $value3) { 
+                $check3 = Dashboard_authen_day::where('vstdate', $value3->vstdate)->count(); 
+                if ($check3 == 0) {
+                    Dashboard_authen_day::insert([
+                        'Total_Success' => $value3->claimCode                       
+                    ]);
+                } else { 
+                    Dashboard_authen_day::where('vstdate', $value3->vstdate) 
+                        ->update([    
+                            'Total_Success' => $value3->claimCode                             
+                        ]);     
+                }
+                      
+            }
+            
+            return view('auto.dbday_auto');
     }
 
  

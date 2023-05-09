@@ -60,12 +60,12 @@
                         Report check sit
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group"> 
-                                <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="PullCheck">
+                                {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="PullCheck">
                                     <i class="pe-7s-shuffle btn-icon-wrapper"></i>ดึงข้อมูล
-                                </button>
-                                <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
+                                </button> --}}
+                                {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
                                     <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
-                                </button> 
+                                </button>  --}}
                                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="pe-7s-science btn-icon-wrapper"></i>Token
                                 </button>
@@ -98,18 +98,7 @@
                                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                     </div>
                                 </div>    
-                                <div class="col-md-4"> 
-                                    {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                    </button> --}}
-
-                                {{-- </form> --}}
-                                    {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="PullCheck">
-                                        <i class="pe-7s-shuffle btn-icon-wrapper"></i>ดึงข้อมูล
-                                    </button>
-                                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
-                                        <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
-                                    </button> --}}
+                                <div class="col-md-4">  
                                     <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                         <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                                     </button>
@@ -120,7 +109,8 @@
                        
                         </form>
                         <div class="table-responsive mt-3">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                            <table class="align-middle mb-0 table table-borderless" id="example">
+                                {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
@@ -155,7 +145,7 @@
                                             <td>{{ $item->vstdate }}</td> 
                                             <td>{{ $item->fullname }}</td>
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>  
-                                            <td>{{ $item->hospmain }}</td> 
+                                            <td >{{ $item->hospmain }}</td> 
                                             <td>{{ $item->hospsub }}</td>                                            
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
                                             <td>{{ $item->hmain }}</td> 
@@ -164,7 +154,8 @@
                                         </tr>
                                     @elseif( $item->pttype != $item->subinscl )
 
-                                        <tr style="background-color: rgb(201, 250, 239)">
+                                        <tr>
+                                            {{-- <tr style="background-color: rgb(155, 217, 253)"> --}}
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td> 
                                             <td>{{ $item->cid }}</td>   
@@ -182,7 +173,7 @@
                                                       {{ $item->pttype }}
                                                 </button>                                            --}}
                                             </td>    
-                                            <td>{{ $item->hospmain }}</td> 
+                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td> 
                                             <td>{{ $item->hospsub }}</td>  
                                             <td >
                                                 {{-- <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-warning" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="{{$item->subinscl_name}}">
@@ -192,7 +183,7 @@
                                                     {{ $item->subinscl }}
                                                 </button>  
                                             </td> 
-                                            <td>{{ $item->hmain }}</td> 
+                                            <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td> 
                                             <td>{{ $item->hsub }}</td> 
                                             <td>{{ $item->staff }}</td> 
                                         </tr>  
@@ -205,11 +196,11 @@
                                             <td>{{ $item->fullname }}</td>
 
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>  
-                                            <td>{{ $item->hospmain }}</td> 
+                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td> 
                                             <td>{{ $item->hospsub }}</td>  
 
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
-                                            <td>{{ $item->hmain }}</td> 
+                                            <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td> 
                                             <td>{{ $item->hsub }}</td> 
                                             <td>{{ $item->staff }}</td> 
                                         </tr>

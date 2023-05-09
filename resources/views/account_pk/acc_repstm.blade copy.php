@@ -142,9 +142,7 @@
                                 {{-- <table id="example" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-hover table-sm table-light dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                    {{-- <table id="example" class="table table-sm dt-responsive nowrap"
-                                    style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                    <table id="example" class="table table-hover table-sm table-light dt-responsive nowrap"
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
@@ -183,18 +181,21 @@
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td>  
-                                                <td class="text-center" width="8%">{{ $item->pang_stamp_vstdate }}</td>    
-                                                <td class="text-center" width="7%">{{ number_format($item->pang_stamp_uc_money, 2)}}</td> 
-                                                {{-- <td class="text-center" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->stm, 2)}}</td>  --}}
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->price_approve, 2)}}</td> 
+                                                <td class="text-center" width="8%">{{ $item->pang_stamp_vstdate }}</td>   
+                                                {{-- <td class="text-center" width="5%">{{ $item->pang_stamp_uc_money }}</td>  
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->stm}}</td>  --}} 
+                                                {{-- <td class="p-2" style="color:rgb(236, 43, 227)" width="10%">{{ ($item->stm)-($item->pang_stamp_uc_money)}} </td>  --}}
+                                                <td class="text-center" width="7%">{{ number_format($item->pang_stamp_uc_money, 2)}}</td>  
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->stm, 2)}}</td> 
                                                 <td class="p-2" style="color:rgb(236, 43, 227)" width="7%">{{$saun}} </td>  
-
-                                                {{-- @if ($item->pang_stamp_uc_money_minut_stm_money < 0) --}}
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="7%">0.00</td> 
-                                                {{-- @else --}}
-                                                {{-- <td class="text-center" style="color:rgb(216, 95, 14)" width="7%">{{ $item->pang_stamp_uc_money_minut_stm_money }}</td>  --}}
-                                                {{-- @endif --}}
                                                 
+                                                @if ($item->pang_stamp_uc_money_minut_stm_money < 0)
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="7%">0.00</td> 
+                                                @else
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="7%">{{ $item->pang_stamp_uc_money_minut_stm_money }}</td> 
+                                                @endif
+                                               
+                                                {{-- <td class="p-2">{{ $item->pang_stamp_stm_file_name }}</td>   --}}
                                                 <td class="text-center">{{ $item->pang_stamp_send }}</td> 
                                                 <td class="text-center">{{ $item->pang_stamp_rcpt }}</td>   
                                             </tr>
@@ -203,7 +204,7 @@
                                             <tr style="background-color: #f3fca1">
                                                 <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
                                                 <td class="text-center" style="background-color: #f3fca1">{{ number_format($sum_uc_money, 2)}}</td>
-                                                <td class="text-center" style="background-color: #b5eb82">{{ number_format($price_approve, 2)}}</td>
+                                                <td class="text-center" style="background-color: #b5eb82">{{ number_format($sum_stmuc_money, 2)}}</td>
                                                 <td class="text-center" style="background-color: #fca1a1"></td>
                                                 <td class="text-center" style="background-color: #f3fca1"> {{ number_format($sum_hiegt_money, 2)}}</td>
                                                 <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
