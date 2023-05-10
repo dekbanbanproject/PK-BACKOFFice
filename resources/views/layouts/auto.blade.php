@@ -419,7 +419,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('authen/checkauthen_autospsch') }}" target="_blank">
+                                        <a href="{{ url('checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Report สปสช Auto
                                         </a>
@@ -569,7 +569,7 @@
     <script type="text/javascript" src="{{ asset('disacc/js/treeview.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/form-components/toggle-switch.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/app.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('disacc/js/app.js') }}"></script> --}}
 
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -589,7 +589,7 @@
 
     <!-- Large modal รายละเอียด(คน)-->
    <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg w-auto">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle" style="color: red:" >รายละเอียด
@@ -602,7 +602,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button> 
+                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">Close</button> 
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.authen')
+@extends('layouts.auto')
 @section('title', 'PK-BACKOFFice || authen')
 
 @section('content')

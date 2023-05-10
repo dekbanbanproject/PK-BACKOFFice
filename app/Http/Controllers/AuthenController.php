@@ -605,7 +605,7 @@ class AuthenController extends Controller
     {
         $datadetail = DB::connection('mysql3')->select(' 
                 SELECT                
-                o.main_dep,o.vn as VN
+                o.main_dep,o.vn as VN,o.vstdate,o.vsttime
                 ,p.cid,o.hn,vp.patientName,vp.claimCode,vp.tel,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname 
                  FROM ovst o 
                  LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
@@ -634,6 +634,7 @@ class AuthenController extends Controller
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
+                            <th>เวลารับบริการ</th>
                             <th>VN</th>
                             <th>CID</th>
                             <th>HN</th> 
@@ -648,6 +649,7 @@ class AuthenController extends Controller
                     foreach ($datadetail as $key => $value) {
                         $output.='  <tr height="15">
                         <td class="text-font" align="center">'.$count.'</td>
+                        <td class="text-font text-pedding">'.$value->vsttime.'</td>
                         <td class="text-font text-pedding">'.$value->VN.'</td>
                         <td class="text-font" align="center" >'.$value->cid.'</td>
                         <td class="text-font" align="center" >'.$value->hn.'</td>

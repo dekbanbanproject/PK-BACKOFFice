@@ -74,7 +74,7 @@ Route::match(['get','post'],'smartcard_authencode_save',[App\Http\Controllers\AU
 Route::match(['get','post'],'authen/checkauthen_main',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_main'])->name('checkauthen_main');
 Route::match(['get','post'],'authen/checkauthen_auto',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_auto'])->name('checkauthen_auto');
 
-Route::match(['get','post'],'authen/checkauthen_autospsch',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_autospsch'])->name('checkauthen_autospsch');
+
 Route::match(['get','post'],'authen/checkauthen_update_vn',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_update_vn'])->name('checkauthen_update_vn');
 Route::match(['get','post'],'checkauthen_update_vn_data',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_update_vn_data'])->name('Sit.checkauthen_update_vn_data');
 
@@ -82,6 +82,8 @@ Route::match(['get','post'],'authen/getauthen_auto',[App\Http\Controllers\AUTHEN
 Route::match(['get','post'],'authen_getbar',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar'])->name('authen_getbar');
 Route::match(['get','post'],'authen_getbar_days',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar_days'])->name('authen_getbar_days');
 
+
+Route::match(['get','post'],'checkauthen_autospsch',[App\Http\Controllers\AutoController::class, 'checkauthen_autospsch'])->name('sit.checkauthen_autospsch');
 Route::match(['get','post'],'sit',[App\Http\Controllers\AutoController::class, 'sit'])->name('sit.sit');//
 Route::match(['get','post'],'sit_pull_auto',[App\Http\Controllers\AutoController::class, 'sit_pull_auto'])->name('sit.sit_pull_auto');//
 Route::match(['get','post'],'sit_auto',[App\Http\Controllers\AutoController::class, 'sit_auto'])->name('sit.sit_auto');//

@@ -55,6 +55,7 @@ use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
 use App\Models\Dashboard_authen_day;
 use App\Models\Dashboard_department_authen;
+use App\Models\Visit_pttype_authen_report;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -413,6 +414,173 @@ class AutoController extends Controller
                        
             }
             return view('auto.depauthen_auto');
+    }
+
+    public function checkauthen_autospsch(Request $request)
+    { 
+        $date_now = date('Y-m-d');
+        $date_start = "2023-05-07";
+        $date_end = "2023-05-09";
+    
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
+      
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            // CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-01-05&page=0&size=1000',
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Accept: application/json, text/plain, */*',
+                'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
+                'Connection: keep-alive',
+                'Cookie: SESSION=Zjg0MGQ4YjQtYzc0OS00OGEyLWEzYjAtZTQxMDU5MGExMTIz; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Referer: https://authenservice.nhso.go.th/authencode/',
+                'Sec-Fetch-Dest: empty',
+                'Sec-Fetch-Mode: cors',
+                'Sec-Fetch-Site: same-origin',
+                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+                'sec-ch-ua: "Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+                'sec-ch-ua-mobile: ?0',
+                'sec-ch-ua-platform: "Windows"'
+            ),
+        ));
+ 
+        $response = curl_exec($curl);
+        curl_close($curl);
+        // dd($curl);
+        $contents = $response; 
+        $result = json_decode($contents, true); 
+        @$content = $result['content']; 
+        // dd($content);
+    
+        foreach ($content as $key => $value) {
+            $transId = $value['transId'];  
+            $hmain = $value['hmain']; 
+            // $personalId = $value['personalId']; 
+            // $patientName = $value['patientName']; 
+            // $mainInscl = $value['mainInscl']; 
+            // $mainInsclName = $value['mainInsclName']; 
+            // $subInscl = $value['subInscl']; 
+            // $subInsclName = $value['subInsclName'];
+            // $hnCode = $value['hnCode'];
+            // $createDate = $value['createDate']; 
+
+
+            // isset( $value['hmain'] ) ? $hmain = $value['hmain'] : $hmain = "";
+            isset( $value['personalId'] ) ? $personalId = $value['personalId'] : $personalId = "";
+            isset( $value['patientName'] ) ? $patientName = $value['patientName'] : $patientName = "";
+            isset( $value['addrNo'] ) ? $addrNo = $value['addrNo'] : $addrNo = "";
+            isset( $value['moo'] ) ? $moo = $value['moo'] : $moo = "";
+            isset( $value['moonanName'] ) ? $moonanName = $value['moonanName'] : $moonanName = "";
+            isset( $value['tumbonName'] ) ? $tumbonName = $value['tumbonName'] : $tumbonName = "";
+            isset( $value['amphurName'] ) ? $amphurName = $value['amphurName'] : $amphurName = "";
+            isset( $value['changwatName'] ) ? $changwatName = $value['changwatName'] : $changwatName = "";
+            isset( $value['birthdate'] ) ? $birthdate = $value['birthdate'] : $birthdate = "";
+            isset( $value['tel'] ) ? $tel = $value['tel'] : $tel = "";
+            isset( $value['mainInscl'] ) ? $mainInscl = $value['mainInscl'] : $mainInscl = "";
+            isset( $value['mainInsclName'] ) ? $mainInsclName = $value['mainInsclName'] : $mainInsclName = "";
+            isset( $value['subInscl'] ) ? $subInscl = $value['subInscl'] : $subInscl = "";
+            isset( $value['subInsclName'] ) ? $subInsclName = $value['subInsclName'] : $subInsclName = "";
+            isset( $value['claimStatus'] ) ? $claimStatus = $value['claimStatus'] : $claimStatus = "";
+            isset( $value['patientType'] ) ? $patientType = $value['patientType'] : $patientType = "";
+            isset( $value['claimCode'] ) ? $claimCode = $value['claimCode'] : $claimCode = "";
+            isset( $value['claimType'] ) ? $claimType = $value['claimType'] : $claimType = "";
+            isset( $value['claimTypeName'] ) ? $claimTypeName = $value['claimTypeName'] : $claimTypeName = "";
+            isset( $value['hnCode'] ) ? $hnCode = $value['hnCode'] : $hnCode = ""; 
+            isset( $value['createDate'] ) ? $createDate = $value['createDate'] : $createDate = "";
+
+            isset( $value['claimStatus'] ) ? $claimStatus = $value['claimStatus'] : $claimStatus = "";
+            isset( $value['patientType'] ) ? $patientType = $value['patientType'] : $patientType = "";
+            isset( $value['sourceChannel'] ) ? $sourceChannel = $value['sourceChannel'] : $sourceChannel = "";
+            isset( $value['claimAuthen'] ) ? $claimAuthen = $value['claimAuthen'] : $claimAuthen = "";
+            isset( $value['createBy'] ) ? $createBy = $value['createBy'] : $createBy = "";
+            isset( $value['mainInsclWithName'] ) ? $mainInsclWithName = $value['mainInsclWithName'] : $mainInsclWithName = "";
+          
+            $claimDate = explode("T",$value['claimDate']);
+            $checkdate = $claimDate[0];
+            $checktime = $claimDate[1];
+            // dd($transId); 
+                $datenow = date("Y-m-d");               
+                    $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count(); 
+                    // dd($checktransId);
+                    if ($checktransId > 0) {
+                       
+                            Visit_pttype_authen_report::where('transId', $transId)
+                                ->update([
+                                            // 'transId'                           => $transId, 
+                                            'hmain'                             => $hmain,
+                                            'personalId'                        => $personalId,
+                                            'patientName'                       => $patientName, 
+                                            'addrNo'                            => $addrNo,                            
+                                            'moo'                               => $moo,
+                                            'moonanName'                        => $moonanName,
+                                            'tumbonName'                        => $tumbonName,
+                                            'amphurName'                        => $amphurName,
+                                            'changwatName'                      => $changwatName,
+                                            'birthdate'                         => $birthdate,
+                                            'tel'                               => $tel,
+                                            'mainInscl'                         => $mainInscl,
+                                            'mainInsclName'                     => $mainInsclName,
+                                            'subInscl'                          => $subInscl,
+                                            'subInsclName'                      => $subInsclName,
+                                            'claimDate'                         => $checkdate,
+                                            'claimTime'                         => $checktime,
+                                            'claimCode'                         => $claimCode,
+                                            'claimType'                         => $claimType,
+                                            'claimTypeName'                     => $claimTypeName,
+                                            'hnCode'                            => $hnCode, 
+                                            'claimStatus'                       => $claimStatus, 
+                                            'patientType'                       => $patientType, 
+                                            'createBy'                          => $createBy, 
+                                            'sourceChannel'                     => $sourceChannel, 
+                                            'mainInsclWithName'                 => $mainInsclWithName,
+                                            'claimAuthen'                       => $claimAuthen,  
+                                            'date_data'                         => $datenow
+                                ]);                         
+                    } else {    
+                         
+                            $data_add = Visit_pttype_authen_report::create([  
+                                    'transId'                           => $transId, 
+                                    'hmain'                             => $hmain,
+                                    'personalId'                        => $personalId,
+                                    'patientName'                       => $patientName, 
+                                    'addrNo'                            => $addrNo,                            
+                                    'moo'                               => $moo,
+                                    'moonanName'                        => $moonanName,
+                                    'tumbonName'                        => $tumbonName,
+                                    'amphurName'                        => $amphurName,
+                                    'changwatName'                      => $changwatName,
+                                    'birthdate'                         => $birthdate,
+                                    'tel'                               => $tel,
+                                    'mainInscl'                         => $mainInscl,
+                                    'mainInsclName'                     => $mainInsclName,
+                                    'subInscl'                          => $subInscl,
+                                    'subInsclName'                      => $subInsclName,
+                                    'claimDate'                         => $checkdate,
+                                    'claimTime'                         => $checktime,
+                                    'claimCode'                         => $claimCode,
+                                    'claimType'                         => $claimType,
+                                    'claimTypeName'                     => $claimTypeName,
+                                    'hnCode'                            => $hnCode, 
+                                    'claimStatus'                       => $claimStatus, 
+                                    'patientType'                       => $patientType,
+                                    'createBy'                          => $createBy, 
+                                    'sourceChannel'                     => $sourceChannel,
+                                    'mainInsclWithName'                 => $mainInsclWithName,
+                                    'claimAuthen'                       => $claimAuthen,  
+                                    'date_data'                         => $datenow
+                        ]);
+                        $data_add->save();
+                    }   
+        }
+        return view('auto.checkauthen_autospsch',[
+            'response'  => $response,
+            'result'  => $result, 
+        ]);     
+        
     }
 
  

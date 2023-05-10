@@ -247,7 +247,7 @@ class AUTHENCHECKController extends Controller
         // $date = date_create("2013-03-15");
         // $dates = $date_format($date,'Y-m-d');
         // dd($date_now);
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=100000";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
@@ -321,14 +321,16 @@ class AUTHENCHECKController extends Controller
             $claimDate = explode("T",$value['claimDate']);
             $checkdate = $claimDate[0];
             $checktime = $claimDate[1];
-            // dd($claimDate); 
+            // dd($transId); 
                 $datenow = date("Y-m-d");               
                     $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count();
+
+                    // dd($checktransId);
                     if ($checktransId > 0) {
                        
                             Visit_pttype_authen_report::where('transId', $transId)
                                 ->update([
-                                            'transId'                           => $transId, 
+                                            // 'transId'                           => $transId, 
                                             'personalId'                        => $personalId,
                                             'patientName'                       => $patientName, 
                                             'addrNo'                            => $addrNo,                            
@@ -352,7 +354,7 @@ class AUTHENCHECKController extends Controller
                                             'claimAuthen'                        => $claimAuthen,  
                                             'date_data'                          => $datenow
                                 ]);
-                        // }
+                         
                     } else {
                         // $data_add = Visit_pttype_authen_report::leftjoin('vn_stat','vn_stat.cid','=',$pid)->create([
                             $data_add = Visit_pttype_authen_report::create([

@@ -672,7 +672,7 @@
     <script type="text/javascript" src="{{ asset('disacc/js/treeview.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/form-components/toggle-switch.js') }}"></script>
     <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/app.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('disacc/js/app.js') }}"></script> --}}
 
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
