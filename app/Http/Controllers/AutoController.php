@@ -54,6 +54,7 @@ use App\Models\Claim_sixteen_ins;
 use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
 use App\Models\Dashboard_authen_day;
+use App\Models\Dashboard_department_authen;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -305,6 +306,7 @@ class AutoController extends Controller
                     GROUP BY o.vstdate
             ');  
             // = CURDATE()
+            // BETWEEN "2023-05-01" AND "2023-05-09"
             foreach ($data_kios_all as $key => $value2) { 
                 $check2 = Dashboard_authen_day::where('vstdate', $value2->vstdate)->count(); 
                 if ($check2 == 0) {
@@ -316,10 +318,8 @@ class AutoController extends Controller
                         ->update([    
                             'Kios' => $value2->vn                             
                         ]);     
-                }
-                      
+                }                      
             }
-
             $data_user_all = DB::connection('mysql3')->select(' 
                     SELECT v.vstdate,COUNT(o.vn) as VN                    
                     FROM ovst o
@@ -329,10 +329,6 @@ class AutoController extends Controller
                     AND o.staff not LIKE "kiosk%" 
                     GROUP BY o.vstdate
             '); 
-
-
-
-
             $data_total_all = DB::connection('mysql3')->select(' 
                     SELECT v.vstdate,count(DISTINCT wr.claimCode) as claimCode                    
                     FROM ovst o
@@ -357,6 +353,66 @@ class AutoController extends Controller
             }
             
             return view('auto.dbday_auto');
+    }
+
+    public function depauthen_auto(Request $request)
+    { 
+            $data_authen = DB::connection('mysql3')->select(' 
+                SELECT v.vstdate,o.main_dep,sk.department,COUNT(DISTINCT o.vn) as vn,count(DISTINCT wr.claimCode) as claimCode  
+                        ,count(DISTINCT wr.tel) as Success ,COUNT(DISTINCT o.vn)-count(DISTINCT wr.tel) as Unsuccess
+                        FROM ovst o
+                        LEFT JOIN vn_stat v on v.vn = o.vn	
+                        LEFT JOIN visit_pttype vp on vp.vn = o.vn
+                        LEFT OUTER JOIN kskdepartment sk on sk.depcode = o.main_dep
+                        LEFT OUTER JOIN patient p on p.hn=o.hn
+                        LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid and wr.claimDate = o.vstdate
+                        WHERE o.vstdate = CURDATE() 
+                        GROUP BY o.main_dep
+            ');  
+            foreach ($data_authen as $key => $value) { 
+                $check = Dashboard_department_authen::where('vstdate', $value->vstdate)->where('main_dep', $value->main_dep)->count();                 
+                if ($check == 0) {
+                    // $dnull = $value->main_dep;
+                    // if ($dnull == '') {
+                    //     $maindep = '888';
+                    //     $department_ = 'อื่นๆ(เปิด visit ล่วงหน้า)';
+                    // } else {
+                    //     $maindep = $value->main_dep;
+                    //     $department_ = $value->department;
+                    // }
+                    
+                    Dashboard_department_authen::insert([
+                        'vstdate'     => $value->vstdate,
+                        'main_dep'    => $value->main_dep,
+                        'department'  => $value->department,
+                        'vn'          => $value->vn, 
+                        'claimCode'   => $value->claimCode,
+                        'Success'     => $value->Success,
+                        'Unsuccess'   => $value->Unsuccess 
+                    ]);
+                } else {
+                    // $dnull = $value->main_dep;
+                    // if ($dnull == '') {
+                    //     $maindep = '888';
+                    //     $department_ = 'อื่นๆ(เปิด visit ล่วงหน้า)';
+                    // } else {
+                    //     $maindep = $value->main_dep;
+                    //     $department_ = $value->department;
+                    // }
+                    Dashboard_department_authen::where('vstdate', $value->vstdate)->where('main_dep', $value->main_dep)
+                    ->update([    
+                        // 'vstdate'     => $value->vstdate,
+                        // 'main_dep'    => $maindep,
+                        // 'department'  => $department_,
+                        'vn'          => $value->vn, 
+                        'claimCode'   => $value->claimCode,
+                        'Success'     => $value->Success,
+                        'Unsuccess'   => $value->Unsuccess                            
+                    ]); 
+                }
+                       
+            }
+            return view('auto.depauthen_auto');
     }
 
  

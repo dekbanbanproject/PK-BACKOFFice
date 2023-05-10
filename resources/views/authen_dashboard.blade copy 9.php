@@ -51,16 +51,29 @@
 
     
     <div class="tabs-animation">
- 
+
+        
+
 
         <div class="row">
-            
+            {{-- <div class="col-md-6">
+                <div class="main-card mb-3 card">
+                    <div class="card-body" >
+                        <h5 class="card-title">Authen Report Month</h5>
+                        <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0">
+                            <div style="height: auto;">
+                                <canvas id="Mychart"></canvas>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div> --}}
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-3">                         
+                    <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-warm-flame text-start">
-                            <div class="widget-chat-wrapper-outer "> 
-
+                            <div class="widget-chat-wrapper-outer">
                                 <div class="widget-chart-content text-white">
                                     <div class="widget-chart-flex">
                                         <div class="widget-title">คนไข้ที่มาใช้บริการ/วัน</div>
@@ -89,9 +102,8 @@
                                     </div>
                                     <div class="progress-sub-label text-white">นับรวมทุก Visit</div>
                                 </div>
-
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-plum-plate text-start">
@@ -138,7 +150,8 @@
                             </div>
                         </div>
                     </div>
-            
+                {{-- </div>
+                <div class="row"> --}}
                     <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-mixed-hopes text-start">
                             <div class="widget-chat-wrapper-outer">
@@ -242,13 +255,30 @@
        
     
 
-  
+    {{-- <div class="row">
+ 
+        <div class="col-lg-12 col-xl-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    <h5 class="card-title">Authen Report Days</h5>
+                    <div class="widget-chart-wrapper widget-chart-wrapper-lg opacity-10 m-0">
+                        <div style="height: auto;">
+                            <canvas id="MychartDays"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+    </div> --}}
 
     <div class="row">
         <div class="col-lg-12 col-xl-12">
             <div class="main-card mb-3 card">
                 <div class="card-body table-responsive">
-                    <div class="card-title">รายงานแยกตามแผนก</div> 
+                    <div class="card-title">รายงานแยกตามแผนก</div>
+                    {{-- <table class="table table-bordered table-hover table-stripe"> --}}
                         <table id="example" class="table table-sm dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead>
                             <th class="text-center">ลำดับ</th>
@@ -270,7 +300,7 @@
                                 <tr id="sid{{ $item->main_dep }}">
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td class="p-2">
-                                        
+                                        {{-- <button type="button" class="btn authen_detail" value="{{ $item->main_dep }}">{{ $item->department }}</button>  --}}
                                         <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info authen_detail" value="{{ $item->main_dep }}">
                                             <i class="pe-7s-search btn-icon-wrapper"></i>{{ $item->department }}
                                         </button>                                            

@@ -388,19 +388,19 @@
                                             Dashboard
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{ url('authen/checkauthen_main') }}">
                                             <i class="metismenu-icon"></i>
                                             Authen Main
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     {{-- <li>
                                         <a href="{{ url('authen/checkauthen_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Auto
                                         </a>
                                     </li> --}}
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{ url('authen/checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Report สปสช
@@ -411,7 +411,7 @@
                                             <i class="metismenu-icon"></i>
                                             Update VN Authen Report
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </li>
 
@@ -690,8 +690,8 @@
     @yield('footer')
 
 
-    <!-- Large modal รายละเอียด(คน)-->
-   <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+   <!-- Large modal รายละเอียด(คน)-->
+ <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg w-auto">
         <div class="modal-content">
             <div class="modal-header">
