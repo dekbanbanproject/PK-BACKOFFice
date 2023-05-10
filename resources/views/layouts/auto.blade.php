@@ -391,7 +391,7 @@
                                     <li>
                                         <a href="{{ url('sit_pull_auto') }}">
                                             <i class="metismenu-icon"></i>
-                                            Auto Pull Data 
+                                             Pull Data Auto
                                         </a>
                                     </li>
                                     <li>
@@ -585,7 +585,6 @@
 
 
     @yield('footer')
-
 
     <!-- Large modal รายละเอียด(คน)-->
    <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

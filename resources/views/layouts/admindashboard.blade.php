@@ -56,7 +56,7 @@
  <style>
     body{   
         background:
-            url(/pkbackoffice/public/images/bg7.png);
+            url(/pkbackoffice/public/images/bg2.jpg);
             /* -webkit-background-size: cover; */
         background-repeat: no-repeat;
 		background-attachment: fixed;

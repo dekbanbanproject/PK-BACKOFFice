@@ -57,6 +57,22 @@ class AuthenController extends Controller
                 WHERE vstdate = CURDATE()  
                 ORDER BY main_dep DESC 
         ');
+        $data_staff = DB::connection('mysql')->select(' 
+                SELECT *
+                FROM dashboard_authenstaff_day 
+                WHERE vstdate = CURDATE() ORDER BY vn DESC 
+        ');
+        // $data_staff = DB::connection('mysql3')->select(' 
+        //         SELECT o.main_dep,o.staff,op.name as Staffname,s.name as Spclty 
+        //         FROM ovst o 
+        //         LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+        //         LEFT OUTER JOIN spclty s ON s.spclty = sk.spclty
+        //         LEFT OUTER JOIN patient p on p.hn=o.hn
+        //         LEFT OUTER JOIN visit_pttype_authen_report vp ON vp.personalId = p.cid and vp.claimDate = o.vstdate
+        //         LEFT OUTER JOIN opduser op on op.loginname = o.staff
+        //         WHERE o.vstdate = CURDATE() GROUP BY op.name
+        // ');
+
         return view('authen_dashboard',[ 
             'vn'               => $vn_,
             'Kios'             => $Kios_,
@@ -64,6 +80,7 @@ class AuthenController extends Controller
             'Success'          => $Success_,
             'data_dep'         => $data_dep,
             'data_department'  => $data_department,
+            'data_staff'       => $data_staff,
         ] );
     }
     // public function authen_dashboard(Request $request)

@@ -231,6 +231,7 @@ return array(
     'App\\Models\\D_orf' => $baseDir . '/app/Models/D_orf.php',
     'App\\Models\\D_pat' => $baseDir . '/app/Models/D_pat.php',
     'App\\Models\\Dashboard_authen_day' => $baseDir . '/app/Models/Dashboard_authen_day.php',
+    'App\\Models\\Dashboard_department_authen' => $baseDir . '/app/Models/Dashboard_department_authen.php',
     'App\\Models\\Department' => $baseDir . '/app/Models/Department.php',
     'App\\Models\\Department_sub_sub' => $baseDir . '/app/Models/Department_sub_sub.php',
     'App\\Models\\Departmentsub' => $baseDir . '/app/Models/Departmentsub.php',

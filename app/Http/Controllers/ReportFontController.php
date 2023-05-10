@@ -938,5 +938,52 @@ class ReportFontController extends Controller
             'enddate'          => $enddate,
         ]);
     }
+
+    public function report_ct(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        
+        $datashow_ = DB::connection('mysql3')->select('  
+            SELECT
+                    o.vn,o.hn,o.an,p.cid,o.vstdate,o.pttype,v.pttypeno,o.hospmain,o.hcode,concat(p.pname,p.fname," ",p.lname) as fullname
+                    , ROUND(uc_money-(IFNULL((SUM(om.sum_price)),0)) ,2) AS uc_money
+                    , IF( (uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))<=700
+                        ,((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))+(IFNULL((SUM(omk.sum_price)),0)))
+                        ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>700
+                            ,IF(tpsc.vn!=""
+                                ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>1000
+                                    ,1000
+                                    ,(uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))
+                                )
+                                ,700+(IFNULL((SUM(omk.sum_price)),0))
+                            )
+                            ,700+(IFNULL((SUM(omk.sum_price)),0))    
+                        )
+                    ) AS uc_money_kor_tok
+                    ,v.pdx ,v.income ,v.paid_money
+                    FROM hos.ovst o
+                    LEFT JOIN hos.vn_stat v ON o.vn=v.vn
+                    LEFT JOIN hos.patient p ON o.hn=p.hn
+                    LEFT OUTER JOIN money_pk.opitemrece_money om ON o.vn=om.vn
+                    LEFT OUTER JOIN money_pk.opitemrece_kor_tok omk ON o.vn=omk.vn
+                    LEFT JOIN money_pk.temp_pang_stamp_chronic1102050101_203 tpsc ON o.vn=tpsc.vn
+
+                    WHERE o.hn!="999999999"
+                    AND o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                    AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99")
+
+                    AND o.hospmain IN ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
+                    AND o.hospmain NOT IN ("10978")
+                    AND o.vn NOT IN (select vn FROM money_pk.temp_pang_stamp_icd1102050101_203 )
+                    AND (o.an IS NULL OR o.an ="") 
+                    GROUP BY o.vn
+        '); 
+        return view('dashboard.report_ct',[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate , 
+            'datashow_'        => $datashow_, 
+        ]);
+    }
     
 }

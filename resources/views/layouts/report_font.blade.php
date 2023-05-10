@@ -56,7 +56,7 @@
 <style>
     body{   
     background:
-        url(/pkbackoffice/public/images/bg7.png); 
+        url(/pkbackoffice/public/images/bg7.jpg); 
     background-repeat: no-repeat;
     background-attachment: fixed; 
     background-size: 100% 100%; 
@@ -172,6 +172,7 @@
                                 <li ><a href="{{ url('report_refer_hos') }}">การใช้งานรถ Refer Hos</a></li>  
                                 <li ><a href="{{ url('report_refer_opds') }}">การบันทึกข้อมูล OPD Refer</a></li>
                                 <li ><a href="{{ url('refer_opds_cross') }}" >Referข้าม CUP ภายในจังหวัด</a></li>
+                                <li ><a href="{{ url('report_ct') }}" >เรียกเก็บค่า CT ในจังหวัด</a></li>
                             </ul>
                         </li> 
                         <li>

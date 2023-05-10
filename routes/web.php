@@ -46,6 +46,7 @@ Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http
 Route::match(['get','post'],'check_knee_ipd',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipd'])->name('rep.check_knee_ipd');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_opd',[App\Http\Controllers\ReportFontController::class, 'check_knee_opd'])->name('rep.check_knee_opd');// report ข้อเข่า
 
+Route::match(['get','post'],'report_ct',[App\Http\Controllers\ReportFontController::class, 'report_ct'])->name('rep.report_ct');// report 
 
 Route::match(['get','post'],'check_kradook',[App\Http\Controllers\ReportFontController::class, 'check_kradook'])->name('rep.check_kradook');// report แผ่นโลหะดามกระดูก
 Route::match(['get','post'],'check_kradookdetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_kradookdetail'])->name('rep.check_kradookdetail');// report แผ่นโลหะดามกระดูก

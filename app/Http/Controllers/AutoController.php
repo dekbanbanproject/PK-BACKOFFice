@@ -56,6 +56,7 @@ use App\Models\Claim_sixteen_opd;
 use App\Models\Dashboard_authen_day;
 use App\Models\Dashboard_department_authen;
 use App\Models\Visit_pttype_authen_report;
+use App\Models\Dashboard_authenstaff_day;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -372,16 +373,7 @@ class AutoController extends Controller
             ');  
             foreach ($data_authen as $key => $value) { 
                 $check = Dashboard_department_authen::where('vstdate', $value->vstdate)->where('main_dep', $value->main_dep)->count();                 
-                if ($check == 0) {
-                    // $dnull = $value->main_dep;
-                    // if ($dnull == '') {
-                    //     $maindep = '888';
-                    //     $department_ = 'อื่นๆ(เปิด visit ล่วงหน้า)';
-                    // } else {
-                    //     $maindep = $value->main_dep;
-                    //     $department_ = $value->department;
-                    // }
-                    
+                if ($check == 0) {                     
                     Dashboard_department_authen::insert([
                         'vstdate'     => $value->vstdate,
                         'main_dep'    => $value->main_dep,
@@ -391,18 +383,10 @@ class AutoController extends Controller
                         'Success'     => $value->Success,
                         'Unsuccess'   => $value->Unsuccess 
                     ]);
-                } else {
-                    // $dnull = $value->main_dep;
-                    // if ($dnull == '') {
-                    //     $maindep = '888';
-                    //     $department_ = 'อื่นๆ(เปิด visit ล่วงหน้า)';
-                    // } else {
-                    //     $maindep = $value->main_dep;
-                    //     $department_ = $value->department;
-                    // }
+                } else {                     
                     Dashboard_department_authen::where('vstdate', $value->vstdate)->where('main_dep', $value->main_dep)
                     ->update([    
-                        // 'vstdate'     => $value->vstdate,
+                        'vstdate'     => $value->vstdate,
                         // 'main_dep'    => $maindep,
                         // 'department'  => $department_,
                         'vn'          => $value->vn, 
@@ -410,8 +394,51 @@ class AutoController extends Controller
                         'Success'     => $value->Success,
                         'Unsuccess'   => $value->Unsuccess                            
                     ]); 
-                }
-                       
+                }                       
+            }
+
+            $data_authen_person = DB::connection('mysql3')->select(' 
+                SELECT v.vstdate,op.loginname,o.staff as Staffmini,op.name as Stafffull,s.name as Spclty 
+                        ,COUNT(DISTINCT o.vn) as vn,count(DISTINCT vp.claimCode) as claimCode  
+                        ,count(DISTINCT vp.tel) as Success ,COUNT(DISTINCT o.vn)-count(DISTINCT vp.tel) as Unsuccess			
+                        FROM ovst o
+                        LEFT JOIN vn_stat v on v.vn = o.vn	
+                        LEFT JOIN visit_pttype vt on vt.vn = o.vn
+                        LEFT OUTER JOIN kskdepartment sk on sk.depcode = o.main_dep
+                        LEFT OUTER JOIN spclty s ON s.spclty = sk.spclty
+                        LEFT OUTER JOIN patient p on p.hn=o.hn
+                        LEFT OUTER JOIN visit_pttype_authen_report vp ON vp.personalId = p.cid and vp.claimDate = o.vstdate
+                        LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                        WHERE o.vstdate = CURDATE() 
+                        GROUP BY op.loginname
+            '); 
+            foreach ($data_authen_person as $key => $value2) { 
+                // $check2 = Dashboard_authenstaff_day::where('vstdate', $value2->vstdate)->count(); 
+                $check2 = Dashboard_authenstaff_day::where('vstdate', $value2->vstdate)->where('loginname','=',$value2->loginname)->count();                 
+                if ($check2 == 0) {                     
+                    Dashboard_authenstaff_day::insert([
+                        'vstdate'     => $value2->vstdate,
+                        'loginname'   => $value2->loginname,
+                        'Staff'       => $value2->Stafffull,
+                        'Spclty'      => $value2->Spclty,
+                        'vn'          => $value2->vn, 
+                        'claimCode'   => $value2->claimCode,
+                        'Success'     => $value2->Success,
+                        'Unsuccess'   => $value2->Unsuccess 
+                    ]);
+                } else {                     
+                    Dashboard_authenstaff_day::where('vstdate', $value2->vstdate)->where('loginname','=',$value2->loginname)
+                    ->update([    
+                        'vstdate'     => $value2->vstdate,
+                        'loginname'   => $value2->loginname,
+                        'Staff'       => $value2->Stafffull,
+                        'Spclty'      => $value2->Spclty,
+                        'vn'          => $value2->vn, 
+                        'claimCode'   => $value2->claimCode,
+                        'Success'     => $value2->Success,
+                        'Unsuccess'   => $value2->Unsuccess                           
+                    ]); 
+                }                       
             }
             return view('auto.depauthen_auto');
     }

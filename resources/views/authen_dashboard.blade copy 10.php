@@ -322,57 +322,111 @@
                     <div class="tab-content">
                         <div class="tab-pane active show" id="tab-2-eg1">
                             <ul class="list-group list-group-flush">
-                                <div class="table-responsive">
-                                    <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
-                                        {{-- <thead>
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th class="text-center">Avatar</th> 
-                                                <th class="text-center">Target Achievement</th>
-                                                <th class="text-center">Actions</th>
-                                            </tr>
-                                        </thead> --}}
-                                        <tbody>
-                                            @foreach ($data_staff as $istaff) 
-                                            <tr>
-                                                <td class="text-center text-muted" style="width: 80px;">#54</td>
-                                                <td class="text-center" style="width: 80px;">
-                                                    <img width="40" class="rounded-circle" src="images/avatars/1.jpg" alt="">
-                                                </td>
-                                                <td class="text-start">
-                                                    <a href="javascript:void(0)">{{$istaff->Staff}}</a>
-                                                </td>
-                                                
-                                                <td class="text-center" style="width: 200px;">
-                                                    <div class="widget-content p-0">
-                                                        <div class="widget-content-outer">
-                                                            <div class="widget-content-wrapper">
-                                                                <div class="widget-content-left pe-2">
-                                                                    <div class="widget-numbers fsize-1 text-danger">71%</div>
-                                                                </div>
-                                                                <div class="widget-content-right w-100">
-                                                                    <div class="progress-bar-xs progress">
-                                                                        <div class="progress-bar bg-danger" role="progressbar"
-                                                                            aria-valuenow="71" aria-valuemin="0"
-                                                                            aria-valuemax="100" style="width: 71%;">
+
+                                @foreach ($data_staff as $istaff) 
+                                
+                                        <li class="list-group-item">
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-wrapper">
+                                                    <div class="widget-content-left me-3">
+                                                        <div class="widget-content-left">
+                                                            <img width="52" height="52" class="rounded-circle"
+                                                                src="{{ asset('assets/images/default-image.jpg') }}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-left flex2">
+                                                        <div class="widget-heading">{{$istaff->Staff}}</div>
+                                                        <div class="widget-subheading opacity-10">
+                                                            <span class="pe-2">
+                                                                <b>แผนก</b> {{$istaff->Spclty}}
+                                                            </span>
+                                                            <span>
+                                                                <b class="text-success">{{$istaff->vn}}</b> Visit
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-content-right">
+                                                        <?php $s = $istaff->Success; $v = $istaff->vn; $iSuccess =  100 / $v * $s ?>
+
+                                                        
+                                                        <div class="row">
+                                                            {{-- <div class="col"></div>  --}}
+                                                            <div class="col-md-8">                                                               
+                                                                {{-- <div class="icon-wrapper m-0"> 
+                                                                    <div class="progress-circle-wrapper"> 
+                                                                        <div class="circle-progress d-inline-block circle-progress-success">
+                                                                            <small></small>
+                                                                        </div> 
+                                                                    </div>  
+                                                                </div> --}}
+                                                                <div class="widget-content p-0">
+                                                                    <div class="widget-content-outer">
+                                                                        <div class="widget-content-wrapper">
+                                                                            <div class="widget-content-left pe-2">
+                                                                                <div class="widget-numbers fsize-1 text-danger">71%</div>
+                                                                            </div>
+                                                                            <div class="widget-content-right w-100">
+                                                                                <div class="progress-bar-xs progress">
+                                                                                    <div class="progress-bar bg-danger" role="progressbar"
+                                                                                        aria-valuenow="71" aria-valuemin="0"
+                                                                                        aria-valuemax="100" style="width: 71%;">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-md-4">
+                                                                {{-- <div class="icon-wrapper m-0">
+                                                                    <div class="progress-circle-wrapper">
+                                                                        <div class="circle-progress d-inline-block circle-progress-danger">
+                                                                            <small></small>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> --}}
+                                                            </div>
+                                                        </div>                                                                                                               
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                @endforeach
+                                {{-- <li class="list-group-item">
+                                    <div class="widget-content p-0">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left me-3">
+                                                <div class="widget-content-left">
+                                                    <img width="52" class="rounded-circle"
+                                                        src="images/avatars/8.jpg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="widget-content-left flex2">
+                                                <div class="widget-heading">Rosy O'Dowell</div>
+                                                <div class="widget-subheading opacity-10">
+                                                    <span class="pe-2">
+                                                        <b class="text-danger">12</b> Leads
+                                                    </span>
+                                                    <span>
+                                                        <b class="text-warning">$56,24</b> Totals
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="icon-wrapper m-0">
+                                                    <div class="progress-circle-wrapper">
+                                                        <div class="circle-progress d-inline-block circle-progress-danger">
+                                                            <small></small>
                                                         </div>
                                                     </div>
-                                                </td>
-                                                
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                               
-                                
-                                        
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li> --}}
 
-                                
-                              
                             </ul>
                         </div>
                     </div>
