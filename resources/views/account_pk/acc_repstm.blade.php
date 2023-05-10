@@ -79,7 +79,7 @@
         <form action="{{ route('acc.acc_repstm') }}" method="POST">
             @csrf
             <div class="row"> 
-                <div class="col"></div>
+                {{-- <div class="col"></div> --}}
                 <div class="col-md-1 text-end">ชื่อไฟล์</div>
                 <div class="col-md-2 text-center">
                     <div class="input-group" id="datepicker1">
@@ -100,9 +100,24 @@
                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                     </div>
                 </div>    
+                <div class="col-md-1 text-center">ผัง</div>
+                <div class="col-md-3 text-center">
+                    <div class="input-group">
+                        <select id="pang_stamp" name="pang_stamp" class="form-select form-select-lg department_sub" style="width: 100%">  
+                            @foreach ($pang as $items)  
+                            @if ($pang_stamp == $items->pang_id)
+                                    <option value="{{ $items->pang_id }}" selected> {{ $items->pang_id }}{{ $items->pang_fullname }} </option>  
+                            @else
+                                    <option value="{{ $items->pang_id }}"> {{ $items->pang_id }}{{ $items->pang_fullname }} </option>  
+                            @endif
+                                
+                            @endforeach
+                    </select>
+                    </div>
+                </div> 
                                       
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary btn-sm">
+                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass me-2"></i> 
                         ค้นหา 
                     </button>   
@@ -157,7 +172,7 @@
                                             <th class="text-center">วันที่</th> 
                                             <th class="text-center">stamp_uc_money</th>
                                             <th class="text-center" width="8%">ชดเชย</th>  
-                                            <th class="text-center">ส่วนต่าง</th>
+                                            <th class="text-center">ส่วนต่ำ</th>
                                             <th class="text-center">ส่วนสูง</th>  
                                             {{-- <th class="text-center">stm</th> --}}
                                             <th class="text-center">เลขที่หนังสือ</th>
@@ -165,7 +180,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $i = 1; ?>
+                                        <?php 
+                                        $i = 1; 
+                                        $total1 = 0;
+                                        $total2 = 0;
+                                        $total3 = 0;
+                                        $total4 = 0;
+                                        ?>
                                         @foreach ($acc_stm as $item) 
                                         <?php 
                                                     $uc = $item->pang_stamp_uc_money;
@@ -175,7 +196,17 @@
                                                     } else {
                                                         $saun =  '';
                                                     }
-                                                    // $sauntang = $sauntang_;
+                                                    $sauntang = $item->pang_stamp_uc_money - $item->price_approve;
+
+                                                    $saunsoong = $item->pang_stamp_uc_money - $item->price_approve;
+                                                    // if ($sauntang < 0) {
+                                                    //     $sauntang_small =  $sauntang;
+
+                                                    // } else {
+                                                    //     # code...
+                                                    // }
+                                                    
+                                                    // $saunsoong = $item->price_approve - $item->pang_stamp_uc_money;
                                                 ?>
                                             <tr >                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td> 
@@ -185,27 +216,57 @@
                                                 <td class="text-center" width="5%">{{ $item->an }}</td>  
                                                 <td class="text-center" width="8%">{{ $item->pang_stamp_vstdate }}</td>    
                                                 <td class="text-center" width="7%">{{ number_format($item->pang_stamp_uc_money, 2)}}</td> 
-                                                {{-- <td class="text-center" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->stm, 2)}}</td>  --}}
+                                            
+
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->price_approve, 2)}}</td> 
-                                                <td class="p-2" style="color:rgb(236, 43, 227)" width="7%">{{$saun}} </td>  
+
+                                                
+                                                @if ($sauntang < 0)
+                                                    <td class="p-2" style="color:rgb(236, 43, 227)" width="7%">{{$sauntang}} </td> 
+                                                @else
+                                                    <td class="p-2" style="color:rgb(236, 43, 227)" width="7%"> 0.00 </td> 
+                                                @endif
+
+                                                @if ($sauntang > 0)
+                                                    <td class="p-2" style="color:rgb(216, 95, 14)" width="7%">{{$saunsoong}} </td> 
+                                                @else
+                                                    <td class="p-2" style="color:rgb(216, 95, 14)" width="7%"> 0.00</td> 
+                                                @endif
 
                                                 {{-- @if ($item->pang_stamp_uc_money_minut_stm_money < 0) --}}
+                                                {{-- @if ($saunsoong < 0)
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="7%">0.00</td> 
-                                                {{-- @else --}}
-                                                {{-- <td class="text-center" style="color:rgb(216, 95, 14)" width="7%">{{ $item->pang_stamp_uc_money_minut_stm_money }}</td>  --}}
+                                                @else --}}
+                                                {{-- <td class="text-center" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($saunsoong, 2) }}</td>  --}}
                                                 {{-- @endif --}}
                                                 
+
                                                 <td class="text-center">{{ $item->pang_stamp_send }}</td> 
                                                 <td class="text-center">{{ $item->pang_stamp_rcpt }}</td>   
                                             </tr>
+                                            <?php
+                                            $total1 = $total1 + $item->pang_stamp_uc_money;
+                                            $total2 = $total2 + $item->price_approve;
+                                            $total3 = $total3 + $sauntang;
+                                            $total4 = $total4 + $saunsoong;
+                                            ?>
                                         @endforeach
                                     </tbody>
                                             <tr style="background-color: #f3fca1">
                                                 <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
-                                                <td class="text-center" style="background-color: #f3fca1">{{ number_format($sum_uc_money, 2)}}</td>
-                                                <td class="text-center" style="background-color: #b5eb82">{{ number_format($price_approve, 2)}}</td>
-                                                <td class="text-center" style="background-color: #fca1a1"></td>
-                                                <td class="text-center" style="background-color: #f3fca1"> {{ number_format($sum_hiegt_money, 2)}}</td>
+                                                <td class="text-center" style="background-color: #f3fca1">{{ number_format($total1, 5) }}</td>
+                                                <td class="text-center" style="background-color: #b5eb82">{{ number_format($total2, 5) }}</td>
+                                                <td class="text-center" style="background-color: #fca1a1">
+                                                     {{ number_format($total3, 5) }}
+                                                    </td>
+                                                <td class="text-center" style="background-color: #f3fca1">
+                                                   
+                                                     {{-- @if ($total4 > 0 )
+                                                         {{ number_format($total4, 5) }}
+                                                     @else
+                                                            0.00000
+                                                     @endif --}}
+                                                    </td>
                                                 <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
                                             </tr>  
                                 </table>
@@ -237,6 +298,10 @@
             $('#filename').select2({
                 placeholder:"--เลือก--",
                 allowClear:true
+            });
+            $('#pang_stamp').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
             });
               
             $("#spinner-div").hide(); //Request is complete so hide spinner

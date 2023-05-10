@@ -285,7 +285,7 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>STM อายลี่</span>
+                                <span>STM report</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li> 

@@ -1264,15 +1264,16 @@ class AccountPKController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $filename = $request->filename;
+        $pang_stamp = $request->pang_stamp;
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $data_startdate = $dabudget_year->date_begin;
         $data_enddate = $dabudget_year->date_end;
         $leave_month_year = DB::table('leave_month_year')->get();
         $data_month = DB::table('leave_month')->get();
-
+        $pang = DB::connection('mysql9')->table('pang')->get();
 
         $acc_stm = DB::connection('mysql9')->select('
-        SELECT IF(ps.pang_stamp_vn IS NULL,"","Y")AS Stamp
+            SELECT IF(ps.pang_stamp_vn IS NULL,"","Y")AS Stamp
                 ,ps.pang_stamp_vn AS "vn"
                 ,ps.pang_stamp_hn AS "hn"
                 ,ps.pang_stamp_an AS "an"
@@ -1293,14 +1294,11 @@ class AccountPKController extends Controller
                 ,CONCAT(ps.pang_stamp_pname,ps.pang_stamp_fname," ",ps.pang_stamp_lname) AS pt_name
                 
                 FROM pang_stamp ps
-                LEFT JOIN receipt_number rn ON ps.pang_stamp_stm_file_name = rn.receipt_number_stm_file_name
-
-                 
+                LEFT JOIN receipt_number rn ON ps.pang_stamp_stm_file_name = rn.receipt_number_stm_file_name                 
                 LEFT JOIN acc_stm_ti ati ON ati.hn = ps.pang_stamp_hn and ati.vstdate = ps.pang_stamp_vstdate
-
                 WHERE ati.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 
-                AND pang_stamp = "1102050101.2166"
+                AND pang_stamp = "'.$pang_stamp.'"
                 GROUP BY ati.cid,ati.vstdate
                 ORDER BY ps.pang_stamp_hn ;
         '); 
@@ -1311,7 +1309,7 @@ class AccountPKController extends Controller
             WHERE pang_stamp_vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             AND pang_stamp_send IS NOT NULL
             AND pang_stamp_uc_money <> 0
-            AND pang_stamp = "1102050101.2166"
+            AND pang_stamp = "'.$pang_stamp.'"
         ');
         foreach ($sum_uc_money_ as $key => $value) {
             $sum_uc_money = $value->sumuc_money;
@@ -1325,7 +1323,7 @@ class AccountPKController extends Controller
             WHERE ati.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             AND ps.pang_stamp_send IS NOT NULL
             AND ps.pang_stamp_uc_money <> 0
-            AND ps.pang_stamp = "1102050101.2166"
+            AND ps.pang_stamp = "'.$pang_stamp.'"
            
         ');
         foreach ($sum_stmuc_money_ as $key => $value2) {
@@ -1339,7 +1337,7 @@ class AccountPKController extends Controller
             WHERE pang_stamp_vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             AND pang_stamp_send IS NOT NULL
             AND pang_stamp_uc_money <> 0
-            AND pang_stamp = "1102050101.2166"
+            AND pang_stamp = "'.$pang_stamp.'"
         ');
         foreach ($sum_hiegt_money_ as $key => $value3) {
             $sum_hiegt_money = $value3->sumsthieg_money;
@@ -1354,9 +1352,10 @@ class AccountPKController extends Controller
             'filen_'        =>     $filen_,
             'sum_uc_money'  =>     $sum_uc_money,
             'sum_stmuc_money'  =>  $sum_stmuc_money,
-            'price_approve'  =>  $price_approve,
+            'price_approve'    =>  $price_approve,
             'sum_hiegt_money'  =>  $sum_hiegt_money,
-            // 'file_n'  =>  $file_n
+            'pang'             =>  $pang,
+            'pang_stamp'       =>  $pang_stamp
         ]);
     }
 
