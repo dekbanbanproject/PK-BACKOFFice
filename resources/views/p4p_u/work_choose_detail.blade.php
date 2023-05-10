@@ -3,7 +3,6 @@
 
     
 
-
 @section('content')
     <script>
         function TypeAdmin() {
@@ -155,15 +154,9 @@
                                 <i class="fa-regular fa-circle-left me-1"></i>
                                 ย้อนกลับ
                             </a> 
+                             
                         </div> 
- 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h6 style="color: rgb(163, 162, 162)"> เดือน {{$monthth}} ปี {{$check_year}}</h6>
-                            </div> 
-                            <div class="col"></div> 
-                           
-                        </div>
+  
                     </div>
                                            
                     <div class="card-body shadow-lg">
