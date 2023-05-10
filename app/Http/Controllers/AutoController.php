@@ -265,7 +265,7 @@ class AutoController extends Controller
                     left outer join hos.patient p on p.hn = v.hn   
                     left outer join hos.pttype pt on pt.pttype = v.pttype 
                     left outer join hos.leave_month l on l.MONTH_ID = month(v.vstdate)                    
-                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09" 
+                    WHERE o.vstdate = CURDATE()
                     group by DAY(v.vstdate)
             ');  
             foreach ($data_sits as $key => $value) { 
@@ -300,7 +300,7 @@ class AutoController extends Controller
                     LEFT OUTER JOIN ovst_queue_server_authen oq on oq.vn = os.vn 
                     LEFT OUTER JOIN patient p on p.hn=o.hn
      
-                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09"
+                    WHERE o.vstdate = CURDATE()
                     AND os.staff LIKE "kiosk%"
                     GROUP BY o.vstdate
             ');  
@@ -325,7 +325,7 @@ class AutoController extends Controller
                     FROM ovst o
                     LEFT OUTER JOIN hos.vn_stat v on v.vn = o.vn   
                     LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = v.cid AND v.vstdate = wr.claimDate
-                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09"
+                    WHERE o.vstdate = CURDATE()
                     AND o.staff not LIKE "kiosk%" 
                     GROUP BY o.vstdate
             '); 
@@ -338,7 +338,7 @@ class AutoController extends Controller
                     FROM ovst o
                     LEFT OUTER JOIN hos.vn_stat v on v.vn = o.vn   
                     LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = v.cid AND v.vstdate = wr.claimDate
-                    WHERE o.vstdate BETWEEN "2023-05-01" AND "2023-05-09" 
+                    WHERE o.vstdate = CURDATE()
                     GROUP BY o.vstdate
             ');  
             foreach ($data_total_all as $key => $value3) { 
