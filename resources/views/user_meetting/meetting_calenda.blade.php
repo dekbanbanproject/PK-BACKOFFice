@@ -1,5 +1,5 @@
-@extends('layouts.user')
-@section('title', 'ZOffice || ช้อมูลการจองห้องประชุม')
+@extends('layouts.userdashboard')
+@section('title', 'PK-BACKOFFICE || ช้อมูลการจองห้องประชุม')
 
 @section('content')
     <script>
@@ -61,18 +61,7 @@
             font-size: 14px;
         }
     </style>
-    <div class="container-fluid">
-        {{-- <div class="px-0 py-0 mb-2">
-            <div class="d-flex flex-wrap justify-content-center">
-                <a class="col-4 col-lg-auto mb-2 mb-lg-0 me-lg-auto text-white me-2"></a>
-                <div class="text-end"> 
-                    <a href="{{ url('user_meetting/meetting_calenda') }}"
-                        class="btn btn-info btn-sm text-white me-2">ปฎิทิน</a>
-                    <a href="{{ url('user_meetting/meetting_index') }}"
-                        class="btn btn-light btn-sm text-dark me-2">ช้อมูลการจองห้องประชุม</a>
-                </div>
-            </div>
-        </div> --}}
+    <div class="container-fluid"> 
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card shadow-lg">
@@ -80,7 +69,7 @@
                         <div class="row">
                             <div class="col-lg-3 mb-2">
                                 <div class="card bg-info p-1 mx-0">
-                                    <div class="card-header px-3 py-2 text-white">
+                                    <div class="card-header px-3 py-2 text-white bg-info">
                                         ห้องประชุม
                                     </div>
                                     <div class="card-body bg-white">
@@ -117,9 +106,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
 
 
 @endsection
@@ -140,7 +127,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
             $(function() {
 
                 var meetting = @json($events);
@@ -189,9 +175,7 @@
                 $("#meettingModal").on("hidden.bs.modal", function () {
                 $('#saveBtn').unbind();
             });
-
             });
-
 
         });
     </script>

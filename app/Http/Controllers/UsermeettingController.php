@@ -106,6 +106,8 @@ public function meetting_dashboard(Request $request)
 
 public function meetting_index(Request $request)
 {   
+    $startdate = $request->startdate;
+    $enddate = $request->enddate; 
     // $data['q'] = $request->query('q');
     // $query = User::select('users.*')
     // ->where(function ($query) use ($data){
@@ -120,7 +122,10 @@ public function meetting_index(Request $request)
     // dd($idsubtrue);
     $data['meeting_service'] = Meeting_service::where('meeting_debsubsubtrue_id','=',$idsubtrue)->get();
 
-    return view('user_meetting.meetting_index',$data);
+    return view('user_meetting.meetting_index',$data,[
+        'startdate'        => $startdate,
+        'enddate'          => $enddate, 
+    ]);
 }
 public function meetting_add(Request $request,$iduser)
 {   

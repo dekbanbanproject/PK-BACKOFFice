@@ -97,8 +97,8 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(155, 153, 155)">
-                
+            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)">
+                {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(155, 153, 155)"> --}}
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -239,6 +239,27 @@
                                 <li><a href="{{ url('workset') }}">รายการภาระงาน</a></li>    
                             </ul>
                         </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-people-roof text-danger"></i>
+                                <span>ห้องประชุม</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('user_meetting/meetting_calenda') }}">ปฎิทินการใช้ห้องประชุม</a></li>     
+                                <li><a href="{{ url('user_meetting/meetting_index') }}">ช้อมูลการจองห้องประชุม</a></li>  
+                            </ul>
+                        </li>
+                        {{-- <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-car-side text-danger"></i>
+                                <span>ยานพาหนะ</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('user_car/car_calenda/' . Auth::user()->id) }}">ปฎิทินการใช้รถ</a></li>     
+                                <li><a href="{{ url('user_car/car_narmal/' . Auth::user()->id) }}">ช้อมูลการการใช้รถทั่วไป</a></li> 
+                                <li><a href="{{ url('user_car/car_ambulance/' . Auth::user()->id) }}">ช้อมูลการการใช้รถพยาบาล</a></li>  
+                            </ul>
+                        </li>  --}}
                         
                     </ul>
                 </div>

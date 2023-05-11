@@ -1,132 +1,210 @@
-@extends('layouts.user')
-@section('title','ZOffice || ช้อมูลการจองห้องประชุม')
+@extends('layouts.userdashboard')
+@section('title', 'PK-BACKOFFICE || ช้อมูลการจองห้องประชุม')
 @section('content')
+<style>
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:30px 30px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{	
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;  
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 10px #ddd solid;
+           border-top: 10px #1fdab1 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% { 
+               transform: rotate(390deg); 
+           }
+           }
+           .is-hide{
+           display:none;
+           }
+</style>
 <script>
-  function TypeAdmin() {
-      window.location.href = '{{ route('index') }}';
-  }
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
 </script>
-  <?php
-   if (Auth::check()) {
-      $type = Auth::user()->type;
-      $iduser = Auth::user()->id;
-  } else {
-      echo "<body onload=\"TypeAdmin()\"></body>";
-      exit();
-  }
-  $url = Request::url();
-  $pos = strrpos($url, '/') + 1;
-  ?>
-  <style>
-    .btn{
-       font-size:15px;
-     }
-  </style>
-<div class="container-fluid" >
-  {{-- <div class="px-0 py-0 mb-2">
-    <div class="d-flex flex-wrap justify-content-center">  
-      <a class="col-4 col-lg-auto mb-2 mb-lg-0 me-lg-auto text-white me-2"></a>
+<?php
+if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+        $iddep =  Auth::user()->dep_subsubtrueid;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
+
+    $datenow = date("Y-m-d");
+    $y = date('Y') + 543;
+    $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+    $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน 
+?>
+  
+<div class="tabs-animation">
     
-      <div class="text-end"> 
-        <a href="{{url('user_meetting/meetting_calenda')}}" class="btn btn-light btn-sm text-dark me-2">ปฎิทิน</a>
-        <a href="{{url('user_meetting/meetting_index')}}" class="btn btn-info btn-sm text-white me-2">ช้อมูลการจองห้องประชุม</a> 
-      </div>
-    </div>
-  </div> --}}
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card shadow-lg">
-                <div class="card-header">
-                  <div class="row">
-                    <div class="col">  
-                    </div>
-                    <div class="col-9">
-                    </div>
-                    <div class="col">
-                      <a href="{{ url('user_meetting/meetting_add/'.Auth::user()->id )}}" class="btn btn-primary btn-sm"> <i class="fa-solid fa-circle-plus me-1"></i> เพิ่มข้อมูล</a>
-                    </div>
-                  </div>
+        <div class="row text-center">  
+            <div id="overlay">
+                <div class="cv-spinner">
+                  <span class="spinner"></span>
                 </div>
-
-                <div class="card-body">  
-                  <div class="table-responsive">
-                      <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example_user"> 
-                            <thead>
-                                <tr height="10px">
-                                    <th width="7%">ลำดับ</th>
-                                    <th width="10%">สถานะ</th>
-                                    <th>ปี</th>
-                                    <th>ห้องประชุม</th>
-                                    <th>วันที่จอง</th>
-                                    <th>เวลา</th>
-                                    <th>ถึงวันที่</th>
-                                    <th>เวลา</th>
-                                    <th width="10%">ผู้ร้องขอ</th>
-                                    <th width="10%">ทำรายการ</th>
-                                </tr>  
-                            </thead>
-                            <tbody>
-                              <?php $i = 1; $date = date('Y'); ?>
-                                  @foreach ($meeting_service as $item)
-                                      <tr id="sid{{ $item->meeting_id }}" height="30">
-                                          <td class="text-center" width="3%">{{ $i++ }}</td>    
-
-                                          @if ($item->meetting_status == 'REQUEST')
-                                          <td class="text-center" width="5%"><div class="badge bg-warning">ร้องขอ</div></td>
-                                        @elseif ($item->meetting_status == 'ALLOCATE')
-                                          <td class="text-center" width="5%"><div class="badge bg-success">จัดสรร</div></td>                                         
+              </div>
+              
+        </div> 
+    
+        <div class="row"> 
+            <div class="col-md-12"> 
+                 <div class="main-card mb-3 card">
+                    <div class="card-header">
+                        ข้อมูลการใช้ห้องประชุม
+                        <div class="btn-actions-pane-right">
+                            <form action="{{ route('meetting.meetting_index') }}" method="POST">
+                                @csrf
+                                <div class="row"> 
+                                    
+                                    <div class="col-md-1 text-end">วันที่</div>
+                                    <div class="col-md-3 text-center">
+                                        @if ($startdate == '')
+                                            <div class="input-group" id="datepicker1">
+                                                <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
+                                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                                    value="{{ $datenow }}">                    
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div>
                                         @else
-                                          <td class="text-center" width="5%"><div class="badge bg-success">อนุมัติ</div></td>
+                                            <div class="input-group" id="datepicker1">
+                                                <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
+                                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                                    value="{{ $startdate }}">                    
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div>
+                                        @endif                                    
+                                    </div>
+                                    <div class="col-md-1 text-center">ถึงวันที่</div>
+                                    <div class="col-md-3 text-center">
+                                        @if ($enddate == '')
+                                            <div class="input-group" id="datepicker1">
+                                                <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
+                                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                                    value="{{ $datenow }}">                    
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div>
+                                        @else
+                                            <div class="input-group" id="datepicker1">
+                                                <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
+                                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
+                                                    value="{{ $enddate }}">                    
+                                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                            </div>
                                         @endif
+                                        
+                                    </div> 
+                                    <div class="col-md-2 me-2">  
+                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                            <i class="pe-7s-search btn-icon-wrapper"></i>2 ค้นหา
+                                        </button>  
+  
+                                        {{-- @if ($startdate == '')
+                                            <a href="{{url('user_timeindex_excel/'.$datenow.'/'.$datenow)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                <i class="fa-solid fa-file-excel me-2"></i>
+                                                3 Export
+                                            </a>
+                                        @else
+                                            <a href="{{url('user_timeindex_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                <i class="fa-solid fa-file-excel me-2"></i>
+                                                3 Export
+                                            </a>
+                                        @endif --}}
+
+                                        <a href="{{ url('user_meetting/meetting_add/'.Auth::user()->id )}}"  class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                            {{-- <i class="pe-7s-news-paper btn-icon-wrapper"></i>  --}}
+                                            <i class="fa-regular fa-square-plus me-2"></i>เพิ่มข้อมูล
+                                        </a>  
+                                     
+                                    </div> 
+                                    
+                                </div> 
+                            </form>
+                        </div>
+                    </div> 
+                    <div class="card-body">
+                        <div class="table-responsive mt-3">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                                <thead>
+                                    <tr style="font-size: 14px;">
+                                       <th width="7%">ลำดับ</th>
+                                        <th width="10%">สถานะ</th>
+                                        <th>ปี</th>
+                                        <th>ห้องประชุม</th>
+                                        <th>วันที่จอง</th>
+                                        <th>เวลา</th>
+                                        <th>ถึงวันที่</th>
+                                        <th>เวลา</th>
+                                        <th width="10%">ผู้ร้องขอ</th>
+                                        <th width="10%">ทำรายการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $ia = 1; ?>
+                                    @foreach ($meeting_service as $item)  
+                                        
+                                        <tr style="font-size: 13px;" id="sid{{ $item->meeting_id }}">
+                                            <td>{{ $ia++ }}</td>
+                                            {{-- <td>{{ dateThaifromFull($item->CHEACKIN_DATE) }}</td>  --}}
+                                            @if ($item->meetting_status == 'REQUEST')
+                                            <td class="text-center" width="5%"><div class="badge bg-warning">ร้องขอ</div></td>
+                                            @elseif ($item->meetting_status == 'ALLOCATE')
+                                            <td class="text-center" width="5%"><div class="badge bg-success">จัดสรร</div></td>                                         
+                                            @else
+                                            <td class="text-center" width="5%"><div class="badge bg-success">อนุมัติ</div></td>
+                                            @endif
 
 
-                                          <td class="text-center" width="7%">{{ $item->meetting_year }}</td>                                         
-                                          <td class="p-2">{{ $item->room_name }}</td>
-                                          <td class="p-2" width="10%">{{ DateThai($item->meeting_date_begin) }}</td>
-                                          <td class="p-2" width="7%">{{ $item->meeting_time_begin }}</td>
-                                          <td class="p-2" width="10%">{{ DateThai($item->meeting_date_end )}}</td>
-                                          <td class="p-2" width="7%">{{ $item->meeting_time_end }}</td>
-                                          <td class="p-2" width="12%">{{ $item->meeting_user_name }}</td>
-                                          <td class="text-center" width="10%">
-                                            <!-- Info -->                                               
-                                                <div class="dropdown">
-                                                  <a class="dropdown-toggle text-secondary" href="#" id="dropdownMenuLink" data-mdb-toggle="dropdown" aria-expanded="false" >
-                                                    เลือก
-                                                  </a>
-                                                
-                                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <li>
-                                                      <button class="dropdown-item edit_detail" href="#" value="{{ $item->meeting_id }}">รายละเอียด</button>
-                                                      {{-- <a class="dropdown-item edit_detail" href="#" value="{{ $item->meeting_id }}">รายละเอียด</a> --}}
-                                                    </li>
-                                                    <li><a class="dropdown-item" href="{{ url('user_meetting/meetting_choose_edit/'. $item->meeting_id) }}">แก้ไข</a></li>
-                                                    {{-- <li><a class="dropdown-item" href="#">Something else here</a></li> --}}
-                                                  </ul>
-                                                </div>
-                                            <!-- <a href="{{ url('user_meetting/meetting_choose_edit/'. $item->meeting_id) }}"
-                                                  class="text-warning me-3" data-bs-toggle="tooltip"
-                                                  data-bs-placement="bottom" data-bs-custom-class="custom-tooltip"
-                                                  title="แก้ไข">   
-                                                  <i class="fa-solid fa-pen-to-square me-2"></i>
-                                              </a> -->  
-                                              <!-- <a href="{{ url('user_meetting/meetting_choose_edit/'. $item->meeting_id) }}" class="btn btn-warning btn-sm" 
-                                                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip"
-                                                title="แก้ไข" >
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                              </a>  -->                                            
-                                          </td>
-                                    </tr> 
-                                  @endforeach
-                            </tbody>
-                      </table>
-                  </div>
+                                            <td class="text-center" width="7%">{{ $item->meetting_year }}</td>                                         
+                                            <td class="p-2">{{ $item->room_name }}</td>
+                                            <td class="p-2" width="10%">{{ DateThai($item->meeting_date_begin) }}</td>
+                                            <td class="p-2" width="7%">{{ $item->meeting_time_begin }}</td>
+                                            <td class="p-2" width="10%">{{ DateThai($item->meeting_date_end )}}</td>
+                                            <td class="p-2" width="7%">{{ $item->meeting_time_end }}</td>
+                                            <td class="p-2" width="12%">{{ $item->meeting_user_name }}</td>
+                                        </tr>    
+                                    @endforeach
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                
+                    </div>
                 </div>
-            </div>
+            </div>            
         </div>
-    </div>
-</div>
+</div> 
 
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+ <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
       <div class="modal-content">
           <div class="modal-header">
@@ -278,15 +356,38 @@
           </div>
       
           <div class="modal-footer">
-              <button type="button" class="btn btn-danger btn-sm" id="closebtn" data-bs-dismiss="modal">ปิด</button>             
+              <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="closebtn" data-bs-dismiss="modal">ปิด</button>             
           </div>
           <!-- </form> -->
       </div>
   </div>
-</div>
+</div> 
+      
 @endsection
-@section('footer') 
+@section('footer')
 
+<script> 
+    $(document).ready(function() { 
+        $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('#datepicker2').datepicker({
+            format: 'yyyy-mm-dd'
+        }); 
+        $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+        });
+        $('#HR_DEPARTMENT_ID').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
+            }); 
+        $("#spinner-div").hide(); //Request is complete so hide spinner
+       
+    });
+
+</script>
 <script>
    $(document).on('click','.edit_detail',function(){
     var meeting_id = $(this).val();
@@ -323,8 +424,6 @@
   });
  });
 </script>
-
-
-
-
 @endsection
+ 
+ 

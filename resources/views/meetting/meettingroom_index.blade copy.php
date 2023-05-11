@@ -1,4 +1,4 @@
-@extends('layouts.meettingnew')
+@extends('layouts.meetting')
 @section('title', 'PK-BACKOFFice || ห้องประชุม')
 @section('content')
      <?php
@@ -23,74 +23,141 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-  <style>
-    #button{
-           display:block;
-           margin:20px auto;
-           padding:30px 30px;
-           background-color:#eee;
-           border:solid #ccc 1px;
-           cursor: pointer;
-           }
-           #overlay{	
-           position: fixed;
-           top: 0;
-           z-index: 100;
-           width: 100%;
-           height:100%;
-           display: none;
-           background: rgba(0,0,0,0.6);
-           }
-           .cv-spinner {
-           height: 100%;
-           display: flex;
-           justify-content: center;
-           align-items: center;  
-           }
-           .spinner {
-           width: 250px;
-           height: 250px;
-           border: 10px #ddd solid;
-           border-top: 10px #1fdab1 solid;
-           border-radius: 50%;
-           animation: sp-anime 0.8s infinite linear;
-           }
-           @keyframes sp-anime {
-           100% { 
-               transform: rotate(390deg); 
-           }
-           }
-           .is-hide{
-           display:none;
-           }
-</style>
-<div class="tabs-animation">
+    <style>
+        body {
+            font-size: 13px;
+        }
+       
+        .btn {
+            font-size: 13px;
+        }
+        .form-control{
+            font-size: 13px;
+        }
+        .bgc {
+            background-color: #264886;
+        }
     
-    <div class="row text-center">  
-        <div id="overlay">
-            <div class="cv-spinner">
-              <span class="spinner"></span>
-            </div>
-          </div>
-          
-    </div> 
-    <div class="row"> 
-        <div class="col-md-12"> 
-             <div class="main-card mb-3 card">
-                <div class="card-header">
-                    ข้อมูลห้องประชุม
-                    <div class="btn-actions-pane-right"> 
-                            {{-- <a href="{{ url('meetting/meettingroom_add')}}"  class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> 
-                                <i class="fa-regular fa-square-plus me-2"></i>เพิ่มข้อมูล
-                            </a>   --}}
-                        </div> 
+        .bga {
+            background-color: #fbff7d;
+        }
+    
+        .boxpdf {
+            /* height: 1150px; */
+            height: auto;
+        }
+    
+        .page {
+            width: 90%;
+            margin: 10px;
+            box-shadow: 0px 0px 5px #000;
+            animation: pageIn 1s ease;
+            transition: all 1s ease, width 0.2s ease;
+        }
+    
+        @keyframes pageIn {
+            0% {
+                transform: translateX(-300px);
+                opacity: 0;
+            }
+    
+            100% {
+                transform: translateX(0px);
+                opacity: 1;
+            }
+        }
+    
+        @media (min-width: 500px) {
+            .modal {
+                --bs-modal-width: 500px;
+            }
+        }
+    
+        @media (min-width: 950px) {
+            .modal-lg {
+                --bs-modal-width: 950px;
+            }
+        }
+    
+        @media (min-width: 1500px) {
+            .modal-xls {
+                --bs-modal-width: 1500px;
+            }
+        }
+    
+        @media (min-width: auto; ) {
+            .container-fluids {
+                width: auto;
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: auto;
+            }
+    
+            .dataTables_wrapper .dataTables_filter {
+                float: right
+            }
+    
+            .dataTables_wrapper .dataTables_length {
+                float: left
+            }
+    
+            .dataTables_info {
+                float: left;
+            }
+    
+            .dataTables_paginate {
+                float: right
+            }
+    
+            .custom-tooltip {
+                --bs-tooltip-bg: var(--bs-primary);
+            }
+    
+            .table thead tr th {
+                font-size: 14px;
+            }
+    
+            .table tbody tr td {
+                font-size: 13px;
+            }
+    
+            .menu {
+                font-size: 13px;
+            }
+        }
+    
+        .hrow {
+            height: 2px;
+            margin-bottom: 9px;
+        }
+    
+        .custom-tooltip {
+            --bs-tooltip-bg: var(--bs-primary);
+        }
+    
+        .colortool {
+            background-color: red;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row"> 
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header ">
+                       
+                        <div class="row">
+                            <div class="col-md-2 text-left">
+                                <h6>ข้อมูลห้องประชุม</h6>
+                            </div>
+                            <div class="col"></div>
+                           
+                          
+                        </div>
+
                     </div>
-                    <div class="card-body ">
+                    <div class="card-body shadow-lg">
                         <div class="table-responsive">
-                            {{-- <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example">  --}}
-                                {{-- <table class="table table-hover table-bordered table-sm myTable" style="wproduct_idth: 100%;" id="example">  --}}
-                                    <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
-                                {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
+                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>
@@ -105,7 +172,7 @@
                                 <tbody>
                                     <?php $i = 1; $date = date('Y'); ?>
                                     @foreach ($building_data as $item)
-                                        <tr id="sid{{ $item->building_id }}" style="font-size: 13px;">
+                                        <tr id="sid{{ $item->building_id }}">
                                             <td class="text-center" width="3%">{{ $i++ }}</td>                                           
                                             <td class="p-2">{{ $item->room_name }}</td>
                                             <td class="p-2">{{ $item->building_name }}</td>                                         
@@ -176,14 +243,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
     </div>
   
-    @endsection
-    @section('footer')
-    
-    @endsection
- 
+
+@endsection
