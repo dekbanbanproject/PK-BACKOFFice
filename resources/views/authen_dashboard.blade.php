@@ -1,5 +1,5 @@
-@extends('layouts.auto')
-@section('title', 'PK-BACKOFFice || authen')
+@extends('layouts.dashboardlayout')
+@section('title', 'PK-BACKOFFice || Dashboard-Day')
 
 @section('content')
     <style>
@@ -49,17 +49,17 @@
         }
     </style>
 
-    
+
     <div class="tabs-animation">
- 
+
 
         <div class="row">
-            
+
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-3">                         
+                    <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-warm-flame text-start">
-                            <div class="widget-chat-wrapper-outer "> 
+                            <div class="widget-chat-wrapper-outer ">
 
                                 <div class="widget-chart-content text-white">
                                     <div class="widget-chart-flex">
@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="widget-chart-flex">
                                         <div class="widget-numbers">
-                                            {{ $vn }} 
+                                            {{ $vn }}
                                             <small> </small>
                                         </div>
                                         <div class="widget-description ms-auto text-white">
@@ -83,15 +83,15 @@
                                 </div>
                                 <div class="widget-progress-wrapper">
                                     <div class="progress-bar-sm progress-bar-animated-alt progress">
-                                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65" aria-valuemin="0"
-                                            aria-valuemax="100" style="width: 100%;">
+                                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="65"
+                                            aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                                         </div>
                                     </div>
                                     <div class="progress-sub-label text-white">นับรวมทุก Visit</div>
                                 </div>
 
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-plum-plate text-start">
@@ -103,12 +103,12 @@
                                     </div>
                                     <div class="widget-chart-flex">
                                         <div class="widget-numbers">
-                                            {{ $Kios }} 
+                                            {{ $Kios }}
                                             <small> </small>
                                         </div>
                                         <div class="widget-description ms-auto text-white">
-                                            <?php $kiosper =  100 / $vn * $Kios ?>
-        
+                                            <?php $kiosper = (100 / $vn) * $Kios; ?>
+
                                             @if ($Kios == '0')
                                                 <span class="pe-1">0 %</span>
                                             @else
@@ -131,15 +131,15 @@
                                                 aria-valuemax="100" style="width:{{ number_format($kiosper, 0) }}%;">
                                             </div>
                                         @endif
-        
+
                                     </div>
                                     <div class="progress-sub-label text-white">นับรวมทุก Visit</div>
                                 </div>
-        
+
                             </div>
                         </div>
                     </div>
-            
+
                     <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-mixed-hopes text-start">
                             <div class="widget-chat-wrapper-outer">
@@ -150,14 +150,14 @@
                                     </div>
                                     <div class="widget-chart-flex">
                                         <div class="widget-numbers text-warning">
-                                            {{($vn - $Kios) }}
+                                            {{ $vn - $Kios }}
                                             <small> </small>
                                         </div>
                                         <div class="widget-description ms-auto text-white">
                                             <i class="fa fa-arrow-right "></i>
-                                            <?php 
-                                                $uu = $vn - $Kios;
-                                                $userper =  100 / $vn * $uu
+                                            <?php
+                                            $uu = $vn - $Kios;
+                                            $userper = (100 / $vn) * $uu;
                                             ?>
 
                                             @if ($vn - $Kios == '0')
@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="widget-progress-wrapper">
                                     <div class="progress-bar-sm progress-bar-animated-alt progress">
-        
+
                                         @if ($userper == '0')
                                             <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="0"
                                                 aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
@@ -187,7 +187,7 @@
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-tempting-azure text-start">
                             <div class="widget-chat-wrapper-outer">
@@ -202,9 +202,9 @@
                                             <small> </small>
                                         </div>
                                         <div class="widget-description ms-auto text-dark">
-                                            <?php  
-                                            $sus =  100 / $vn * $Success
-                                        ?>
+                                            <?php
+                                            $sus = (100 / $vn) * $Success;
+                                            ?>
                                             @if ($Success == '0')
                                                 <span class="pe-1">0 %</span>
                                             @else
@@ -214,10 +214,10 @@
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <div class="widget-progress-wrapper">
                                     <div class="progress-bar-sm progress-bar-animated-alt progress">
-        
+
                                         @if ($sus == '0')
                                             <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="0"
                                                 aria-valuemin="0" aria-valuemax="100" style="width:0%;">
@@ -225,8 +225,7 @@
                                         @else
                                             <div class="progress-bar bg-danger" role="progressbar"
                                                 aria-valuenow="{{ number_format($sus, 0) }}" aria-valuemin="0"
-                                                aria-valuemax="100"
-                                                style="width: {{ number_format($sus, 0) }}%;">
+                                                aria-valuemax="100" style="width: {{ number_format($sus, 0) }}%;">
                                             </div>
                                         @endif
                                     </div>
@@ -237,169 +236,185 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
-       
-    
 
-  
 
-    <div class="row">
-        <div class="col-lg-12 col-xl-7">
-            <div class="main-card mb-3 card">
-                <div class="card-body table-responsive">
-                    <div class="card-title">รายงานแยกตามแผนก</div> 
-                        <table class="table table-sm dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                        <thead>
-                            <th class="text-center">ลำดับ</th>
-                            <th class="text-center">แผนก</th>
-                            <th class="text-center">จำนวน</th> 
-                            <th class="text-center">
-                                <label for="" style="color:green"> Authen Code Success</label>
-                            </th>
-                            <th class="text-center">
-                                <label for="" style="color:red"> Authen Code Unsuccessful</label>
-                            </th>
-                        </thead>
-                        <tbody>
-                            <?php $i = 1;
-                            $date = date('Y-m-d');
-                            ?>
-                            @foreach ($data_department as $item)
-                               
-                                <tr id="sid{{ $item->main_dep }}">
-                                    <td class="text-center">{{ $i++ }}</td>
-                                    <td class="p-2">
-                                        
-                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info authen_detail" value="{{ $item->main_dep }}">
-                                            <i class="pe-7s-search btn-icon-wrapper"></i>{{ $item->department }}
-                                        </button>                                            
-                                    </td>
-                                    <td class="text-center">{{ $item->vn }}</td> 
-                                    <td class="text-center"> 
+
+
+
+        <div class="row">
+            <div class="col-lg-12 col-xl-5">
+                <div class="card-hover-shadow profile-responsive card-border border-danger mb-3 card">
+                    <div class="card-body table-responsive">
+                        <div class="card-title">รายงานแยกตามแผนก</div>
+                        <table class="table table-sm dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <th class="text-center">ลำดับ</th>
+                                <th class="text-center">แผนก</th>
+                                <th class="text-center">Visit</th>
+                                <th class="text-center">
+                                    <label for="" style="color:green"> Success</label>
+                                </th>
+                                <th class="text-center">
+                                    <label for="" style="color:red"> Unsuccessful</label>
+                                </th>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1;
+                                $date = date('Y-m-d');
+                                ?>
+                                @foreach ($data_department as $item)
+                                    <tr id="sid{{ $item->main_dep }}">
+                                        <td class="text-center">{{ $i++ }}</td>
+                                        <td class="p-2">
+
+                                            <button type="button"
+                                                class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info authen_detail"
+                                                value="{{ $item->main_dep }}">
+                                                <i class="pe-7s-search btn-icon-wrapper"></i>{{ $item->department }}
+                                            </button>
+                                        </td>
+                                        <td class="text-center">{{ $item->vn }}</td>
+                                        <td class="text-center">
                                             <label for="" style="color:green"> {{ $item->Success }}</label>
-                                    </td>
-                                    <td class="text-center" >
-                                        <label for="" style="color:red;">
-                                            {{ $item->Unsuccess }} </label>
-                                    </td>
-                                </tr>
- 
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        </td>
+                                        <td class="text-center">
+                                            <label for="" style="color:red;">
+                                                {{ $item->Unsuccess }} </label>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-12 col-xl-5">
-            <div class="card-hover-shadow profile-responsive card-border border-success mb-3 card">
-                {{-- <div class="dropdown-menu-header">
-                    <div class="dropdown-menu-header-inner bg-success">
-                        <div class="menu-header-content">
-                            <div class="avatar-icon-wrapper btn-hover-shine mb-2 avatar-icon-xl">
-                                <div class="avatar-icon rounded">
-                                    <img src="images/avatars/1.jpg" alt="Avatar 6">
-                                </div>
-                            </div>
-                            <div>
-                                <h5 class="menu-header-title">John Rosenberg</h5>
-                                <h6 class="menu-header-subtitle">Short profile description</h6>
-                            </div>
-                            <div class="menu-header-btn-pane pt-2">
-                                <div role="group" class="btn-group text-center">
-                                    <div class="nav">
-                                        <a href="#tab-2-eg1" data-bs-toggle="tab" class="active btn btn-dark">Tab 1</a>
-                                        <a href="#tab-2-eg2" data-bs-toggle="tab" class="btn btn-dark me-1 ms-1">Tab 2</a>
-                                        <a href="#tab-2-eg3" data-bs-toggle="tab" class="btn btn-dark">Tab 3</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-                <div class="p-0 card-body">
-                    <div class="tab-content">
-                        <div class="tab-pane active show" id="tab-2-eg1">
-                            <ul class="list-group list-group-flush">
-                                <div class="table-responsive">
-                                    <table class="align-middle text-truncate mb-0 table table-borderless table-hover">
-                                        {{-- <thead>
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th class="text-center">Avatar</th> 
-                                                <th class="text-center">Target Achievement</th>
-                                                <th class="text-center">Actions</th>
-                                            </tr>
-                                        </thead> --}}
-                                        <tbody>
-                                            @foreach ($data_staff as $istaff) 
-                                            <tr>
-                                                <td class="text-center text-muted" style="width: 80px;">#54</td>
-                                                <td class="text-center" style="width: 80px;">
-                                                    <img width="40" class="rounded-circle" src="images/avatars/1.jpg" alt="">
-                                                </td>
-                                                <td class="text-start">
-                                                    <a href="javascript:void(0)">{{$istaff->Staff}}</a>
-                                                </td>
-                                                
-                                                <td class="text-center" style="width: 200px;">
-                                                    <div class="widget-content p-0">
-                                                        <div class="widget-content-outer">
-                                                            <div class="widget-content-wrapper">
-                                                                <div class="widget-content-left pe-2">
-                                                                    <div class="widget-numbers fsize-1 text-danger">71%</div>
-                                                                </div>
-                                                                <div class="widget-content-right w-100">
-                                                                    <div class="progress-bar-xs progress">
-                                                                        <div class="progress-bar bg-danger" role="progressbar"
-                                                                            aria-valuenow="71" aria-valuemin="0"
-                                                                            aria-valuemax="100" style="width: 71%;">
-                                                                        </div>
+            <div class="col-lg-12 col-xl-7">
+                <div class="card-hover-shadow profile-responsive card-border border-info mb-3 card">
+                    <div class="card-body table-responsive">
+                        <div class="card-title">รายงานแยกตามรายชื่อเจ้าหน้าที่</div>
+
+                        <table class="table table-sm dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Picture</th>
+                                    <th class="text-center">Fullname / Visit / Authencode / ไม่ Authencode</th>
+                                    <th class="text-center"> <label for="" style="color:green">Success</label>
+                                    </th>
+                                    <th class="text-center"><label for="" style="color:red">Unsuccessful</label>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data_staff as $istaff)
+                                    <tr> 
+                                        <td class="text-center" style="width: 80px;">
+                                            <img width="40" height="40" class="rounded-circle"
+                                                src="{{ asset('assets/images/default-image.jpg') }}" alt="">
+                                        </td>
+                                        <td class="text-start">
+                                            <a href="javascript:void(0)" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> {{ $istaff->Staff }} </a>
+                                                {{ $istaff->vn }} Visit /
+                                                <label for="" style="color:green">  {{$istaff->Success}}</label> Visit/
+                                                <label for="" style="color:red"> {{$istaff->Unsuccess}}</label> Visit
+                                        </td>
+                                        <?php 
+                                            $Uvn = $istaff->vn;    
+                                            $s = $istaff->Success;          $uPer = (100 / $Uvn) * $s;  
+                                            $u = $istaff->Unsuccess;     $unPer = (100 / $Uvn) * $u;                                         
+                                        ?>
+                                        <td class="text-center" style="width: 200px;">
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-outer">
+                                                    <div class="widget-content-wrapper">
+                                                        <div class="widget-content-left pe-2">
+                                                            <div class="widget-numbers fsize-1 text-success">
+                                                                {{ number_format($uPer, 2) }}%</div>
+                                                        </div>
+                                                        <div class="widget-content-right w-100">
+                                                            <div class="progress-bar-xs progress">
+
+                                                                @if ($uPer == '0')
+                                                                    <div class="progress-bar bg-success"
+                                                                        role="progressbar" aria-valuenow="0"
+                                                                        aria-valuemin="0" aria-valuemax="100"
+                                                                        style="width: 0%;"></div>
+                                                                @else
+                                                                    <div class="progress-bar bg-success"
+                                                                        role="progressbar"
+                                                                        aria-valuenow="{{ number_format($uPer, 2) }}"
+                                                                        aria-valuemin="0" aria-valuemax="100"
+                                                                        style="width: {{ number_format($uPer, 2) }}%;">
                                                                     </div>
-                                                                </div>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </td>
-                                                
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                               
-                                
-                                        
+                                                </div>
+                                            </div>
+                                        </td> 
 
-                                
-                              
-                            </ul>
-                        </div>
+                                        <td class="text-center" style="width: 200px;">
+                                            <div class="widget-content p-0">
+                                                <div class="widget-content-outer">
+                                                    <div class="widget-content-wrapper">
+                                                        <div class="widget-content-left pe-2">
+                                                            <div class="widget-numbers fsize-1 text-danger">{{ number_format($unPer, 2) }}%</div>
+                                                        </div>
+                                                        <div class="widget-content-right w-100">
+                                                            <div class="progress-bar-xs progress">
+                                                                @if ($unPer == '0')
+                                                                    <div class="progress-bar bg-danger"
+                                                                        role="progressbar" aria-valuenow="0"
+                                                                        aria-valuemin="0" aria-valuemax="100"
+                                                                        style="width: 0%;"></div>
+                                                                @else
+                                                                    <div class="progress-bar bg-danger"
+                                                                        role="progressbar"
+                                                                        aria-valuenow="{{ number_format($unPer, 2) }}"
+                                                                        aria-valuemin="0" aria-valuemax="100"
+                                                                        style="width: {{ number_format($unPer, 2) }}%;">
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
- 
+
 
 @endsection
 @section('footer')
     <script>
-         $(document).on('click', '.authen_detail', function() {
-            var dep = $(this).val(); 
+        $(document).on('click', '.authen_detail', function() {
+            var dep = $(this).val();
             $('#authen_detailModal').modal('show');
             $.ajax({
                 type: "GET",
                 url: "{{ url('authen_detail') }}" + '/' + dep,
-                success: function(result) { 
+                success: function(result) {
                     $('#detail').html(result);
                 },
             });
         });
- 
     </script>
-        {{-- <script>
+    {{-- <script>
             var ctx = document.getElementById("Mychart").getContext("2d");
     
                 fetch("{{ route('authen_getbar') }}")
@@ -448,7 +463,5 @@
                     });        
      
         </script> --}}
-        
-@endsection
 
-   
+@endsection

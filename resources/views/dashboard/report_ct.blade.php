@@ -85,10 +85,10 @@
                                             <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                                         </button> 
                                     
-                                        <a href="{{url('refer_opds_cross_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                        {{-- <a href="{{url('refer_opds_cross_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                             <i class="fa-solid fa-file-excel me-2"></i>
                                             Export
-                                        </a>
+                                        </a> --}}
                                     
                                     </div>
                                 </div> 
@@ -118,20 +118,27 @@
                             <tbody>
                                 <?php $number = 0; ?>
                                 @foreach ($datashow_ as $item)
-                                    <?php $number++; ?>
+                                    <?php $number++; 
+                                     $data_ = DB::connection('mysql3')->select('SELECT SUM(cost) as pricecost FROM opitemrece WHERE vn="'.$item->vn.'" AND income = "08"');
+                                     foreach ($data_ as $key => $value) {
+                                        $priccost = $value->pricecost;
+                                     }
+                                    
+                                    ?>
                                     <tr height="20">
                                         <td class="text-font" style="text-align: center;">{{ $number }}</td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->cid }}</td>   
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hn }}</td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->fullname }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hospmain }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hcode }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vstdate }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->pdx }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->pdx }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: right;">&nbsp;&nbsp; {{ number_format($item->uc_money,2) }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: right;">&nbsp;&nbsp; {{ number_format($item->uc_money,2) }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: right;"> &nbsp;&nbsp;{{ number_format($item->uc_money_kor_tok,2) }} </td>  
+                                        <td class="text-font text-pedding text-center"> {{ $item->cid }}</td>   
+                                        <td class="text-font text-pedding text-center"> {{ $item->hn }}</td> 
+                                        <td class="text-font text-pedding p-2"> {{ $item->fullname }} </td> 
+                                        <td class="text-font text-pedding p-2"> {{ $item->hospmain }} </td> 
+                                        <td class="text-font text-pedding text-center"> {{ $item->hospcode }} </td> 
+                                        <td class="text-font text-pedding text-center"> {{ $item->vstdate }} </td> 
+                                        <td class="text-font text-pedding text-center"> {{ $item->pdx }} </td> 
+                                        <td class="text-font text-pedding p-2" > {{ $item->icd10 }} </td> 
+                                        {{-- {{ number_format($item->income,2) }} --}}
+                                        <td class="text-font text-pedding text-end">&nbsp;&nbsp; {{ number_format($priccost,2) }}  </td> 
+                                        <td class="text-font text-pedding text-end">&nbsp;&nbsp;   </td> 
+                                        <td class="text-font text-pedding text-end"> &nbsp;&nbsp;  </td>  
                                     </tr>
                                 @endforeach
                                

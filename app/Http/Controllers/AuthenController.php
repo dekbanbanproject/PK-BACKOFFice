@@ -60,7 +60,8 @@ class AuthenController extends Controller
         $data_staff = DB::connection('mysql')->select(' 
                 SELECT *
                 FROM dashboard_authenstaff_day 
-                WHERE vstdate = CURDATE() ORDER BY vn DESC 
+                WHERE vstdate = CURDATE() 
+                ORDER BY length(vn) DESC, vn DESC 
         ');
         // $data_staff = DB::connection('mysql3')->select(' 
         //         SELECT o.main_dep,o.staff,op.name as Staffname,s.name as Spclty 

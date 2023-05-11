@@ -945,39 +945,35 @@ class ReportFontController extends Controller
         $enddate = $request->enddate; 
         
         $datashow_ = DB::connection('mysql3')->select('  
-            SELECT
-                    o.vn,o.hn,o.an,p.cid,o.vstdate,o.pttype,v.pttypeno,o.hospmain,o.hcode,concat(p.pname,p.fname," ",p.lname) as fullname
-                    , ROUND(uc_money-(IFNULL((SUM(om.sum_price)),0)) ,2) AS uc_money
-                    , IF( (uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))<=700
-                        ,((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))+(IFNULL((SUM(omk.sum_price)),0)))
-                        ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>700
-                            ,IF(tpsc.vn!=""
-                                ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>1000
-                                    ,1000
-                                    ,(uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))
-                                )
-                                ,700+(IFNULL((SUM(omk.sum_price)),0))
-                            )
-                            ,700+(IFNULL((SUM(omk.sum_price)),0))    
-                        )
-                    ) AS uc_money_kor_tok
-                    ,v.pdx ,v.income ,v.paid_money
-                    FROM hos.ovst o
-                    LEFT JOIN hos.vn_stat v ON o.vn=v.vn
-                    LEFT JOIN hos.patient p ON o.hn=p.hn
-                    LEFT OUTER JOIN money_pk.opitemrece_money om ON o.vn=om.vn
-                    LEFT OUTER JOIN money_pk.opitemrece_kor_tok omk ON o.vn=omk.vn
-                    LEFT JOIN money_pk.temp_pang_stamp_chronic1102050101_203 tpsc ON o.vn=tpsc.vn
-
-                    WHERE o.hn!="999999999"
-                    AND o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                    AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99")
-
-                    AND o.hospmain IN ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-                    AND o.hospmain NOT IN ("10978")
-                    AND o.vn NOT IN (select vn FROM money_pk.temp_pang_stamp_icd1102050101_203 )
-                    AND (o.an IS NULL OR o.an ="") 
-                    GROUP BY o.vn
+            SELECT  
+                v.hn,v.vn,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname
+                ,v.cid,v.pttype,v.pdx,group_concat(distinct oo.icd10) as icd10
+                ,h.hospcode,h.name as hospmain ,v.income,v.paid_money,v.uc_money
+                ,SUM(op.sum_price)
+                
+                from vn_stat v
+                left outer join opitemrece op on op.vn = v.vn
+                LEFT JOIN oapp o on o.visit_vn = v.vn
+                left join ipt i on i.vn = v.vn
+                left join patient p on p.hn = v.hn
+                left join ovstdiag oo on oo.vn = v.vn 
+                left join opdscreen d on d.vn = v.vn
+                left join hospcode h on h.hospcode = v.hospmain
+                left join ovst ov on ov.vn = v.vn
+                left join visit_pttype vv on vv.vn = v.vn 
+                left join hshooterdb.m_stm s on s.vn = v.vn
+                left outer join hos.pttype pt on pt.pttype =v.pttype
+                left outer join eclaimdb.opitemrece_refer o1 on o1.vn = v.vn
+                
+                where v.vstdate BETWEEN "2023-05-10" AND "2023-05-10" 
+                and i.an is null
+                and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
+                and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                and op.icode in("3009186","3009187","3009147","3009188","3010113","3009176","3009158","3009148","3009173","3009178","3009160","3009157"
+                ,"3009191","3009139","3009155","3009193","3009180","3009159","3009167","3009162","3009140","3010044","3009172","3009165","3009166","3009161")
+                and pt.hipdata_code ="UCS"
+                and v.vn not in(select vn from eclaimdb.opitemrece_refer where vn = o1.vn)
+                group by v.vn;
         '); 
         return view('dashboard.report_ct',[
             'startdate'        => $startdate,

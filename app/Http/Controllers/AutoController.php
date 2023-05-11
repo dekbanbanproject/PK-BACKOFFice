@@ -131,6 +131,7 @@ class AutoController extends Controller
                 group by p.cid
                 limit 1500
             ');  
+            // CURDATE()
             foreach ($data_sits as $key => $value) { 
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
                 if ($check == 0) {
@@ -167,12 +168,19 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select(' 
             SELECT cid,vn
             FROM check_sit_auto  
-            WHERE vstdate = CURDATE()              
-            AND subinscl IS NULL  
-            AND upsit_date IS NULL
-            LIMIT 5
-        ');  
-         
+            WHERE vstdate = "2023-05-05"             
+            AND subinscl IS NULL   
+            LIMIT 30
+        '); 
+        // AND status = ""
+        // SELECT cid,vn    CURDATE() 
+        //     FROM check_sit_auto  
+        //     WHERE vstdate = CURDATE()              
+        //     AND subinscl IS NULL  
+        //     AND status IS NULL 
+        //     LIMIT 20
+        // AND status <> "จำหน่าย/เสียชีวิต" 
+        // AND upsit_date IS NULL
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
             $vn = $item->vn;
@@ -368,9 +376,10 @@ class AutoController extends Controller
                         LEFT OUTER JOIN kskdepartment sk on sk.depcode = o.main_dep
                         LEFT OUTER JOIN patient p on p.hn=o.hn
                         LEFT OUTER JOIN visit_pttype_authen_report wr ON wr.personalId = p.cid and wr.claimDate = o.vstdate
-                        WHERE o.vstdate = CURDATE() 
-                        GROUP BY o.main_dep
+                        WHERE o.vstdate = CURDATE()
+                        GROUP BY o.main_dep,v.vstdate
             ');  
+            // = CURDATE()
             foreach ($data_authen as $key => $value) { 
                 $check = Dashboard_department_authen::where('vstdate', $value->vstdate)->where('main_dep', $value->main_dep)->count();                 
                 if ($check == 0) {                     
@@ -387,8 +396,8 @@ class AutoController extends Controller
                     Dashboard_department_authen::where('vstdate', $value->vstdate)->where('main_dep', $value->main_dep)
                     ->update([    
                         'vstdate'     => $value->vstdate,
-                        // 'main_dep'    => $maindep,
-                        // 'department'  => $department_,
+                        'main_dep'    => $value->main_dep,
+                        'department'  => $value->department,
                         'vn'          => $value->vn, 
                         'claimCode'   => $value->claimCode,
                         'Success'     => $value->Success,
@@ -409,8 +418,8 @@ class AutoController extends Controller
                         LEFT OUTER JOIN patient p on p.hn=o.hn
                         LEFT OUTER JOIN visit_pttype_authen_report vp ON vp.personalId = p.cid and vp.claimDate = o.vstdate
                         LEFT OUTER JOIN opduser op on op.loginname = o.staff
-                        WHERE o.vstdate = CURDATE() 
-                        GROUP BY op.loginname
+                        WHERE o.vstdate = CURDATE()
+                        GROUP BY op.loginname,v.vstdate
             '); 
             foreach ($data_authen_person as $key => $value2) { 
                 // $check2 = Dashboard_authenstaff_day::where('vstdate', $value2->vstdate)->count(); 
@@ -424,7 +433,8 @@ class AutoController extends Controller
                         'vn'          => $value2->vn, 
                         'claimCode'   => $value2->claimCode,
                         'Success'     => $value2->Success,
-                        'Unsuccess'   => $value2->Unsuccess 
+                        'Unsuccess'   => $value2->Unsuccess,
+                        'data_date'   => $value2->vstdate
                     ]);
                 } else {                     
                     Dashboard_authenstaff_day::where('vstdate', $value2->vstdate)->where('loginname','=',$value2->loginname)
@@ -436,7 +446,8 @@ class AutoController extends Controller
                         'vn'          => $value2->vn, 
                         'claimCode'   => $value2->claimCode,
                         'Success'     => $value2->Success,
-                        'Unsuccess'   => $value2->Unsuccess                           
+                        'Unsuccess'   => $value2->Unsuccess,
+                        'data_date'   => $value2->vstdate                           
                     ]); 
                 }                       
             }
