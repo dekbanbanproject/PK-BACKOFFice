@@ -302,9 +302,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Picture</th>
-                                    <th class="text-center">Fullname / Visit / Authencode / ไม่ Authencode</th>
-                                    <th class="text-center"> <label for="" style="color:green">Success</label>
-                                    </th>
+                                    <th class="text-center">Fullname </th>
+                                    <th class="text-center">Visit ทั้งหมด/ Authencode / ไม่ Authencode</th>
+                                    <th class="text-center"> <label for="" style="color:green">Success</label> </th>
                                     <th class="text-center"><label for="" style="color:red">Unsuccessful</label>
                                     </th>
                                 </tr>
@@ -318,6 +318,9 @@
                                         </td>
                                         <td class="text-start">
                                             <a href="javascript:void(0)" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> {{ $istaff->Staff }} </a>
+                                            
+                                        </td>
+                                        <td class="text-start"> 
                                                 {{ $istaff->vn }} Visit /
                                                 <label for="" style="color:green">  {{$istaff->Success}}</label> Visit/
                                                 <label for="" style="color:red"> {{$istaff->Unsuccess}}</label> Visit
