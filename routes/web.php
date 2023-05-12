@@ -18,6 +18,8 @@ use App\Http\Controllers\UserComController;
 //     return view('welcome');
 // });
 
+Route::match(['get','post'],'connectdb',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb'])->name('db.connectdb');//
+Route::match(['get','post'],'connectdb_save',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb_save'])->name('db.connectdb_save');//
 
 //********************* */ KTB  ***********************************
 Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::class, 'ktb_getcard'])->name('ktb.ktb_getcard');//
@@ -1694,6 +1696,6 @@ Route::match(['get','post'],'timein',[App\Http\Controllers\TimeINController::cla
 Route::match(['get','post'],'timein_save',[App\Http\Controllers\TimeINController::class, 'timein_save'])->name('TT.timein_save');//ลงเวลา
 
 
-
+Route::match(['get','post'],'env_water_parameter',[App\Http\Controllers\EnvController::class, 'env_water_parameter'])->name('env.env_water_parameter');//
 
 });

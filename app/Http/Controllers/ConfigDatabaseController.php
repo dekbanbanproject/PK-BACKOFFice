@@ -9,24 +9,26 @@ use App\Models\User;
 class ConfigDatabaseController extends Controller
 {
 
-    public function index(){
-        return view('settings.index');
+    public function connectdb(){
+        return view('connectdb');
     }
 
-    public function save(Request $request){
+    public function connectdb_save(Request $request){
         $this->changeEnv([
             'DB_HOST'   => $request->DB_HOST,
             'DB_DATABASE'   => $request->DB_DATABASE,
             'DB_USERNAME'   => $request->DB_USERNAME,
             'DB_PASSWORD'   => $request->DB_PASSWORD,
-            'DB_PORT'   => $request->DB_PORT,
-            'APP_API'   => $request->APP_API,
-            'APP_DATACENTER'   => $request->APP_DATACENTER
+            'DB_PORT'       => $request->DB_PORT,
+            // 'APP_API'   => $request->APP_API,
+            // 'APP_DATACENTER'   => $request->APP_DATACENTER
         ]);
-        
+        // return redirect()->back();
         // $this->setEnv('demo', '1234');
-        return redirect('/settings')->with('status', 'Update Success!');
-
+        // return redirect('/settings')->with('status', 'Update Success!');
+        return response()->json([
+            'status'     => 200,
+        ]);
     }
 
     private function setEnv($key, $value)
