@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.userdashboard')
 @section('title', 'PK-BACKOFFice || Report')
 @section('content')
 <?php

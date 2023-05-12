@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.userdashboard')
 @section('title', 'PK-BACKOFFice || OT')
 @section('content')
 <script>
@@ -84,9 +84,9 @@ $count_service = StaticController::count_service();
                     <h5 class="modal-title" id="exampleModalLabel">
                         ลงเวลาโอที
                     </h5>
-                    <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse"
+                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info btn-sm" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        <i class="fa-solid fa-circle-info text-white"></i>
+                        <i class="fa-solid fa-circle-info text-info"></i>
                         รายละเอียด
                     </button>
                 </div>
@@ -133,11 +133,11 @@ $count_service = StaticController::count_service();
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="saveBtn" class="btn btn-info btn-sm me-2">
-                        <i class="fa-solid fa-circle-check text-white me-2"></i>
+                    <button type="button" id="saveBtn" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info me-2">
+                        <i class="fa-solid fa-circle-check text-info me-2"></i>
                         บันทึกข้อมูล
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal" id="closebtn">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal" id="closebtn">
                         <i class="fa-solid fa-xmark me-2"></i>
                         ปิด
                     </button>

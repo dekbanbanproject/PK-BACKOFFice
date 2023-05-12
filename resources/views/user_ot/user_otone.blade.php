@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.userdashboard')
 @section('title', 'PK-BACKOFFice || OT')
 @section('content')
     <script>
@@ -88,21 +88,20 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                         <i
-                                            class="fa-solid fa-magnifying-gla
-                                    ss me-2"></i>
+                                            class="fa-solid fa-magnifying-glass me-2 text-primary"></i>
                                         ค้นหา
                                     </button>
                                 </div>
                                 <div class="col"></div>
                                 <div class="col-md-3">
-                                    <a href="{{ url('user_otone_add') }}" class="btn btn-info waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="ลงโอที"
-                                        target="_blank"><i class="fa-solid fa-folder-plus text-white me-2"></i>ลงโอที</a>
-                                    <button type="button"class="btn add_color" style="background-color: blueviolet"
+                                    <a href="{{ url('user_otone_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="top" title="ลงโอที"
+                                        target="_blank"><i class="fa-solid fa-folder-plus text-info me-2"></i>ลงโอที</a>
+                                    <button type="button"class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning add_color"  
                                         data-bs-toggle="tooltip" data-bs-placement="top" title="เลือกสี">
-                                        <i class="fa-solid fa-folder-plus text-white me-2" style="font-size:13px"></i>
-                                        <span style="color:rgb(253, 253, 253)">เลือกสี</span>
+                                        <i class="fa-solid fa-folder-plus text-warning me-2" style="font-size:13px"></i>
+                                        <span style="color:rgb(245, 164, 15)">เลือกสี</span>
                                     </button>
                                 </div>
                                 
