@@ -20,6 +20,7 @@ return new class extends Migration
                 $table->string('meeting_list_name')->nullable();//รายการ
                 $table->string('meeting_list_img')->nullable();//ภาพ    
                 $table->string('meeting_list_qty')->nullable();//จำนวน 
+                $table->string('room_id')->nullable();// 
                 $table->timestamps();
             });
         }

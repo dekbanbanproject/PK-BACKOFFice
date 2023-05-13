@@ -22,7 +22,11 @@
   $pos = strrpos($url, '/') + 1;
 
   date_default_timezone_set("Asia/Bangkok");
-  $date =  date('Y-m-d');
+  $datenow = date('Y-m-d');
+    $yy = date('Y') + 543;
+    $mo = date('m');
+    $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+    $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
  
   ?>
 <style>
@@ -93,14 +97,13 @@
             <div class="main-card mb-3 card shadow-lg">
               {{-- {{$building_level_room->room_name}}    --}}
               <div class="card-header">
-                บันทึกขอใช้ห้องประชุม วันที่ {{dateThaifromFull($date)}}   <label for="" class="mt-2 ms-5" style="color: rgb(255, 0, 0)">  {{$dataedits->room_name}}</label> 
+                บันทึกขอใช้ห้องประชุม วันที่ {{dateThaifromFull($datenow)}}   <label for="" class="mt-2 ms-5" style="color: rgb(255, 0, 0)">  {{$dataedits->room_name}}</label> 
                 <div class="btn-actions-pane-right">
                 </div>
               </div>
                 <div class="card-body"> 
-                    <form class="custom-validation" action="{{ route('meetting.meetting_choose_linesave') }}" id="insert_chooselinesaveForm" method="POST" enctype="multipart/form-data">
-                        {{-- id="insert_chooselinesaveForm" enctype="multipart/form-data"> --}}
-                        @csrf
+                    <form action="{{ route('meetting.meetting_choose_linesave') }}" method="POST" enctype="multipart/form-data">
+                         @csrf
 
 
                     <div class="row">
@@ -170,7 +173,12 @@
                                       <select name="meetting_year" id="meetting_year" class="form-control" style="width: 100%;">
                                           <option value="" selected>--เลือก--</option> 
                                           @foreach ($budget_year as $year)
-                                              <option value="{{ $year->leave_year_id }}">{{ $year->leave_year_id}}</option>
+                                          @if ($yy == $year->leave_year_id)
+                                            <option value="{{ $year->leave_year_id }}" selected>{{ $year->leave_year_id}}</option>
+                                          @else
+                                            <option value="{{ $year->leave_year_id }}">{{ $year->leave_year_id}}</option>
+                                          @endif
+                                              
                                           @endforeach                   
                                       </select>
                                     </div>
@@ -309,7 +317,7 @@
                          
                     </div>     
                     <div class="row mt-3 mb-5">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card-header shadow">
                                 <label for="">อุปกรณ์ที่ต้องการ </label>
                             </div> 
@@ -332,8 +340,8 @@
                                                     <td>
                                                         <select name="MEETTINGLIST_ID[]" id="MEETTING_LIST_ID0" class="form-control form-control-sm" style="width: 100%;">
                                                             <option value="" selected>--รายการอุปกรณ์--</option> 
-                                                            @foreach ($building_room_list as $list)
-                                                                <option value="{{ $list -> room_list_id }}">{{ $list->room_list_name}}</option>
+                                                            @foreach ($meeting_list as $list)
+                                                                <option value="{{ $list ->meeting_list_id }}">{{ $list->meeting_list_name}}</option>
                                                             @endforeach                   
                                                         </select>
                                                     </td>                                                                               
@@ -351,7 +359,7 @@
                             </div>  
                         </div>
 
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="card-header shadow">
                                 <label for="">รายการอาหาร </label>
                             </div> 
@@ -386,14 +394,14 @@
                                     </table>
                                 </div> 
                             </div>  
-                        </div>
+                        </div> --}}
                     </div>
                         
                     <div class="card-footer">
                         <div class="col-md-12 text-end"> 
                             <div class="form-group">
                                 <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                                    {{-- <button type="submit" id="saveBtn" class="btn btn-primary btn-sm"> --}}
+                                    {{-- <button type="button" id="Save_choose" class="btn btn-primary btn-sm"> --}}
                                         <i class="pe-7s-diskette btn-icon-wrapper"></i>
                                         บันทึกข้อมูล
                                 </button> 

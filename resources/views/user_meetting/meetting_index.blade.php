@@ -191,6 +191,7 @@ if (Auth::check()) {
                                             <td class="p-2" width="10%">{{ DateThai($item->meeting_date_end )}}</td>
                                             <td class="p-2" width="7%">{{ $item->meeting_time_end }}</td>
                                             <td class="p-2" width="12%">{{ $item->meeting_user_name }}</td>
+                                            <td></td>
                                         </tr>    
                                     @endforeach
                                     

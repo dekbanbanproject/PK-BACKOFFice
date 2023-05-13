@@ -17,8 +17,8 @@ return new class extends Migration
         {
             Schema::create('meeting_service_list', function (Blueprint $table) {
                 $table->bigIncrements('meeting_service_list_id');
-                $table->string('food_list_id')->nullable();//
-                $table->string('food_list_name')->nullable();//
+                $table->string('meeting_list_id')->nullable();//
+                $table->string('meeting_list_name')->nullable();//
                 $table->string('meeting_service_list_qty')->nullable();// 
                 $table->string('meeting_id')->nullable();//
                 $table->timestamps();

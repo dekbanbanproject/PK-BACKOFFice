@@ -458,6 +458,43 @@
                   });
             });
 
+            $('#Save_chooseForm').on('submit',function(e){
+                  e.preventDefault();
+              
+                  var form = this;
+                    //   alert('OJJJJOL');
+                  $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data:new FormData(form),
+                    processData:false,
+                    dataType:'json',
+                    contentType:false,
+                    beforeSend:function(){
+                      $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                      if (data.status == 0 ) {
+                        
+                      } else {          
+                        Swal.fire({
+                          title: 'บันทึกข้อมูลสำเร็จ',
+                          text: "You Insert data success",
+                          icon: 'success',
+                          showCancelButton: false,
+                          confirmButtonColor: '#06D177',
+                          // cancelButtonColor: '#d33',
+                          confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                          if (result.isConfirmed) {         
+                            window.location="{{url('user_meetting/meetting_index')}}";
+                          }
+                        })      
+                      }
+                    }
+                  });
+            });
+
         });
 
         $(document).ready(function() {
@@ -475,6 +512,41 @@
                             Swal.fire({
                                 title: 'เปลี่ยนรหัสผ่านสำเร็จ',
                                 text: "You Chang password success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload();
+                                     
+                                }
+                            })
+                        } else {
+                             
+                        }
+
+                    },
+                });
+            });
+
+            $('#Save_choose').click(function() {
+                var meetting_title = $('#meetting_title').val();  
+                $.ajax({
+                    url: "{{ route('meetting.meetting_choose_linesave') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: { 
+                        meetting_title                       
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'บันทึกข้อมูลสำเร็จ',
+                                text: "You Insert Date success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',

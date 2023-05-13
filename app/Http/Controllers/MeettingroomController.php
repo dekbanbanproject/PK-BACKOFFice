@@ -365,9 +365,15 @@ public function meettingroom_index_toolsave(Request $request)
         $add = new Building_room_list();
         $add->room_list_name = $request->input('room_list_name'); 
         $add->room_list_qty = $request->input('room_list_qty'); 
-        $add->room_id = $request->input('room_id');     
- 
+        $add->room_id = $request->input('room_id'); 
         $add->save();    
+
+        $add2 = new Meeting_list();
+        $add2->meeting_list_name = $request->input('room_list_name'); 
+        $add2->meeting_list_qty = $request->input('room_list_qty'); 
+        $add2->room_id = $request->input('room_id'); 
+        $add2->save();
+
         return response()->json([
             'status'     => '200'
             ]);
