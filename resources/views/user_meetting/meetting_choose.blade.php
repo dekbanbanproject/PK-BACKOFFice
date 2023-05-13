@@ -341,7 +341,7 @@
                                                         <select name="MEETTINGLIST_ID[]" id="MEETTING_LIST_ID0" class="form-control form-control-sm" style="width: 100%;">
                                                             <option value="" selected>--รายการอุปกรณ์--</option> 
                                                             @foreach ($meeting_list as $list)
-                                                                <option value="{{ $list ->meeting_list_id }}">{{ $list->meeting_list_name}}</option>
+                                                                <option value="{{ $list ->meeting_list_id }}" selected>{{ $list->meeting_list_name}}</option>
                                                             @endforeach                   
                                                         </select>
                                                     </td>                                                                               

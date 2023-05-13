@@ -86,7 +86,7 @@
                                     <div class="card-body bg-white">
                                         @foreach ($building_level_room as $row)
                                             <a class="dropdown-item meetroom"
-                                                href="{{ url('user_meetting/meetting_calenda_add/' . $row->room_id) }}">{{ $row->room_name }}</a>
+                                                href="{{ url('user_meetting/meetting_calenda_add/'.$row->room_id)}}">{{ $row->room_name }}</a>
                                         @endforeach
                                     </div>
                                 </div>
@@ -95,11 +95,11 @@
                                 <div class="card bg-info p-1 mx-0">
                                     <div class="panel-header text-left px-3 py-2 text-white">
                                         ปฎิทินข้อมูลการใช้บริการห้องประชุม<span
-                                            class="fw-3 fs-18 text-white bg-sl-r2 px-2 radius-5">{{ $dataedits->room_name }}</span>
+                                            class="fw-3 fs-18 text-white bg-sl-r2 px-2 radius-5">{{$dataedits->room_name}}</span>
                                     </div>
                                     <div class="panel-body bg-white">
 
-                                        <div id='calendar'></div>
+                                        <div id='calendar' ></div>
 
                                     </div>
                                     <div class="panel-footer text-end bg-white mb-5">
@@ -129,8 +129,7 @@
                     @csrf --}}
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">จองห้องประชุม</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="closebtn"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" id="closebtn" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     {{-- <input type="text" class="form-control" id="meetting_title" name="meetting_title">
@@ -142,8 +141,9 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <input id="meetting_title" type="text"
-                                    class="form-control @error('meetting_title') is-invalid @enderror" name="meetting_title"
-                                    value="{{ old('meetting_title') }}" autocomplete="meetting_title">
+                                    class="form-control @error('meetting_title') is-invalid @enderror"
+                                    name="meetting_title" value="{{ old('meetting_title') }}"
+                                    autocomplete="meetting_title">
                                 @error('meetting_title')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -156,7 +156,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <select name="meetting_year" id="meetting_year" class="form-control" style="width: 100%;">
+                                <select name="meetting_year" id="meetting_year" class="form-control"
+                                    style="width: 100%;">
                                     <option value="" selected>--เลือก--</option>
                                     @foreach ($budget_year as $year)
                                         <option value="{{ $year->leave_year_id }}">{{ $year->leave_year_id }}</option>
@@ -225,26 +226,28 @@
                     <div class="row mt-3">
                         <div class="col-md-2 ">
                             <label for="startdate">ตั้งแต่วันที่ :</label>
-                        </div>
+                        </div> 
                         <div class="col-md-2">
                             <div class="form-group">
-                                <input id="startdate" type="date" class="form-control" name="startdate">
+                                <input id="startdate" type="date" class="form-control"
+                                    name="startdate">
                             </div>
                         </div>
                         <div class="col-md-1">
                             <label for="enddate">ถึงวันที่ :</label>
                         </div>
-
+                        
                         <div class="col-md-2">
                             <div class="form-group">
-                                <input id="enddate" type="date" class="form-control" name="enddate">
+                                <input id="enddate" type="date" class="form-control"
+                                    name="enddate">
                             </div>
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-2">
                             <label for="meeting_time_begin">ตั้งแต่เวลา :</label>
-                        </div>
+                        </div> 
                         <div class="col-md-2">
                             <div class="form-group">
                                 <input id="meeting_time_begin" type="time" class="form-control"
@@ -254,7 +257,7 @@
                         <div class="col-md-1">
                             <label for="meeting_time_end">ถึงเวลา :</label>
                         </div>
-
+                        
                         <div class="col-md-2">
                             <div class="form-group">
                                 <input id="meeting_time_end" type="time" class="form-control"
@@ -267,10 +270,9 @@
                 </div>
                 <input type="hidden" id="status" name="status" value="REQUEST">
                 <input type="hidden" id="userid" name="userid" value="{{ Auth::user()->id }}">
-                <input type="hidden" id="room_id" name="room_id" value="{{ $dataedits->room_id }}">
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"
-                        id="closebtnb">ปิด</button>
+                <input type="hidden" id="room_id" name="room_id" value="{{$dataedits->room_id}}">
+                <div class="modal-footer"> 
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" id="closebtnb">ปิด</button>
                     <button type="submit" id="saveBtn" class="btn btn-primary btn-sm">บันทึกข้อมูล</button>
                     <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                 </div>
@@ -313,14 +315,17 @@
                     selectHelper: true,
                     select: function(start, end, allDays) {
                         console.log(start)
-                        // $('#meettingModal').modal('toggle');
-                        // $('#closebtn').click(function() {
-                        //     $('#meettingModal').modal('hide');
-                        // });
-                        // $('#closebtnb').click(function() {
-                        //     $('#meettingModal').modal('hide');
-                        // });
+                        $('#meettingModal').modal('toggle');
 
+                        $('#closebtn').click(function() {
+
+                        $('#meettingModal').modal('hide');
+                        });
+                        $('#closebtnb').click(function() {
+
+                        $('#meettingModal').modal('hide');
+                        });
+                       
                         $('#saveBtn').click(function() {
                             // let request_hn_name = $(this).data('request_hn_name'); 
                             // $('#meeting_date_begin').val(start);
@@ -415,107 +420,122 @@
                         });
                         $('#closebtn').modal('hide');
                     },
-                    // editable: true,
-                    // eventDrop: function(event) {
-                    //     //     console.log(event)
-                    //     var id = event.id;
-                    //     var title = event.meetting_title;
-                    //     var start_date = moment(event.start).format('YYYY-MM-DD');
-                    //     var end_date = moment(event.end).format('YYYY-MM-DD');
+                    editable: true,
+                    eventDrop: function(event) {
+                        //     console.log(event)
+                        var id = event.id;
+                        var title = event.meetting_title;
+                        var start_date = moment(event.start).format('YYYY-MM-DD');
+                        var end_date = moment(event.end).format('YYYY-MM-DD');
 
-                    //     $.ajax({
-                    //         url: "{{ route('meetting.calendar_update', '') }}" + '/' +
-                    //             id,
-                    //         type: "PATCH",
-                    //         dataType: 'json',
-                    //         data: {
-                    //             start_date,
-                    //             end_date
-                    //         },
-                    //         success: function(response) {
-                    //             console.log(response)
-                    //             if (response.status == 0) {
+                        $.ajax({
+                                url:"{{ route('meetting.calendar_update', '') }}" +'/'+ id,
+                                type:"PATCH",
+                                dataType:'json',
+                                data:{ start_date, end_date  },
+                                success:function(response)
+                                {
+                                    console.log(response)
+                                        if (response.status == 0) {
 
-                    //             } else {
-                    //                 Swal.fire({
-                    //                     title: 'แก้ไขข้อมูลสำเร็จ',
-                    //                     text: "You Edit data success",
-                    //                     icon: 'success',
-                    //                     showCancelButton: false,
-                    //                     confirmButtonColor: '#06D177',
-                    //                     // cancelButtonColor: '#d33',
-                    //                     confirmButtonText: 'เรียบร้อย'
-                    //                 }).then((result) => {
-                    //                     if (result
-                    //                         .isConfirmed) {
+                                        } else {
+                                            Swal.fire({
+                                                title: 'แก้ไขข้อมูลสำเร็จ',
+                                                text: "You Edit data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                // cancelButtonColor: '#d33',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
 
-                    //                         console.log(response);
-                    //                         // window.location
-                    //                         //     .reload();
-                    //                     }
-                    //                 })
-                    //             }
+                                                    console.log(response);    
+                                                    // window.location
+                                                    //     .reload();
+                                                }
+                                            })
+                                        }
 
-                    //             // swal("Good job!", "Event Updated!", "success");
-                    //         },
-                    //         error: function(error) {
-                    //             console.log(error)
-                    //         },
-                    //     });
-                    // },
-                    // eventClick: function(event) {
-                    //     var id = event.id;
-                    //     Swal.fire({
-                    //         title: 'ต้องการลบใช่ไหม?',
-                    //         text: "ข้อมูลนี้จะถูกลบไปเลย !!",
-                    //         icon: 'warning',
-                    //         showCancelButton: true,
-                    //         confirmButtonColor: '#3085d6',
-                    //         cancelButtonColor: '#d33',
-                    //         confirmButtonText: 'ใช่ , ลบเดี๋ยวนี้ !',
-                    //         cancelButtonText: 'ไม่ , ยกเลิก'
-                    //     }).then((result) => {
-                    //         if (result.isConfirmed) {
+                                    // swal("Good job!", "Event Updated!", "success");
+                                },
+                                error:function(error)
+                                {
+                                    console.log(error)
+                                },
+                            });
+                    },
+                    eventClick: function(event){
+                    var id = event.id;
+                    // alert(id);
 
-                    //             $.ajax({
-                    //                 url: "{{ route('meetting.calendar_destroy', '') }}" +
-                    //                     '/' + id,
-                    //                 type: 'DELETE',
-                    //                 dataType: 'json',
-                    //                 success: function(response) {
-                    //                     Swal.fire({
-                    //                         title: 'ลบข้อมูล!',
-                    //                         text: "You Delet data success",
-                    //                         icon: 'success',
-                    //                         showCancelButton: false,
-                    //                         confirmButtonColor: '#06D177',
-                    //                         confirmButtonText: 'เรียบร้อย'
-                    //                     }).then((result) => {
-                    //                         if (result
-                    //                             .isConfirmed) {
+                            Swal.fire({
+                                    title: 'ต้องการลบใช่ไหม?',
+                                    text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'ใช่ , ลบเดี๋ยวนี้ !',
+                                    cancelButtonText: 'ไม่ , ยกเลิก'
+                                    }).then((result) => {
+                                    if (result.isConfirmed) {
 
-                    //                             window.location
-                    //                                 .reload();
+                                      
 
-                    //                         }
-                    //                     })
-                    //                 }
-                    //             })
-                    //         }
-                    //     })
+                                        $.ajax({
+                                            url:"{{ route('meetting.calendar_destroy', '') }}" +'/'+ id,
+                                            type:'DELETE',
+                                             dataType:'json',
+                                            success:function(response)
+                                            {          
+                                                Swal.fire({
+                                                title: 'ลบข้อมูล!',
+                                                text: "You Delet data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177', 
+                                                confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                if (result.isConfirmed) {                  
+                                                    
+                                                    window.location.reload(); 
+                                                    
+                                                }
+                                                }) 
+                                            }
+                                        })        
+                                    }
+                                    })
 
+                            // if(confirm('Are you sure want to remove it')){
+                            //     $.ajax({
+                            //         url:"{{ route('meetting.calendar_destroy', '') }}" +'/'+ id,
+                            //         type:"DELETE",
+                            //         dataType:'json',
+                            //         success:function(response)
+                            //         {
+                            //             $('#calendar').fullCalendar('removeEvents', response);
+                            //             // swal("Good job!", "Event Deleted!", "success");
+                            //         },
+                            //         error:function(error)
+                            //         {
+                            //             console.log(error)
+                            //         },
+                            //     });
+                            // }
 
-
-                    // },
-                    // selectAllow: function(event) {
-                    //     return moment(event.start).utcOffset(false).isSame(moment(event.end)
-                    //         .subtract(1, 'second').utcOffset(false), 'day');
-                    // },
+                },
+                    selectAllow: function(event) {
+                        return moment(event.start).utcOffset(false).isSame(moment(event.end)
+                            .subtract(1, 'second').utcOffset(false), 'day');
+                    },
                 });
 
-                $("#meettingModal").on("hidden.bs.modal", function() {
-                    $('#saveBtn').unbind();
-                });
+                $("#meettingModal").on("hidden.bs.modal", function () {
+                $('#saveBtn').unbind();
+            });
 
             });
 

@@ -385,7 +385,7 @@ public function meetting_calenda(Request $request)
     $data['budget_year'] = Budget_year::orderBy('leave_year_id','DESC')->get();
 
     $event = array();
-    $meettings = Meeting_service::all();
+    $meettings = Meeting_service::where('meetting_status','<>','CANCEL')->get();
     $data['building_level_room'] = Building_level_room::where('room_type','!=','1')->get();
 
     // $data['building_level_room'] = Building_level_room::leftJoin('meeting_service','building_level_room.room_id','=','meeting_service.room_id')
@@ -635,7 +635,7 @@ public function meetting_calenda_add(Request $request ,$id)
 
     $event = array();
     // $meettings = Meeting_service::all();
-    $meettings = Meeting_service::where('room_id','=',$id)->get();
+    $meettings = Meeting_service::where('room_id','=',$id)->where('meetting_status','<>','CANCEL')->get();
     $data['building_level_room'] = Building_level_room::where('room_type','!=','1')->get();
     // $data['building_level_room'] = Building_level_room::leftJoin('meeting_service','building_level_room.room_id','=','meeting_service.room_id')
     // ->where('room_type','!=','1')->get();
