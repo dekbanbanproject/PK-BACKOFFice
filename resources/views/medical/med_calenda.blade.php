@@ -205,14 +205,14 @@
 
                         </div>
                         <div class="panel-footer text-end pr-5 py-2 bg-white ">
-                            <p class="m-0 fa fa-circle me-2" style="color:rgb(230, 143, 103);"></p> ร้องขอ<label
+                            {{-- <p class="m-0 fa fa-circle me-2" style="color:rgb(230, 143, 103);"></p> ร้องขอ<label
                                 class="me-3"></label>
                             <p class="m-0 fa fa-circle me-2" style="color:rgb(137, 183, 235);"></p> ส่งคืน<label
                                 class="me-3"></label>
                             <p class="m-0 fa fa-circle me-2" style="color:rgb(89, 196, 162);"></p> จัดสรร<label
                                 class="me-3"></label>
                             <p class="m-0 fa fa-circle me-2" style="color:rgb(247, 46, 106);"></p> ส่งซ่อม<label
-                                class="me-3"></label>
+                                class="me-3"></label> --}}
 
 
                         </div>

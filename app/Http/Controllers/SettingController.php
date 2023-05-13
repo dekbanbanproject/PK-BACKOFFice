@@ -70,10 +70,10 @@ public function setting_depsave(Request $request)
         if ($iduser != '') {
             $usersave = DB::table('users')->where('id','=',$iduser)->first();
             $add->LEADER_ID = $usersave->id; 
-            $add->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
+            // $add->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
         } else {
             $add->LEADER_ID = ''; 
-            $add->LEADER_NAME =''; 
+            // $add->LEADER_NAME =''; 
         }
         $add->save();    
         return response()->json([
@@ -105,10 +105,10 @@ public function setting_depupdate(Request $request)
     if ($iduser != '') {
         $usersave = DB::table('users')->where('id','=',$iduser)->first();
         $update->LEADER_ID = $usersave->id; 
-        $update->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
+        // $update->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
     } else {
         $update->LEADER_ID = ''; 
-        $update->LEADER_NAME =''; 
+        // $update->LEADER_NAME =''; 
     }
     
     $update->save(); 
@@ -151,10 +151,10 @@ public function depsub_save(Request $request)
         if ($iduser != '') {
             $usersave = DB::table('users')->where('id','=',$iduser)->first();
             $add->LEADER_ID = $usersave->id; 
-            $add->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
+            // $add->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
         } else {
             $add->LEADER_ID = ''; 
-            $add->LEADER_NAME =''; 
+            // $add->LEADER_NAME =''; 
         }
 
         $add->save();    
@@ -190,10 +190,10 @@ public function depsub_update(Request $request)
         if ($iduser != '') {
             $usersave = DB::table('users')->where('id','=',$iduser)->first();
             $update->LEADER_ID = $usersave->id; 
-            $update->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
+            // $update->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
         } else {
             $update->LEADER_ID = ''; 
-            $update->LEADER_NAME =''; 
+            // $update->LEADER_NAME =''; 
         }
 
         $update->save();    
@@ -223,6 +223,28 @@ public function depsubsub_index(Request $request)
     $data['department_sub'] = Departmentsub::get();
     return view('setting.depsubsub_index',$data);
 }
+public function depsubsub_add_color(Request $request, $id)
+{
+    $dss_color = Departmentsubsub::find($id);
+
+    return response()->json([
+        'status'     => '200',
+        'dss_color'      =>  $dss_color,
+    ]);
+}
+public function depsubsub_updatecolor(Request $request)
+{
+    $id = $request->dss_id;
+    // $color = $request->dss_color;
+
+    $update = Departmentsubsub::find($id); 
+    $update->DSS_COLOR = $request->dss_color;
+    $update->save();
+
+    return response()->json([
+        'status'     => '200' 
+    ]);
+}
 
 public function depsubsub_save(Request $request)
 {         
@@ -230,15 +252,15 @@ public function depsubsub_save(Request $request)
         $add->DEPARTMENT_SUB_SUB_NAME = $request->input('DEPARTMENT_SUB_SUB_NAME');
         $add->DEPARTMENT_SUB_ID = $request->input('DEPARTMENT_SUB_ID'); 
         $add->LINE_TOKEN = $request->input('LINE_TOKEN'); 
-        
+        $add->DSS_COLOR = $request->input('DSS_COLOR'); 
         $iduser = $request->input('LEADER_ID'); 
         if ($iduser != '') {
             $usersave = DB::table('users')->where('id','=',$iduser)->first();
             $add->LEADER_ID = $usersave->id; 
-            $add->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
+            // $add->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
         } else {
             $add->LEADER_ID = ''; 
-            $add->LEADER_NAME =''; 
+            // $add->LEADER_NAME =''; 
         }
 
         $add->save();    
@@ -268,15 +290,17 @@ public function depsubsub_update(Request $request)
         $update->DEPARTMENT_SUB_SUB_NAME = $request->input('DEPARTMENT_SUB_SUB_NAME');
         $update->DEPARTMENT_SUB_ID = $request->input('DEPARTMENT_SUB_ID'); 
         $update->LINE_TOKEN = $request->input('LINE_TOKEN'); 
+        $update->DSS_COLOR = $request->input('DSS_COLOR'); 
+        
         
         $iduser = $request->input('LEADER_ID'); 
         if ($iduser != '') {
             $usersave = DB::table('users')->where('id','=',$iduser)->first();
             $update->LEADER_ID = $usersave->id; 
-            $update->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
+            // $update->LEADER_NAME = $usersave->fname. '  ' .$usersave->lname ; 
         } else {
             $update->LEADER_ID = ''; 
-            $update->LEADER_NAME =''; 
+            // $update->LEADER_NAME =''; 
         }
         $update->save();    
         return response()->json([

@@ -883,17 +883,18 @@ class MedicalController extends Controller
             ->get();
 
         foreach ($medical as $item) {
-            if ($item->medical_borrow_active == 'REQUEST') {
-                $color = 'rgb(230, 143, 103)';
-            } elseif ($item->medical_borrow_active == 'SENDEB') {
-                $color = 'rgb(137, 183, 235)';
-            } elseif ($item->medical_borrow_active == 'APPROVE') {
-                $color = 'rgb(89, 196, 162)';
-            } elseif ($item->medical_borrow_active == 'cancel') {
-                $color = '#ff0606';
-            } else {
-                $color = '#499BFA';
-            }
+            // if ($item->medical_borrow_active == 'REQUEST') {
+            //     $color = 'rgb(230, 143, 103)';
+            // } elseif ($item->medical_borrow_active == 'SENDEB') {
+            //     $color = 'rgb(137, 183, 235)';
+            // } elseif ($item->medical_borrow_active == 'APPROVE') {
+            //     $color = 'rgb(89, 196, 162)';
+            // } elseif ($item->medical_borrow_active == 'cancel') {
+            //     $color = '#ff0606';
+            // } else {
+            //     $color = '#499BFA';
+            // }
+            $color = $item->DSS_COLOR;
             $datestart = $item->medical_borrow_date;
             $backdate = $item->medical_borrow_backdate;
             $iddep = $item->DEPARTMENT_SUB_SUB_ID;

@@ -66,7 +66,7 @@
   $url = Request::url();
   $pos = strrpos($url, '/') + 1;
   ?>
-<div class="container-fluid" style="width: 97%">
+<div class="container-fluid" style="width: 100%">
     <div class="row justify-content-center">
         <div class="col-md-12">   
             <div class="card"> 
@@ -79,12 +79,12 @@
                               <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
 
                                   <div class="row justify-content-center">
-                                        <div class="col-md-3 mt-2"> 
+                                        <div class="col-md-4 mt-2"> 
                                           <div class="form-group">
                                             <input id="DEPARTMENT_SUB_SUB_NAME" type="text" class="form-control" name="DEPARTMENT_SUB_SUB_NAME" required autocomplete="DEPARTMENT_SUB_SUB_NAME" autofocus placeholder="ชื่อหน่วยงาน">   
                                           </div>
                                         </div>
-                                        <div class="col-md-3 mt-2"> 
+                                        <div class="col-md-4 mt-2"> 
                                           <select id="DEPARTMENT_SUB_ID" name="DEPARTMENT_SUB_ID" class="form-select form-select-lg" style="width: 100%">
                                             <option value=""></option>
                                               @foreach ($department_sub as $depsub)                                  
@@ -92,7 +92,7 @@
                                               @endforeach
                                           </select>
                                         </div>
-                                        <div class="col-md-2 mt-2"> 
+                                        <div class="col-md-4 mt-2"> 
                                           <select id="LEADER_ID3" name="LEADER_ID" class="form-select form-select-lg" style="width: 100%">
                                             <option value=""></option>
                                                 @foreach ($users as $user)
@@ -100,17 +100,27 @@
                                                 @endforeach
                                           </select>
                                         </div>
-                                        <div class="col-md-3 mt-2"> 
-                                          <div class="form-group">
-                                            <input id="LINE_TOKEN" type="text" class="form-control" name="LINE_TOKEN" autocomplete="LINE_TOKEN" autofocus placeholder="Line Token">
-                                          </div>
-                                        </div>
-                                        <div class="col-md-1 mt-2"> 
-                                            <button type="submit" class="btn btn-primary btn-sm" >
-                                            เพิ่ม
-                                          </button> 
-                                        </div>
+                                        
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-4 mt-2"> 
+                                      <div class="form-group">
+                                        <label for="">Line Token</label>
+                                        <input id="LINE_TOKEN" type="text" class="form-control" name="LINE_TOKEN">
+                                      </div>
                                     </div>
+                                    <div class="col-md-4 mt-2"> 
+                                      <div class="form-group">
+                                        <label for="">Color</label> <br>
+                                        <input type="color" class="form-control-color" id="DSS_COLOR" name="DSS_COLOR" style="width: 100%">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4 mt-2"> 
+                                        <button type="submit" class="btn btn-primary btn-sm mt-4" >
+                                        แก้ไข
+                                      </button> 
+                                    </div>
+                                  </div>
                             <hr>
 
                         </form>
@@ -123,7 +133,8 @@
                                         <th class="text-center"  width="30%">หน่วยงาน</th>
                                         <th class="text-center">หัวหน้ากลุ่ม</th>
                                         <th width="15%" class="text-center">Line Token</th> 
-                                        <th width="15%" class="text-center">Manage</th>
+                                        <th width="5%" class="text-center">Color</th> 
+                                        <th width="7%" class="text-center">Manage</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,8 +148,17 @@
                                           <td class="p-2" width="25%">{{ $item->DEPARTMENT_SUB_NAME }}</td>
                                           <td class="p-2" width="30%">{{ $item->DEPARTMENT_SUB_SUB_NAME }}</td>
                                           <td class="p-2" width="15%">{{ $item->fname }}  {{ $item->lname }}</td>   
-                                          <td class="p-2" width="15%">{{ $item->LINE_TOKEN }}</td>                                    
-                                          <td class="text-center" width="10%">
+                                          <td class="p-2" width="15%">{{ $item->LINE_TOKEN }}</td> 
+                                          <td class="p-2" width="5%">
+                                            <p style="color:red">{{$item->DSS_COLOR }}</p>
+                                          </td>                                    
+                                          <td class="text-center" width="7%">
+                                            {{-- <button type="button" class="btn add_color btn-sm" value="{{ $item->DEPARTMENT_SUB_SUB_ID }}"  data-bs-toggle="tooltip" data-bs-placement="left" title="เลือกสี">
+                                                <i class="fa-solid fa-palette me-2 text-success"></i> 
+                                            </button> --}}
+                                            {{-- <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target=".add_colorModal{{ $item->DEPARTMENT_SUB_SUB_ID }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เลือกสี">
+                                              <i class="fa-solid fa-palette me-2 text-success"></i> 
+                                          </button> --}}
                                               <a href="{{ url('setting/depsubsub_edit/' . $item->DEPARTMENT_SUB_SUB_ID) }}"
                                                   class="text-warning me-3" data-bs-toggle="tooltip"
                                                   data-bs-placement="bottom" data-bs-custom-class="custom-tooltip"
@@ -153,6 +173,49 @@
                                               </a>
                                           </td>
                                       </tr>
+
+                                      <!--  Modal content for the add_color example -->
+                                      <div class="modal fade add_colorModal{{ $item->DEPARTMENT_SUB_SUB_ID }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+                                        aria-hidden="true">
+                                          <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                  <div class="modal-header">
+                                                      <h5 class="modal-title" id="myExtraLargeModalLabel">เพิ่มสีที่ต้องการ</h5>
+                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                  </div>
+                                                  <form class="custom-validation" action="{{ route('setting.depsubsub_updatecolor') }}" method="POST"
+                                                  id="insert_colorForm" enctype="multipart/form-data">
+                                                  @csrf 
+                                                  <div class="modal-body">
+                                                      <div class="row">
+                                                          <div class="col-md-12">
+                                                              <label for="">สีที่ต้องการ</label>
+                                                              <div class="form-group">
+                                                                  <input type="color" class="form-control-color" id="DEPARTMENT_SUB_SUB_COLOR" name="DEPARTMENT_SUB_SUB_COLOR" style="width: 100%">
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <input id="dss_id" name="dss_id" type="hidden" class="form-control" value="{{ $item->DEPARTMENT_SUB_SUB_ID }}">
+
+                                                  <div class="modal-footer">
+                                                      <div class="col-md-12 text-end">
+                                                          <div class="form-group">
+                                                              {{-- <button type="button" id="saveBtn" class="btn btn-primary btn-sm"> --}}
+                                                              <button type="submit" class="btn btn-primary btn-sm">
+                                                                  <i class="fa-solid fa-floppy-disk me-2"></i>
+                                                                  บันทึกข้อมูล
+                                                              </button>
+                                                              <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
+                                                                      class="fa-solid fa-xmark me-2"></i>Close</button>
+
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  </form>
+                                              </div>
+                                          </div>
+                                      </div>
                                 
                                   @endforeach
                               
@@ -169,5 +232,83 @@
     </div>   
 </div>
 
+<!--  Modal content for the add_color example -->
+{{-- <div class="modal fade" id="add_color" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="myExtraLargeModalLabel">เพิ่มสีที่ต้องการ</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="">สีที่ต้องการ</label>
+                    <div class="form-group">
+                        <input type="color" class="form-control-color" id="DEPARTMENT_SUB_SUB_COLOR" name="DEPARTMENT_SUB_SUB_COLOR" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="dss_id" name="dss_id" type="hidden" class="form-control">
+
+        <div class="modal-footer">
+            <div class="col-md-12 text-end">
+                <div class="form-group">
+                    <button type="button" id="saveBtn" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-floppy-disk me-2"></i>
+                        บันทึกข้อมูล
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark me-2"></i>Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div> --}}
  
+@endsection
+@section('footer')
+ <script>
+   $(document).ready(function(){
+          $('#insert_colorForm').on('submit',function(e){
+                e.preventDefault();            
+                var form = this;
+                // alert('OJJJJOL');
+                $.ajax({
+                      url:$(form).attr('action'),
+                      method:$(form).attr('method'),
+                      data:new FormData(form),
+                      processData:false,
+                      dataType:'json',
+                      contentType:false,
+                      beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                      },
+                      success:function(data){
+                        if (data.status == 200 ) {
+                          Swal.fire({
+                            title: 'บันทึกข้อมูลสำเร็จ',
+                            text: "You Insert data success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177', 
+                            confirmButtonText: 'เรียบร้อย'
+                          }).then((result) => {
+                            if (result.isConfirmed) {                  
+                              // window.location.reload();
+                              window.location="{{url('setting/depsubsub_index')}}";
+                            }
+                          })      
+                        } else {          
+                         
+                        }
+                      }
+                });
+          });
+    });
+ </script>
 @endsection

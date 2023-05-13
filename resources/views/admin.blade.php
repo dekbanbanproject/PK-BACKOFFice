@@ -1,5 +1,5 @@
 @extends('layouts.admindashboard')
-@section('title', 'PK || ผู้ดูแลระบบ')
+@section('title', 'PK-BACKOFFice  || ผู้ดูแลระบบ')
 
 @section('content')
 <?php

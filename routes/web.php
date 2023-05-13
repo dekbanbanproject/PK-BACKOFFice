@@ -512,6 +512,9 @@ Route::middleware(['type'])->group(function(){
 
     // ******************** ตั้งค่า  หน่วยงาน ***********************
     Route::match(['get','post'],'setting/depsubsub_index',[App\Http\Controllers\SettingController::class, 'depsubsub_index'])->name('setting.depsubsub_index');//
+    Route::match(['get','post'],'setting/depsubsub_add_color',[App\Http\Controllers\SettingController::class, 'depsubsub_add_color'])->name('setting.depsubsub_add_color');//
+    Route::match(['get','post'],'setting/depsubsub_updatecolor',[App\Http\Controllers\SettingController::class, 'depsubsub_updatecolor'])->name('setting.depsubsub_updatecolor');//
+
     Route::match(['get','post'],'setting/depsubsub_save',[App\Http\Controllers\SettingController::class, 'depsubsub_save'])->name('setting.depsubsub_save');//
     Route::get('setting/depsubsub_edit/{id}',[App\Http\Controllers\SettingController::class, 'depsubsub_edit'])->name('setting.depsubsub_edit');//
     Route::match(['get','post'],'setting/depsubsub_update',[App\Http\Controllers\SettingController::class, 'depsubsub_update'])->name('setting.depsubsub_update');//

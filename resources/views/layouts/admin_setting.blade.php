@@ -7,7 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
-    <link rel="shortcut icon" href="{{ asset('apkclaim/images/logo150.ico') }}">
+   
+    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
     <!-- Font Awesome -->
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
     <script src="{{ asset('lib/webviewer.min.js') }}"></script>
@@ -637,10 +638,49 @@ $countadmin = StaticController::countadmin($userid);
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            // $('#saveBtn').click(function() {
+            //         var dss_color = $('#DEPARTMENT_SUB_SUB_COLOR').val(); 
+            //         var dss_id = $('#dss_id').val(); 
+            //         $.ajax({
+            //             url: "{{ route('setting.depsubsub_updatecolor') }}",
+            //             type: "POST",
+            //             dataType: 'json',
+            //             data: {
+            //               dss_color,
+            //                 dss_id 
+            //             },
+            //             success: function(data) {
+            //                 if (data.status == 200) {
+            //                     Swal.fire({
+            //                         title: 'แก้ไขข้อมูลสำเร็จ',
+            //                         text: "You edit data success",
+            //                         icon: 'success',
+            //                         showCancelButton: false,
+            //                         confirmButtonColor: '#06D177',
+            //                         confirmButtonText: 'เรียบร้อย'
+            //                     }).then((result) => {
+            //                         if (result
+            //                             .isConfirmed) {
+            //                             console.log(
+            //                                 data);
+
+            //                             window.location
+            //                                 .reload();
+            //                         }
+            //                     })
+            //                 } else {
+
+            //                 }
+
+            //             },
+            //         });
+            // });
 
         });
 
         $(document).ready(function(){
+         
+
               $('#insert_depForm').on('submit',function(e){
                     e.preventDefault();            
                     var form = this;

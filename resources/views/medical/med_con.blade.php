@@ -135,16 +135,11 @@
         @csrf
                     <div class="card">
                         <div class="card-header">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h4 class="card-title">Detail Medical</h4>
-                                    <p class="card-title-desc">รายละเอียดเครื่องมือแพทย์</p>
-                                </div>
-                                <div class="col"></div>
-                                <div class="col-md-2 text-end">
-                                    {{-- <button class="btn btn-secondary" id="Changbillitems"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>ปรับ bilitems</button>  --}}     
-                                </div>
-                            </div>
+                            <h4 class="card-title"> Medical</h4>
+                            {{-- <p class="card-title-desc">รายละเอียดเครื่องมือแพทย์</p> --}}
+                            <div class="btn-actions-pane-right">
+                            
+                            </div> 
                         </div>
                         <div class="card-body text-center shadow-lg"> 
                             <div class="row "> 

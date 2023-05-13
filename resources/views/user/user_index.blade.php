@@ -1,5 +1,5 @@
 @extends('layouts.userdashboard')
-@section('title', 'PKClaim || ผู้ใช้งานทั่วไป')
+@section('title', 'PK-BACKOFFice  || ผู้ใช้งานทั่วไป')
 
 @section('content')
     <script>

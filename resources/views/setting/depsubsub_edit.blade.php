@@ -80,13 +80,13 @@
                             <input type="hidden" name="DEPARTMENT_SUB_SUB_ID" id="DEPARTMENT_SUB_SUB_ID" value="{{$dataedits->DEPARTMENT_SUB_SUB_ID }}">
 
                           <div class="row">
-                                <div class="col-md-3 mt-2"> 
+                                <div class="col-md-4 mt-2"> 
                                   <div class="form-group">
                                     <label for="">ชื่อหน่วยงาน</label>
                                     <input id="DEPARTMENT_SUB_SUB_NAME" type="text" class="form-control" name="DEPARTMENT_SUB_SUB_NAME"  value="{{$dataedits->DEPARTMENT_SUB_SUB_NAME }}">   
                                   </div>
                                 </div>
-                                <div class="col-md-3 mt-2"> 
+                                <div class="col-md-4 mt-2"> 
                                   <label for="">ฝ่าย/แผนก</label>
                                   <div class="form-group">
                                   <select id="DEPARTMENT_SUB_ID" name="DEPARTMENT_SUB_ID" class="form-select form-select-lg" style="width: 100%">
@@ -102,7 +102,7 @@
                                   </select>
                                 </div>
                                 </div>
-                                <div class="col-md-2 mt-2"> 
+                                <div class="col-md-4 mt-2"> 
                                   <label for="">หัวหน้าหน่วยงาน</label>
                                   <div class="form-group">
                                   <select id="LEADER_ID3" name="LEADER_ID" class="form-select form-select-lg" style="width: 100%">
@@ -117,18 +117,26 @@
                                         @endforeach
                                   </select>
                                 </div>
+                              </div>                                
+                            </div>
+                            <div class="row">
+                              <div class="col-md-4 mt-2"> 
+                                <div class="form-group">
+                                  <label for="">Line Token</label>
+                                  <input id="LINE_TOKEN" type="text" class="form-control" name="LINE_TOKEN" value="{{$dataedits->LINE_TOKEN }}">
+                                </div>
                               </div>
-                                <div class="col-md-3 mt-2"> 
-                                  <div class="form-group">
-                                    <label for="">Line Token</label>
-                                    <input id="LINE_TOKEN" type="text" class="form-control" name="LINE_TOKEN" value="{{$dataedits->LINE_TOKEN }}">
-                                  </div>
+                              <div class="col-md-4 mt-2"> 
+                                <div class="form-group">
+                                  <label for="">Color</label><br>
+                                  <input type="color" id="DSS_COLOR" class="form-control form-control-color" name="DSS_COLOR" value="{{$dataedits->DSS_COLOR }}" style="width: 100%;">
                                 </div>
-                                <div class="col-md-1 mt-2"> 
-                                    <button type="submit" class="btn btn-primary btn-sm mt-4" >
-                                    แก้ไข
-                                  </button> 
-                                </div>
+                              </div> 
+                              <div class="col-md-4 mt-2"> 
+                                  <button type="submit" class="btn btn-primary btn-sm mt-4" >
+                                  แก้ไข
+                                </button> 
+                              </div>
                             </div>
                     <hr>
 
@@ -142,6 +150,7 @@
                                           <th class="text-center"  width="30%">หน่วยงาน</th>
                                           <th class="text-center">หัวหน้ากลุ่ม</th>
                                           <th width="15%" class="text-center">Line Token</th> 
+                                          <th width="5%" class="text-center">Color</th> 
                                           <th width="15%" class="text-center">Manage</th>
                                       </tr>
                                   </thead>
@@ -156,8 +165,11 @@
                                             <td class="p-2" width="25%">{{ $item->DEPARTMENT_SUB_NAME }}</td>
                                             <td class="p-2" width="30%">{{ $item->DEPARTMENT_SUB_SUB_NAME }}</td>
                                             <td class="p-2" width="15%">{{ $item->fname }}  {{ $item->lname }}</td>   
-                                            <td class="p-2" width="15%">{{ $item->LINE_TOKEN }}</td>                                    
-                                            <td class="text-center" width="10%">
+                                            <td class="p-2" width="10%">{{ $item->LINE_TOKEN }}</td>  
+                                            <td class="p-2" width="5%">                                            
+                                              <p style="color:red">{{$item->DSS_COLOR }}</p>   
+                                            </td>                                   
+                                            <td class="text-center" width="7%">
                                                 <a href="{{ url('setting/depsubsub_edit/' . $item->DEPARTMENT_SUB_SUB_ID) }}"
                                                     class="text-warning me-3" data-bs-toggle="tooltip"
                                                     data-bs-placement="bottom" data-bs-custom-class="custom-tooltip"
