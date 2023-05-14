@@ -1,26 +1,6 @@
-@extends('layouts.meetting')
+@extends('layouts.meettingnew')
 @section('title', 'PK-BACKOFFice || ห้องประชุม')
-
  
-    <?php
-        use App\Http\Controllers\StaticController;
-        use Illuminate\Support\Facades\DB;   
-        $count_meettingroom = StaticController::count_meettingroom();
-    ?>
-    {{-- <div class="px-3 py-2 border-bottom">
-        <div class="container d-flex flex-wrap justify-content-center">
-           
-            <a href="{{ url('meetting/meettingroom_dashboard') }}" class="btn btn-light btn-sm text-dark me-2">dashboard </a>
-            <a href="{{ url('meetting/meettingroom_index') }}" class="btn btn-light btn-sm text-dark me-2">รายการห้องประชุม <span class="badge bg-danger ms-2">{{$count_meettingroom}}</span></a>
-            <a href="{{ url('meetting/meettingroom_check') }}" class="btn btn-light btn-sm text-dark me-2">ตรวจสอบการจองห้องประชุม <span class="badge bg-danger ms-2">{{$count_meettingroom}}</span></a>
-            <a href="{{ url('meetting/meettingroom_report') }}" class="col-4 col-lg-auto mb-2 mb-lg-0 me-lg-auto btn btn-light btn-sm text-dark me-2">รายงาน</a>
-            <div class="text-end">
-                <a href="" class="btn btn-success btn-sm text-white me-2">แก้ไขรายการห้องประชุม </a>
-               
-            </div>
-        </div>
-    </div>
-@endsection --}}
 
 @section('content')
     <script>
@@ -28,21 +8,21 @@
             window.location.href = '{{ route('index') }}';
         }
         function editroom(input) {
-  var fileInput = document.getElementById('room_img');
-  var url = input.value;
-  var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-      if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-          var reader = new FileReader();    
-          reader.onload = function (e) {
-              $('#edit_upload_preview').attr('src', e.target.result);
-          }    
-          reader.readAsDataURL(input.files[0]);
-      }else{    
-          alert('กรุณาอัพโหลดไฟล์ประเภทรูปภาพ .jpeg/.jpg/.png/.gif .');
-          fileInput.value = '';
-          return false;
-          }
-}
+            var fileInput = document.getElementById('room_img');
+            var url = input.value;
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+                if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                    var reader = new FileReader();    
+                    reader.onload = function (e) {
+                        $('#edit_upload_preview').attr('src', e.target.result);
+                    }    
+                    reader.readAsDataURL(input.files[0]);
+                }else{    
+                    alert('กรุณาอัพโหลดไฟล์ประเภทรูปภาพ .jpeg/.jpg/.png/.gif .');
+                    fileInput.value = '';
+                    return false;
+                    }
+            }
     </script>
     <?php
     if (Auth::check()) {
@@ -57,11 +37,64 @@
 
 
     ?>
-   
-    <div class="container-fluid">
+    <style>
+        #button{
+               display:block;
+               margin:20px auto;
+               padding:30px 30px;
+               background-color:#eee;
+               border:solid #ccc 1px;
+               cursor: pointer;
+               }
+               #overlay{	
+               position: fixed;
+               top: 0;
+               z-index: 100;
+               width: 100%;
+               height:100%;
+               display: none;
+               background: rgba(0,0,0,0.6);
+               }
+               .cv-spinner {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;  
+               }
+               .spinner {
+               width: 250px;
+               height: 250px;
+               border: 5px #ddd solid;
+               border-top: 10px #24e373 solid;
+               border-radius: 50%;
+               animation: sp-anime 0.8s infinite linear;
+               }
+               @keyframes sp-anime {
+               100% { 
+                   transform: rotate(360deg); 
+               }
+               }
+               .is-hide{
+               display:none;
+               }
+    </style>
+    <div class="tabs-animation">
+    
+        <div class="row text-center">   
+              
+              <div id="preloader">
+                <div id="status">
+                    <div class="spinner">
+                        
+                    </div>
+                </div>
+            </div>
+        </div> 
+       
+      
         <div class="row"> 
             <div class="col-md-12">
-                <div class="card">
+                <div class="main-card mb-3 card"> 
                     <div class="card-header ">
                         <h6>แก้ไขห้องประชุม</h6>
                     </div>
@@ -175,12 +208,12 @@
                     <div class="card-footer">
                         <div class="col-md-12 text-end"> 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-sm">
+                                <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                     แก้ไขข้อมูล
                                 </button> 
                                 <a href="{{ url('meetting/meettingroom_index') }}"
-                                    class="btn btn-danger btn-sm">
+                                    class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                     <i class="fa-solid fa-xmark me-2"></i>
                                     ยกเลิก
                                 </a>

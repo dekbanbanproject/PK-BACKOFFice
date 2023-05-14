@@ -46,6 +46,49 @@
     function TypeAdmin() {
         window.location.href = '{{ route('index') }}';
     }
+    function meetting_choose_cancel(meeting_id)
+        {
+        // alert(bookrep_id);
+        Swal.fire({
+        title: 'ต้องการยกเลิกรายการนี้ใช่ไหม?',
+        text: "ข้อมูลนี้จะถูกส่งไปยังผู้ดูแลห้องประชุม",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่ ',
+        cancelButtonText: 'ไม่'
+        }).then((result) => {
+        if (result.isConfirmed) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                    });
+                    $.ajax({ 
+                    type: "POST",
+                    url:"{{url('meetting_choose_cancel')}}" +'/'+ meeting_id, 
+                    success:function(response)
+                    {          
+                        Swal.fire({
+                        title: 'รอการยืนยันจากผู้ดูแลงาน',
+                        text: "Wait for confirmation from the supervisor",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177', 
+                        confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                        if (result.isConfirmed) {                  
+                            
+                            window.location.reload();   
+                            
+                        }
+                        }) 
+                    }
+                    })        
+                }
+            })
+    }
 </script>
 <?php
 if (Auth::check()) {
@@ -68,11 +111,13 @@ if (Auth::check()) {
 <div class="tabs-animation">
     
         <div class="row text-center">  
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner">
+                        
+                    </div>
                 </div>
-              </div>
+            </div>
               
         </div> 
     
@@ -178,7 +223,9 @@ if (Auth::check()) {
                                             @if ($item->meetting_status == 'REQUEST')
                                             <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ร้องขอ</div></td>
                                             @elseif ($item->meetting_status == 'ALLOCATE')
-                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">จัดสรร</div></td>                                         
+                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">จัดสรร</div></td>  
+                                            @elseif ($item->meetting_status == 'CANCEL')
+                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ยกเลิก</div></td>                                             
                                             @else
                                             <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">อนุมัติ</div></td>
                                             @endif
@@ -205,6 +252,12 @@ if (Auth::check()) {
                                                             <label for=""
                                                                 style="color: rgb(252, 153, 23)">แก้ไข</label>
                                                         </a>
+                                                        <a class="dropdown-item menu" href="javascript:void(0)" onclick="meetting_choose_cancel({{$item->meeting_id}})" data-bs-toggle="tooltip" data-bs-placement="left" title="แจ้งยกเลิก">
+                                                          
+                                                            <i class="fa-solid fa-xmark me-2 mt-2 ms-2 mb-2 text-danger"></i>
+                                                            <label for="" style="color: rgb(255, 22, 22)">แจ้งยกเลิก</label> 
+                                                          </a>
+                                                         
                                                     </ul>
                                                 </div>
                                             </td>

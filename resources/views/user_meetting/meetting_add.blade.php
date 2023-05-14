@@ -73,11 +73,13 @@
   <div class="tabs-animation">
     
     <div class="row text-center">  
-        <div id="overlay">
-            <div class="cv-spinner">
-              <span class="spinner"></span>
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    
+                </div>
             </div>
-          </div>
+        </div>
           
     </div> 
     <div class="row justify-content-center">

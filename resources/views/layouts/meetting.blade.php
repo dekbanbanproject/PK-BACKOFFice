@@ -51,7 +51,7 @@
    
 
 </head>
-<style>
+{{-- <style>
     .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;
@@ -75,6 +75,19 @@
     .myTable tbody tr .active-row{
         color: #ccbcd1;
     }
+</style> --}}
+<style>
+    body{   
+    background:
+        url(/pkbackoffice/public/images/bg5.jpg); 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%; 
+    }
+.Bgsidebar {
+      background-image: url('/pkbackoffice/public/images/bgside.jpg');
+    background-repeat: no-repeat;
+}
 </style>
 <style>
     #button{
@@ -134,7 +147,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(93, 155, 11)">
+            <div class="navbar-header" style="background-color: rgb(255, 255, 255)">
                 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -153,13 +166,13 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(5, 5, 5)" class="mt-4">PK-BACKOFFice</h4> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle"></i>
+                        <i class="ri-menu-2-line align-middle" style="color:black"></i>
                     </button>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
@@ -170,7 +183,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(10, 10, 10)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
@@ -182,7 +195,7 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(4, 4, 4)"></i>
                         </button>
                     </div>
 
@@ -196,7 +209,7 @@
                                 <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
                                     width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
                             @endif
-                            <span class="d-none d-xl-inline-block ms-1">
+                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
                                 {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                             </span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -229,7 +242,7 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu">
+        <div class="vertical-menu Bgsidebar">
 
             <div data-simplebar class="h-100">
  
@@ -247,7 +260,7 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('meetting/meettingroom_index') }}">รายการห้องประชุม</a></li> 
                                 <li><a href="{{ url('meetting/meettingroom_check') }}">ตรวจสอบการจองห้องประชุม</a></li> 
-                                <li><a href="{{ url('meetting/meettingroom_report') }}">รายงาน</a></li> 
+                                {{-- <li><a href="{{ url('meetting/meettingroom_report') }}">รายงาน</a></li>  --}}
                             </ul>
                         </li>
  
@@ -264,7 +277,7 @@
         <!-- ============================================================== -->
         <div class="main-content">
 
-            <div class="page-content">
+            <div class="page-content Backgroupbody">
 
                 @yield('content')
 
@@ -281,7 +294,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by PKClaim
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>

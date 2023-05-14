@@ -103,6 +103,13 @@ public function meetting_dashboard(Request $request)
     $data['status'] = Status::get();
     return view('user_meetting.meetting_dashboard',$data);
 }
+public function meetting_choose_cancel(Request $request, $id)
+{
+    $update = Meeting_service::find($id);
+    $update->meetting_status = 'CANCEL';
+    $update->save();
+    return response()->json(['status' => '200']);
+}
 
 public function meetting_index(Request $request)
 {   
@@ -191,7 +198,9 @@ public function meetting_choose(Request $request,$id)
             if ($meetting->meetting_status == 'REQUEST') {
                 $color = '#F48506';
             }elseif ($meetting->meetting_status == 'ALLOCATE') {
-                $color = '#592DF7';           
+                $color = '#592DF7';    
+            }elseif ($meetting->meetting_status == 'CANCEL') {
+                $color = '#ff0707';       
             } else {
                 $color = '#0AC58D';
             }    
@@ -222,7 +231,9 @@ public function meetting_choose(Request $request,$id)
             if ($meetting->meetting_status == 'REQUEST') {
                 $color = '#F48506';
             }elseif ($meetting->meetting_status == 'ALLOCATE') {
-                $color = '#592DF7';           
+                $color = '#592DF7';     
+            }elseif ($meetting->meetting_status == 'CANCEL') {
+                $color = '#ff0707';       
             } else {
                 $color = '#0AC58D';
             }  
@@ -1082,7 +1093,9 @@ public function meetting_choose_edit(Request $request,$id)
         if ($meetting->meetting_status == 'REQUEST') {
             $color = '#F48506';
         }elseif ($meetting->meetting_status == 'ALLOCATE') {
-            $color = '#592DF7';           
+            $color = '#592DF7';   
+        }elseif ($meetting->meetting_status == 'CANCEL') {
+            $color = '#ff0707';         
         } else {
             $color = '#0AC58D';
         }   

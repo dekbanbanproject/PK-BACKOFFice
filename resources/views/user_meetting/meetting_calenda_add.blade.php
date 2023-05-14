@@ -2,6 +2,47 @@
 @section('title', 'PK-BACKOFFICE || ช้อมูลการจองห้องประชุม')
 
 @section('content')
+<style>
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:30px 30px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{	
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;  
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 10px #ddd solid;
+           border-top: 10px #1fdab1 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% { 
+               transform: rotate(390deg); 
+           }
+           }
+           .is-hide{
+           display:none;
+           }
+</style>
     <script>
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
@@ -25,7 +66,7 @@
         $yearbudget = date('Y') + 543;
     }
     ?>
-    <style>
+    {{-- <style>
         .btn {
             font-size: 15px;
         }
@@ -60,8 +101,8 @@
             font-family: 'Kanit', sans-serif;
             font-size: 14px;
         }
-    </style>
-    <div class="container-fluid">
+    </style> --}}
+    {{-- <div class="container-fluid"> --}}
         {{-- <div class="px-0 py-0 mb-2">
             <div class="d-flex flex-wrap justify-content-center">
                 <a class="col-4 col-lg-auto mb-2 mb-lg-0 me-lg-auto text-white me-2"></a>
@@ -73,7 +114,19 @@
                 </div>
             </div>
         </div> --}}
-        <div class="row justify-content-center">
+        {{-- <div class="row justify-content-center"> --}}
+            <div class="tabs-animation">
+    
+                <div class="row text-center">  
+                    <div id="preloader">
+                        <div id="status">
+                            <div class="spinner">
+                                
+                            </div>
+                        </div>
+                    </div>
+                      
+                </div> 
             <div class="col-md-12">
                 <div class="card shadow-lg">
                     <div class="card-body">

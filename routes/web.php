@@ -631,6 +631,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'user_meetting/meetting_choose_linesave',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose_linesave'])->name('meetting.meetting_choose_linesave');//
     Route::match(['get','post'],'user_meetting/meetting_choose_edit/{id}',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose_edit'])->name('meetting.meetting_choose_edit');//
     Route::match(['get','post'],'user_meetting/meetting_detail/{id}',[App\Http\Controllers\UsermeettingController::class, 'meetting_detail'])->name('meetting.meetting_detail');//
+    Route::match(['get','post'],'meetting_choose_cancel/{id}',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose_cancel'])->name('meetting.meetting_choose_cancel');//
 
     Route::match(['get','post'],'user_meetting/meetting_calenda',[App\Http\Controllers\UsermeettingController::class, 'meetting_calenda'])->name('meetting.meetting_calenda');//ปฎิทิน
     Route::match(['get','post'],'user_meetting/calendar_save',[App\Http\Controllers\UsermeettingController::class, 'calendar_save'])->name('meetting.calendar_save');//

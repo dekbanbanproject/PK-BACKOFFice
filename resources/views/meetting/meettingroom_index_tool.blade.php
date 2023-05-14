@@ -1,4 +1,4 @@
-@extends('layouts.meetting')
+@extends('layouts.meettingnew')
 @section('title', 'PK-BACKOFFice || ห้องประชุม')
 
 <?php
@@ -235,11 +235,11 @@ $count_meettingroom = StaticController::count_meettingroom();
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="submit" class="btn btn-primary btn-sm">
+                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                                 เพิ่ม
                                             </button>
                                             <a href="{{ url('meetting/meettingroom_index') }}"
-                                                class="btn btn-danger btn-sm">
+                                                class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                 ยกเลิก
                                             </a>
                                         </div>

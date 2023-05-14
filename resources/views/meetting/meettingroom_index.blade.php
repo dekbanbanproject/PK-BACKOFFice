@@ -51,7 +51,7 @@
            width: 250px;
            height: 250px;
            border: 10px #ddd solid;
-           border-top: 10px #1fdab1 solid;
+           border-top: 10px #24e373 solid;
            border-radius: 50%;
            animation: sp-anime 0.8s infinite linear;
            }
@@ -66,14 +66,16 @@
 </style>
 <div class="tabs-animation">
     
-    <div class="row text-center">  
-        <div id="overlay">
-            <div class="cv-spinner">
-              <span class="spinner"></span>
-            </div>
+    <div class="row text-center">   
+              
+        <div id="preloader">
+          <div id="status">
+              <div class="spinner">
+                  
+              </div>
           </div>
-          
-    </div> 
+      </div>
+  </div> 
     <div class="row"> 
         <div class="col-md-12"> 
              <div class="main-card mb-3 card">

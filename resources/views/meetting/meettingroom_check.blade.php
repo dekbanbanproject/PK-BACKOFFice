@@ -1,15 +1,6 @@
-@extends('layouts.meetting')
+@extends('layouts.meettingnew')
 @section('title', 'PK-BACKOFFice || ห้องประชุม')
-
  
-     <?php
-     use App\Http\Controllers\StaticController;
-     use Illuminate\Support\Facades\DB;   
-     $count_meettingroom = StaticController::count_meettingroom();
-     $count_meettinservice = StaticController::count_meettinservice();
- ?>
- 
-
 @section('content')
     <script>
         function TypeAdmin() {
@@ -28,7 +19,7 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-     <style>
+     {{-- <style>
         body {
             font-size: 13px;
         }
@@ -145,15 +136,69 @@
         .colortool {
             background-color: red;
         }
+    </style> --}}
+    <style>
+        #button{
+               display:block;
+               margin:20px auto;
+               padding:30px 30px;
+               background-color:#eee;
+               border:solid #ccc 1px;
+               cursor: pointer;
+               }
+               #overlay{	
+               position: fixed;
+               top: 0;
+               z-index: 100;
+               width: 100%;
+               height:100%;
+               display: none;
+               background: rgba(0,0,0,0.6);
+               }
+               .cv-spinner {
+               height: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;  
+               }
+               .spinner {
+               width: 250px;
+               height: 250px;
+               border: 5px #ddd solid;
+               border-top: 10px #24e373 solid;
+               border-radius: 50%;
+               animation: sp-anime 0.8s infinite linear;
+               }
+               @keyframes sp-anime {
+               100% { 
+                   transform: rotate(360deg); 
+               }
+               }
+               .is-hide{
+               display:none;
+               }
     </style>
-    <div class="container-fluid" >
+    <div class="tabs-animation">
+    
+        <div class="row text-center">   
+              
+              <div id="preloader">
+                <div id="status">
+                    <div class="spinner">
+                        
+                    </div>
+                </div>
+            </div>
+        </div> 
         <div class="row"> 
             <div class="col-md-12">
-                <div class="card">
+                <div class="main-card mb-3 card"> 
+
+
                     <div class="card-header ">
-                        <form>
-                            @csrf
-                            <div class="row"> 
+                        {{-- <form>
+                            @csrf --}}
+                            {{-- <div class="row"> 
                               
                                 <div class="col text-end">วันที่</div>
                                 <div class="col">
@@ -167,7 +212,7 @@
                                 <div class="col">
                                  
                                         <select name="meeting_status_code" id="meeting_status_code" class="form-control" style="width: 100%;">
-                                            {{-- <option value="" selected>--ทั้งหมด--</option>  --}}
+                                 
                                             @foreach ($meeting_status as $st)  
                                             @if ($datastatus == $st->meeting_status_code)
                                             <option value="{{ $st->meeting_status_code }}" selected>{{ $st->meeting_status_name}}</option>   
@@ -187,13 +232,49 @@
                                         ค้นหา
                                     </button> 
                                 </div>
-                            </div>
-                    </form>
+                            </div> --}}
+                          
+                                <div class="btn-actions-pane-right">
+                                    <form>
+                                        @csrf
+                                        <div class="row"> 
+                                            <div class="col-md-2 text-end">วันที่</div>
+                                            <div class="col-md-4 text-center">
+                                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                    data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                                                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                        data-date-language="th-th" value="{{ $enddate }}" required/> 
+                                                </div>
+                                            </div> 
+                                            <div class="col-md-1 text-center">สถานะ</div>
+                                                <div class="col-md-3 text-center">
+                                                    <div class="input-group">
+                                                        <select name="meeting_status_code" id="meeting_status_code" class="form-control" style="width: 100%;"> 
+                                                            @foreach ($meeting_status as $st)  
+                                                            @if ($datastatus == $st->meeting_status_code)
+                                                            <option value="{{ $st->meeting_status_code }}" selected>{{ $st->meeting_status_name}}</option>   
+                                                            @else
+                                                            <option value="{{ $st->meeting_status_code }}">{{ $st->meeting_status_name}}</option>   
+                                                            @endif  
+                                                            @endforeach                   
+                                                        </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">  
+                                                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                    <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                                </button>  
+                                            </div> 
+                                        </div>
+                                    </div>
+                            </form>
                     </div>
                     <div class="card-body shadow-lg"> 
-                            
-
-                    <hr>
+                     
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
                                 <thead>
@@ -422,9 +503,31 @@
         </div>
     </div>
     </div>
+    
     @endsection
+    @section('footer')
+    <script>
+         $(document).ready(function() {
+        // $("#overlay").fadeIn(300);　
 
- 
+        $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('#datepicker2').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+
+        $('#datepicker3').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('#datepicker4').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+    </script>
+
+@endsection
+     
 
    
 
