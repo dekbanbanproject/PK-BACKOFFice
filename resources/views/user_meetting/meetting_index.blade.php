@@ -125,7 +125,7 @@ if (Auth::check()) {
                                     </div> 
                                     <div class="col-md-2 me-2">  
                                         <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="pe-7s-search btn-icon-wrapper"></i>2 ค้นหา
+                                            <i class="pe-7s-search btn-icon-wrapper"></i> ค้นหา
                                         </button>  
   
                                         {{-- @if ($startdate == '')
@@ -176,11 +176,11 @@ if (Auth::check()) {
                                             <td>{{ $ia++ }}</td>
                                             {{-- <td>{{ dateThaifromFull($item->CHEACKIN_DATE) }}</td>  --}}
                                             @if ($item->meetting_status == 'REQUEST')
-                                            <td class="text-center" width="5%"><div class="badge bg-warning">ร้องขอ</div></td>
+                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ร้องขอ</div></td>
                                             @elseif ($item->meetting_status == 'ALLOCATE')
-                                            <td class="text-center" width="5%"><div class="badge bg-success">จัดสรร</div></td>                                         
+                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">จัดสรร</div></td>                                         
                                             @else
-                                            <td class="text-center" width="5%"><div class="badge bg-success">อนุมัติ</div></td>
+                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">อนุมัติ</div></td>
                                             @endif
 
 
@@ -191,7 +191,23 @@ if (Auth::check()) {
                                             <td class="p-2" width="10%">{{ DateThai($item->meeting_date_end )}}</td>
                                             <td class="p-2" width="7%">{{ $item->meeting_time_end }}</td>
                                             <td class="p-2" width="12%">{{ $item->meeting_user_name }}</td>
-                                            <td></td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
+                                                        type="button" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">ทำรายการ</button>
+                                                    <ul class="dropdown-menu">
+                                                        <a class="dropdown-item menu btn btn-outline-warning btn-sm"
+                                                           href="{{url('user_meetting/meetting_choose_edit/'.$item->meeting_id)}}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                                            <i class="fa-solid fa-file-pen me-2"
+                                                                style="color: rgb(252, 153, 23)"></i>
+                                                            <label for=""
+                                                                style="color: rgb(252, 153, 23)">แก้ไข</label>
+                                                        </a>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>    
                                     @endforeach
                                     

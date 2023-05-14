@@ -1,5 +1,5 @@
-@extends('layouts.userdashboard')
-@section('title','PK-BACKOFFICE || ช้อมูลการจองห้องประชุม')
+@extends('layouts.user')
+@section('title','ZOffice || ช้อมูลการจองห้องประชุม')
 
 
 <link href="{{ asset('select2/select2.min.css') }}" rel="stylesheet" />
@@ -24,66 +24,38 @@
   date_default_timezone_set("Asia/Bangkok");
   $date =  date('Y-m-d');
   ?>
-<style>
-    #button{
-           display:block;
-           margin:20px auto;
-           padding:30px 30px;
-           background-color:#eee;
-           border:solid #ccc 1px;
-           cursor: pointer;
-           }
-           #overlay{	
-           position: fixed;
-           top: 0;
-           z-index: 100;
-           width: 100%;
-           height:100%;
-           display: none;
-           background: rgba(0,0,0,0.6);
-           }
-           .cv-spinner {
-           height: 100%;
-           display: flex;
-           justify-content: center;
-           align-items: center;  
-           }
-           .spinner {
-           width: 250px;
-           height: 250px;
-           border: 10px #ddd solid;
-           border-top: 10px #1fdab1 solid;
-           border-radius: 50%;
-           animation: sp-anime 0.8s infinite linear;
-           }
-           @keyframes sp-anime {
-           100% { 
-               transform: rotate(390deg); 
-           }
-           }
-           .is-hide{
-           display:none;
-           }
-</style>
-  <div class="tabs-animation">
-    
-    <div class="row text-center">  
-        <div id="overlay">
-            <div class="cv-spinner">
-              <span class="spinner"></span>
-            </div>
-          </div>
-          
-    </div> 
-<div class="container-fluid" >
+  <style>
+    .btn{
+       font-size:15px;
+     }
+  </style>
   
+<div class="container-fluid" >
+  {{-- <div class="px-0 py-0 mb-2">
+    <div class="d-flex flex-wrap justify-content-center">  
+      <a class="col-4 col-lg-auto mb-2 mb-lg-0 me-lg-auto text-white me-2"></a>
+    
+      <div class="text-end"> 
+        <a href="{{url('user_meetting/meetting_calenda')}}" class="btn btn-light btn-sm text-dark me-2">ปฎิทิน</a>
+        <a href="{{url('user_meetting/meetting_index')}}" class="btn btn-light btn-sm text-dark me-2">ช้อมูลการจองห้องประชุม</a> 
+        <a href="#" class="btn btn-info btn-sm text-white me-2">จองห้องประชุม</a> 
+      </div>
+    </div>
+  </div> --}}
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card shadow-lg">
               {{-- {{$building_level_room->room_name}}    --}}
-              <div class="card-header"> 
-                    บันทึกขอใช้ห้องประชุม วันที่ {{dateThaifromFull($date)}}  <label for="" class="mt-2 ms-4" style="color: rgb(255, 0, 0)">  {{$dataedits->room_name}}</label>  
-                <div class="btn-actions-pane-right">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col"> 
+                    บันทึกขอใช้ห้องประชุม วันที่ {{dateThaifromFull($date)}} <label for="" style="color: rgb(255, 0, 0)">  {{$dataedits->room_name}}</label> 
+                  </div>
+                  <div class="col-1">
+                  </div>
+                  <div class="col">
+                    {{-- <label for="" style="color: rgb(255, 0, 0)">  {{$dataedits->room_name}}</label>  --}}
+                  </div>
                 </div>
               </div>
                 <div class="card-body"> 
@@ -108,7 +80,12 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <input id="meetting_title" type="text" class="form-control" name="meetting_title" value="{{ $dataedits->meetting_title }}"> 
+                                        <input id="meetting_title" type="text" class="form-control @error('meetting_title') is-invalid @enderror az" name="meetting_title" value="{{ $dataedits->meetting_title }}" autocomplete="meetting_title">
+                                        @error('meetting_title')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>                                
                             </div>  
@@ -119,8 +96,12 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <input id="meetting_target" type="text" class="form-control" name="meetting_target" value="{{  $dataedits->meetting_target}}">
-                                        
+                                        <input id="meetting_target" type="text" class="form-control @error('meetting_target') is-invalid @enderror az" name="meetting_target" value="{{  $dataedits->meetting_target}}" autocomplete="meetting_target" >
+                                        @error('meetting_target')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>                                  
                             </div>  
@@ -170,8 +151,12 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <input id="meetting_person_qty" type="text" class="form-control" name="meetting_person_qty" value="{{ $dataedits->meetting_person_qty}}">
-                                        
+                                        <input id="meetting_person_qty" type="text" class="form-control @error('meetting_person_qty') is-invalid @enderror az" name="meetting_person_qty" value="{{ $dataedits->meetting_person_qty}}" autocomplete="meetting_person_qty" >
+                                        @error('meetting_person_qty')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>  
                                 <div class="col-md-1">
@@ -185,8 +170,12 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <input id="meeting_date_begin" type="date" class="form-control" name="meeting_date_begin" value="{{ $dataedits->meeting_date_begin }}">
-                                        
+                                        <input id="meeting_date_begin" type="date" class="form-control @error('meeting_date_begin') is-invalid @enderror az" name="meeting_date_begin" value="{{ $dataedits->meeting_date_begin }}" autocomplete="meeting_date_begin">
+                                        @error('meeting_date_begin')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>                                
                               </div> 
@@ -197,8 +186,12 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <input id="meeting_date_end" type="date" class="form-control" name="meeting_date_end" value="{{ $dataedits->meeting_date_end }}">
-                                       
+                                        <input id="meeting_date_end" type="date" class="form-control @error('meeting_date_end') is-invalid @enderror az" name="meeting_date_end" value="{{ $dataedits->meeting_date_end }}" autocomplete="meeting_date_end">
+                                        @error('meeting_date_end')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div> 
                               </div> 
@@ -209,8 +202,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <input id="meeting_time_begin" type="time" class="form-control" name="meeting_time_begin" value="{{ $dataedits->meeting_time_begin }}" >
-                                        
+                                        <input id="meeting_time_begin" type="time" class="form-control @error('meeting_time_begin') is-invalid @enderror az" name="meeting_time_begin" value="{{ $dataedits->meeting_time_begin }}" autocomplete="meeting_time_begin" >
+                                        @error('meeting_time_begin')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div> 
                                 <div class="col-md-2 text-end">
@@ -218,8 +215,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <input id="meeting_time_end" type="time" class="form-control" name="meeting_time_end" value="{{ $dataedits->meeting_time_end }}">
-                                         
+                                        <input id="meeting_time_end" type="time" class="form-control @error('meeting_time_end') is-invalid @enderror az" name="meeting_time_end" value="{{ $dataedits->meeting_time_end }}" autocomplete="meeting_time_end" >
+                                        @error('meeting_time_end')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div> 
                               </div>
@@ -261,8 +262,12 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <input id="meeting_tel" type="text" class="form-control" name="meeting_tel" value="{{ $dataedits->meeting_tel }}">
-                                         
+                                        <input id="meeting_tel" type="text" class="form-control az" name="meeting_tel" value="{{ $dataedits->meeting_tel }}">
+                                        @error('meeting_tel')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div> 
                                 <div class="col-md-2 text-end">
@@ -275,7 +280,7 @@
                          
                     </div>     
                     <div class="row mt-3 mb-5">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="card-header shadow">
                                 <label for="">อุปกรณ์ที่ต้องการ </label>
                             </div> 
@@ -324,7 +329,7 @@
                             </div>  
                         </div>
 
-                        {{-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="card-header shadow">
                                 <label for="">รายการอาหาร </label>
                             </div> 
@@ -366,7 +371,7 @@
                                     </table>
                                 </div> 
                             </div>  
-                        </div> --}}
+                        </div>
                     </div>
                         
                     <div class="card-footer">
