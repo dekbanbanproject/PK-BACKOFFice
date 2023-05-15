@@ -264,7 +264,7 @@
 
         <div class="row text-center"> 
             <div class="col-md-12 ">                
-                <label for="" class=" ms-5" style="color: white"> By Pradit Raha - งานประกัน</label>
+                <label for="" class=" ms-5" style="color: white"> by ทีมพัฒนา PK-HOS</label>
             </div>       
         </div>
 

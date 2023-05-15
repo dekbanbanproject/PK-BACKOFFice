@@ -281,18 +281,7 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title">Menu</li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>STM report</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li> 
-                                <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li> 
-                            </ul>
-                        </li> 
- 
+                        <li class="menu-title">Menu</li>                       
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -356,11 +345,22 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-money-check-dollar text-danger"></i>
-                                <span>STM</span>
+                                <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('upstm') }}">Up stm</a></li> 
-                                <li><a href="{{ url('upstm_ti') }}">Up stm ไต</a></li> 
+                                {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
+                                <li><a href="{{ url('upstm_ti') }}">Upstm ไต(Excel)</a></li> 
+                                <li><a href="{{ url('upstm_tixml') }}">Upstm ไต(Xml)</a></li> 
+                            </ul>
+                        </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <span>STM report</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li> 
+                                <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li> 
                             </ul>
                         </li> 
                         {{-- <li>
@@ -413,7 +413,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - งานประกันสุขภาพ
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>

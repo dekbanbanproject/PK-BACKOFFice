@@ -474,7 +474,7 @@ class AccountPKController extends Controller
                 )
             ); 
             $contents = $client->__soapCall('searchCurrentByPID',$params);    
-        //    dd($contents);
+    //    dd($contents);
             foreach ($contents as $key => $v) {  
                 @$status = $v->status ;  
                 @$maininscl = $v->maininscl;
@@ -1041,7 +1041,13 @@ class AccountPKController extends Controller
             foreach ($acc_debtors as $key => $value) {
                 $acc_debtor = $value->VN;
             }
-          
+           
+            // dd($acc_debtor);
+        // }
+        // and month(vstdate) = "01";
+        // and month(vstdate) = "'.$value->month_year_code.'";
+        //   dd($acc_debtor);
+
         return view('account_pk.account_pkofc401_dash',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
@@ -1067,7 +1073,13 @@ class AccountPKController extends Controller
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
         $data['pang'] = DB::connection('mysql5')->table('pang')->get();
-        
+        // $date = date('Y-m-d');
+        // $strM = date('m', strtotime($startdate));
+        // $strY = date('Y', strtotime($startdate)) + 543;
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->where('pttype_eclaim_id','=',17)
+            // ->where('account_code','=',1102050101.401)
+            // ->limit(1000)->get();
+
             $acc_debtor = DB::select('
                 SELECT * from acc_debtor a
                 
@@ -1087,7 +1099,24 @@ class AccountPKController extends Controller
 
 // *************************** 801 ********************************************
     public function account_pklgo801_dash(Request $request)
-    { 
+    {
+        // $datenow = date('Y-m-d');
+        // $startdate = $request->startdate;
+        // $enddate = $request->enddate; 
+        // $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+
+        // $data_startdate = $dabudget_year->date_begin;
+        // $data_enddate = $dabudget_year->date_end;
+        // $leave_month_year = DB::table('leave_month_year')->get();
+        // $data_month = DB::table('leave_month')->get();       
+        //     $acc_debtors = DB::select('
+        //         SELECT count(vn) as VN from acc_debtor 
+        //         WHERE stamp="N" and pttype_eclaim_id = "18" 
+        //         and account_code="1102050102.801" ;
+        //     ');
+        //     foreach ($acc_debtors as $key => $value) {
+        //         $acc_debtor = $value->VN;
+        //     }
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first(); 
@@ -1133,7 +1162,8 @@ class AccountPKController extends Controller
                     group by month(a.vstdate) asc;
             '); 
         }
-                   
+            
+       
         return view('account_pk.account_pklgo801_dash',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
@@ -1674,74 +1704,31 @@ class AccountPKController extends Controller
             // @$TBill = $result['HDBills']['HDBill'];
             $bills_       = @$HDBills; 
             // $tbills_       = @$HDBills['TBill']; 
-            // $hreg = $result['HDBills']['HDBill'];
-            // dd($hreg);
+            dd($bills_);
 
             foreach ($bills_ as $item) { 
                 isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
                 isset( $item['hn'] ) ? $hn = $item['hn'] : $hn = "";
                 isset( $item['name'] ) ? $name = $item['name'] : $name = "";
-                isset( $item['pid'] ) ? $pid = $item['pid'] : $pid = ""; 
+                isset( $item['pid'] ) ? $pid = $item['pid'] : $pid = "";
+                isset( $item['name'] ) ? $name = $item['name'] : $name = "";
                 isset( $item['quota'] ) ? $quota = $item['quota'] : $quota = "";
                 isset( $item['hdcharge'] ) ? $hdcharge = $item['hdcharge'] : $hdcharge = "";
                 isset( $item['payable'] ) ? $payable = $item['payable'] : $payable = "";
+                 
 
-                $TBills = $item['TBill'];
-                // dd($TBills);
-             
-                foreach ($TBills as $value) { 
-                    $hcode = $value['hcode'];
-                    $station = $value['station'];
-                    $invno = $value['invno'];
-                    $dttran = $value['dttran'];
-                    $hdrate = $value['hdrate'];
-                    $hdcharge = $value['hdcharge'];
-                    $amount = $value['amount'];
-                    $paid = $value['paid'];
-                    $rid = $value['rid'];
-                    $accp = $value['accp'];
-                    $HDflag = $value['HDflag']; 
-                    // dd($amount);
-                    $dttranDate = explode("T",$value['dttran']);
-                    $dttdate = $dttranDate[0];
-                    $dtttime = $dttranDate[1];
-                    // dd($dttdate);
-                    $checkc = Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate)->count();
-                    if ( $checkc > 0) {
-                        Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate) 
-                            ->update([ 
-                                'cid'              => $pid,  
-                                'invno'            => $invno,
-                                'dttran'           => $dttran,
-                                'hdrate'           => $hdrate,
-                                'hdcharge'         => $hdcharge,
-                                'amount'           => $amount, 
-                                'paid'             => $paid,
-                                'rid'              => $rid,
-                                'accp'             => $accp,
-                                'HDflag'           => $HDflag                               
-                        ]);
-                    } else {
-                        Acc_stm_ti::insert([
-                            'cid'              => $pid,  
-                            'invno'            => $invno,
-                            'dttran'           => $dttran,
-                            'hdrate'           => $hdrate,
-                            'hdcharge'         => $hdcharge,
-                            'amount'           => $amount, 
-                            'paid'             => $paid,
-                            'rid'              => $rid,
-                            'accp'             => $accp,
-                            'HDflag'           => $HDflag, 
-                            'fullname'         => $name,
-                            'hn'               => $hn,
-                            'vstdate'          => $dttdate 
-                        ]);        
-                         
-                    } 
-                }
-             
-              
+
+                // Stm::where('AN', $an) 
+                //     ->update([ 
+                //         'AdjRW'              => $adjrw1,
+                //         'AdjRW2'             => $adjrw,
+                //         'drg'               => $drg,
+                //         'PP'                 => $PP,
+                //         'REPNO'              => $Ref, 
+                //         'Filename'           => $file,
+                //         'total_back_stm'     => $Reimb,
+                //         'status'             => 'STATMENT'                                
+                //     ]); 
             }
  
                 return redirect()->back();

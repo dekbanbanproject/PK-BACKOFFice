@@ -1674,8 +1674,7 @@ class AccountPKController extends Controller
             // @$TBill = $result['HDBills']['HDBill'];
             $bills_       = @$HDBills; 
             // $tbills_       = @$HDBills['TBill']; 
-            // $hreg = $result['HDBills']['HDBill'];
-            // dd($hreg);
+            // dd($bills_);
 
             foreach ($bills_ as $item) { 
                 isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
@@ -1688,20 +1687,29 @@ class AccountPKController extends Controller
 
                 $TBills = $item['TBill'];
                 // dd($TBills);
-             
-                foreach ($TBills as $value) { 
-                    $hcode = $value['hcode'];
-                    $station = $value['station'];
-                    $invno = $value['invno'];
-                    $dttran = $value['dttran'];
-                    $hdrate = $value['hdrate'];
-                    $hdcharge = $value['hdcharge'];
-                    $amount = $value['amount'];
-                    $paid = $value['paid'];
-                    $rid = $value['rid'];
-                    $accp = $value['accp'];
-                    $HDflag = $value['HDflag']; 
-                    // dd($amount);
+                foreach ($TBills as $key => $value) {
+                    isset( $value['hcode'] ) ? $hcode = $value['hcode'] : $hcode = "";
+                    isset( $value['station'] ) ? $station = $value['station'] : $station = "";
+                    isset( $value['invno'] ) ? $invno = $value['invno'] : $invno = "";
+                    isset( $value['dttran'] ) ? $dttran = $value['dttran'] : $dttran = "";
+                    isset( $value['hdrate'] ) ? $hdrate = $value['hdrate'] : $hdrate = "";
+                    isset( $value['hdcharge'] ) ? $hdcharge = $value['hdcharge'] : $hdcharge = "";
+                    isset( $value['amount'] ) ? $amount = $value['amount'] : $amount = "";
+                    isset( $value['paid'] ) ? $paid = $value['paid'] : $paid = "";
+                    isset( $value['rid'] ) ? $rid = $value['rid'] : $rid = "";
+                    isset( $value['accp'] ) ? $accp = $value['accp'] : $accp = "";
+                    isset( $value['HDflag'] ) ? $HDflag = $value['HDflag'] : $HDflag = "";
+                    // $hcode = $value['hcode'] ;
+                    // $invno = $value['invno'];
+                    // $dttran = $value['dttran'];
+                    // $hdrate = $value['hdrate'];
+                    // $hdcharge = $value['hdcharge'];
+                    // $amount = $value['amount'];
+                    // $paid = $value['paid'];
+                    // $rid = $value['rid'];
+                    // $accp = $value['accp'];
+                    // $HDflag = $value['HDflag'];
+               
                     $dttranDate = explode("T",$value['dttran']);
                     $dttdate = $dttranDate[0];
                     $dtttime = $dttranDate[1];
@@ -1722,7 +1730,7 @@ class AccountPKController extends Controller
                                 'HDflag'           => $HDflag                               
                         ]);
                     } else {
-                        Acc_stm_ti::insert([
+                        $data_add = Acc_stm_ti::create([
                             'cid'              => $pid,  
                             'invno'            => $invno,
                             'dttran'           => $dttran,
@@ -1735,10 +1743,15 @@ class AccountPKController extends Controller
                             'HDflag'           => $HDflag, 
                             'fullname'         => $name,
                             'hn'               => $hn,
-                            'vstdate'          => $dttdate 
-                        ]);        
-                         
-                    } 
+                            'vstdate'          => $dttdate  
+                        ]);
+                        $data_add->save();
+                   
+                    }
+                    
+                    
+
+
                 }
              
               
