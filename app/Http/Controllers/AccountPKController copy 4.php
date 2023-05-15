@@ -1663,7 +1663,7 @@ class AccountPKController extends Controller
             $json = json_encode($xmlObject); 
             $result = json_decode($json, true); 
         
-            // dd($result);
+            dd($result);
             @$stmAccountID = $result['stmAccountID'];
             @$hcode = $result['hcode'];
             @$hname = $result['hname'];
@@ -1674,57 +1674,44 @@ class AccountPKController extends Controller
             @$dateData = $result['dateData'];
             @$dateIssue = $result['dateIssue'];
             @$acount = $result['acount'];
-            @$Total_amount = $result['amount'];
-            @$Total_thamount = $result['thamount'];
+            @$amount = $result['amount'];
+            @$thamount = $result['thamount'];
 
             @$STMdat = $result['STMdat'];
 
-            @$TBills = $result['TBills']['TBill'];
-            // @$HDBills = $result['HDBills']['HDBill'];
+
+            @$HDBills = $result['HDBills']['HDBill'];
             // @$TBill = $result['HDBills']['HDBill'];
-            $bills_       = @$TBills; 
+            $bills_       = @$HDBills; 
             // $tbills_       = @$HDBills['TBill']; 
             // $hreg = $result['HDBills']['HDBill'];
-            dd($bills_);
+            // dd($bills_);
 
-            // foreach ($bills_ as $item) { 
-            //     isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
-            //     isset( $item['hn'] ) ? $hn = $item['hn'] : $hn = "";
-            //     isset( $item['name'] ) ? $name = $item['name'] : $name = "";
-            //     isset( $item['pid'] ) ? $pid = $item['pid'] : $pid = ""; 
-            //     isset( $item['quota'] ) ? $quota = $item['quota'] : $quota = "";
-            //     isset( $item['hdcharge'] ) ? $hdcharge = $item['hdcharge'] : $hdcharge = "";
-            //     isset( $item['payable'] ) ? $payable = $item['payable'] : $payable = "";
-            //     $TBills = $item['TBill'];
-            //     dd($TBills);
+            foreach ($bills_ as $item) { 
+                isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
+                isset( $item['hn'] ) ? $hn = $item['hn'] : $hn = "";
+                isset( $item['name'] ) ? $name = $item['name'] : $name = "";
+                isset( $item['pid'] ) ? $pid = $item['pid'] : $pid = ""; 
+                isset( $item['quota'] ) ? $quota = $item['quota'] : $quota = "";
+                isset( $item['hdcharge'] ) ? $hdcharge = $item['hdcharge'] : $hdcharge = "";
+                isset( $item['payable'] ) ? $payable = $item['payable'] : $payable = "";
+
+                $TBills = $item['TBill'];
+                // dd($TBills);
              
-                foreach ($bills_ as $value) { 
-                    // $hreg = $value->hreg;
-                    // $station = $value->station;
-                    // $invno = $value->invno;
-                    // $hn = $value->hn; 
-                    // $amount = $value->amount;
-                    // $paid = $value->paid;
-                    // $rid = $value->rid; 
-                    // $HDflag = $value->HDflag; 
-
-                    isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
-                    isset( $item['station'] ) ? $station = $item['station'] : $station = "";
-                    isset( $item['invno'] ) ? $invno = $item['invno'] : $invno = "";
-                    isset( $item['hn'] ) ? $hn = $item['hn'] : $hn = "";
-                    isset( $item['amount'] ) ? $amount = $item['amount'] : $amount = "";
-                    isset( $item['paid'] ) ? $paid = $item['paid'] : $paid = "";
-                    isset( $item['rid'] ) ? $rid = $item['rid'] : $rid = "";
-                    isset( $item['HDflag'] ) ? $HDflag = $item['HDflag'] : $HDflag = "";
-                    // $hreg = $value['hreg'];
-                    // $station = $value['station'];
-                    // $invno = $value['invno'];
-                    // $hn = $value['hn']; 
-                    // $amount = $value['amount'];
-                    // $paid = $value['paid'];
-                    // $rid = $value['rid']; 
-                    // $HDflag = $value['HDflag']; 
-                    dd($hn);
+                foreach ($TBills as $value) { 
+                    $hcode = $value['hcode'];
+                    $station = $value['station'];
+                    $invno = $value['invno'];
+                    $dttran = $value['dttran'];
+                    $hdrate = $value['hdrate'];
+                    $hdcharge = $value['hdcharge'];
+                    $amount = $value['amount'];
+                    $paid = $value['paid'];
+                    $rid = $value['rid'];
+                    $accp = $value['accp'];
+                    $HDflag = $value['HDflag']; 
+                    // dd($amount);
                     $dttranDate = explode("T",$value['dttran']);
                     $dttdate = $dttranDate[0];
                     $dtttime = $dttranDate[1];
@@ -1732,25 +1719,32 @@ class AccountPKController extends Controller
                     $checkc = Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate)->count();
                     if ( $checkc > 0) {
                         Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate) 
-                            ->update([   
+                            ->update([ 
+                                'cid'              => $pid,  
                                 'invno'            => $invno,
-                                'dttran'           => $dttranDate, 
-                                'hn'               => $hn, 
+                                'dttran'           => $dttran,
+                                'hdrate'           => $hdrate,
+                                'hdcharge'         => $hdcharge,
                                 'amount'           => $amount, 
                                 'paid'             => $paid,
-                                'rid'              => $rid, 
-                                'HDflag'           => $HDflag,
-                                'vstdate'          => $dttdate                                
+                                'rid'              => $rid,
+                                'accp'             => $accp,
+                                'HDflag'           => $HDflag                               
                         ]);
                     } else {
                         Acc_stm_ti::insert([
+                            'cid'              => $pid,  
                             'invno'            => $invno,
-                            'dttran'           => $dttranDate, 
-                            'hn'               => $hn, 
+                            'dttran'           => $dttran,
+                            'hdrate'           => $hdrate,
+                            'hdcharge'         => $hdcharge,
                             'amount'           => $amount, 
                             'paid'             => $paid,
-                            'rid'              => $rid, 
-                            'HDflag'           => $HDflag,
+                            'rid'              => $rid,
+                            'accp'             => $accp,
+                            'HDflag'           => $HDflag, 
+                            'fullname'         => $name,
+                            'hn'               => $hn,
                             'vstdate'          => $dttdate 
                         ]);        
                          
@@ -1758,7 +1752,7 @@ class AccountPKController extends Controller
                 }
              
               
-            // }
+            }
  
                 return redirect()->back();
          

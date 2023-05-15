@@ -1695,36 +1695,23 @@ class AccountPKController extends Controller
             //     isset( $item['quota'] ) ? $quota = $item['quota'] : $quota = "";
             //     isset( $item['hdcharge'] ) ? $hdcharge = $item['hdcharge'] : $hdcharge = "";
             //     isset( $item['payable'] ) ? $payable = $item['payable'] : $payable = "";
+
             //     $TBills = $item['TBill'];
-            //     dd($TBills);
+                // dd($TBills);
              
                 foreach ($bills_ as $value) { 
-                    // $hreg = $value->hreg;
-                    // $station = $value->station;
-                    // $invno = $value->invno;
-                    // $hn = $value->hn; 
-                    // $amount = $value->amount;
-                    // $paid = $value->paid;
-                    // $rid = $value->rid; 
-                    // $HDflag = $value->HDflag; 
-
-                    isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
-                    isset( $item['station'] ) ? $station = $item['station'] : $station = "";
-                    isset( $item['invno'] ) ? $invno = $item['invno'] : $invno = "";
-                    isset( $item['hn'] ) ? $hn = $item['hn'] : $hn = "";
-                    isset( $item['amount'] ) ? $amount = $item['amount'] : $amount = "";
-                    isset( $item['paid'] ) ? $paid = $item['paid'] : $paid = "";
-                    isset( $item['rid'] ) ? $rid = $item['rid'] : $rid = "";
-                    isset( $item['HDflag'] ) ? $HDflag = $item['HDflag'] : $HDflag = "";
-                    // $hreg = $value['hreg'];
-                    // $station = $value['station'];
-                    // $invno = $value['invno'];
-                    // $hn = $value['hn']; 
-                    // $amount = $value['amount'];
-                    // $paid = $value['paid'];
-                    // $rid = $value['rid']; 
-                    // $HDflag = $value['HDflag']; 
-                    dd($hn);
+                    $hcode = $value['hcode'];
+                    $station = $value['station'];
+                    $invno = $value['invno'];
+                    $dttran = $value['dttran'];
+                    $hdrate = $value['hdrate'];
+                    $hdcharge = $value['hdcharge'];
+                    $amount = $value['amount'];
+                    $paid = $value['paid'];
+                    $rid = $value['rid'];
+                    $accp = $value['accp'];
+                    $HDflag = $value['HDflag']; 
+                    // dd($amount);
                     $dttranDate = explode("T",$value['dttran']);
                     $dttdate = $dttranDate[0];
                     $dtttime = $dttranDate[1];
@@ -1732,25 +1719,32 @@ class AccountPKController extends Controller
                     $checkc = Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate)->count();
                     if ( $checkc > 0) {
                         Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate) 
-                            ->update([   
+                            ->update([ 
+                                'cid'              => $pid,  
                                 'invno'            => $invno,
-                                'dttran'           => $dttranDate, 
-                                'hn'               => $hn, 
+                                'dttran'           => $dttran,
+                                'hdrate'           => $hdrate,
+                                'hdcharge'         => $hdcharge,
                                 'amount'           => $amount, 
                                 'paid'             => $paid,
-                                'rid'              => $rid, 
-                                'HDflag'           => $HDflag,
-                                'vstdate'          => $dttdate                                
+                                'rid'              => $rid,
+                                'accp'             => $accp,
+                                'HDflag'           => $HDflag                               
                         ]);
                     } else {
                         Acc_stm_ti::insert([
+                            'cid'              => $pid,  
                             'invno'            => $invno,
-                            'dttran'           => $dttranDate, 
-                            'hn'               => $hn, 
+                            'dttran'           => $dttran,
+                            'hdrate'           => $hdrate,
+                            'hdcharge'         => $hdcharge,
                             'amount'           => $amount, 
                             'paid'             => $paid,
-                            'rid'              => $rid, 
-                            'HDflag'           => $HDflag,
+                            'rid'              => $rid,
+                            'accp'             => $accp,
+                            'HDflag'           => $HDflag, 
+                            'fullname'         => $name,
+                            'hn'               => $hn,
                             'vstdate'          => $dttdate 
                         ]);        
                          

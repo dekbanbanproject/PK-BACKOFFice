@@ -43,6 +43,11 @@ return new class extends Migration
                 $table->string('rid')->nullable();//  
                 $table->string('accp')->nullable();//  
                 $table->string('HDflag')->nullable();//   
+
+                $table->string('AccPeriod')->nullable();//  
+                $table->string('STMdoc')->nullable();//  
+                $table->string('Total_amount')->nullable();//  
+                $table->string('Total_thamount')->nullable();//  
                 
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH'])->default('REP')->nullable(); 
                 $table->timestamps();

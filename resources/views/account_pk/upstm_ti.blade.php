@@ -109,17 +109,42 @@
                 <div class="col"></div>
             </div>
 
-            <div class="row">
-                <div class="col"></div>
-                <div class="col-xl-8 col-md-6">
-                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="UpdateHN">
-                        <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
-                        UPDATE HN IS NULL
-                    </button>
-                </div>
-                <div class="col"></div>
-            </div>
-           
+            <form action="{{ route('acc.upstm_hn') }}" method="POST" id="Upstmti"  enctype="multipart/form-data">
+                @csrf
+                {{-- <div class="main-card mb-3 card"> --}}
+
+                    <div class="row">
+                        <div class="col"></div>
+                        <div class="col-xl-8 col-md-6">
+                            <div class="main-card mb-3 card">
+                                <div class="grid-menu-col">
+                                    <div class="g-0 row">
+                                                    <div class="col"></div>
+                                                    <div class="col-md-1 text-end mt-2">วันที่</div>
+                                                    <div class="col-md-3 text-end">
+                                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                data-date-language="th-th" required/>
+                                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                data-date-language="th-th" required/>  
+                                                        </div> 
+                                                    </div>
+                                                    <div class="col-xl-2 col-md-6">
+                                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="UpdateHN">
+                                                            <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UPDATE HN IS NULL"></i>
+                                                            UPDATE HN IS NULL
+                                                        </button>
+                                                    </div>
+                                                    <div class="col"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="col"></div>
+                    </div>
+                     
+            </form>
        
     </div>
   
@@ -138,14 +163,53 @@
                 format: 'yyyy-mm-dd'
             });
 
-           $('#Savebtn').click(function() {
-                    var medical_typecatname = $('#medical_typecatname').val();  
+            $('#Upstmti').on('submit',function(e){
+              e.preventDefault(); 
+              var form = this;
+              // alert('OJJJJOL');
+              $.ajax({
+                url:$(form).attr('action'),
+                method:$(form).attr('method'),
+                data:new FormData(form),
+                processData:false,
+                dataType:'json',
+                contentType:false,
+                beforeSend:function(){
+                  $(form).find('span.error-text').text('');
+                },
+                success:function(data){
+                  if (data.status == 200 ) {     
+                    Swal.fire({
+                      title: 'Up Statment สำเร็จ',
+                      text: "You Up Statment data success",
+                      icon: 'success',
+                      showCancelButton: false,
+                      confirmButtonColor: '#06D177',
+                      // cancelButtonColor: '#d33',
+                      confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                      if (result.isConfirmed) {                  
+                        window.location.reload(); 
+                      }
+                    })        
+                    
+                  } else {          
+                       
+                  }
+                }
+              });
+            });
+
+           $('#UpdateHN').click(function() {
+                    var datepicker = $('#datepicker').val();  
+                    var datepicker2 = $('#datepicker2').val();
+
                     $.ajax({
-                        url: "{{ route('med.med_consave') }}",
+                        url: "{{ route('acc.upstm_hn') }}",
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            medical_typecatname 
+                            datepicker,datepicker2 
                         },
                         success: function(data) {
                             if (data.status == 200) {
