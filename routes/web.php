@@ -91,6 +91,7 @@ Route::match(['get','post'],'sit',[App\Http\Controllers\AutoController::class, '
 Route::match(['get','post'],'sit_pull_auto',[App\Http\Controllers\AutoController::class, 'sit_pull_auto'])->name('sit.sit_pull_auto');//
 Route::match(['get','post'],'sit_auto',[App\Http\Controllers\AutoController::class, 'sit_auto'])->name('sit.sit_auto');//
 Route::match(['get','post'],'repage',[App\Http\Controllers\AutoController::class, 'repage'])->name('sit.repage');//
+Route::match(['get','post'],'sit_pullacc_auto',[App\Http\Controllers\AutoController::class, 'sit_pullacc_auto'])->name('auto.sit_pullacc_auto');//
 
 
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//

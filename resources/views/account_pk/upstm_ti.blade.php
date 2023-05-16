@@ -109,39 +109,40 @@
                 <div class="col"></div>
             </div>
 
-            <form action="{{ route('acc.upstm_hn') }}" method="POST" id="Upstmti"  enctype="multipart/form-data">
-                @csrf
-                {{-- <div class="main-card mb-3 card"> --}}
-
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col-xl-8 col-md-6">
-                            <div class="main-card mb-3 card">
+        
+                    <form action="{{ route('acc.upstm_hn') }}" method="POST" id="Upstmti"  enctype="multipart/form-data">
+                        @csrf
+                    <div class="row"> 
+                      
+                        <div class="col"></div> 
+                        <div class="col-md-8">
+                            <div class="main-card mb-2 card" style="height: 400px;">
                                 <div class="grid-menu-col">
-                                    <div class="g-0 row">
-                                                    <div class="col"></div>
-                                                    <div class="col-md-1 text-end mt-2">วันที่</div>
-                                                    <div class="col-md-3 text-end">
-                                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                                data-date-language="th-th" required/>
-                                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                                data-date-language="th-th" required/>  
-                                                        </div> 
-                                                    </div>
-                                                    <div class="col-xl-2 col-md-6">
-                                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="UpdateHN">
-                                                            <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UPDATE HN IS NULL"></i>
-                                                            UPDATE HN IS NULL
-                                                        </button>
-                                                    </div>
-                                                    <div class="col"></div>
+                                    <div class="row mt-3 mb-3">
+                                        <div class="col"></div> 
+                                        <div class="col-md-1 text-end mt-2">วันที่</div>
+                                        <div class="col-md-4 text-end">
+                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                    data-date-language="th-th" required/>
+                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                    data-date-language="th-th" required/>  
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UPDATE HN IS NULL"></i>
+                                                UPDATE HN IS NULL
+                                            </button>
+                                        </div>
+                                        <div class="col"></div>
                                     </div>
                                 </div>
                             </div>
-                        <div class="col"></div>
+                        </div>
+                        <div class="col"></div> 
                     </div>
                      
             </form>
@@ -200,42 +201,42 @@
               });
             });
 
-           $('#UpdateHN').click(function() {
-                    var datepicker = $('#datepicker').val();  
-                    var datepicker2 = $('#datepicker2').val();
+        //    $('#UpdateHN').click(function() {
+        //             var datepicker = $('#datepicker').val();  
+        //             var datepicker2 = $('#datepicker2').val();
 
-                    $.ajax({
-                        url: "{{ route('acc.upstm_hn') }}",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            datepicker,datepicker2 
-                        },
-                        success: function(data) {
-                            if (data.status == 200) {
-                                Swal.fire({
-                                    title: 'อัพเดทข้อมูลสำเร็จ',
-                                    text: "You Update data success",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#06D177',
-                                    confirmButtonText: 'เรียบร้อย'
-                                }).then((result) => {
-                                    if (result
-                                        .isConfirmed) {
-                                        console.log(
-                                            data);
-                                        window.location.reload();
-                                        // window.location="{{url('warehouse/warehouse_index')}}";
-                                    }
-                                })
-                            } else {
+        //             $.ajax({
+        //                 url: "{{ route('acc.upstm_hn') }}",
+        //                 type: "POST",
+        //                 dataType: 'json',
+        //                 data: {
+        //                     datepicker,datepicker2 
+        //                 },
+        //                 success: function(data) {
+        //                     if (data.status == 200) {
+        //                         Swal.fire({
+        //                             title: 'อัพเดทข้อมูลสำเร็จ',
+        //                             text: "You Update data success",
+        //                             icon: 'success',
+        //                             showCancelButton: false,
+        //                             confirmButtonColor: '#06D177',
+        //                             confirmButtonText: 'เรียบร้อย'
+        //                         }).then((result) => {
+        //                             if (result
+        //                                 .isConfirmed) {
+        //                                 console.log(
+        //                                     data);
+        //                                 window.location.reload();
+        //                                 // window.location="{{url('warehouse/warehouse_index')}}";
+        //                             }
+        //                         })
+        //                     } else {
                                  
-                            }
+        //                     }
 
-                        },
-                    });
-            });
+        //                 },
+        //             });
+        //     });
               
         });
     </script>

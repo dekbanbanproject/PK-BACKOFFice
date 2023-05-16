@@ -57,6 +57,7 @@ use App\Models\Dashboard_authen_day;
 use App\Models\Dashboard_department_authen;
 use App\Models\Visit_pttype_authen_report;
 use App\Models\Dashboard_authenstaff_day;
+use App\Models\Acc_debtor;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -174,7 +175,7 @@ class AutoController extends Controller
         '); 
         // SELECT cid,vn
         // FROM check_sit_auto  
-        // WHERE vstdate = "2023-05-13"             
+        // WHERE vstdate = "2023-05-15"             
         // AND subinscl IS NULL   
         // LIMIT 30
 
@@ -627,6 +628,94 @@ class AutoController extends Controller
         
     }
 
+    public function sit_pullacc_auto(Request $request)
+    { 
+            $datashow = DB::connection('mysql3')->select(' 
+                SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                        ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                        ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+                        ,v.hospmain
+                        ,o.vstdate as vstdatesave 
+                        ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
+                        ,ptt.pttype_acc_eclaimid 
+                        ,o.pttype,ptt.pttype_acc_name
+                        ,e.gf_opd as gfmis,e.code as acc_code
+                        ,e.ar_opd as account_code
+                        ,e.name as account_name 
+                        ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                        ,v.rcpno_list as rcpno            
+                        ,v.income-v.discount_money-v.rcpt_money as debit 
+                    from ovst o 
+                    left join vn_stat v on v.vn=o.vn
+                    left join patient pt on pt.hn=o.hn
+                    left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
+                    left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
+                where o.vstdate = CURDATE() 
+                and an IS NULL
+                group by o.vn
+            ');  
+            // CURDATE()
+            // between "2023-01-08" and "2023-01-10" 
+           
+            foreach ($datashow as $key => $value) {
+                $check = Acc_debtor::where('vn', $value->vn)->count();
+                if ($check > 0) {
+                    // Acc_debtor::where('vn', $value->vn)
+                    // ->update([   
+                        // 'hn'                => $value->hn,
+                        // 'an'                => $value->an,
+                        // 'cid'               => $value->cid,
+                        // 'ptname'            => $value->ptname,
+                        // 'ptsubtype'         => $value->ptsubtype,
+                        // 'pttype_eclaim_id'  => $value->pttype_acc_eclaimid, 
+                        // 'hospmain'          => $value->hospmain,
+                        // 'pttype'            => $value->pttype,
+                        // 'pttypename'        => $value->pttype_acc_name,
+                        // 'vstdate'           => $value->vstdatesave,
+                        // 'vsttime'           => $value->vsttime,
+                        // 'gfmis'             => $value->gfmis,
+                        // 'acc_code'          => $value->acc_code,
+                        // 'account_code'      => $value->account_code,
+                        // 'account_name'      => $value->account_name, 
+                        // 'income'            => $value->income,
+                        // 'uc_money'          => $value->uc_money,
+                        // 'discount_money'    => $value->discount_money,
+                        // 'paid_money'        => $value->paid_money,
+                        // 'rcpt_money'        => $value->rcpt_money,
+                        // 'rcpno'             => $value->rcpno,
+                        // 'debit'             => $value->debit 
+                    // ]); 
+                } else {
+                    Acc_debtor::insert([
+                        'vn' => $value->vn,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an,
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'ptsubtype'         => $value->ptsubtype,
+                        'pttype_eclaim_id'  => $value->pttype_acc_eclaimid, 
+                        'hospmain'          => $value->hospmain,
+                        'pttype'            => $value->pttype,
+                        'pttypename'        => $value->pttype_acc_name,
+                        'vstdate'           => $value->vstdatesave,
+                        'vsttime'           => $value->vsttime,
+                        'gfmis'             => $value->gfmis,
+                        'acc_code'          => $value->acc_code,
+                        'account_code'      => $value->account_code,
+                        'account_name'      => $value->account_name, 
+                        'income'            => $value->income,
+                        'uc_money'          => $value->uc_money,
+                        'discount_money'    => $value->discount_money,
+                        'paid_money'        => $value->paid_money,
+                        'rcpt_money'        => $value->rcpt_money,
+                        'rcpno'             => $value->rcpno,
+                        'debit'             => $value->debit 
+                    ]);
+                }
+                
+            }
+            return view('auto.sit_pullacc_auto');
+    }
  
     
 }

@@ -280,7 +280,7 @@ class AccountPKController extends Controller
         return response()->json([
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
-            'status'    => '200' 
+            'status'        => '200' 
         ]); 
     }
     // public function account_pksave(Request $request)
@@ -1799,12 +1799,34 @@ class AccountPKController extends Controller
     }
     public function upstm_hn(Request $request)
     { 
-        $startdate = $request->startdate;
-        $enddate = $request->enddate; 
-        
-        return response()->json([
-            'status'    => '200'
+        $startdate = $request->datepicker;
+        $enddate = $request->datepicker2; 
+       
+        $acc_debtor = DB::select('
+            SELECT tranid,hn,cid,vstdate from acc_stm_ti                
+            WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+            AND hn is null;
+        '); 
+        // AND hn is null; 
+        foreach ($acc_debtor as $key => $value) {
+
+            $data_ = DB::table('acc_stm_ti')->where('hn','<>','')->where('cid','=',$value->cid)->first();
+            $datahn = $data_->hn;
+            
+            Acc_stm_ti::where('cid', $value->cid)
+            // ->where('vstdate', $value->vstdate)
+            // ->where('hn','=',$datahn) 
+                    ->update([   
+                            'hn'   => $datahn  
+                ]);
+        }
+        return view('account_pk.upstm_ti',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,            
         ]);
+        // return response()->json([
+        //     'status'    => '200'
+        // ]);
     }
 
     public function upstm_ti_import(Request $request)

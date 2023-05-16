@@ -80,7 +80,8 @@
             @csrf
             <div class="row"> 
                 <div class="col"></div>
-                <div class="col-md-1 text-end">วันที่</div>
+
+                {{-- <div class="col-md-1 text-end">วันที่</div>
                 <div class="col-md-2 text-center">
                     <div class="input-group" id="datepicker1">
                         <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
@@ -99,19 +100,33 @@
 
                         <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                     </div>
-                </div>                         
+                </div>   --}}
+                
+                
+                <div class="col-md-1 text-end mt-2">วันที่</div>
+                    <div class="col-md-4 text-end">
+                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $startdate }}" required/>
+                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $enddate }}"/>  
+                        </div> 
+                    </div>
+                               
+
+
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         {{-- <i class="fa-solid fa-1 me-2"></i> --}}
                         ค้นหา 
                     </button>  
                     {{-- <a href="{{url('account_pksave')}}" class="btn btn-info" id="Save_opd"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ดึงข้อมูล</a>  --}}
-                    <button type="button" class="btn btn-info" id="Save_opd">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Save_opd">
                         <i class="fa-solid fa-1 me-2"></i>
                         {{-- <i class="fa-solid fa-arrow-up-right-from-square me-2"> </i> --}}
                         ดึงข้อมูล</button>    
-                    <button type="button" class="btn btn-secondary" id="Check_sit">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sit">
                         <i class="fa-solid fa-2 me-2"></i>
                         {{-- <i class="fa-solid fa-arrow-up-right-from-square me-2"></i> --}}
                         ตรวจสอบสิทธิ์
