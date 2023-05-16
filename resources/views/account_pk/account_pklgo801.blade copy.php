@@ -1,12 +1,7 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 
-     <?php
-     use App\Http\Controllers\StaticController;
-     use Illuminate\Support\Facades\DB;   
-     $count_meettingroom = StaticController::count_meettingroom();
- ?>
-
+     
 
 @section('content')
     <script>
@@ -25,7 +20,7 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    <style>
+      <style>
         #button{
                display:block;
                margin:20px auto;
@@ -53,81 +48,33 @@
                width: 250px;
                height: 250px;
                border: 10px #ddd solid;
-               border-top: 10px #1fdab1 solid;
+               border-top: 10px #fd6812 solid;
                border-radius: 50%;
                animation: sp-anime 0.8s infinite linear;
                }
                @keyframes sp-anime {
                100% { 
-                   transform: rotate(390deg); 
+                   transform: rotate(360deg); 
                }
                }
                .is-hide{
                display:none;
                }
     </style>
-     
+     <?php
+     use App\Http\Controllers\StaticController;
+     use Illuminate\Support\Facades\DB;   
+     $count_meettingroom = StaticController::count_meettingroom();
+ ?>
     <div class="container-fluid">
-          <!-- Loader -->
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner">
-                
+     
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    
+                </div>
             </div>
         </div>
-    </div>
-        <form action="{{ route('acc.account_pk') }}" method="POST">
-            @csrf
-            <div class="row"> 
-                <div class="col"></div>
-                <div class="col-md-1 text-end">วันที่</div>
-                <div class="col-md-2 text-center">
-                    <div class="input-group" id="datepicker1">
-                        <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                            value="{{ $startdate }}">
-
-                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="col-md-1 text-center">ถึงวันที่</div>
-                <div class="col-md-2 text-center">
-                    <div class="input-group" id="datepicker1">
-                        <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                            value="{{ $enddate }}">
-
-                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                </div>                         
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        {{-- <i class="fa-solid fa-1 me-2"></i> --}}
-                        ค้นหา 
-                    </button>  
-                    {{-- <a href="{{url('account_pksave')}}" class="btn btn-info" id="Save_opd"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ดึงข้อมูล</a>  --}}
-                    <button type="button" class="btn btn-info" id="Save_opd">
-                        <i class="fa-solid fa-1 me-2"></i>
-                        {{-- <i class="fa-solid fa-arrow-up-right-from-square me-2"> </i> --}}
-                        ดึงข้อมูล</button>    
-                    <button type="button" class="btn btn-secondary" id="Check_sit">
-                        <i class="fa-solid fa-2 me-2"></i>
-                        {{-- <i class="fa-solid fa-arrow-up-right-from-square me-2"></i> --}}
-                        ตรวจสอบสิทธิ์
-                    </button>   
-                                          
-                </div>
-                <div class="col"></div>
-            </div> 
-        </form>
-        <div class="row mt-3 text-center">  
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
-                </div>
-              </div>
-        </div> 
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card">
@@ -139,24 +86,22 @@
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                             </div>
                             <div class="col"></div>
-                            {{-- <div class="col-md-2 text-end">
+                            <div class="col-md-2 text-end">
                                 <button type="button" class="btn btn-warning Savestamp" data-url="{{url('account_pk_debtor')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                            </div> --}}
+                            </div>
                         </div>
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                {{-- <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                {{-- <table id="example" class="table table-hover table-sm table-light dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                    <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                                <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            {{-- <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th>  --}}
+                                            <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
@@ -165,15 +110,15 @@
                                             <th class="text-center">vstdate</th> 
                                             {{-- <th class="text-center">vsttime</th>   --}}
                                             <th class="text-center">pttype</th>
-                                            {{-- <th class="text-center" width="8%">pttypename</th>  --}}
+                                            <th class="text-center" width="8%">pttypename</th> 
 
-                                            {{-- <th class="text-center">pttype_spsch</th> --}}
-                                            {{-- <th class="text-center">hsub</th> --}}
+                                            <th class="text-center">pttype_spsch</th>
+                                            <th class="text-center">hsub</th>
 
-                                            {{-- <th class="text-center" width="7%">ptsubtype</th> --}}
-                                            {{-- <th class="text-center">pttype_eclaim_id</th> --}}
+                                            <th class="text-center" width="7%">ptsubtype</th>
+                                            <th class="text-center">pttype_eclaim_id</th>
                                             <th class="text-center">pttype_eclaim_name</th>
-                                            {{-- <th class="text-center" width="10%">acc_code</th>  --}}
+                                            <th class="text-center" width="10%">acc_code</th> 
                                             <th class="text-center">account_code</th>
                                             <th class="text-center">account_name</th>
                                             <th class="text-center">income</th>
@@ -189,9 +134,9 @@
                                     <tbody>
                                         <?php $i = 1; ?>
                                         @foreach ($acc_debtor as $item) 
-                                            <tr id="tr_{{$item->vn}}">                                                  
+                                            <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>   --}}
+                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
@@ -200,15 +145,15 @@
                                                 <td class="text-center" width="5%">{{ $item->vstdate }}</td>  
                                                 {{-- <td class="text-center">{{ $item->vsttime }}</td>  --}}
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                {{-- <td class="p-2" width="10%">{{ $item->pttype_acc_name }}</td>  --}}
+                                                <td class="p-2" width="10%">{{ $item->pttypename }}</td> 
 
-                                                {{-- <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->pttype_spsch }}</td>  --}}
-                                                {{-- <td class="text-center" width="5%">{{ $item->hsub }}</td>  --}}
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->pttype_spsch }}</td> 
+                                                <td class="text-center" width="5%">{{ $item->hsub }}</td> 
 
-                                                {{-- <td class="p-2">{{ $item->ptsubtype }}</td>  --}}
-                                                {{-- <td class="text-center">{{ $item->pttype_eclaim_id }}</td>  --}}
+                                                <td class="p-2">{{ $item->ptsubtype }}</td> 
+                                                <td class="text-center">{{ $item->pttype_eclaim_id }}</td> 
                                                 <td class="p-2">{{ $item->pttype_eclaim_name }}</td>  
-                                                {{-- <td class="text-center">{{ $item->acc_code }}</td>  --}}
+                                                <td class="text-center">{{ $item->acc_code }}</td> 
                                                 <td class="text-center">{{ $item->account_code }}</td> 
                                                 <td class="text-center">{{ $item->account_name }}</td> 
                                                 <td class="text-center">{{ $item->income }}</td> 
@@ -371,54 +316,39 @@
             $('#Save_opd').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
-                        title: 'ต้องการดึงข้อมูลใช่ไหม ?',
-                        text: "You Check Sit Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, pull it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                $.ajax({
-                                    url: "{{ route('acc.account_pksave') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ดึงข้อมูลสำเร็จ',
-                                                text: "You Pull data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                            }
-                })
+                //    alert(datepicker);
+                $.ajax({
+                    url: "{{ route('acc.account_pksave') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        datepicker,
+                        datepicker2                        
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'ดึงข้อมูลสำเร็จ',
+                                text: "You Pull data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload();
+                                    // window.location="{{url('warehouse/warehouse_index')}}";
+                                }
+                            })
+                        } else {
+                            
+                        }
+
+                    },
+                });
             });
             $('#Check_sit').click(function() {
                 var datepicker = $('#datepicker').val(); 
@@ -435,7 +365,7 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
+                                $("#spinner-div").show(); //Load button clicked show spinner 
                             $.ajax({
                                 url: "{{ route('acc.account_pkCheck_sit') }}",
                                 type: "POST",
@@ -459,60 +389,18 @@
                                                 console.log(
                                                     data);
                                                 window.location.reload();
-                                                $('#spinner').hide();//Request is complete so hide spinner
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
                                                     setTimeout(function(){
                                                         $("#overlay").fadeOut(300);
-                                                 },500);
+                                                    },500);
                                             }
                                         })
-                                    }else if(data.status == 504){
-                                        Swal.fire({
-                                            title: 'เชื่อมต่อ สปสช ใหม่',
-                                            text: "You Check sit New",
-                                            icon: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#06D177',
-                                            confirmButtonText: 'เรียบร้อย'
-                                        }).then((result) => {
-                                            if (result
-                                                .isConfirmed) {
-                                                console.log(
-                                                    data);
-                                                window.location.reload();
-                                                $('#spinner').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                 },500);
-                                            }
-                                        })
-
-                                    } else { 
-                                        Swal.fire({
-                                            title: 'เชื่อมต่อ สปสช ใหม่',
-                                            text: "You Check sit New",
-                                            icon: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#06D177',
-                                            confirmButtonText: 'เรียบร้อย'
-                                        }).then((result) => {
-                                            if (result
-                                                .isConfirmed) {
-                                                console.log(
-                                                    data);
-                                                window.location.reload();
-                                                $('#spinner').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                 },500);
-                                            }
-                                        })
-
+                                    } else {
+                                        
                                     }
 
                                 },
                             });
-
-
                         }
                 })
             });

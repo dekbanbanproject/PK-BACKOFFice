@@ -363,6 +363,15 @@
                                 <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li> 
                             </ul>
                         </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <span>ตั้งค่า</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('acc_setting') }}">Mapping Pttype</a></li>  
+                            </ul>
+                        </li> 
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-chart-line text-danger"></i>

@@ -69,122 +69,61 @@ class AccountPKController extends Controller
         $check = Acc_debtor::count();
         // dd($check);  
         // if ($check > 0) { 
-            if ($startdate == '') {
-                $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('vstdate', [$datenow, $datenow])->get();
-            } else {
-                $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('vstdate', [$startdate, $enddate])->get();
-            }                        
+        //     if ($startdate == '') {
+        //         $acc_debtor = Acc_debtor::where('stamp','=','N')->limit(300)->get();
+        //     } else {
+        //         $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('vstdate', [$startdate, $enddate])->get();
+        //     }                        
         // } else {
-            // $acc_debtor = DB::connection('mysql')->select('
-            // ');
-            // $acc_debtor = DB::connection('mysql3')->select('
-            //         SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-            //             ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-            //             ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
-            //             ,o.vstdate as vstdatesave 
-            //             ,ptt.pttype_acc_eclaimid 
-            //             ,o.pttype 
-            //             ,e.gf_opd as gfmis,e.code as acc_code
-            //             ,e.ar_opd as account_code
-            //                             ,e.name as account_name 
-            //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-            //             ,v.rcpno_list as rcpno            
-            //             ,v.income-v.discount_money-v.rcpt_money as debit 
-            //         from ovst o 
-            //         left join vn_stat v on v.vn=o.vn
-            //         left join patient pt on pt.hn=o.hn
-            //         left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
-            //         left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
- 
-            //     where o.vstdate between "' . $startdate . '" and "' . $enddate . '" 
-            //     and an IS NULL
-            //     group by o.vn        
-            // ');
-            // $datashow = DB::connection('mysql3')->select('
-            //         SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-            //             ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-            //             ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
-            //             ,o.vstdate as vstdatesave 
-            //             ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
-            //             ,ptt.pttype_acc_eclaimid 
-            //             ,o.pttype,ptt.pttype_acc_name
-            //             ,e.gf_opd as gfmis,e.code as acc_code
-            //             ,e.ar_opd as account_code
-            //              ,e.name as account_name 
-            //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-            //             ,v.rcpno_list as rcpno            
-            //             ,v.income-v.discount_money-v.rcpt_money as debit 
-            //         from ovst o 
-            //         left join vn_stat v on v.vn=o.vn
-            //         left join patient pt on pt.hn=o.hn
-            //         left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
-            //         left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
- 
-            //     where o.vstdate between "' . $startdate . '" and "' . $enddate . '" 
-            //     and an IS NULL
-            //     group by o.vn        
-            // ');
-            // foreach ($datashow as $key => $value) {
-            //     $check = Acc_debtor::where('vn', $value->vn)->where('an', '')->count();
-            //     if ($check > 0) {
-            //         Acc_debtor::where('vn', $value->vn)->where('an', '') 
-            //         ->update([   
-            //             'hn' => $value->hn,
-            //             'an' => $value->an,
-            //             'cid' => $value->cid,
-            //             'ptname' => $value->ptname,
-            //             'ptsubtype' => $value->ptsubtype,
-            //             'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
-            //             // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
-            //             'pttype' => $value->pttype,
-            //             'pttypename' => $value->pttype_acc_name,
-            //             'vstdate' => $value->vstdatesave,
-            //             'vsttime' => $value->vsttime,
-            //             'gfmis' => $value->gfmis,
-            //             'acc_code' => $value->acc_code,
-            //             'account_code' => $value->account_code,
-            //             'account_name' => $value->account_name, 
-            //             'income' => $value->income,
-            //             'uc_money' => $value->uc_money,
-            //             'discount_money' => $value->discount_money,
-            //             'paid_money' => $value->paid_money,
-            //             'rcpt_money' => $value->rcpt_money,
-            //             'rcpno' => $value->rcpno,
-            //             'debit' => $value->debit 
-            //         ]); 
-            //     } else {
-            //         Acc_debtor::insert([
-            //             'hn' => $value->hn,
-            //             'an' => $value->an,
-            //             'cid' => $value->cid,
-            //             'ptname' => $value->ptname,
-            //             'ptsubtype' => $value->ptsubtype,
-            //             'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
-            //             // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
-            //             'pttype' => $value->pttype,
-            //             'pttypename' => $value->pttype_acc_name,
-            //             'vstdate' => $value->vstdatesave,
-            //             'vsttime' => $value->vsttime,
-            //             'gfmis' => $value->gfmis,
-            //             'acc_code' => $value->acc_code,
-            //             'account_code' => $value->account_code,
-            //             'account_name' => $value->account_name, 
-            //             'income' => $value->income,
-            //             'uc_money' => $value->uc_money,
-            //             'discount_money' => $value->discount_money,
-            //             'paid_money' => $value->paid_money,
-            //             'rcpt_money' => $value->rcpt_money,
-            //             'rcpno' => $value->rcpno,
-            //             'debit' => $value->debit
-            //         ]);
-            //     }
-                
-            // }
+            $acc_debtor = DB::connection('mysql3')->select('
+                    SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                        ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                        ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+                        ,o.vstdate as vstdatesave 
+                        ,ptt.pttype_acc_eclaimid 
+                        ,o.pttype 
+                        ,e.gf_opd as gfmis,e.code as acc_code
+                        ,e.ar_opd as account_code
+                                        ,e.name as account_name 
+                        ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                        ,v.rcpno_list as rcpno            
+                        ,v.income-v.discount_money-v.rcpt_money as debit 
+                    from ovst o 
+                    left join vn_stat v on v.vn=o.vn
+                    left join patient pt on pt.hn=o.hn
+                    left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
+                    left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
+
+                SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                    ,o.vstdate,totime(o.vsttime) as vsttime
+                    ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
+                    ,ptt.pttype_eclaim_id,e.name as pttype_eclaim_name
+                    ,o.pttype,ptt.name pttypename
+                    ,e.gf_opd as gfmis,e.code as acc_code
+                    ,e.ar_opd as account_code,seekname(e.ar_opd,"account") as account_name 
+                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                    ,v.rcpno_list as rcpno                
+                    ,v.income-v.discount_money-v.rcpt_money as debit
+                    ,(select max(max_debt_amount) cc from visit_pttype where vn=o.vn) as max_debt_amount
+                from ovst o 
+                left join vn_stat v on v.vn=o.vn
+                left join patient pt on pt.hn=o.hn
+                left join pttype ptt on ptt.pttype=o.pttype
+                left join pttype_eclaim e on e.code=ptt.pttype_eclaim_id 
+                where o.vstdate between "' . $startdate . '" and "' . $enddate . '" 
+                and an IS NULL
+                group by o.vn        
+            ');
+            // dd($acc_debtor);   
+        // }
+        // dd($startdate);     
+        // $data['acc_debtor'] = Acc_debtor::get();
         return view('account_pk.account_pk', $data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'      =>     $acc_debtor,
-            // 'datashow'       =>     $datashow
+            // 'pang_id'       =>     $pang_id
         ]);
     }
     public function account_pksave(Request $request)
@@ -193,57 +132,282 @@ class AccountPKController extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         $datashow = DB::connection('mysql3')->select('
-                SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                    ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
-                    ,o.vstdate as vstdatesave 
-                    ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
-                    ,ptt.pttype_acc_eclaimid 
-                    ,o.pttype,ptt.pttype_acc_name
-                    ,e.gf_opd as gfmis,e.code as acc_code
-                    ,e.ar_opd as account_code
-                    ,e.name as account_name 
-                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                    ,v.rcpno_list as rcpno            
-                    ,v.income-v.discount_money-v.rcpt_money as debit 
-                from ovst o 
-                left join vn_stat v on v.vn=o.vn
-                left join patient pt on pt.hn=o.hn
-                left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
-                left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
-
+            SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+                ,o.vstdate as vstdatesave
+                ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
+                ,ptt.pttype_eclaim_id,e.name as pttype_eclaim_name
+                ,o.pttype,ptt.name pttypename
+                ,e.gf_opd as gfmis,e.code as acc_code
+                ,e.ar_opd as account_code,seekname(e.ar_opd,"account") as account_name 
+                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                ,v.rcpno_list as rcpno            
+                ,v.income-v.discount_money-v.rcpt_money as debit
+                ,(select max(max_debt_amount) cc from visit_pttype where vn=o.vn) as max_debt_amount
+            from ovst o 
+            left join vn_stat v on v.vn=o.vn
+            left join patient pt on pt.hn=o.hn
+            left join pttype ptt on ptt.pttype=o.pttype
+            left join pttype_eclaim e on e.code=ptt.pttype_eclaim_id 
             where o.vstdate between "' . $startdate . '" and "' . $enddate . '" 
             and an IS NULL
             group by o.vn        
         ');
-            foreach ($datashow as $key => $value) {
-                $check = Acc_debtor::where('vn', $value->vn)->count();
-                if ($check > 0) {
-                    Acc_debtor::where('vn', $value->vn)
+
+        foreach ($datashow as $key => $value) {
+            // Check_sit_auto::truncate();
+            $check = Acc_debtor::where('vn', $value->vn)->where('an', '')->count();
+            if ($check > 0) {
+                if ($value->pttype == "M1") {
+                    Acc_debtor::where('vn', $value->vn)->where('an', '') 
                     ->update([   
                         'hn' => $value->hn,
                         'an' => $value->an,
                         'cid' => $value->cid,
                         'ptname' => $value->ptname,
                         'ptsubtype' => $value->ptsubtype,
-                        'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
-                        // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
                         'pttype' => $value->pttype,
-                        'pttypename' => $value->pttype_acc_name,
+                        'pttypename' => $value->pttypename,
                         'vstdate' => $value->vstdatesave,
                         'vsttime' => $value->vsttime,
                         'gfmis' => $value->gfmis,
-                        'acc_code' => $value->acc_code,
-                        'account_code' => $value->account_code,
-                        'account_name' => $value->account_name, 
+                        'acc_code' => '',
+                        'account_code' => '1102050101.4011',
+                        'account_name' => 'เบิกจ่ายตรงกรมบัญชีกลาง OP (ฟอกไต)', 
                         'income' => $value->income,
                         'uc_money' => $value->uc_money,
                         'discount_money' => $value->discount_money,
                         'paid_money' => $value->paid_money,
                         'rcpt_money' => $value->rcpt_money,
                         'rcpno' => $value->rcpno,
-                        'debit' => $value->debit 
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
                     ]); 
+                }elseif ($value->pttype == "M6" || $value->pttype == "M7") {
+                    Acc_debtor::where('vn', $value->vn)->where('an', '') 
+                    ->update([   
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,
+                        'acc_code' => '',
+                        'account_code' => '1102050102.8011',
+                        'account_name' => 'เบิกจ่ายตรง อปท. OP(ฟอกไต)',  
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);
+                }elseif ($value->pttype == "M3" || $value->pttype == "M4") {
+                    Acc_debtor::where('vn', $value->vn)->where('an', '') 
+                    ->update([   
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,
+                        'acc_code' => '',
+                        'account_code' => '1102050101.2166',
+                        'account_name' => 'UC OP บริการเฉพาะ (CR)(ฟอกไต)',  
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);
+                }elseif ($value->pttype == "M2" || $value->pttype == "M5") {
+                    Acc_debtor::where('vn', $value->vn)->where('an', '')
+                    ->update([   
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,
+                        'acc_code' => '',
+                        'account_code' => '1102050101.3099',
+                        'account_name' => 'ประกันสังคม-ค่าใช้จ่ายสูง OP(ฟอกไต)',  
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);
+                } else {
+                    Acc_debtor::where('vn', $value->vn)->where('an', '')
+                    ->update([   
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,
+                        'acc_code' => $value->acc_code,
+                        'account_code' => $value->account_code,
+                        'account_name' => $value->account_name,
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);   
+                }
+                
+                  
+            } else {
+
+                if ($value->pttype == "M1") {
+                    Acc_debtor::insert([
+                        'vn' => $value->vn,
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,                            
+                        'acc_code' => '',
+                        'account_code' => '1102050101.4011',
+                        'account_name' => 'เบิกจ่ายตรงกรมบัญชีกลาง OP (ฟอกไต)',    
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);
+                }elseif ($value->pttype == "M6" || $value->pttype == "M7") {
+                    Acc_debtor::insert([
+                        'vn' => $value->vn,
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,                            
+                        'acc_code' => '',
+                        'account_code' => '1102050102.8011',
+                        'account_name' => 'เบิกจ่ายตรง อปท. OP(ฟอกไต)',    
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);
+               
+                }elseif ($value->pttype == "M3" || $value->pttype == "M4") {
+                    Acc_debtor::insert([
+                        'vn' => $value->vn,
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,                            
+                        'acc_code' => '',
+                        'account_code' => '1102050101.2166',
+                        'account_name' => 'UC OP บริการเฉพาะ (CR)(ฟอกไต)',    
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);
+                }elseif ($value->pttype == "M2" || $value->pttype == "M5") {
+                    Acc_debtor::insert([
+                        'vn' => $value->vn,
+                        'hn' => $value->hn,
+                        'an' => $value->an,
+                        'cid' => $value->cid,
+                        'ptname' => $value->ptname,
+                        'ptsubtype' => $value->ptsubtype,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype' => $value->pttype,
+                        'pttypename' => $value->pttypename,
+                        'vstdate' => $value->vstdatesave,
+                        'vsttime' => $value->vsttime,
+                        'gfmis' => $value->gfmis,                            
+                        'acc_code' => '',
+                        'account_code' => '1102050101.3099',
+                        'account_name' => 'ประกันสังคม-ค่าใช้จ่ายสูง OP(ฟอกไต)',    
+                        'income' => $value->income,
+                        'uc_money' => $value->uc_money,
+                        'discount_money' => $value->discount_money,
+                        'paid_money' => $value->paid_money,
+                        'rcpt_money' => $value->rcpt_money,
+                        'rcpno' => $value->rcpno,
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
+                    ]);
                 } else {
                     Acc_debtor::insert([
                         'vn' => $value->vn,
@@ -252,354 +416,36 @@ class AccountPKController extends Controller
                         'cid' => $value->cid,
                         'ptname' => $value->ptname,
                         'ptsubtype' => $value->ptsubtype,
-                        'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
-                        // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
+                        'pttype_eclaim_id' => $value->pttype_eclaim_id,
+                        'pttype_eclaim_name' => $value->pttype_eclaim_name,
                         'pttype' => $value->pttype,
-                        'pttypename' => $value->pttype_acc_name,
+                        'pttypename' => $value->pttypename,
                         'vstdate' => $value->vstdatesave,
                         'vsttime' => $value->vsttime,
-                        'gfmis' => $value->gfmis,
+                        'gfmis' => $value->gfmis,  
                         'acc_code' => $value->acc_code,
                         'account_code' => $value->account_code,
-                        'account_name' => $value->account_name, 
+                        'account_name' => $value->account_name,
                         'income' => $value->income,
                         'uc_money' => $value->uc_money,
                         'discount_money' => $value->discount_money,
                         'paid_money' => $value->paid_money,
                         'rcpt_money' => $value->rcpt_money,
                         'rcpno' => $value->rcpno,
-                        'debit' => $value->debit
+                        'debit' => $value->debit,
+                        'max_debt_amount' => $value->max_debt_amount
                     ]);
                 }
+
                 
-            }
- 
+            }                        
+        }
         return response()->json([
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'status'    => '200' 
         ]); 
     }
-    // public function account_pksave(Request $request)
-    // {
-    //     $datenow = date('Y-m-d');
-    //     $startdate = $request->datepicker;
-    //     $enddate = $request->datepicker2;
-    //     $datashow = DB::connection('mysql3')->select('
-    //         SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-    //             ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-    //             ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
-    //             ,o.vstdate as vstdatesave
-    //             ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
-    //             ,ptt.pttype_eclaim_id,e.name as pttype_eclaim_name
-    //             ,o.pttype,ptt.name pttypename
-    //             ,e.gf_opd as gfmis,e.code as acc_code
-    //             ,e.ar_opd as account_code,seekname(e.ar_opd,"account") as account_name 
-    //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-    //             ,v.rcpno_list as rcpno            
-    //             ,v.income-v.discount_money-v.rcpt_money as debit
-    //             ,(select max(max_debt_amount) cc from visit_pttype where vn=o.vn) as max_debt_amount
-    //         from ovst o 
-    //         left join vn_stat v on v.vn=o.vn
-    //         left join patient pt on pt.hn=o.hn
-    //         left join pttype ptt on ptt.pttype=o.pttype
-    //         left join pttype_eclaim e on e.code=ptt.pttype_eclaim_id 
-    //         where o.vstdate between "' . $startdate . '" and "' . $enddate . '" 
-    //         and an IS NULL
-    //         group by o.vn        
-    //     ');
-
-    //     foreach ($datashow as $key => $value) {
-    //         // Check_sit_auto::truncate();
-    //         $check = Acc_debtor::where('vn', $value->vn)->where('an', '')->count();
-    //         if ($check > 0) {
-    //             if ($value->pttype == "M1") {
-    //                 Acc_debtor::where('vn', $value->vn)->where('an', '') 
-    //                 ->update([   
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050101.4011',
-    //                     'account_name' => 'เบิกจ่ายตรงกรมบัญชีกลาง OP (ฟอกไต)', 
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]); 
-    //             }elseif ($value->pttype == "M6" || $value->pttype == "M7") {
-    //                 Acc_debtor::where('vn', $value->vn)->where('an', '') 
-    //                 ->update([   
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050102.8011',
-    //                     'account_name' => 'เบิกจ่ายตรง อปท. OP(ฟอกไต)',  
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-    //             }elseif ($value->pttype == "M3" || $value->pttype == "M4") {
-    //                 Acc_debtor::where('vn', $value->vn)->where('an', '') 
-    //                 ->update([   
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050101.2166',
-    //                     'account_name' => 'UC OP บริการเฉพาะ (CR)(ฟอกไต)',  
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-    //             }elseif ($value->pttype == "M2" || $value->pttype == "M5") {
-    //                 Acc_debtor::where('vn', $value->vn)->where('an', '')
-    //                 ->update([   
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050101.3099',
-    //                     'account_name' => 'ประกันสังคม-ค่าใช้จ่ายสูง OP(ฟอกไต)',  
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-    //             } else {
-    //                 Acc_debtor::where('vn', $value->vn)->where('an', '')
-    //                 ->update([   
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,
-    //                     'acc_code' => $value->acc_code,
-    //                     'account_code' => $value->account_code,
-    //                     'account_name' => $value->account_name,
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);   
-    //             }
-                
-                  
-    //         } else {
-
-    //             if ($value->pttype == "M1") {
-    //                 Acc_debtor::insert([
-    //                     'vn' => $value->vn,
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,                            
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050101.4011',
-    //                     'account_name' => 'เบิกจ่ายตรงกรมบัญชีกลาง OP (ฟอกไต)',    
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-    //             }elseif ($value->pttype == "M6" || $value->pttype == "M7") {
-    //                 Acc_debtor::insert([
-    //                     'vn' => $value->vn,
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,                            
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050102.8011',
-    //                     'account_name' => 'เบิกจ่ายตรง อปท. OP(ฟอกไต)',    
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-               
-    //             }elseif ($value->pttype == "M3" || $value->pttype == "M4") {
-    //                 Acc_debtor::insert([
-    //                     'vn' => $value->vn,
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,                            
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050101.2166',
-    //                     'account_name' => 'UC OP บริการเฉพาะ (CR)(ฟอกไต)',    
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-    //             }elseif ($value->pttype == "M2" || $value->pttype == "M5") {
-    //                 Acc_debtor::insert([
-    //                     'vn' => $value->vn,
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,                            
-    //                     'acc_code' => '',
-    //                     'account_code' => '1102050101.3099',
-    //                     'account_name' => 'ประกันสังคม-ค่าใช้จ่ายสูง OP(ฟอกไต)',    
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-    //             } else {
-    //                 Acc_debtor::insert([
-    //                     'vn' => $value->vn,
-    //                     'hn' => $value->hn,
-    //                     'an' => $value->an,
-    //                     'cid' => $value->cid,
-    //                     'ptname' => $value->ptname,
-    //                     'ptsubtype' => $value->ptsubtype,
-    //                     'pttype_eclaim_id' => $value->pttype_eclaim_id,
-    //                     'pttype_eclaim_name' => $value->pttype_eclaim_name,
-    //                     'pttype' => $value->pttype,
-    //                     'pttypename' => $value->pttypename,
-    //                     'vstdate' => $value->vstdatesave,
-    //                     'vsttime' => $value->vsttime,
-    //                     'gfmis' => $value->gfmis,  
-    //                     'acc_code' => $value->acc_code,
-    //                     'account_code' => $value->account_code,
-    //                     'account_name' => $value->account_name,
-    //                     'income' => $value->income,
-    //                     'uc_money' => $value->uc_money,
-    //                     'discount_money' => $value->discount_money,
-    //                     'paid_money' => $value->paid_money,
-    //                     'rcpt_money' => $value->rcpt_money,
-    //                     'rcpno' => $value->rcpno,
-    //                     'debit' => $value->debit,
-    //                     'max_debt_amount' => $value->max_debt_amount
-    //                 ]);
-    //             }
-
-                
-    //         }                        
-    //     }
-    //     return response()->json([
-    //         'startdate'     =>     $startdate,
-    //         'enddate'       =>     $enddate,
-    //         'status'    => '200' 
-    //     ]); 
-    // }
     public function account_pkCheck_sit(Request $request)
     {
         $startdate = $request->datepicker;
