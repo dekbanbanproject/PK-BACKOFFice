@@ -172,18 +172,18 @@
 
                                             {{-- <th class="text-center" width="7%">ptsubtype</th> --}}
                                             {{-- <th class="text-center">pttype_eclaim_id</th> --}}
-                                            <th class="text-center">pttype_eclaim_name</th>
+                                            {{-- <th class="text-center">pttype_eclaim_name</th> --}}
                                             {{-- <th class="text-center" width="10%">acc_code</th>  --}}
                                             <th class="text-center">account_code</th>
                                             <th class="text-center">account_name</th>
                                             <th class="text-center">income</th>
-                                            <th class="text-center">uc_money</th> 
+                                            {{-- <th class="text-center">uc_money</th>  --}}
                                             <th class="text-center">discount_money</th>
                                             <th class="text-center">paid_money</th>
-                                            <th class="text-center">rcpt_money</th> 
-                                            <th class="text-center">rcpno</th>
+                                            {{-- <th class="text-center">rcpt_money</th>  --}}
+                                            {{-- <th class="text-center">rcpno</th> --}}
                                             <th class="text-center">debit</th>
-                                            <th class="text-center">max_debt_amount</th>
+                                            {{-- <th class="text-center">max_debt_amount</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -207,20 +207,20 @@
 
                                                 {{-- <td class="p-2">{{ $item->ptsubtype }}</td>  --}}
                                                 {{-- <td class="text-center">{{ $item->pttype_eclaim_id }}</td>  --}}
-                                                <td class="p-2">{{ $item->pttype_eclaim_name }}</td>  
+                                                {{-- <td class="p-2">{{ $item->pttype_eclaim_name }}</td>   --}}
                                                 {{-- <td class="text-center">{{ $item->acc_code }}</td>  --}}
                                                 <td class="text-center">{{ $item->account_code }}</td> 
                                                 <td class="text-center">{{ $item->account_name }}</td> 
                                                 <td class="text-center">{{ $item->income }}</td> 
-                                                <td class="text-center">{{ $item->uc_money }}</td> 
+                                                {{-- <td class="text-center">{{ $item->uc_money }}</td>  --}}
 
                                                 <td class="text-center">{{ $item->discount_money }}</td> 
                                                 <td class="text-center">{{ $item->paid_money }}</td> 
-                                                <td class="text-center">{{ $item->rcpt_money }}</td> 
+                                                {{-- <td class="text-center">{{ $item->rcpt_money }}</td>  --}}
 
-                                                 <td class="text-center">{{ $item->rcpno }}</td> 
+                                                 {{-- <td class="text-center">{{ $item->rcpno }}</td>  --}}
                                                 <td class="text-center">{{ $item->debit }}</td> 
-                                                <td class="text-center">{{ $item->max_debt_amount }}</td> 
+                                                {{-- <td class="text-center">{{ $item->max_debt_amount }}</td>  --}}
 
                                             </tr>
                                         @endforeach

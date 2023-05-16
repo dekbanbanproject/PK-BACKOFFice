@@ -20,54 +20,63 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-      <style>
-        #button{
-               display:block;
-               margin:20px auto;
-               padding:30px 30px;
-               background-color:#eee;
-               border:solid #ccc 1px;
-               cursor: pointer;
-               }
-               #overlay{	
-               position: fixed;
-               top: 0;
-               z-index: 100;
-               width: 100%;
-               height:100%;
-               display: none;
-               background: rgba(0,0,0,0.6);
-               }
-               .cv-spinner {
-               height: 100%;
-               display: flex;
-               justify-content: center;
-               align-items: center;  
-               }
-               .spinner {
-               width: 250px;
-               height: 250px;
-               border: 10px #ddd solid;
-               border-top: 10px #fd6812 solid;
-               border-radius: 50%;
-               animation: sp-anime 0.8s infinite linear;
-               }
-               @keyframes sp-anime {
-               100% { 
-                   transform: rotate(360deg); 
-               }
-               }
-               .is-hide{
-               display:none;
-               }
+    <style>
+        #button {
+            display: block;
+            margin: 20px auto;
+            padding: 30px 30px;
+            background-color: #eee;
+            border: solid #ccc 1px;
+            cursor: pointer;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cv-spinner {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 250px;
+            height: 250px;
+            border: 10px #ddd solid;
+            border-top: 10px rgb(11, 170, 165) solid;
+            border-radius: 50%;
+            animation: sp-anime 0.8s infinite linear;
+        }
+
+        @keyframes sp-anime {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .is-hide {
+            display: none;
+        }
     </style>
      <?php
      use App\Http\Controllers\StaticController;
      use Illuminate\Support\Facades\DB;   
      $count_meettingroom = StaticController::count_meettingroom();
+
+     //********************* */ แสดงผล  ***********************************
  ?>
     <div class="container-fluid">
      
+
+
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
@@ -75,18 +84,112 @@
                 </div>
             </div>
         </div>
+      
         <div class="row mt-3">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body shadow-lg">
-                      
-                        
+            
+                <div class="col-xl-6 col-md-3">
+                    <div class="main-card card" style="height: 150px">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start mb-2" style="font-size: 17px">ระบบบ่อบำบัดน้ำเสีย</p>
+                                                <h3 class="text-start mb-2 text-primary">1 / 1 คน</h3>
+                                            </div>
+                                            <div class="avatar-sm me-2" style="height: 120px">
+                                                <a href="1"
+                                                    target="_blank">
+                                                    <span class="avatar-title bg-light rounded-3 mt-3" style="height: 70px">
+                                                        <p style="font-size: 10px;">
+                                                            <button type="button" style="height: 100px;width: 100px"
+                                                                class="mt-4 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                            
+                                                                    <i class="fa-solid fa-people-group font-size-24"></i>   <br> 
+                                                                Detail
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-md-3">
+                    <div class="main-card card" style="height: 150px">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start mb-2" style="font-size: 17px">ระบบบริหารจัดการขยะ</p>
+                                                <h3 class="text-start mb-2 text-primary">1 / 1 คน</h3>
+                                            </div>
+                                            <div class="avatar-sm me-2" style="height: 120px">
+                                                <a href="1"
+                                                    target="_blank">
+                                                    <span class="avatar-title bg-light rounded-3 mt-3" style="height: 70px">
+                                                        <p style="font-size: 10px;">
+                                                            <button type="button" style="height: 100px;width: 100px"
+                                                                class="mt-4 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3">
+                                                            
+                                                                    <i class="fa-solid fa-people-group font-size-24"></i>   <br> 
+                                                                Detail
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+
+        <div class="row mt-3">            
+            <div class="col-xl-6 col-md-3">
+                <div class="main-card card" style="height: 150px">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                    <div class="d-flex">
+                                    อัตราส่วนน้ำบ่อบำบัด
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="col-xl-6 col-md-3">
+                <div class="main-card card" style="height: 150px">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                    <div class="d-flex">
+                                     อัตราส่วนประเภทขยะ           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
 
-       
     </div>
     </div>
   

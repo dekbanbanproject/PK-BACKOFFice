@@ -196,6 +196,7 @@ class AccountPKController extends Controller
                 SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+                    ,v.hospmain
                     ,o.vstdate as vstdatesave 
                     ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
                     ,ptt.pttype_acc_eclaimid 
@@ -221,54 +222,56 @@ class AccountPKController extends Controller
                 if ($check > 0) {
                     Acc_debtor::where('vn', $value->vn)
                     ->update([   
-                        'hn' => $value->hn,
-                        'an' => $value->an,
-                        'cid' => $value->cid,
-                        'ptname' => $value->ptname,
-                        'ptsubtype' => $value->ptsubtype,
-                        'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an,
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'ptsubtype'         => $value->ptsubtype,
+                        'pttype_eclaim_id'  => $value->pttype_acc_eclaimid,
                         // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
-                        'pttype' => $value->pttype,
-                        'pttypename' => $value->pttype_acc_name,
-                        'vstdate' => $value->vstdatesave,
-                        'vsttime' => $value->vsttime,
-                        'gfmis' => $value->gfmis,
-                        'acc_code' => $value->acc_code,
-                        'account_code' => $value->account_code,
-                        'account_name' => $value->account_name, 
-                        'income' => $value->income,
-                        'uc_money' => $value->uc_money,
-                        'discount_money' => $value->discount_money,
-                        'paid_money' => $value->paid_money,
-                        'rcpt_money' => $value->rcpt_money,
-                        'rcpno' => $value->rcpno,
-                        'debit' => $value->debit 
+                        'hospmain'          => $value->hospmain,
+                        'pttype'            => $value->pttype,
+                        'pttypename'        => $value->pttype_acc_name,
+                        'vstdate'           => $value->vstdatesave,
+                        'vsttime'           => $value->vsttime,
+                        'gfmis'             => $value->gfmis,
+                        'acc_code'          => $value->acc_code,
+                        'account_code'      => $value->account_code,
+                        'account_name'      => $value->account_name, 
+                        'income'            => $value->income,
+                        'uc_money'          => $value->uc_money,
+                        'discount_money'    => $value->discount_money,
+                        'paid_money'        => $value->paid_money,
+                        'rcpt_money'        => $value->rcpt_money,
+                        'rcpno'             => $value->rcpno,
+                        'debit'             => $value->debit 
                     ]); 
                 } else {
                     Acc_debtor::insert([
                         'vn' => $value->vn,
-                        'hn' => $value->hn,
-                        'an' => $value->an,
-                        'cid' => $value->cid,
-                        'ptname' => $value->ptname,
-                        'ptsubtype' => $value->ptsubtype,
-                        'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an,
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'ptsubtype'         => $value->ptsubtype,
+                        'pttype_eclaim_id'  => $value->pttype_acc_eclaimid,
                         // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
-                        'pttype' => $value->pttype,
-                        'pttypename' => $value->pttype_acc_name,
-                        'vstdate' => $value->vstdatesave,
-                        'vsttime' => $value->vsttime,
-                        'gfmis' => $value->gfmis,
-                        'acc_code' => $value->acc_code,
-                        'account_code' => $value->account_code,
-                        'account_name' => $value->account_name, 
-                        'income' => $value->income,
-                        'uc_money' => $value->uc_money,
-                        'discount_money' => $value->discount_money,
-                        'paid_money' => $value->paid_money,
-                        'rcpt_money' => $value->rcpt_money,
-                        'rcpno' => $value->rcpno,
-                        'debit' => $value->debit
+                        'hospmain'          => $value->hospmain,
+                        'pttype'            => $value->pttype,
+                        'pttypename'        => $value->pttype_acc_name,
+                        'vstdate'           => $value->vstdatesave,
+                        'vsttime'           => $value->vsttime,
+                        'gfmis'             => $value->gfmis,
+                        'acc_code'          => $value->acc_code,
+                        'account_code'      => $value->account_code,
+                        'account_name'      => $value->account_name, 
+                        'income'            => $value->income,
+                        'uc_money'          => $value->uc_money,
+                        'discount_money'    => $value->discount_money,
+                        'paid_money'        => $value->paid_money,
+                        'rcpt_money'        => $value->rcpt_money,
+                        'rcpno'             => $value->rcpno,
+                        'debit'             => $value->debit 
                     ]);
                 }
                 
