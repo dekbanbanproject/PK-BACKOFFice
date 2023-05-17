@@ -144,8 +144,8 @@
                                                             $sum_Y = $value2->income;
                                                         }
                                                         $sumapprove_ = DB::select('
-                                                        SELECT sum(a.price_approve) as priceapprove 
-                                                        from acc_stm_ti a 
+                                                        SELECT sum(a.sum_price_approve) as priceapprove 
+                                                        from acc_stm_ti_total a 
                                                         LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.vstdate = a.vstdate
                                                                 WHERE ad.account_code="1102050101.2166"             
                                                                 AND ad.stamp = "Y" and ad.income <>0 

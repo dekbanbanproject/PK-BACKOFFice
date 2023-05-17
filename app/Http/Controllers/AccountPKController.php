@@ -1790,29 +1790,29 @@ class AccountPKController extends Controller
             WHERE price_approve <> ""
             GROUP BY cid,vstdate       
         ');
-        // foreach ($data_ as $key => $value) {
-        //     $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate);
-        //     if ($check > 0) {
-        //         Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-        //             ->update([   
-        //                 'repno'             => $value->repno, 
-        //                 'hn'                => $value->hn,
-        //                 'cid'               => $value->cid,
-        //                 'fullname'          => $value->fullname, 
-        //                 'vstdate'           => $value->vstdate,  
-        //                 'sum_price_approve' => $value->Sumprice
-        //             ]); 
-        //     } else {
-        //         Acc_stm_ti_total::create([                
-        //             'repno'             => $value->repno, 
-        //             'hn'                => $value->hn,
-        //             'cid'               => $value->cid,
-        //             'fullname'          => $value->fullname, 
-        //             'vstdate'           => $value->vstdate,  
-        //             'sum_price_approve' => $value->Sumprice
-        //         ]);
-        //     }
-        // }
+        foreach ($data_ as $key => $value) {
+            // $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate);
+            // if ($check > 0) {
+            //     Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+            //         ->update([   
+            //             'repno'             => $value->repno, 
+            //             'hn'                => $value->hn,
+            //             'cid'               => $value->cid,
+            //             'fullname'          => $value->fullname, 
+            //             'vstdate'           => $value->vstdate,  
+            //             'sum_price_approve' => $value->Sumprice
+            //         ]); 
+            // } else {
+                Acc_stm_ti_total::create([                
+                    'repno'             => $value->repno, 
+                    'hn'                => $value->hn,
+                    'cid'               => $value->cid,
+                    'fullname'          => $value->fullname, 
+                    'vstdate'           => $value->vstdate,  
+                    'sum_price_approve' => $value->Sumprice
+                ]);
+            // }
+        }
 
 
 

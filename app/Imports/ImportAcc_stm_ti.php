@@ -14,7 +14,7 @@ class ImportAcc_stm_ti implements ToCollection
     {
         foreach ($rows as $row) 
         { 
-            // #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
+            #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
             $regdate_ = $row[7];
             $starttime = substr($regdate_, 0, 5);
             $regday = substr($regdate_, 0, 2);
@@ -30,8 +30,8 @@ class ImportAcc_stm_ti implements ToCollection
             $year = substr($vstdate_, 6, 10);
 
             $vstdate = $year.'-'.$mo.'-'.$day; 
-            // #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
-            // dd($regdate);
+            #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
+            // dd($vstdate);
             Acc_stm_ti::create([
                 
                 'repno' => $row[1],
@@ -39,17 +39,13 @@ class ImportAcc_stm_ti implements ToCollection
                 'hn' => $row[3],
                 'cid' => $row[4],
                 'fullname' => $row[5],
-                'subinscl' => $row[6],
+                'subinscl' => $row[6],              
+                'regdate' =>$regdate,
                 'vstdate' => $vstdate,
-                'regdate' => $regdate,
                 'type_req' => $row[9],
                 'price_req' => $row[10],
                 'price_approve' => $row[11],
-                'price_approve_no' => $row[12],
-                // 'comment' => $row[13],
-                // 'date_save' => $row[14],
-                // 'vn' => $row[15],
-                // 'active' => $row[16],
+                'price_approve_no' => $row[12], 
             ]);
         }
     }
