@@ -17,7 +17,6 @@ use App\Models\Acc_debtor_sendmoney;
 use App\Models\Pttype;
 use App\Models\Pttype_acc;
 use App\Models\Acc_stm_ti;
-use App\Models\Acc_stm_ti_total;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -68,13 +67,119 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
       
         $check = Acc_debtor::count();
-       
-        if ($startdate == '') {
-            $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('vstdate', [$datenow, $datenow])->get();
-        } else {
-            $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('vstdate', [$startdate, $enddate])->get();
-        }                        
-         
+        // dd($check);  
+        // if ($check > 0) { 
+            if ($startdate == '') {
+                $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('vstdate', [$datenow, $datenow])->get();
+            } else {
+                $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('vstdate', [$startdate, $enddate])->get();
+            }                        
+        // } else {
+            // $acc_debtor = DB::connection('mysql')->select('
+            // ');
+            // $acc_debtor = DB::connection('mysql3')->select('
+            //         SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+            //             ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+            //             ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+            //             ,o.vstdate as vstdatesave 
+            //             ,ptt.pttype_acc_eclaimid 
+            //             ,o.pttype 
+            //             ,e.gf_opd as gfmis,e.code as acc_code
+            //             ,e.ar_opd as account_code
+            //                             ,e.name as account_name 
+            //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+            //             ,v.rcpno_list as rcpno            
+            //             ,v.income-v.discount_money-v.rcpt_money as debit 
+            //         from ovst o 
+            //         left join vn_stat v on v.vn=o.vn
+            //         left join patient pt on pt.hn=o.hn
+            //         left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
+            //         left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
+ 
+            //     where o.vstdate between "' . $startdate . '" and "' . $enddate . '" 
+            //     and an IS NULL
+            //     group by o.vn        
+            // ');
+            // $datashow = DB::connection('mysql3')->select('
+            //         SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+            //             ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+            //             ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+            //             ,o.vstdate as vstdatesave 
+            //             ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
+            //             ,ptt.pttype_acc_eclaimid 
+            //             ,o.pttype,ptt.pttype_acc_name
+            //             ,e.gf_opd as gfmis,e.code as acc_code
+            //             ,e.ar_opd as account_code
+            //              ,e.name as account_name 
+            //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+            //             ,v.rcpno_list as rcpno            
+            //             ,v.income-v.discount_money-v.rcpt_money as debit 
+            //         from ovst o 
+            //         left join vn_stat v on v.vn=o.vn
+            //         left join patient pt on pt.hn=o.hn
+            //         left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
+            //         left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
+ 
+            //     where o.vstdate between "' . $startdate . '" and "' . $enddate . '" 
+            //     and an IS NULL
+            //     group by o.vn        
+            // ');
+            // foreach ($datashow as $key => $value) {
+            //     $check = Acc_debtor::where('vn', $value->vn)->where('an', '')->count();
+            //     if ($check > 0) {
+            //         Acc_debtor::where('vn', $value->vn)->where('an', '') 
+            //         ->update([   
+            //             'hn' => $value->hn,
+            //             'an' => $value->an,
+            //             'cid' => $value->cid,
+            //             'ptname' => $value->ptname,
+            //             'ptsubtype' => $value->ptsubtype,
+            //             'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
+            //             // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
+            //             'pttype' => $value->pttype,
+            //             'pttypename' => $value->pttype_acc_name,
+            //             'vstdate' => $value->vstdatesave,
+            //             'vsttime' => $value->vsttime,
+            //             'gfmis' => $value->gfmis,
+            //             'acc_code' => $value->acc_code,
+            //             'account_code' => $value->account_code,
+            //             'account_name' => $value->account_name, 
+            //             'income' => $value->income,
+            //             'uc_money' => $value->uc_money,
+            //             'discount_money' => $value->discount_money,
+            //             'paid_money' => $value->paid_money,
+            //             'rcpt_money' => $value->rcpt_money,
+            //             'rcpno' => $value->rcpno,
+            //             'debit' => $value->debit 
+            //         ]); 
+            //     } else {
+            //         Acc_debtor::insert([
+            //             'hn' => $value->hn,
+            //             'an' => $value->an,
+            //             'cid' => $value->cid,
+            //             'ptname' => $value->ptname,
+            //             'ptsubtype' => $value->ptsubtype,
+            //             'pttype_eclaim_id' => $value->pttype_acc_eclaimid,
+            //             // 'pttype_eclaim_name' => $value->pttype_eclaim_name,
+            //             'pttype' => $value->pttype,
+            //             'pttypename' => $value->pttype_acc_name,
+            //             'vstdate' => $value->vstdatesave,
+            //             'vsttime' => $value->vsttime,
+            //             'gfmis' => $value->gfmis,
+            //             'acc_code' => $value->acc_code,
+            //             'account_code' => $value->account_code,
+            //             'account_name' => $value->account_name, 
+            //             'income' => $value->income,
+            //             'uc_money' => $value->uc_money,
+            //             'discount_money' => $value->discount_money,
+            //             'paid_money' => $value->paid_money,
+            //             'rcpt_money' => $value->rcpt_money,
+            //             'rcpno' => $value->rcpno,
+            //             'debit' => $value->debit
+            //         ]);
+            //     }
+                
+            // }
         return view('account_pk.account_pk', $data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
@@ -1559,11 +1664,12 @@ class AccountPKController extends Controller
                     FROM acc_debtor a  
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
                     WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                    and account_code="1102050101.2166"                    
+                    and account_code="1102050101.2166" 
+                    and stamp = "N"
                     and income <> 0
                     group by month(a.vstdate) asc;
             ');
-            // and stamp = "N"
+            
         } else {
             $datashow = DB::select('
                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
@@ -1575,7 +1681,8 @@ class AccountPKController extends Controller
                     FROM acc_debtor a  
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'" 
-                    and account_code="1102050101.2166"                     
+                    and account_code="1102050101.2166" 
+                    and stamp="N"
                     and income <>0
                     group by month(a.vstdate) asc;
             '); 
@@ -1592,7 +1699,7 @@ class AccountPKController extends Controller
             'date'             => $date,
         ]);
     }
-    public function account_pkti2166(Request $request,$months,$year)
+    public function account_pkti2166(Request $request,$id)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -1601,75 +1708,18 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
         
         $acc_debtor = DB::select('
-            SELECT a.*,c.subinscl from acc_debtor a 
-            left outer join check_sit_auto c on c.vn = a.vn
-
-            WHERE a.account_code="1102050101.2166"             
-            AND a.stamp = "N" and a.income <>0
-            and a.account_code="1102050101.2166" 
-            and month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'";
-           
-        ');        
-            // SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-            // ,count(distinct a.hn) as hn
-            // ,count(distinct a.vn) as vn 
-            // ,sum(a.paid_money) as paid_money 
-            // ,sum(a.income) as income                 
-            // ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-            // ,a.*  
-            // FROM acc_debtor a  
-            // left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
-            // WHERE month(vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
-            // and account_code="1102050101.2166" 
-            // and stamp = "N"
-            // and income <> 0
-            // group by month(a.vstdate) 
+                SELECT * from acc_debtor 
+                WHERE account_code="1102050101.2166" 
+                AND stamp = "N" 
+                and account_code="1102050101.2166" 
+                and month(vstdate) = "'.$id.'";
+            ');         
             // left join acc_debtor_stamp ad on ad.stamp_vn=a.vn
         return view('account_pk.account_pkti2166', $data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
-            'acc_debtor'    =>     $acc_debtor,
-            'months'        =>     $months,
-            'year'          =>     $year
-        ]);
-    }
-    public function account_pkti2166_stm(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;        
-        // dd($id);            
-        $data['users'] = User::get();
-        
-        $acc_debtor = DB::select('
-        SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.vstdate,a.ptname,a.pttype,a.subinscl
-        ,a.income,a.uc_money
-        FROM acc_debtor a  
-        left join acc_stm_ti ac ON ac.cid = a.cid and ac.vstdate = a.vstdate
-
-           SELECT sum(a.price_approve) as priceapprove 
-            from acc_stm_ti a 
-            LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.vstdate = a.vstdate
-                    WHERE ad.account_code="1102050101.2166"             
-                    AND ad.stamp = "Y" and ad.income <> 0 
-                    and month(ad.vstdate) = "'.$months.'" 
-                    and year(ad.vstdate) = "'.$year.'" 
-           
-        ');  
-           // SELECT a.*,c.subinscl from acc_debtor a 
-            // left outer join check_sit_auto c on c.vn = a.vn
-
-            // WHERE a.account_code="1102050101.2166"             
-            // AND a.stamp = "N" and a.income <>0
-            // and a.account_code="1102050101.2166" 
-            // and month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'";      
-          
-        return view('account_pk.account_pkti2166_stm', $data, [
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'acc_debtor'    =>     $acc_debtor,
-            'months'        =>     $months,
-            'year'          =>     $year
+            'acc_debtor'      =>     $acc_debtor,
+            'id'       =>     $id
         ]);
     }
     public function ti2166_send(Request $request,$id)
@@ -1783,40 +1833,6 @@ class AccountPKController extends Controller
     {
         // dd($request->file('file'));
         Excel::import(new ImportAcc_stm_ti, $request->file('file')->store('files')); 
-
-        $data_ = DB::connection('mysql')->select('
-            SELECT repno,hn,cid,fullname,vstdate,SUM(price_approve) as Sumprice
-            FROM acc_stm_ti 
-            WHERE price_approve <> ""
-            GROUP BY cid,vstdate       
-        ');
-        // foreach ($data_ as $key => $value) {
-        //     $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate);
-        //     if ($check > 0) {
-        //         Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-        //             ->update([   
-        //                 'repno'             => $value->repno, 
-        //                 'hn'                => $value->hn,
-        //                 'cid'               => $value->cid,
-        //                 'fullname'          => $value->fullname, 
-        //                 'vstdate'           => $value->vstdate,  
-        //                 'sum_price_approve' => $value->Sumprice
-        //             ]); 
-        //     } else {
-        //         Acc_stm_ti_total::create([                
-        //             'repno'             => $value->repno, 
-        //             'hn'                => $value->hn,
-        //             'cid'               => $value->cid,
-        //             'fullname'          => $value->fullname, 
-        //             'vstdate'           => $value->vstdate,  
-        //             'sum_price_approve' => $value->Sumprice
-        //         ]);
-        //     }
-        // }
-
-
-
-
         return response()->json([
             'status'    => '200',
             // 'borrow'    =>  $borrow

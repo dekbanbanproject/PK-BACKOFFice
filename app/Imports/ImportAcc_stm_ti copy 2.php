@@ -32,25 +32,43 @@ class ImportAcc_stm_ti implements ToCollection
             $vstdate = $year.'-'.$mo.'-'.$day; 
             // #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
             // dd($regdate);
-            Acc_stm_ti::create([
-                
-                'repno' => $row[1],
-                'tranid' => $row[2],
-                'hn' => $row[3],
-                'cid' => $row[4],
-                'fullname' => $row[5],
-                'subinscl' => $row[6],
-                'vstdate' => $vstdate,
-                'regdate' => $regdate,
-                'type_req' => $row[9],
-                'price_req' => $row[10],
-                'price_approve' => $row[11],
-                'price_approve_no' => $row[12],
-                // 'comment' => $row[13],
-                // 'date_save' => $row[14],
-                // 'vn' => $row[15],
-                // 'active' => $row[16],
-            ]);
+            // $check = Acc_stm_ti::where('cid',$row[4])->wher('vstdate',$vstdate);
+            // if ($check > 0) {
+            //     Acc_stm_ti::where('cid', $row[4])->wher('vstdate',$vstdate)
+            //         ->update([   
+            //             'repno' => $row[1],
+            //             'tranid' => $row[2],
+            //             'hn' => $row[3],
+            //             'cid' => $row[4],
+            //             'fullname' => $row[5],
+            //             'subinscl' => $row[6],
+            //             'vstdate' => $vstdate,
+            //             'regdate' => $regdate,
+            //             'type_req' => $row[9],
+            //             'price_req' => $row[10],
+            //             'price_approve' => $row[11],
+            //             'price_approve_no' => $row[12]
+            //         ]); 
+            // } else {
+                Acc_stm_ti::create([                
+                    'repno' => $row[1],
+                    'tranid' => $row[2],
+                    'hn' => $row[3],
+                    'cid' => $row[4],
+                    'fullname' => $row[5],
+                    'subinscl' => $row[6],
+                    'vstdate' => $vstdate,
+                    'regdate' => $regdate,
+                    'type_req' => $row[9],
+                    'price_req' => $row[10],
+                    'price_approve' => $row[11],
+                    'price_approve_no' => $row[12],
+                    // 'comment' => $row[13],
+                    // 'date_save' => $row[14],
+                    // 'vn' => $row[15],
+                    // 'active' => $row[16],
+                ]);
+            // }
         }
     }
     // public function model(array $row)
