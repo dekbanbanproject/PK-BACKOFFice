@@ -62,7 +62,7 @@
         $('#success').hide(); 
         window.setTimeout(function() {             
             window.location.reload();
-        },50000); 
+        },100000); 
         $(document).ajaxStart(function() {
         
             }).ajaxSuccess(function() {
@@ -73,12 +73,12 @@
                 $i = 1000
                 setTimeout(function(){
                     // $('#success').html(data);
-                }, 1000);
+                }, 10000);
                 $('#start').show(); 
                 $('#success').hide(); 
                 $('.progress-bar').css({width: "5%"});
                               
-            }, 10000);
+            }, 100000);
             $('.progress-bar').css({width: "100%"});
             $('#start').hide(); 
             $('#success').show(); 

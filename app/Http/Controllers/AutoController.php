@@ -120,6 +120,7 @@ class AutoController extends Controller
         @$content = $result['content']; 
         return view('authen.repage');
     }
+    // ดึงข้อมูลมาไว้เช็คสิทธิ์
     public function sit_pull_auto(Request $request)
     { 
             $data_sits = DB::connection('mysql3')->select(' 
@@ -158,36 +159,37 @@ class AutoController extends Controller
         $datestart = $request->datestart;
         $dateend = $request->dateend;
         $date = date('Y-m-d');
-
         $token_data = DB::connection('mysql')->select('
-            SELECT cid,token FROM ssop_token 
+            SELECT cid,token FROM ssop_token            
         '); 
-        foreach ($token_data as $key => $valuetoken) {
+        // SELECT cid,token FROM nhso_token where token <> ""
+        // SELECT cid,token FROM ssop_token 
+        // foreach ($token_data as $key => $valuetoken) {
+        //     $cid_ = $valuetoken->cid;
+        //     $token_ = $valuetoken->token;
+        // } 
+        // $cid_ = DB::connection('mysql3')->table('nhso_token')->whereNotNull('token')->max('cid');
+        // $token_ = DB::connection('mysql3')->table('nhso_token')->select('token')->whereNotNull('token')->max('token');
+
+        //  $token_data = DB::connection('mysql3')->select('
+        //     SELECT cid,token FROM nhso_token where token <> "" LIMIT 1;
+        // '); 
+          foreach ($token_data as $key => $valuetoken) {
             $cid_ = $valuetoken->cid;
             $token_ = $valuetoken->token;
         } 
+
+        // dd($token_);
+        // $token_ = $cid_->token;
+        // dd($token_);
         $data_sitss = DB::connection('mysql')->select(' 
             SELECT cid,vn
             FROM check_sit_auto  
-            WHERE vstdate = "2023-04-20"        
+            WHERE vstdate BETWEEN "2023-02-06" AND "2023-05-18"       
             AND subinscl IS NULL   
-            LIMIT 30
+            LIMIT 50
         '); 
-        // SELECT cid,vn
-        // FROM check_sit_auto  
-        // WHERE vstdate = "2023-04-19"             
-        // AND subinscl IS NULL   
-        // LIMIT 30
-
-        // AND status = ""
-        // SELECT cid,vn    CURDATE() 
-        //     FROM check_sit_auto  
-        //     WHERE vstdate = CURDATE()              
-        //     AND subinscl IS NULL  
-        //     AND status IS NULL 
-        //     LIMIT 20
-        // AND status <> "จำหน่าย/เสียชีวิต" 
-        // AND upsit_date IS NULL
+        
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
             $vn = $item->vn;
@@ -224,26 +226,8 @@ class AutoController extends Controller
                 IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
                     $date = date("Y-m-d");
                     Check_sit_auto::where('vn', $vn) 
-                                ->update([    
-                                    'status' => 'จำหน่าย/เสียชีวิต',
-                                    'maininscl' => @$maininscl,
-                                    'startdate' => @$startdate,
-                                    'hmain' => @$hmain,
-                                    'subinscl' => @$subinscl,
-                                    'person_id_nhso' => @$person_id_nhso,
-
-                                    'hmain_op' => @$hmain_op,
-                                    'hmain_op_name' => @$hmain_op_name,
-                                    'hsub' => @$hsub,
-                                    'hsub_name' => @$hsub_name,
-                                    'subinscl_name' => @$subinscl_name,
-                                    'upsit_date'    => $date
-                                ]);      
-                }elseif(@$maininscl !="" || @$subinscl !=""){  
-                        $date2 = date("Y-m-d");
-                            Check_sit_auto::where('vn', $vn) 
                             ->update([    
-                                'status' => @$status,
+                                'status' => 'จำหน่าย/เสียชีวิต',
                                 'maininscl' => @$maininscl,
                                 'startdate' => @$startdate,
                                 'hmain' => @$hmain,
@@ -255,9 +239,60 @@ class AutoController extends Controller
                                 'hsub' => @$hsub,
                                 'hsub_name' => @$hsub_name,
                                 'subinscl_name' => @$subinscl_name,
+                                'upsit_date'    => $date
+                            ]);  
+                            Acc_debtor::where('vn', $vn) 
+                                ->update([    
+                                    'status' => @$status,
+                                    'maininscl' => @$maininscl, 
+                                    'hmain' => @$hmain,
+                                    'subinscl' => @$subinscl,
+                                    'pttype_spsch' => @$subinscl, 
+                                    'hsub' => @$hsub,
+                                
+                                ]);      
+                }elseif(@$maininscl !="" || @$subinscl !=""){  
+                        $date2 = date("Y-m-d");
+                            Check_sit_auto::where('vn', $vn) 
+                            ->update([    
+                                'status' => @$status,
+                                'maininscl' => @$maininscl,
+                                'startdate' => @$startdate,
+                                'hmain' => @$hmain,
+                                'subinscl' => @$subinscl,
+                                'person_id_nhso' => @$person_id_nhso, 
+                                'hmain_op' => @$hmain_op,
+                                'hmain_op_name' => @$hmain_op_name,
+                                'hsub' => @$hsub,
+                                'hsub_name' => @$hsub_name,
+                                'subinscl_name' => @$subinscl_name,
                                 'upsit_date'    => $date2
                             ]); 
- 
+                            Acc_debtor::where('vn', $vn) 
+                                ->update([    
+                                    'status' => @$status,
+                                    'maininscl' => @$maininscl, 
+                                    'hmain' => @$hmain,
+                                    'subinscl' => @$subinscl,
+                                    'pttype_spsch' => @$subinscl, 
+                                    'hsub' => @$hsub,
+                                
+                                ]); 
+                        }else{ 
+                            // Check_sit_auto::insert([ 
+                            //     'status' => @$status,
+                            //     'maininscl' => @$maininscl,
+                            //     'startdate' => @$startdate,
+                            //     'hmain' => @$hmain,
+                            //     'subinscl' => @$subinscl,
+                            //     'person_id_nhso' => @$person_id_nhso, 
+                            //     'hmain_op' => @$hmain_op,
+                            //     'hmain_op_name' => @$hmain_op_name,
+                            //     'hsub' => @$hsub,
+                            //     'hsub_name' => @$hsub_name,
+                            //     'subinscl_name' => @$subinscl_name,
+                            //     'upsit_date'    => $date2
+                            // ]);
                 }
 
             }           

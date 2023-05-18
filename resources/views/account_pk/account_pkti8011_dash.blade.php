@@ -80,12 +80,12 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('acc.account_pkti2166_dash') }}" method="GET">
+        <form action="{{ route('acc.account_pkti4011_dash') }}" method="GET">
             @csrf
             <div class="row"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050101.2166</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.2166</p>
+                    <h4 class="card-title">Detail 1102050102.8011</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.8011</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -121,7 +121,7 @@
                                                 $ynew = $y + 543;
                                                 $datas = DB::select('
                                                     SELECT count(distinct vn) as Cvn from acc_debtor  
-                                                        WHERE account_code="1102050101.2166"             
+                                                        WHERE account_code="1102050102.8011"             
                                                         AND stamp = "N" and income <>0 
                                                         and month(vstdate) = "'.$item->months.'" 
                                                         and year(vstdate) = "'.$item->year.'";
@@ -131,7 +131,7 @@
                                                 }
                                                 $datasum_ = DB::select('
                                                     SELECT sum(income) as income from acc_debtor  
-                                                        WHERE account_code="1102050101.2166"             
+                                                        WHERE account_code="1102050102.8011"             
                                                         AND stamp = "Y" and income <>0 
                                                         and month(vstdate) = "'.$item->months.'" 
                                                         and year(vstdate) = "'.$item->year.'"                                                                  
@@ -140,10 +140,10 @@
                                                     $sum_Y = $value2->income;
                                                 }
                                                 $sumapprove_ = DB::select('
-                                                SELECT sum(a.sum_price_approve) as priceapprove 
+                                                SELECT sum(a.amount) as priceapprove 
                                                 from acc_stm_ti_total a 
-                                                LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.vstdate = a.vstdate
-                                                        WHERE ad.account_code="1102050101.2166"             
+                                                LEFT JOIN acc_debtor ad ON ad.hn = a.hn AND ad.vstdate = a.vstdate
+                                                        WHERE ad.account_code="1102050102.8011"             
                                                         AND ad.stamp = "Y" and ad.income <>0 
                                                         and month(ad.vstdate) = "'.$item->months.'" 
                                                         and year(ad.vstdate) = "'.$item->year.'"                                                                  
@@ -158,7 +158,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-4 text-end mt-2 me-4">
-                                                    <a href="{{url('account_pkti2166/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
                                                             <h4 class="text-end">{{$count_N}} Visit</h4> 
                                                         </div> 
@@ -167,21 +167,21 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <a href="{{url('account_pkti2166/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($item->income, 2)}}">
                                                             <p class="text-muted mb-0"><span class="text-info fw-bold font-size-14 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}"> 
                                                             <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-14 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span>บาท</p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($sum_approveY, 2)}}">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-14 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{number_format($sum_approveY, 2)}}</span>บาท</p>
                                                         </div> 
@@ -210,7 +210,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-4 text-end mt-2 me-4">
-                                                    <a href="{{url('account_pkti2166/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
                                                             <h4 class="text-end">{{$item->count_N}} Visit</h4> 
                                                         </div> 
@@ -219,21 +219,21 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <a href="{{url('prisoner_opd_detail/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($item->income, 2)}}"> 
                                                             <p class="text-muted mb-0"><span class="text-info fw-bold font-size-14 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}">
                                                             <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span>บาท</p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkti8011_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($sum_approveY, 2)}}">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{number_format($sum_approveY, 2)}}</span>บาท</p>
                                                         </div> 

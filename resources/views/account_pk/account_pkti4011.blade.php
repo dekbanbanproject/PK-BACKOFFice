@@ -87,7 +87,7 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="btn btn-warning Savestamp" data-url="{{url('account_pk_debtor')}}">
+                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pk_debtor')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -99,7 +99,6 @@
                                 <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
-                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
@@ -107,67 +106,31 @@
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">vstdate</th> 
-                                            {{-- <th class="text-center">vsttime</th>   --}}
-                                            <th class="text-center">pttype</th>
-                                            <th class="text-center" width="8%">pttypename</th> 
-
-                                            <th class="text-center">pttype_spsch</th>
-                                            <th class="text-center">hsub</th>
-
-                                            <th class="text-center" width="7%">ptsubtype</th>
-                                            <th class="text-center">pttype_eclaim_id</th>
-                                            <th class="text-center">pttype_eclaim_name</th>
-                                            <th class="text-center" width="10%">acc_code</th> 
-                                            <th class="text-center">account_code</th>
-                                            <th class="text-center">account_name</th>
+                                            <th class="text-center">vstdate</th>  
+                                            <th class="text-center">pttype</th> 
+                                            <th class="text-center">spsch</th> 
                                             <th class="text-center">income</th>
-                                            <th class="text-center">uc_money</th> 
-                                            <th class="text-center">discount_money</th>
-                                            <th class="text-center">paid_money</th>
-                                            <th class="text-center">rcpt_money</th> 
-                                            <th class="text-center">rcpno</th>
-                                            <th class="text-center">debit</th>
-                                            <th class="text-center">max_debt_amount</th>
+                                            <th class="text-center">uc_money</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
                                         @foreach ($acc_debtor as $item) 
-                                            <tr id="tr_{{$item->acc_debtor_id}}">                                                  
-                                                <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
-                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hn }}</td>  
-                                                <td class="text-center" width="5%">{{ $item->cid }}</td>  
-                                                <td class="p-2" width="10%">{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->vstdate }}</td>  
-                                                {{-- <td class="text-center">{{ $item->vsttime }}</td>  --}}
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                <td class="p-2" width="10%">{{ $item->pttypename }}</td> 
+                                        <tr id="tr_{{$item->acc_debtor_id}}">                                                  
+                                            <td class="text-center" width="5%">{{ $i++ }}</td>  
+                                            <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
+                                            <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                            <td class="text-center" width="5%">{{ $item->an }}</td> 
+                                            <td class="text-center" width="5%">{{ $item->hn }}</td>  
+                                            <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                            <td class="p-2" >{{ $item->ptname }}</td> 
+                                            <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
+                                            <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>  
+                                            <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
+                                            <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td> 
 
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->pttype_spsch }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hsub }}</td> 
-
-                                                <td class="p-2">{{ $item->ptsubtype }}</td> 
-                                                <td class="text-center">{{ $item->pttype_eclaim_id }}</td> 
-                                                <td class="p-2">{{ $item->pttype_eclaim_name }}</td>  
-                                                <td class="text-center">{{ $item->acc_code }}</td> 
-                                                <td class="text-center">{{ $item->account_code }}</td> 
-                                                <td class="text-center">{{ $item->account_name }}</td> 
-                                                <td class="text-center">{{ $item->income }}</td> 
-                                                <td class="text-center">{{ $item->uc_money }}</td> 
-
-                                                <td class="text-center">{{ $item->discount_money }}</td> 
-                                                <td class="text-center">{{ $item->paid_money }}</td> 
-                                                <td class="text-center">{{ $item->rcpt_money }}</td> 
-
-                                                 <td class="text-center">{{ $item->rcpno }}</td> 
-                                                <td class="text-center">{{ $item->debit }}</td> 
-                                                <td class="text-center">{{ $item->max_debt_amount }}</td> 
-
-                                            </tr>
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

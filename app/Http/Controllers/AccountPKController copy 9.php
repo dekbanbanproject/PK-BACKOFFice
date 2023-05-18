@@ -787,7 +787,7 @@ class AccountPKController extends Controller
         // foreach ($data_eave_month_year as $key => $value) {
             $acc_debtors = DB::select('
                 SELECT count(vn) as VN from acc_debtor 
-                WHERE stamp="N"  
+                WHERE stamp="N" and pttype_eclaim_id = "17" 
                 and account_code="1102050101.401" ;
             ');
             foreach ($acc_debtors as $key => $value) {
@@ -838,7 +838,6 @@ class AccountPKController extends Controller
     }
 
 // *************************** 801 ********************************************
-
     public function account_pklgo801_dash(Request $request)
     { 
         $startdate = $request->startdate;
@@ -892,30 +891,6 @@ class AccountPKController extends Controller
             'datashow'         => $datashow,
             'newyear'          => $newyear,
             'date'             => $date,
-        ]);
-    }
-    public function account_pk801(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;        
-     
-        $acc_debtor = DB::select('
-            SELECT a.*,c.subinscl from acc_debtor a 
-            left outer join check_sit_auto c on c.vn = a.vn 
-            WHERE a.account_code="1102050102.801"             
-            AND a.stamp = "N" and a.income <>0
-            and a.account_code="1102050102.801" 
-            and month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'";
-           
-        ');        
-        
-        return view('account_pk.account_pk801',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'acc_debtor'    =>     $acc_debtor,
-            'months'        =>     $months,
-            'year'          =>     $year
         ]);
     }
     public function account_pklgo801(Request $request,$id)
@@ -1238,142 +1213,6 @@ class AccountPKController extends Controller
 
      return view('account_pk.upstm');
     }
-     // *************************** account_pkti 4011*******************************************
- 
-     public function account_pkti4011_dash(Request $request)
-     { 
-         $startdate = $request->startdate;
-         $enddate = $request->enddate; 
-         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();   
-         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-         $date = date('Y-m-d');
-         $y = date('Y') + 543;
-         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
-         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน 
-         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
-       
-         if ($startdate == '') {
-             $datashow = DB::select('
-                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn 
-                     ,sum(a.paid_money) as paid_money 
-                     ,sum(a.income) as income                 
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
-                     FROM acc_debtor a  
-                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
-                     WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                     and account_code="1102050101.4011"                    
-                     and income <> 0
-                     group by month(a.vstdate) asc;
-             ');
- 
-         } else {
-             $datashow = DB::select('
-                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                     ,count(distinct a.hn) as hn
-                     ,count(distinct a.vn) as vn 
-                     ,sum(a.paid_money) as paid_money 
-                     ,sum(a.income) as income                 
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
-                     FROM acc_debtor a  
-                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
-                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'" 
-                     and account_code="1102050101.4011"                     
-                     and income <>0
-                     group by month(a.vstdate) asc;
-             '); 
-         }          
- 
-         return view('account_pk.account_pkti4011_dash',[
-             'startdate'        => $startdate,
-             'enddate'          => $enddate,
-             'leave_month_year' => $leave_month_year,
-             'datashow'         => $datashow,
-             'newyear'          => $newyear,
-             'date'             => $date,
-         ]);
-     }
-     public function account_pkti4011(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;   
-        $acc_debtor = DB::select('
-            SELECT a.*,c.subinscl from acc_debtor a 
-            left outer join check_sit_auto c on c.vn = a.vn
-
-            WHERE a.account_code="1102050101.4011"             
-            AND a.stamp = "N" and a.income <>0
-            and a.account_code="1102050101.4011" 
-            and month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'";
-           
-        ');        
-      
-        return view('account_pk.account_pkti4011',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'acc_debtor'    =>     $acc_debtor,
-            'months'        =>     $months,
-            'year'          =>     $year
-        ]);
-    }
-
-    public function account_pkti8011_dash(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate; 
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();   
-        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน 
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
-      
-        if ($startdate == '') {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn 
-                    ,sum(a.paid_money) as paid_money 
-                    ,sum(a.income) as income                 
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
-                    FROM acc_debtor a  
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
-                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                    and account_code="1102050102.8011"                    
-                    and income <> 0
-                    group by month(a.vstdate) asc;
-            ');
-
-        } else {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn 
-                    ,sum(a.paid_money) as paid_money 
-                    ,sum(a.income) as income                 
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
-                    FROM acc_debtor a  
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'" 
-                    and account_code="1102050102.8011"                     
-                    and income <>0
-                    group by month(a.vstdate) asc;
-            '); 
-        }          
-
-        return view('account_pk.account_pkti8011_dash',[
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
-            'leave_month_year' => $leave_month_year,
-            'datashow'         => $datashow,
-            'newyear'          => $newyear,
-            'date'             => $date,
-        ]);
-    }
-
     // *************************** account_pkti2166 ********************************************
     public function account_pkti2166_dash(Request $request)
     { 
@@ -1654,6 +1493,9 @@ class AccountPKController extends Controller
             // }
         }
 
+
+
+
         return response()->json([
             'status'    => '200',
             // 'borrow'    =>  $borrow
@@ -1675,7 +1517,8 @@ class AccountPKController extends Controller
             $tar_file_ = $request->file; 
             $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
             $filename = pathinfo($file_, PATHINFO_FILENAME);
-            $extension = pathinfo($file_, PATHINFO_EXTENSION);  
+            $extension = pathinfo($file_, PATHINFO_EXTENSION);           
+
             $xmlString = file_get_contents(($tar_file_));
             $xmlObject = simplexml_load_string($xmlString);
             $json = json_encode($xmlObject); 
@@ -1694,10 +1537,46 @@ class AccountPKController extends Controller
             @$acount = $result['acount'];
             @$Total_amount = $result['amount'];
             @$Total_thamount = $result['thamount'];
+
             @$STMdat = $result['STMdat'];
-            @$TBills = $result['TBills']['TBill']; 
-            $bills_       = @$TBills;              
-                foreach ($bills_ as $value) {                     
+
+            @$TBills = $result['TBills']['TBill'];
+            // @$HDBills = $result['HDBills']['HDBill'];
+            // @$TBill = $result['HDBills']['HDBill'];
+            $bills_       = @$TBills; 
+            // $tbills_       = @$HDBills['TBill']; 
+            // $hreg = $result['HDBills']['HDBill'];
+            // dd($bills_);
+
+            // foreach ($bills_ as $item) { 
+            //     isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
+            //     isset( $item['hn'] ) ? $hn = $item['hn'] : $hn = "";
+            //     isset( $item['name'] ) ? $name = $item['name'] : $name = "";
+            //     isset( $item['pid'] ) ? $pid = $item['pid'] : $pid = ""; 
+            //     isset( $item['quota'] ) ? $quota = $item['quota'] : $quota = "";
+            //     isset( $item['hdcharge'] ) ? $hdcharge = $item['hdcharge'] : $hdcharge = "";
+            //     isset( $item['payable'] ) ? $payable = $item['payable'] : $payable = "";
+            //     $TBills = $item['TBill'];
+                // dd($TBills);
+             
+                foreach ($bills_ as $value) { 
+                    // $hreg = $value->hreg;
+                    // $station = $value->station;
+                    // $invno = $value->invno;
+                    // $hn = $value->hn; 
+                    // $amount = $value->amount;
+                    // $paid = $value->paid;
+                    // $rid = $value->rid; 
+                    // $HDflag = $value->HDflag; 
+
+                    // isset( $item['hreg'] ) ? $hreg = $item['hreg'] : $hreg = "";
+                    // isset( $item['station'] ) ? $station = $item['station'] : $station = "";
+                    // isset( $item['invno'] ) ? $invno = $item['invno'] : $invno = "";
+                    // isset( $item['hn'] ) ? $hn = $item['hn'] : $hn = "";
+                    // isset( $item['amount'] ) ? $amount = $item['amount'] : $amount = "";
+                    // isset( $item['paid'] ) ? $paid = $item['paid'] : $paid = "";
+                    // isset( $item['rid'] ) ? $rid = $item['rid'] : $rid = "";
+                    // isset( $item['HDflag'] ) ? $HDflag = $item['HDflag'] : $HDflag = "";
                     $hreg = $value['hreg'];
                     $station = $value['station'];
                     $invno = $value['invno'];
@@ -1710,6 +1589,8 @@ class AccountPKController extends Controller
                     $dttranDate = explode("T",$value['dttran']);
                     $dttdate = $dttranDate[0];
                     $dtttime = $dttranDate[1];
+                    // dd($dttran);
+
                     $checkc = Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate)->count();
                     if ( $checkc > 0) {
                         Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate) 
@@ -1759,7 +1640,10 @@ class AccountPKController extends Controller
                          
                     } 
                 }
-               
+             
+              
+            // }
+ 
                 return redirect()->back();
          
     }
@@ -1822,7 +1706,48 @@ class AccountPKController extends Controller
             'status'     => '200', 
         ]);
     }
+   
+   
+   
+   
+   
+   
+    // public function testexcel(){
+
+    //     Excel::create('testfile', function($excel) {
+    //         // Set the title
+    //         $excel->setTitle('no title');
+    //         $excel->setCreator('no no creator')->setCompany('no company');
+    //         $excel->setDescription('report file');
     
+    //         $excel->sheet('sheet1', function($sheet) {
+    //             $data = array(
+    //                 array('header1', 'header2','header3','header4','header5','header6','header7'),
+    //                 array('data1', 'data2', 300, 400, 500, 0, 100),
+    //                 array('data1', 'data2', 300, 400, 500, 0, 100),
+    //                 array('data1', 'data2', 300, 400, 500, 0, 100),
+    //                 array('data1', 'data2', 300, 400, 500, 0, 100),
+    //                 array('data1', 'data2', 300, 400, 500, 0, 100),
+    //                 array('data1', 'data2', 300, 400, 500, 0, 100)
+    //             );
+    //             $sheet->fromArray($data, null, 'A1', false, false);
+    //             $sheet->cells('A1:G1', function($cells) {
+    //             $cells->setBackground('#AAAAFF');
+    
+    //             });
+    //         });
+    //     })->download('xlsx');
+    // }
 
 }
-  
+ 
+
+// public function import(Request $request)
+// {
+//     Excel::import(new ImportVisit_pttype_import, $request->file('file')->store('files'));
+     
+//     return response()->json([
+//         'status'    => '200',
+//         // 'borrow'    =>  $borrow
+//     ]); 
+// }

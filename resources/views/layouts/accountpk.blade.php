@@ -293,7 +293,7 @@
                                 <li><a href="{{ url('account_pk_ipd') }}">ดึงลูกหนี้จาก Hos-ipd</a></li> 
                             </ul>
                         </li> 
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>UCS</span>
@@ -301,10 +301,9 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('account_pkucs') }}">ตั้งลูกหนี้</a></li> 
                             </ul>
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                {{-- <i class="fa-solid fa-money-check-dollar text-danger"></i> --}}
+                        </li>  --}}
+                        {{-- <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>OFC</span>
                             </a>
@@ -312,8 +311,8 @@
                                 <li><a href="{{ url('account_pkofc401_dash') }}">ตั้งลูกหนี้-401</a></li> 
                                 <li><a href="{{ url('account_pkofc402_dash') }}">ตั้งลูกหนี้-402</a></li> 
                             </ul>
-                        </li> 
-                        <li>
+                        </li>  --}}
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>SSS</span>
@@ -321,7 +320,7 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('account_pksss') }}">ตั้งลูกหนี้</a></li> 
                             </ul>
-                        </li> 
+                        </li>  --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-info"></i>
@@ -329,9 +328,9 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('account_pklgo801_dash') }}">ตั้งลูกหนี้-801</a></li> 
-                                <li><a href="{{ url('account_pklgo802') }}">ตั้งลูกหนี้-802</a></li> 
-                                <li><a href="{{ url('account_pklgo803') }}">ตั้งลูกหนี้-803</a></li> 
-                                <li><a href="{{ url('account_pklgo804') }}">ตั้งลูกหนี้-804</a></li> 
+                                {{-- <li><a href="{{ url('account_pklgo802') }}">ตั้งลูกหนี้-802</a></li>  --}}
+                                {{-- <li><a href="{{ url('account_pklgo803') }}">ตั้งลูกหนี้-803</a></li>  --}}
+                                {{-- <li><a href="{{ url('account_pklgo804') }}">ตั้งลูกหนี้-804</a></li>  --}}
                             </ul>
                         </li> 
                         <li>
@@ -340,7 +339,9 @@
                                 <span>ไต</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkti2166_dash') }}">ตั้งลูกหนี้-2166</a></li> 
+                                <li><a href="{{ url('account_pkti4011_dash') }}">OFC(1102050101.4011)</a></li> 
+                                <li><a href="{{ url('account_pkti8011_dash') }}">LGO(1102050102.8011)</a></li> 
+                                <li><a href="{{ url('account_pkti2166_dash') }}">UCS(1102050101.2166)</a></li> 
                             </ul>
                         </li> 
                         <li>
