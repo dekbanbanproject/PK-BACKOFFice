@@ -108,44 +108,111 @@
         </form>  
         <div class="row "> 
             @foreach ($datashow as $item)   
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-6 col-md-6">
                 <div class="main-card mb-3 card">   
                     @if ($startdate == '')
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
-                                    <div class="widget-chart widget-chart-hover">
-                                        <a href="{{url('prisoner_opd_detail/'.$item->months.'/'.$newyear.'/'.$date)}}" target="_blank"> 
+                                    {{-- <div class="widget-chart widget-chart-hover"> --}}
+                                        {{-- <a href="{{url('account_pkti2166/'.$item->months.'/'.$item->year)}}" target="_blank">  --}}
                                             <div class="d-flex text-start">
                                                 <div class="flex-grow-1 ">
                                                     <?php 
                                                         $y = $item->year; 
                                                         $ynew = $y + 543;
+                                                        $datas = DB::select('
+                                                            SELECT count(distinct vn) as Cvn from acc_debtor  
+                                                                WHERE account_code="1102050101.2166"             
+                                                                AND stamp = "N" and income <>0 
+                                                                and month(vstdate) = "'.$item->months.'" 
+                                                                and year(vstdate) = "'.$item->year.'" 
+                                                                ;
+                                                        ');
+                                                        foreach ($datas as $key => $value) {
+                                                            $count_N = $value->Cvn;
+                                                        }
+                                                        $datasum_ = DB::select('
+                                                            SELECT sum(income) as income from acc_debtor  
+                                                                WHERE account_code="1102050101.2166"             
+                                                                AND stamp = "Y" and income <>0 
+                                                                and month(vstdate) = "'.$item->months.'" 
+                                                                and year(vstdate) = "'.$item->year.'" 
+                                                                 
+                                                        ');
+                                                        foreach ($datasum_ as $key => $value2) {
+                                                            $sum_Y = $value2->income;
+                                                        }
+                                                        $sumapprove_ = DB::select('
+                                                        SELECT sum(a.sum_price_approve) as priceapprove 
+                                                        from acc_stm_ti_total a 
+                                                        LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.vstdate = a.vstdate
+                                                                WHERE ad.account_code="1102050101.2166"             
+                                                                AND ad.stamp = "Y" and ad.income <>0 
+                                                                and month(ad.vstdate) = "'.$item->months.'" 
+                                                                and year(ad.vstdate) = "'.$item->year.'" 
+                                                                 
+                                                        ');
+                                                        foreach ($sumapprove_ as $key => $value3) {
+                                                            $sum_approveY = $value3->priceapprove;
+                                                        }
+                                                        // SELECT sum(a.price_approve) as priceapprove 
+                                                        //     from acc_stm_ti a  
+                                                        //     LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.vstdate = a.vstdate
+                                                        // WHERE month(ad.vstdate) = "1" and year(ad.vstdate) = "2023" AND ad.stamp = "Y";
+
+                                                        // ,sum(a.paid_money) as paid_money 
+                                                        // ,sum(a.income) as income                 
+                                                        // ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
                                                     ?>                                            
-                                                    <p class="text-truncate font-size-14 mb-2">เดือน {{$item->MONTH_NAME}} {{$ynew}}</p>
-                                                    <h4 class="mb-2">{{$item->vn}} Visit</h4> 
-                                                    <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
-                                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>00000</span>บาท</p>
-                                                </div>                               
-                                            
-                                                <div class="avatar-sm me-2 me-2" style="height: 120px"> 
-                                                    <span class="avatar-title bg-light mt-3" style="height: 70px">
-                                                    
-                                                        <p style="font-size: 10px;">
-                                                            <button type="button" style="height: 100px;width: 100px"
-                                                                class="mt-5 mb-3 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-warning avatar-title bg-light text-primary rounded-3">
+                                                    {{-- <p class="text-center font-size-14 ms-4 mt-4">เดือน {{$item->MONTH_NAME}} {{$ynew}}</p> --}}
+                                                    <div class="row">
+                                                        <div class="col-md-5 text-start mt-4 ms-4">
+                                                            <h4 >เดือน {{$item->MONTH_NAME}} {{$ynew}}</h4> 
+                                                        </div>
+                                                        <div class="col"></div>
+                                                        <div class="col-md-4 text-end mt-2 me-4">
+                                                            <a href="{{url('account_pkti2166/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
+                                                                    <h4 class="text-end">{{$count_N}} Visit</h4> 
+                                                                </div> 
+                                                            </a>
                                                             
-                                                                <i class="fa-solid fa-3x fa-building-user text-danger"></i>
-                                                                <br><br>
-                                                                Detail
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                            
-                                                </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <a href="{{url('account_pkti2166/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($item->income, 2)}}">
+                                                                    <p class="text-muted mb-0"><span class="text-info fw-bold font-size-14 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
+                                                                </div> 
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}"> 
+                                                                    <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-14 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span>บาท</p>
+                                                                </div> 
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($sum_approveY, 2)}}">
+                                                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-14 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{number_format($sum_approveY, 2)}}</span>บาท</p>
+                                                                </div> 
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                   
+                                                   
+                                                    {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p> --}}
+                                                    {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>00000</span>บาท</p> --}}
+                                                </div>                               
+                                             
                                             </div>  
-                                        </a>
-                                    </div> 
+                                        {{-- </a> --}}
+                                    {{-- </div>  --}}
                                 </div> 
                             </div>                                           
                         </div> 
@@ -153,38 +220,62 @@
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
-                                    <div class="widget-chart widget-chart-hover">
-                                        <a href="{{url('prisoner_opd_detail/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                    {{-- <div class="widget-chart widget-chart-hover"> --}}
+                                        {{-- <a href="{{url('prisoner_opd_detail/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">  --}}
                                             <div class="d-flex text-start">
                                                 <div class="flex-grow-1 ">
                                                     <?php 
                                                         $y = $item->year; 
                                                         $ynew = $y +543;
+                                                        
                                                     ?>                                            
-                                                    <p class="text-truncate font-size-14 mb-2">เดือน {{$item->MONTH_NAME}} {{$ynew}}</p>
-                                                    <h4 class="mb-2">{{$item->vn}} Visit</h4> 
-                                                    <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
-                                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>111111</span>บาท</p>
+                                                    {{-- <p class="text-center font-size-14 ms-4 mt-4">เดือน {{$item->MONTH_NAME}} {{$ynew}}</p> --}}
+                                                    <div class="row">
+                                                        <div class="col-md-5 text-start mt-4 ms-4">
+                                                            <h4 >เดือน {{$item->MONTH_NAME}} {{$ynew}}</h4> 
+                                                        </div>
+                                                        <div class="col"></div>
+                                                        <div class="col-md-4 text-end mt-2 me-4">
+                                                            <a href="{{url('account_pkti2166/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
+                                                                    <h4 class="text-end">{{$item->count_N}} Visit</h4> 
+                                                                </div> 
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <a href="{{url('prisoner_opd_detail/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($item->income, 2)}}"> 
+                                                                    <p class="text-muted mb-0"><span class="text-info fw-bold font-size-14 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
+                                                                </div> 
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}">
+                                                                    <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span>บาท</p>
+                                                                </div> 
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank"> 
+                                                                <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($sum_approveY, 2)}}">
+                                                                    <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{number_format($sum_approveY, 2)}}</span>บาท</p>
+                                                                </div> 
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                   
+                                                   
+                                                    {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p> --}}
+                                                    {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>111111</span>บาท</p> --}}
                                                 </div>                                      
-                                            
-                                                <div class="avatar-sm me-2 me-2" style="height: 120px"> 
-                                                    <span class="avatar-title bg-light mt-3" style="height: 70px">
-                                                    
-                                                        <p style="font-size: 10px;">
-                                                            <button type="button" style="height: 100px;width: 100px"
-                                                                class="mt-5 mb-3 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-danger avatar-title bg-light text-primary rounded-3">
-                                                            
-                                                                <i class="fa-solid fa-3x fa-lungs text-danger"></i> 
-                                                                <br><br>
-                                                                Detail
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                            
-                                            </div>
+                                             
                                             </div>  
-                                        </a>
-                                    </div> 
+                                        {{-- </a> --}}
+                                    {{-- </div>  --}}
                                 </div> 
                             </div>                                           
                         </div> 

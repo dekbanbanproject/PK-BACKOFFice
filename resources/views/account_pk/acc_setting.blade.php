@@ -107,18 +107,19 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive mt-3">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example" style="width: 100%">
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th> 
                                         <th>pttype_acc_code</th>
                                         <th>ptname</th>
                                         {{-- <th>pcode</th>  --}}
-                                        <th>pttype_acc_eclaimid</th> 
+                                        {{-- <th>pttype_acc_eclaimid</th>  --}}
                                         {{-- <th>hipdata_code</th>  --}}
                                         {{-- <th>max_debt_money</th>  --}}
                                         {{-- <th>nhso_code</th>  --}}
                                         <th>ar_opd</th>
+                                        <th>ชื่อผังบัญชี</th>
                                         <th>ar_ipd</th>
                                         {{-- <th>pttype_eclaim_id</th>  --}}
                                     </tr>
@@ -132,11 +133,11 @@
                                             <td>{{ $item->pttype_acc_code }}</td> 
                                             <td>{{ $item->ptname }}</td>   
                                             {{-- <td>{{ $item->pcode }}</td>   --}}
-                                            <td>{{ $item->pttype_acc_eclaimid }}</td>  
+                                            {{-- <td>{{ $item->pttype_acc_eclaimid }}</td>   --}}
                                             {{-- <td>{{ $item->hipdata_code }}</td>    --}}
                                             {{-- <td>{{ $item->max_debt_money }}</td>  --}}
                                             {{-- <td>{{ $item->nhso_code }}</td>  --}}
-                                            <td> 
+                                            <td style="width: 15%"> 
                                                 @if ($item->pttype_acc_eclaimid == '')
                                                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success insert_data" value="{{ $item->pttype_acc_id }}">                                                      
                                                     <i class="fa-regular fa-square-plus me-2"></i>
@@ -149,8 +150,9 @@
                                                     </button> 
                                                 @endif      
                                             </td> 
+                                            <td>{{ $item->eclaimname }}</td> 
                                             <td>{{ $item->ar_ipd }}</td> 
-                                            {{-- <td>{{ $item->pttype_eclaim_id }}</td>  --}}
+                                           
                                         </tr>    
 
                                          <!--  Modal content EditModal Update -->

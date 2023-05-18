@@ -84,11 +84,11 @@ class TimeINController extends Controller
      
     public function timein_save(Request $request)
     { 
-        $checkindatetime = $request->CHEACKIN_DATE;
-        // $checkintime = $request->CHEACKIN_TIME;
+        $checkindate = $request->CHEACKIN_DATE;
+        $checkintime = $request->CHEACKIN_TIME;
 
-        $dateonly = date('Y-m-d', strtotime($checkindatetime)); 
-        $timeonly = date('h-m-s', strtotime($checkindatetime)); 
+        // $dateonly = date('Y-m-d', strtotime($checkindatetime)); 
+        // $timeonly = date('h-m-s', strtotime($checkindatetime)); 
         // dd($timeonly);
 
         $typeid = $request->CHECKIN_TYPE_ID; 
@@ -100,12 +100,12 @@ class TimeINController extends Controller
         $cid =  Auth::user()->cid;
      
             Operate_time::insert([
-                'operate_time_date'        => $dateonly,
+                'operate_time_date'        => $checkindate,
                 'operate_time_personid'    => $iduser,
                 'operate_time_person'      => $fulname,
                 'operate_time_typeid'      => $typeid,
                 'operate_time_typename'    => '',
-                'operate_time_in'          => $timeonly,
+                'operate_time_in'          => $checkintime,
                 'operate_time_out'         => '',
                 'operate_time_otin'        => '',
                 'operate_time_otout'       => '',
@@ -117,8 +117,8 @@ class TimeINController extends Controller
                 'CHECKIN_PERSON_ID'        => $iduser,
                 'HR_POSITION_ID'           => $poid,
                 'HR_DEPARTMENT_SUB_SUB_ID' => $ssid,
-                'CHEACKIN_DATE'            => $dateonly,
-                'CHEACKIN_TIME'            => $timeonly,
+                'CHEACKIN_DATE'            => $checkindate,
+                'CHEACKIN_TIME'            => $checkintime,
                 'CHECKIN_TYPE_ID'          => $typeid,
                 'OPERATE_JOB_ID'           => $jobid,
                 'CHECKIN_IP'               => 'LINE', 
@@ -127,8 +127,8 @@ class TimeINController extends Controller
             Line_checktime::insert([
                 'enrollnumber'       => $iduser,
                 'cid'                => $cid,
-                'tdate'              => $dateonly,
-                'checktime'          => $checkindatetime,
+                'tdate'              => $checkindate,
+                'checktime'          => $checkintime,
                 'checktype'          => 'LINE',
                 'latitude'           => '16.3747917',
                 'longitude'          => '102.1287445',

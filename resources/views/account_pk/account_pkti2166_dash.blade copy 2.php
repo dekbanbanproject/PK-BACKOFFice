@@ -84,8 +84,8 @@
             @csrf
             <div class="row"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050102.801</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.801</p>
+                    <h4 class="card-title">Detail 1102050101.2166</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.2166</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -108,14 +108,14 @@
         </form>  
         <div class="row "> 
             @foreach ($datashow as $item)   
-            <div class="col-xl-3 col-md-6">
+            <div class="col-xl-4 col-md-6">
                 <div class="main-card mb-3 card">   
                     @if ($startdate == '')
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
                                     <div class="widget-chart widget-chart-hover">
-                                        <a href="{{url('prisoner_opd_detail/'.$item->months.'/'.$newyear.'/'.$date)}}" target="_blank"> 
+                                        <a href="{{url('account_pkti2166/'.$startdate.'/'.$enddate)}}" target="_blank"> 
                                             <div class="d-flex text-start">
                                                 <div class="flex-grow-1 ">
                                                     <?php 
@@ -128,21 +128,20 @@
                                                     <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>00000</span>บาท</p>
                                                 </div>                               
                                             
-                                                <div class="avatar-sm me-2 me-2" style="height: 120px"> 
-                                                    <span class="avatar-title bg-light mt-3" style="height: 70px">
-                                                    
+                                                {{-- <div class="avatar-sm me-2 me-2" style="height: 120px"> 
+                                                    <span class="avatar-title bg-light mt-3" style="height: 70px">                                                    
                                                         <p style="font-size: 10px;">
                                                             <button type="button" style="height: 100px;width: 100px"
                                                                 class="mt-5 mb-3 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-warning avatar-title bg-light text-primary rounded-3">
                                                             
-                                                                <i class="fa-solid fa-3x fa-user-doctor text-info"></i>
+                                                                <i class="fa-solid fa-3x fa-lungs text-danger"></i>
                                                                 <br><br>
                                                                 Detail
                                                             </button>
                                                         </p>
-                                                    </span>
-                                            
-                                                </div>
+                                                    </span>                                            
+                                                </div> --}}
+
                                             </div>  
                                         </a>
                                     </div> 
@@ -167,21 +166,20 @@
                                                     <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>111111</span>บาท</p>
                                                 </div>                                      
                                             
-                                                <div class="avatar-sm me-2 me-2" style="height: 120px"> 
-                                                    <span class="avatar-title bg-light mt-3" style="height: 70px">
-                                                    
+                                                {{-- <div class="avatar-sm me-2 me-2" style="height: 120px"> 
+                                                    <span class="avatar-title bg-light mt-3" style="height: 70px">                                                    
                                                         <p style="font-size: 10px;">
                                                             <button type="button" style="height: 100px;width: 100px"
                                                                 class="mt-5 mb-3 me-4 btn-icon btn-shadow btn-dashed btn btn-outline-danger avatar-title bg-light text-primary rounded-3">
                                                             
-                                                                <i class="fa-solid fa-3x fa-user-doctor text-danger"></i> 
+                                                                <i class="fa-solid fa-3x fa-lungs text-danger"></i> 
                                                                 <br><br>
                                                                 Detail
                                                             </button>
                                                         </p>
-                                                    </span>
-                                            
-                                            </div>
+                                                    </span>                                            
+                                                </div> --}}
+
                                             </div>  
                                         </a>
                                     </div> 

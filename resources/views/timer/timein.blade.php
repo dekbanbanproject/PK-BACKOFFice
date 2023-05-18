@@ -248,12 +248,22 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                 @csrf --}}
             
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="input-group">
                         <div class="input-group-text">
                             <span class="">วันที่</span>
                         </div>
-                        <input type="datetime-local" id="CHEACKIN_DATE" name="CHEACKIN_DATE" class="form-control">
+                        {{-- <input type="datetime-local" id="INSERTCHEACKIN_DATE" name="CHEACKIN_DATE" class="form-control"> --}}
+                        <input type="date" id="INSERTCHEACKIN_DATE" name="CHEACKIN_DATE" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <span class="">เวลา</span>
+                        </div>
+                        {{-- <input type="datetime-local" id="INSERTCHEACKIN_DATE" name="CHEACKIN_DATE" class="form-control"> --}}
+                        <input type="time" id="INSERTCHEACKIN_TIME" name="CHEACKIN_TIME" class="form-control">
                     </div>
                 </div>
                 {{-- <div class="col-md-6">
@@ -339,8 +349,8 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
         $("#spinner-div").hide(); //Request is complete so hide spinner
 
         $('#TimeSave').click(function() {
-            var CHEACKIN_DATE = $('#CHEACKIN_DATE').val();
-            // var CHEACKIN_TIME = $('#CHEACKIN_TIME').val();
+            var CHEACKIN_DATE = $('#INSERTCHEACKIN_DATE').val();
+            var CHEACKIN_TIME = $('#INSERTCHEACKIN_TIME').val();
             var CHECKIN_TYPE_ID = $('#CHECKIN_TYPE_ID').val();
             var OPERATE_JOB_ID = $('#OPERATE_JOB_ID').val(); 
             $.ajax({
@@ -349,7 +359,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
                 dataType: 'json',
                 data: {
                     CHEACKIN_DATE,
-                    // CHEACKIN_TIME,
+                    CHEACKIN_TIME,
                     CHECKIN_TYPE_ID,
                     OPERATE_JOB_ID
                 },

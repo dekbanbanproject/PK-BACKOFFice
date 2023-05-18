@@ -285,7 +285,7 @@
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>ดึงข้อมูล</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -295,7 +295,7 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>UCS</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -304,7 +304,8 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                {{-- <i class="fa-solid fa-money-check-dollar text-danger"></i> --}}
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>OFC</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -314,7 +315,7 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>SSS</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -323,7 +324,7 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>LGO</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -335,7 +336,7 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>ไต</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -344,7 +345,7 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -355,7 +356,7 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>STM report</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -364,8 +365,8 @@
                             </ul>
                         </li> 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-money-check-dollar text-danger"></i>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-sliders text-danger"></i>
                                 <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
