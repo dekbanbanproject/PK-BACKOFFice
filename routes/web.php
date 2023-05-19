@@ -1064,6 +1064,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'sss_in',[App\Http\Controllers\SssController::class, 'sss_in'])->name('claim.sss_in');//
     Route::match(['get','post'],'pkclaim/pkclaim_sss',[App\Http\Controllers\PkclaimController::class, 'pkclaim_sss'])->name('claim.pkclaim_sss');//
     
+    Route::match(['get','post'],'fs_eclaim',[App\Http\Controllers\PkclaimController::class, 'fs_eclaim'])->name('claim.fs_eclaim');// PKClaim
     
     // ******************** PKClaim Report ***********************
     Route::match(['get','post'],'report_op',[App\Http\Controllers\ReportController::class, 'report_op'])->name('report.report_op');// 
