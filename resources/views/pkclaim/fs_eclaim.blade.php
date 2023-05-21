@@ -98,11 +98,12 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-4 text-end mt-2 me-4">
-                                                    <a href=" " target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="อุปกรณ์ ECLaim & Hos แยกสิทธิ์"> 
+                                                    <a href="{{url('fs_eclaim_inhos/'.$item->icodex)}}" target="_blank" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="อุปกรณ์ ECLaim & Hos แยกสิทธิ์ {{$item->hipdata}}"> 
                                                             <h4 class="text-end">{{$item->icodex}}</h4> 
                                                         </div> 
-                                                    </a>                                                            
+                                                    </a>      
+                                                                                                         
                                                 </div>
                                             </div>
                                         
@@ -118,26 +119,30 @@
         </div>
 
         <div class="row ">    
-            <div class="col-xl-6 col-md-6">
+            <div class="col-xl-5 col-md-5">
                 <div class="main-card mb-3 card">   
                         <div class="table-responsive mt-2 ms-2 me-2">
-                            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="example1" class="table table-striped table-bordered dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- example --}}
+                                {{-- datatable --}}
                                 <thead>
-                                    <tr>
-                                        <th width="5%" class="text-center">ลำดับ</th>  
+                                    <tr> 
                                         <th class="text-center" width="5%">income</th> 
                                         <th class="text-center">name</th>
-                                        <th class="text-center" >จำนวน</th> 
+                                        <th class="text-center" width="5%">FS-Hos</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $ii = 1; ?>
                                     @foreach ($datashow2 as $item2) 
-                                    <tr id="tr_{{$item2->fs_eclaim_id}}">                                                  
-                                        <td class="text-center" width="5%">{{ $ii++ }}</td>   
+                                    <tr id="tr_{{$item2->fs_eclaim_id}}">   
                                         <td class="text-center" width="5%">{{ $item2->income }}</td> 
                                         <td class="text-start">{{ $item2->iname }}</td> 
-                                        <td class="text-end" width="5%">{{ $item2->billcode }}</td>    
+                                        <td class="text-end" width="5%">
+                                            <a href="{{url('fs_eclaim_instu_eclaim/'.$item2->income)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                                {{ $item2->billcode }}
+                                            </a>  
+                                        </td>    
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -146,26 +151,36 @@
                 </div>
             </div>
          
-            <div class="col-xl-6 col-md-6">
+            <div class="col-xl-7 col-md-7">
                 <div class="main-card mb-3 card">   
                         <div class="table-responsive mt-2 ms-2 me-2">
-                            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
-                                    <tr>
-                                        <th width="5%" class="text-center">ลำดับ</th>  
+                                    <tr> 
                                         <th class="text-center" width="5%">income</th> 
                                         <th class="text-center">name</th>
-                                        <th class="text-center" >จำนวน</th> 
+                                        <th class="text-center" >Hosxp</th> 
+                                        <th class="text-center" >xxx</th> 
+                                        <th class="text-center" >999</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $ii = 1; ?>
-                                    @foreach ($datashow2 as $item2) 
-                                    <tr id="tr_{{$item2->fs_eclaim_id}}">                                                  
-                                        <td class="text-center" width="5%">{{ $ii++ }}</td>   
-                                        <td class="text-center" width="5%">{{ $item2->income }}</td> 
-                                        <td class="text-start">{{ $item2->iname }}</td> 
-                                        <td class="text-end" width="5%">{{ $item2->billcode }}</td>    
+                                    @foreach ($datashow3 as $item3) 
+                                    <tr>  
+                                        <td class="text-center" width="5%">
+                                            {{-- <a href="{{url('fs_eclaim_inhos/'.$item3->income)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> --}}
+                                                {{ $item3->income }}
+                                            {{-- </a>  --}}
+                                        </td> 
+                                        <td class="text-start">{{ $item3->iname }}</td> 
+                                        <td class="text-end" width="5%">
+                                            <a href="{{url('fs_eclaim_inhos/'.$item3->income)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                                {{ $item3->hosicode }}
+                                            </a> 
+                                        </td> 
+                                        <td class="text-end" width="5%">{{ $item3->xxxicode }}</td>     
+                                        <td class="text-end" width="5%">{{ $item3->icode999 }}</td>  
                                     </tr>
                                     @endforeach
                                 </tbody>

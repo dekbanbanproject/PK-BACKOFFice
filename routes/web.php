@@ -1065,7 +1065,11 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'pkclaim/pkclaim_sss',[App\Http\Controllers\PkclaimController::class, 'pkclaim_sss'])->name('claim.pkclaim_sss');//
     
     Route::match(['get','post'],'fs_eclaim',[App\Http\Controllers\PkclaimController::class, 'fs_eclaim'])->name('claim.fs_eclaim');// PKClaim
+    Route::match(['get','post'],'fs_eclaim_inhos/{income}',[App\Http\Controllers\PkclaimController::class, 'fs_eclaim_inhos'])->name('claim.fs_eclaim_inhos');// PKClaim
+    Route::match(['get','post'],'fs_eclaim_instu/{income}',[App\Http\Controllers\PkclaimController::class, 'fs_eclaim_instu'])->name('claim.fs_eclaim_instu');// PKClaim
+    Route::match(['get','post'],'fs_eclaim_instu_eclaim/{income}',[App\Http\Controllers\PkclaimController::class, 'fs_eclaim_instu_eclaim'])->name('claim.fs_eclaim_instu_eclaim');// PKClaim
     
+
     // ******************** PKClaim Report ***********************
     Route::match(['get','post'],'report_op',[App\Http\Controllers\ReportController::class, 'report_op'])->name('report.report_op');// 
     Route::match(['get','post'],'report_op_getline',[App\Http\Controllers\ReportController::class, 'report_op_getline'])->name('rep.report_op_getline');// get ค่า ajax line
