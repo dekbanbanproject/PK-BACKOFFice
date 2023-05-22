@@ -278,7 +278,7 @@ class AutoController extends Controller
                                     'hsub' => @$hsub,
                                 
                                 ]); 
-                        }else{ 
+                        // }else{ 
                             // Check_sit_auto::insert([ 
                             //     'status' => @$status,
                             //     'maininscl' => @$maininscl,
