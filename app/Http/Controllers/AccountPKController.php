@@ -1363,7 +1363,7 @@ class AccountPKController extends Controller
                     group by month(a.vstdate) asc;
             '); 
         }          
-
+ 
         return view('account_pk.account_pkti8011_dash',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
@@ -1371,6 +1371,7 @@ class AccountPKController extends Controller
             'datashow'         => $datashow,
             'newyear'          => $newyear,
             'date'             => $date,
+ 
         ]);
     }
 

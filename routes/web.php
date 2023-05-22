@@ -1727,8 +1727,11 @@ Route::match(['get','post'],'ktb_spawn',[App\Http\Controllers\KTBController::cla
 Route::match(['get','post'],'timein',[App\Http\Controllers\TimeINController::class, 'timein'])->name('TT.timein');//ลงเวลา
 Route::match(['get','post'],'timein_save',[App\Http\Controllers\TimeINController::class, 'timein_save'])->name('TT.timein_save');//ลงเวลา
 
-
+ 
+Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 Route::match(['get','post'],'env_water_parameter',[App\Http\Controllers\EnvController::class, 'env_water_parameter'])->name('env.env_water_parameter');//
 Route::match(['get','post'],'env_water_parameter_add',[App\Http\Controllers\EnvController::class, 'env_water_parameter_add'])->name('env.env_water_parameter_add');//
+Route::match(['get','post'],'env_water',[App\Http\Controllers\EnvController::class, 'env_water'])->name('env.env_water');//
+Route::match(['get','post'],'env_water_add',[App\Http\Controllers\EnvController::class, 'env_water_add'])->name('env.env_water_add');//
 
 });
