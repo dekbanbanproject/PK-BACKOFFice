@@ -185,6 +185,12 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
+            
+            $('#example').Tabledit({
+
+                
+            });
+
             $('#p4p_work_month').select2({
                 placeholder: "--เลือก--",
                 allowClear: true
