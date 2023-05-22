@@ -187,7 +187,7 @@ class AutoController extends Controller
             FROM check_sit_auto  
             WHERE vstdate BETWEEN "2023-02-10" AND "2023-02-11"       
             AND subinscl IS NULL   
-            LIMIT 50
+            LIMIT 100
         '); 
         
         foreach ($data_sitss as $key => $item) {
@@ -224,7 +224,7 @@ class AutoController extends Controller
                 @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
                 @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี" 
 
-                
+
                 IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
                     $date = date("Y-m-d");
                     Check_sit_auto::where('vn', $vn) 
