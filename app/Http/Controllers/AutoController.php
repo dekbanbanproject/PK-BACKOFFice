@@ -185,7 +185,7 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select(' 
             SELECT cid,vn
             FROM check_sit_auto  
-            WHERE vstdate BETWEEN "2023-02-06" AND "2023-05-18"       
+            WHERE vstdate BETWEEN "2023-02-08" AND "2023-02-10"       
             AND subinscl IS NULL   
             LIMIT 50
         '); 
@@ -250,7 +250,7 @@ class AutoController extends Controller
                                     'pttype_spsch' => @$subinscl, 
                                     'hsub' => @$hsub,
                                 
-                                ]);      
+                            ]);      
                 }elseif(@$maininscl !="" || @$subinscl !=""){  
                         $date2 = date("Y-m-d");
                             Check_sit_auto::where('vn', $vn) 

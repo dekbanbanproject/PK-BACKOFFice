@@ -8,6 +8,9 @@ use Carbon\Carbon;
 use Illuminate\support\Facades\Hash;
 use Illuminate\support\Facades\Validator;
 use App\Models\User;
+use App\Models\Ins_eclaimxxx;
+use App\Models\Fs_eclaim;
+
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -23,6 +26,48 @@ class PkclaimController extends Controller
         $data['users'] = User::get();
 
         return view('pkclaim.pkclaim_info', $data);
+    }
+    public function fs_eclaim(Request $request)
+    {
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+
+        Ins_eclaimxxx::truncate();
+        $datashow_ = DB::connection('mysql7')->select('   
+            SELECT HIPDATA_CODE as hipdata,count(distinct icode) as icodex from claim.ins_eclaimx
+            GROUP BY HIPDATA_CODE;   
+        '); 
+        foreach ($datashow_ as $key => $value) {
+            Ins_eclaimxxx::insert([
+                'hipdata' => $value->hipdata,
+                'icodex' => $value->icodex,                      
+            ]);
+        }
+        $datashow = DB::connection('mysql7')->select('  
+            SELECT * FROM ins_eclaimxxx
+        '); 
+        $datashow2 = DB::connection('mysql7')->select('  
+            SELECT f.fs_eclaim_id,i.income,i.name as iname,count(f.billcode) as billcode 
+            from claim.fs_eclaim f
+            LEFT JOIN hos.income i on i.group2 = f.income
+            GROUP BY i.income
+        '); 
+        $datashow3 = DB::connection('mysql3')->select('  
+            SELECT i.income,i.name as iname,count(f.icode) as hosicode,count(distinct nn.icode) as xxxicode,count(distinct nm.icode) as icode999 
+            FROM hos.nondrugitems f
+            LEFT JOIN hos.income i on i.group2 = f.income
+            LEFT JOIN nondrugitems nn on nn.icode = f.icode and nn.nhso_adp_code like "%xx%" and nn.istatus ="y"
+            LEFT JOIN nondrugitems nm on nm.icode = f.icode and nm.nhso_adp_code like "%999%" and nm.istatus ="y"
+            where f.istatus ="y"
+            and f.income is not null
+            GROUP BY f.income
+        '); 
+       
+        return view('pkclaim.fs_eclaim',[
+            'datashow'   => $datashow,
+            'datashow2'  => $datashow2,
+            'datashow3'  => $datashow3
+        ]);
     }
     public function bk_getbar(Request $request)
     {
@@ -57,6 +102,25 @@ class PkclaimController extends Controller
             'status'             => '200', 
             'chartData_dataset_week'    => $chartData_dataset_week,
             'chartData_dataset'  => $chartData_dataset
+        ]);
+    }
+    public function fs_eclaim_instu_eclaim(Request $request,$income)
+    {
+        $data['com_tec'] = DB::table('com_tec')->get(); 
+
+        $datashow_ = DB::connection('mysql7')->select('  
+            SELECT nn.icode,i.group2,f.billcode as fbillcode,n.billcode as nbillcode,f.dname,f.pay_rate,n.price,n.price2,n.price3,concat(n.nhso_adp_type_id,"=",n1.nhso_adp_code_name) as type
+            ,n.nhso_adp_code from claim.fs_eclaim f
+            LEFT JOIN hos.income i on i.group2 = f.income
+            LEFT JOIN hos.nondrugitems n on n.billcode = f.billcode 
+            LEFT JOIN hos.nondrugitems nn on nn.icode = n.icode
+            LEFT JOIN hos.nhso_adp_code n1 on n1.nhso_adp_code= nn.nhso_adp_code
+            where i.group2 = "'.$income.'"
+            group by f.billcode,f.dname,f.pay_rate order by f.billcode
+        '); 
+       
+        return view('pkclaim.fs_eclaim_instu_eclaim',[
+            'datashow_'   => $datashow_,            
         ]);
     }
 }

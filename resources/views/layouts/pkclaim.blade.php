@@ -191,6 +191,15 @@
                             </a> 
                         </li> 
                         <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <span>FS EClaim</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('fs_eclaim') }}">Fs Eclaim & Hos</a></li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-file-invoice-dollar text-danger"></i>
                                 <span>Claim</span>
