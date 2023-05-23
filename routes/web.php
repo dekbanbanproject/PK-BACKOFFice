@@ -1244,7 +1244,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkCheck_sit',[App\Http\Controllers\AccountPKController::class, 'account_pkCheck_sit'])->name('acc.account_pkCheck_sit');// 
     Route::match(['get','post'],'account_pkCheck_sitipd',[App\Http\Controllers\AccountPKController::class, 'account_pkCheck_sitipd'])->name('acc.account_pkCheck_sitipd');// 
 
-    Route::match(['get','post'],'account_pk_debtor',[App\Http\Controllers\AccountPKController::class, 'account_pk_debtor'])->name('acc.account_pk_debtor');//  stamp
+    Route::match(['get','post'],'account_pk_debtor',[App\Http\Controllers\AccountPKController::class, 'account_pk_debtor'])->name('acc.account_pk_debtor');//  stamp OPD
     Route::match(['get','post'],'acc_debtor_send',[App\Http\Controllers\AccountPKController::class, 'acc_debtor_send'])->name('acc.acc_debtor_send');//  Send
 
     Route::match(['get','post'],'account_pkucs',[App\Http\Controllers\AccountPKController::class, 'account_pkucs'])->name('acc.account_pkucs');// 
@@ -1293,8 +1293,15 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_save',[App\Http\Controllers\AccountPKController::class, 'upstm_save'])->name('acc.upstm_save');// 
     Route::match(['get','post'],'upstm_import',[App\Http\Controllers\AccountPKController::class, 'upstm_import'])->name('acc.upstm_import');// 
 
+ // **************************** PANG IPD  ***********************
+
     Route::match(['get','post'],'account_pk_ipd',[App\Http\Controllers\AccountPKController::class, 'account_pk_ipd'])->name('acc.account_pk_ipd');// 
     Route::match(['get','post'],'account_pk_ipdsave',[App\Http\Controllers\AccountPKController::class, 'account_pk_ipdsave'])->name('acc.account_pk_ipdsave');// 
+    Route::match(['get','post'],'account_pk_debtor_ipd',[App\Http\Controllers\AccountPKController::class, 'account_pk_debtor_ipd'])->name('acc.account_pk_debtor_ipd');//  stamp IPD
+    Route::match(['get','post'],'account_pkucs202_dash',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202_dash'])->name('acc.account_pkucs202_dash');// 
+    Route::match(['get','post'],'account_pkucs202/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202'])->name('acc.account_pkucs202');// 
+    Route::match(['get','post'],'account_pkucs202_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202_stm'])->name('acc.account_pkucs202_stm');// 
+
 
     Route::match(['get','post'],'acc_stm',[App\Http\Controllers\AccountPKController::class, 'acc_stm'])->name('acc.acc_stm');// 
     Route::match(['get','post'],'acc_repstm',[App\Http\Controllers\AccountPKController::class, 'acc_repstm'])->name('acc.acc_repstm');// 

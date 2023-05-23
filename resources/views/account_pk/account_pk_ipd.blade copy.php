@@ -18,7 +18,7 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    <style>
+     <style>
         #button{
                display:block;
                margin:20px auto;
@@ -89,10 +89,10 @@
                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Save_ipd">
                     <i class="fa-solid fa-1 me-2"></i> 
                     ดึงข้อมูล</button>    
-                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sitipd">
+                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sitipd">
                     <i class="fa-solid fa-2 me-2"></i> 
                     ตรวจสอบสิทธิ์
-                </button>    --}}
+                </button>   
                                       
             </div>
             <div class="col"></div>
@@ -138,13 +138,7 @@
                 <div class="col"></div>
             </div>  --}}
         </form>
-        <div class="row mt-3 text-center">  
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
-                </div>
-              </div>
-        </div> 
+       
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card">
@@ -178,13 +172,29 @@
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
                                             {{-- <th class="text-center" >cid</th> --}}
-                                            <th class="text-center">ชื่อ-นามสกุล</th>
-                                            <th class="text-center">dchdate</th>  
-                                            <th class="text-center">สิทธิ์ Hos</th> 
-                                            <th class="text-center">สิทธิ์ สปสช</th> 
-                                            <th class="text-center">ผังบัญชี</th> 
-                                            {{-- <th class="text-center">income</th>  --}}
-                                            <th class="text-center">ลูกหนี้</th> 
+                                            <th class="text-center">fullname</th>
+                                            <th class="text-center">dchdate</th> 
+                                            {{-- <th class="text-center">vsttime</th>   --}}
+                                            <th class="text-center">pttype</th>
+                                            {{-- <th class="text-center" width="8%">pttypename</th>  --}}
+
+                                            {{-- <th class="text-center">pttype_spsch</th> --}}
+                                            {{-- <th class="text-center">hsub</th> --}}
+
+                                            {{-- <th class="text-center" width="7%">ptsubtype</th> --}}
+                                            {{-- <th class="text-center">pttype_eclaim_id</th> --}}
+                                            {{-- <th class="text-center">pttype_eclaim_name</th> --}}
+                                            {{-- <th class="text-center" width="10%">acc_code</th>  --}}
+                                            <th class="text-center">account_code</th>
+                                            {{-- <th class="text-center">account_name</th> --}}
+                                            <th class="text-center">income</th>
+                                            {{-- <th class="text-center">uc_money</th>  --}}
+                                            {{-- <th class="text-center">discount_money</th> --}}
+                                            {{-- <th class="text-center">paid</th> --}}
+                                            {{-- <th class="text-center">follow</th>  --}}
+                                            <th class="text-center">ลูกหนี้</th>
+                                            {{-- <th class="text-center">debit</th> --}}
+                                            {{-- <th class="text-center">max_debt_amount</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -197,13 +207,31 @@
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 {{-- <td class="text-center" width="5%">{{ $item->cid }}</td>   --}}
-                                                <td class="p-2">{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->dchdate }}</td>   
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="10%">{{ $item->pttype }}</td> 
-                                                <td class="text-center" style="color:rgb(251, 185, 92)" width="10%">{{ $item->pttype_spsch }}</td> 
-                                                <td class="text-center"  width="10%">{{ $item->account_code }}</td>  
-                                                {{-- <td class="text-center">{{ $item->income }}</td>   --}}
-                                                 <td class="text-center"  width="12%">{{ $item->debit }}</td>  
+                                                <td class="p-2" width="10%">{{ $item->ptname }}</td> 
+                                                <td class="text-center" width="5%">{{ $item->dchdate }}</td>  
+                                                {{-- <td class="text-center">{{ $item->vsttime }}</td>  --}}
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
+                                                {{-- <td class="p-2" width="10%">{{ $item->pttypename }}</td>  --}}
+
+                                                {{-- <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->pttype_spsch }}</td>  --}}
+                                                {{-- <td class="text-center" width="5%">{{ $item->hsub }}</td>  --}}
+
+                                                {{-- <td class="p-2">{{ $item->ptsubtype }}</td>  --}}
+                                                {{-- <td class="text-center">{{ $item->pttype_eclaim_id }}</td>  --}}
+                                                {{-- <td class="p-2">{{ $item->pttype_eclaim_name }}</td>   --}}
+                                                {{-- <td class="text-center">{{ $item->acc_code }}</td>  --}}
+                                                <td class="text-center">{{ $item->account_code }}</td> 
+                                                {{-- <td class="text-center">{{ $item->account_name }}</td>  --}}
+                                                <td class="text-center">{{ $item->income }}</td> 
+                                                {{-- <td class="text-center">{{ $item->uc_money }}</td>  --}}
+
+                                                {{-- <td class="text-center">{{ $item->discount_money }}</td>  --}}
+                                                {{-- <td class="text-center">{{ $item->paid }}</td>  --}}
+                                                {{-- <td class="text-center">{{ $item->follow }}</td>  --}}
+
+                                                 <td class="text-center">{{ $item->looknee_money }}</td> 
+                                                {{-- <td class="text-center">{{ $item->debit }}</td>  --}}
+                                                {{-- <td class="text-center">{{ $item->max_debt_amount }}</td>  --}}
 
                                             </tr>
                                         @endforeach
@@ -351,96 +379,42 @@
 
             $("#spinner-div").hide(); //Request is complete so hide spinner
 
-            // $('#Save_ipd').click(function() {
-            //     var datepicker = $('#datepicker').val(); 
-            //     var datepicker2 = $('#datepicker2').val(); 
-           
-            //     $.ajax({
-            //         url: "{{ route('acc.account_pk_ipdsave') }}",
-            //         type: "POST",
-            //         dataType: 'json',
-            //         data: {
-            //             datepicker,
-            //             datepicker2                        
-            //         },
-            //         success: function(data) {
-            //             if (data.status == 200) {
-            //                 Swal.fire({
-            //                     title: 'ดึงข้อมูลสำเร็จ',
-            //                     text: "You Pull data success",
-            //                     icon: 'success',
-            //                     showCancelButton: false,
-            //                     confirmButtonColor: '#06D177',
-            //                     confirmButtonText: 'เรียบร้อย'
-            //                 }).then((result) => {
-            //                     if (result
-            //                         .isConfirmed) {
-            //                         console.log(
-            //                             data);
-            //                         window.location.reload();
-            //                         // window.location="{{url('warehouse/warehouse_index')}}";
-            //                     }
-            //                 })
-            //             } else {
-                            
-            //             }
-
-            //         },
-            //     });
-            // });
             $('#Save_ipd').click(function() {
                 var datepicker = $('#datepicker').val(); 
                 var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
-                        title: 'ต้องการดึงข้อมูลใช่ไหม ?',
-                        text: "You Warn Pull Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, pull it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                
-                                $.ajax({
-                                    url: "{{ route('acc.account_pk_ipdsave') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ดึงข้อมูลสำเร็จ',
-                                                text: "You Pull data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
+                //    alert(datepicker);
+                $.ajax({
+                    url: "{{ route('acc.account_pk_ipdsave') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        datepicker,
+                        datepicker2                        
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'ดึงข้อมูลสำเร็จ',
+                                text: "You Pull data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload();
+                                    // window.location="{{url('warehouse/warehouse_index')}}";
+                                }
+                            })
+                        } else {
+                            
+                        }
+
+                    },
+                });
             });
             $('#Check_sitipd').click(function() {
                 var datepicker = $('#datepicker').val(); 

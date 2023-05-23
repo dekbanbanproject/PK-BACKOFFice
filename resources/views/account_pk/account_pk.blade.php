@@ -104,14 +104,14 @@
                 
                 
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                    <div class="col-md-4 text-end">
-                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                data-date-language="th-th" value="{{ $startdate }}" required/>
-                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                data-date-language="th-th" value="{{ $enddate }}"/>  
-                        </div> 
-                    </div>
+                <div class="col-md-4 text-end">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $enddate }}"/>  
+                    </div> 
+                </div>
                                
 
 
@@ -398,6 +398,7 @@
                             if (result.isConfirmed) {
                                 $("#overlay").fadeIn(300);　
                                 $("#spinner").show(); //Load button clicked show spinner 
+                                
                                 $.ajax({
                                     url: "{{ route('acc.account_pksave') }}",
                                     type: "POST",
@@ -432,6 +433,7 @@
                                         }
                                     },
                                 });
+                                
                             }
                 })
             });
