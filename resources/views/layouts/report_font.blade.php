@@ -170,7 +170,7 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li ><a href="{{ url('report_refer') }}">การใช้งานรถ Refer BK</a></li>  
                                 <li ><a href="{{ url('report_refer_hos') }}">การใช้งานรถ Refer Hos</a></li>  
-                                <li ><a href="{{ url('report_refer_opds') }}">การบันทึกข้อมูล OPD Refer</a></li>
+                                {{-- <li ><a href="{{ url('report_refer_opds') }}">การบันทึกข้อมูล OPD Refer</a></li> --}}
                                 <li ><a href="{{ url('refer_opds_cross') }}" >Referข้าม CUP ภายในจังหวัด</a></li>
                                 <li ><a href="{{ url('report_ct') }}" >เรียกเก็บค่า CT ในจังหวัด</a></li>
                             </ul>

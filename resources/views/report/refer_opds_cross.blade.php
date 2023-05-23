@@ -62,14 +62,21 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
-                    <div class="card-header">
+                    <div class="card-header"> 
                         Referข้าม CUP ภายในจังหวัด
                         <div class="btn-actions-pane-right">
-                            <form action="{{ route('rep.refer_opds_cross') }}" method="POST">
+                            {{-- <div class="row">
+                                <div class="col-md-4"> Referข้าม CUP ภายในจังหวัด</div>
+                                <div class="col-md-4">2</div>
+                                <div class="col-md-2">3</div>
+                                <div class="col-md-2">4</div>
+                            </div> --}}
+                            {{-- <form action="{{ route('rep.refer_opds_cross') }}" method="POST">
                                 @csrf
                                 <div class="row"> 
+                                    <div class="col-md-2">Referข้าม CUP ภายในจังหวัด</div>
                                     <div class="col-md-1 text-end">วันที่</div>
-                                    <div class="col-md-7 text-center">
+                                    <div class="col-md-4 text-center">
                                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                                             data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                             <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -80,7 +87,22 @@
                                                 data-date-language="th-th" value="{{ $enddate }}" /> 
                                         </div>
                                     </div> 
-                                    <div class="col-md-2">  
+                                    <div class="col-md-1 text-center">รพ.</div>
+                                        <div class="col-md-2 text-center">
+                                            <div class="input-group">
+                                                <select id="HR_DEPARTMENT_ID" name="HR_DEPARTMENT_ID" class="form-select form-select-lg department" style="width: 100%"> 
+                                                
+                                                    @foreach ($department as $items0) 
+                                                    @if ($deb == $items0->HR_DEPARTMENT_ID)
+                                                        <option value="{{ $items0->HR_DEPARTMENT_ID }}" selected> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                                                    @else
+                                                        <option value="{{ $items0->HR_DEPARTMENT_ID }}"> {{ $items0->HR_DEPARTMENT_NAME }} </option> 
+                                                    @endif    
+                                                    @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">  
                                         <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                                         </button> 
@@ -92,10 +114,54 @@
                                     
                                     </div>
                                 </div> 
-                            </form> 
+                            </form>  --}}
                         </div>
                     </div>
                     <div class="card-body"> 
+                            <form action="{{ route('rep.refer_opds_cross') }}" method="POST">
+                                @csrf
+                                <div class="row"> 
+                                    <div class="col"></div>
+                                    <div class="col-md-1 text-end">วันที่</div>
+                                    <div class="col-md-3 text-center">
+                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                            data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $startdate }}" />
+                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $enddate }}" /> 
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-1 text-center mt-1">โรงพยาบาล</div>
+                                        <div class="col-md-2 text-center mt-1">
+                                            <div class="input-group">
+                                                <select id="hospcode" name="hospcode" class="form-select form-select-lg" style="width: 100%">  
+                                                    @foreach ($hosshow as $items)  
+                                                        @if ($hospcode == $items->hospcode)
+                                                            <option value="{{ $items->hospcode }}" selected> {{ $items->hosname }} </option>  
+                                                        @else
+                                                            <option value="{{ $items->hospcode }}"> {{ $items->hosname }} </option>  
+                                                        @endif                                                        
+                                                    @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">  
+                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                            <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                        </button>                                     
+                                        <a href="{{url('refer_opds_cross_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                            <i class="fa-solid fa-file-excel me-2"></i>
+                                            Export
+                                        </a>
+                                    
+                                    </div>
+                                    <div class="col"></div>
+                                </div> 
+                            </form> 
+                            <br>
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -105,12 +171,13 @@
                                     <th class="text-center">hn</th> 
                                     <th class="text-center">ชื่อ-นามสกุล</th> 
                                     <th class="text-center">Hmain</th>
-                                    <th class="text-center">Hcode</th>
+                                    <th class="text-center">สิทธิ์ สปสช</th>
                                     <th class="text-center">วันที่รับบริการ</th>                                     
                                     <th class="text-center">pdx</th> 
                                     <th class="text-center">ค่าบริการ</th> 
+
                                     <th class="text-center">ยอดเรียกเก็บตามข้อตกลง</th> 
- 
+                                    <th class="text-center">Total</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,13 +188,15 @@
                                         <td class="text-font" style="text-align: center;">{{ $number }}</td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->cid }}</td>   
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hn }}</td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->fullname }} </td> 
+                                        <td class="text-font text-pedding" style="text-align: left;"> {{ $item->fullname }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hospmain }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hcode }} </td> 
+                                        {{-- <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hcode }} </td>  --}}
+                                        <td class="text-font text-pedding" style="text-align: center;"> </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vstdate }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->pdx }} </td> 
                                         <td class="text-font text-pedding" style="text-align: right;">&nbsp;&nbsp; {{ number_format($item->uc_money,2) }} </td> 
                                         <td class="text-font text-pedding" style="text-align: right;"> &nbsp;&nbsp;{{ number_format($item->uc_money_kor_tok,2) }} </td>  
+                                        <td class="text-font text-pedding" style="text-align: right;"> &nbsp;&nbsp;{{ number_format(($item->uc_money) + ($item->uc_money_kor_tok),2) }} </td> 
                                     </tr>
                                 @endforeach
                                
@@ -156,7 +225,10 @@
             });
 
             $('#example').DataTable();
-
+            $('#hospcode').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
+            });
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
