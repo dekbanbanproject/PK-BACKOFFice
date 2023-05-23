@@ -809,75 +809,83 @@ class ReportFontController extends Controller
         $enddate = $request->enddate; 
         $hospcode = $request->hospcode; 
         if ($hospcode != '') {
-            $datashow_ = DB::connection('mysql3')->select(' 
-                SELECT v.hn,e.vn,p.cid,o.an,o.hospmain,o.hcode,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
-                    ,p.pttype,v.pdx,pcs.subinscl
-                    ,em.er_emergency_level_name
-                    ,vp.claimcode authencode 
-                    ,ROUND(SUM(op.sum_price),2) AS income 
-                    ,v.discount_money,v.rcpt_money
-                    ,v.income-v.discount_money-v.rcpt_money debit 
-                    ,v.rcpno_list rcpno
-                    
-                    from er_regist e 
-                    left outer join ovst o on o.vn = e.vn
-                    left outer join vn_stat v on v.vn = e.vn 
-                    left outer join patient p on p.hn = v.hn 
-                    left outer join pttype pt on pt.pttype = p.pttype
-                    left outer join er_emergency_level em on em.er_emergency_level_id=e.er_emergency_level_id
-                    left outer join visit_pttype_authen_report vp on vp.personalId = v.cid and v.vstdate =vp.claimDate
-                    left outer join opitemrece op ON op.vn = e.vn
-                    left outer join drugitems d on d.icode = op.icode
-                    left outer join claim.check_sit_auto pcs ON pcs.vn = e.vn
-                    where e.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                    AND o.hn!="999999999"
-                    AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99") 
-                    AND o.hospmain = "'.$hospcode.'"
-                    and e.er_emergency_level_id = "1"
-                    AND pt.hipdata_code = "UCS" 
-                    AND pt.pttype <> "33"
-                    AND o.hospmain NOT IN ("10978") 
-                    AND (o.an IS NULL OR o.an ="") 
-                    group by e.vn;
-             
+            $datashow_ = DB::connection('mysql3')->select('  
+                SELECT
+                        o.vn,o.hn,o.an,p.cid,o.vstdate,o.pttype,v.pttypeno,o.hospmain,o.hcode,concat(p.pname,p.fname," ",p.lname) as fullname
+                        , ROUND(uc_money-(IFNULL((SUM(om.sum_price)),0)) ,2) AS uc_money
+                        , IF( (uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))<=700
+                            ,((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))+(IFNULL((SUM(omk.sum_price)),0)))
+                            ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>700
+                                ,IF(tpsc.vn!=""
+                                    ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>1000
+                                        ,1000
+                                        ,(uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))
+                                    )
+                                    ,700+(IFNULL((SUM(omk.sum_price)),0))
+                                )
+                                ,700+(IFNULL((SUM(omk.sum_price)),0))    
+                            )
+                        ) AS uc_money_kor_tok
+                        ,v.pdx ,v.income ,v.paid_money
+                        FROM hos.ovst o
+                        LEFT JOIN hos.vn_stat v ON o.vn=v.vn
+                        LEFT JOIN hos.patient p ON o.hn=p.hn
+                        LEFT OUTER JOIN money_pk.opitemrece_money om ON o.vn=om.vn
+                        LEFT OUTER JOIN money_pk.opitemrece_kor_tok omk ON o.vn=omk.vn
+                        LEFT JOIN money_pk.temp_pang_stamp_chronic1102050101_203 tpsc ON o.vn=tpsc.vn
+
+                        WHERE o.hn!="999999999"
+                        AND o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99")
+
+                        AND o.hospmain = "'.$hospcode.'"
+                        AND o.hospmain NOT IN ("10978")
+                       
+                        AND (o.an IS NULL OR o.an ="") 
+                        GROUP BY o.vn
             '); 
-           
+            // AND o.vn NOT IN (select vn FROM money_pk.temp_pang_stamp_icd1102050101_203 )
         } else {
             $datashow_ = DB::connection('mysql3')->select('  
-                    SELECT v.hn,e.vn,p.cid,o.an,o.hospmain,o.hcode,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
-                            ,p.pttype,v.pdx,pcs.subinscl
-                            ,em.er_emergency_level_name
-                            ,vp.claimcode authencode 
-                            ,ROUND(SUM(op.sum_price),2) AS income 
-                            ,v.discount_money,v.rcpt_money
-                            ,v.income-v.discount_money-v.rcpt_money debit 
-                            ,v.rcpno_list rcpno
-                            
-                            from er_regist e 
-                            left outer join ovst o on o.vn = e.vn
-                            left outer join vn_stat v on v.vn = e.vn 
-                            left outer join patient p on p.hn = v.hn 
-                            left outer join pttype pt on pt.pttype = p.pttype
-                            left outer join er_emergency_level em on em.er_emergency_level_id=e.er_emergency_level_id
-                            left outer join visit_pttype_authen_report vp on vp.personalId = v.cid and v.vstdate =vp.claimDate
-                            left outer join opitemrece op ON op.vn = e.vn
-                            left outer join drugitems d on d.icode = op.icode
-                            left outer join claim.check_sit_auto pcs ON pcs.vn = e.vn
-                            where e.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                            AND o.hn!="999999999"
-                            AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99") 
-                            AND o.hospmain IN ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-                            AND o.hospmain NOT IN ("10978") 
-                            and e.er_emergency_level_id = "1"
-                            AND pt.hipdata_code = "UCS" 
-                            AND pt.pttype <> "33"
-                            AND (o.an IS NULL OR o.an ="") 
-                            group by e.vn; 
+                SELECT
+                        o.vn,o.hn,o.an,p.cid,o.vstdate,o.pttype,v.pttypeno,o.hospmain,o.hcode,concat(p.pname,p.fname," ",p.lname) as fullname
+                        , ROUND(uc_money-(IFNULL((SUM(om.sum_price)),0)) ,2) AS uc_money
+                        , IF( (uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))<=700
+                            ,((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))+(IFNULL((SUM(omk.sum_price)),0)))
+                            ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>700
+                                ,IF(tpsc.vn!=""
+                                    ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>1000
+                                        ,1000
+                                        ,(uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))
+                                    )
+                                    ,700+(IFNULL((SUM(omk.sum_price)),0))
+                                )
+                                ,700+(IFNULL((SUM(omk.sum_price)),0))    
+                            )
+                        ) AS uc_money_kor_tok
+                        ,v.pdx ,v.income ,v.paid_money
+                        FROM hos.ovst o
+                        LEFT JOIN hos.vn_stat v ON o.vn=v.vn
+                        LEFT JOIN hos.patient p ON o.hn=p.hn
+                        LEFT OUTER JOIN money_pk.opitemrece_money om ON o.vn=om.vn
+                        LEFT OUTER JOIN money_pk.opitemrece_kor_tok omk ON o.vn=omk.vn
+                        LEFT JOIN money_pk.temp_pang_stamp_chronic1102050101_203 tpsc ON o.vn=tpsc.vn
+
+                        WHERE o.hn!="999999999"
+                        AND o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99")
+
+                        AND o.hospmain IN ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
+                        AND o.hospmain NOT IN ("10978")
+                      
+                        AND (o.an IS NULL OR o.an ="") 
+                        GROUP BY o.vn
             '); 
         }
         
         // $query = DB::table('database1.table1 as dt1')->leftjoin('database2.table2 as dt2', 'dt2.ID', '=', 'dt1.ID');
 
+        
         $data['hosshow'] = DB::connection('mysql3')->select('  
             SELECT hospcode,name as hosname FROM hospcode WHERE hospcode IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
         '); 

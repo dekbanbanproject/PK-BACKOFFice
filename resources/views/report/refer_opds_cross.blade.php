@@ -171,11 +171,11 @@
                                     <th class="text-center">hn</th> 
                                     <th class="text-center">ชื่อ-นามสกุล</th> 
                                     <th class="text-center">Hmain</th>
+                                    <th class="text-center">สิทธิ์ Hos</th>
                                     <th class="text-center">สิทธิ์ สปสช</th>
                                     <th class="text-center">วันที่รับบริการ</th>                                     
                                     <th class="text-center">pdx</th> 
                                     <th class="text-center">ค่าบริการ</th> 
-
                                     <th class="text-center">ยอดเรียกเก็บตามข้อตกลง</th> 
                                     <th class="text-center">Total</th> 
                                 </tr>
@@ -190,13 +190,13 @@
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hn }}</td> 
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->fullname }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hospmain }} </td> 
-                                        {{-- <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hcode }} </td>  --}}
-                                        <td class="text-font text-pedding" style="text-align: center;"> </td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->pttype }} </td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->subinscl }}</td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vstdate }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->pdx }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: right;">&nbsp;&nbsp; {{ number_format($item->uc_money,2) }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: right;"> &nbsp;&nbsp;{{ number_format($item->uc_money_kor_tok,2) }} </td>  
-                                        <td class="text-font text-pedding" style="text-align: right;"> &nbsp;&nbsp;{{ number_format(($item->uc_money) + ($item->uc_money_kor_tok),2) }} </td> 
+                                        <td class="text-font text-pedding" style="text-align: right;">&nbsp;&nbsp; {{ number_format($item->income,2) }} </td> 
+                                        <td class="text-font text-pedding" style="text-align: right;"> &nbsp;&nbsp;{{ number_format($item->income,2) }} </td>  
+                                        <td class="text-font text-pedding" style="text-align: right;"> &nbsp;&nbsp;{{ number_format(($item->income) + ($item->income),2) }} </td> 
                                     </tr>
                                 @endforeach
                                

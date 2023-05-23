@@ -58,6 +58,7 @@ use App\Models\Dashboard_department_authen;
 use App\Models\Visit_pttype_authen_report;
 use App\Models\Dashboard_authenstaff_day;
 use App\Models\Acc_debtor;
+use App\Models\Check_sit_auto_claim;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -229,34 +230,64 @@ class AutoController extends Controller
                 IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
                     $date = date("Y-m-d");
                     Check_sit_auto::where('vn', $vn) 
+                        ->update([    
+                            'status' => 'จำหน่าย/เสียชีวิต',
+                            'maininscl' => @$maininscl,
+                            'startdate' => @$startdate,
+                            'hmain' => @$hmain,
+                            'subinscl' => @$subinscl,
+                            'person_id_nhso' => @$person_id_nhso,
+                            'hmain_op' => @$hmain_op,
+                            'hmain_op_name' => @$hmain_op_name,
+                            'hsub' => @$hsub,
+                            'hsub_name' => @$hsub_name,
+                            'subinscl_name' => @$subinscl_name,
+                            'upsit_date'    => $date
+                    ]); 
+                    Check_sit_auto_claim::where('vn', $vn) 
+                        ->update([    
+                            'status' => 'จำหน่าย/เสียชีวิต',
+                            'maininscl' => @$maininscl,
+                            'startdate' => @$startdate,
+                            'hmain' => @$hmain,
+                            'subinscl' => @$subinscl,
+                            'person_id_nhso' => @$person_id_nhso,
+                            'hmain_op' => @$hmain_op,
+                            'hmain_op_name' => @$hmain_op_name,
+                            'hsub' => @$hsub,
+                            'hsub_name' => @$hsub_name,
+                            'subinscl_name' => @$subinscl_name,
+                            'upsit_date'    => $date
+                    ]); 
+                             
+                    Acc_debtor::where('vn', $vn) 
+                        ->update([    
+                            'status' => @$status,
+                            'maininscl' => @$maininscl, 
+                            'hmain' => @$hmain,
+                            'subinscl' => @$subinscl,
+                            'pttype_spsch' => @$subinscl, 
+                            'hsub' => @$hsub,
+                        
+                    ]);      
+                }elseif(@$maininscl !="" || @$subinscl !=""){  
+                        $date2 = date("Y-m-d");
+                            Check_sit_auto::where('vn', $vn) 
                             ->update([    
-                                'status' => 'จำหน่าย/เสียชีวิต',
+                                'status' => @$status,
                                 'maininscl' => @$maininscl,
                                 'startdate' => @$startdate,
                                 'hmain' => @$hmain,
                                 'subinscl' => @$subinscl,
-                                'person_id_nhso' => @$person_id_nhso,
-
+                                'person_id_nhso' => @$person_id_nhso, 
                                 'hmain_op' => @$hmain_op,
                                 'hmain_op_name' => @$hmain_op_name,
                                 'hsub' => @$hsub,
                                 'hsub_name' => @$hsub_name,
                                 'subinscl_name' => @$subinscl_name,
-                                'upsit_date'    => $date
-                            ]);  
-                            Acc_debtor::where('vn', $vn) 
-                                ->update([    
-                                    'status' => @$status,
-                                    'maininscl' => @$maininscl, 
-                                    'hmain' => @$hmain,
-                                    'subinscl' => @$subinscl,
-                                    'pttype_spsch' => @$subinscl, 
-                                    'hsub' => @$hsub,
-                                
-                            ]);      
-                }elseif(@$maininscl !="" || @$subinscl !=""){  
-                        $date2 = date("Y-m-d");
-                            Check_sit_auto::where('vn', $vn) 
+                                'upsit_date'    => $date2
+                            ]); 
+                            Check_sit_auto_claim::where('vn', $vn) 
                             ->update([    
                                 'status' => @$status,
                                 'maininscl' => @$maininscl,
