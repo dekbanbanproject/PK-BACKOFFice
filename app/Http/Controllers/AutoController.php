@@ -185,7 +185,7 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select(' 
             SELECT cid,vn
             FROM check_sit_auto  
-            WHERE vstdate = "2023-05-22"    
+            WHERE vstdate = "2023-05-23"    
             AND subinscl IS NULL   
             LIMIT 100
         ');
