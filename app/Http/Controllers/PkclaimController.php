@@ -110,17 +110,39 @@ class PkclaimController extends Controller
 
         $datashow_ = DB::connection('mysql7')->select('  
             SELECT nn.icode,i.group2,f.billcode as fbillcode,n.billcode as nbillcode,f.dname,f.pay_rate,n.price,n.price2,n.price3,concat(n.nhso_adp_type_id,"=",n1.nhso_adp_code_name) as type
-            ,n.nhso_adp_code from claim.fs_eclaim f
+            ,n.nhso_adp_code 
+            from claim.fs_eclaim f
             LEFT JOIN hos.income i on i.group2 = f.income
             LEFT JOIN hos.nondrugitems n on n.billcode = f.billcode 
             LEFT JOIN hos.nondrugitems nn on nn.icode = n.icode
             LEFT JOIN hos.nhso_adp_code n1 on n1.nhso_adp_code= nn.nhso_adp_code
             where i.group2 = "'.$income.'"
-            group by f.billcode,f.dname,f.pay_rate order by f.billcode
+          
+            group by f.billcode,f.dname,f.pay_rate 
+            order by f.billcode
         '); 
-       
+        // and nn.icode <> ""
         return view('pkclaim.fs_eclaim_instu_eclaim',[
             'datashow_'   => $datashow_,            
         ]);
+    }
+
+    public function fs_eclaim_editable(Request $request)
+    {
+        if ($request->ajax())
+         {
+            if ($request->action == 'Edit') 
+            {
+               $data = array(
+                'price'    =>   $request->price,
+                'price2'   =>   $request->price2,
+                'price3'   =>   $request->price3,
+               );
+               DB::connection('mysql3')->table('nondrugitems')
+               ->where('icode',$request->icode)
+               ->update($data);
+            }
+            return request()->json($request);
+        }
     }
 }

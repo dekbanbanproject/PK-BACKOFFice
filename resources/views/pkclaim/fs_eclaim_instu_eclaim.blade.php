@@ -86,9 +86,11 @@
                 <div class="main-card mb-3 card">   
                         <div class="table-responsive mt-2 ms-2 me-2">
                             {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                <table id="example" class="table table-striped table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
+                                {{-- <table id="Tabledit" class="table table-bordered table-sm" style="width: 100%;"> --}}
+                                    <table id="Tabledit" class="table table-striped table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr> 
+                                        <th class="text-center" width="5%">icode</th> 
                                         <th class="text-center" width="5%">income</th> 
                                         <th class="text-center" width="5%">รหัส FS</th>
                                         <th class="text-center" width="5%">รหัส HOSxP</th>
@@ -97,33 +99,31 @@
                                         <th class="text-center" width="5%">ราคาทั่วไป1</th>
                                         <th class="text-center" width="5%">ราคาพิเศษ1</th>
                                         <th class="text-center" width="5%">ราคาพิเศษ2</th>
-                                        <th class="text-center">หมวด ADP</th>
-                                        <th class="text-center" width="5%">รหัส ADP</th> 
+                                        {{-- <th class="text-center">หมวด ADP</th> --}}
+                                        {{-- <th class="text-center" width="5%">รหัส ADP</th>  --}}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $ii = 1; ?>
                                     @foreach ($datashow_ as $item2) 
                                     <tr>   
+                                        <td class="text-center">{{ $item2->icode }}</td> 
                                         <td class="text-center" width="5%">{{ $item2->group2 }}</td> 
                                         <td class="text-center">{{ $item2->fbillcode }}</td> 
                                         <td class="text-center">{{ $item2->nbillcode }}</td> 
                                         <td class="text-start" width="20%">{{ $item2->dname }}</td> 
                                         <td class="text-end">
-                                            <a href="{{url('fs_eclaim_instu_eclaim/'.$item2->icode)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal{{$item2->icode}}">
+                                            <button  class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                {{-- <a href="{{url('fs_eclaim_instu_eclaim/'.$item2->icode)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{$item2->icode}}"> --}}
                                                 {{ $item2->pay_rate }}
-                                            </a>  
+                                            </button>  
                                         </td> 
                                         <td class="text-end">{{ $item2->price }}</td> 
                                         <td class="text-end">{{ $item2->price2 }}</td> 
                                         <td class="text-end">{{ $item2->price3 }}</td> 
-                                        <td class="text-start">{{ $item2->type }}</td> 
-                                        <td class="text-center">{{ $item2->nhso_adp_code }}</td>  
-                                        {{-- <td class="text-end" width="5%">
-                                            <a href="{{url('fs_eclaim_instu_eclaim/'.$item2->income)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
-                                                {{ $item2->billcode }}
-                                            </a>  
-                                        </td>     --}}
+                                        {{-- <td class="text-start">{{ $item2->type }}</td>  --}}
+                                        {{-- <td class="text-center">{{ $item2->nhso_adp_code }}</td>   --}}
+                                        
                                     </tr>
 
                                      <!-- Modal -->
@@ -185,10 +185,34 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
-            
-            $('#example').Tabledit({
+            // $('#Tabledit').DataTable();
+            $('#Tabledit').Tabledit({
+                url:'{{route("claim.fs_eclaim_editable")}}',
+                dataType:"json",
+                columns:{
+                    identifier:[0,'icode'],
+                    // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3']]
+                    editable: [[6, 'price'], [7, 'price2'], [8, 'price3']]
+                },
+                // restoreButton:false,
+                deleteButton: false,
+                saveButton: false,
+                autoFocus: false,
+                buttons: {
+                    edit: {
+                        class: 'mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning',
+                        html: '<i class="fa-regular fa-pen-to-square"></i>',
+                        action: 'Edit'
+                    }
+                },
+                // onSuccess:function(data,textStatus,jqXHR)
+                // {
+                //     if (data.action == 'delete') 
+                //     {
+                //         $('#'+data.icode).remove();
+                //     }
+                // }
 
-                
             });
 
             $('#p4p_work_month').select2({
