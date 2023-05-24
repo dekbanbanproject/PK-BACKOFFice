@@ -125,7 +125,7 @@ class AutoController extends Controller
     public function sit_pull_auto(Request $request)
     { 
             $data_sits = DB::connection('mysql3')->select(' 
-                SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
                 FROM ovst o 
                 join patient p on p.hn=o.hn 
                 JOIN pttype pt on pt.pttype=o.pttype  
@@ -140,6 +140,7 @@ class AutoController extends Controller
                 if ($check == 0) {
                     Check_sit_auto::insert([
                         'vn' => $value->vn,
+                        'an' => $value->an,
                         'hn' => $value->hn,
                         'cid' => $value->cid,
                         'vstdate' => $value->vstdate,
@@ -149,6 +150,32 @@ class AutoController extends Controller
                         'hospmain' => $value->hospmain,
                         'hospsub' => $value->hospsub,
                         'staff' => $value->staff 
+                    ]);
+                }        
+            }
+            $data_sits_ipd = DB::connection('mysql3')->select(' 
+                    SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype                
+                    from hos.opitemrece op
+                    LEFT JOIN hos.ipt ip ON ip.an = op.an
+                    LEFT JOIN hos.an_stat a ON ip.an = a.an 
+                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                    LEFT JOIN patient p on p.hn=a.hn
+                    WHERE a.dchdate BETWEEN "2023-05-03" AND "2023-05-23"
+                    group by p.cid
+                    limit 1500
+                    
+            '); 
+            // CURDATE() 
+            foreach ($data_sits_ipd as $key => $value2) { 
+                $check = Check_sit_auto::where('an', $value2->an)->count();
+                if ($check == 0) {
+                    Check_sit_auto::insert([
+                        'vn' => $value2->vn,
+                        'an' => $value2->an,
+                        'hn' => $value2->hn,
+                        'cid' => $value2->cid,
+                        'pttype' => $value2->pttype,
+                        'dchdate' => $value2->dchdate  
                     ]);
                 }        
             }
@@ -175,27 +202,22 @@ class AutoController extends Controller
         //  $token_data = DB::connection('mysql3')->select('
         //     SELECT cid,token FROM nhso_token where token <> "" LIMIT 1;
         // '); 
-          foreach ($token_data as $key => $valuetoken) {
+        foreach ($token_data as $key => $valuetoken) {
             $cid_ = $valuetoken->cid;
             $token_ = $valuetoken->token;
-        } 
-
-        // dd($token_);
-        // $token_ = $cid_->token;
-        // dd($token_);
+        }  
         $data_sitss = DB::connection('mysql')->select(' 
-            SELECT cid,vn
+            SELECT cid,vn,an
             FROM check_sit_auto  
-            WHERE vstdate = CURDATE()   
+            WHERE vstdate = "2023-05-01"
             AND subinscl IS NULL   
-            LIMIT 100
+            LIMIT 50
         ');
-        // BETWEEN "2023-05-16" AND "2023-05-16" 
-        
+        // BETWEEN "2023-01-05" AND "2023-05-16"       CURDATE()     
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
             $vn = $item->vn;
-   
+            $an = $item->an;
             $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                 array(
                     "uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',
@@ -303,6 +325,16 @@ class AutoController extends Controller
                                 'upsit_date'    => $date2
                             ]); 
                             Acc_debtor::where('vn', $vn) 
+                                ->update([    
+                                    'status' => @$status,
+                                    'maininscl' => @$maininscl, 
+                                    'hmain' => @$hmain,
+                                    'subinscl' => @$subinscl,
+                                    'pttype_spsch' => @$subinscl, 
+                                    'hsub' => @$hsub,
+                                
+                                ]); 
+                            Acc_debtor::where('an', $an) 
                                 ->update([    
                                     'status' => @$status,
                                     'maininscl' => @$maininscl, 

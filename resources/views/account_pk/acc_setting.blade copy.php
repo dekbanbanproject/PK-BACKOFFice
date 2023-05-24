@@ -81,7 +81,28 @@
                     <div class="card-header">
                         <h4 class="card-title">Mapping Pttype</h4>   
                         <div class="btn-actions-pane-right">
-                            
+                            {{-- <div class="row">                                  
+                                <div class="col-md-1 text-end mt-2">วันที่</div>
+                                <div class="col-md-6 text-end">
+                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $enddate }}" required/>  
+                                    </div> 
+                                </div>
+                                <div class="col-md-1 text-start">
+                                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                    </button>
+                                </div>
+                            </div> --}}
+                            {{-- <a href="{{url('time_dashboard_excel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                <i class="fa-solid fa-file-excel me-2"></i>
+                                Export To Excel
+                            </a> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -130,19 +151,7 @@
                                                 @endif      
                                             </td> 
                                             <td>{{ $item->eclaimname }}</td> 
-                                            <td>
-                                                @if ($item->pttype_acc_eclaimid == '')
-                                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success insert_data" value="{{ $item->pttype_acc_id }}">                                                      
-                                                    <i class="fa-regular fa-square-plus me-2"></i>
-                                                    ตั้งค่าผังบัญชี
-                                                </button>
-                                                @else      
-                                                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning" data-bs-toggle="modal" data-bs-target=".EditModalIPD{{ $item->pttype_acc_id }}">    
-                                                        <i class="fa-solid fa-pen-to-square me-2"></i>
-                                                        {{ $item->ar_ipd }}
-                                                    </button> 
-                                                @endif     
-                                            </td> 
+                                            <td>{{ $item->ar_ipd }}</td> 
                                            
                                         </tr>    
 
