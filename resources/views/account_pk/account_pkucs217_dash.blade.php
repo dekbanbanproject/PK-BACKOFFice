@@ -110,6 +110,7 @@
             @foreach ($datashow as $item)   
             <div class="col-xl-6 col-md-6">
                 <div class="main-card mb-3 card">   
+
                     @if ($startdate == '')
                         <div class="grid-menu-col">
                             <div class="g-0 row">
@@ -120,24 +121,25 @@
                                                 $y = $item->year; 
                                                 $ynew = $y + 543;
                                                 $datas = DB::select('
-                                                    SELECT count(distinct an) as Can from acc_debtor  
+                                                    SELECT count(an) as Can,SUM(debit) as sumdebit from acc_debtor  
                                                         WHERE account_code="1102050101.217"             
-                                                        AND stamp = "N" and income <>0 
+                                                        AND stamp = "N" 
                                                         and month(dchdate) = "'.$item->months.'" 
                                                         and year(dchdate) = "'.$item->year.'";
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
+                                                    $sum_N = $value->sumdebit;
                                                 }
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(income) as income from acc_debtor  
+                                                    SELECT sum(debit) as debit from acc_debtor  
                                                         WHERE account_code="1102050101.217"             
-                                                        AND stamp = "Y" and income <>0 
+                                                        AND stamp = "Y" 
                                                         and month(dchdate) = "'.$item->months.'" 
                                                         and year(dchdate) = "'.$item->year.'"                                                                  
                                                 ');
                                                 foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->income;
+                                                    $sum_Y = $value2->debit;
                                                 }
                                                 // สีเขียว STM
                                             //     $sumapprove_ = DB::select('
@@ -167,24 +169,31 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <a href="" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($item->income, 2)}}">
-                                                            <p class="text-muted mb-0"><span class="text-info fw-bold font-size-14 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($sum_N, 2)}}">
+                                                            <p class="text-muted mb-0"><span class="text-info fw-bold font-size-12 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($sum_N, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <a href="" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}"> 
-                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-14 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span>บาท</p>
+                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM 0.00">
-                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-14 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span>บาท</p>
+                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span></p>
+                                                        </div> 
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป 0.00">
+                                                            <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
@@ -203,7 +212,24 @@
                                             <?php 
                                                 $y = $item->year; 
                                                 $ynew = $y +543;
-                                                
+                                                $datas = DB::select('
+                                                    SELECT count(an) as Can,SUM(debit) as sumdebit from acc_debtor  
+                                                        WHERE account_code="1102050101.217"             
+                                                        AND stamp = "N" 
+                                                        AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                ');
+                                                foreach ($datas as $key => $value) {
+                                                    $count_NN = $value->Can;
+                                                    $sum_NN = $value->sumdebit;
+                                                }
+                                                $datasum_ = DB::select('
+                                                    SELECT sum(debit) as income from acc_debtor  
+                                                        WHERE account_code="1102050101.217"             
+                                                        AND stamp = "Y" AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                                                                  
+                                                ');
+                                                foreach ($datasum_ as $key => $value2) {
+                                                    $sum_Y = $value2->income;
+                                                }
                                             ?>   
                                             <div class="row">
                                                 <div class="col-md-5 text-start mt-4 ms-4">
@@ -213,30 +239,37 @@
                                                 <div class="col-md-4 text-end mt-2 me-4">
                                                     <a href="{{url('account_pkucs202/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
-                                                            <h4 class="text-end">{{$item->count_N}} Visit</h4> 
+                                                            <h4 class="text-end">{{$count_NN}} Visit</h4> 
                                                         </div> 
                                                     </a>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <a href="" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($item->income, 2)}}"> 
-                                                            <p class="text-muted mb-0"><span class="text-info fw-bold font-size-14 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($item->income, 2) }}</span>บาท</p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($sum_NN, 2)}}"> 
+                                                            <p class="text-muted mb-0"><span class="text-info fw-bold font-size-12 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($sum_NN, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <a href="" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}">
-                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span>บาท</p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ ">
+                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>0000</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$year)}}" target="_blank"> 
+                                                <div class="col-md-3">
+                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM 0.00">
-                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span>บาท</p>
+                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span></p>
+                                                        </div> 
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป 0.00">
+                                                            <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>

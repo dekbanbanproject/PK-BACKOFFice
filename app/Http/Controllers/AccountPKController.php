@@ -673,36 +673,88 @@ class AccountPKController extends Controller
             }                        
         }
         $opitemrece_ = DB::connection('mysql3')->select('
-            SELECT SUM(op.sum_price) as debit_drug,a.an                
+            SELECT SUM(op.sum_price) as debit_drug,a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
+            ,ec.code as account_code,a.regdate as admdate
+            ,a.dchdate as dchdate
+            ,a.pttype,ptt.max_debt_money               
                     from hos.opitemrece op
                     LEFT JOIN hos.ipt ip ON ip.an = op.an
                     LEFT JOIN hos.an_stat a ON ip.an = a.an 
+                    LEFT JOIN patient pt on pt.hn=a.hn
+                    LEFT JOIN pttype ptt on a.pttype = ptt.pttype 
+                    LEFT JOIN pttype_eclaim ec on ec.code = ptt.pttype_eclaim_id
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     where a.dchdate between "' . $startdate . '" and "' . $enddate . '"   
                     and op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015")                    
                     GROUP BY a.an;     
         ');
         foreach ($opitemrece_ as $key => $valued) {
-            Acc_debtor::where('an', $valued->an) 
-                    ->update([ 
-                        'debit_drug'         => $valued->debit_drug 
-                    ]); 
+            // Acc_debtor::where('an', $valued->an) 
+            //         ->update([ 
+            //             'debit_drug'         => $valued->debit_drug 
+            //         ]); 
+            $check2 = Acc_debtor::where('an', $valued->an)->where('account_code', $valued->account_code)->count();
+            if ($check2 > 0) {
+                  
+            } else {
+                Acc_debtor::insert([
+                    'hn'                 => $valued->hn,
+                    'an'                 => $valued->an,
+                    'vn'                 => $valued->vn,
+                    'cid'                => $valued->cid,
+                    'ptname'             => $valued->fullname,  
+                    'pttype'             => $valued->pttype, 
+                    // 'vstdate'            => $valued->vstdate,
+                    'regdate'            => $valued->admdate,
+                    'dchdate'            => $valued->dchdate,  
+                    'account_code'       => '1102050101.217', 
+                    'debit'              => $valued->debit_drug,             
+                    'debit_drug'         => $valued->debit_drug 
+                ]);
+            }  
+
         }
         $opitemrece_ins = DB::connection('mysql3')->select('
-            SELECT SUM(op.sum_price) as debit_instument,a.an                
+            SELECT SUM(op.sum_price) as debit_instument,a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
+            ,ec.code as account_code,a.regdate as admdate
+            ,a.dchdate as dchdate
+            ,a.pttype,ptt.max_debt_money                              
                     from hos.opitemrece op
                     LEFT JOIN hos.ipt ip ON ip.an = op.an
                     LEFT JOIN hos.an_stat a ON ip.an = a.an 
+                    LEFT JOIN patient pt on pt.hn=a.hn
+                    LEFT JOIN pttype ptt on a.pttype = ptt.pttype 
+                    LEFT JOIN pttype_eclaim ec on ec.code = ptt.pttype_eclaim_id
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     where a.dchdate between "' . $startdate . '" and "' . $enddate . '"   
                     AND op.income ="02"                   
                     GROUP BY a.an;     
         ');
         foreach ($opitemrece_ins as $key => $val) {
-            Acc_debtor::where('an', $val->an) 
-                    ->update([ 
-                        'debit_instument'     => $val->debit_instument 
-                    ]); 
+            // Acc_debtor::where('an', $val->an) 
+            //         ->update([ 
+            //             'debit_instument'     => $val->debit_instument 
+            //         ]); 
+            $check3 = Acc_debtor::where('an', $val->an)->where('account_code', $val->account_code)->count();
+            if ($check3 > 0) {
+                # code...
+            } else {
+                Acc_debtor::insert([
+                    'hn'                 => $val->hn,
+                    'an'                 => $val->an,
+                    'vn'                 => $val->vn,
+                    'cid'                => $val->cid,
+                    'ptname'             => $val->fullname,  
+                    'pttype'             => $val->pttype, 
+                    // 'vstdate'            => $val->vstdate,
+                    'regdate'            => $val->admdate,
+                    'dchdate'            => $val->dchdate,  
+                    'account_code'       => '1102050101.217',
+                    'debit'              => $val->debit_instument,               
+                    'debit_instument'    => $val->debit_instument 
+                ]);
+            }
+            
         }
         // $opitemrece_ = DB::connection('mysql3')->select('
         //         SELECT v.vn,op.an,op.hn,v.vstdate,op.drugusage,op.rxdate
@@ -791,7 +843,7 @@ class AccountPKController extends Controller
                         ,sum(a.income) as income   
                         ,sum(a.paid_money) as paid_money
                         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
-                        
+                        ,sum(a.debit) as debit  
                         FROM acc_debtor a  
                         left outer join leave_month l on l.MONTH_ID = month(a.dchdate) 
                         WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
@@ -809,7 +861,7 @@ class AccountPKController extends Controller
                         ,sum(a.income) as income   
                         ,sum(a.paid_money) as paid_money
                         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
-                        
+                        ,sum(a.debit) as debit  
                         FROM acc_debtor a  
                         left outer join leave_month l on l.MONTH_ID = month(a.dchdate) 
                         WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'" 
@@ -925,7 +977,7 @@ class AccountPKController extends Controller
               left outer join check_sit_auto c on c.cid = a.cid and c.vstdate = a.vstdate 
   
               WHERE a.account_code="1102050101.202"             
-              AND a.stamp = "N" and a.income <>0
+              AND a.stamp = "N"  
               and a.account_code="1102050101.202" 
               and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'";
              
@@ -1079,7 +1131,7 @@ class AccountPKController extends Controller
         ]);
     }
 
-// *************************** 801 ********************************************
+    // *************************** 801 ********************************************
 
     public function account_pklgo801_dash(Request $request)
     { 

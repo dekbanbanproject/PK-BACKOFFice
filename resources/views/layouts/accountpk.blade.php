@@ -297,7 +297,8 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
+                                {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}
+                                <i class="fa-brands fa-btc text-info"></i>
                                 <span>UCS</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -326,7 +327,8 @@
                         </li>  --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-invoice-dollar text-danger"></i>
+                                {{-- <i class="fa-solid fa-file-invoice-dollar text-danger"></i> --}}
+                                <i class="fa-brands fa-btc text-danger"></i>
                                 <span>LGO</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -338,7 +340,8 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-invoice-dollar text-secondary"></i>
+                                <i class="fa-brands fa-btc text-primary"></i>
+                                {{-- <i class="fa-solid fa-magnifying-glass-dollar text-secondary"></i> --}}
                                 <span>ไต</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -349,7 +352,8 @@
                         </li> 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-invoice-dollar text-warning"></i>
+                                {{-- <i class="fa-solid fa-file-invoice-dollar text-warning"></i> --}}
+                                <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
                                 <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -359,8 +363,8 @@
                             </ul>
                         </li> 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-chart-line text-info"></i>
                                 <span>STM report</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
