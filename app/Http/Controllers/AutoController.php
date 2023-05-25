@@ -729,7 +729,7 @@ class AutoController extends Controller
         
     }
 
-    public function sit_pullacc_auto(Request $request)
+    public function sit_pullacc_auto______(Request $request)
     { 
             $datashow = DB::connection('mysql3')->select(' 
                 SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
@@ -738,8 +738,8 @@ class AutoController extends Controller
                         ,v.hospmain
                         ,o.vstdate as vstdatesave 
                         ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
-                        ,ptt.pttype_acc_eclaimid 
-                        ,o.pttype,ptt.pttype_acc_name
+                        ,ptt.pttype_eclaim_id 
+                        ,o.pttype,e.name as pttype_acc_name
                         ,e.gf_opd as gfmis,e.code as acc_code
                         ,e.ar_opd as account_code
                         ,e.name as account_name 
@@ -749,8 +749,8 @@ class AutoController extends Controller
                     from ovst o 
                     left join vn_stat v on v.vn=o.vn
                     left join patient pt on pt.hn=o.hn
-                    left join pttype_acc ptt on ptt.pttype_acc_code=o.pttype
-                    left join pttype_eclaim e on e.code=ptt.pttype_acc_eclaimid 
+                    left join pttype_acc ptt on ptt.pttype=o.pttype
+                    left join pttype_eclaim e on e.code = ptt.pttype_eclaim_id 
                 where o.vstdate = CURDATE() 
                 and an IS NULL
                 group by o.vn
@@ -768,7 +768,7 @@ class AutoController extends Controller
                         // 'cid'               => $value->cid,
                         // 'ptname'            => $value->ptname,
                         // 'ptsubtype'         => $value->ptsubtype,
-                        // 'pttype_eclaim_id'  => $value->pttype_acc_eclaimid, 
+                        // 'pttype_eclaim_id'  => $value->pttype_eclaim_id, 
                         // 'hospmain'          => $value->hospmain,
                         // 'pttype'            => $value->pttype,
                         // 'pttypename'        => $value->pttype_acc_name,
@@ -794,7 +794,7 @@ class AutoController extends Controller
                         'cid'               => $value->cid,
                         'ptname'            => $value->ptname,
                         'ptsubtype'         => $value->ptsubtype,
-                        'pttype_eclaim_id'  => $value->pttype_acc_eclaimid, 
+                        'pttype_eclaim_id'  => $value->pttype_eclaim_id, 
                         'hospmain'          => $value->hospmain,
                         'pttype'            => $value->pttype,
                         'pttypename'        => $value->pttype_acc_name,

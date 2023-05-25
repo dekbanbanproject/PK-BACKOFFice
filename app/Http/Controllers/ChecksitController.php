@@ -73,15 +73,15 @@ class ChecksitController extends Controller
         $datestart = $request->startdate;
         $dateend = $request->enddate;
 
-        if ($datestart == '') {      
-            $data_sit = DB::connection('mysql')->select(' 
-                SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
-                FROM check_sit_auto  
-                WHERE vstdate = CURDATE()  
-                GROUP BY cid              
-            '); 
+        // if ($datestart == '') {      
+        //     $data_sit = DB::connection('mysql')->select(' 
+        //         SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
+        //         FROM check_sit_auto  
+        //         WHERE vstdate = CURDATE()  
+        //         GROUP BY cid              
+        //     '); 
            
-        } else {
+        // } else {
             // $data_sit = DB::connection('mysql7')->select(' 
             $data_sit = DB::connection('mysql')->select(' 
                 SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
@@ -89,7 +89,7 @@ class ChecksitController extends Controller
                 WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
                 GROUP BY cid
             ');             
-        }    
+        // }    
         return view('authen.check_sit_day ',[            
             'data_sit'    => $data_sit, 
             'start'     => $datestart, 

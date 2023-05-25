@@ -56,7 +56,14 @@ return new class extends Migration
                 $table->string('paid_money')->nullable();// 
                 $table->string('rcpt_money')->nullable();// 
                 $table->string('rcpno')->nullable();//  
-                $table->string('debit')->nullable();//  
+                $table->string('debit')->nullable();// 
+
+                $table->string('debit_drug')->nullable();// 
+                $table->string('debit_instument')->nullable();// 
+                $table->string('debit_toa')->nullable();// 
+                $table->string('debit_refer')->nullable();// 
+                $table->string('debit_ipd_total')->nullable();// 
+
                 $table->string('max_debt_amount')->nullable();// 
                 $table->string('acc_debtor_filename')->nullable();// 
                 $table->string('acc_debtor_userid')->nullable();// 
