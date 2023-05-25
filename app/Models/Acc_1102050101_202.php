@@ -17,7 +17,8 @@ class Acc_1102050101_202 extends Authenticatable
     protected $fillable = [
         'vn',
         'an',
-        'hn'         
+        'hn',
+        'cid'         
     ];
 
   

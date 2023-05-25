@@ -121,7 +121,10 @@
                                                 $y = $item->year; 
                                                 $ynew = $y + 543;
                                                 $datas = DB::select('
-                                                    SELECT count(an) as Can,SUM(debit) as sumdebit from acc_debtor  
+                                                    SELECT count(an) as Can
+                                                    ,SUM(debit) as sumdebit 
+                                                    
+                                                    from acc_debtor  
                                                         WHERE account_code="1102050101.217"             
                                                         AND stamp = "N" 
                                                         and month(dchdate) = "'.$item->months.'" 
@@ -132,15 +135,23 @@
                                                     $sum_N = $value->sumdebit;
                                                 }
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit) as debit from acc_debtor  
-                                                        WHERE account_code="1102050101.217"             
-                                                        AND stamp = "Y" 
-                                                        and month(dchdate) = "'.$item->months.'" 
+                                                    SELECT sum(debit_total) as debit_total from acc_1102050101_217  
+                                                        WHERE month(dchdate) = "'.$item->months.'" 
                                                         and year(dchdate) = "'.$item->year.'"                                                                  
                                                 ');
                                                 foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->debit;
+                                                    $sum_Y = $value2->debit_total;
                                                 }
+                                                // $datasum_ = DB::select('
+                                                //     SELECT sum(debit) as debit from acc_debtor  
+                                                //         WHERE account_code="1102050101.217"             
+                                                //         AND stamp = "Y" 
+                                                //         and month(dchdate) = "'.$item->months.'" 
+                                                //         and year(dchdate) = "'.$item->year.'"                                                                  
+                                                // ');
+                                                // foreach ($datasum_ as $key => $value2) {
+                                                //     $sum_Y = $value2->debit;
+                                                // }
                                                 // สีเขียว STM
                                             //     $sumapprove_ = DB::select('
                                             //         SELECT sum(a.sum_price_approve) as priceapprove 
@@ -161,7 +172,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-4 text-end mt-2 me-4">
-                                                    <a href="{{url('account_pkucs202/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkucs217/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
                                                             <h4 class="text-end">{{$count_N}} Visit</h4> 
                                                         </div> 
@@ -222,13 +233,20 @@
                                                     $count_NN = $value->Can;
                                                     $sum_NN = $value->sumdebit;
                                                 }
+                                                // $datasum_ = DB::select('
+                                                //     SELECT sum(debit_total) as debit_total from acc_1102050101_202  
+                                                //         WHERE month(dchdate) = "'.$item->months.'" 
+                                                //         and year(dchdate) = "'.$item->year.'"                                                                  
+                                                // ');
+                                                // foreach ($datasum_ as $key => $value2) {
+                                                //     $sum_Y = $value2->debit_total;
+                                                // }
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit) as income from acc_debtor  
-                                                        WHERE account_code="1102050101.217"             
-                                                        AND stamp = "Y" AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                                                                  
+                                                    SELECT sum(debit_total) as debit_total from acc_1102050101_217  
+                                                        WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                                                                  
                                                 ');
                                                 foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->income;
+                                                    $sum_Y = $value2->debit_total;
                                                 }
                                             ?>   
                                             <div class="row">
@@ -237,7 +255,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-4 text-end mt-2 me-4">
-                                                    <a href="{{url('account_pkucs202/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkucs217/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
                                                             <h4 class="text-end">{{$count_NN}} Visit</h4> 
                                                         </div> 

@@ -120,7 +120,7 @@
                                                 $y = $item->year; 
                                                 $ynew = $y + 543;
                                                 $datas = DB::select('
-                                                    SELECT count(an) as Can,SUM(debit) as sumdebit from acc_debtor  
+                                                    SELECT count(an) as Can,SUM(debit)-sum(debit_drug)-sum(debit_instument)-sum(debit_toa)-sum(debit_refer) as sumdebit from acc_debtor  
                                                         WHERE account_code="1102050101.202"             
                                                         AND stamp = "N" 
                                                         and month(dchdate) = "'.$item->months.'" 
@@ -131,14 +131,12 @@
                                                     $sum_N = $value->sumdebit;
                                                 }
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit) as debit from acc_debtor  
-                                                        WHERE account_code="1102050101.202"             
-                                                        AND stamp = "Y"  
-                                                        and month(dchdate) = "'.$item->months.'" 
+                                                    SELECT sum(debit_total) as debit_total from acc_1102050101_202  
+                                                        WHERE month(dchdate) = "'.$item->months.'" 
                                                         and year(dchdate) = "'.$item->year.'"                                                                  
                                                 ');
                                                 foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->debit;
+                                                    $sum_Y = $value2->debit_total;
                                                 }
                                                 // สีเขียว STM
                                             //     $sumapprove_ = DB::select('
