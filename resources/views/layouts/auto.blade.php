@@ -424,12 +424,12 @@
                                             Authen Report สปสช Auto
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{ url('sit_pullacc_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Pull Account Auto
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     {{-- <li>
                                         <a href="{{ url('authen/checkauthen_update_vn') }}" target="_blank">
                                             <i class="metismenu-icon"></i>

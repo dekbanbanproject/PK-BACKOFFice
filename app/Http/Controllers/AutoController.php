@@ -209,7 +209,7 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select(' 
             SELECT cid,vn,an
             FROM check_sit_auto  
-            WHERE vstdate = "2023-05-01"
+            WHERE vstdate = CURDATE() 
             AND subinscl IS NULL   
             LIMIT 50
         ');
@@ -582,7 +582,7 @@ class AutoController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=MmE0Nzk4MzgtMmJjNS00OTQxLWI1ZmYtMTYzMGI0YTY5NzEx; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Cookie: SESSION=MGMyYTM0MjAtYTQ5Zi00NmZlLTg0MzYtZTU4MTY0MGI0OWM4; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',
@@ -815,6 +815,30 @@ class AutoController extends Controller
                 }
                 
             }
+            // $datashow = DB::connection('mysql3')->select(' 
+            //     SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+            //             ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+            //             ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+            //             ,v.hospmain
+            //             ,o.vstdate as vstdatesave 
+            //             ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype 
+            //             ,ptt.pttype_eclaim_id 
+            //             ,o.pttype,e.name as pttype_acc_name
+            //             ,e.gf_opd as gfmis,e.code as acc_code
+            //             ,e.ar_opd as account_code
+            //             ,e.name as account_name 
+            //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+            //             ,v.rcpno_list as rcpno            
+            //             ,v.income-v.discount_money-v.rcpt_money as debit 
+            //         from ovst o 
+            //         left join vn_stat v on v.vn=o.vn
+            //         left join patient pt on pt.hn=o.hn
+            //         left join pttype_acc ptt on ptt.pttype=o.pttype
+            //         left join pttype_eclaim e on e.code = ptt.pttype_eclaim_id 
+            //     where o.vstdate = CURDATE() 
+            //     and an IS NULL
+            //     group by o.vn
+            // ');  
             return view('auto.sit_pullacc_auto');
     }
  
