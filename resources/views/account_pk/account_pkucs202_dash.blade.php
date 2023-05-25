@@ -139,19 +139,19 @@
                                                     $sum_Y = $value2->debit_total;
                                                 }
                                                 // สีเขียว STM
-                                            //     $sumapprove_ = DB::select('
-                                            //         SELECT sum(a.sum_price_approve) as priceapprove 
-                                            //         from acc_stm_ti_total a 
-                                            //         LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.dchdate = a.dchdate
-                                            //                 WHERE ad.account_code="1102050101.202"             
-                                            //                 AND ad.stamp = "Y" and ad.income <>0 
-                                            //                 and month(ad.dchdate) = "'.$item->months.'" 
-                                            //                 and year(ad.dchdate) = "'.$item->year.'"                                                                  
-                                            //         ');
-                                            //         foreach ($sumapprove_ as $key => $value3) {
-                                            //             $sum_approveY = $value3->priceapprove;
-                                            //         }                                                       
-                                            // ?>        
+                                                // $sumapprove_ = DB::select('
+                                                //     SELECT sum(a.sum_price_approve) as priceapprove 
+                                                //     from acc_stm_ti_total a 
+                                                //     LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.dchdate = a.dchdate
+                                                //             WHERE ad.account_code="1102050101.202"             
+                                                //             AND ad.stamp = "Y"  
+                                                //             and month(ad.dchdate) = "'.$item->months.'" 
+                                                //             and year(ad.dchdate) = "'.$item->year.'"                                                                  
+                                                //     ');
+                                                //     foreach ($sumapprove_ as $key => $value3) {
+                                                //         $sum_approveY = $value3->priceapprove;
+                                                //     }                                                       
+                                             ?>        
                                             <div class="row">
                                                 <div class="col-md-5 text-start mt-4 ms-4">
                                                     <h4 >เดือน {{$item->MONTH_NAME}} {{$ynew}}</h4> 
@@ -209,23 +209,23 @@
                                             <?php 
                                                 $y = $item->year; 
                                                 $ynew = $y +543;
-                                                $datas = DB::select('
-                                                    SELECT count(an) as Can,SUM(debit) as sumdebit from acc_debtor  
+                                                $datas = DB::select(' 
+
+                                                        SELECT count(an) as Can,SUM(debit)-sum(debit_drug)-sum(debit_instument)-sum(debit_toa)-sum(debit_refer) as sumdebit from acc_debtor  
                                                         WHERE account_code="1102050101.202"             
                                                         AND stamp = "N" 
-                                                        AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                        AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" ;
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_NN = $value->Can;
                                                     $sum_NN = $value->sumdebit;
                                                 }
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit) as income from acc_debtor  
-                                                        WHERE account_code="1102050101.202"             
-                                                        AND stamp = "Y" AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                                                                  
+                                                        SELECT sum(debit_total) as debit_total from acc_1102050101_202  
+                                                        WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                 ');
                                                 foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->income;
+                                                    $sum_YY = $value2->debit_total;
                                                 }
                                             ?>   
                                             <div class="row">
@@ -251,8 +251,8 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ 0.00">
-                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>0.00</span></p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ >{{ number_format($sum_YY, 2) }}">
+                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_YY, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>

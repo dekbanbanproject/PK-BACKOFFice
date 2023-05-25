@@ -971,7 +971,7 @@ class AccountPKController extends Controller
                             'regdate'           => $value->regdate, 
                             'dchdate'           => $value->dchdate,
                             'pttype'            => $value->pttype,
-                            'pttype_nhso'      => $value->pttype_spsch,                   
+                            'pttype_nhso'       => $value->pttype_spsch,                   
                             'acc_code'          => $value->acc_code,
                             'account_code'      => $value->account_code, 
                             'income'            => $value->income,
