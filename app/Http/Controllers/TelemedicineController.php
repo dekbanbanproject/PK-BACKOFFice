@@ -34,32 +34,57 @@ class TelemedicineController extends Controller
     {
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
+    
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow_ = DB::connection('mysql3')->select('  
+                SELECT oa.vstdate,oa.hn,CONCAT(p.pname,p.fname," ",p.lname) AS ptname,v.age_y,
+                    oa.nextdate,oa.nexttime,dep.department,d.`name` AS doctorname,oa.note,oa.contact_point,oa.app_user 
+                    FROM oapp oa
+                    LEFT OUTER JOIN patient p ON p.hn=oa.hn
+                    LEFT OUTER JOIN vn_stat v ON v.vn=oa.vn
+                    LEFT OUTER JOIN clinic c ON c.clinic=oa.clinic 
+                    LEFT OUTER JOIN doctor d ON d.code=oa.doctor
+                    LEFT OUTER JOIN kskdepartment dep ON dep.depcode=oa.depcode
+                    LEFT OUTER JOIN thaiaddress th ON th.addressid=CONCAT(p.chwpart,p.amppart,p.tmbpart)
+                    WHERE oa.nextdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                    AND oa.clinic="218" 
+        ');
 
-        $claimcode = $request->claimcode;
-        $hn = $request->hn;
-        // $data = DB::select('select ci_code,ci_hn,ci_pid,ci_fullname from karn_ci where created_at between "'.$newDate.'" and "'.$date.'"');
-       $data['claim'] =  DB::connection('mysql4')->select('SELECT * FROM m_registerdata 
-                    WHERE HN ="'.$hn.'" 
-                    ');
-
-        return view('telemed.telemedicine', $data,[
-            'claimcode' =>   $claimcode,
-            'hn'        =>   $hn
+        return view('telemed.telemed', $data,[  
+            'datashow_'        =>  $datashow_,
+            'startdate'        =>  $startdate,
+            'enddate'          =>  $enddate,
             ]);
     }
-    // public function eclaim_check_update(Request $request)
-    // { 
-    //         $hn = $request->HN; 
-    //         DB::connection('mysql4')->table('m_registerdata')
-    //         ->where('HN','=', $hn)
-    //         ->update([
-    //             'STATUS' => $request->ECLAIM_STATUS 
-    //         ]);   
+    public function telemedicine_visit(Request $request)
+    {
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+    
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow_ = DB::connection('mysql3')->select('  
+            SELECT o.vstdate,o.hn,CONCAT(p.pname,p.fname," ",p.lname) AS ptname,v.age_y,ptt.name AS pttname,
+                CONCAT(p.addrpart," หมู่  ",p.moopart," ",th.full_name) AS ptadress,p.hometel,dep.department,d.name AS dname
+                FROM ovst o
+                LEFT OUTER JOIN patient p ON p.hn=o.hn
+                LEFT OUTER JOIN vn_stat v ON v.vn=o.vn
+                LEFT OUTER JOIN kskdepartment dep ON dep.depcode=o.main_dep
+                LEFT OUTER JOIN thaiaddress th ON th.addressid=CONCAT(p.chwpart,p.amppart,p.tmbpart)
+                LEFT OUTER JOIN pttype ptt ON ptt.pttype=o.pttype
+                LEFT OUTER JOIN doctor d ON d.code=v.dx_doctor
+                WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                AND o.ovstist="11"
+                ORDER BY o.vstdate 
+        ');
 
-    //         return response()->json([
-    //             'status'             => '200'
-    //         ]);
-    // }
+        return view('telemed.telemedicine_visit', $data,[  
+            'datashow_'        =>  $datashow_,
+            'startdate'        =>  $startdate,
+            'enddate'          =>  $enddate,
+            ]);
+    }
     public function import_stm(Request $request)
     { 
         $data['users'] = User::get();

@@ -22,12 +22,12 @@ Route::match(['get','post'],'connectdb',[App\Http\Controllers\ConfigDatabaseCont
 Route::match(['get','post'],'connectdb_save',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb_save'])->name('db.connectdb_save');//
 
 //********************* */ KTB  ***********************************
-Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::class, 'ktb_getcard'])->name('ktb.ktb_getcard');//
+Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::class,'ktb_getcard'])->name('ktb.ktb_getcard');//
 
-Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::class, 'ktb_test'])->name('ktb.ktb_test');//
+Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::class,'ktb_test'])->name('ktb.ktb_test');//
 
-
-Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class, 'treedoc'])->name('ktb.treedoc');//
+Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class,'treedoc'])->name('ktb.treedoc');//
+ 
 
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
 Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
@@ -113,6 +113,7 @@ Route::match(['get','post'],'surgery_index',[App\Http\Controllers\SurgeryControl
 Route::match(['get','post'],'surgery_page/{dep}',[App\Http\Controllers\SurgeryController::class, 'surgery_page'])->name('s.surgery_page');// รายงานศัลยกรรม
 
 Route::match(['get','post'],'telemedicine',[App\Http\Controllers\TelemedicineController::class, 'telemedicine'])->name('s.telemedicine');// telemedicine
+Route::match(['get','post'],'telemedicine_visit',[App\Http\Controllers\TelemedicineController::class, 'telemedicine_visit'])->name('s.telemedicine_visit');// telemedicine
 
 
 Route::match(['get','post'],'import_stm',[App\Http\Controllers\UpstmController::class, 'import_stm'])->name('s.import_stm');// ทดสอบ Import

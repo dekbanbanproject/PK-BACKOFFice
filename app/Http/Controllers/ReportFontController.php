@@ -148,6 +148,7 @@ class ReportFontController extends Controller
             'datenow'        =>  $datenow,
         ]);
     }
+ 
     public function report_or(Request $request)
     {
         $year_id = $request->year_id;
@@ -311,7 +312,6 @@ class ReportFontController extends Controller
             'year_ids'       =>  $year_id, 
         ]);
     }
-
     public function report_refer(Request $request)
     {
         $startdate = $request->startdate;
@@ -802,7 +802,6 @@ class ReportFontController extends Controller
             'datenow'        =>  $datenow,
         ]);
     }
-
     public function refer_opds_cross(Request $request)
     { 
         $startdate = $request->startdate;
@@ -978,7 +977,6 @@ class ReportFontController extends Controller
             'enddate'          => $enddate,
         ]);
     }
-
     public function report_ct(Request $request)
     { 
         $startdate = $request->startdate;

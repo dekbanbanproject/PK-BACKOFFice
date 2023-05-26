@@ -124,24 +124,33 @@ $pos = strrpos($url, '/') + 1;
             <div class="col-md-12">
                 <div class="card shadow"> 
                     <div class="card-header ">
-                        <div class="d-flex">
+                        <label for="">ข้อมูลบุคลากร</label> 
+                        <div class="btn-actions-pane-right">
+                            <a href="{{ url('person/person_index_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"  >
+                                <i class="fa-solid fa-folder-plus text-info me-2"></i>
+                                เพิ่มข้อมูลบุคลากร
+                                </a> 
+                        </div>
+                        {{-- <div class="d-flex">
                             <div class="">
                                 <label for="">ข้อมูลบุคลากร</label> 
                              </div> 
                                 <div class="ms-auto">
-                                    <a href="{{ url('person/person_index_add') }}" class="btn btn-info btn-sm"  >
+                                    <a href="{{ url('person/person_index_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"  >
                                     <i class="fa-solid fa-folder-plus text-white me-2"></i>
                                     เพิ่มข้อมูลบุคลากร
                                     </a> 
                                     
                                 </div>
-                        </div>          
+                        </div>           --}}
                 </div>
-                    <div class="card-body shadow">
+                    <div class="card-body">
                         
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
-                                id="example"> 
+                            {{-- <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
+                                id="example">  --}}
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap table-sm"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>

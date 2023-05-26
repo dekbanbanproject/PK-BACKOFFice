@@ -196,6 +196,16 @@
                                 <li ><a href="{{ url('prisoner_ipd') }}" >438-IPD</a></li> 
                             </ul>
                         </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-square-person-confined text-danger"></i>
+                                <span>Telemed</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('telemedicine') }}" >Telemed นัด</a></li>  
+                                <li ><a href="{{ url('telemedicine_visit') }}" >Telemed เปิด Visit</a></li> 
+                            </ul>
+                        </li> 
                         
                     </ul>
                 </div>

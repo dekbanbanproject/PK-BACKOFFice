@@ -153,7 +153,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(255, 255, 255)">
+            <div class="navbar-header shadow-lg" style="background-color: rgb(164, 7, 179)">
                 {{-- <div class="d-flex"> 
                     <div class="navbar-brand-box">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
@@ -195,13 +195,13 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(9, 9, 9)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color:rgb(2, 2, 2)"></i>
+                        <i class="ri-menu-2-line align-middle"></i>
                     </button>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
@@ -212,7 +212,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(2, 2, 2)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
@@ -289,8 +289,8 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('person/person_index') }}">ข้อมูลบุคลากร</a></li> 
-                                {{-- <li><a href="{{ url('person/person_index') }}">ประชุมภายนอก</a></li>  --}}
-                                {{-- <li><a href="{{ url('person/person_index') }}">ประชุมภายใน</a></li>  --}}
+                                <li><a href="{{ url('person/person_index') }}">ประชุมภายนอก</a></li> 
+                                <li><a href="{{ url('person/person_index') }}">ประชุมภายใน</a></li> 
                             </ul>
                         </li>
 
@@ -431,7 +431,7 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+
     @yield('footer')
 
     <script type="text/javascript">
