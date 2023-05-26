@@ -815,42 +815,86 @@ class AccountPKController extends Controller
                      ]); 
         
          foreach ($data as $key => $value) {
-            //  $check = Acc_1102050101_217::where('an', $value->an)->count();
-            //  if ($check == 0) {
-                    $date = date('Y-m-d H:m:s');
-                        Acc_1102050101_217::insert([
-                            'vn'                => $value->vn,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an,
-                            'cid'               => $value->cid,
-                            'ptname'            => $value->ptname,
-                            'vstdate'           => $value->vstdate,
-                            'regdate'           => $value->regdate, 
-                            'dchdate'           => $value->dchdate,
-                            'pttype'            => $value->pttype,
-                            'pttype_nhso'      => $value->pttype_spsch,                   
-                            'acc_code'          => $value->acc_code,
-                            'account_code'      => $value->account_code, 
-                            'income'            => $value->income,
-                            'uc_money'          => $value->uc_money,
-                            'discount_money'    => $value->discount_money,
-                            // 'paid_money'        => $value->paid_money,
-                            'rcpt_money'        => $value->rcpt_money,
-                            // 'rcpno'             => $value->rcpno,
-                            'debit'             => $value->debit, 
-                            'debit_drug'        => $value->debit_drug,
-                            'debit_instument'   => $value->debit_instument,
-                            'debit_refer'       => $value->debit_refer,
-                            'debit_toa'         => $value->debit_toa,
+             $check = Acc_1102050101_217::where('an', $value->an)->count();
+             if ($check > 1) {
+                $data = Acc_1102050101_217::where('an', $value->an)->first();
+                $total = $data->debit_total;
+                Acc_1102050101_217::where('an', $value->an)
+                ->update([   
+                    'debit_total'       => $total  + $value->debit_ipd_total,
+                ]); 
+             } else {
+                $date = date('Y-m-d H:m:s');
+                Acc_1102050101_217::insert([
+                    'vn'                => $value->vn,
+                    'hn'                => $value->hn,
+                    'an'                => $value->an,
+                    'cid'               => $value->cid,
+                    'ptname'            => $value->ptname,
+                    'vstdate'           => $value->vstdate,
+                    'regdate'           => $value->regdate, 
+                    'dchdate'           => $value->dchdate,
+                    'pttype'            => $value->pttype,
+                    'pttype_nhso'      => $value->pttype_spsch,                   
+                    'acc_code'          => $value->acc_code,
+                    'account_code'      => $value->account_code, 
+                    'income'            => $value->income,
+                    'uc_money'          => $value->uc_money,
+                    'discount_money'    => $value->discount_money,
+                    // 'paid_money'        => $value->paid_money,
+                    'rcpt_money'        => $value->rcpt_money,
+                    // 'rcpno'             => $value->rcpno,
+                    'debit'             => $value->debit, 
+                    'debit_drug'        => $value->debit_drug,
+                    'debit_instument'   => $value->debit_instument,
+                    'debit_refer'       => $value->debit_refer,
+                    'debit_toa'         => $value->debit_toa,
 
-                            'debit_total'       => $value->debit_ipd_total,
-                            // 'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+                    'debit_total'       => $value->debit_ipd_total,
+                    // 'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+                    
+                    'max_debt_amount'   => $value->max_debt_amount,
+                    // 'created_at'        => $date,
+                    'acc_debtor_userid' => $iduser
+                    
+                ]);
+             }
+             
+            //  if ($check == 0) {
+                    // $date = date('Y-m-d H:m:s');
+                    //     Acc_1102050101_217::insert([
+                    //         'vn'                => $value->vn,
+                    //         'hn'                => $value->hn,
+                    //         'an'                => $value->an,
+                    //         'cid'               => $value->cid,
+                    //         'ptname'            => $value->ptname,
+                    //         'vstdate'           => $value->vstdate,
+                    //         'regdate'           => $value->regdate, 
+                    //         'dchdate'           => $value->dchdate,
+                    //         'pttype'            => $value->pttype,
+                    //         'pttype_nhso'      => $value->pttype_spsch,                   
+                    //         'acc_code'          => $value->acc_code,
+                    //         'account_code'      => $value->account_code, 
+                    //         'income'            => $value->income,
+                    //         'uc_money'          => $value->uc_money,
+                    //         'discount_money'    => $value->discount_money,
+                    //         // 'paid_money'        => $value->paid_money,
+                    //         'rcpt_money'        => $value->rcpt_money,
+                    //         // 'rcpno'             => $value->rcpno,
+                    //         'debit'             => $value->debit, 
+                    //         'debit_drug'        => $value->debit_drug,
+                    //         'debit_instument'   => $value->debit_instument,
+                    //         'debit_refer'       => $value->debit_refer,
+                    //         'debit_toa'         => $value->debit_toa,
+
+                    //         'debit_total'       => $value->debit_ipd_total,
+                    //         // 'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
                             
-                            'max_debt_amount'   => $value->max_debt_amount,
-                            // 'created_at'        => $date,
-                            'acc_debtor_userid' => $iduser
+                    //         'max_debt_amount'   => $value->max_debt_amount,
+                    //         // 'created_at'        => $date,
+                    //         'acc_debtor_userid' => $iduser
                             
-                        ]);
+                    //     ]);
             //  }
                                  
          }
