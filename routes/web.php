@@ -142,6 +142,7 @@ Route::match(['get','post'],'prisoner_ipd_detail_excel/{month}/{startdate}/{endt
 
 
 Route::get('/', function () {
+
   if (Auth::check()) {
     return view('welcome');
   }else{

@@ -135,7 +135,7 @@ class ApiController extends Controller
                 FROM ipt i
                 LEFT JOIN operation_list ol on i.an=ol.an 
                 LEFT JOIN operation_detail od on ol.operation_id=od.operation_id  
-                INNER JOIN operation_item oi on od.operation_item_id=oi.operation_item_id  and  oi.operation_item_id in("1057","1058","1059","973","989","990","991")
+                INNER JOIN operation_item oi on od.operation_item_id=oi.operation_item_id and oi.operation_item_id in("1057","1058","1059","973","989","990","991") 
                 LEFT JOIN operation_team ot on ot.operation_detail_id=od.operation_detail_id  
                 LEFT OUTER JOIN operation_anes_physical_status ops on ops.operation_anes_physical_status_id=ol.operation_anes_physical_status_id
                 LEFT JOIN operation_position op on op.position_id=ot.position_id  
@@ -154,6 +154,7 @@ class ApiController extends Controller
                 ,p.cid,address3.name,address2.name,address1.name,p.addrpart,p.moopart,p.birthday,p.hometel,i.ward,ward.name) as nr
                 ORDER BY dc_time DESC 
         ');
+        // and  oi.operation_item_id in("1057","1058","1059","973","989","990","991")
         return response([
             $data_api 
         ]);
