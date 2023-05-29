@@ -1721,9 +1721,7 @@ Route::match(['get','post'],'check_wardsss/{id}',[App\Http\Controllers\Checkward
 Route::match(['get','post'],'home_rpst',[App\Http\Controllers\RpstController::class, 'home_rpst'])->name('rpst.home_rpst');//
 
 
-//********************* */ ENV  ***********************************
 
-Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 
 //********************* */ KTB CLAIM  ***********************************
 Route::match(['get','post'],'ktb',[App\Http\Controllers\KTBController::class, 'ktb'])->name('k.ktb');//
@@ -1746,7 +1744,8 @@ Route::match(['get','post'],'ktb_spawn',[App\Http\Controllers\KTBController::cla
 Route::match(['get','post'],'timein',[App\Http\Controllers\TimeINController::class, 'timein'])->name('TT.timein');//ลงเวลา
 Route::match(['get','post'],'timein_save',[App\Http\Controllers\TimeINController::class, 'timein_save'])->name('TT.timein_save');//ลงเวลา
 
- 
+ //********************* */ ENV  ***********************************
+
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 Route::match(['get','post'],'env_water_parameter',[App\Http\Controllers\EnvController::class, 'env_water_parameter'])->name('env.env_water_parameter');//
 Route::match(['get','post'],'env_water_parameter_add',[App\Http\Controllers\EnvController::class, 'env_water_parameter_add'])->name('env.env_water_parameter_add');//
