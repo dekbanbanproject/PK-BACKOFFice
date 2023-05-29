@@ -27,7 +27,9 @@ Route::match(['get','post'],'ktb_getcard',[App\Http\Controllers\KTBController::c
 Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::class,'ktb_test'])->name('ktb.ktb_test');//
 
 Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class,'treedoc'])->name('ktb.treedoc');//
- 
+
+
+Route::match(['get','post'],'acc_test',[App\Http\Controllers\AccController::class,'acc_test'])->name('ktb.acc_test');
 
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
 Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
@@ -1303,11 +1305,13 @@ Route::middleware(['type'])->group(function(){
     
     Route::match(['get','post'],'account_pkucs202_dash',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202_dash'])->name('acc.account_pkucs202_dash');// 
     Route::match(['get','post'],'account_pkucs202/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202'])->name('acc.account_pkucs202');// 
+    Route::match(['get','post'],'account_pkucs202_detail/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202_detail'])->name('acc.account_pkucs202_detail');// 
     Route::match(['get','post'],'account_pkucs202_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202_stm'])->name('acc.account_pkucs202_stm');// 
     Route::match(['get','post'],'account_pkucs202_stam',[App\Http\Controllers\AccountPKController::class, 'account_pkucs202_stam'])->name('acc.account_pkucs202_stam');//  stamp IPD
 
     Route::match(['get','post'],'account_pkucs217_dash',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217_dash'])->name('acc.account_pkucs217_dash');// 
     Route::match(['get','post'],'account_pkucs217/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217'])->name('acc.account_pkucs217');// 
+    Route::match(['get','post'],'account_pkucs217_detail/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217_detail'])->name('acc.account_pkucs217_detail');// 
     Route::match(['get','post'],'account_pkucs217_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217_stm'])->name('acc.account_pkucs217_stm');// 
     Route::match(['get','post'],'account_pkucs217_stam',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217_stam'])->name('acc.account_pkucs217_stam');//  stamp IPD
 

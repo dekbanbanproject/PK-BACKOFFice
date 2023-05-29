@@ -135,12 +135,14 @@
                                                     $sum_N = $value->sumdebit;
                                                 }
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total from acc_1102050101_217  
+                                                    SELECT sum(debit_total) as debit_total,count(*) as Cvit 
+                                                        from acc_1102050101_217  
                                                         WHERE month(dchdate) = "'.$item->months.'" 
                                                         and year(dchdate) = "'.$item->year.'"                                                                  
                                                 ');
                                                 foreach ($datasum_ as $key => $value2) {
                                                     $sum_Y = $value2->debit_total;
+                                                    $count_Y = $value2->Cvit;
                                                 }
                                                 // $datasum_ = DB::select('
                                                 //     SELECT sum(debit) as debit from acc_debtor  
@@ -188,21 +190,21 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}"> 
+                                                    <a href="{{url('account_pkucs217_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}} {{$count_Y}} Visit"> 
                                                             <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkucs217_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM 0.00">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkucs217_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป 0.00">
                                                             <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>0.00</span></p>
                                                         </div> 

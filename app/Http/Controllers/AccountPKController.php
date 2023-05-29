@@ -805,6 +805,27 @@ class AccountPKController extends Controller
              'year'          =>     $year
          ]);
      }
+     public function account_pkucs217_detail(Request $request,$months,$year)
+     {
+         $datenow = date('Y-m-d');
+         $startdate = $request->startdate;
+         $enddate = $request->enddate;        
+         // dd($id);            
+         $data['users'] = User::get();
+         
+         $data = DB::select('
+             SELECT *  from acc_1102050101_217 
+             WHERE month(dchdate) = "'.$months.'" and year(dchdate) = "'.$year.'";            
+         ');        
+            
+         return view('account_pk.account_pkucs217_detail', $data, [
+             'startdate'     =>     $startdate,
+             'enddate'       =>     $enddate,
+             'data'          =>     $data,
+             'months'        =>     $months,
+             'year'          =>     $year
+         ]);
+     }
      public function account_pkucs217_stam(Request $request)
      {
         $id = $request->ids;
@@ -949,134 +970,133 @@ class AccountPKController extends Controller
             'year'          =>     $year
         ]);
     }     
-     public function account_pkucs202_stam(Request $request)
-     {
-         $id = $request->ids;
-         $iduser = Auth::user()->id;
-         $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
- 
-             Acc_debtor::whereIn('acc_debtor_id',explode(",",$id)) 
-                     ->update([   
-                         'stamp' => 'Y'
-                     ]); 
-        
-         foreach ($data as $key => $value) {
-            //  $check = Acc_1102050101_202::where('an', $value->an)->count();
-            //  if ($check == 0) {
-                    $date = date('Y-m-d H:m:s');
-                        Acc_1102050101_202::insert([
-                            'vn'                => $value->vn,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an,
-                            'cid'               => $value->cid,
-                            'ptname'            => $value->ptname,
-                            'vstdate'           => $value->vstdate,
-                            'regdate'           => $value->regdate, 
-                            'dchdate'           => $value->dchdate,
-                            'pttype'            => $value->pttype,
-                            'pttype_nhso'       => $value->pttype_spsch,                   
-                            'acc_code'          => $value->acc_code,
-                            'account_code'      => $value->account_code, 
-                            'income'            => $value->income,
-                            'uc_money'          => $value->uc_money,
-                            'discount_money'    => $value->discount_money,
-                            // 'paid_money'        => $value->paid_money,
-                            'rcpt_money'        => $value->rcpt_money,
-                            // 'rcpno'             => $value->rcpno,
-                            'debit'             => $value->debit, 
-                            'debit_drug'        => $value->debit_drug,
-                            'debit_instument'   => $value->debit_instument,
-                            'debit_refer'       => $value->debit_refer,
-                            'debit_toa'         => $value->debit_toa,
+    public function account_pkucs202_stam(Request $request)
+    {
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
 
-                            'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id)) 
+                    ->update([   
+                        'stamp' => 'Y'
+                    ]); 
+    
+        foreach ($data as $key => $value) {
+        //  $check = Acc_1102050101_202::where('an', $value->an)->count();
+        //  if ($check == 0) {
+                $date = date('Y-m-d H:m:s');
+                    Acc_1102050101_202::insert([
+                        'vn'                => $value->vn,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an,
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'vstdate'           => $value->vstdate,
+                        'regdate'           => $value->regdate, 
+                        'dchdate'           => $value->dchdate,
+                        'pttype'            => $value->pttype,
+                        'pttype_nhso'       => $value->pttype_spsch,                   
+                        'acc_code'          => $value->acc_code,
+                        'account_code'      => $value->account_code, 
+                        'income'            => $value->income,
+                        'uc_money'          => $value->uc_money,
+                        'discount_money'    => $value->discount_money,
+                        // 'paid_money'        => $value->paid_money,
+                        'rcpt_money'        => $value->rcpt_money,
+                        // 'rcpno'             => $value->rcpno,
+                        'debit'             => $value->debit, 
+                        'debit_drug'        => $value->debit_drug,
+                        'debit_instument'   => $value->debit_instument,
+                        'debit_refer'       => $value->debit_refer,
+                        'debit_toa'         => $value->debit_toa,
 
-                            'max_debt_amount'   => $value->max_debt_amount,
-                            // 'created_at'        => $date,
-                            'acc_debtor_userid' => $iduser
-                            
-                        ]);
-            //  }
-                                 
-         }
-        
-         return response()->json([
-             'status'    => '200' 
-         ]);
-     }
+                        'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
 
-     // ***************** และ stam IPD********************************
-     public function account_pk_debtor_ipd(Request $request)
-     {
-         $id = $request->ids;
-         $iduser = Auth::user()->id;
-         $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
- 
-             Acc_debtor::whereIn('acc_debtor_id',explode(",",$id)) 
-                     ->update([   
-                         'stamp' => 'Y'
-                     ]); 
-        
-         foreach ($data as $key => $value) {
-             $check = Acc_debtor_stamp::where('stamp_an', $value->an)->count();
-             if ($check > 0) {
-                 Acc_debtor_stamp::where('stamp_an', $value->an) 
-                 ->update([   
-                     'stamp_vn' => $value->vn,
-                     'stamp_hn' => $value->hn,
-                     // 'stamp_an' => $value->an,
-                     'stamp_cid' => $value->cid,
-                     'stamp_ptname' => $value->ptname,
-                     'stamp_vstdate' => $value->vstdate,
-                     'stamp_vsttime' => $value->vsttime,
-                     'stamp_pttype' => $value->pttype,
-                     'stamp_pttype_nhso' => $value->pttype_spsch,                   
-                     'stamp_acc_code' => $value->acc_code,
-                     'stamp_account_code' => $value->account_code, 
-                     'stamp_income' => $value->income,
-                     'stamp_uc_money' => $value->uc_money,
-                     'stamp_discount_money' => $value->discount_money,
-                     'stamp_paid_money' => $value->paid_money,
-                     'stamp_rcpt_money' => $value->rcpt_money,
-                     'stamp_rcpno' => $value->rcpno,
-                     'stamp_debit' => $value->debit,
-                     'max_debt_amount' => $value->max_debt_amount,
-                     'acc_debtor_userid' => $iduser
-                 ]);  
-             } else {
-                 $date = date('Y-m-d H:m:s');
-                 Acc_debtor_stamp::insert([
-                     'stamp_vn' => $value->vn,
-                     'stamp_hn' => $value->hn,
-                     'stamp_an' => $value->an,
-                     'stamp_cid' => $value->cid,
-                     'stamp_ptname' => $value->ptname,
-                     'stamp_vstdate' => $value->vstdate,
-                     'stamp_vsttime' => $value->vsttime, 
-                     'stamp_pttype' => $value->pttype,
-                     'stamp_pttype_nhso' => $value->pttype_spsch,                   
-                     'stamp_acc_code' => $value->acc_code,
-                     'stamp_account_code' => $value->account_code, 
-                     'stamp_income' => $value->income,
-                     'stamp_uc_money' => $value->uc_money,
-                     'stamp_discount_money' => $value->discount_money,
-                     'stamp_paid_money' => $value->paid_money,
-                     'stamp_rcpt_money' => $value->rcpt_money,
-                     'stamp_rcpno' => $value->rcpno,
-                     'stamp_debit' => $value->debit,
-                     'max_debt_amount' => $value->max_debt_amount,
-                     'created_at'=> $date,
-                     'acc_debtor_userid' => $iduser
-                      
-                 ]);
-             }                        
-         }
-        
-         return response()->json([
-             'status'    => '200' 
-         ]);
-     }
+                        'max_debt_amount'   => $value->max_debt_amount,
+                        // 'created_at'        => $date,
+                        'acc_debtor_userid' => $iduser
+                        
+                    ]);
+        //  }
+                                
+        }
+    
+        return response()->json([
+            'status'    => '200' 
+        ]);
+    }
 
+    // ***************** และ stam IPD********************************
+    public function account_pk_debtor_ipd(Request $request)
+    {
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id)) 
+                    ->update([   
+                        'stamp' => 'Y'
+                    ]); 
+    
+        foreach ($data as $key => $value) {
+            $check = Acc_debtor_stamp::where('stamp_an', $value->an)->count();
+            if ($check > 0) {
+                Acc_debtor_stamp::where('stamp_an', $value->an) 
+                ->update([   
+                    'stamp_vn' => $value->vn,
+                    'stamp_hn' => $value->hn,
+                    // 'stamp_an' => $value->an,
+                    'stamp_cid' => $value->cid,
+                    'stamp_ptname' => $value->ptname,
+                    'stamp_vstdate' => $value->vstdate,
+                    'stamp_vsttime' => $value->vsttime,
+                    'stamp_pttype' => $value->pttype,
+                    'stamp_pttype_nhso' => $value->pttype_spsch,                   
+                    'stamp_acc_code' => $value->acc_code,
+                    'stamp_account_code' => $value->account_code, 
+                    'stamp_income' => $value->income,
+                    'stamp_uc_money' => $value->uc_money,
+                    'stamp_discount_money' => $value->discount_money,
+                    'stamp_paid_money' => $value->paid_money,
+                    'stamp_rcpt_money' => $value->rcpt_money,
+                    'stamp_rcpno' => $value->rcpno,
+                    'stamp_debit' => $value->debit,
+                    'max_debt_amount' => $value->max_debt_amount,
+                    'acc_debtor_userid' => $iduser
+                ]);  
+            } else {
+                $date = date('Y-m-d H:m:s');
+                Acc_debtor_stamp::insert([
+                    'stamp_vn' => $value->vn,
+                    'stamp_hn' => $value->hn,
+                    'stamp_an' => $value->an,
+                    'stamp_cid' => $value->cid,
+                    'stamp_ptname' => $value->ptname,
+                    'stamp_vstdate' => $value->vstdate,
+                    'stamp_vsttime' => $value->vsttime, 
+                    'stamp_pttype' => $value->pttype,
+                    'stamp_pttype_nhso' => $value->pttype_spsch,                   
+                    'stamp_acc_code' => $value->acc_code,
+                    'stamp_account_code' => $value->account_code, 
+                    'stamp_income' => $value->income,
+                    'stamp_uc_money' => $value->uc_money,
+                    'stamp_discount_money' => $value->discount_money,
+                    'stamp_paid_money' => $value->paid_money,
+                    'stamp_rcpt_money' => $value->rcpt_money,
+                    'stamp_rcpno' => $value->rcpno,
+                    'stamp_debit' => $value->debit,
+                    'max_debt_amount' => $value->max_debt_amount,
+                    'created_at'=> $date,
+                    'acc_debtor_userid' => $iduser
+                    
+                ]);
+            }                        
+        }
+    
+        return response()->json([
+            'status'    => '200' 
+        ]);
+    }
 
     // *************************** 401 ********************************************
     public function account_pkofc401_dash(Request $request)
