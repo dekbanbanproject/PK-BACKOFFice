@@ -26,6 +26,7 @@ return new class extends Migration
                 $table->date('regdate')->nullable();//
                 $table->date('dchdate')->nullable();//            
                 $table->string('pttype')->nullable();//   
+                $table->string('income_group')->nullable();//  
                 $table->string('account_code')->nullable();//  
                 $table->string('debit')->nullable();//  
                 $table->string('debit_total')->nullable();// 

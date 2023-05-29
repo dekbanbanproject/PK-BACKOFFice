@@ -29,6 +29,7 @@ return new class extends Migration
                 $table->string('pttype')->nullable();//  
                 $table->string('pttype_nhso')->nullable();// 
                 $table->date('pttype_nhso_startdate')->nullable();// 
+                $table->string('income_group')->nullable();// 
                 $table->string('acc_code')->nullable();// 
                 $table->string('account_code')->nullable();// 
                 $table->string('income')->nullable();// 

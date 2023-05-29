@@ -648,6 +648,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Exports\\OtExport' => __DIR__ . '/../..' . '/app/Exports/OtExport.php',
         'App\\Exports\\Otform1Export' => __DIR__ . '/../..' . '/app/Exports/Otform1Export.php',
         'App\\Http\\Controllers\\AUTHENCHECKController' => __DIR__ . '/../..' . '/app/Http/Controllers/AUTHENCHECKController.php',
+        'App\\Http\\Controllers\\AccController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccController.php',
         'App\\Http\\Controllers\\AccountController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccountController.php',
         'App\\Http\\Controllers\\AccountPKController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccountPKController.php',
         'App\\Http\\Controllers\\AipnController' => __DIR__ . '/../..' . '/app/Http/Controllers/AipnController.php',

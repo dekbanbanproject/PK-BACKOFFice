@@ -119,11 +119,14 @@
                                                 </div>
                                                 <div class="modal-body"> 
                                                     <?php 
+                                                    
                                                         $detail_ =  DB::connection('mysql3')->select('
-                                                            SELECT o.vn,o.hn,o.icode,s.name,o.qty,o.unitprice,o.sum_price 
-                                                            FROM opitemrece o
-                                                            left outer join s_drugitems s on s.icode = o.icode 
-                                                            WHERE o.an ="'.$item->an.'" 
+                                                            SELECT o.an,o.vn,o.hn,o.icode,s.name as dname,o.qty,o.unitprice,o.sum_price 
+                                                                FROM opitemrece o
+                                                                left outer join s_drugitems s on s.icode = o.icode 
+                                                                WHERE o.an ="'.$item->an.'" 
+                                                                and o.income IN("02","03")
+				                                                GROUP BY s.icode;
                                                         '); 
                                                     ?>
                                                      <div class="row">
@@ -149,7 +152,7 @@
                                                             <label for="">{{$items->icode}} </label> 
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label for="">{{$items->name}} </label> 
+                                                            <label for="">{{$items->dname}} </label> 
                                                         </div> 
                                                         <div class="col-md-2">
                                                             <label for="">{{$items->qty}}</label> 

@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     { 
-        if (!Schema::hasTable('acc_opitemrece'))
+        if (!Schema::hasTable('acc_opitemrece_stm'))
         {
-            Schema::create('acc_opitemrece', function (Blueprint $table) {
-                $table->bigIncrements('acc_opitemrece_id'); 
+            Schema::create('acc_opitemrece_stm', function (Blueprint $table) {
+                $table->bigIncrements('acc_opitemrece_stm_id'); 
                 $table->string('vn')->nullable();// รหัส
                 $table->string('an')->nullable();// 
                 $table->string('hn')->nullable();//                
@@ -46,6 +46,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acc_opitemrece');
+        Schema::dropIfExists('acc_opitemrece_stm');
     }
 };

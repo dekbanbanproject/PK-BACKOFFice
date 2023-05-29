@@ -11,6 +11,7 @@ return array(
     'App\\Exports\\OtExport' => $baseDir . '/app/Exports/OtExport.php',
     'App\\Exports\\Otform1Export' => $baseDir . '/app/Exports/Otform1Export.php',
     'App\\Http\\Controllers\\AUTHENCHECKController' => $baseDir . '/app/Http/Controllers/AUTHENCHECKController.php',
+    'App\\Http\\Controllers\\AccController' => $baseDir . '/app/Http/Controllers/AccController.php',
     'App\\Http\\Controllers\\AccountController' => $baseDir . '/app/Http/Controllers/AccountController.php',
     'App\\Http\\Controllers\\AccountPKController' => $baseDir . '/app/Http/Controllers/AccountPKController.php',
     'App\\Http\\Controllers\\AipnController' => $baseDir . '/app/Http/Controllers/AipnController.php',
