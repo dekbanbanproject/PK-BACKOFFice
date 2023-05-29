@@ -723,7 +723,8 @@ class AccountPKController extends Controller
         }
         
         $acc_opitemrece_ = DB::connection('mysql3')->select('
-                SELECT o.vn,o.an,o.hn,o.vstdate,o.income as income_group,o.pttype,o.icode,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price        
+                SELECT a.vn,o.an,o.hn,o.vstdate,o.rxdate,o.income as income_group,o.pttype,o.paidst
+                ,o.icode,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price        
                 FROM opitemrece o 
                 LEFT JOIN an_stat a ON o.an = a.an
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
@@ -734,6 +735,8 @@ class AccountPKController extends Controller
                 'an'                 => $va2->an,
                 'vn'                 => $va2->vn,   
                 'pttype'             => $va2->pttype, 
+                'paidst'             => $va2->paidst, 
+                'rxdate'             => $va2->rxdate, 
                 'vstdate'            => $va2->vstdate,  
                 'income'             => $va2->income_group, 
                 'icode'              => $va2->icode,
@@ -879,10 +882,42 @@ class AccountPKController extends Controller
                     'debit'             => $value->debit,  
                     'debit_total'       => $value->debit_ipd_total, 
                     'acc_debtor_userid' => $iduser 
-                ]);    
+                ]);   
+                // $acc_opitemrece_ = DB::connection('mysql')->select('
+                //         SELECT * FROM acc_debtor a
+                //         LEFT JOIN acc_opitemrece ao ON ao.an = a.an   
+                //         WHERE a.an = "' . $value->an. '"  and a.account_code ="1102050101.217"
+                // ');  
+                // // $acc_opitemrece_ = DB::connection('mysql3')->select('
+                // //         SELECT o.vn,o.an,o.hn,o.vstdate,o.rxdate,o.income as income_group,o.pttype,o.paidst
+                // //         ,o.icode,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price        
+                // //         FROM acc_opitemrece o 
+                // //         LEFT JOIN acc_debtor a ON o.an = a.an AND account_code ="1102050101.217"
+                // //         WHERE a.dchdate = "' . $value->dchdate. '" 
+                // // ');        
+                // foreach ($acc_opitemrece_ as $key => $va2) { 
+                //     Acc_opitemrece_stm::insert([
+                //         'hn'                 => $va2->hn,
+                //         'an'                 => $va2->an,
+                //         'vn'                 => $va2->vn,   
+                //         'pttype'             => $va2->pttype, 
+                //         'paidst'             => $va2->paidst, 
+                //         'rxdate'             => $va2->rxdate, 
+                //         'vstdate'            => $va2->vstdate,  
+                //         'income'             => $va2->income_group, 
+                //         'icode'              => $va2->icode,
+                //         'qty'                => $va2->qty,
+                //         'cost'               => $va2->cost,
+                //         'finance_number'     => $va2->finance_number, 
+                //         'unitprice'          => $va2->unitprice,
+                //         'discount'           => $va2->discount,
+                //         'sum_price'          => $va2->sum_price, 
+                //     ]); 
+                // }
+               
          }
         $acc_217_stam = DB::connection('mysql')->select('
-            SELECT vn,an,hn,cid,ptname,vstdate,dchdate,pttype,account_code,sum(debit) as debit,sum(debit_total) as debit_total,acc_debtor_userid 
+            SELECT vn,an,hn,cid,ptname,vstdate,dchdate,pttype,income_group,account_code,sum(debit) as debit,sum(debit_total) as debit_total,acc_debtor_userid 
             from acc_1102050101_217_stam
             GROUP BY an;  
         ');
@@ -907,6 +942,7 @@ class AccountPKController extends Controller
             }
               
         }
+         
                 
          return response()->json([
              'status'    => '200' 
