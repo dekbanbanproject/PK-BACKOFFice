@@ -152,6 +152,7 @@ return array(
     'App\\Models\\Acc_debtor_sendmoney' => $baseDir . '/app/Models/Acc_debtor_sendmoney.php',
     'App\\Models\\Acc_debtor_stamp' => $baseDir . '/app/Models/Acc_debtor_stamp.php',
     'App\\Models\\Acc_opitemrece' => $baseDir . '/app/Models/Acc_opitemrece.php',
+    'App\\Models\\Acc_opitemrece_stm' => $baseDir . '/app/Models/Acc_opitemrece_stm.php',
     'App\\Models\\Acc_stm_ti' => $baseDir . '/app/Models/Acc_stm_ti.php',
     'App\\Models\\Acc_stm_ti_total' => $baseDir . '/app/Models/Acc_stm_ti_total.php',
     'App\\Models\\Account_creditor' => $baseDir . '/app/Models/Account_creditor.php',

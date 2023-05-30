@@ -21,6 +21,7 @@ use App\Models\Acc_stm_ti_total;
 use App\Models\Acc_opitemrece;
 use App\Models\Acc_1102050101_202;
 use App\Models\Acc_1102050101_217;
+use App\Models\Acc_stm_ucs;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -728,6 +729,7 @@ class AccountPKController extends Controller
                 FROM opitemrece o 
                 LEFT JOIN an_stat a ON o.an = a.an
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
+                
         ');        
         foreach ($acc_opitemrece_ as $key => $va2) { 
             Acc_opitemrece::insert([
@@ -946,6 +948,59 @@ class AccountPKController extends Controller
                 
          return response()->json([
              'status'    => '200' 
+         ]);
+     }
+     public function account_pkucs217_stm(Request $request,$months,$year)
+     {
+         $datenow = date('Y-m-d');
+         $startdate = $request->startdate;
+         $enddate = $request->enddate;        
+         // dd($id);            
+         $data['users'] = User::get();
+         
+         $data = DB::select('
+             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve  
+             from acc_1102050101_217 a
+             LEFT JOIN acc_stm_ucs au ON au.an = a.an
+             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;            
+         ');       
+         
+         $sum_money_ = DB::connection('mysql')->select('
+            SELECT SUM(a.debit_total) as total 
+            from acc_1102050101_217 a
+            LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL; 
+        ');
+        foreach ($sum_money_ as $key => $value) {
+            $sum_debit_total = $value->total;
+        }
+         $sum_stm_ = DB::connection('mysql')->select('
+            SELECT SUM(au.dmis_money2) as stmtotal 
+            from acc_1102050101_217 a
+            LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL; 
+        ');
+        foreach ($sum_stm_ as $key => $value) {
+            $sum_stm_total = $value->stmtotal;
+        }
+        // $sum_stm_ = DB::connection('mysql')->select('
+        //     SELECT SUM(au.total_approve) as total 
+        //     from acc_1102050101_217 a
+        //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL; 
+        // ');
+        // foreach ($sum_stm_ as $key => $value) {
+        //     $sum_debit_total = $value->total;
+        // }
+            
+         return view('account_pk.account_pkucs217_stm', $data, [
+             'startdate'         =>     $startdate,
+             'enddate'           =>     $enddate,
+             'data'              =>     $data,
+             'months'            =>     $months,
+             'year'              =>     $year,
+             'sum_debit_total'   =>     $sum_debit_total,
+             'sum_stm_total'     =>     $sum_stm_total
          ]);
      }
 
@@ -2019,7 +2074,7 @@ class AccountPKController extends Controller
             $json = json_encode($xmlObject); 
             $result = json_decode($json, true); 
         
-            // dd($result);
+            dd($result);
             @$stmAccountID = $result['stmAccountID'];
             @$hcode = $result['hcode'];
             @$hname = $result['hname'];
@@ -2034,7 +2089,8 @@ class AccountPKController extends Controller
             @$Total_thamount = $result['thamount'];
             @$STMdat = $result['STMdat'];
             @$TBills = $result['TBills']['TBill']; 
-            $bills_       = @$TBills;              
+            $bills_       = @$TBills;     
+            // dd($bills_ );         
                 foreach ($bills_ as $value) {                     
                     $hreg = $value['hreg'];
                     $station = $value['station'];

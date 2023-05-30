@@ -72,6 +72,10 @@
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
 		background-repeat: no-repeat;
 	}
+    .Bgheader {
+  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+		background-repeat: no-repeat;
+	}
     .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;
@@ -96,47 +100,7 @@
         color: #ccbcd1;
     }
 </style>
-{{-- <style>
-    #button{
-           display:block;
-           margin:20px auto;
-           padding:30px 30px;
-           background-color:#eee;
-           border:solid #ccc 1px;
-           cursor: pointer;
-           }
-           #overlay{	
-           position: fixed;
-           top: 0;
-           z-index: 100;
-           width: 100%;
-           height:100%;
-           display: none;
-           background: rgba(0,0,0,0.6);
-           }
-           .cv-spinner {
-           height: 100%;
-           display: flex;
-           justify-content: center;
-           align-items: center;  
-           }
-           .spinner {
-           width: 250px;
-           height: 250px;
-           border: 10px #ddd solid;
-           border-top: 10px #e62e75 solid;
-           border-radius: 50%;
-           animation: sp-anime 0.8s infinite linear;
-           }
-           @keyframes sp-anime {
-           100% { 
-               transform: rotate(390deg); 
-           }
-           }
-           .is-hide{
-           display:none;
-           }
-</style> --}}
+ 
 
 <body data-topbar="dark">
 
@@ -155,7 +119,8 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(141, 135, 136)">
+            <div class="navbar-header Bgheader">
+                {{-- <div class="navbar-header" style="background-color: rgb(141, 135, 136)"> --}}
                 {{-- <div class="d-flex"> 
                     <div class="navbar-brand-box">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
@@ -197,13 +162,13 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(3, 3, 3)" class="mt-4">PK-BACKOFFice</h4> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle"></i>
+                        <i class="ri-menu-2-line align-middle" style="color:rgb(7, 7, 7)"></i>
                     </button>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
@@ -214,7 +179,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(7, 7, 7)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
