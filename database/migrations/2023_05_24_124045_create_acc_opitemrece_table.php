@@ -28,7 +28,8 @@ return new class extends Migration
                 $table->string('paidst')->nullable();//  
                 $table->string('order_no')->nullable();// 
                 $table->string('finance_number')->nullable();// 
-                $table->string('icode')->nullable();//  
+                $table->string('icode')->nullable();// 
+                $table->string('name')->nullable();//   
                 $table->string('qty')->nullable();// 
                 $table->string('cost')->nullable();// 
                 $table->string('unitprice')->nullable();// 

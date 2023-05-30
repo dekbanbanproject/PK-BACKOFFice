@@ -725,9 +725,10 @@ class AccountPKController extends Controller
         
         $acc_opitemrece_ = DB::connection('mysql3')->select('
                 SELECT a.vn,o.an,o.hn,o.vstdate,o.rxdate,o.income as income_group,o.pttype,o.paidst
-                ,o.icode,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price        
+                ,o.icode,s.name as iname,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price        
                 FROM opitemrece o 
                 LEFT JOIN an_stat a ON o.an = a.an
+                left outer join s_drugitems s on s.icode = o.icode 
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
                 
         ');        
@@ -742,6 +743,7 @@ class AccountPKController extends Controller
                 'vstdate'            => $va2->vstdate,  
                 'income'             => $va2->income_group, 
                 'icode'              => $va2->icode,
+                'name'               => $va2->iname,
                 'qty'                => $va2->qty,
                 'cost'               => $va2->cost,
                 'finance_number'     => $va2->finance_number, 

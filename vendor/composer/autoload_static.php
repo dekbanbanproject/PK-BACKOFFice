@@ -792,6 +792,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Acc_opitemrece_stm' => __DIR__ . '/../..' . '/app/Models/Acc_opitemrece_stm.php',
         'App\\Models\\Acc_stm_ti' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ti.php',
         'App\\Models\\Acc_stm_ti_total' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ti_total.php',
+        'App\\Models\\Acc_stm_ucs' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ucs.php',
         'App\\Models\\Account_creditor' => __DIR__ . '/../..' . '/app/Models/Account_creditor.php',
         'App\\Models\\Account_listpercen' => __DIR__ . '/../..' . '/app/Models/Account_listpercen.php',
         'App\\Models\\Account_main' => __DIR__ . '/../..' . '/app/Models/Account_main.php',

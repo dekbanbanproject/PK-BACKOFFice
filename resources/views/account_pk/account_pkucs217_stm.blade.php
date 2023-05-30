@@ -93,7 +93,7 @@
                                 <?php $number = 0; $total1 = 0; $total2 = 0;?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
-                                    <tr height="20" style="font-size: 13px;">
+                                    <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td> 
                                         <td class="text-center" width="10%">{{ $item->tranid }}</td> 
                                         <td class="text-center" width="8%">{{ $item->vn }}</td> 

@@ -155,6 +155,7 @@ return array(
     'App\\Models\\Acc_opitemrece_stm' => $baseDir . '/app/Models/Acc_opitemrece_stm.php',
     'App\\Models\\Acc_stm_ti' => $baseDir . '/app/Models/Acc_stm_ti.php',
     'App\\Models\\Acc_stm_ti_total' => $baseDir . '/app/Models/Acc_stm_ti_total.php',
+    'App\\Models\\Acc_stm_ucs' => $baseDir . '/app/Models/Acc_stm_ucs.php',
     'App\\Models\\Account_creditor' => $baseDir . '/app/Models/Account_creditor.php',
     'App\\Models\\Account_listpercen' => $baseDir . '/app/Models/Account_listpercen.php',
     'App\\Models\\Account_main' => $baseDir . '/app/Models/Account_main.php',

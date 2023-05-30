@@ -120,15 +120,17 @@
                                                 <div class="modal-body"> 
                                                     <?php 
                                                     
-                                                        $detail_ =  DB::connection('mysql3')->select('
-                                                            SELECT o.an,o.vn,o.hn,o.icode,s.name as dname,o.qty,o.unitprice,o.sum_price 
-                                                                FROM opitemrece o
-                                                                left outer join s_drugitems s on s.icode = o.icode 
-                                                                WHERE o.an ="'.$item->an.'" 
-                                                                and o.income IN("02","03")
-				                                                GROUP BY s.icode;
+                                                        $detail_ =  DB::connection('mysql')->select('
+                                                            SELECT o.an,o.vn,o.hn,o.icode,o.name as dname,o.qty,o.unitprice,o.sum_price 
+                                                                FROM acc_opitemrece o
+                                                                LEFT JOIN acc_1102050101_217 a ON o.an = a.an 
+                                                                WHERE o.an ="'.$item->an.'" AND a.dchdate ="'.$item->dchdate.'"
+                                                                AND o.income ="'.$item->income_group.'"
                                                         '); 
                                                     ?>
+                                                         {{-- left outer join s_drugitems s on s.icode = o.icode  --}}
+                                                    {{-- and o.income IN("02","03")
+                                                    GROUP BY s.icode; --}}
                                                      <div class="row">
                                                         <div class="col-md-2 text-primary">
                                                             <label for="">icode </label> 
