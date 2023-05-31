@@ -43,6 +43,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportAcc_stm_ti; 
 
 use App\Models\Acc_1102050101_217_stam;
+use App\Models\Acc_opitemrece_stm;
 
 use SplFileObject;
 use PHPExcel; 
@@ -864,12 +865,13 @@ class AccountPKController extends Controller
      {
         $id = $request->ids;
         $iduser = Auth::user()->id;
+        Acc_1102050101_217_stam::truncate();
         $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get(); 
              Acc_debtor::whereIn('acc_debtor_id',explode(",",$id)) 
                      ->update([   
                          'stamp' => 'Y'
                      ]); 
-        Acc_1102050101_217_stam::truncate();
+       
          foreach ($data as $key => $value) { 
                 Acc_1102050101_217_stam::insert([
                     'vn'                => $value->vn,
@@ -886,38 +888,10 @@ class AccountPKController extends Controller
                     'debit'             => $value->debit,  
                     'debit_total'       => $value->debit_ipd_total, 
                     'acc_debtor_userid' => $iduser 
-                ]);   
-                // $acc_opitemrece_ = DB::connection('mysql')->select('
-                //         SELECT * FROM acc_debtor a
-                //         LEFT JOIN acc_opitemrece ao ON ao.an = a.an   
-                //         WHERE a.an = "' . $value->an. '"  and a.account_code ="1102050101.217"
-                // ');  
-                // // $acc_opitemrece_ = DB::connection('mysql3')->select('
-                // //         SELECT o.vn,o.an,o.hn,o.vstdate,o.rxdate,o.income as income_group,o.pttype,o.paidst
-                // //         ,o.icode,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price        
-                // //         FROM acc_opitemrece o 
-                // //         LEFT JOIN acc_debtor a ON o.an = a.an AND account_code ="1102050101.217"
-                // //         WHERE a.dchdate = "' . $value->dchdate. '" 
-                // // ');        
-                // foreach ($acc_opitemrece_ as $key => $va2) { 
-                //     Acc_opitemrece_stm::insert([
-                //         'hn'                 => $va2->hn,
-                //         'an'                 => $va2->an,
-                //         'vn'                 => $va2->vn,   
-                //         'pttype'             => $va2->pttype, 
-                //         'paidst'             => $va2->paidst, 
-                //         'rxdate'             => $va2->rxdate, 
-                //         'vstdate'            => $va2->vstdate,  
-                //         'income'             => $va2->income_group, 
-                //         'icode'              => $va2->icode,
-                //         'qty'                => $va2->qty,
-                //         'cost'               => $va2->cost,
-                //         'finance_number'     => $va2->finance_number, 
-                //         'unitprice'          => $va2->unitprice,
-                //         'discount'           => $va2->discount,
-                //         'sum_price'          => $va2->sum_price, 
-                //     ]); 
-                // }
+                ]);  
+                
+               
+               
                
          }
         $acc_217_stam = DB::connection('mysql')->select('
@@ -926,8 +900,8 @@ class AccountPKController extends Controller
             GROUP BY an;  
         ');
         foreach ($acc_217_stam as $key => $value2) { 
-            $check217 = Acc_1102050101_217::where('an', $value2->an)->count();
-            if ( $check217 < 1) {
+            // $check217 = Acc_1102050101_217::where('an', $value2->an)->count();
+            // if ( $check217 < 1) {
                 Acc_1102050101_217::insert([
                     'vn'                => $value2->vn,
                     'hn'                => $value2->hn,
@@ -943,9 +917,125 @@ class AccountPKController extends Controller
                     'debit_total'       => $value2->debit_total, 
                     'acc_debtor_userid' => $value2->acc_debtor_userid 
                 ]); 
-            }
-              
+
+                $acc_opitemrece_ = DB::connection('mysql')->select('
+                        SELECT * from 
+
+                        (SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price 
+                        FROM acc_opitemrece ao
+                        LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+                        WHERE income ="02" and a.an ="'.$value2->an.'"
+                                    
+                        union
+                        
+                        SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price 
+                        FROM acc_opitemrece ao
+                        LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+                        WHERE icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015","3001412","3001417","3010829","3010726")
+                        and a.an ="'.$value2->an.'"
+                                        
+                        ) as tmp
+                    
+                ');   
+                // GROUP BY icode;
+                foreach ($acc_opitemrece_ as $va2) { 
+                    Acc_opitemrece_stm::insert([
+                        'hn'                 => $va2->hn,
+                        'an'                 => $va2->an,
+                        'vn'                 => $va2->vn,   
+                        'vstdate'            => $va2->vstdate, 
+                        'pttype'             => $va2->pttype,
+                        'paidst'             => $va2->paidst, 
+                        'finance_number'     => $va2->finance_number,
+                        'income'             => $va2->income, 
+                        'icode'              => $va2->icode,
+                        'name'               => $va2->dname,
+                        'qty'                => $va2->qty,
+                        'cost'               => $va2->cost, 
+                        'unitprice'          => $va2->unitprice,
+                        'discount'           => $va2->discount,
+                        'sum_price'          => $va2->sum_price
+                    ]); 
+                }
+
+                $count_opitemrece_ = DB::connection('mysql')->select('
+                        SELECT COUNT(an) as AN  
+                        FROM 
+                        (SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price 
+                        FROM acc_opitemrece ao
+                        LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+                        WHERE income ="02" and a.an ="'.$value2->an.'"
+                                    
+                        union
+                        
+                        SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price 
+                        FROM acc_opitemrece ao
+                        LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+                        WHERE icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015","3001412","3001417","3010829","3010726")
+                        and a.an ="'.$value2->an.'"
+                                        
+                        ) as tmp
+                ');   
+                foreach ($count_opitemrece_ as $key => $cv) {
+                    $cchek_ = $cv->AN;
+                }
+                if ($cchek_ == '0') {
+                    Acc_debtor::where('an',$value2->an)->where('account_code','1102050101.217')
+                    ->update([   
+                        'acc_code'     => '01',
+                        'account_code' => '1102050101.202',
+                        'account_name' => 'UC ใน CUP'
+                    ]); 
+
+                    Acc_1102050101_217::where('an', '=', $value2->an)->delete();
+                    
+      
+                } else {
+                    # code...
+                }
+                
+            // }  
         }
+        // $acc_opitemrece_ = DB::connection('mysql')->select('
+        //         SELECT * from 
+
+        //         (SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price 
+        //         FROM acc_opitemrece ao
+        //         LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+        //         WHERE income ="02"
+                              
+        //         union
+                
+        //         SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price 
+        //         FROM acc_opitemrece ao
+        //         LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+        //         WHERE icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015","3001412","3001417","3010829","3010726")
+                                
+        //         ) as tmp
+               
+        // ');   
+        // // GROUP BY icode;
+        // foreach ($acc_opitemrece_ as $va2) { 
+        //     Acc_opitemrece_stm::insert([
+        //         'hn'                 => $va2->hn,
+        //         'an'                 => $va2->an,
+        //         'vn'                 => $va2->vn,   
+        //         'vstdate'            => $va2->vstdate, 
+        //         'pttype'             => $va2->pttype,
+        //         'paidst'             => $va2->paidst, 
+        //         'finance_number'     => $va2->finance_number,
+        //         'income'             => $va2->income, 
+        //         'icode'              => $va2->icode,
+        //         'name'               => $va2->dname,
+        //         'qty'                => $va2->qty,
+        //         'cost'               => $va2->cost, 
+        //         'unitprice'          => $va2->unitprice,
+        //         'discount'           => $va2->discount,
+        //         'sum_price'          => $va2->sum_price
+        //     ]); 
+        // }
+       
+        // }
          
                 
          return response()->json([
@@ -961,7 +1051,7 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
          
          $data = DB::select('
-             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group 
+             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
              from acc_1102050101_217 a
              LEFT JOIN acc_stm_ucs au ON au.an = a.an
              WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;            
@@ -977,7 +1067,7 @@ class AccountPKController extends Controller
             $sum_debit_total = $value->total;
         }
          $sum_stm_ = DB::connection('mysql')->select('
-            SELECT SUM(au.dmis_money2) as stmtotal 
+            SELECT SUM(au.inst) as stmtotal 
             from acc_1102050101_217 a
             LEFT JOIN acc_stm_ucs au ON au.an = a.an
             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL; 
@@ -996,6 +1086,51 @@ class AccountPKController extends Controller
         // }
             
          return view('account_pk.account_pkucs217_stm', $data, [
+             'startdate'         =>     $startdate,
+             'enddate'           =>     $enddate,
+             'data'              =>     $data,
+             'months'            =>     $months,
+             'year'              =>     $year,
+             'sum_debit_total'   =>     $sum_debit_total,
+             'sum_stm_total'     =>     $sum_stm_total
+         ]);
+     }
+
+     public function account_pkucs217_stmnull(Request $request,$months,$year)
+     {
+         $datenow = date('Y-m-d');
+         $startdate = $request->startdate;
+         $enddate = $request->enddate;        
+         // dd($id);            
+         $data['users'] = User::get();
+         
+         $data = DB::select('
+         SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
+         from acc_1102050101_217 a
+         LEFT JOIN acc_stm_ucs au ON au.an = a.an
+         WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;            
+     ');       
+     
+     $sum_money_ = DB::connection('mysql')->select('
+        SELECT SUM(a.debit_total) as total 
+        from acc_1102050101_217 a
+        LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL; 
+    ');
+    foreach ($sum_money_ as $key => $value) {
+        $sum_debit_total = $value->total;
+    }
+     $sum_stm_ = DB::connection('mysql')->select('
+        SELECT SUM(au.inst) as stmtotal 
+        from acc_1102050101_217 a
+        LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL; 
+    ');
+    foreach ($sum_stm_ as $key => $value) {
+        $sum_stm_total = $value->stmtotal;
+    }
+     
+         return view('account_pk.account_pkucs217_stmnull', $data, [
              'startdate'         =>     $startdate,
              'enddate'           =>     $enddate,
              'data'              =>     $data,

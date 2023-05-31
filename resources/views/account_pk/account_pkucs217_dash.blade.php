@@ -146,7 +146,7 @@
                                               
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.dmis_money2) as debit_total
+                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.inst) as debit_total
                                                             FROM acc_1102050101_217 a 
 		                                                    LEFT JOIN acc_stm_ucs au ON au.an = a.an
                                                             and month(a.dchdate) = "'.$item->months.'" 
@@ -207,7 +207,7 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkucs217_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_pkucs217_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป {{number_format($Ndebittotal, 2) }} ">
                                                             <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($Ndebittotal, 2) }}</span></p>
                                                         </div> 
