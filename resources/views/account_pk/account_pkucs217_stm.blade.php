@@ -82,6 +82,7 @@
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th>  
                                     <th class="text-center">dchdate</th>  
+                                    <th class="text-center">income</th> 
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">Stm DMIS</th> 
                                     <th class="text-center">ส่วนต่าง</th> 
@@ -102,9 +103,16 @@
                                                 <td class="text-center" width="8%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
                                                 <td class="text-center" width="8%">{{ $item->vstdate }}</td>
-                                                <td class="text-center" width="8%">{{ $item->dchdate }}</td>   
+                                                <td class="text-center" width="8%">{{ $item->dchdate }}</td> 
+                                                <td class="text-center" width="5%">{{ $item->income_group }}</td>   
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
+                                                @if ($item->dmis_money2 == '0')
+                                                <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
+                                                @else
                                                 <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->dmis_money2,2)}}</td> 
+                                                @endif
+                                               
+
                                                 <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->dmis_money2),2)}}</td> 
                                                 <td class="text-end" style="color:rgb(9, 196, 180)" width="10%">{{ number_format($item->total_approve,2)}}</td>  
                                                  
@@ -197,11 +205,12 @@
                                
                             </tbody>
                                         <tr style="background-color: #f3fca1">
-                                            <td colspan="9" class="text-end" style="background-color: #ff9d9d"></td>
+                                            <td colspan="10" class="text-end" style="background-color: #ff9d9d"></td>
                                             <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td>
                                             <td class="text-end" style="background-color: #f3d1be">{{ number_format($sum_stm_total,2)}}</td>
                                             <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
                                             <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total2,2)}}</td>  
+                                            {{-- <td class="text-end" style="background-color: #ff9d9d"></td> --}}
                                         </tr>  
                         </table>
                     </div>

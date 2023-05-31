@@ -124,7 +124,7 @@
                                                             SELECT o.an,o.vn,o.hn,o.icode,o.name as dname,o.qty,o.unitprice,o.sum_price 
                                                                 FROM acc_opitemrece o
                                                                 LEFT JOIN acc_1102050101_217 a ON o.an = a.an 
-                                                                WHERE o.an ="'.$item->an.'" AND a.dchdate ="'.$item->dchdate.'"
+                                                                WHERE a.an ="'.$item->an.'" AND a.dchdate ="'.$item->dchdate.'"
                                                                 AND o.income ="'.$item->income_group.'"
                                                         '); 
                                                     ?>

@@ -786,7 +786,7 @@ class AccountPKController extends Controller
                         left outer join leave_month l on l.MONTH_ID = month(a.dchdate) 
                         WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
                         and account_code="1102050101.217"   
-                        group by month(a.dchdate) asc;
+                        group by month(a.dchdate) desc;
                 ');
                 // and stamp = "N"
             } else {
@@ -961,7 +961,7 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
          
          $data = DB::select('
-             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve  
+             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group 
              from acc_1102050101_217 a
              LEFT JOIN acc_stm_ucs au ON au.an = a.an
              WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;            

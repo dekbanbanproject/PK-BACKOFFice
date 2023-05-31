@@ -50,7 +50,7 @@
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    
 <!-- Plugins css -->
-<link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
     body{   

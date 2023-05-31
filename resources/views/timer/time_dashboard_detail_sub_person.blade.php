@@ -101,7 +101,7 @@ if (Auth::check()) {
                                         
                                         <tr>
                                             <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->CHEACKIN_DATE }}</td> 
+                                            <td>{{ Datethai($item->CHEACKIN_DATE )}}</td> 
                                             <td>{{ $item->hrname }}</td>   
                                             <td>{{ $item->CHEACKINTIME }}</td>  
                                             <td>{{ $item->CHEACKOUTTIME }}</td>  
