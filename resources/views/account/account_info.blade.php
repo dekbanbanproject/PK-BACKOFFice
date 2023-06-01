@@ -36,7 +36,7 @@
                     @csrf
                     <div class="row">
                         <div class="col"></div>
-                        <div class="col-md-1 text-end">วันที่</div>
+                        {{-- <div class="col-md-1 text-end">วันที่</div>
                         <div class="col-md-2 text-center">
                             <div class="input-group" id="datepicker1">
                                 <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startdate"
@@ -60,6 +60,22 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="fa-solid fa-magnifying-glass me-2"></i>
                                 ค้นหา
+                            </button>
+                        </div> --}}
+                        <div class="col-md-1 text-end mt-2">วันที่</div>
+                        <div class="col-md-3 text-end">
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                    data-date-language="th-th" value="{{ $enddate }}" required/>  
+                            </div> 
+                        </div>
+                        <div class="col-md-1 text-start">
+                            <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                             </button>
                         </div>
                         <div class="col"></div>
@@ -278,7 +294,19 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
- 
+            $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            $('#datepicker3').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker4').datepicker({
+                format: 'yyyy-mm-dd'
+            });
         });
     </script>
 

@@ -123,8 +123,7 @@
                                                         $detail_ =  DB::connection('mysql')->select('
                                                             SELECT an,vn,hn,icode,name as dname,qty,unitprice,sum_price 
                                                                 FROM acc_opitemrece_stm  
-                                                                WHERE an ="'.$item->an.'"  
-                                                              
+                                                                WHERE an ="'.$item->an.'"                                                                
                                                         '); 
                                                     ?>
                                                         {{-- AND income ="'.$item->income_group.'" --}}

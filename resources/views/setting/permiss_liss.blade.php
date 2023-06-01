@@ -596,12 +596,12 @@ $pos = strrpos($url, '/') + 1;
                                     <div class="form-check mt-2"> 
                                         <i class="fa-regular fa-clock text-primary"></i>  
                                         
-                                            @if ($dataedits->permiss_timeer == 'on') 
-                                            <input class="form-check-input" type="checkbox" id="permiss_timeer" name="permiss_timeer" checked/>
+                                            @if ($dataedits->permiss_time == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_time" name="permiss_time" checked/>
                                         @else
-                                        <input class="form-check-input" type="checkbox" id="permiss_timeer" name="permiss_timeer"/>
+                                        <input class="form-check-input" type="checkbox" id="permiss_time" name="permiss_time"/>
                                         @endif
-                                        <label class="form-check-label" for="permiss_timeer">ระบบลงเวลา</label> 
+                                        <label class="form-check-label" for="permiss_time">ระบบลงเวลา</label> 
                                     </div>
                                 </div>
                             </div>
@@ -655,4 +655,7 @@ $pos = strrpos($url, '/') + 1;
 
         </div>
     </div>
+@endsection
+@section('footer')
+
 @endsection

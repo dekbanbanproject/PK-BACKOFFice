@@ -49,6 +49,7 @@ public function permiss_save(Request $request)
 {         
       
         $id = $request->input('id'); 
+        // dd($id);
         $update = User::find($id);
         $update->permiss_person = $request->input('permiss_person'); 
         $update->permiss_gleave = $request->input('permiss_gleave'); 
@@ -70,7 +71,7 @@ public function permiss_save(Request $request)
         $update->permiss_medicine = $request->input('permiss_medicine'); 
         $update->permiss_ot = $request->input('permiss_ot'); 
         $update->permiss_p4p = $request->input('permiss_p4p'); 
-        $update->permiss_timeer = $request->input('permiss_timeer'); 
+        $update->permiss_time = $request->input('permiss_time'); 
 
         $update->permiss_env = $request->input('permiss_env'); 
         $update->permiss_account = $request->input('permiss_account'); 

@@ -597,16 +597,18 @@ $countadmin = StaticController::countadmin($userid);
 
 
     <!-- Bootstrap bundle JS -->
+    {{-- <script src="{{ asset('sky16/js/jquery.min.js') }}"></script> --}}
+    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/bootstrap.bundle.min.js') }}"></script>
     <!--plugins-->
     {{-- <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>  --}}
-    <script src="{{ asset('sky16/js/jquery.min.js') }}"></script>
+ 
     <script src="{{ asset('sky16/plugins/simplebar/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('sky16/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('sky16/js/pace.min.js') }}"></script>
     <script src="{{ asset('sky16/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('sky16/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
-    {{-- <script src="{{ asset('sky16/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script> --}}
+    <script src="{{ asset('sky16/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
   
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
@@ -618,7 +620,7 @@ $countadmin = StaticController::countadmin($userid);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!--app-->
-  <script src="{{ asset('sky16/js/app.js') }}"></script> 
+  {{-- <script src="{{ asset('sky16/js/app.js') }}"></script>  --}}
  
 
 @yield('footer')

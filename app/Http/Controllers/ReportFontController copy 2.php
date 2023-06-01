@@ -838,37 +838,8 @@ class ReportFontController extends Controller
                     AND o.hospmain NOT IN ("10978") 
                     AND (o.an IS NULL OR o.an ="") 
                     group by e.vn;
-
-                    SELECT ov.an,
-                        v.hn,v.vn,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname),v.cid,v.pttype,group_concat(distinct oo.icd10)
-                        ,v.income,d.cc,vv.claim_code,a.code,h.name  
-                        from vn_stat v
-                        LEFT JOIN oapp o on o.visit_vn = v.vn
-                        left join ipt i on i.vn = v.vn
-                        left join patient p on p.hn = v.hn
-                        left join ovstdiag oo on oo.vn = v.vn
-                        left join eclaimdb.ac a on a.cid = v.cid and a.vstdate = v.vstdate 
-                        left join opdscreen d on d.vn = v.vn
-                        left join hospcode h on h.hospcode = v.hospmain
-                        left join ovst ov on ov.vn = v.vn
-                        left join visit_pttype vv on vv.vn = v.vn
-                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
-                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
-                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
-                        left outer join eclaimdb.m_sumfund mm on mm.eclaim_no=m.eclaim_no  
-                        left outer join hshooterdb.m_rep_ucs s1 on s1.vn=v.vn and s1.error_code ="P" and s1.nhso_pay >"0" 
-                        left outer join hos.pttype pt on pt.pttype =v.pttype
-                        left outer join eclaimdb.opitemrece_refer o1 on o1.vn = v.vn
-                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                        and i.an is null
-                        and v.hospmain = "'.$hospcode.'"
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
-                        and pt.hipdata_code ="ucs" 
-                        group by v.vn;
              
             '); 
-            // and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
            
         } else {
             $datashow_ = DB::connection('mysql3')->select('  

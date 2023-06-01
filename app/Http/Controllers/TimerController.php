@@ -1285,7 +1285,7 @@ class TimerController extends Controller
                             LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
                             LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
                             WHERE c.CHEACKIN_DATE = CURDATE()  
-                            AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
+                            AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7","17","18","19")                      
                             AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                             GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                             ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
@@ -1308,7 +1308,7 @@ class TimerController extends Controller
                                 LEFT JOIN operate_type ot on ot.OPERATE_TYPE_ID=j.OPERATE_JOB_TYPE_ID
                                 LEFT JOIN hrd_prefix f on f.HR_PREFIX_ID=p.HR_PREFIX_ID
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                                AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7")                      
+                                AND ot.OPERATE_TYPE_ID NOT IN ("1","2","5","7","17","18","19")                      
                                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
                                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
