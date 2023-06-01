@@ -809,103 +809,103 @@ class ReportFontController extends Controller
         $hospcode = $request->hospcode; 
         if ($hospcode != '') {
             $datashow_ = DB::connection('mysql3')->select(' 
-                SELECT v.hn,e.vn,p.cid,o.an,o.hospmain,o.hcode,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
-                    ,p.pttype,v.pdx,pcs.subinscl
-                    ,em.er_emergency_level_name
-                    ,vp.claimcode authencode 
-                    ,ROUND(SUM(op.sum_price),2) AS income 
-                    ,v.discount_money,v.rcpt_money
-                    ,v.income-v.discount_money-v.rcpt_money debit 
-                    ,v.rcpno_list rcpno
-                    
-                    from er_regist e 
-                    left outer join ovst o on o.vn = e.vn
-                    left outer join vn_stat v on v.vn = e.vn 
-                    left outer join patient p on p.hn = v.hn 
-                    left outer join pttype pt on pt.pttype = p.pttype
-                    left outer join er_emergency_level em on em.er_emergency_level_id=e.er_emergency_level_id
-                    left outer join visit_pttype_authen_report vp on vp.personalId = v.cid and v.vstdate =vp.claimDate
-                    left outer join opitemrece op ON op.vn = e.vn
-                    left outer join drugitems d on d.icode = op.icode
-                    left outer join claim.check_sit_auto pcs ON pcs.vn = e.vn
-                    where e.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                    AND o.hn!="999999999"
-                    AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99") 
-                    AND o.hospmain = "'.$hospcode.'"
-                    and e.er_emergency_level_id <> "1"
-                    AND pt.hipdata_code = "UCS" 
-                    AND pt.pttype <> "33"
-                    AND o.hospmain NOT IN ("10978") 
-                    AND (o.an IS NULL OR o.an ="") 
-                    group by e.vn;
-
-                    SELECT ov.an,
-                        v.hn,v.vn,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname),v.cid,v.pttype,group_concat(distinct oo.icd10)
-                        ,v.income,d.cc,vv.claim_code,a.code,h.name  
-                        from vn_stat v
-                        LEFT JOIN oapp o on o.visit_vn = v.vn
+                    SELECT * FROM
+                    (
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.name,group_concat(distinct oo.icd10) as icd10 ,v.pdx,v.income 
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                        ,(v.income + sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0))) as Total
+                        from vn_stat v 
                         left join ipt i on i.vn = v.vn
                         left join patient p on p.hn = v.hn
-                        left join ovstdiag oo on oo.vn = v.vn
-                        left join eclaimdb.ac a on a.cid = v.cid and a.vstdate = v.vstdate 
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join ovstdiag oo on oo.vn = v.vn 
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
-                        left join ovst ov on ov.vn = v.vn
-                        left join visit_pttype vv on vv.vn = v.vn
+                        left join ovst ov on ov.vn = v.vn 
                         left join eclaimdb.m_registerdata m on m.hn = v.hn 
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
-                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
-                        left outer join eclaimdb.m_sumfund mm on mm.eclaim_no=m.eclaim_no  
-                        left outer join hshooterdb.m_rep_ucs s1 on s1.vn=v.vn and s1.error_code ="P" and s1.nhso_pay >"0" 
-                        left outer join hos.pttype pt on pt.pttype =v.pttype
-                        left outer join eclaimdb.opitemrece_refer o1 on o1.vn = v.vn
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  
+                    
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        and i.an is null
+                        and v.hospmain = "'.$hospcode.'"
+                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        and pt.hipdata_code ="ucs" AND v.income < "700" AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"		
+                        group by v.vn
+                        
+                        UNION
+                        
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.name,group_concat(distinct oo.icd10) as icd10 ,v.pdx,v.income
+                            ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                            ,("700" + sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0))) as Total 
+                        from vn_stat v 
+                        left join ipt i on i.vn = v.vn
+                        left join patient p on p.hn = v.hn
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join ovstdiag oo on oo.vn = v.vn 
+                        left join opdscreen d on d.vn = v.vn
+                        left join hospcode h on h.hospcode = v.hospmain
+                        left join ovst ov on ov.vn = v.vn 
+                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
+                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  	
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
                         and i.an is null
                         and v.hospmain = "'.$hospcode.'"
                         and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs" 
-                        group by v.vn;
+                        AND v.income > "700" 
+                        AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
+                        group by v.vn
+                        
+                        UNION
+                        
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.name,group_concat(distinct oo.icd10) as icd10 ,v.pdx,v.income
+                            ,sum(if(op.icode IN("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                            ,(v.income + sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0))) as Total
+                        from vn_stat v 
+                        left join ipt i on i.vn = v.vn
+                        left join patient p on p.hn = v.hn
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join ovstdiag oo on oo.vn = v.vn 
+                        left join opdscreen d on d.vn = v.vn
+                        left join hospcode h on h.hospcode = v.hospmain
+                        left join ovst ov on ov.vn = v.vn 
+                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
+                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        and i.an is null
+                        and v.hospmain = "'.$hospcode.'"
+                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        and pt.hipdata_code ="ucs" 
+                        AND v.income < "1000" 
+                        AND v.pdx BETWEEN "E110" AND "E149" AND v.pdx BETWEEN "J440" AND "J449" AND v.pdx BETWEEN "I10" AND "I159"
+                        group by v.vn
+                            
+                    ) As Refer
              
             '); 
             // and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
            
         } else {
             $datashow_ = DB::connection('mysql3')->select('  
-                    SELECT v.hn,e.vn,p.cid,o.an,o.hospmain,o.hcode,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
-                            ,p.pttype,v.pdx,pcs.subinscl
-                            ,em.er_emergency_level_name
-                            ,vp.claimcode authencode 
-                            ,ROUND(SUM(op.sum_price),2) AS income 
-                            ,v.discount_money,v.rcpt_money
-                            ,v.income-v.discount_money-v.rcpt_money debit 
-                            ,v.rcpno_list rcpno
-                            
-                            from er_regist e 
-                            left outer join ovst o on o.vn = e.vn
-                            left outer join vn_stat v on v.vn = e.vn 
-                            left outer join patient p on p.hn = v.hn 
-                            left outer join pttype pt on pt.pttype = p.pttype
-                            left outer join er_emergency_level em on em.er_emergency_level_id=e.er_emergency_level_id
-                            left outer join visit_pttype_authen_report vp on vp.personalId = v.cid and v.vstdate =vp.claimDate
-                            left outer join opitemrece op ON op.vn = e.vn
-                            left outer join drugitems d on d.icode = op.icode
-                            left outer join claim.check_sit_auto pcs ON pcs.vn = e.vn
-                            where e.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                            AND o.hn!="999999999"
-                            AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99") 
-                            AND o.hospmain IN ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-                            AND o.hospmain NOT IN ("10978") 
-                            and e.er_emergency_level_id <> "1"
-                            AND pt.hipdata_code = "UCS" 
-                            AND pt.pttype <> "33"
-                            AND (o.an IS NULL OR o.an ="") 
-                            group by e.vn; 
+                                        
+                    
+                      
             '); 
         }
         
         // $query = DB::table('database1.table1 as dt1')->leftjoin('database2.table2 as dt2', 'dt2.ID', '=', 'dt1.ID');
-
+        // where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+        // and i.an is null
+        // and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
         $data['hosshow'] = DB::connection('mysql3')->select('  
             SELECT hospcode,name as hosname FROM hospcode WHERE hospcode IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
         '); 
