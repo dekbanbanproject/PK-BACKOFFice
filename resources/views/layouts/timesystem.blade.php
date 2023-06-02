@@ -73,6 +73,10 @@
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
 		background-repeat: no-repeat;
 	}
+    .Bgheader {
+  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+		background-repeat: no-repeat;
+	}
   </style>
 
 <body data-topbar="dark">
@@ -81,7 +85,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)">
+            <div class="navbar-header shadow-lg Bgheader" >
               
 
                 <div class="d-flex">

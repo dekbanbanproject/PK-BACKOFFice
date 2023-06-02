@@ -119,7 +119,7 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header Bgheader">
+            <div class="navbar-header shadow-lg Bgheader">
                 {{-- <div class="navbar-header" style="background-color: rgb(141, 135, 136)"> --}}
                 {{-- <div class="d-flex"> 
                     <div class="navbar-brand-box">

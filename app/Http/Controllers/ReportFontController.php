@@ -11,6 +11,7 @@ use App\Models\User;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
+use App\Models\Refer_cross;
 use Illuminate\Support\Facades\File;
 use DataTables;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -809,103 +810,185 @@ class ReportFontController extends Controller
         $hospcode = $request->hospcode; 
         if ($hospcode != '') {
             $datashow_ = DB::connection('mysql3')->select(' 
-                    SELECT * FROM
-                    (
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.name,group_concat(distinct oo.icd10) as icd10 ,v.pdx,v.income 
-                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
-                        ,(v.income + sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0))) as Total
+            SELECT * FROM
+            (
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income 
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer 			
+                        ,case  
+                        when v.income < 1000 then v.income  
+                        else "1000"
+                        end as total 
                         from vn_stat v 
                         left join ipt i on i.vn = v.vn
                         left join patient p on p.hn = v.hn
                         left join hos.pttype pt on pt.pttype =v.pttype 
                         left join opitemrece op ON op.vn = v.vn
-                        left join ovstdiag oo on oo.vn = v.vn 
+                        left join icd101 oo on oo.code IN(v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5 )
+                        left join opdscreen d on d.vn = v.vn
+                        left join hospcode h on h.hospcode = v.hospmain
+                        left join ovst ov on ov.vn = v.vn 
+                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
+                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5) 
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
+                        and i.an is null
+                        and v.hospmain = "'.$hospcode.'"
+                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        and pt.hipdata_code ="ucs"  
+                        and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
+                        group by v.vn
+                        
+                        UNION
+                        
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer	
+                        ,case  
+                        when v.income < 700 then v.income  
+                        else "700"
+                        end as total
+                        from vn_stat v 
+                        left join ipt i on i.vn = v.vn
+                        left join patient p on p.hn = v.hn
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join ovstdiag oo on oo.vn = v.vn  
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn 
                         left join eclaimdb.m_registerdata m on m.hn = v.hn 
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  
-                    
-                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
                         and i.an is null
                         and v.hospmain = "'.$hospcode.'"
                         and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
-                        and pt.hipdata_code ="ucs" AND v.income < "700" AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"		
-                        group by v.vn
-                        
-                        UNION
-                        
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.name,group_concat(distinct oo.icd10) as icd10 ,v.pdx,v.income
-                            ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
-                            ,("700" + sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0))) as Total 
-                        from vn_stat v 
-                        left join ipt i on i.vn = v.vn
-                        left join patient p on p.hn = v.hn
-                        left join hos.pttype pt on pt.pttype =v.pttype 
-                        left join opitemrece op ON op.vn = v.vn
-                        left join ovstdiag oo on oo.vn = v.vn 
-                        left join opdscreen d on d.vn = v.vn
-                        left join hospcode h on h.hospcode = v.hospmain
-                        left join ovst ov on ov.vn = v.vn 
-                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
-                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
-                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  	
-                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                        and i.an is null
-                        and v.hospmain = "'.$hospcode.'"
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
-                        and pt.hipdata_code ="ucs" 
-                        AND v.income > "700" 
+                        and pt.hipdata_code ="ucs"  
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
-                        group by v.vn
-                        
-                        UNION
-                        
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.name,group_concat(distinct oo.icd10) as icd10 ,v.pdx,v.income
-                            ,sum(if(op.icode IN("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
-                            ,(v.income + sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0))) as Total
-                        from vn_stat v 
-                        left join ipt i on i.vn = v.vn
-                        left join patient p on p.hn = v.hn
-                        left join hos.pttype pt on pt.pttype =v.pttype 
-                        left join opitemrece op ON op.vn = v.vn
-                        left join ovstdiag oo on oo.vn = v.vn 
-                        left join opdscreen d on d.vn = v.vn
-                        left join hospcode h on h.hospcode = v.hospmain
-                        left join ovst ov on ov.vn = v.vn 
-                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
-                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
-                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  
-                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-                        and i.an is null
-                        and v.hospmain = "'.$hospcode.'"
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
-                        and pt.hipdata_code ="ucs" 
-                        AND v.income < "1000" 
-                        AND v.pdx BETWEEN "E110" AND "E149" AND v.pdx BETWEEN "J440" AND "J449" AND v.pdx BETWEEN "I10" AND "I159"
-                        group by v.vn
-                            
-                    ) As Refer
-             
+                        AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"			
+                        AND v.dx2 NOT BETWEEN "E110" AND "E149" AND v.dx2 NOT BETWEEN "J440" AND "J449" AND v.dx2 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx3 NOT BETWEEN "E110" AND "E149" AND v.dx3 NOT BETWEEN "J440" AND "J449" AND v.dx3 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx4 NOT BETWEEN "E110" AND "E149" AND v.dx4 NOT BETWEEN "J440" AND "J449" AND v.dx4 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx5 NOT BETWEEN "E110" AND "E149" AND v.dx5 NOT BETWEEN "J440" AND "J449" AND v.dx5 NOT BETWEEN "I10" AND "I159" 
+                        group by v.vn         
+                    ) As Refer 
             '); 
             // and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
-           
+        //     Refer_cross::truncate();
+        //    foreach ($datashow_ as $key => $va2) {
+        //         Refer_cross::insert([
+        //             'hn'                 => $va2->hn,
+        //             'an'                 => $va2->an,
+        //             'vn'                 => $va2->vn,   
+        //             'cid'                => $va2->cid, 
+        //             'vstdate'            => $va2->vstdate,
+        //             'vsttime'            => $va2->vsttime, 
+        //             'ptname'             => $va2->ptname,
+        //             'pttype'             => $va2->pttype, 
+        //             'hospcode'           => $va2->hospcode,
+        //             'hospmain'           => $va2->hospmain,
+        //             'icd10'              => $va2->icd10,
+        //             'pdx'                => $va2->pdx, 
+        //             'dx0'                => $va2->dx0,
+        //             'dx1'                => $va2->dx1,
+        //             'income'             => $va2->income,
+        //             'refer'              => $va2->refer,
+        //             'Total'              => $va2->Total
+        //         ]); 
+        //    }
         } else {
             $datashow_ = DB::connection('mysql3')->select('  
-                                        
-                    
-                      
+                        SELECT * FROM
+                        (
+                            SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income 
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer 			
+                        ,case  
+                        when v.income < 1000 then v.income  
+                        else "1000"
+                        end as total 
+                        from vn_stat v 
+                        left join ipt i on i.vn = v.vn
+                        left join patient p on p.hn = v.hn
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join icd101 oo on oo.code IN(v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5 )
+                        left join opdscreen d on d.vn = v.vn
+                        left join hospcode h on h.hospcode = v.hospmain
+                        left join ovst ov on ov.vn = v.vn 
+                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
+                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5) 
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
+                        and i.an is null
+                        and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
+                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        and pt.hipdata_code ="ucs"  
+                        and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
+                        group by v.vn
+                        
+                        UNION
+                        
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer	
+                        ,case  
+                        when v.income < 700 then v.income  
+                        else "700"
+                        end as total
+                        from vn_stat v 
+                        left join ipt i on i.vn = v.vn
+                        left join patient p on p.hn = v.hn
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join ovstdiag oo on oo.vn = v.vn  
+                        left join opdscreen d on d.vn = v.vn
+                        left join hospcode h on h.hospcode = v.hospmain
+                        left join ovst ov on ov.vn = v.vn 
+                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
+                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
+                        and i.an is null
+                        and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
+                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        and pt.hipdata_code ="ucs"  
+                        AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
+                        AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"			
+                        AND v.dx2 NOT BETWEEN "E110" AND "E149" AND v.dx2 NOT BETWEEN "J440" AND "J449" AND v.dx2 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx3 NOT BETWEEN "E110" AND "E149" AND v.dx3 NOT BETWEEN "J440" AND "J449" AND v.dx3 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx4 NOT BETWEEN "E110" AND "E149" AND v.dx4 NOT BETWEEN "J440" AND "J449" AND v.dx4 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx5 NOT BETWEEN "E110" AND "E149" AND v.dx5 NOT BETWEEN "J440" AND "J449" AND v.dx5 NOT BETWEEN "I10" AND "I159" 
+                        group by v.vn         
+                    ) As Refer 
             '); 
+        //     Refer_cross::truncate();
+        //     foreach ($datashow_ as $key => $va2) {
+        //         Refer_cross::insert([
+        //             'hn'                 => $va2->hn,
+        //             'an'                 => $va2->an,
+        //             'vn'                 => $va2->vn,   
+        //             'cid'                => $va2->cid, 
+        //             'vstdate'            => $va2->vstdate,
+        //             'vsttime'            => $va2->vsttime, 
+        //             'ptname'             => $va2->ptname,
+        //             'pttype'             => $va2->pttype, 
+        //             'hospcode'           => $va2->hospcode,
+        //             'hospmain'           => $va2->hospmain,
+        //             'icd10'              => $va2->icd10,
+        //             'pdx'                => $va2->pdx, 
+        //             'dx0'                => $va2->dx0,
+        //             'dx1'                => $va2->dx1,
+        //             'income'             => $va2->income,
+        //             'refer'              => $va2->refer,
+        //             'Total'              => $va2->Total
+        //         ]); 
+        //    }
         }
-        
-        // $query = DB::table('database1.table1 as dt1')->leftjoin('database2.table2 as dt2', 'dt2.ID', '=', 'dt1.ID');
-        // where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
-        // and i.an is null
-        // and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
+         
         $data['hosshow'] = DB::connection('mysql3')->select('  
             SELECT hospcode,name as hosname FROM hospcode WHERE hospcode IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
         '); 
@@ -917,100 +1000,93 @@ class ReportFontController extends Controller
             'hospcode'         => $hospcode,  
         ]);
     }
-    public function refer_opds_cross_excel(Request $request,$startdate,$enddate)
+    public function refer_opds_cross_excel(Request $request,$startdate,$enddate,$hospcode)
     {   
         $org_ = DB::connection('mysql')->table('orginfo')->where('orginfo_id', '=', 1)->first();
         $org = $org_->orginfo_name;
-        if ($startdate == '') {
+        // $hospcode = $request->hospcode; 
+
             $export = DB::connection('mysql3')->select('  
-                SELECT
-                        o.vn,o.hn,o.an,p.cid,o.vstdate,o.pttype,v.pttypeno,o.hospmain,o.hcode,concat(p.pname,p.fname," ",p.lname) as fullname
-                        , ROUND(uc_money-(IFNULL((SUM(om.sum_price)),0)) ,2) AS uc_money
-                        , IF( (uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))<=700
-                            ,((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))+(IFNULL((SUM(omk.sum_price)),0)))
-                            ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>700
-                                ,IF(tpsc.vn!=""
-                                    ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>1000
-                                        ,1000
-                                        ,(uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))
-                                    )
-                                    ,700+(IFNULL((SUM(omk.sum_price)),0))
-                                )
-                                ,700+(IFNULL((SUM(omk.sum_price)),0))    
-                            )
-                        ) AS uc_money_kor_tok
-                        ,v.pdx ,v.income ,v.paid_money
-                        FROM hos.ovst o
-                        LEFT JOIN hos.vn_stat v ON o.vn=v.vn
-                        LEFT JOIN hos.patient p ON o.hn=p.hn
-                        LEFT OUTER JOIN money_pk.opitemrece_money om ON o.vn=om.vn
-                        LEFT OUTER JOIN money_pk.opitemrece_kor_tok omk ON o.vn=omk.vn
-                        LEFT JOIN money_pk.temp_pang_stamp_chronic1102050101_203 tpsc ON o.vn=tpsc.vn
-
-                        WHERE o.hn!="999999999"
-                        AND o.vstdate = = CURDATE()
-                        AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99")
-
-                        AND o.hospmain IN ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-                        AND o.hospmain NOT IN ("10978")
-                        AND o.vn NOT IN (select vn FROM money_pk.temp_pang_stamp_icd1102050101_203 )
-                        AND (o.an IS NULL OR o.an ="") 
-                        GROUP BY o.vn
+                    SELECT * FROM
+                    (
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income 
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer 			
+                        ,case  
+                        when v.income < 1000 then v.income  
+                        else "1000"
+                        end as total 
+                        from vn_stat v 
+                        left join ipt i on i.vn = v.vn
+                        left join patient p on p.hn = v.hn
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join icd101 oo on oo.code IN(v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5 )
+                        left join opdscreen d on d.vn = v.vn
+                        left join hospcode h on h.hospcode = v.hospmain
+                        left join ovst ov on ov.vn = v.vn 
+                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
+                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5) 
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
+                        and i.an is null
+                        and v.hospmain = "'.$hospcode.'"
+                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        and pt.hipdata_code ="ucs"  
+                        and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
+                        group by v.vn
+                        
+                        UNION
+                        
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer	
+                        ,case  
+                        when v.income < 700 then v.income  
+                        else "700"
+                        end as total
+                        from vn_stat v 
+                        left join ipt i on i.vn = v.vn
+                        left join patient p on p.hn = v.hn
+                        left join hos.pttype pt on pt.pttype =v.pttype 
+                        left join opitemrece op ON op.vn = v.vn
+                        left join ovstdiag oo on oo.vn = v.vn  
+                        left join opdscreen d on d.vn = v.vn
+                        left join hospcode h on h.hospcode = v.hospmain
+                        left join ovst ov on ov.vn = v.vn 
+                        left join eclaimdb.m_registerdata m on m.hn = v.hn 
+                        and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
+                        and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)  
+                        where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"   
+                        and i.an is null
+                        and v.hospmain = "'.$hospcode.'"
+                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        and pt.hipdata_code ="ucs"  
+                        AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
+                        AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"			
+                        AND v.dx2 NOT BETWEEN "E110" AND "E149" AND v.dx2 NOT BETWEEN "J440" AND "J449" AND v.dx2 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx3 NOT BETWEEN "E110" AND "E149" AND v.dx3 NOT BETWEEN "J440" AND "J449" AND v.dx3 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx4 NOT BETWEEN "E110" AND "E149" AND v.dx4 NOT BETWEEN "J440" AND "J449" AND v.dx4 NOT BETWEEN "I10" AND "I159"
+                        AND v.dx5 NOT BETWEEN "E110" AND "E149" AND v.dx5 NOT BETWEEN "J440" AND "J449" AND v.dx5 NOT BETWEEN "I10" AND "I159" 
+                        group by v.vn         
+                    ) As Refer
             '); 
-         
-        } else {
-            $export = DB::connection('mysql3')->select('  
-                SELECT
-                        o.vn,o.hn,o.an,p.cid,o.vstdate,o.pttype,v.pttypeno,o.hospmain,o.hcode,concat(p.pname,p.fname," ",p.lname) as fullname
-                        , ROUND(uc_money-(IFNULL((SUM(om.sum_price)),0)) ,2) AS uc_money
-                        , IF( (uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))<=700
-                            ,((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))+(IFNULL((SUM(omk.sum_price)),0)))
-                            ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>700
-                                ,IF(tpsc.vn!=""
-                                    ,IF((uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))>1000
-                                        ,1000
-                                        ,(uc_money-((IFNULL((SUM(om.sum_price)),0))+(IFNULL((SUM(omk.sum_price)),0))))
-                                    )
-                                    ,700+(IFNULL((SUM(omk.sum_price)),0))
-                                )
-                                ,700+(IFNULL((SUM(omk.sum_price)),0))    
-                            )
-                        ) AS uc_money_kor_tok
-                        ,v.pdx ,v.income ,v.paid_money
-                        FROM hos.ovst o
-                        LEFT JOIN hos.vn_stat v ON o.vn=v.vn
-                        LEFT JOIN hos.patient p ON o.hn=p.hn
-                        LEFT OUTER JOIN money_pk.opitemrece_money om ON o.vn=om.vn
-                        LEFT OUTER JOIN money_pk.opitemrece_kor_tok omk ON o.vn=omk.vn
-                        LEFT JOIN money_pk.temp_pang_stamp_chronic1102050101_203 tpsc ON o.vn=tpsc.vn
-
-                        WHERE o.hn!="999999999"
-                        AND o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND o.pttype IN ("50","55","60","66","68","69","70","71","72","73","74","75","76","77","78","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","98","99")
-
-                        AND o.hospmain IN ("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-                        AND o.hospmain NOT IN ("10978")
-                        AND o.vn NOT IN (select vn FROM money_pk.temp_pang_stamp_icd1102050101_203 )
-                        AND (o.an IS NULL OR o.an ="") 
-                        GROUP BY o.vn
-            '); 
-         
-        }
-        
-       
-           
+            // $export = DB::connection('mysql')->select('  
+            //     SELECT * FROM refer_cross 
+            // '); 
+          
         return view('report.refer_opds_cross_excel', [ 
             'org'              => $org,
-            'export'           =>  $export, 
-            'startdate'        => $startdate,
-            'enddate'          => $enddate,
+            'export'           =>  $export,  
         ]);
     }
     public function report_ct(Request $request)
     { 
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
-        
+        $hospcode = $request->hospcode; 
+
         $datashow_ = DB::connection('mysql3')->select('  
             SELECT  
                 v.hn,v.vn,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname
@@ -1032,9 +1108,9 @@ class ReportFontController extends Controller
                 left outer join hos.pttype pt on pt.pttype =v.pttype
                 left outer join eclaimdb.opitemrece_refer o1 on o1.vn = v.vn
                 
-                where v.vstdate BETWEEN "2023-05-10" AND "2023-05-10" 
+                where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"  
                 and i.an is null
-                and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
+                and v.hospmain = "'.$hospcode.'"
                 and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
                 and op.icode in("3009186","3009187","3009147","3009188","3010113","3009176","3009158","3009148","3009173","3009178","3009160","3009157"
                 ,"3009191","3009139","3009155","3009193","3009180","3009159","3009167","3009162","3009140","3010044","3009172","3009165","3009166","3009161")
@@ -1042,10 +1118,15 @@ class ReportFontController extends Controller
                 and v.vn not in(select vn from eclaimdb.opitemrece_refer where vn = o1.vn)
                 group by v.vn;
         '); 
-        return view('dashboard.report_ct',[
+        $hosshow = DB::connection('mysql3')->select('  
+            SELECT hospcode,name as hosname FROM hospcode WHERE hospcode IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
+        '); 
+        return view('report.report_ct',[
             'startdate'        => $startdate,
             'enddate'          => $enddate , 
             'datashow_'        => $datashow_, 
+            'hosshow'          => $hosshow,
+            'hospcode'         => $hospcode,  
         ]);
     }
     

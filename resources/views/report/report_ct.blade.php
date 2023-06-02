@@ -60,43 +60,56 @@
         </div>
         
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12">                
                 <div class="main-card mb-3 card">
-                    <div class="card-header">
-                        เรียกเก็บค่า CT ในจังหวัด
-                        <div class="btn-actions-pane-right">
-                            <form action="{{ route('rep.report_ct') }}" method="POST">
-                                @csrf
-                                <div class="row"> 
-                                    <div class="col-md-1 text-end">วันที่</div>
-                                    <div class="col-md-7 text-center">
-                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                            data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                data-date-language="th-th" value="{{ $startdate }}" />
-                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                                data-date-language="th-th" value="{{ $enddate }}" /> 
-                                        </div>
-                                    </div> 
-                                    <div class="col-md-2">  
-                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                        </button> 
-                                    
-                                        {{-- <a href="{{url('refer_opds_cross_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                            <i class="fa-solid fa-file-excel me-2"></i>
-                                            Export
-                                        </a> --}}
-                                    
+                   
+                    <div class="card-header"> 
+                        {{-- <div class="btn-actions-pane-right">  --}}
+                            เรียกเก็บค่า CT ในจังหวัด
+
+                    </div>
+          
+                    <div class="card-body"> 
+                        <form action="{{ route('rep.report_ct') }}" method="POST">
+                            @csrf
+                            <div class="row mt-2"> 
+                             <div class="col"></div>
+                                {{-- <div class="col-md-2 text-end"> เรียกเก็บค่า CT ในจังหวัด</div> --}}
+                                <div class="col-md-1 text-end">วันที่</div>
+                                <div class="col-md-4 text-center">
+                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $startdate }}" />
+                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $enddate }}" /> 
                                     </div>
                                 </div> 
-                            </form> 
-                        </div>
-                    </div>
-                    <div class="card-body"> 
-                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                <div class="col-md-1 text-center">โรงพยาบาล</div>
+                                <div class="col-md-2 text-center">
+                                    <div class="input-group">
+                                        <select id="hospcode" name="hospcode" class="form-select form-select-lg" style="width: 100%">  
+                                            @foreach ($hosshow as $items)  
+                                                @if ($hospcode == $items->hospcode)
+                                                    <option value="{{ $items->hospcode }}" selected> {{ $items->hosname }} </option>  
+                                                @else
+                                                    <option value="{{ $items->hospcode }}"> {{ $items->hosname }} </option>  
+                                                @endif                                                        
+                                            @endforeach
+                                        </select>
+                                    </div> 
+                                </div> 
+                                <div class="col-md-1">  
+                                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                    </button>   
+                                </div>
+                                <div class="col"></div>
+                            </div> 
+                        </form> 
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap mt-2"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -167,7 +180,10 @@
             });
 
             $('#example').DataTable();
-
+            $('#hospcode').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
+            });
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

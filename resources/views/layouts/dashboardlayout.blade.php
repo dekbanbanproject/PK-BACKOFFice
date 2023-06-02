@@ -1,545 +1,242 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Language" content="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8" />
+    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
-    <meta name="description"
-        content="This dashboard was created as an example of the flexibility that Architect offers.">
-    <!-- Disable tap highlight on IE -->
-    <meta name="msapplication-tap-highlight" content="no">
-      <!-- App favicon -->
-      <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-      <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-      <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
-      <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
 
-      
-    <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
-    <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-    <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+   
+
+    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
+
+    <!-- jquery.vectormap css -->
+    <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
+        rel="stylesheet" type="text/css" />
+
+    <!-- DataTables -->
+    <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
+        type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
+        rel="stylesheet" type="text/css" />
+
+    <!-- Bootstrap Css -->
+    <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+
+    <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+   <!-- select2 -->
+    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <link rel="stylesheet"
+   href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+<!-- Plugins css -->
+{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
+<style>
+    body{   
+    background:
+        url(/pkbackoffice/public/images/bg7.jpg); 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%; 
+    }
+.Bgsidebar {
+      background-image: url('/pkbackoffice/public/images/bgside.jpg');
+    background-repeat: no-repeat;
+}
+.Bgheader {
+  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+		background-repeat: no-repeat;
+	}
+</style>
 
-<body>
-    <?php
-    $datadetail = DB::connection('mysql')->select('   
-                    select * from orginfo 
-                    where orginfo_id = 1 
-                ');
-    ?>
-    <div class="app-container app-theme-white body-tabs-shadow fixed-header fixed-sidebar">
-        <div class="app-header header-shadow">
-            <div class="app-header__logo">
-                {{-- <div class="logo-src"></div> --}}
-                <div class="header__pane ms-auto">
-                    <div>
-                        <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
-                            data-class="closed-sidebar">
-                            <span class="hamburger-box">
-                                <span class="hamburger-inner"></span>
+<body data-topbar="dark">
+ 
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <header id="page-topbar">
+            <div class="navbar-header shadow-lg Bgheader">
+              
+
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box">
+                        <a href="" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
                             </span>
-                        </button>
+                            <span class="logo-lg">
+                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
+                            </span>
+                        </a>
+
+                        <a href="" class="logo logo-light">
+                            <span class="logo-sm"> 
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
+                            </span>
+                            <span class="logo-lg">
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4> 
+                            </span>
+                        </a>
                     </div>
-                </div>
-            </div>
-            <div class="app-header__mobile-menu">
-                <div>
-                    <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
-                        <span class="hamburger-box">
-                            <span class="hamburger-inner"></span>
-                        </span>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
-                </div>
-            </div>
-            <div class="app-header__menu">
-                <span>
-                    <button type="button"
-                        class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
-                        <span class="btn-icon-wrapper">
-                            <i class="fa fa-ellipsis-v fa-w-6"></i>
-                        </span>
-                    </button>
-                </span>
-            </div>
-            <div class="app-header__content">
-                <div class="app-header-left">
-                    @foreach ($datadetail as $item)
-                        <label for=""
-                            style="font-size: 22px;color:rgb(150, 22, 167)">{{ $item->orginfo_name }}</label>
-                    @endforeach
-
-                    <ul class="header-megamenu nav">
-
-                    </ul>
-                </div>
-                <div class="app-header-right">
-                    <div class="header-dots">
-                        <div class="dropdown">
-                            <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown"
-                                class="p-0 me-2 btn btn-link">
-                                <span class="icon-wrapper icon-wrapper-alt rounded-circle">
-                                    <span class="icon-wrapper-bg bg-danger"></span>
-                                    <i class="icon text-danger icon-anim-pulse ion-android-notifications"></i>
-                                    <span class="badge badge-dot badge-dot-sm bg-danger">Notifications</span>
-                                </span>
-                            </button>
-                            <div tabindex="-1" role="menu" aria-hidden="true"
-                                class="dropdown-menu-xl rm-pointers dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-menu-header mb-0">
-                                    <div class="dropdown-menu-header-inner bg-deep-blue">
-                                        <div class="menu-header-image opacity-1"
-                                            style="background-image: url('images/dropdown-header/city3.jpg');"></div>
-                                        <div class="menu-header-content text-dark">
-                                            <h5 class="menu-header-title">Notifications</h5>
-                                            <h6 class="menu-header-subtitle">You have
-                                                <b>21</b> unread messages
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="tab-messages-header" role="tabpanel">
-                                        <div class="scroll-area-sm">
-                                            <div class="scrollbar-container">
-                                                <div class="p-3">
-                                                    <div class="notifications-box">
-                                                        <div
-                                                            class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--one-column">
-                                                            <div
-                                                                class="vertical-timeline-item dot-danger vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <h4 class="timeline-title">All Hands Meeting
-                                                                        </h4>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-warning vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <p>Yet another one, at
-                                                                            <span class="text-success">15:00 PM</span>
-                                                                        </p>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-success vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <h4 class="timeline-title">
-                                                                            Build the production release
-                                                                            <span
-                                                                                class="badge bg-danger ms-2">NEW</span>
-                                                                        </h4>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-primary vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <h4 class="timeline-title">
-                                                                            Something not important
-                                                                            <div
-                                                                                class="avatar-wrapper mt-2 avatar-wrapper-overlap">
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/1.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/2.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/3.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/4.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/5.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/9.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/7.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm">
-                                                                                    <div class="avatar-icon">
-                                                                                        <img src="images/avatars/8.jpg"
-                                                                                            alt="">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="avatar-icon-wrapper avatar-icon-sm avatar-icon-add">
-                                                                                    <div class="avatar-icon">
-                                                                                        <i>+</i>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </h4>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-info vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <h4 class="timeline-title">This dot has an info
-                                                                            state</h4>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-danger vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <h4 class="timeline-title">All Hands Meeting
-                                                                        </h4>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-warning vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <p>Yet another one, at
-                                                                            <span class="text-success">15:00 PM</span>
-                                                                        </p>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-success vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <h4 class="timeline-title">
-                                                                            Build the production release
-                                                                            <span
-                                                                                class="badge bg-danger ms-2">NEW</span>
-                                                                        </h4>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div
-                                                                class="vertical-timeline-item dot-dark vertical-timeline-element">
-                                                                <div>
-                                                                    <span
-                                                                        class="vertical-timeline-element-icon bounce-in"></span>
-                                                                    <div
-                                                                        class="vertical-timeline-element-content bounce-in">
-                                                                        <h4 class="timeline-title">This dot has a dark
-                                                                            state</h4>
-                                                                        <span
-                                                                            class="vertical-timeline-element-date"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="nav flex-column">
-                                    <li class="nav-item-divider nav-item"></li>
-                                    <li class="nav-item-btn text-center nav-item">
-                                        <button class="btn-shadow btn-wide btn-pill btn btn-focus btn-sm">View Latest
-                                            Changes</button>
-                                    </li>
-                                </ul>
-                            </div>
+                    <?php  
+                        $org = DB::connection('mysql')->select(                                                            '   
+                                select * from orginfo 
+                                where orginfo_id = 1                                                                                                                      ',
+                        ); 
+                    ?>
+                    <form class="app-search d-none d-lg-block">
+                        <div class="position-relative">
+                            @foreach ($org as $item)
+                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            @endforeach
+                            
                         </div>
-                    </div>
+                    </form>                                         
                 </div>
-            </div>
-        </div>
 
-        <div class="app-main">
-            <div class="app-sidebar sidebar-shadow">
-                <div class="app-header__logo">
-                    <div class="logo-src"></div>
-                    <div class="header__pane ms-auto">
-                        <div>
-                            <button type="button" class="hamburger close-sidebar-btn hamburger--elastic"
-                                data-class="closed-sidebar">
-                                <span class="hamburger-box">
-                                    <span class="hamburger-inner"></span>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="app-header__mobile-menu">
-                    <div>
-                        <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
-                            <span class="hamburger-box">
-                                <span class="hamburger-inner"></span>
-                            </span>
+
+
+                <div class="d-flex">
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
                     </div>
+ 
+ 
                 </div>
-                <div class="app-header__menu">
-                    <span>
-                        <button type="button"
-                            class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
-                            <span class="btn-icon-wrapper">
-                                <i class="fa fa-ellipsis-v fa-w-6"></i>
-                            </span>
-                        </button>
-                    </span>
-                </div>
-                <div class="scrollbar-sidebar">
-                    <div class="app-sidebar__inner">
-                        <ul class="vertical-nav-menu">
-                            <li class="app-sidebar__heading">Menu</li>
-                            <li class="mm-active">
-                                <a href="#">
-                                    <i class="metismenu-icon pe-7s-rocket"></i>
-                                    Dashboard
-                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                                </a>
-                                <ul class="mm-show">
-                                    <li>
-                                        <a href="{{ url('authen_dashboard') }}">
-                                            <i class="metismenu-icon"></i>
-                                            Dashboard Day
-                                        </a>
-                                    </li>
-                                    <li>
+            </div>
+        </header>
+        <style>
+            .nom6{ 
+                background: linear-gradient(to right,#ffafbd);
+                /* background: linear-gradient(to right, #c9ffbf, #ffafbd); */
+            }
+        </style>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu Bgsidebar">
+            <div data-simplebar class="h-100"> 
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title">Menu</li>
+                        <li>
+                            <a href="{{ url('authen_dashboard') }}">  
+                                <i class="fa-solid fa-gauge-high text-danger"></i>
+                                <span> Dashboard Day</span>
+                            </a> 
+                        </li> 
+                        {{-- <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-clipboard-user text-danger"></i>
+                                <span>Check Sit</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('check_sit_day') }}">เช็คสิทธิ์รายวัน</a></li> 
+                                <li><a href="{{ url('check_sit_money') }}"> เช็คสิทธิ์ Money PK</a></li> 
+                            </ul>
+                        </li> --}}
+                           {{-- <li>
                                         <a href="">
                                             <i class="metismenu-icon"></i>
                                             Dashboard Month
                                         </a>
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{-- <li>
                                         <a href=" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Dashboard Year
                                         </a>
-                                    </li>
-                                     
-                                     
-                                </ul>
-                            </li>
-
-                        </ul>
-                    </div>
+                                    </li> --}}
+                    </ul>
                 </div>
+                <!-- Sidebar -->
             </div>
-            <div class="app-main__outer">
-                <div class="app-main__inner">
+        </div>
+        <!-- Left Sidebar End -->
 
-                    @yield('content')
 
-                </div>
-                <div class="app-wrapper-footer">
-                    <div class="app-footer">
-                        <div class="app-footer__inner">
-                            <div class="app-footer-left">
-                                <div class="footer-dots">
 
-                                    <div class="dropdown">
-                                        <a class="dot-btn-wrapper dd-chart-btn-2" aria-haspopup="true"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="dot-btn-icon lnr-pie-chart icon-gradient bg-love-kiss"></i>
-                                            <div class="badge badge-dot badge-abs badge-dot-sm bg-warning">
-                                                Notifications</div>
-                                        </a>
-                                        <div tabindex="-1" role="menu" aria-hidden="true"
-                                            class="dropdown-menu-xl rm-pointers dropdown-menu">
-                                            <div class="dropdown-menu-header">
-                                                <div class="dropdown-menu-header-inner bg-premium-dark">
-                                                    <div class="menu-header-image"
-                                                        style="background-image: url('images/dropdown-header/abstract4.jpg');">
-                                                    </div>
-                                                    <div class="menu-header-content text-white">
-                                                        <h5 class="menu-header-title">Users Online</h5>
-                                                        <h6 class="menu-header-subtitle">Account Activity
-                                                            Overview</h6>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget-chart">
-                                                <div class="widget-chart-content">
-                                                    <div class="icon-wrapper rounded-circle">
-                                                        <div class="icon-wrapper-bg opacity-9 bg-focus"></div>
-                                                        <i class="lnr-users text-white"></i>
-                                                    </div>
-                                                    <div class="widget-numbers">
-                                                        <span>3 (คน)</span>
-                                                    </div>
-                                                    <div class="widget-subheading pt-2"> Profile views
-                                                    </div>
-                                                    <div class="widget-description text-danger">
-                                                        <span class="pe-1">
-                                                            <span>176%</span>
-                                                        </span>
-                                                        <i class="fa fa-arrow-left"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="widget-chart-wrapper">
-                                                    <div id="dashboard-sparkline-carousel-4-pop"></div>
-                                                </div>
-                                            </div>
-                                            <ul class="nav flex-column">
-                                                <li class="nav-item-divider mt-0 nav-item"></li>
-                                                <li class="nav-item-btn text-center nav-item">
-                                                    <button class="btn-shine btn-wide btn-pill btn btn-warning btn-sm">
-                                                        <i class="fa fa-cog fa-spin me-2"></i>
-                                                        View Details
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="app-footer-right">
-                                <ul class="header-megamenu nav">
-                                    <li class="nav-item">
-                                        <a data-bs-placement="top" rel="popover-focus" data-offset="300"
-                                            data-toggle="popover-custom" class="nav-link">
-                                            Create By ทีมพัฒนา PK-HOS
-                                            <i class="fa fa-angle-up ms-2 opacity-8"></i>
-                                        </a>
-                                       
-                                </ul>
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+
+                @yield('content')
+
+            </div>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </footer>
+
+
         </div>
+        <!-- end main content-->
+
     </div>
+    <!-- END layout-wrapper -->
 
-    <div class="app-drawer-overlay d-none animated fadeIn"></div>
-    <!-- plugin dependencies -->
-    <script type="text/javascript" src="{{ asset('disacc/vendors/jquery/dist/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/moment/moment.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/metismenu/dist/metisMenu.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap4-toggle/js/bootstrap4-toggle.min.js') }}">
-    </script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/jquery-circle-progress/dist/circle-progress.min.js') }}">
-    </script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/perfect-scrollbar/dist/perfect-scrollbar.min.js') }}">
-    </script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/toastr/build/toastr.min.js') }}"></script>
-    <script type="text/javascript"
-        src="{{ asset('disacc/vendors/jquery.fancytree/dist/jquery.fancytree-all-deps.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/chart.js/dist/Chart.min.js') }}"></script>
 
-    <!-- datatables.js -->
-    <script type="text/javascript" src="{{ asset('disacc/vendors/bootstrap-table/dist/bootstrap-table.min.js') }}">
-    </script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}">
-    </script>
-    <script type="text/javascript"
-        src="{{ asset('disacc/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script type="text/javascript"
-        src="{{ asset('disacc/vendors/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-    <!-- Loadding.js -->
-    <script type="text/javascript" src="{{ asset('disacc/vendors/block-ui/jquery.blockUI.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/blockui.js') }}"></script>
-    <!-- custome.js -->
-    <script type="text/javascript" src="{{ asset('disacc/js/charts/apex-charts.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/circle-progress.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/demo.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/scrollbar.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/toastr.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/treeview.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/form-components/toggle-switch.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('disacc/js/app.js') }}"></script> --}}
+
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
+
+    <!-- JAVASCRIPT -->
+    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
+
+    <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
 
     <script src="{{ asset('js/select2.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
@@ -547,41 +244,69 @@
     <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- jquery.vectormap map -->
+    <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}">
+    </script>
+
+    <!-- Required datatable js -->
+    <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Buttons examples -->
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+
+    <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+
+    <!-- Datatable init js -->
+    <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
+    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
+
+    <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
 
 
+    <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- App js -->
+    <script src="{{ asset('pkclaim/js/app.js') }}"></script>
+    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
     @yield('footer')
 
-    <!-- Large modal รายละเอียด(คน)-->
-   <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLongTitle" style="color: red:" >รายละเอียด
-                </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="detail"></div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">Close</button> 
-            </div>
-        </div>
-    </div>
-</div>
-
-
+    
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
-
+            $('#example2').DataTable();
+            $('#example3').DataTable();
            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
         });
-       
-    </script>
+ 
+    </script> 
 </body>
 
 </html>

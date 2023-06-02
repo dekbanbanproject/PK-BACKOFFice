@@ -125,7 +125,7 @@
                                         <?php
                                             $total1 = $total1 + ($item->debit_total-$item->inst); 
                                             $total2 = $total2 + $item->ip_paytrue;
-                                            $total3 = $total2 + $item->total_approve;
+                                            $total3 = $total3 + $item->total_approve;
                                         ?>
 
                                     <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

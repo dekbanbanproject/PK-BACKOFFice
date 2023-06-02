@@ -43,7 +43,7 @@ Route::match(['get','post'],'report_refer_opds_sub/{months}/{startdate}/{enddate
 Route::match(['get','post'],'report_refer_opds_subvn/{months}/{hospcode}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_subvn'])->name('rep.report_refer_opds_subvn');// report report_refer
 Route::match(['get','post'],'report_refer_opds_subct/{months}/{hospcode}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_subct'])->name('rep.report_refer_opds_subct');// report report_refer
 Route::match(['get','post'],'refer_opds_cross',[App\Http\Controllers\ReportFontController::class, 'refer_opds_cross'])->name('rep.refer_opds_cross');// report report_refer
-Route::match(['get','post'],'refer_opds_cross_excel/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'refer_opds_cross_excel'])->name('rep.refer_opds_cross_excel');// report report_refer
+Route::match(['get','post'],'refer_opds_cross_excel/{startdate}/{enddate}/{hospcode}',[App\Http\Controllers\ReportFontController::class, 'refer_opds_cross_excel'])->name('rep.refer_opds_cross_excel');// report report_refer
 
 Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า
