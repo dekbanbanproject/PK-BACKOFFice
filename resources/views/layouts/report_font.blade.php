@@ -150,6 +150,12 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
                         <li>
+                            <a href="{{ url('authen_dashboard') }}">  
+                                <i class="fa-solid fa-gauge-high text-danger"></i>
+                                <span>Dashboard Authen</span>
+                            </a> 
+                        </li> 
+                        <li>
                             <a href="{{ url('report_dashboard') }}">  
                                 <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard</span>

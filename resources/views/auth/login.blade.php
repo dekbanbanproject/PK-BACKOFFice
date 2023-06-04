@@ -166,7 +166,7 @@
         height: 170px;
         background: rgba(240, 248, 255, 0.1);
         border-radius: 50%;
-        top: -15%;
+        top: -30%;
         right: 35%;
         z-index: -1;
         animation: float 2s ease-in-out infinite;
@@ -219,16 +219,17 @@
         flex-direction: column;
     }
     .popic {
+        position: absolute;
         width: 300px;
         height: 300px;
         background:
-            url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%;
+            url(/pkbackoffice/public/images/ponews.png)no-repeat 50%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
-        /* background-attachment: fixed; */
-        /* display: flex; */
-        /* align-items: right;  */
-        /* justify-content: right; */
+        top: -15%;
+        right: 15%;
+        z-index: -1;
+        animation: float 2s ease-in-out infinite;
     }
 
     @keyframes float {
@@ -253,6 +254,7 @@
             <div class="circle3"> </div>
             <div class="circle4"> </div>
             <div class="circle5"> </div>
+            <div class="popic"> </div>
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-4">            
@@ -295,7 +297,7 @@
  
             </div>
             <div class="col-md-2">
-                <div class="popic"> </div> 
+                {{-- <div class="popic"> </div>  --}}
             </div>
             <div class="col-md-1">
         </div>
@@ -323,12 +325,16 @@
         </div>
 
         <div class="row text-start">  
-            <div class="col-md-12 ">    
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a href="{{url('authen_dashboard')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Db Authen</a> 
+            <div class="col-md-1 ">    
+                
+            </div>
+            <div class="col-md-2 ">   &nbsp;&nbsp;&nbsp;  
                 <a href="{{url('report_dashboard')}}" class="btn btn-success btn-sm ms-2" target="_blank">Report </a> 
                 <a href="{{url('sit_auto')}}" class="btn btn-secondary btn-sm ms-2" target="_blank">Auto Systems</a> 
-            </div>      
+            </div>  
+            <div class="col-md-9 ">    
+                
+            </div>    
         </div>
 
     </div>
