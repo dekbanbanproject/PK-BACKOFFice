@@ -49,11 +49,11 @@
     .form {
         position: relative;
         z-index: 100;
-        margin-top: 25%;
-        width: 350px;
-        height: 400px;
+        margin-top: 30%;
+        width: 450px;
+        height: 450px;
         background-color: rgba(240, 248, 255, 0.158);
-        border-radius: 30px;
+        border-radius: 20px;
         backdrop-filter: blur(2px);
         display: flex;
         align-items: center;
@@ -61,8 +61,8 @@
         flex-direction: column;
     }    
     .logo {
-        width: 120px;
-        height: 120px;
+        width: 170px;
+        height: 170px;
         background:
             url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
@@ -117,8 +117,8 @@
         /* margin-top: 50px; */
     }
     .btn {
-        width: 120px;
-        height: 30px;
+        width: 190px;
+        height: 40px;
         margin-top: 10px;
         font-weight: 500;
         color: aliceblue;
@@ -127,7 +127,7 @@
         background: rgba(240, 248, 255, 0.2);
         backdrop-filter: blur(15px);
         border-radius: 20px;
-        font-size: 15px;
+        font-size: 20px;
         transition: 0.2s;
     }
     .footer {
@@ -280,8 +280,8 @@
                     <button type="submit" class="btn">Login</button>
                 </form>
             </div>
-            <div class="col-md-4">
-                {{-- <form class="po">
+            <div class="col-md-7">
+                <form class="po">
                     @csrf
                    
                     <div>
@@ -290,14 +290,10 @@
                     <div>
                         
                     </div>
-                    <div class="popic"> </div> 
-                </form> --}}
+                    {{-- <div class="popic"> </div>  --}}
+                </form>
  
             </div>
-            <div class="col-md-2">
-                <div class="popic"> </div> 
-            </div>
-            <div class="col-md-1">
         </div>
         <div class="row "> 
             <?php
@@ -306,7 +302,7 @@
             {{-- <div class="col-md-1"></div> --}}
             <div class="col-md-4 text-center"> 
                 @foreach ($datadetail as $item)
-                &nbsp;&nbsp;&nbsp;&nbsp; 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <label for="" class=" ms-5" style="color: white">2023 © {{$item->orginfo_name}}</label> 
                 @endforeach  
             </div> 
@@ -316,7 +312,7 @@
         <div class="row text-center"> 
             {{-- <div class="col-md-1"></div> --}}
             <div class="col-md-4 "> 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               
                 <label for="" class=" ms-5" style="color: white"> By ทีมพัฒนา PK-HOS</label>
             </div>     
             <div class="col-md-8"></div>  
@@ -325,7 +321,7 @@
         <div class="row text-start">  
             <div class="col-md-12 ">    
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                <a href="{{url('authen_dashboard')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Db Authen</a> 
+                <a href="{{url('authen_dashboard')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Dashboard Authen</a> 
                 <a href="{{url('report_dashboard')}}" class="btn btn-success btn-sm ms-2" target="_blank">Report </a> 
                 <a href="{{url('sit_auto')}}" class="btn btn-secondary btn-sm ms-2" target="_blank">Auto Systems</a> 
             </div>      
