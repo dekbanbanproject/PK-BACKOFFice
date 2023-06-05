@@ -182,12 +182,12 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(24, 24, 24)"></i>
                         </button>
                     </div>
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword"> 
-                            <i class="fa-solid fa-key" style="color: rgb(255, 255, 255)"></i>
+                            <i class="fa-solid fa-key" style="color: rgb(26, 25, 25)"></i>
                         </button>
                     </div>
 

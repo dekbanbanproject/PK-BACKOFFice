@@ -146,12 +146,12 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(15, 15, 15)"></i>
                         </button>
                     </div>
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="modal" data-bs-target="#Keypassword"> 
-                            <i class="fa-solid fa-key" style="color: rgb(255, 255, 255)"></i>
+                            <i class="fa-solid fa-key" style="color: rgb(20, 20, 20)"></i>
                         </button>
                     </div>
 
@@ -165,7 +165,7 @@
                                 <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
                                     width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
                             @endif
-                            <span class="d-none d-xl-inline-block ms-1">
+                            <span class="d-none d-xl-inline-block ms-1" style="color: black">
                                 {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                             </span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>

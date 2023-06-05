@@ -30,6 +30,8 @@ class UserstimerController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $debsubsub = Auth::user()->dep_subsubtrueid; 
+        $userid = $request->userid; 
+
         if ($startdate == '') {
             $datashow_ = DB::connection('mysql6')->select(' 
                 SELECT p.ID,c.CHEACKIN_DATE
@@ -49,9 +51,11 @@ class UserstimerController extends Controller
                 LEFT JOIN hrd_position hp on hp.HR_POSITION_ID=p.HR_POSITION_ID
                 WHERE c.CHEACKIN_DATE = CURDATE() 
                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                
                 GROUP BY p.ID,j.OPERATE_JOB_ID,c.CHEACKIN_DATE
                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID            
             ');
+            // AND c.CHECKIN_PERSON_ID = "'.$userid.'"
         } else {
             $datashow_ = DB::connection('mysql6')->select(' 
                 SELECT p.ID,c.CHEACKIN_DATE
@@ -71,6 +75,7 @@ class UserstimerController extends Controller
                 LEFT JOIN hrd_position hp on hp.HR_POSITION_ID=p.HR_POSITION_ID
                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"  
                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
+                AND c.CHECKIN_PERSON_ID = "'.$userid.'"
                 GROUP BY p.ID,j.OPERATE_JOB_ID,c.CHEACKIN_DATE
                 ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID          
             ');
@@ -113,19 +118,24 @@ class UserstimerController extends Controller
                 ]);                
             }
         }               
-         
+        $data = User::all();
         return view('user_time.user_timeindex', [
             'datashow_'        => $datashow_,
             'startdate'        => $startdate,
             'enddate'          => $enddate,  
+            'data'             => $data, 
+            'userid'             => $userid, 
         ]);
     }
     // public function user_timeindex_excel(Request $request)
-    public function user_timeindex_excel(Request $request,$startdate,$enddate)
+    public function user_timeindex_excel(Request $request)
     { 
         // $export = DB::connection('mysql')->select('
         //     SELECT * FROM operate_time
         // '); 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+
         $deb = Auth::user()->dep_id;  
         $debsub = Auth::user()->dep_subid; 
         $debsubsub = Auth::user()->dep_subsubtrueid; 

@@ -135,13 +135,60 @@ if (Auth::check()) {
                     <div class="card-header">
                         ลงเวลาเข้า-ออก
                         <div class="btn-actions-pane-right">
-                            <form action="{{ route('usertime.user_timeindex') }}" method="POST">
+                            <form action="{{ route('usertime.user_timeindex_excel') }}" method="POST">
                                 @csrf
                                 <div class="row"> 
-                                    <div class="col"></div>
+                                    {{-- <div class="col"></div> --}}
                                     <div class="col-md-1 text-end">วันที่</div>
-                                    <div class="col-md-2 text-center">
-                                        @if ($startdate == '')
+                                    {{-- <div class="col-md-2 text-center"> --}}
+                                        <div class="col-md-4 text-end">
+                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                @if ($startdate != '')
+                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                    data-date-language="th-th" value="{{ $enddate }}"/> 
+                                                @else
+                                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $datenow }}" required/>
+                                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $datenow }}"/> 
+                                                @endif  
+
+                                                
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-1 text-center mt-1">เจ้าหน้าที่</div>
+                                        <div class="col-md-3 text-center mt-1">
+                                            {{-- @if ($userid =='') --}}
+                                                <div class="input-group">
+                                                    <select id="userid" name="userid" class="form-select form-select-lg" style="width: 100%">  
+                                                        @foreach ($data as $items)  
+                                                            @if ($iduser == $items->id)
+                                                                <option value="{{ $items->id }}" selected> {{ $items->fname }} {{ $items->lname }}</option>  
+                                                            @else
+                                                                <option value="{{ $items->id }}"> {{ $items->fname }} {{ $items->lname }}</option>  
+                                                            @endif                                                        
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            {{-- @else
+                                                <div class="input-group">
+                                                    <select id="userid" name="userid" class="form-select form-select-lg" style="width: 100%">  
+                                                        @foreach ($data as $items)  
+                                                            @if ($userid == $items->id)
+                                                                <option value="{{ $items->id }}" selected> {{ $items->fname }} {{ $items->lname }}</option>  
+                                                            @else
+                                                                <option value="{{ $items->id }}"> {{ $items->fname }} {{ $items->lname }}</option>  
+                                                            @endif                                                        
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                
+                                            @endif --}}
+                                            
+                                    </div>
+                                        {{-- @if ($startdate == '')
                                             <div class="input-group" id="datepicker1">
                                                 <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
                                                     data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
@@ -155,9 +202,9 @@ if (Auth::check()) {
                                                     value="{{ $startdate }}">                    
                                                 <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                                             </div>
-                                        @endif                                    
-                                    </div>
-                                    <div class="col-md-1 text-center">ถึงวันที่</div>
+                                        @endif                                     --}}
+                                    {{-- </div> --}}
+                                    {{-- <div class="col-md-1 text-center">ถึงวันที่</div>
                                     <div class="col-md-2 text-center">
                                         @if ($enddate == '')
                                             <div class="input-group" id="datepicker1">
@@ -175,34 +222,39 @@ if (Auth::check()) {
                                             </div>
                                         @endif
                                         
-                                    </div> 
-                                    <div class="col-md-4 me-2">  
-                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="pe-7s-search btn-icon-wrapper"></i>2 ค้นหา
-                                        </button>  
+                                    </div>  --}}
+                                    <div class="col-md-2 me-2">
+                                        {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">   --}}
+                                        <a class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info ExportExcel" >
+                                            <i class="pe-7s-search btn-icon-wrapper"></i> ค้นหา
+                                        </a>  
  
                                         {{-- <a href="{{url('user_timeindex_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                             <i class="fa-solid fa-file-excel me-2"></i>
                                             3 Export
                                         </a> --}}
-                                        @if ($startdate == '')
-                                            <a href="{{url('user_timeindex_excel/'.$datenow.'/'.$datenow)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                        {{-- @if ($startdate == '') --}}
+                                            {{-- <a href="{{url('user_timeindex_excel/'.$datenow.'/'.$datenow)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                 <i class="fa-solid fa-file-excel me-2"></i>
-                                                3 Export
-                                            </a>
-                                        @else
-                                            <a href="{{url('user_timeindex_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                 Export
+                                            </a> --}}
+                                        {{-- @else --}}
+                                            {{-- <a href="{{url('user_timeindex_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                 <i class="fa-solid fa-file-excel me-2"></i>
-                                                3 Export
-                                            </a>
-                                        @endif
+                                                 Export
+                                            </a> --}}
+                                            <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                                <i class="pe-7s-news-paper btn-icon-wrapper"></i> Export
+                                            </button>  
+                                        {{-- @endif --}}
+                                         
 
-                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Bookdata">
+                                        {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Bookdata">
                                             <i class="pe-7s-news-paper btn-icon-wrapper"></i> คู่มือการใช้งาน
-                                        </button>  
+                                        </button>   --}}
                                      
                                     </div> 
-                                    <div class="col"></div>
+                                    {{-- <div class="col"></div> --}}
                                 </div> 
                             </form>
                         </div>
@@ -294,6 +346,10 @@ if (Auth::check()) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
         });
+        $('#userid').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
+            });
         $('#HR_DEPARTMENT_ID').select2({
                 placeholder: "--เลือก--",
                 allowClear: true
@@ -313,52 +369,49 @@ if (Auth::check()) {
             var enddate = $('#datepicker2').val();
             alert(startdate);
             $.ajax({
-                url: "{{ route('t.time_index_excel') }}",
-                type: "POST",
+                url: "{{route('usertime.user_timeindex')}}",
+                type: "GET",
                 dataType: 'json',
                 data: {
                     startdate,
-                    enddate
-                    // HR_DEPARTMENT_SUB_ID,
-                    // HR_DEPARTMENT_SUB_SUB_ID
+                    enddate 
                 },
                 success: function(data) {
                     if (data.status == 200) { 
-                        Swal.fire({
-                            title: 'บันทึกข้อมูลสำเร็จ',
-                            text: "You Insert data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result
-                                .isConfirmed) {
-                                console.log(
-                                    data);
-
-                                window.location
-                                    .reload();
-                            }
-                        })
+                        // Swal.fire({
+                        //     title: 'ค้นหาข้อมูลสำเร็จ',
+                        //     text: "You Search data success",
+                        //     icon: 'success',
+                        //     showCancelButton: false,
+                        //     confirmButtonColor: '#06D177',
+                        //     confirmButtonText: 'เรียบร้อย'
+                        // }).then((result) => {
+                        //     if (result
+                        //         .isConfirmed) {
+                        //         console.log(
+                        //             data);
+                                    window.location = "{{ url('user_timeindex') }}";
+                               
+                        //     }
+                        // })
                     } else {
-                        Swal.fire({
-                            title: 'กรุณาเลือกวันที่',
-                            text: "You Choose Date",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result
-                                .isConfirmed) {
-                                console.log(
-                                    data);
+                        // Swal.fire({
+                        //     title: 'กรุณาเลือกวันที่',
+                        //     text: "You Choose Date",
+                        //     icon: 'success',
+                        //     showCancelButton: false,
+                        //     confirmButtonColor: '#06D177',
+                        //     confirmButtonText: 'เรียบร้อย'
+                        // }).then((result) => {
+                        //     if (result
+                        //         .isConfirmed) {
+                        //         console.log(
+                        //             data);
 
-                                window.location
-                                    .reload();
-                            }
-                        })
+                        //         window.location
+                        //             .reload();
+                        //     }
+                        // })
                     }
 
                 },

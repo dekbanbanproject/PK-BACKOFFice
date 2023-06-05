@@ -49,9 +49,9 @@
     .form {
         position: relative;
         z-index: 100;
-        margin-top: 25%;
-        width: 350px;
-        height: 400px;
+        margin-top: 35%;
+        width: 270px;
+        height: 300px;
         background-color: rgba(240, 248, 255, 0.158);
         border-radius: 30px;
         backdrop-filter: blur(2px);
@@ -61,8 +61,8 @@
         flex-direction: column;
     }    
     .logo {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         background:
             url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
@@ -80,26 +80,26 @@
         margin-top: 20px;
     }
     .username {
-        width: 250px;
+        width: 160px;
         background: none;
         outline: none;
         border: none;
-        margin: 15px 0px;
+        margin: 10px 0px;
         border-bottom: rgba(240, 248, 255, 0.418) 1px solid;
-        padding: 10px;
+        padding: 5px;
         color: aliceblue;
         font-size: 18px;
         transition: 0.2s ease-in-out;
-        margin-top: 50px;
+        margin-top: 30px;
     }
     .password {
-        width: 250px;
+        width: 160px;
         background: none;
         outline: none;
         border: none;
         margin: 5px 0px;
         border-bottom: rgba(240, 248, 255, 0.418) 1px solid;
-        padding: 10px;
+        padding: 5px;
         color: aliceblue;
         font-size: 18px;
         transition: 0.2s ease-in-out;
@@ -117,7 +117,7 @@
         /* margin-top: 50px; */
     }
     .btn {
-        width: 120px;
+        width: 110px;
         height: 30px;
         margin-top: 10px;
         font-weight: 500;
@@ -226,8 +226,8 @@
             url(/pkbackoffice/public/images/ponews.png)no-repeat 50%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
-        top: -15%;
-        right: 15%;
+        top: -5%;
+        right: 7%;
         z-index: -1;
         animation: float 2s ease-in-out infinite;
     }
@@ -279,7 +279,7 @@
                             </span>
                         @enderror
                     </div>
-                    <button type="submit" class="btn">Login</button>
+                    <button type="submit" class="btn btn-info">Login</button>
                 </form>
             </div>
             <div class="col-md-4">
@@ -307,32 +307,30 @@
             ?>
             {{-- <div class="col-md-1"></div> --}}
             <div class="col-md-4 text-center"> 
-                @foreach ($datadetail as $item)
-                &nbsp;&nbsp;&nbsp;&nbsp; 
-                <label for="" class=" ms-5" style="color: white">2023 © {{$item->orginfo_name}}</label> 
+                @foreach ($datadetail as $item) 
+                <label for="" class="ms-5 mt-2" style="color: white">2023 © {{$item->orginfo_name}}</label> 
                 @endforeach  
             </div> 
             <div class="col-md-8"></div>
         </div>      
 
         <div class="row text-center"> 
-            {{-- <div class="col-md-1"></div> --}}
-            <div class="col-md-4 "> 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               
-                <label for="" class=" ms-5" style="color: white"> By ทีมพัฒนา PK-HOS</label>
+            <div class="col-md-1"></div>
+            <div class="col-md-2 ">               
+                <label for="" class=" ms-5 mt-2" style="color: white"> By ทีมพัฒนา PK-HOS</label>
             </div>     
-            <div class="col-md-8"></div>  
+            <div class="col-md-9"></div>  
         </div>
 
         <div class="row text-start">  
             <div class="col-md-1 ">    
                 
             </div>
-            <div class="col-md-2 ">   &nbsp;&nbsp;&nbsp;  
+            <div class="col-md-4 ">   &nbsp;&nbsp;&nbsp;  
                 <a href="{{url('report_dashboard')}}" class="btn btn-success btn-sm ms-2" target="_blank">Report </a> 
-                <a href="{{url('sit_auto')}}" class="btn btn-secondary btn-sm ms-2" target="_blank">Auto Systems</a> 
+                <a href="{{url('sit_auto')}}" class="btn btn-warning btn-sm ms-2" target="_blank">Auto Systems</a> 
             </div>  
-            <div class="col-md-9 ">    
+            <div class="col-md-7 ">    
                 
             </div>    
         </div>
