@@ -299,6 +299,43 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-2 mt-3">
+                            <label for="">สูตรคำนวณ</label>
+                            <div class="form-group">
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-2 mt-3">
+                            <label for="">ตัวตั้งข้อมูล</label>
+                            <div class="form-group">
+                                <input id="baseline" class="form-control form-control-sm" name="baseline">
+                            </div>
+                        </div>
+                        <div class="col-md-8 mt-3">
+                            <label for="">แหล่งข้อมูล</label>
+                            <div class="form-group">
+                                <input id="proviso_unit" class="form-control form-control-sm" name="proviso_unit">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 mt-3">
+                             
+                        </div>
+                        <div class="col-md-2 mt-3">
+                            <label for="">ตัวหารข้อมูล</label>
+                            <div class="form-group">
+                                <input id="baseline" class="form-control form-control-sm" name="baseline">
+                            </div>
+                        </div>
+                        <div class="col-md-8 mt-3">
+                            <label for="">แหล่งข้อมูล</label>
+                            <div class="form-group">
+                                <input id="proviso_unit" class="form-control form-control-sm" name="proviso_unit">
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">                        
                         <div class="col-md-6 mt-3">
                             <label for="">หน่วยงานที่รับผิดชอบ</label>
