@@ -100,10 +100,10 @@ $pos = strrpos($url, '/') + 1;
                                                         </button>
                                                         <a class="dropdown-item menu" href="{{url('plan_taget/'.$item->plan_strategic_id)}}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="เพิ่มเป้าประสงค์และKPI">
+                                                            title="เพิ่มวัตถุประสงค์และKPI">
                                                             <i class="fa-solid fa-square-plus ms-2 me-2" style="font-size:13px;color: rgb(22, 76, 251)"></i>
                                                             <label for=""  
-                                                                style="font-size:13px;color: rgb(22, 76, 251)">เพิ่มเป้าประสงค์และKPI</label>
+                                                                style="font-size:13px;color: rgb(22, 76, 251)">เพิ่มวัตถุประสงค์และKPI</label>
                                                         </a>
 
                                                         {{-- <a class="dropdown-item text-danger" href="javascript:void(0)"
@@ -187,13 +187,13 @@ $pos = strrpos($url, '/') + 1;
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-6 mt-3">
-                                                                <label for="">เริ่มต้นปีงบประมาณ</label>
+                                                                <label for="">ปี่ที่เริ่ม</label>
                                                                 <div class="form-group">
                                                                     <input id="editplan_strategic_startyear" class="form-control form-control-sm" name="plan_strategic_startyear" value="{{$item->plan_strategic_startyear}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6 mt-3">
-                                                                <label for="">สิ้นสุดปีงบประมาณ</label>
+                                                                <label for="">ปีที่สิ้นสุด</label>
                                                                 <div class="form-group">
                                                                     <input id="editplan_strategic_endyear" class="form-control form-control-sm" name="plan_strategic_endyear" value="{{$item->plan_strategic_endyear}}">
                                                                 </div>
@@ -267,13 +267,13 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                     <div class="row">
                         <div class="col-md-6 mt-3">
-                            <label for="">เริ่มต้นปีงบประมาณ</label>
+                            <label for="">ปี่ที่เริ่ม</label>
                             <div class="form-group">
                                 <input id="plan_strategic_startyear" class="form-control form-control-sm" name="plan_strategic_startyear">
                             </div>
                         </div>
                         <div class="col-md-6 mt-3">
-                            <label for="">สิ้นสุดปีงบประมาณ</label>
+                            <label for="">ปีที่สิ้นสุด</label>
                             <div class="form-group">
                                 <input id="plan_strategic_endyear" class="form-control form-control-sm" name="plan_strategic_endyear">
                             </div>

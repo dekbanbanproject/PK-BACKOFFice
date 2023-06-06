@@ -14,6 +14,7 @@ use App\Models\Plan_mission;
 use App\Models\Plan_strategic;
 use App\Models\Plan_taget;
 use App\Models\Plan_kpi;
+use App\Models\Department_sub_sub;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -299,6 +300,8 @@ class PlanController extends Controller
 
         $data['plan_kpi'] = Plan_kpi::get();
         $data['budget_year'] = Budget_year::get();
+        $data['dep_subsub'] = Department_sub_sub::get();
+        $data['user'] = User::get();
         $yearnow = date('Y')+543;
 
         return view('plan.plan_kpi', $data,[

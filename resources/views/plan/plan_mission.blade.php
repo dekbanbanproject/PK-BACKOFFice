@@ -110,7 +110,7 @@
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>
-                                        <th class="p-2">วิสัยทัศน์</th>
+                                        {{-- <th class="p-2">วิสัยทัศน์</th> --}}
                                         <th class="p-2">พันธกิจ</th>
                                         <th class="text-center" width="10%">จัดการ</th>
                                     </tr>
@@ -120,7 +120,7 @@
                                     @foreach ($plan_mission as $item)
                                         <tr id="sid{{ $item->plan_mission_id }}">
                                             <td class="text-center">{{ $i++ }}</td>
-                                            <td class="p-2">{{ $item->plan_vision_name }}</td>
+                                            {{-- <td class="p-2">{{ $item->plan_vision_name }}</td> --}}
                                             <td class="p-2">{{ $item->plan_mission_name }}</td>
                                             <td class="text-center" width="10%">
                                                 <div class="dropdown">

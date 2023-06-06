@@ -1,4 +1,4 @@
-@extends('layouts.plan')
+@extends('layouts.plannew')
 @section('title','PK-BACKOFFice || Plan')
 @section('content')
 <?php
@@ -79,13 +79,13 @@ $pos = strrpos($url, '/') + 1;
                     </div>                   
                     <div class="col"></div>
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-info btn-sm waves-effect waves-light" data-bs-toggle="modal"
+                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info" data-bs-toggle="modal"
                             data-bs-target="#insertdata">
-                            <i class="fa-solid fa-folder-plus text-white me-2"></i>
+                            <i class="fa-solid fa-folder-plus text-info me-2"></i>
                             เพิ่มตัวชี้วัด
                         </button>
-                        <a href="{{url('plan_taget/'.$data_plan_taget->plan_taget_id)}}" class="btn btn-secondary btn-sm waves-effect waves-light ms-2">
-                            <i class="fa-solid fa-angle-left text-white me-2"></i>
+                        <a href="{{url('plan_taget/'.$data_plan_taget->plan_taget_id)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary">
+                            <i class="fa-solid fa-angle-left text-secondary me-2"></i>
                             ย้อนกลับ
                         </a>
                     </div>
@@ -98,7 +98,7 @@ $pos = strrpos($url, '/') + 1;
                 <div class="card">                     
                     <div class="card-body py-0 px-2 mt-2"> 
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>                                           
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>
@@ -200,11 +200,11 @@ $pos = strrpos($url, '/') + 1;
                                                         <div class="col-md-12 text-end">
                                                             <div class="form-group">
                                                                 <button type="button" id="updateBtn"
-                                                                    class="btn btn-primary btn-sm">
+                                                                    class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-primary">
                                                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                                                     แก้ไขข้อมูล
                                                                 </button>
-                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger"
                                                                     data-bs-dismiss="modal"><i
                                                                         class="fa-solid fa-xmark me-2"></i>Close</button>
 
@@ -276,16 +276,63 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6 mt-3">
+                            <label for="">เป้าหมาย Baseline</label>
+                            <div class="form-group">
+                                <input id="baseline" class="form-control form-control-sm" name="baseline">
+                            </div>
+                        </div>
+                        <div class="col-md-2 mt-3">
+                            <label for="">เงื่อนไข</label>
+                            <div class="form-group">
+                                <select name="proviso" id="proviso" class="form-control form-control-sm" style="width: 100%">
+                                    <option value="1">>=</option>
+                                    <option value="2"><</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <label for="">หน่วย</label>
+                            <div class="form-group">
+                                <input id="proviso_unit" class="form-control form-control-sm" name="proviso_unit">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">                        
+                        <div class="col-md-6 mt-3">
+                            <label for="">หน่วยงานที่รับผิดชอบ</label>
+                            <div class="form-group">
+                                <select name="depsubsubid" id="depsubsubid" class="form-control form-control-sm" style="width: 100%">
+                                    <option value="1">=เลือก=</option>
+                                    @foreach ($dep_subsub as $itemsubsub)
+                                        <option value="{{$itemsubsub->DEPARTMENT_SUB_SUB_ID}}">{{$itemsubsub->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <label for="">ผู้ควบคุมดูแล</label>
+                            <div class="form-group">
+                                <select name="adminid" id="adminid" class="form-control form-control-sm" style="width: 100%">
+                                    <option value="1">=เลือก=</option>
+                                    @foreach ($user as $u)
+                                        <option value="{{$u->id}}">{{$u->fname}} {{$u->lname}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
                     <div class="col-md-12 text-end">
                         <div class="form-group">
-                            <button type="button" id="saveBtn" class="btn btn-primary btn-sm">
+                            <button type="button" id="saveBtn" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-primary">
                                 <i class="fa-solid fa-floppy-disk me-2"></i>
                                 บันทึกข้อมูล
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
+                            <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger" data-bs-dismiss="modal"><i
                                     class="fa-solid fa-xmark me-2"></i>Close</button>
 
                         </div>
@@ -308,7 +355,17 @@ $pos = strrpos($url, '/') + 1;
                 $('#leave_year_id').select2({
                     dropdownParent: $('#insertdata')
                 });
-
+                
+                $('#proviso').select2({
+                    dropdownParent: $('#insertdata')
+                });
+                $('#depsubsubid').select2({
+                    dropdownParent: $('#insertdata')
+                });
+                
+                $('#adminid').select2({
+                    dropdownParent: $('#insertdata')
+                });
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
