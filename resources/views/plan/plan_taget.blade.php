@@ -222,7 +222,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel">เพิ่มเป้าประสงค์</h5>
+                    <h5 class="modal-title" id="myExtraLargeModalLabel">เพิ่มวัตถุประสงค์</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -235,13 +235,13 @@ $pos = strrpos($url, '/') + 1;
                   
                     <div class="row">
                         <div class="col-md-3 mt-3">
-                            <label for="">รหัสเป้าประสงค์</label>
+                            <label for="">รหัสวัตถุประสงค์</label>
                             <div class="form-group">
                                 <input id="plan_taget_code" class="form-control form-control-sm" name="plan_taget_code">
                             </div>
                         </div>
                         <div class="col-md-9 mt-3">
-                            <label for="">เป้าประสงค์</label>
+                            <label for="">วัตถุประสงค์</label>
                             <div class="form-group">
                                 <input id="plan_taget_name" class="form-control form-control-sm" name="plan_taget_name">
                             </div>
