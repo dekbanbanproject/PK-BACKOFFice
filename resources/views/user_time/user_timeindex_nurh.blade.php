@@ -86,7 +86,7 @@ if (Auth::check()) {
                                 <div class="row"> 
                                     <div class="col"></div>
                                     <div class="col-md-1 text-end">วันที่</div>
-                                    <div class="col-md-2 text-center">
+                                    {{-- <div class="col-md-2 text-center">
                                         @if ($startdate == '')
                                             <div class="input-group" id="datepicker1">
                                                 <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
@@ -103,8 +103,23 @@ if (Auth::check()) {
                                             </div>
                                         @endif                                    
                                     </div>
-                                    <div class="col-md-1 text-center">ถึงวันที่</div>
-                                    <div class="col-md-2 text-center">
+                                    <div class="col-md-1 text-center">ถึงวันที่</div> --}}
+                                    <div class="col-md-6 text-end">
+                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                            @if ($startdate != '')
+                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $startdate }}" required/>
+                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $enddate }}"/> 
+                                            @else
+                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $datenow }}" required/>
+                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $datenow }}"/> 
+                                            @endif   
+                                        </div> 
+                                    </div>
+                                    {{-- <div class="col-md-2 text-center">
                                         @if ($enddate == '')
                                             <div class="input-group" id="datepicker1">
                                                 <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
@@ -121,27 +136,32 @@ if (Auth::check()) {
                                             </div>
                                         @endif
                                         
-                                    </div> 
+                                    </div>  --}}
                                     <div class="col-md-4 me-2">  
-                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="pe-7s-search btn-icon-wrapper"></i>2 ค้นหา
-                                        </button>  
+                                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info">
+                                            <i class="pe-7s-search btn-icon-wrapper"></i>1 ค้นหา
+                                        </button> 
+                                        
+                                        <a href="{{url('user_exportexcel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-success">
+                                            <i class="fa-solid fa-file-excel me-2"></i>
+                                            2 Export
+                                        </a>
 
                                        
-                                        @if ($startdate == '')
+                                        {{-- @if ($startdate == '')
                                             <a href="{{url('user_timeindex_nurh_excel/'.$datenow.'/'.$datenow)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                 <i class="fa-solid fa-file-excel me-2"></i>
-                                                3 Export
+                                                2 Export
                                             </a>
                                         @else
                                             <a href="{{url('user_timeindex_nurh_excel/'.$startdate.'/'.$enddate)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                 <i class="fa-solid fa-file-excel me-2"></i>
-                                                3 Export
+                                                2 Export
                                             </a>
-                                        @endif
-                                        <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Bookdata">
+                                        @endif --}}
+                                        {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#Bookdata">
                                             <i class="pe-7s-news-paper btn-icon-wrapper"></i> คู่มือการใช้งาน
-                                        </button>  
+                                        </button>   --}}
                                        
                                     </div> 
                                     <div class="col"></div>

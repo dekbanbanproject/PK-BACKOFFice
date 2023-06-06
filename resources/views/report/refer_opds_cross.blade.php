@@ -102,12 +102,11 @@
                                     <div class="col-md-2">  
                                         <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                        </button>                                     
-                                        <a href="{{url('refer_opds_cross_excel/'.$startdate.'/'.$enddate.'/'.$hospcode)}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                        </button>  
+                                        <a href="{{url('cross_exportexcel')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                             <i class="fa-solid fa-file-excel me-2"></i>
                                             Export
                                         </a>
-                                    
                                     </div>
                                     <div class="col"></div>
                                 </div> 

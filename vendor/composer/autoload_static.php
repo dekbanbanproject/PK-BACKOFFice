@@ -960,6 +960,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Pttype' => __DIR__ . '/../..' . '/app/Models/Pttype.php',
         'App\\Models\\Pttype_acc' => __DIR__ . '/../..' . '/app/Models/Pttype_acc.php',
         'App\\Models\\Pttype_eclaim' => __DIR__ . '/../..' . '/app/Models/Pttype_eclaim.php',
+        'App\\Models\\Refer_cross' => __DIR__ . '/../..' . '/app/Models/Refer_cross.php',
         'App\\Models\\Rep_report' => __DIR__ . '/../..' . '/app/Models/Rep_report.php',
         'App\\Models\\Repaire_req' => __DIR__ . '/../..' . '/app/Models/Repaire_req.php',
         'App\\Models\\Repaire_tech' => __DIR__ . '/../..' . '/app/Models/Repaire_tech.php',

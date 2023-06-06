@@ -44,6 +44,7 @@ Route::match(['get','post'],'report_refer_opds_subvn/{months}/{hospcode}/{startd
 Route::match(['get','post'],'report_refer_opds_subct/{months}/{hospcode}/{startdate}/{enddate}',[App\Http\Controllers\ReportFontController::class, 'report_refer_opds_subct'])->name('rep.report_refer_opds_subct');// report report_refer
 Route::match(['get','post'],'refer_opds_cross',[App\Http\Controllers\ReportFontController::class, 'refer_opds_cross'])->name('rep.refer_opds_cross');// report report_refer
 Route::match(['get','post'],'refer_opds_cross_excel/{startdate}/{enddate}/{hospcode}',[App\Http\Controllers\ReportFontController::class, 'refer_opds_cross_excel'])->name('rep.refer_opds_cross_excel');// report report_refer
+Route::match(['get','post'],'cross_exportexcel',[App\Http\Controllers\ReportFontController::class, 'cross_exportexcel'])->name('rep.cross_exportexcel');// report report_refer
 
 Route::match(['get','post'],'check_knee',[App\Http\Controllers\ReportFontController::class, 'check_knee'])->name('rep.check_knee');// report ข้อเข่า
 Route::match(['get','post'],'check_knee_ipddetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_knee_ipddetail'])->name('rep.check_knee_ipddetail');// report ข้อเข่า
@@ -183,6 +184,7 @@ Route::middleware(['type'])->group(function(){
   // Route::match(['get','post'],'user_timeindex_excel',[App\Http\Controllers\UserstimerController::class, 'user_timeindex_excel'])->name('usertime.user_timeindex_excel');// ระบบลงเวลา
   // Route::match(['get','post'],'user_timeindex_excel/{startdate}/{enddate}',[App\Http\Controllers\UserstimerController::class, 'user_timeindex_excel'])->name('usertime.user_timeindex_excel');// ระบบลงเวลา
   Route::match(['get','post'],'user_timeindex_excel',[App\Http\Controllers\UserstimerController::class, 'user_timeindex_excel'])->name('usertime.user_timeindex_excel');// ระบบลงเวลา
+  Route::match(['get','post'],'user_exportexcel',[App\Http\Controllers\UserstimerController::class, 'user_exportexcel'])->name('usertime.user_exportexcel');// ระบบลงเวลา
 
   Route::match(['get','post'],'user_timeindex_nurh',[App\Http\Controllers\UserstimerController::class, 'user_timeindex_nurh'])->name('usertime.user_timeindex_nurh');// ระบบลงเวลา
   Route::match(['get','post'],'user_timeindex_nurh_excel/{startdate}/{enddate}',[App\Http\Controllers\UserstimerController::class, 'user_timeindex_nurh_excel'])->name('usertime.user_timeindex_nurh_excel');// ระบบลงเวลา

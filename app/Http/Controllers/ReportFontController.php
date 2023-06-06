@@ -8,7 +8,9 @@ use Carbon\Carbon;
 use Illuminate\support\Facades\Hash;
 use Illuminate\support\Facades\Validator;
 use App\Models\User;
+use App\Exports\RefercrossExport;
 use PDF;
+use Excel;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
 use App\Models\Refer_cross;
@@ -808,6 +810,7 @@ class ReportFontController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $hospcode = $request->hospcode; 
+        Refer_cross::truncate();
         if ($hospcode != '') {
             $datashow_ = DB::connection('mysql3')->select(' 
             SELECT * FROM
@@ -876,28 +879,27 @@ class ReportFontController extends Controller
                     ) As Refer 
             '); 
             // and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
-        //     Refer_cross::truncate();
-        //    foreach ($datashow_ as $key => $va2) {
-        //         Refer_cross::insert([
-        //             'hn'                 => $va2->hn,
-        //             'an'                 => $va2->an,
-        //             'vn'                 => $va2->vn,   
-        //             'cid'                => $va2->cid, 
-        //             'vstdate'            => $va2->vstdate,
-        //             'vsttime'            => $va2->vsttime, 
-        //             'ptname'             => $va2->ptname,
-        //             'pttype'             => $va2->pttype, 
-        //             'hospcode'           => $va2->hospcode,
-        //             'hospmain'           => $va2->hospmain,
-        //             'icd10'              => $va2->icd10,
-        //             'pdx'                => $va2->pdx, 
-        //             'dx0'                => $va2->dx0,
-        //             'dx1'                => $va2->dx1,
-        //             'income'             => $va2->income,
-        //             'refer'              => $va2->refer,
-        //             'Total'              => $va2->Total
-        //         ]); 
-        //    }
+          
+           foreach ($datashow_ as $key => $va2) {
+                Refer_cross::insert([
+                    'hn'                 => $va2->hn,
+                    'an'                 => $va2->an,
+                    'vn'                 => $va2->vn,   
+                    'cid'                => $va2->cid, 
+                    'vstdate'            => $va2->vstdate,
+                    'vsttime'            => $va2->vsttime, 
+                    'ptname'             => $va2->ptname,
+                    'pttype'             => $va2->pttype, 
+                    'hospcode'           => $va2->hospcode,
+                    'hospmain'           => $va2->hospmain, 
+                    'pdx'                => $va2->pdx, 
+                    'dx0'                => $va2->dx0,
+                    'dx1'                => $va2->dx1,
+                    'income'             => $va2->income,
+                    'refer'              => $va2->refer,
+                    'Total'              => $va2->total
+                ]); 
+           }
         } else {
             $datashow_ = DB::connection('mysql3')->select('  
                         SELECT * FROM
@@ -965,28 +967,26 @@ class ReportFontController extends Controller
                         group by v.vn         
                     ) As Refer 
             '); 
-        //     Refer_cross::truncate();
-        //     foreach ($datashow_ as $key => $va2) {
-        //         Refer_cross::insert([
-        //             'hn'                 => $va2->hn,
-        //             'an'                 => $va2->an,
-        //             'vn'                 => $va2->vn,   
-        //             'cid'                => $va2->cid, 
-        //             'vstdate'            => $va2->vstdate,
-        //             'vsttime'            => $va2->vsttime, 
-        //             'ptname'             => $va2->ptname,
-        //             'pttype'             => $va2->pttype, 
-        //             'hospcode'           => $va2->hospcode,
-        //             'hospmain'           => $va2->hospmain,
-        //             'icd10'              => $va2->icd10,
-        //             'pdx'                => $va2->pdx, 
-        //             'dx0'                => $va2->dx0,
-        //             'dx1'                => $va2->dx1,
-        //             'income'             => $va2->income,
-        //             'refer'              => $va2->refer,
-        //             'Total'              => $va2->Total
-        //         ]); 
-        //    }
+            foreach ($datashow_ as $key => $va2) {
+                Refer_cross::insert([
+                    'hn'                 => $va2->hn,
+                    'an'                 => $va2->an,
+                    'vn'                 => $va2->vn,   
+                    'cid'                => $va2->cid, 
+                    'vstdate'            => $va2->vstdate,
+                    'vsttime'            => $va2->vsttime, 
+                    'ptname'             => $va2->ptname,
+                    'pttype'             => $va2->pttype, 
+                    'hospcode'           => $va2->hospcode,
+                    'hospmain'           => $va2->hospmain, 
+                    'pdx'                => $va2->pdx, 
+                    'dx0'                => $va2->dx0,
+                    'dx1'                => $va2->dx1,
+                    'income'             => $va2->income,
+                    'refer'              => $va2->refer,
+                    'Total'              => $va2->total
+                ]); 
+           }
         }
          
         $data['hosshow'] = DB::connection('mysql3')->select('  
@@ -1128,6 +1128,11 @@ class ReportFontController extends Controller
             'hosshow'          => $hosshow,
             'hospcode'         => $hospcode,  
         ]);
+    }
+
+    public function cross_exportexcel(Request $request)
+    {
+        return Excel::download(new RefercrossExport,'Refer_export.xlsx');
     }
     
 }

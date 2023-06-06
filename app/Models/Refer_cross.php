@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class Refer_cross extends Authenticatable
 {
@@ -17,8 +18,46 @@ class Refer_cross extends Authenticatable
     protected $fillable = [
         'vn',
         'an',
-        'hn'         
+        'hn',
+        'cid',
+        'vstdate',
+        'vsttime',
+        'ptname',
+        'pttype',
+        'hospcode',
+        'hospmain',
+        'icd10',
+        'pdx',
+        'dx0',
+        'dx1',
+        'income',
+        'refer',
+        'Total'         
     ];
+
+    public static function getallRefercross(){
+        $result = DB::table('refer_cross')
+        ->select(
+            'vn',
+            'an',
+            'hn',
+            'cid',
+            'vstdate',
+            'vsttime',
+            'ptname',
+            'pttype',
+            'hospcode',
+            'hospmain',
+            'icd10',
+            'pdx',
+            'dx0',
+            'dx1',
+            'income',
+            'refer',
+            'Total'         
+        )->get()->toArray();
+        return $result;
+    }
 
   
 }

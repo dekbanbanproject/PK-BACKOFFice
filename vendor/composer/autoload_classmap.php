@@ -323,6 +323,7 @@ return array(
     'App\\Models\\Pttype' => $baseDir . '/app/Models/Pttype.php',
     'App\\Models\\Pttype_acc' => $baseDir . '/app/Models/Pttype_acc.php',
     'App\\Models\\Pttype_eclaim' => $baseDir . '/app/Models/Pttype_eclaim.php',
+    'App\\Models\\Refer_cross' => $baseDir . '/app/Models/Refer_cross.php',
     'App\\Models\\Rep_report' => $baseDir . '/app/Models/Rep_report.php',
     'App\\Models\\Repaire_req' => $baseDir . '/app/Models/Repaire_req.php',
     'App\\Models\\Repaire_tech' => $baseDir . '/app/Models/Repaire_tech.php',
