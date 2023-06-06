@@ -1,4 +1,4 @@
-@extends('layouts.plan')
+@extends('layouts.plannew')
 @section('title','PK-BACKOFFice || Plan')
 {{-- @section('menu') --}}
 <script>
@@ -47,14 +47,19 @@ $count_service = StaticController::count_service();
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header"> 
-                        <div class="d-flex">
+                        เพิ่มข้อมูลแผนงานโครงการ
+                        <div class="btn-actions-pane-right">
+                            <label for="plan_project_no">เลขที่โครงการ :</label>
+                            <a class="me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info"  > 
+                                <input id="plan_project_no" type="text" class="form-control form-control-sm"
+                                                name="plan_project_no" value="{{ $refnumber }}" readonly>
+                                </a> 
+                        </div> 
+                        {{-- <div class="d-flex">
                             <div class="">
                                 <label for="">เพิ่มข้อมูลแผนงานโครงการ </label>
                             </div>
-                            <div class="ms-auto">
-                                {{-- <form class="custom-validation" action="{{ route('sup.supplies_index_save') }}" method="POST"
-                                id="insert_productForm" enctype="multipart/form-data">
-                                @csrf --}}
+                            <div class="ms-auto"> 
                                 <div class="row">
                                     <div class="col-md-5 text-end">
                                         <label for="plan_project_no">เลขที่โครงการ :</label>
@@ -67,7 +72,7 @@ $count_service = StaticController::count_service();
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-body shadow-lg">                       
                             

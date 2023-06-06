@@ -308,7 +308,7 @@
             {{-- <div class="col-md-1"></div> --}}
             <div class="col-md-4 text-center"> 
                 @foreach ($datadetail as $item) 
-                <label for="" class="ms-5 mt-2" style="color: white">2023 © {{$item->orginfo_name}}</label> 
+                <label for="" class="mt-2" style="color: white">2023 © {{$item->orginfo_name}}</label> 
                 @endforeach  
             </div> 
             <div class="col-md-8"></div>
@@ -317,7 +317,7 @@
         <div class="row text-center"> 
             <div class="col-md-1"></div>
             <div class="col-md-2 ">               
-                <label for="" class=" ms-5 mt-2" style="color: white"> By ทีมพัฒนา PK-HOS</label>
+                <label for="" class=" ms-2 mt-2" style="color: white"> By ทีมพัฒนา PK-HOS</label>
             </div>     
             <div class="col-md-9"></div>  
         </div>

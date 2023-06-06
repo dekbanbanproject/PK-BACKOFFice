@@ -1,52 +1,95 @@
-@extends('layouts.plan')
+@extends('layouts.plannew')
 @section('title','PK-BACKOFFice || Plan')
 @section('content')
 <style>
-    .table th {
-        font-family: sans-serif;
-        font-size: 12px;
-    }
-    .table td {
-        font-family: sans-serif;
-        font-size: 12px;
-    }
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:30px 30px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{	
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;  
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 10px #ddd solid;
+           border-top: 10px #1fdab1 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% { 
+               transform: rotate(390deg); 
+           }
+           }
+           .is-hide{
+           display:none;
+           }
 </style>
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
 <?php
-     use App\Http\Controllers\karnController;
-     use Illuminate\Support\Facades\DB; 
- ?>
-  <div class="container-fluid">
-        {{-- <div class="row">
-            <div class="col-xl-12">                    
-                <div class="row">                   
-                    <div class="col"><h5 class="mb-sm-0">ข้อมูลแผนงานโครงการ </h5></div> 
-                    <div class="col-md-2 text-center"></div> 
-                    <div class="col-md-2 text-center"></div> 
-                    <div class="col"></div> 
-                </div>
-            </div>
-        </div> --}}
+if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+        $iddep =  Auth::user()->dep_subsubtrueid;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
 
+    $datenow = date("Y-m-d");
+    $y = date('Y') + 543;
+    $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+    $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน 
+?>
+ <div class="tabs-animation">
+    
+    <div class="row text-center">  
+        <div id="overlay">
+            <div class="cv-spinner">
+              <span class="spinner"></span>
+            </div>
+          </div>
+          
+    </div> 
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card">   
                     <div class="card-header ">
-                        <div class="d-flex">
-                            <div class="">
-                                <label for="" >ข้อมูลแผนงานโครงการ</label> 
-                             </div> 
-                                <div class="ms-auto">
-                                    <a href="{{ url('plan_project_add') }}" class="btn btn-info btn-sm"  > 
-                                    <i class="fa-solid fa-folder-plus text-white me-2"></i>
-                                    เขียนโครงการ
-                                    </a> 
-                                    
-                                </div>
-                        </div>          
-                </div>   
+                        ข้อมูลแผนงานโครงการ
+                        <div class="btn-actions-pane-right">
+                            <a href="{{ url('plan_project_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info"  > 
+                                <i class="fa-solid fa-folder-plus text-info me-2"></i>
+                                เขียนโครงการ
+                                </a> 
+                        </div> 
+                       
+                    </div>   
                     <div class="card-body py-0 px-2 mt-2"> 
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
+                        <div class="table-responsive"> 
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>                                           
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>

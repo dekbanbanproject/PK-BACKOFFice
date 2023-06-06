@@ -1,4 +1,4 @@
-@extends('layouts.plan')
+@extends('layouts.plannew')
 @section('title','PK-BACKOFFice || Plan')
 @section('content')
 <script>
@@ -71,28 +71,24 @@ $pos = strrpos($url, '/') + 1;
      use Illuminate\Support\Facades\DB; 
  ?>
   <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-12">                    
-                <div class="row">                   
-                    <div class="col"><h5 class="mb-sm-0">ประเภทแผน </h5></div> 
-                    <div class="col-md-3 text-center"></div> 
-                    <div class="col-md-6 text-center"></div> 
-                    <div class="col"> 
-                        <button type="button" class="btn btn-info btn-sm waves-effect waves-light"
-                        data-bs-toggle="modal" data-bs-target=".inven">
-                        <i class="fa-solid fa-folder-plus text-white me-2"></i>
-                        เพิ่มประเภทแผน
-                    </button></div> 
-                </div>
-            </div>
-        </div>
-
+      
         <div class="row mt-3">
             <div class="col-xl-12">
-                <div class="card">                     
+                <div class="card">  
+                    <div class="card-header ">
+                        ประเภทแผน
+                        <div class="btn-actions-pane-right">
+                            <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info"
+                                    data-bs-toggle="modal" data-bs-target=".inven">
+                                    <i class="fa-solid fa-folder-plus text-info me-2"></i>
+                                เพิ่มประเภทแผน
+                            </button> 
+                        </div> 
+                       
+                    </div>                      
                     <div class="card-body py-0 px-2 mt-2"> 
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>                                           
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>

@@ -1,4 +1,4 @@
-@extends('layouts.plan')
+@extends('layouts.plannew')
 @section('title','PK-BACKOFFice || Plan')
 @section('content')
 <style>

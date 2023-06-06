@@ -1,4 +1,4 @@
-@extends('layouts.plan')
+@extends('layouts.plannew')
 @section('title','PK-BACKOFFice || Plan')
 @section('content')
 <style>
@@ -32,7 +32,7 @@
                 <div class="card">                     
                     <div class="card-body py-0 px-2 mt-2"> 
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
+                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>                                           
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>
