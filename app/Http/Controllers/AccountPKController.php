@@ -728,7 +728,8 @@ class AccountPKController extends Controller
                         }  
                 }                                   
         }
-        
+
+               
         $acc_opitemrece_ = DB::connection('mysql3')->select('
                 SELECT a.vn,o.an,o.hn,o.vstdate,o.rxdate,o.income as income_group,o.pttype,o.paidst
                 ,o.icode,s.name as iname,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price        
