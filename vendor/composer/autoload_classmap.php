@@ -8,8 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Exports\\Checkinexport' => $baseDir . '/app/Exports/Checkinexport.php',
     'App\\Exports\\OtExport' => $baseDir . '/app/Exports/OtExport.php',
     'App\\Exports\\Otform1Export' => $baseDir . '/app/Exports/Otform1Export.php',
+    'App\\Exports\\RefercrossExport' => $baseDir . '/app/Exports/RefercrossExport.php',
     'App\\Http\\Controllers\\AUTHENCHECKController' => $baseDir . '/app/Http/Controllers/AUTHENCHECKController.php',
     'App\\Http\\Controllers\\AccController' => $baseDir . '/app/Http/Controllers/AccController.php',
     'App\\Http\\Controllers\\AccountController' => $baseDir . '/app/Http/Controllers/AccountController.php',
@@ -201,6 +203,7 @@ return array(
     'App\\Models\\Check_sit' => $baseDir . '/app/Models/Check_sit.php',
     'App\\Models\\Check_sit_auto' => $baseDir . '/app/Models/Check_sit_auto.php',
     'App\\Models\\Check_sit_auto_claim' => $baseDir . '/app/Models/Check_sit_auto_claim.php',
+    'App\\Models\\Checkin_export' => $baseDir . '/app/Models/Checkin_export.php',
     'App\\Models\\Checkin_index' => $baseDir . '/app/Models/Checkin_index.php',
     'App\\Models\\Claim_sixteen_aer' => $baseDir . '/app/Models/Claim_sixteen_aer.php',
     'App\\Models\\Claim_sixteen_cha' => $baseDir . '/app/Models/Claim_sixteen_cha.php',

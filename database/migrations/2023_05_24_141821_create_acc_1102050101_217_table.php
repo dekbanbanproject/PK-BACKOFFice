@@ -52,8 +52,8 @@ return new class extends Migration
                 $table->string('stm_rcpt_money')->nullable();// 
                 $table->string('stm_rcpno')->nullable();//  
                 $table->string('stm_rw')->nullable();// 
-
                 $table->string('acc_debtor_userid')->nullable();// 
+                $table->enum('status', ['Y', 'N'])->default('N');
                 $table->timestamps();
             });
         }

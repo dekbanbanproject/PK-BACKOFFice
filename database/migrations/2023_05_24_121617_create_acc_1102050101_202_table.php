@@ -29,6 +29,7 @@ return new class extends Migration
                 $table->string('pttype')->nullable();//  
                 $table->string('pttype_nhso')->nullable();// 
                 $table->date('pttype_nhso_startdate')->nullable();// 
+                $table->string('income_group')->nullable();// 
                 $table->string('acc_code')->nullable();// 
                 $table->string('account_code')->nullable();// 
                 $table->string('income')->nullable();// 
@@ -36,10 +37,10 @@ return new class extends Migration
                 $table->string('discount_money')->nullable();//  
                 $table->string('rcpt_money')->nullable();//  paid_money
                 $table->string('rcpno')->nullable();//  
-                $table->string('debit')->nullable();//
+                $table->string('debit')->nullable();// 
                 $table->string('debit_drug')->nullable();//เฉพาะรายการยา
                 $table->string('debit_instument')->nullable();// เฉพาะรอวัยวะเทียม
-                $table->string('debit_refer')->nullable();// เฉพาะ Refer               
+                $table->string('debit_refer')->nullable();// เฉพาะ Refer
                 $table->string('debit_toa')->nullable();//
                 $table->string('debit_total')->nullable();//
                 $table->string('max_debt_amount')->nullable();// 
@@ -50,8 +51,8 @@ return new class extends Migration
                 $table->string('stm_rcpt_money')->nullable();// 
                 $table->string('stm_rcpno')->nullable();//  
                 $table->string('stm_rw')->nullable();// 
-
                 $table->string('acc_debtor_userid')->nullable();// 
+                $table->enum('status', ['Y', 'N'])->default('N');
                 $table->timestamps();
             });
         }

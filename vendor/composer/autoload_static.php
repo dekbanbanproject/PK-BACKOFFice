@@ -645,8 +645,10 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Exports\\Checkinexport' => __DIR__ . '/../..' . '/app/Exports/Checkinexport.php',
         'App\\Exports\\OtExport' => __DIR__ . '/../..' . '/app/Exports/OtExport.php',
         'App\\Exports\\Otform1Export' => __DIR__ . '/../..' . '/app/Exports/Otform1Export.php',
+        'App\\Exports\\RefercrossExport' => __DIR__ . '/../..' . '/app/Exports/RefercrossExport.php',
         'App\\Http\\Controllers\\AUTHENCHECKController' => __DIR__ . '/../..' . '/app/Http/Controllers/AUTHENCHECKController.php',
         'App\\Http\\Controllers\\AccController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccController.php',
         'App\\Http\\Controllers\\AccountController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccountController.php',
@@ -838,6 +840,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Check_sit' => __DIR__ . '/../..' . '/app/Models/Check_sit.php',
         'App\\Models\\Check_sit_auto' => __DIR__ . '/../..' . '/app/Models/Check_sit_auto.php',
         'App\\Models\\Check_sit_auto_claim' => __DIR__ . '/../..' . '/app/Models/Check_sit_auto_claim.php',
+        'App\\Models\\Checkin_export' => __DIR__ . '/../..' . '/app/Models/Checkin_export.php',
         'App\\Models\\Checkin_index' => __DIR__ . '/../..' . '/app/Models/Checkin_index.php',
         'App\\Models\\Claim_sixteen_aer' => __DIR__ . '/../..' . '/app/Models/Claim_sixteen_aer.php',
         'App\\Models\\Claim_sixteen_cha' => __DIR__ . '/../..' . '/app/Models/Claim_sixteen_cha.php',

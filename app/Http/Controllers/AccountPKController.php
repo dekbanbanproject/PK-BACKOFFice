@@ -1286,6 +1286,51 @@ class AccountPKController extends Controller
             'status'    => '200' 
         ]);
     }
+    public function account_pkucs202_stmnull(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;        
+        // dd($id);            
+        $data['users'] = User::get();
+        
+        $data = DB::select('
+                   SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
+                   from acc_1102050101_202 a
+                   LEFT JOIN acc_stm_ucs au ON au.an = a.an
+                   WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;            
+           ');       
+           
+           $sum_money_ = DB::connection('mysql')->select('
+               SELECT SUM(a.debit_total) as total 
+               from acc_1102050101_202 a
+               LEFT JOIN acc_stm_ucs au ON au.an = a.an
+               WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL; 
+           ');
+           foreach ($sum_money_ as $key => $value) {
+               $sum_debit_total = $value->total;
+           }
+           $sum_stm_ = DB::connection('mysql')->select('
+               SELECT SUM(au.inst) as stmtotal 
+               from acc_1102050101_202 a
+               LEFT JOIN acc_stm_ucs au ON au.an = a.an
+               WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL; 
+           ');
+           foreach ($sum_stm_ as $key => $value) {
+               $sum_stm_total = $value->stmtotal;
+           }
+    
+        return view('account_pk.account_pkucs202_stmnull', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'data'              =>     $data,
+            'months'            =>     $months,
+            'year'              =>     $year,
+            'sum_debit_total'   =>     $sum_debit_total,
+            'sum_stm_total'     =>     $sum_stm_total
+        ]);
+    }
+
 
     // ***************** และ stam IPD********************************
     public function account_pk_debtor_ipd(Request $request)
