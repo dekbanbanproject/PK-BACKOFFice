@@ -655,7 +655,9 @@ class AccountPKController extends Controller
                     if ($value->debit_toa > 0) {
                             Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])
                             ->update([ 
-                                'account_code'     => "1102050101.217" 
+                                'acc_code'         => "03",
+                                'account_code'     => "1102050101.217", 
+                                'account_name'     => "บริการเฉพาะ(CR)" 
                             ]);
                     }
                     if ($value->debit_instument > 0 && $value->pang_debit =='1102050101.202') {                
@@ -671,7 +673,8 @@ class AccountPKController extends Controller
                                     'pttype'             => $value->pttype, 
                                     'vstdate'            => $value->vstdate,
                                     'regdate'            => $value->admdate,
-                                    'dchdate'            => $value->dchdate,  
+                                    'dchdate'            => $value->dchdate, 
+                                    'acc_code'           => "03", 
                                     'account_code'       => '1102050101.217',
                                     'account_name'       => 'บริการเฉพาะ(CR)', 
                                     'income_group'       => '02',
@@ -692,7 +695,8 @@ class AccountPKController extends Controller
                                     'pttype'             => $value->pttype, 
                                     'vstdate'            => $value->vstdate,
                                     'regdate'            => $value->admdate,
-                                    'dchdate'            => $value->dchdate,  
+                                    'dchdate'            => $value->dchdate,
+                                    'acc_code'           => "03",  
                                     'account_code'       => '1102050101.217',
                                     'account_name'       => 'บริการเฉพาะ(CR)', 
                                     'income_group'       => '03',
@@ -713,7 +717,8 @@ class AccountPKController extends Controller
                                 'pttype'             => $value->pttype, 
                                 'vstdate'            => $value->vstdate,
                                 'regdate'            => $value->admdate,
-                                'dchdate'            => $value->dchdate,  
+                                'dchdate'            => $value->dchdate, 
+                                'acc_code'           => "03", 
                                 'account_code'       => '1102050101.217',
                                 'account_name'       => 'บริการเฉพาะ(CR)', 
                                 'income_group'       => '20',
@@ -1293,14 +1298,19 @@ class AccountPKController extends Controller
         $enddate = $request->enddate;        
         // dd($id);            
         $data['users'] = User::get();
-        
-        $data = DB::select('
-                   SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
-                   from acc_1102050101_202 a
-                   LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                   WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NULL;            
-           ');       
-           
+             
+           $data = DB::connection('mysql')->select('
+           SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
+           from acc_1102050101_202 a
+           LEFT JOIN acc_stm_ucs au ON au.an = a.an
+           WHERE status ="N" ; 
+
+                   
+            ');   
+            // SELECT vn,an,hn,cid,ptname,dchdate,income_group,debit_total
+            // ,inst
+            // FROM acc_1102050101_202 
+            // WHERE status ="N"  
            $sum_money_ = DB::connection('mysql')->select('
                SELECT SUM(a.debit_total) as total 
                from acc_1102050101_202 a

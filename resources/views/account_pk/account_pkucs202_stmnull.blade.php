@@ -82,7 +82,7 @@
                                     <th class="text-center">ptname</th>
                                     {{-- <th class="text-center">vstdate</th>   --}}
                                     <th class="text-center">dchdate</th>  
-                                    <th class="text-center">income</th> 
+                                    <th class="text-center">income_group</th> 
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">Stm 202</th> 
                                     <th class="text-center">ส่วนต่าง</th> 
@@ -107,11 +107,7 @@
                                                 <td class="text-center" width="6%">{{ $item->dchdate }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->income_group }}</td>   
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                                {{-- @if ($item->inst == '0')
-                                                <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
-                                                @else
-                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->inst,2)}}</td> 
-                                                @endif --}}
+                                               
                                                 <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
 
                                                 <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->inst),2)}}</td> 
@@ -125,7 +121,7 @@
                                         <?php
                                             $total1 = $total1 + ($item->debit_total-$item->inst); 
                                             $total2 = $total2 + $item->ip_paytrue;
-                                            $total3 = $total2 + $item->total_approve;
+                                            $total3 = $total3 + $item->total_approve;
                                         ?>
 
                                     <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
