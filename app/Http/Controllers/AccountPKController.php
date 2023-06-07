@@ -726,7 +726,7 @@ class AccountPKController extends Controller
                                 'debit_ipd_total'    => $value->debit_refer  
                             ]);
                         }  
-                }                                   
+                    }                                   
         }
 
                
