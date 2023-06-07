@@ -214,7 +214,7 @@ class AccountController extends Controller
                 left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
                 where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and a.pttype in("o1","o2","o3","o4","o5")
-                and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
+                and (rr.sss_approval_code is null or rr.sss_approval_code ="")
                 and a.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
                 and o.an is null
                 and a.uc_money > 1
@@ -279,7 +279,7 @@ class AccountController extends Controller
             'enddateadmit'  => $enddateadmit,
         ]);
     }
-    public function account_info_vn(Request $request, $monyear, $months, $startdate, $enddate)
+    public function account_info_vn(Request $request, $year, $months, $startdate, $enddate)
     {
         $datashow = DB::connection('mysql3')->select('
             select e.hn,p.cid,e.pdx,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
@@ -301,11 +301,11 @@ class AccountController extends Controller
                 left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
                 where e.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and e.pttype in("o1","o2","o3","o4","o5")
-                and o.an is null
+                and o.an =""
                 and e.uc_money > 1
                 and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
                 and e.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
-                and year(e.vstdate) = "' . $monyear . '" 
+                and year(e.vstdate) = "' . $year . '" 
                 and month(e.vstdate) = "' . $months . '" 
                 group by e.vn,e.vstdate 
                 order by e.vstdate 

@@ -36,32 +36,7 @@
                     @csrf
                     <div class="row">
                         <div class="col"></div>
-                        {{-- <div class="col-md-1 text-end">วันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startdate"
-                                    id="startdate" data-date-format="yyyy-mm-dd" data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" value="{{ $startdate }}">
-
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-1 text-center">ถึงวันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="enddate"
-                                    id="enddate" data-date-format="yyyy-mm-dd" data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" value="{{ $enddate }}">
-
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-magnifying-glass me-2"></i>
-                                ค้นหา
-                            </button>
-                        </div> --}}
+                      
                         <div class="col-md-1 text-end mt-2">วันที่</div>
                         <div class="col-md-3 text-end">
                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>

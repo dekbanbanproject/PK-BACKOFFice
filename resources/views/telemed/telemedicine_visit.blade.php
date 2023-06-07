@@ -99,6 +99,7 @@
                                     <th class="text-center">ลำดับ</th>
                                     <th class="text-center">วันที่</th>
                                     <th class="text-center">hn</th> 
+                                    <th class="text-center">vn</th>
                                     <th class="text-center">ชื่อ-นามสกุล</th> 
                                     <th class="text-center">อายุ</th>
                                     <th class="text-center">pttname</th>
@@ -117,6 +118,7 @@
                                         <td class="text-font" style="text-align: center;">{{ $number }}</td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vstdate }}</td>   
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hn }}</td> 
+                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vn }}</td> 
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->ptname }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->age_y }} </td> 
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->pttname }} </td> 

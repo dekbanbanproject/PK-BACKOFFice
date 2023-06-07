@@ -47,7 +47,7 @@ class TelemedicineController extends Controller
                     LEFT OUTER JOIN doctor d ON d.code=oa.doctor
                     LEFT OUTER JOIN kskdepartment dep ON dep.depcode=oa.depcode
                     LEFT OUTER JOIN thaiaddress th ON th.addressid=CONCAT(p.chwpart,p.amppart,p.tmbpart)
-                    WHERE oa.nextdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                    WHERE oa.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                     AND oa.clinic="218" 
         ');
 
@@ -65,7 +65,7 @@ class TelemedicineController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow_ = DB::connection('mysql3')->select('  
-            SELECT o.vstdate,o.hn,CONCAT(p.pname,p.fname," ",p.lname) AS ptname,v.age_y,ptt.name AS pttname,
+            SELECT v.vn,o.vstdate,o.hn,CONCAT(p.pname,p.fname," ",p.lname) AS ptname,v.age_y,ptt.name AS pttname,
                 CONCAT(p.addrpart," หมู่  ",p.moopart," ",th.full_name) AS ptadress,p.hometel,dep.department,d.name AS dname
                 FROM ovst o
                 LEFT OUTER JOIN patient p ON p.hn=o.hn

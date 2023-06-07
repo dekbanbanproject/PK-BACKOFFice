@@ -1400,7 +1400,7 @@ Route::middleware(['type'])->group(function(){
 
   // **************************** บัญชี ***********************
   Route::match(['get','post'],'account_info',[App\Http\Controllers\AccountController::class, 'account_info'])->name('acc.account_info');// 
-  Route::match(['get','post'],'account_info_vn/{monyear}/{months}/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vn'])->name('acc.account_info_vn');// 
+  Route::match(['get','post'],'account_info_vn/{year}/{months}/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vn'])->name('acc.account_info_vn');// 
   Route::match(['get','post'],'account_info_vnstmx/{cid}/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vnstmx'])->name('acc.account_info_vnstmx');// 
 
   Route::match(['get','post'],'account_info_vn_subofc_vn/{year}/{months}/{strdateadmit}/{enddateadmit}',[App\Http\Controllers\AccountController::class, 'account_info_vn_subofc_vn'])->name('acc.account_info_vn_subofc_vn');// 
