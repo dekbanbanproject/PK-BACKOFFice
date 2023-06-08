@@ -127,6 +127,11 @@
                                                 //         and month(dchdate) = "'.$item->months.'" 
                                                 //         and year(dchdate) = "'.$item->year.'";
                                                 // ');
+                                             
+                                                // foreach ($datas as $key => $value) {
+                                                //     $count_N = $value->Can;
+                                                //     $sum_N = $value->sumdebit;
+                                                // }
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT an) as Can
                                                         ,SUM(debit) as sumdebit                                                     
