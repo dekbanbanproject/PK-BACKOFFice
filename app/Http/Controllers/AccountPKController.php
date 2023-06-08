@@ -1453,35 +1453,36 @@ class AccountPKController extends Controller
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
       
         if ($startdate == '') {
-            $datashow = DB::select(' 
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+            $datashow = DB::select('  
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
                     ,count(distinct a.hn) as hn
                     ,count(distinct a.vn) as vn 
-                    ,sum(a.paid_money) as paid_money 
-                    ,sum(a.income) as income                 
+                    ,count(distinct a.an) as an  
+                    ,sum(a.income) as income   
+                    ,sum(a.paid_money) as paid_money
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
                     FROM acc_debtor a  
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
-                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                    and account_code="1102050102.801"                    
-                    and income <> 0
-                    group by month(a.vstdate) asc;
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate) 
+                    WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
+                    and account_code="1102050102.801" 
+                    group by month(a.dchdate) desc;
             ');
             
         } else {
             $datashow = DB::select('
-            SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+            SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
                     ,count(distinct a.hn) as hn
                     ,count(distinct a.vn) as vn 
-                    ,sum(a.paid_money) as paid_money 
-                    ,sum(a.income) as income                 
+                    ,count(distinct a.an) as an  
+                    ,sum(a.income) as income   
+                    ,sum(a.paid_money) as paid_money
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total  
                     FROM acc_debtor a  
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate) 
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050102.801"                    
-                    and income <> 0
-                    group by month(a.vstdate) asc; 
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate) 
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.801" 
+                    group by month(a.dchdate) desc;
+ 
             '); 
         }
                    
