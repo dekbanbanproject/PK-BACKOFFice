@@ -162,14 +162,14 @@
                                                 }
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.inst) as debit_total
+                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.ip_paytrue) as ip_paytrue
                                                             FROM acc_1102050101_202 a 
 		                                                    LEFT JOIN acc_stm_ucs au ON au.an = a.an
                                                             and month(a.dchdate) = "'.$item->months.'" 
                                                             and year(a.dchdate) = "'.$item->year.'"                                                                  
                                                     ');
                                                     foreach ($sumapprove_ as $key => $value3) {
-                                                        $debit_total = $value3->debit_total;
+                                                        $ip_paytrue = $value3->ip_paytrue;
                                                         $debit_count = $value3->Apvit;
                                                     }   
                                                     // สีส้ม ยกยอดไป
@@ -195,7 +195,8 @@
                                                         $total_yokma_ = $value5->debityokma;
                                                         $count_yokma_ = $value5->anyokma;
                                                     }   
-                                                    $total_yokma = $total_yokma_ + $Ndebittotal;
+                                                    // $total_yokma = $total_yokma_ + $Ndebittotal;
+                                                    $total_yokma = $total_yokma_;
                                                     $count_yokma = $count_yokma_ + $Ndebitcount
                                              ?>        
                                             <div class="row">
@@ -220,16 +221,16 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}}"> 
+                                                    <a href="{{url('account_pkucs202_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}} / {{$count_Y}}Visit"> 
                                                             <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM{{number_format($debit_total, 2) }}">
-                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($debit_total, 2) }}</span></p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM{{number_format($ip_paytrue, 2) }}">
+                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($ip_paytrue, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>

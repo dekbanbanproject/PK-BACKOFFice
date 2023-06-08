@@ -86,11 +86,7 @@ class AuthenController extends Controller
                 WHERE vstdate = CURDATE() 
                 ORDER BY length(vn) DESC, vn DESC 
         ');
-
-        
-        
-        
-
+ 
         return view('authen_dashboard',[ 
             'vn'               => $vnnew_,
             'Kios'             => $Kiosnew_,
@@ -116,10 +112,8 @@ class AuthenController extends Controller
                  LEFT OUTER JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate = CURDATE() 
                 and o.main_dep = "'.$dep.'"
-                GROUP BY o.vn
-                
-        ');
-               
+                GROUP BY o.vn                
+        ');               
         $output ='
         <table style="width: 100%;" class="table table-hover table-striped table-bordered">
                     <thead>
@@ -169,13 +163,76 @@ class AuthenController extends Controller
                 </table>        
         ';
         echo $output;
-
-        // return response()->json([
-        //     'status'       => '200',
-        //     'datadetail'   => $datadetail
-        // ]);
-        // return view('authen_dashboard');
+ 
     }
+
+    public function authen_user(Request $request,$iduser)
+    {
+        $datadetail = DB::connection('mysql3')->select(' 
+                SELECT                
+                o.main_dep,o.vn as VN,o.vstdate,o.vsttime
+                ,p.cid,o.hn,vp.patientName,vp.claimCode,vp.tel,o.staff,concat(p.pname,p.fname," ",p.lname) as fullname 
+                 FROM ovst o 
+                 LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                 LEFT OUTER JOIN patient p on p.hn=o.hn
+                 LEFT OUTER JOIN visit_pttype_authen_report vp ON vp.personalId = p.cid and vp.claimDate = o.vstdate
+                 LEFT OUTER JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate = CURDATE() 
+                and o.staff = "'.$iduser.'"
+                GROUP BY o.vn                
+        ');               
+        $output ='
+        <table style="width: 100%;" class="table table-hover table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>เวลารับบริการ</th>
+                            <th>VN</th>
+                            <th>CID</th>
+                            <th>HN</th> 
+                            <th>Fullname</th>
+                            <th>AuthenCode</th>
+                            <th>Mobile</th> 
+                            <th>Staff</th>                        
+                        </tr>
+                    </thead>
+                    <tbody>';
+                    $count = 1;
+                    foreach ($datadetail as $key => $value) {
+                        $output.='  <tr height="15">
+                        <td class="text-font" align="center">'.$count.'</td>
+                        <td class="text-font text-pedding">'.$value->vsttime.'</td>
+                        <td class="text-font text-pedding">'.$value->VN.'</td>
+                        <td class="text-font" align="center" >'.$value->cid.'</td>
+                        <td class="text-font" align="center" >'.$value->hn.'</td>
+                        <td class="text-font text-pedding">'.$value->fullname.'</td>
+                        ';
+                        if ($value->claimCode > 0 ) {
+                            $output.='<td class="text-font text-pedding"><label for="" style="color:black">'.$value->claimCode.'</label></td>';
+                        } else {
+                            $output.='<td class="text-font text-pedding" style="color:white;background-color: rgb(255, 58, 58)"><label for="" >'.$value->claimCode.'</label></td>';
+                        }     
+                                                
+                        if ($value->tel > 0 ) {
+                            $output.='<td class="text-font" align="center" ><label for="" style="color:black">'.$value->tel.'</label></td>';
+                        } else {
+                            $output.='<td class="text-font" align="center" style="color:white;background-color: rgb(255, 58, 58)" ><label for="" >'.$value->tel.'</label></td>';
+                        }  
+
+                        $output.='                        
+                        </td>
+                        <td class="text-font text-pedding">'.$value->staff.'</td>
+                        </tr>';
+                        $count++;
+                    }
+                                        
+                    $output.='</tbody>            
+                </table>        
+        ';
+        echo $output;
+ 
+    }
+
     public function import(Request $request)
     {
         Excel::import(new ImportVisit_pttype_import, $request->file('file')->store('files'));

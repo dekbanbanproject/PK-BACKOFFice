@@ -93,6 +93,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="card mb-3 widget-chart widget-chart2 bg-plum-plate text-start">
                             <div class="widget-chat-wrapper-outer">
@@ -245,7 +246,7 @@
 
 
         <div class="row">
-            <div class="col-lg-12 col-xl-5">
+            <div class="col-lg-12 col-xl-4">
                 <div class="card-hover-shadow profile-responsive card-border border-danger mb-3 card">
                     <div class="card-body table-responsive">
                         <div class="card-title">รายงานแยกตามแผนก</div>
@@ -292,7 +293,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-xl-7">
+            <div class="col-lg-12 col-xl-8">
                 <div class="card-hover-shadow profile-responsive card-border border-info mb-3 card">
                     <div class="card-body table-responsive">
                         <div class="card-title">รายงานแยกตามรายชื่อเจ้าหน้าที่</div>
@@ -317,8 +318,12 @@
                                                 src="{{ asset('assets/images/default-image.jpg') }}" alt="">
                                         </td>
                                         <td class="text-start">
-                                            <a href="javascript:void(0)" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> {{ $istaff->Staff }} </a>
-                                            
+                                            {{-- <a href="javascript:void(0)" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> {{ $istaff->Staff }} </a> --}}
+                                            <button type="button"
+                                            class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary authen_user" value="{{ $istaff->Staff }}">
+                                            <i class="pe-7s-search btn-icon-wrapper"></i>
+                                            {{ $istaff->Staff }}
+                                        </button>
                                         </td>
                                         <td class="text-start"> 
                                                 {{ $istaff->vn }} Visit /
@@ -413,6 +418,18 @@
                 url: "{{ url('authen_detail') }}" + '/' + dep,
                 success: function(result) {
                     $('#detail').html(result);
+                },
+            });
+        });
+        $(document).on('click', '.authen_user', function() {
+            var iduser = $(this).val();
+            alert(iduser);
+            $('#authen_userModal').modal('show');
+            $.ajax({
+                type: "GET",
+                url: "{{ url('authen_user') }}" + '/' + iduser,
+                success: function(result) {
+                    $('#detail2').html(result);
                 },
             });
         });

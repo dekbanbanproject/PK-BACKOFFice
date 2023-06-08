@@ -291,6 +291,49 @@
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
     @yield('footer')
 
+    <!-- Large modal รายละเอียด(คน)-->
+    <div class="modal fade" id="authen_detailModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle" style="color: rgb(255, 97, 86):" >รายละเอียด
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="detail"></div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">Close</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Large modal รายละเอียด(คน)-->
+    <div class="modal fade" id="authen_userModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLongTitle" style="color: rgb(255, 97, 86):" >รายละเอียด
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="detail2"></div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">Close</button> 
+                </div>
+            </div>
+        </div>
+    </div>
+
     
     <script type="text/javascript">
         $(document).ready(function() {

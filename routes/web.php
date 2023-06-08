@@ -65,6 +65,7 @@ Route::match(['get','post'],'com_repairscan_save',[App\Http\Controllers\RepaireS
 
 Route::get('authen_dashboard',[App\Http\Controllers\AuthenController::class, 'authen_dashboard'])->name('au.authen_dashboard'); 
 Route::get('authen_detail/{dep}',[App\Http\Controllers\AuthenController::class, 'authen_detail'])->name('au.authen_detail'); 
+Route::get('authen_user/{iduser}',[App\Http\Controllers\AuthenController::class, 'authen_user'])->name('au.authen_user'); 
 Route::post('authen_check',[App\Http\Controllers\AuthenController::class, 'authen_check'])->name('au.authen_check'); 
 Route::post('/import',[App\Http\Controllers\AuthenController::class,'import'])->name('import');
 Route::get('import_authen_auto',[App\Http\Controllers\AuthenController::class,'import_authen_auto'])->name('import_authen_auto');
