@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
-    'Mockery' => array($vendorDir . '/mockery/mockery/library'),
     'Milon\\Barcode' => array($vendorDir . '/milon/barcode/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );
