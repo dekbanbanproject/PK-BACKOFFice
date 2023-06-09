@@ -52,13 +52,12 @@
     .container-fluid {
         position: relative;
     }
-    .form {
+    /* .form {
         position: relative;
         z-index: 100;
-        top: -20%;
-        /* margin-top: 10%; */
-        width: auto;
-        height: 650px;
+        margin-top: 35%;
+        width: 270px;
+        height: 300px;
         background-color: rgba(240, 248, 255, 0.158);
         border-radius: 30px;
         backdrop-filter: blur(2px);
@@ -66,17 +65,16 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-    }
-    .form2 {
+    } */
+    .form {
         position: relative;
         z-index: 100;
-        top: -20%;
-        /* margin-top: 10%; */
+        margin-top: 10%;
         width: auto;
-        height: 650px;
+        height: 300px;
         background-color: rgba(240, 248, 255, 0.158);
         border-radius: 30px;
-        backdrop-filter: blur(1px);
+        backdrop-filter: blur(2px);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -88,7 +86,9 @@
         height: 100px;
         background:
             url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%;
+        /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
+        /* background-attachment: fixed; */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -103,7 +103,7 @@
     }
 
     .username {
-        width: 180px;
+        width: 160px;
         background: none;
         outline: none;
         border: none;
@@ -117,7 +117,7 @@
     }
 
     .password {
-        width: 180px;
+        width: 160px;
         background: none;
         outline: none;
         border: none;
@@ -144,7 +144,7 @@
         /* margin-top: 50px; */
     }
 
-    /* .btn {
+    .btn {
         width: 110px;
         height: 30px;
         margin-top: 10px;
@@ -157,7 +157,7 @@
         border-radius: 20px;
         font-size: 15px;
         transition: 0.2s;
-    } */
+    }
 
     .footer {
         width: 400px;
@@ -257,14 +257,14 @@
 
     .popic {
         position: absolute;
-        width: 200px;
-        height: 200px;
+        width: 300px;
+        height: 300px;
         background:
             url(/pkbackoffice/public/images/ponews.png)no-repeat 50%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
-        top: -30%;
-        right: 1%;
+        top: -35%;
+        right: 7%;
         z-index: -1;
         animation: float 2s ease-in-out infinite;
     }
@@ -289,7 +289,7 @@
     <?php
     $datadetail = DB::connection('mysql')->select('select * from orginfo where orginfo_id = 1');
     ?>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="height: 100px;">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container">
             @foreach ($datadetail as $item)
                 <img src="{{ asset('images/logo150.png') }}" class="bi me-2" width="40" height="40"
@@ -304,26 +304,22 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url('sit_auto') }}" target="bank">Auto
-                            Systems</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url('sit_auto') }}">Auto Systems</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('report_dashboard') }}" target="bank">Report</a>
+                        <a class="nav-link" href="{{ url('report_dashboard') }}">Report</a>
                     </li>
+
                 </ul>
                 <form class="d-flex" role="search">
                     {{-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> --}}
-                    <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-fingerprint text-warning"></i>
-                        เข้าสู่ระบบ
-                    </button>
+                    <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Login</button>
                 </form>
             </div>
         </div>
     </nav>
-
     <div class="container-fluid">
+
         <div class="circle1"> </div>
         <div class="circle2"> </div>
         <div class="circle3"> </div>
@@ -331,121 +327,87 @@
         <div class="circle5"> </div>
         <div class="popic"> </div>
         <div class="row">
-            <div class="col-md-9">
-                <form class="form">
+            {{-- <div class="col-md-1"></div> --}}
+            <div class="col-md-12">
+                <form  class="form">
                 </form>
+                {{-- <form method="POST" action="{{ route('login') }}" class="form">
+                    @csrf
+                    <div class="logo"> </div>
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" placeholder="Username" name="username" class="username" required>
+                        @error('username')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-key"></i>
+                        <input type="password" placeholder="Password" name="password" class="password">
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-info">Login</button>
+                </form> --}}
+            {{-- </div> --}}
+            {{-- <div class="col-md-4"> </div>
+            <div class="col-md-2"> </div>
+            <div class="col-md-1">
             </div>
-            <div class="col-md-2">
-                <form class="form2">
-                </form>
+            <div class="row ">
+                <div class="col-md-4 text-center">
+                    @foreach ($datadetail as $item)
+                        <label for="" class="mt-2" style="color: white">2023 ©
+                            {{ $item->orginfo_name }}</label>
+                    @endforeach
+                </div>
+                <div class="col-md-8"></div>
+            </div> --}}
+
+            {{-- <div class="row text-center">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 ">
+                    <label for="" class=" ms-2 mt-2" style="color: white"> By ทีมพัฒนา PK-HOS</label>
+                </div>
+                <div class="col-md-9"></div>
             </div>
+            <div class="row text-start">
+                <div class="col-md-1 "> </div>
+                <div class="col-md-4 "> &nbsp;&nbsp;&nbsp;
+                    <a href="{{ url('report_dashboard') }}" class="btn btn-success btn-sm ms-2"
+                        target="_blank">Report </a>
+                    <a href="{{ url('sit_auto') }}" class="btn btn-warning btn-sm ms-2" target="_blank">Auto
+                        Systems</a>
+                </div>
+                <div class="col-md-7 "> </div>
+            </div> --}}
+
         </div>
-
-    <div class="container">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <div class="col-md-4 d-flex align-items-center">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-
-                    <img src="{{ asset('images/logo150.png') }}" class="bi me-2" width="40" height="40"
-                    alt="">
-                </a>
-                <span class="mb-3 mb-md-0 text-body-secondary">
-                    <label for="" class=" ms-2 mt-2" style="color: white"> By Team PK-HOS</label></span>
-            </div>
-
-            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                <li class="ms-3">
-                    <a class="text-body-secondary" href="#">
-                        <i class="fa-brands fa-2x fa-twitter" style="color: white"></i>
-                    </a>
-                </li>
-                <li class="ms-3">
-                    <a class="text-body-secondary" href="https://www.facebook.com/profile.php?id=100058772592423">
-                        <i class="fa-brands fa-2x fa-facebook" style="color: white"></i>
-                    </a></li>
-                <li class="ms-3">
-                    <a class="text-body-secondary" href="#">
-                        <i class="fa-brands fa-2x fa-line" style="color: white"></i>
-                    </a></li>
-            </ul>
-        </footer>
-    </div>
-
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">เข้าสู่ระบบ</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" style="background-color:rgba(255, 192, 203, 0.962);">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <div class="row">
-                            <div class="col"></div>
-                            <div class="col-md-6 text-center">
-                                <img src="{{ asset('images/logo150.png') }}" class="bi mb-3" width="150"
-                                    height="150" alt="">
-                            </div>
-                            <div class="col"></div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col"></div>
-                            <div class="col-md-8 text-center">
-                                <div class="input-group mb-3">
-                                    <button class="btn btn-outline-secondary" type="button"
-                                        id="button-addon1">Username</button>
-                                    <input type="text" class="form-control" name="username"
-                                        placeholder="Username" aria-label="Example text with button addon"
-                                        aria-describedby="button-addon1" required>
-                                    @error('username')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"></div>
-                            <div class="col-md-8 text-center">
-                                <div class="input-group mb-3">
-                                    <button class="btn btn-outline-secondary" type="button"
-                                        id="button-addon1">Password</button>
-                                    <input type="password" class="form-control" name="password"
-                                        placeholder="Password" aria-label="Example text with button addon"
-                                        aria-describedby="button-addon1" required>
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                            </div>
-                            <div class="col"></div>
-                        </div>
-
-
+                <div class="modal-body">
+                ...
                 </div>
                 <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                    <button type="submit" class="btn btn-outline-primary">
-                        <i class="fa-solid fa-fingerprint text-primary"></i>
-                        เข้าสู่ระบบ
-                    </button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
-
-                </form>
+            </div>
             </div>
         </div>
-    </div>
 
-    <script src="{{ asset('assets/js53/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/js53/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>

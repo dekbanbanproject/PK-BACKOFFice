@@ -18,13 +18,13 @@ use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
 use Illuminate\Support\Facades\File;
 use DataTables;
-use Intervention\Image\ImageManagerStatic as Image; 
+use Intervention\Image\ImageManagerStatic as Image;
 use App\Mail\DissendeMail;
-use Mail; 
-use Illuminate\Support\Facades\Storage; 
+use Mail;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 date_default_timezone_set("Asia/Bangkok");
-  
+
 
 class AccountController extends Controller
 {
@@ -41,23 +41,23 @@ class AccountController extends Controller
             $pang_type = $pangtype->pang_type;
             $pang_id = $pang;
         }
-        // dd($pang);        
+        // dd($pang);
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
         $data['pang'] = DB::connection('mysql5')->table('pang')->get();
         $datashow = DB::connection('mysql3')->select('
-            SELECT IF(ps.pang_stamp_an IS NULL,"","Y")AS Stamp , o.an AS AN ,o.hn AS HN ,CONCAT(o.regdate," / ",o.dchdate) AS AdmitDischarge ,p.cid ,ip.pttype ,IF(cs.check_sit_status="003","จำหน่าย/เสียชีวิต",CONCAT(cs.check_sit_subinscl," (",IFNULL(cs.check_sit_hmain," "),")" ) ) AS spsc ,ps.pang_stamp_nhso ,v.pdx ,ROUND(v.income,2)AS income,ROUND(v.uc_money,2) AS uc_money ,ROUND(v.paid_money,2) AS paid_money ,ps.pang_stamp_id 
-                FROM hos.ipt o 
-                LEFT OUTER JOIN hos.patient p ON o.hn=p.hn 
-                LEFT OUTER JOIN money_bn.check_sit cs ON o.an = cs.check_sit_vn AND "' . $datenow . '" = cs.check_sit_date 
-                LEFT OUTER JOIN money_bn.pang_stamp ps ON 1102050101.888=ps.pang_stamp AND o.an=ps.pang_stamp_an 
-                LEFT OUTER JOIN hos.an_stat v ON o.an=v.an 
-                LEFT OUTER JOIN hos.ipt_pttype ip ON ip.an=v.an 
-                LEFT OUTER JOIN hos.pttype ptt ON ip.pttype=ptt.pttype 
-                left join hos.ipt_pttype vp on vp.an = o.an 
-                WHERE o.dchdate is null 
-                AND ps.pang_stamp_an IS NULL 
-                AND o.regdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
+            SELECT IF(ps.pang_stamp_an IS NULL,"","Y")AS Stamp , o.an AS AN ,o.hn AS HN ,CONCAT(o.regdate," / ",o.dchdate) AS AdmitDischarge ,p.cid ,ip.pttype ,IF(cs.check_sit_status="003","จำหน่าย/เสียชีวิต",CONCAT(cs.check_sit_subinscl," (",IFNULL(cs.check_sit_hmain," "),")" ) ) AS spsc ,ps.pang_stamp_nhso ,v.pdx ,ROUND(v.income,2)AS income,ROUND(v.uc_money,2) AS uc_money ,ROUND(v.paid_money,2) AS paid_money ,ps.pang_stamp_id
+                FROM hos.ipt o
+                LEFT OUTER JOIN hos.patient p ON o.hn=p.hn
+                LEFT OUTER JOIN money_bn.check_sit cs ON o.an = cs.check_sit_vn AND "' . $datenow . '" = cs.check_sit_date
+                LEFT OUTER JOIN money_bn.pang_stamp ps ON 1102050101.888=ps.pang_stamp AND o.an=ps.pang_stamp_an
+                LEFT OUTER JOIN hos.an_stat v ON o.an=v.an
+                LEFT OUTER JOIN hos.ipt_pttype ip ON ip.an=v.an
+                LEFT OUTER JOIN hos.pttype ptt ON ip.pttype=ptt.pttype
+                left join hos.ipt_pttype vp on vp.an = o.an
+                WHERE o.dchdate is null
+                AND ps.pang_stamp_an IS NULL
+                AND o.regdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
                 AND ip.pttype IN ("21","39","E1","L1","L2","L3","L4","L5","L6","L7",
                 "m6","m6","08","11","12","18","30","31","33","36","49","50","55","60",
                 "66","68","69","70","71","72","73","74","75","76","77","78","80","81",
@@ -66,7 +66,7 @@ class AccountController extends Controller
                 "pa","pd","pl","s4","W1","w2","x1","x4","x7","x9","xo","xo","09","20",
                 "22","25","38","97","B1","B2","B3","B4","B5","m1","m7","O1","O2","O3",
                 "O4","O5","O6","o7","p2","S1","S2","s5","x2","x2","14","15","17","32",
-                "34","35","37","45","a1","A7","C1","C3","C4","m2","m5","p3","s3","s7","ss","x3","x3") 
+                "34","35","37","45","a1","A7","C1","C3","C4","m2","m5","p3","s3","s7","ss","x3","x3")
                 group by o.an
             ');
         return view('account.checksit_admit', $data, [
@@ -92,18 +92,18 @@ class AccountController extends Controller
 
         $data['pang'] = DB::connection('mysql5')->table('pang')->get();
         $datashow = DB::connection('mysql3')->select('
-            SELECT IF(ps.pang_stamp_an IS NULL,"","Y")AS Stamp , o.an AS AN ,o.hn AS HN ,CONCAT(o.regdate," / ",o.dchdate) AS AdmitDischarge ,p.cid ,ip.pttype ,IF(cs.check_sit_status="003","จำหน่าย/เสียชีวิต",CONCAT(cs.check_sit_subinscl," (",IFNULL(cs.check_sit_hmain," "),")" ) ) AS spsc ,ps.pang_stamp_nhso ,v.pdx ,ROUND(v.income,2)AS income,ROUND(v.uc_money,2) AS uc_money ,ROUND(v.paid_money,2) AS paid_money ,ps.pang_stamp_id 
-                FROM hos.ipt o 
-                LEFT OUTER JOIN hos.patient p ON o.hn=p.hn 
-                LEFT OUTER JOIN money_bn.check_sit cs ON o.an = cs.check_sit_vn AND "' . $datenow . '" = cs.check_sit_date 
-                LEFT OUTER JOIN money_bn.pang_stamp ps ON 1102050101.888=ps.pang_stamp AND o.an=ps.pang_stamp_an 
-                LEFT OUTER JOIN hos.an_stat v ON o.an=v.an 
-                LEFT OUTER JOIN hos.ipt_pttype ip ON ip.an=v.an 
-                LEFT OUTER JOIN hos.pttype ptt ON ip.pttype=ptt.pttype 
-                left join hos.ipt_pttype vp on vp.an = o.an 
-                WHERE o.dchdate is null 
-                AND ps.pang_stamp_an IS NULL 
-                AND o.regdate BETWEEN "' . $star_tdate . '" and "' . $end_date . '" 
+            SELECT IF(ps.pang_stamp_an IS NULL,"","Y")AS Stamp , o.an AS AN ,o.hn AS HN ,CONCAT(o.regdate," / ",o.dchdate) AS AdmitDischarge ,p.cid ,ip.pttype ,IF(cs.check_sit_status="003","จำหน่าย/เสียชีวิต",CONCAT(cs.check_sit_subinscl," (",IFNULL(cs.check_sit_hmain," "),")" ) ) AS spsc ,ps.pang_stamp_nhso ,v.pdx ,ROUND(v.income,2)AS income,ROUND(v.uc_money,2) AS uc_money ,ROUND(v.paid_money,2) AS paid_money ,ps.pang_stamp_id
+                FROM hos.ipt o
+                LEFT OUTER JOIN hos.patient p ON o.hn=p.hn
+                LEFT OUTER JOIN money_bn.check_sit cs ON o.an = cs.check_sit_vn AND "' . $datenow . '" = cs.check_sit_date
+                LEFT OUTER JOIN money_bn.pang_stamp ps ON 1102050101.888=ps.pang_stamp AND o.an=ps.pang_stamp_an
+                LEFT OUTER JOIN hos.an_stat v ON o.an=v.an
+                LEFT OUTER JOIN hos.ipt_pttype ip ON ip.an=v.an
+                LEFT OUTER JOIN hos.pttype ptt ON ip.pttype=ptt.pttype
+                left join hos.ipt_pttype vp on vp.an = o.an
+                WHERE o.dchdate is null
+                AND ps.pang_stamp_an IS NULL
+                AND o.regdate BETWEEN "' . $star_tdate . '" and "' . $end_date . '"
                 AND ip.pttype IN ("21","39","E1","L1","L2","L3","L4","L5","L6","L7",
                 "m6","m6","08","11","12","18","30","31","33","36","49","50","55","60",
                 "66","68","69","70","71","72","73","74","75","76","77","78","80","81",
@@ -112,7 +112,7 @@ class AccountController extends Controller
                 "pa","pd","pl","s4","W1","w2","x1","x4","x7","x9","xo","xo","09","20",
                 "22","25","38","97","B1","B2","B3","B4","B5","m1","m7","O1","O2","O3",
                 "O4","O5","O6","o7","p2","S1","S2","s5","x2","x2","14","15","17","32",
-                "34","35","37","45","a1","A7","C1","C3","C4","m2","m5","p3","s3","s7","ss","x3","x3") 
+                "34","35","37","45","a1","A7","C1","C3","C4","m2","m5","p3","s3","s7","ss","x3","x3")
                 group by o.an
             ');
         $event = array();
@@ -204,12 +204,12 @@ class AccountController extends Controller
 
         $datashow = DB::connection('mysql3')->select('
                 select year(a.vstdate) as monyear
-                ,month(a.vstdate) as months 
+                ,month(a.vstdate) as months
                 ,count(distinct a.vn) as vn
                 from hos.vn_stat a
                 left outer join hos.ipt o on o.vn = a.vn
                 LEFT JOIN hos.patient p on p.hn = a.hn
-                left outer join hos.rcpt_debt rr on rr.vn = a.vn 
+                left outer join hos.rcpt_debt rr on rr.vn = a.vn
                 left outer join hos.hpc11_ktb_approval hh on hh.pid=p.cid and hh.transaction_date = a.vstdate
                 left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
                 where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
@@ -218,7 +218,7 @@ class AccountController extends Controller
                 and a.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
                 and o.an is null
                 and a.uc_money > 1
-                group by year(a.vstdate),month(a.vstdate) 
+                group by year(a.vstdate),month(a.vstdate)
         ');
         $datashow2 = DB::connection('mysql3')->select('
                 select year(a.vstdate) as monyear
@@ -255,7 +255,7 @@ class AccountController extends Controller
 
         $datashow3 = DB::connection('mysql3')->select('
                 select left(DATEADM,4) as monyear,mid(dateadm,5,2) as months,count(distinct m.opdseq) as errorc
-                from eclaimdb.m_registerdata m  
+                from eclaimdb.m_registerdata m
                 LEFT JOIN hshooterdb.m_stm s on s.vn = m.opdseq
                 LEFT JOIN hos.vn_stat v on v.vn = m.opdseq
                 left outer join hos.ktb_edc_transaction k on k.vn = v.vn
@@ -263,11 +263,11 @@ class AccountController extends Controller
                 left outer join rcpt_debt r1 on r1.vn =v.vn
 
                 where DATEADM between "' . $strdateadmit . '" and "' . $enddateadmit . '"
-                and (m.code_id like "%307%" or m.code_id like "%305%") 
+                and (m.code_id like "%307%" or m.code_id like "%305%")
                 and m.OPDSEQ not in(SELECT vn from hshooterdb.m_stm where vn = s.vn)
                 and mid(dateadm,5,2)
                 and m.maininscl ="ofc"
-                GROUP BY left(DATEADM,4),mid(dateadm,5,2) 
+                GROUP BY left(DATEADM,4),mid(dateadm,5,2)
         ');
         return view('account.account_info', [
             'datashow'   =>  $datashow,
@@ -301,18 +301,18 @@ class AccountController extends Controller
                 left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
                 where e.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and e.pttype in("o1","o2","o3","o4","o5")
-                and o.an is null
+                and o.an =""
                 and e.uc_money > 1
                 and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
                 and e.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
-                and year(e.vstdate) = "' . $year . '" 
-                and month(e.vstdate) = "' . $months . '" 
-                group by e.vn,e.vstdate 
-                order by e.vstdate 
+                and year(e.vstdate) = "' . $year . '"
+                and month(e.vstdate) = "' . $months . '"
+                group by e.vn,e.vstdate
+                order by e.vstdate
         ');
 
-        
-
+        // and o.an =""
+        // and o.an is null
 
 
 
@@ -330,10 +330,10 @@ class AccountController extends Controller
 
         // $endYear = date("Y",strtotime($enddate))+543;
         // $endM = date('m',strtotime($enddate));
-        // $endD = date('d',strtotime($enddate)); 
+        // $endD = date('d',strtotime($enddate));
 
         // $strdateadmit = $strYear.''.$strM.''.$strD;
-        // $enddateadmit = $endYear.''.$endM.''.$endD; 
+        // $enddateadmit = $endYear.''.$endM.''.$endD;
 
         $datashow = DB::connection('mysql3')->select('
             select m.opdseq,m.hn,m.DATEADM
@@ -347,20 +347,20 @@ class AccountController extends Controller
                 ,group_concat(distinct r1.sss_approval_code,":",r1.total_amount,"/") as apphoscode
                 ,m.claimcode
                 ,group_concat(distinct s.amountpay) as amountpay
-                from eclaimdb.m_registerdata m  
+                from eclaimdb.m_registerdata m
                 LEFT JOIN hshooterdb.m_stm s on s.vn = m.opdseq
                 LEFT JOIN hos.vn_stat v on v.vn = m.opdseq
                 left outer join hos.ktb_edc_transaction k on k.vn = v.vn
                 left outer join rcpt_print r on r.vn =v.vn
                 left outer join rcpt_debt r1 on r1.vn =v.vn
                 where m.DATEADM between "' . $strdateadmit . '" and "' . $enddateadmit . '"
-                and (m.code_id like "%307%" or m.code_id like "%305%") 
+                and (m.code_id like "%307%" or m.code_id like "%305%")
                 and m.OPDSEQ not in(SELECT vn from hshooterdb.m_stm where vn = s.vn)
-                and mid(dateadm,5,2) = "' . $months . '" 
+                and mid(dateadm,5,2) = "' . $months . '"
                 and left(DATEADM,4) = "' . $year . '"
                 and m.maininscl ="ofc"
                 GROUP BY m.opdseq
-                order by r1.sss_approval_code 
+                order by r1.sss_approval_code
         ');
 
         // $datashow = DB::connection('mysql3')->select('
@@ -384,11 +384,11 @@ class AccountController extends Controller
         //         and e.pttype in("of")
         //         and o.an is null
         //         and month(e.vstdate) = "'.$months.'"
-        //         group by e.vn 
+        //         group by e.vn
         //         order by e.vstdate
 
 
-        // '); 
+        // ');
         return view('account.account_info_vn_subofc_vn', [
             'datashow'   =>  $datashow,
             'strdateadmit'  =>  $strdateadmit,
@@ -405,18 +405,18 @@ class AccountController extends Controller
                 left outer join nondrugitems n on n.icode = o.icode
                 left outer join income i on i.income = o.income
                 left outer join ovst ov on ov.vn = o.vn
-                left join eclaimdb.m_registerdata m on m.hn = o.hn 
+                left join eclaimdb.m_registerdata m on m.hn = o.hn
                 and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = o.vstdate
                 and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5) and m.status in("0","1","4","5")
                 left outer join eclaimdb.m_sumfund mm on mm.eclaim_no = m.eclaim_no
                 left join hshooterdb.m_stm s on s.vn = o.vn
-                where o.vn ="' . $vn . '" 
+                where o.vn ="' . $vn . '"
                 group by i.name
                 order by i.income
-               
+
             ');
         $datashow2 = DB::connection('mysql3')->select('
-                select ifnull(n.icode,d.icode) as icode,n.nhso_adp_code,ifnull(n.name,d.name) as dname,sum(o.qty) as qty,format(sum(sum_price),2) as sum_price 
+                select ifnull(n.icode,d.icode) as icode,n.nhso_adp_code,ifnull(n.name,d.name) as dname,sum(o.qty) as qty,format(sum(sum_price),2) as sum_price
                 from opitemrece o
                 left outer join nondrugitems n on n.icode = o.icode
                 left outer join drugitems d on d.icode = o.icode
@@ -429,8 +429,8 @@ class AccountController extends Controller
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev01,","," ")) as sev,sum(REPLACE(mm1.sev01,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
-                    LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV01" 
-                    where m.opdseq ="' . $vn . '" 
+                    LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV01"
+                    where m.opdseq ="' . $vn . '"
                     UNION all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev02,","," ")) as sev,sum(REPLACE(mm1.sev02,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
@@ -455,7 +455,7 @@ class AccountController extends Controller
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV05"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
                     union all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev06,","," ")) as sev,sum(REPLACE(mm1.sev06,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
@@ -467,7 +467,7 @@ class AccountController extends Controller
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV07"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
                     union all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev08,","," ")) as sev,sum(REPLACE(mm1.sev08,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
@@ -479,31 +479,31 @@ class AccountController extends Controller
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV09"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
                     UNION all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev10,","," ")) as sev,sum(REPLACE(mm1.sev10,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV10"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
                     union all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev11,","," ")) as sev,sum(REPLACE(mm1.sev11,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV11"
-                    where m.opdseq ="' . $vn . '"  
+                    where m.opdseq ="' . $vn . '"
                     union all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev12,","," ")) as sev,sum(REPLACE(mm1.sev12,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV12"
-                    where m.opdseq ="' . $vn . '"  
+                    where m.opdseq ="' . $vn . '"
                     UNION all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev13,","," ")) as sev,sum(REPLACE(mm1.sev13,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV13"
-                    where m.opdseq ="' . $vn . '"  
+                    where m.opdseq ="' . $vn . '"
                     union all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev14,","," ")) as sev,sum(REPLACE(mm1.sev14,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
@@ -515,36 +515,36 @@ class AccountController extends Controller
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV15"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
                     UNION all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev16,","," ")) as sev,sum(REPLACE(mm1.sev16,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV16"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
                     union all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev17,","," ")) as sev,sum(REPLACE(mm1.sev17,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV17"
-                    where m.opdseq ="' . $vn . '"  
+                    where m.opdseq ="' . $vn . '"
                     union all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev18,","," ")) as sev,sum(REPLACE(mm1.sev18,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV18"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
                     UNION all
                     select l.SERVICE_ITEM,sum(REPLACE(mm.sev19,","," ")) as sev,sum(REPLACE(mm1.sev19,","," ")) as REsev from eclaimdb.m_registerdata m
                     LEFT JOIN eclaimdb.m_serviceitem mm on mm.ECLAIM_NO = m.ECLAIM_NO and mm.servicetype="0"
                     LEFT JOIN eclaimdb.m_serviceitem mm1 on mm1.ECLAIM_NO = m.ECLAIM_NO and mm1.servicetype="1"
                     LEFT JOIN eclaimdb.l_serviceitem l on l.SERVICE_ID = "SEV19"
-                    where m.opdseq ="' . $vn . '" 
+                    where m.opdseq ="' . $vn . '"
             ');
         $datashow4 = DB::connection('mysql3')->select('
                 select m.claimcode from eclaimdb.m_registerdata m
                     where m.opdseq ="' . $vn . '"
-               
+
             ');
         return view('account.account_info_vn_subofc_vndetail', [
             'datashow'   =>  $datashow,
@@ -576,10 +576,10 @@ class AccountController extends Controller
                 and e.pttype in("of")
                 and o.an is null
                 and month(e.vstdate) = "' . $months . '"
-                group by e.vn 
+                group by e.vn
                 order by e.vstdate
- 
- 
+
+
         ');
         return view('account.account_info_vn_subofc', [
             'datashow'   =>  $datashow,
@@ -596,9 +596,9 @@ class AccountController extends Controller
                         from opitemrece o
                         left outer join nondrugitems n on n.icode = o.icode
                         left outer join income i on i.income = o.income
-                        where o.vn ="' . $vn . '" 
+                        where o.vn ="' . $vn . '"
                         group by i.name
-                        order by i.income    
+                        order by i.income
             ');
         $datashow2 = DB::connection('mysql3')->select('
                         select o.icode,n.billcode,ifnull(n.name,nn.name) as nnname,concat(i.income,"/",i.name) as iname
@@ -607,15 +607,15 @@ class AccountController extends Controller
                             left outer join drugitems nn on nn.icode = o.icode
                             left join income i on i.income = o.income
                             where  o.vn ="' . $vn . '" order by o.income,o.icode
-                        
+
             ');
         $datashow3 = DB::connection('mysql3')->select('
                         select d.outdate,o.name as staff_name,d.intime,k1.department as from_department,d.outtime,k2.department as to_department
-                        from ptdepart d  
-                        left outer join kskdepartment k1 on k1.depcode = d.depcode 
-                        left outer join kskdepartment k2 on k2.depcode = d.outdepcode  
-                        left outer join opduser o on o.loginname = d.staff 
-                        where d.vn = "' . $vn . '" order by d.intime 
+                        from ptdepart d
+                        left outer join kskdepartment k1 on k1.depcode = d.depcode
+                        left outer join kskdepartment k2 on k2.depcode = d.outdepcode
+                        left outer join opduser o on o.loginname = d.staff
+                        where d.vn = "' . $vn . '" order by d.intime
             ');
         return view('account.account_info_vn_subofcdetail', [
             'datashow'   =>  $datashow,
@@ -645,11 +645,11 @@ class AccountController extends Controller
                 left join eclaimdb.l_sev6 m3 on m3.code = n.nhso_adp_code and m3.maininscl ="ofc" and m3.gyear ="2021"
                 left join eclaimdb.l_sev8 m4 on m4.code = n.nhso_adp_code and m4.maininscl ="ofc" and m4.gyear ="2021"
                 left join eclaimdb.l_serviceother m5 on m5.code = n.nhso_adp_code and m5.maininscl ="ofc" and m5.gyear ="2021"
-                where o.vn ="' . $vn . '" 
+                where o.vn ="' . $vn . '"
                 and o.income= "' . $income . '"
                 group by o.icode
                 order by o.icode
- 
+
         ');
         return view('account.account_info_vn_subofcdetail_sub', [
             'datashow'   =>  $datashow,
@@ -659,24 +659,24 @@ class AccountController extends Controller
     {
         $datashow = DB::connection('mysql3')->select('
             select k.personal_id,k.transaction_date1,k.amount,approval_code from hos.hpc11_ktb_approval_transaction k
-                where k.personal_id ="' . $cid . '" 
+                where k.personal_id ="' . $cid . '"
                 group by k.personal_id,k.transaction_date1
-                order by k.transaction_date1             
+                order by k.transaction_date1
         ');
         $datashow2 = DB::connection('mysql3')->select('
                     select v.vn,v.cid,v.vstdate,k.transaction_date,k.amount,k.approval_code from hos.vn_stat v
                     left join ktb_edc_transaction k on k.vn = v.vn
                     where v.vstdate between "' . $startdate . '" and "' . $enddate . '"
-                    and v.cid ="' . $cid . '" 
+                    and v.cid ="' . $cid . '"
                     group by k.vn
-                    order by k.transaction_date 
+                    order by k.transaction_date
         ');
         $datashow3 = DB::connection('mysql3')->select('
                 select v.vn,v.cid,v.vstdate,hh.transaction_date,hh.transaction_amount,hh.appr_code,hh.reason_keyin,hh.appr_code_old_payment from hos.vn_stat v
                     left join hpc11_ktb_approval hh on hh.pid = v.cid and hh.transaction_date = v.vstdate
                     where v.vstdate between "' . $startdate . '" and "' . $enddate . '"
                     and v.cid ="' . $cid . '"
-                    order by hh.transaction_date         
+                    order by hh.transaction_date
         ');
         return view('account.account_info_vnstmx', [
             'datashow'   =>  $datashow,
@@ -712,8 +712,8 @@ class AccountController extends Controller
                 and e.uc_money > 1
                 and (rr.sss_approval_code is null or rr.sss_approval_code ="")
                 and month(e.vstdate) = "' . $months . '"
-                group by e.vn,e.vstdate 
-                order by e.vstdate  
+                group by e.vn,e.vstdate
+                order by e.vstdate
         ');
         return view('account.account_info_noapproveofc', [
             'datashow'   =>  $datashow,
@@ -730,27 +730,27 @@ class AccountController extends Controller
                 from opitemrece o
                 left outer join nondrugitems n on n.icode = o.icode
                 left outer join income i on i.income = o.income
-                where o.vn ="' . $vn . '" 
+                where o.vn ="' . $vn . '"
                 group by i.name
-                order by i.income    
+                order by i.income
         ');
         $datashow2 = DB::connection('mysql3')->select('
                 select o.icode,n.billcode,ifnull(n.name,nn.name) as nnname
                 ,concat(i.income,"/",i.name) as iname,o.qty,round(n.price,2) as price
-                ,round(o.sum_price,2) as sumprice,o.rxdate,o.rxtime,o.last_modified 
+                ,round(o.sum_price,2) as sumprice,o.rxdate,o.rxtime,o.last_modified
                 from opitemrece o
                 left outer join nondrugitems n on n.icode = o.icode
                 left outer join drugitems nn on nn.icode = o.icode
                 left join income i on i.income = o.income
-                where  o.vn ="' . $vn . '" order by o.income,o.icode 
+                where  o.vn ="' . $vn . '" order by o.income,o.icode
         ');
         $datashow3 = DB::connection('mysql3')->select('
                 select d.outdate,o.name as staff_name,d.intime,k1.department as from_department,d.outtime,k2.department as to_department
-                from ptdepart d  
-                left outer join kskdepartment k1 on k1.depcode = d.depcode 
-                left outer join kskdepartment k2 on k2.depcode = d.outdepcode  
-                left outer join opduser o on o.loginname = d.staff 
-                where d.vn = "' . $vn . '"  order by d.intime 
+                from ptdepart d
+                left outer join kskdepartment k1 on k1.depcode = d.depcode
+                left outer join kskdepartment k2 on k2.depcode = d.outdepcode
+                left outer join opduser o on o.loginname = d.staff
+                where d.vn = "' . $vn . '"  order by d.intime
         ');
         return view('account.account_info_noapproveofc_vn', [
             'datashow'   =>  $datashow,
@@ -779,7 +779,7 @@ class AccountController extends Controller
 
         $endM = date('m', strtotime($enddate));
         $endY = date('Y', strtotime($enddate)) + 543;
-       
+
         // dd($endY);
         if ($main_type != '' ) {
             $datashow = DB::connection('mysql')->select('
@@ -789,12 +789,12 @@ class AccountController extends Controller
                 ,a.coop,a.F24,a.F25,a.F26,a.F27,a.F28,a.F29,a.other,a.expend_sum,a.balance,a.account_pay_active,a.account_rep_active
                 ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.store_id,a.account_main_mounts
                 from account_main a
-                left outer join users u on u.cid = a.cid 
-                left outer join users_prefix up on up.prefix_code = u.pname 
-                left outer join users_group ug on ug.users_group_id = a.account_main_type  
-                where a.account_main_year between "' . $strY . '" AND "' . $endY . '" 
-                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '" 
-                AND a.account_main_type ="'.$main_type.'" AND  a.store_id = "'.$id.'"           
+                left outer join users u on u.cid = a.cid
+                left outer join users_prefix up on up.prefix_code = u.pname
+                left outer join users_group ug on ug.users_group_id = a.account_main_type
+                where a.account_main_year between "' . $strY . '" AND "' . $endY . '"
+                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '"
+                AND a.account_main_type ="'.$main_type.'" AND  a.store_id = "'.$id.'"
             ');
         } else {
             $datashow = DB::connection('mysql')->select('
@@ -804,16 +804,16 @@ class AccountController extends Controller
                 ,a.coop,a.F24,a.F25,a.F26,a.F27,a.F28,a.F29,a.other,a.expend_sum,a.balance,a.account_pay_active,a.account_rep_active
                 ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.account_main_mounts
                 from account_main a
-                left outer join users u on u.cid = a.cid 
-                left outer join users_prefix up on up.prefix_code = u.pname 
-                left outer join users_group ug on ug.users_group_id = a.account_main_type  
-                where a.account_main_year between "' . $strY . '" AND "' . $endY . '" 
-                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '" 
-                AND  a.store_id = "'.$id.'"    
+                left outer join users u on u.cid = a.cid
+                left outer join users_prefix up on up.prefix_code = u.pname
+                left outer join users_group ug on ug.users_group_id = a.account_main_type
+                where a.account_main_year between "' . $strY . '" AND "' . $endY . '"
+                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '"
+                AND  a.store_id = "'.$id.'"
             ');
             $main_type ='';
-        }              
-       
+        }
+
         $data_account_main = DB::table('account_main')->whereBetween('account_main_date', [$startdate, $enddate])->count();
         $data['users'] = User::where('store_id','=',$id)->get();
         $data['leave_month'] = DB::table('leave_month')->get();
@@ -834,7 +834,7 @@ class AccountController extends Controller
             'id'                => $id,
             'data_hos'          => $data_hos
         ]);
-    }   
+    }
     public function account_money_personsave(Request $request)
     {
         $years_idold = $request->leave_year_id;
@@ -854,7 +854,7 @@ class AccountController extends Controller
         // if ($yearcount == 0 && $monthsid == 0 && $usergroup == 0) {
         //     $users = User::where('users_group_id','=',$user_group)->where('store_id','=',$store_id)->get();
         //     // $users = User::where('users_group_id','=',$user_group)->get();
-        //     foreach ($users as $item) {  
+        //     foreach ($users as $item) {
         //         $add = new Account_main();
         //         // $add->account_main_date = $years_id.'-'.$months_id.'-'.'1';
         //           $add->account_main_date = $years_id.'-'.$months_id.'-'.'1';
@@ -866,8 +866,8 @@ class AccountController extends Controller
         //         $add->account_main_type = $user_group;
         //         $add->person_name = $item->fname.' '.$item->lname;
         //         $add->store_id = $store_id;
-        //         $add->save();                  
-        //     }   
+        //         $add->save();
+        //     }
         //     return response()->json([
         //         'status'     => '200'
         //     ]);
@@ -883,13 +883,13 @@ class AccountController extends Controller
         if ($yearcount > 0 && $monthsid > 0 && $usergroup && $storeid > 0) {
             return response()->json([
                 'status'     => '100'
-            ]);       
+            ]);
         } else {
             $users = User::where('users_group_id','=',$user_group)->where('store_id','=',$store_id)->get();
-            foreach ($users as $item) {  
+            foreach ($users as $item) {
                 $add = new Account_main();
                 // $add->account_main_date = $years_id.'-'.$months_id.'-'.'1';
-                //   $add->account_main_date = $years_id.'-'.$months_id.'-'.'1'; 
+                //   $add->account_main_date = $years_id.'-'.$months_id.'-'.'1';
                 $add->account_main_date = $date;
                 $add->cid = $item->cid;
                 $add->account_main_year = $years_id;
@@ -898,14 +898,14 @@ class AccountController extends Controller
                 $add->account_main_type = $user_group;
                 $add->person_name = $item->fname.' '.$item->lname;
                 $add->store_id = $store_id;
-                $add->save();                  
-            }   
+                $add->save();
+            }
             return response()->json([
                 'status'     => '200'
             ]);
         }
-        
-      
+
+
     }
     public function account_money_copysave(Request $request)
     {
@@ -937,7 +937,7 @@ class AccountController extends Controller
             return response()->json([
                 'status'     => '50'
             ]);
-        } else {    
+        } else {
             if ($yearcount > 0 && $monthsid > 0 && $usergroup) {
                 return response()->json([
                     'status'     => '100'
@@ -949,7 +949,7 @@ class AccountController extends Controller
             } else {
                 $users_old = Account_main::where('account_main_year','=',$leave_yearid22)->where('account_main_mounts','=',$MONTH_ID22)->where('store_id','=',$store_id)
                 ->where('account_main_type','=',$account_maintype22)->get();
-                foreach ($users_old as $item) {  
+                foreach ($users_old as $item) {
                     $add = new Account_main();
                     // $add->account_main_date = $years_id.'-'.$months_id.'-'.'1';
                     $add->account_main_date = $date;
@@ -993,14 +993,14 @@ class AccountController extends Controller
                     $add->balance = $item->balance;
                     $add->account_rep_active = 'COPYREQUEST';
                     $add->store_id = $store_id;
-                    $add->save();                  
-                }   
+                    $add->save();
+                }
                 return response()->json([
                     'status'     => '200'
                 ]);
-            }        
-        }  
-  
+            }
+        }
+
     }
     public function account_money_personedit(Request $request,$id)
     {
@@ -1022,11 +1022,11 @@ class AccountController extends Controller
         $cost_of_living = $request->cost_of_living;
         $a24percent = $request->a24percent;
         $ot = $request->ot;
-       
-        // $linkcount = DB::table('account_main')->where('account_main_id','=',$id)->count(); 
+
+        // $linkcount = DB::table('account_main')->where('account_main_id','=',$id)->count();
 
         // if ($linkcount > 0) {
-            Account_main::where('account_main_id', $id) 
+            Account_main::where('account_main_id', $id)
             ->update([
                 'acc'              => $acc,
                 'salary'           => $salary,
@@ -1041,18 +1041,18 @@ class AccountController extends Controller
                 'balance'          => $salary + $backpay + $positionpay + $a0811 + $cost_of_living + $a24percent + $ot
             ]);
 
-            // $link = DB::table('account_main')->where('account_main_id','=',$id)->first(); 
+            // $link = DB::table('account_main')->where('account_main_id','=',$id)->first();
             // $expensum = $link->expend_sum;
             // $revenuesum = $link->revenue_sum;
             // $updatebalance = $revenuesum - $expensum;
 
-            // Account_main::where('account_main_id', $id) 
+            // Account_main::where('account_main_id', $id)
             // ->update([
             //     'balance'          => $updatebalance
             // ]);
 
         // } else {
-            // Account_main::where('account_main_id', $id) 
+            // Account_main::where('account_main_id', $id)
             // ->update([
             //     'acc'              => $acc,
             //     'salary'           => $salary,
@@ -1066,7 +1066,7 @@ class AccountController extends Controller
             //     'account_rep_active'  =>  'TAKEDOWN'
             // ]);
         // }
-        
+
 
         return response()->json([
             'status'     => '200'
@@ -1083,7 +1083,7 @@ class AccountController extends Controller
         $cost_of_living = $request->cost_of_living;
         $a24percent = $request->a24percent;
         $ot = $request->ot;
-        Account_main::where('account_main_id', $id) 
+        Account_main::where('account_main_id', $id)
             ->update([
                 'acc'              => $acc,
                 'salary'           => $salary,
@@ -1101,7 +1101,7 @@ class AccountController extends Controller
             'status'     => '200'
         ]);
     }
-      
+
 
     public function account_money_hospay(Request $request)
     {
@@ -1120,7 +1120,7 @@ class AccountController extends Controller
 
         $endM = date('m', strtotime($enddate));
         $endY = date('Y', strtotime($enddate)) + 543;
-       
+
         // dd($endY);
         if ($main_type != '' ) {
             $datashow = DB::connection('mysql')->select('
@@ -1130,12 +1130,12 @@ class AccountController extends Controller
                 ,a.coop,a.F24,a.F25,a.F26,a.F27,a.F28,a.F29,a.other,a.expend_sum,a.balance,a.account_rep_active,a.account_pay_active
                 ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.store_id,a.account_main_mounts
                 from account_main a
-                left outer join users u on u.cid = a.cid 
-                left outer join users_prefix up on up.prefix_code = u.pname 
-                left outer join users_group ug on ug.users_group_id = a.account_main_type  
-                where a.account_main_year between "' . $strY . '" AND "' . $endY . '" 
-                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '" 
-                AND a.account_main_type ="'.$main_type.'" AND  a.store_id = "'.$id.'"           
+                left outer join users u on u.cid = a.cid
+                left outer join users_prefix up on up.prefix_code = u.pname
+                left outer join users_group ug on ug.users_group_id = a.account_main_type
+                where a.account_main_year between "' . $strY . '" AND "' . $endY . '"
+                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '"
+                AND a.account_main_type ="'.$main_type.'" AND  a.store_id = "'.$id.'"
             ');
         } else {
             $datashow = DB::connection('mysql')->select('
@@ -1145,16 +1145,16 @@ class AccountController extends Controller
                 ,a.coop,a.F24,a.F25,a.F26,a.F27,a.F28,a.F29,a.other,a.expend_sum,a.balance,a.account_rep_active,a.account_pay_active
                 ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.account_main_mounts
                 from account_main a
-                left outer join users u on u.cid = a.cid 
-                left outer join users_prefix up on up.prefix_code = u.pname 
-                left outer join users_group ug on ug.users_group_id = a.account_main_type  
-                where a.account_main_year between "' . $strY . '" AND "' . $endY . '" 
-                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '" 
-                AND  a.store_id = "'.$id.'"    
+                left outer join users u on u.cid = a.cid
+                left outer join users_prefix up on up.prefix_code = u.pname
+                left outer join users_group ug on ug.users_group_id = a.account_main_type
+                where a.account_main_year between "' . $strY . '" AND "' . $endY . '"
+                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '"
+                AND  a.store_id = "'.$id.'"
             ');
             $main_type ='';
-        }              
-       
+        }
+
         $data_account_main = DB::table('account_main')->whereBetween('account_main_date', [$startdate, $enddate])->count();
         $data['users'] = User::where('store_id','=',$id)->get();
         $data['leave_month'] = DB::table('leave_month')->get();
@@ -1175,7 +1175,7 @@ class AccountController extends Controller
             'id'    => $id,
             'data_hos'          => $data_hos
         ]);
-    }  
+    }
     public function account_money_payedit(Request $request,$id)
     {
         $account = Account_main::find($id);
@@ -1189,7 +1189,7 @@ class AccountController extends Controller
     {
 
         $id = $request->account_main_id;
-        $link = DB::table('account_main')->where('account_main_id','=',$id)->first(); 
+        $link = DB::table('account_main')->where('account_main_id','=',$id)->first();
         $rev_sum = $link->revenue_sum;
         $rev_salary = $link->salary;
         $rev_backpay = $link->backpay;
@@ -1200,7 +1200,7 @@ class AccountController extends Controller
         $gbkhdata2 = DB::table('account_listpercen')->where('account_listpercen_id','=',2)->first();   //กบข ตกเบิก
         $fundbackpaypercent = $gbkhdata2->account_listpercen_percent;
 
-        // $adddata = DB::table('account_listpercen')->where('account_listpercen_id','=',3)->first(); 
+        // $adddata = DB::table('account_listpercen')->where('account_listpercen_id','=',3)->first();
         // $adddatapercent = $adddata->account_listpercen_percent;
 
         $tax = $request->tax;
@@ -1217,7 +1217,7 @@ class AccountController extends Controller
         } else {
             $add = 0;
         }
-         
+
         $installment = $request->installment;
         $flat = $request->flat;
         $share = $request->share;
@@ -1234,8 +1234,8 @@ class AccountController extends Controller
         $F29 = $request->F29;
         $other = $request->other;
 
-       
-        Account_main::where('account_main_id', $id) 
+
+        Account_main::where('account_main_id', $id)
             ->update([
                 'tax'              => $tax,
                 'fund'             => $fund,
@@ -1257,13 +1257,13 @@ class AccountController extends Controller
                 'F29'              => $F29,
                 'other'            => $other,
                 'account_pay_active'  =>  'TAKEDOWN',
-                'expend_sum'       => $tax+$fund+$fundbackpay+$add+$installment+$flat+$share+$loan+$food+$water+$electric+$coop+$F24+$F25+$F26+$F27+$F28+$F29+$other               
+                'expend_sum'       => $tax+$fund+$fundbackpay+$add+$installment+$flat+$share+$loan+$food+$water+$electric+$coop+$F24+$F25+$F26+$F27+$F28+$F29+$other
             ]);
 
-            $link2 = DB::table('account_main')->where('account_main_id','=',$id)->first(); 
+            $link2 = DB::table('account_main')->where('account_main_id','=',$id)->first();
             $rev_sum2 = $link2->expend_sum;
 
-            Account_main::where('account_main_id', $id) 
+            Account_main::where('account_main_id', $id)
             ->update([
                 'balance'              => $rev_sum - $rev_sum2
             ]);
@@ -1276,7 +1276,7 @@ class AccountController extends Controller
     {
 
         $id = $request->account_main_id;
-        $link = DB::table('account_main')->where('account_main_id','=',$id)->first(); 
+        $link = DB::table('account_main')->where('account_main_id','=',$id)->first();
         $rev_sum = $link->revenue_sum;
         $rev_salary = $link->salary;
         $rev_backpay = $link->backpay;
@@ -1287,7 +1287,7 @@ class AccountController extends Controller
         $gbkhdata2 = DB::table('account_listpercen')->where('account_listpercen_id','=',2)->first();   //กบข ตกเบิก
         $fundbackpaypercent = $gbkhdata2->account_listpercen_percent;
 
-        // $adddata = DB::table('account_listpercen')->where('account_listpercen_id','=',3)->first(); 
+        // $adddata = DB::table('account_listpercen')->where('account_listpercen_id','=',3)->first();
         // $adddatapercent = $adddata->account_listpercen_percent;
 
         $tax = $request->tax;
@@ -1304,7 +1304,7 @@ class AccountController extends Controller
         } else {
             $add =  $link->add;
         }
-         
+
         $installment = $request->installment;
         $flat = $request->flat;
         $share = $request->share;
@@ -1321,8 +1321,8 @@ class AccountController extends Controller
         $F29 = $request->F29;
         $other = $request->other;
 
-       
-        Account_main::where('account_main_id', $id) 
+
+        Account_main::where('account_main_id', $id)
             ->update([
                 'tax'              => $tax,
                 'fund'             => $fund,
@@ -1344,13 +1344,13 @@ class AccountController extends Controller
                 'F29'              => $F29,
                 'other'            => $other,
                 'account_pay_active'  =>  'CHECK',
-                'expend_sum'       => $tax+$fund+$fundbackpay+$add+$installment+$flat+$share+$loan+$food+$water+$electric+$coop+$F24+$F25+$F26+$F27+$F28+$F29+$other               
+                'expend_sum'       => $tax+$fund+$fundbackpay+$add+$installment+$flat+$share+$loan+$food+$water+$electric+$coop+$F24+$F25+$F26+$F27+$F28+$F29+$other
             ]);
 
-            $link2 = DB::table('account_main')->where('account_main_id','=',$id)->first(); 
+            $link2 = DB::table('account_main')->where('account_main_id','=',$id)->first();
             $rev_sum2 = $link2->expend_sum;
 
-            Account_main::where('account_main_id', $id) 
+            Account_main::where('account_main_id', $id)
             ->update([
                 'balance'              => $rev_sum - $rev_sum2
             ]);
@@ -1362,7 +1362,7 @@ class AccountController extends Controller
     public function account_money_pay_onlyupdate(Request $request)
     {
         $id = $request->account_main_id;
-        $link = DB::table('account_main')->where('account_main_id','=',$id)->first(); 
+        $link = DB::table('account_main')->where('account_main_id','=',$id)->first();
         $rev_sum = $link->revenue_sum;
         $rev_salary = $link->salary;
         $rev_backpay = $link->backpay;
@@ -1387,7 +1387,7 @@ class AccountController extends Controller
         } else {
             $add =  $link->add;
         }
-         
+
         $installment = $request->installment;
         $flat = $request->flat;
         $share = $request->share;
@@ -1404,8 +1404,8 @@ class AccountController extends Controller
         $F29 = $request->F29;
         $other = $request->other;
 
-       
-        Account_main::where('account_main_id', $id) 
+
+        Account_main::where('account_main_id', $id)
             ->update([
                 'tax'              => $tax,
                 'fund'             => $fund,
@@ -1427,13 +1427,13 @@ class AccountController extends Controller
                 'F29'              => $F29,
                 'other'            => $other,
                 'account_pay_active'  =>  'CHECK',
-                'expend_sum'       => $tax+$fund+$fundbackpay+$add+$installment+$flat+$share+$loan+$food+$water+$electric+$coop+$F24+$F25+$F26+$F27+$F28+$F29+$other               
+                'expend_sum'       => $tax+$fund+$fundbackpay+$add+$installment+$flat+$share+$loan+$food+$water+$electric+$coop+$F24+$F25+$F26+$F27+$F28+$F29+$other
             ]);
 
-            $link2 = DB::table('account_main')->where('account_main_id','=',$id)->first(); 
+            $link2 = DB::table('account_main')->where('account_main_id','=',$id)->first();
             $rev_sum2 = $link2->expend_sum;
 
-            Account_main::where('account_main_id', $id) 
+            Account_main::where('account_main_id', $id)
             ->update([
                 'balance'              => $rev_sum - $rev_sum2
             ]);
@@ -1445,7 +1445,7 @@ class AccountController extends Controller
 
     public function changstatus(Request $request,$id)
     {
-      
+
         $accountstatus = Account_main::find($id);
         return response()->json([
             'status'     => '200',
@@ -1455,7 +1455,7 @@ class AccountController extends Controller
     public function account_money_repupdate (Request $request)
     {
         $id = $request->account_main_id;
-        Account_main::where('account_main_id', $id) 
+        Account_main::where('account_main_id', $id)
             ->update([
                 'account_rep_active'  =>  'REPFINISH'
             ]);
@@ -1471,15 +1471,15 @@ class AccountController extends Controller
         return view('account.account_money_setting',$data);
     }
     public function account_money_settingsave (Request $request)
-    {  
-            // $per = $request->account_percen_id; 
+    {
+            // $per = $request->account_percen_id;
             // if ($per != '') {
             //     $idper = DB::table('account_percen')->where('account_percen_id','=',$per)->first();
-            //     $percent = $idper->account_percen_name;  
+            //     $percent = $idper->account_percen_name;
             // }else{
-            //     $percent = ''; 
-            // } 
-            
+            //     $percent = '';
+            // }
+
             $data_add = Account_listpercen::create([
                 'account_listpercen_name' => $request->account_percen_name,
                 'account_listpercen_percent' => $request->account_listpercen_percent
@@ -1488,16 +1488,16 @@ class AccountController extends Controller
         return response()->json(['status' => '200']);
     }
     public function account_money_destroy(Request $request,$id)
-    {      
+    {
         $data = Account_listpercen::find($id);
         $data->delete();
         return response()->json([
-            'status'     => '200' 
+            'status'     => '200'
         ]);
     }
     public function account_money_settingedit(Request $request,$id)
     {
-      
+
         $listpercen = Account_listpercen::find($id);
         return response()->json([
             'status'     => '200',
@@ -1507,7 +1507,7 @@ class AccountController extends Controller
     public function account_money_settingupdate (Request $request)
     {
         $id = $request->account_listpercen_id;
-        Account_listpercen::where('account_listpercen_id', $id) 
+        Account_listpercen::where('account_listpercen_id', $id)
             ->update([
                 'account_listpercen_name'  =>  $request->account_listpercen_name,
                 'account_listpercen_percent'  =>  $request->account_listpercen_percent
@@ -1516,7 +1516,7 @@ class AccountController extends Controller
     }
 
     public function account_money_creditorsave (Request $request)
-    {   
+    {
             $data_add = Account_creditor::create([
                 'account_creditor_code' => $request->account_creditor_code,
                 'account_creditor_name' => $request->account_creditor_name
@@ -1536,7 +1536,7 @@ class AccountController extends Controller
     public function account_money_creditorupdate (Request $request)
     {
         $id = $request->account_creditor_id;
-        Account_creditor::where('account_creditor_id',$id) 
+        Account_creditor::where('account_creditor_id',$id)
             ->update([
                 'account_creditor_code'  =>  $request->account_creditor_code,
                 'account_creditor_name'  =>  $request->account_creditor_name
@@ -1550,14 +1550,14 @@ class AccountController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $main_type = $request->account_main_type;
- 
+
         $date = date('Y-m-d');
         $strM = date('m', strtotime($startdate));
         $strY = date('Y', strtotime($startdate)) + 543;
 
         $endM = date('m', strtotime($enddate));
         $endY = date('Y', strtotime($enddate)) + 543;
-      
+
         if ($main_type != '' ) {
             $datashow = DB::connection('mysql')->select('
                 select a.account_main_id,a.account_main_date,a.account_main_time,a.account_main_year,a.account_main_type
@@ -1566,12 +1566,12 @@ class AccountController extends Controller
                 ,a.coop,a.F24,a.F25,a.F26,a.F27,a.F28,a.F29,a.other,a.expend_sum,a.balance,a.account_rep_active
                 ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.store_id,a.account_main_mounts
                 from account_main a
-                left outer join users u on u.cid = a.cid 
-                left outer join users_prefix up on up.prefix_code = u.pname 
-                left outer join users_group ug on ug.users_group_id = a.account_main_type  
-                where a.account_main_year between "' . $strY . '" AND "' . $endY . '" 
-                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '" 
-                AND a.account_main_type ="'.$main_type.'" AND  a.store_id = "'.$idstore.'"           
+                left outer join users u on u.cid = a.cid
+                left outer join users_prefix up on up.prefix_code = u.pname
+                left outer join users_group ug on ug.users_group_id = a.account_main_type
+                where a.account_main_year between "' . $strY . '" AND "' . $endY . '"
+                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '"
+                AND a.account_main_type ="'.$main_type.'" AND  a.store_id = "'.$idstore.'"
             ');
         } else {
             $datashow = DB::connection('mysql')->select('
@@ -1581,16 +1581,16 @@ class AccountController extends Controller
                 ,a.coop,a.F24,a.F25,a.F26,a.F27,a.F28,a.F29,a.other,a.expend_sum,a.balance,a.account_rep_active
                 ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.account_main_mounts
                 from account_main a
-                left outer join users u on u.cid = a.cid 
-                left outer join users_prefix up on up.prefix_code = u.pname 
-                left outer join users_group ug on ug.users_group_id = a.account_main_type  
-                where a.account_main_year between "' . $strY . '" AND "' . $endY . '" 
-                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '" 
-                AND  a.store_id = "'.$idstore.'"    
+                left outer join users u on u.cid = a.cid
+                left outer join users_prefix up on up.prefix_code = u.pname
+                left outer join users_group ug on ug.users_group_id = a.account_main_type
+                where a.account_main_year between "' . $strY . '" AND "' . $endY . '"
+                AND a.account_main_mounts between "' . $strM . '" AND "' . $endM . '"
+                AND  a.store_id = "'.$idstore.'"
             ');
             $main_type ='';
-        }              
-       
+        }
+
         $data_account_main = DB::table('account_main')->whereBetween('account_main_date', [$startdate, $enddate])->count();
         $data['users'] = User::where('store_id','=',$idstore)->get();
         $data['leave_month'] = DB::table('leave_month')->get();
@@ -1610,7 +1610,7 @@ class AccountController extends Controller
             'main_type'  => $main_type,
             'id'    => $idstore
         ]);
-    } 
+    }
 
     public function account_money_monthlydebthos(Request $request)
     {
@@ -1629,7 +1629,7 @@ class AccountController extends Controller
 
         $endM = date('m', strtotime($enddate));
         $endY = date('Y', strtotime($enddate)) + 543;
-       
+
         // dd($endY);
         if ($main_type != '' ) {
             $datashow = DB::connection('mysql')->select('
@@ -1638,14 +1638,14 @@ class AccountController extends Controller
                     ,a.os_code,a.os_price,a.ktb_code,a.ktb_price
                     ,a.cremation_code,a.cremation_price,a.other_code,a.other_price,a.scb_code,a.scb_price
                     ,a.account_monthlydebt_active,a.account_monthlydebt_usersave
-                    ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.store_id 
+                    ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.store_id
                     from account_monthlydebt a
-                    left outer join users u on u.cid = a.cid 
-                    left outer join users_prefix up on up.prefix_code = u.pname 
-                    left outer join users_group ug on ug.users_group_id = a.account_monthlydebt_type  
-                    where a.account_monthlydebt_year between "' . $strY . '" AND "' . $endY . '" 
-                    AND a.account_monthlydebt_mounts between "' . $strM . '" AND "' . $endM . '" 
-                    AND a.account_monthlydebt_type ="'.$main_type.'" AND  a.store_id = "'.$id.'"           
+                    left outer join users u on u.cid = a.cid
+                    left outer join users_prefix up on up.prefix_code = u.pname
+                    left outer join users_group ug on ug.users_group_id = a.account_monthlydebt_type
+                    where a.account_monthlydebt_year between "' . $strY . '" AND "' . $endY . '"
+                    AND a.account_monthlydebt_mounts between "' . $strM . '" AND "' . $endM . '"
+                    AND a.account_monthlydebt_type ="'.$main_type.'" AND  a.store_id = "'.$id.'"
             ');
         } else {
             $datashow = DB::connection('mysql')->select('
@@ -1654,18 +1654,18 @@ class AccountController extends Controller
             ,a.os_code,a.os_price,a.ktb_code,a.ktb_price
             ,a.cremation_code,a.cremation_price,a.other_code,a.other_price,a.scb_code,a.scb_price
             ,a.account_monthlydebt_active,a.account_monthlydebt_usersave
-            ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.store_id 
+            ,u.fname,u.lname,u.cid,up.prefix_name,ug.users_group_name,a.store_id
                     from account_monthlydebt a
-                    left outer join users u on u.cid = a.cid 
-                    left outer join users_prefix up on up.prefix_code = u.pname 
-                    left outer join users_group ug on ug.users_group_id = a.account_monthlydebt_type  
-                    where a.account_monthlydebt_year between "' . $strY . '" AND "' . $endY . '" 
-                    AND a.account_monthlydebt_mounts between "' . $strM . '" AND "' . $endM . '" 
-                    AND  a.store_id = "'.$id.'"    
+                    left outer join users u on u.cid = a.cid
+                    left outer join users_prefix up on up.prefix_code = u.pname
+                    left outer join users_group ug on ug.users_group_id = a.account_monthlydebt_type
+                    where a.account_monthlydebt_year between "' . $strY . '" AND "' . $endY . '"
+                    AND a.account_monthlydebt_mounts between "' . $strM . '" AND "' . $endM . '"
+                    AND  a.store_id = "'.$id.'"
             ');
             $main_type ='';
-        }              
-       
+        }
+
         $data_account_monthlydebt = DB::table('account_monthlydebt')->whereBetween('account_monthlydebt_date', [$startdate, $enddate])->count();
         $data['users'] = User::where('store_id','=',$id)->get();
         $data['leave_month'] = DB::table('leave_month')->get();
@@ -1685,7 +1685,7 @@ class AccountController extends Controller
             'main_type'                => $main_type,
             'id'                       => $id
         ]);
-    }  
+    }
     public function account_money_monthlydebtedit(Request $request,$id)
     {
         $account = Account_monthlydebt::find($id);
@@ -1697,7 +1697,7 @@ class AccountController extends Controller
     }
     public function account_money_monthlydebtupdate(Request $request)
     {
-        $id = $request->account_monthlydebt_id;            
+        $id = $request->account_monthlydebt_id;
         $shk_price = $request->shk_price;
         $shk_code = $request->shk_code;
         $tos_price = $request->tos_price;
@@ -1711,8 +1711,8 @@ class AccountController extends Controller
         $other_price = $request->other_price;
         $other_code = $request->other_code;
         $scb_price = $request->scb_price;
-        $scb_code = $request->scb_code;       
-        Account_monthlydebt::where('account_monthlydebt_id', $id) 
+        $scb_code = $request->scb_code;
+        Account_monthlydebt::where('account_monthlydebt_id', $id)
             ->update([
                 'shk_price'        => $shk_price,
                 'shk_code'         => $shk_code,
@@ -1727,7 +1727,7 @@ class AccountController extends Controller
                 'other_price'         => $other_price,
                 'other_code'             => $other_code,
                 'scb_price'              => $scb_price,
-                'scb_code'              => $scb_code            
+                'scb_code'              => $scb_code
             ]);
         return response()->json([
             'status'     => '200'
@@ -1748,15 +1748,15 @@ class AccountController extends Controller
         $monthsid = Account_monthlydebt::where('account_monthlydebt_mounts','=',$months_id)->count();
         $usergroup = Account_monthlydebt::where('account_monthlydebt_type','=',$user_group)->count();
         $storeid = Account_monthlydebt::where('store_id','=',$store_id)->count();
- 
+
         if ($yearcount > 0 && $monthsid > 0 && $usergroup && $storeid > 0) {
             return response()->json([
                 'status'     => '100'
-            ]);       
+            ]);
         } else {
             $users = User::where('users_group_id','=',$user_group)->where('store_id','=',$store_id)->get();
-            foreach ($users as $item) {  
-                $add = new Account_monthlydebt(); 
+            foreach ($users as $item) {
+                $add = new Account_monthlydebt();
                 $add->account_monthlydebt_date = $date;
                 $add->cid = $item->cid;
                 $add->account_monthlydebt_year = $years_id;
@@ -1765,12 +1765,12 @@ class AccountController extends Controller
                 $add->account_monthlydebt_type = $user_group;
                 $add->person_name = $item->fname.' '.$item->lname;
                 $add->store_id = $store_id;
-                $add->save();                  
-            }   
+                $add->save();
+            }
             return response()->json([
                 'status'     => '200'
             ]);
-        }              
+        }
     }
     public function account_money_monthlydebt_copypersonsave(Request $request)
     {
@@ -1802,7 +1802,7 @@ class AccountController extends Controller
             return response()->json([
                 'status'     => '50'
             ]);
-        } else {    
+        } else {
             if ($yearcount > 0 && $monthsid > 0 && $usergroup) {
                 return response()->json([
                     'status'     => '100'
@@ -1814,7 +1814,7 @@ class AccountController extends Controller
             } else {
                 $users_old = Account_monthlydebt::where('account_monthlydebt_year','=',$leave_yearid22)->where('account_monthlydebt_mounts','=',$MONTH_ID22)->where('store_id','=',$store_id)
                 ->where('account_monthlydebt_type','=',$account_monthlydebt_type22)->get();
-                foreach ($users_old as $item) {  
+                foreach ($users_old as $item) {
                     $add = new Account_monthlydebt();
                     // $add->account_main_date = $years_id.'-'.$months_id.'-'.'1';
                     $add->account_monthlydebt_date = $date;
@@ -1843,18 +1843,17 @@ class AccountController extends Controller
                     $add->scb_price = $item->scb_price;
                     $add->account_monthlydebt_usersave = $item->account_monthlydebt_usersave;
                     $add->store_id = $store_id;
-                    $add->save();                  
-                }   
+                    $add->save();
+                }
                 return response()->json([
                     'status'     => '200'
                 ]);
-            }        
-        }  
-  
+            }
+        }
+
     }
-    
+
 
 
 
 }
- 
