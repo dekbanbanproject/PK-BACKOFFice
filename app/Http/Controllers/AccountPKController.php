@@ -185,7 +185,7 @@ class AccountPKController extends Controller
                         'debit_refer'        => $value->debit_refer,
                         'max_debt_amount'    => $value->max_debt_money
                     ]);
-                }
+
                 $acc_opitemrece_ = DB::connection('mysql3')->select('
                     SELECT o.vn,o.an,o.hn,o.vstdate,o.rxdate,o.income as income_group,o.pttype,o.paidst
                     ,o.icode,s.name as iname,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price
@@ -215,7 +215,7 @@ class AccountPKController extends Controller
                         'sum_price'          => $va2->sum_price,
                     ]);
                 }
-
+            }
             }
 
         return response()->json([
