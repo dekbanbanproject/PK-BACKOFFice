@@ -172,13 +172,25 @@
                                                         LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
                                                         WHERE month(a.vstdate) = "'.$item->months.'"
                                                         AND year(a.vstdate) = "'.$item->year.'"
-
+                                                        AND au.repno IS NULL
                                                     ');
                                                     // AND au.rep IS NULL
                                                     foreach ($sumnext_ as $key => $value4) {
                                                         $Ndebittotal = $value4->Ndebit_total;
                                                         $Ndebitcount = $value4->NoApvit;
                                                     }
+                                                    $sumyokma_ = DB::select('
+                                                        SELECT count(DISTINCT vn) as anyokma ,sum(debit_total) as debityokma
+                                                            FROM acc_1102050101_2166
+                                                            WHERE status ="N"
+                                                    ');
+                                                    foreach ($sumyokma_ as $key => $value5) {
+                                                        $total_yokma_ = $value5->debityokma;
+                                                        $count_yokma_ = $value5->anyokma;
+                                                    }
+                                                    $total_yokma = $total_yokma_ + $Ndebittotal;
+                                                    // $total_yokma = $total_yokma_;
+                                                    $count_yokma = $count_yokma_ + $Ndebitcount
                                             ?>
                                             <div class="row">
                                                 <div class="col-md-5 text-start mt-4 ms-4">

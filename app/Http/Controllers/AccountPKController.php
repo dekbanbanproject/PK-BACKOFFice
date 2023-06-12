@@ -120,7 +120,7 @@ class AccountPKController extends Controller
                 left join patient pt on pt.hn=o.hn
                 LEFT JOIN pttype ptt on o.pttype=ptt.pttype
                 LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                LEFT JOIN opitemrece op ON op.an = o.an
+                LEFT JOIN opitemrece op ON op.vn = o.vn
 
             where o.vstdate between "' . $startdate . '" and "' . $enddate . '"
             and o.an IS NULL
