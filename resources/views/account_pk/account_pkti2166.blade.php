@@ -1,6 +1,6 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
-  
+
 @section('content')
     <script>
         function TypeAdmin() {
@@ -18,7 +18,7 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    
+
     <style>
         #button{
                display:block;
@@ -28,7 +28,7 @@
                border:solid #ccc 1px;
                cursor: pointer;
                }
-               #overlay{	
+               #overlay{
                position: fixed;
                top: 0;
                z-index: 100;
@@ -41,7 +41,7 @@
                height: 100%;
                display: flex;
                justify-content: center;
-               align-items: center;  
+               align-items: center;
                }
                .spinner {
                width: 250px;
@@ -52,8 +52,8 @@
                animation: sp-anime 0.8s infinite linear;
                }
                @keyframes sp-anime {
-               100% { 
-                   transform: rotate(360deg); 
+               100% {
+                   transform: rotate(360deg);
                }
                }
                .is-hide{
@@ -65,16 +65,16 @@
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
-                    
+
                 </div>
             </div>
         </div>
-         
+
         <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body shadow-lg">
-                      
+
                         <div class="row">
                             <div class="col-md-4">
                                 <h4 class="card-title">Detail Account</h4>
@@ -82,7 +82,7 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pk_debtor')}}">
+                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pkti2166_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -95,40 +95,40 @@
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
-                                          
-                                            <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
-                                            <th class="text-center" width="5%">vn</th> 
+
+                                            <th width="5%" class="text-center">ลำดับ</th>
+                                            <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th>
+                                            <th class="text-center" width="5%">vn</th>
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">vstdate</th>  
-                                            <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th> 
+                                            <th class="text-center">vstdate</th>
+                                            <th class="text-center">pttype</th>
+                                            <th class="text-center">spsch</th>
                                             <th class="text-center">income</th>
-                                            <th class="text-center">uc_money</th>  
+                                            <th class="text-center">uc_money</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
-                                        @foreach ($acc_debtor as $item) 
-                                            <tr id="tr_{{$item->acc_debtor_id}}">                                                  
-                                                <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
-                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hn }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
-                                                
-                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
-                                                <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td> 
- 
+                                        @foreach ($acc_debtor as $item)
+                                            <tr id="tr_{{$item->acc_debtor_id}}">
+                                                <td class="text-center" width="5%">{{ $i++ }}</td>
+                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>
+                                                <td class="text-center" width="5%">{{ $item->vn }}</td>
+                                                <td class="text-center" width="5%">{{ $item->an }}</td>
+                                                <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                                <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                                <td class="p-2" >{{ $item->ptname }}</td>
+                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>
+
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>
+
+                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>
+                                                <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -148,17 +148,17 @@
                             <div class="col-md-4">
                                 <h5>account_pk </h5>
                             </div>
-                            <div class="col"></div> 
+                            <div class="col"></div>
                             <div class="col-md-2 text-end">
-                           
+
                             </div>
-    
+
                         </div>
                     </div>
                     <div class="card-body shadow-lg">
                         <div class="table-responsive">
-                           
- 
+
+
                         </div>
                     </div>
                 </div>
@@ -166,11 +166,11 @@
         </div> --}}
     </div>
     </div>
-  
+
 
     @endsection
     @section('footer')
-    
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -182,17 +182,17 @@
                 format: 'yyyy-mm-dd'
             });
             $('#stamp').on('click', function(e) {
-                if($(this).is(':checked',true))  
+                if($(this).is(':checked',true))
                 {
-                    $(".sub_chk").prop('checked', true);  
-                } else {  
-                    $(".sub_chk").prop('checked',false);  
-                }  
-            }); 
+                    $(".sub_chk").prop('checked', true);
+                } else {
+                    $(".sub_chk").prop('checked',false);
+                }
+            });
             // $.ajaxSetup({
             //     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             // });
-            
+
             $('.Savestamp').on('click', function(e) {
                 // alert('oo');
                 var allValls = [];
@@ -207,9 +207,9 @@
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33', 
+                        cancelButtonColor: '#d33',
                         }).then((result) => {
-                        
+
                         })
                 } else {
                     Swal.fire({
@@ -231,7 +231,7 @@
                                         type: 'POST',
                                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                                         data: 'ids='+join_selected_values,
-                                        success:function(data){ 
+                                        success:function(data){
                                                 if (data.status == 200) {
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
@@ -253,12 +253,12 @@
                                                         }
                                                     })
                                                 } else {
-                                                    
+
                                                 }
-                                                
+
 
                                             // } else {
-                                            //     alert("Whoops Something went worng all"); 
+                                            //     alert("Whoops Something went worng all");
                                             // }
                                         }
                                     });
@@ -267,17 +267,17 @@
                                     });
                                 }
                             }
-                        }) 
-                    // var check = confirm("Are you want ?");  
+                        })
+                    // var check = confirm("Are you want ?");
                 }
             });
-             
+
 
             $("#spinner-div").hide(); //Request is complete so hide spinner
 
             $('#Save_opd').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
+                var datepicker = $('#datepicker').val();
+                var datepicker2 = $('#datepicker2').val();
                 //    alert(datepicker);
                 $.ajax({
                     url: "{{ route('acc.account_pksave') }}",
@@ -285,7 +285,7 @@
                     dataType: 'json',
                     data: {
                         datepicker,
-                        datepicker2                        
+                        datepicker2
                     },
                     success: function(data) {
                         if (data.status == 200) {
@@ -306,15 +306,15 @@
                                 }
                             })
                         } else {
-                            
+
                         }
 
                     },
                 });
             });
             $('#Check_sit').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
+                var datepicker = $('#datepicker').val();
+                var datepicker2 = $('#datepicker2').val();
                 //    alert(datepicker);
                 Swal.fire({
                         title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
@@ -327,17 +327,17 @@
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 $("#overlay").fadeIn(300);　
-                                $("#spinner-div").show(); //Load button clicked show spinner 
+                                $("#spinner-div").show(); //Load button clicked show spinner
                             $.ajax({
                                 url: "{{ route('acc.account_pkCheck_sit') }}",
                                 type: "POST",
                                 dataType: 'json',
                                 data: {
                                     datepicker,
-                                    datepicker2                        
+                                    datepicker2
                                 },
                                 success: function(data) {
-                                    if (data.status == 200) { 
+                                    if (data.status == 200) {
                                         Swal.fire({
                                             title: 'เช็คสิทธิ์สำเร็จ',
                                             text: "You Check sit success",
@@ -358,7 +358,7 @@
                                             }
                                         })
                                     } else {
-                                        
+
                                     }
 
                                 },
