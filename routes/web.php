@@ -1234,18 +1234,6 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'submitwork/{id}',[App\Http\Controllers\PrbController::class,'submitwork'])->name('rep.submitwork');//
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     // **************************** บัญชี ***********************
     Route::match(['get','post'],'account_pk',[App\Http\Controllers\AccountPKController::class, 'account_pk'])->name('acc.account_pk');//
     Route::match(['get','post'],'account_pksave',[App\Http\Controllers\AccountPKController::class, 'account_pksave'])->name('acc.account_pksave');//

@@ -1,20 +1,52 @@
-@extends('layouts.article')
+@extends('layouts.articleslide')
 @section('title', 'PK-BACKOFFice || ข้อมูลครุภัณฑ์')
 
-  
-    <style>
-        .btn {
-            font-size: 15px;
-        }
+<style>
+    #button {
+        display: block;
+        margin: 20px auto;
+        padding: 30px 30px;
+        background-color: #eee;
+        border: solid #ccc 1px;
+        cursor: pointer;
+    }
 
-        .bgc {
-            background-color: #264886;
-        }
+    #overlay {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
 
-        .bga {
-            background-color: #fbff7d;
+    .cv-spinner {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spinner {
+        width: 250px;
+        height: 250px;
+        border: 10px #ddd solid;
+        border-top: 10px #1fdab1 solid;
+        border-radius: 50%;
+        animation: sp-anime 0.8s infinite linear;
+    }
+
+    @keyframes sp-anime {
+        100% {
+            transform: rotate(390deg);
         }
-    </style>
+    }
+
+    .is-hide {
+        display: none;
+    }
+</style>
     <?php
     use App\Http\Controllers\StaticController;
     use Illuminate\Support\Facades\DB;
@@ -22,7 +54,7 @@
     $count_building = StaticController::count_building();
     $count_article = StaticController::count_article();
     ?>
-     
+
 
 @section('content')
     <script>
@@ -34,12 +66,12 @@
   var url = input.value;
   var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
       if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-          var reader = new FileReader();    
+          var reader = new FileReader();
           reader.onload = function (e) {
               $('#edit_upload_preview').attr('src', e.target.result);
-          }    
+          }
           reader.readAsDataURL(input.files[0]);
-      }else{    
+      }else{
           alert('กรุณาอัพโหลดไฟล์ประเภทรูปภาพ .jpeg/.jpg/.png/.gif .');
           fileInput.value = '';
           return false;
@@ -56,14 +88,23 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
-    
+
     ?>
 
-    <div class="container-fluid ">
+<div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div>
+
+        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"> 
+                    <div class="card-header">
                         <div class="d-flex">
                             <div class="">
                                 <label for="">แก้ไขข้อมูลครุภัณฑ์</label>
@@ -73,16 +114,17 @@
                                 id="update_articleForm" enctype="multipart/form-data">
                                 @csrf
 
-                                <div class="row">  
+                                <div class="row">
+                                    <div class="col"></div>
                                     @if ($dataedits->article_claim == 'CLAIM')
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="article_claim" id="article_claim" value="CLAIM" checked>
                                             <label class="form-check-label" for="article_claim">
                                             เคลม
                                             </label>
-                                        </div> 
-                                    </div> 
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="article_claim" id="article_claim" value="NOCLAIM" >
@@ -90,16 +132,16 @@
                                                 ไม่เคลม
                                             </label>
                                             </div>
-                                    </div> 
+                                    </div>
                                     @else
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="article_claim" id="article_claim" value="CLAIM" >
                                             <label class="form-check-label" for="article_claim">
                                             เคลม
                                             </label>
-                                        </div> 
-                                    </div> 
+                                        </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="article_claim" id="article_claim" value="NOCLAIM" checked>
@@ -107,7 +149,7 @@
                                                 ไม่เคลม
                                             </label>
                                             </div>
-                                    </div> 
+                                    </div>
                                     @endif
 
                                     @if ($dataedits->article_used == 'YES')
@@ -152,12 +194,12 @@
                                     @endif
 
                                     <div class="col me-5"></div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body shadow-lg">
-                        
+
                         <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
                         <input type="hidden" name="article_typeid" id="PRODUCT_TYPEID" value="2">
                         <input type="hidden" name="article_groupid" id="PRODUCT_GROUPID" value="3">
@@ -167,11 +209,11 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                         
+
                                             @if ( $dataedits->article_img == Null )
                                             <img src="{{asset('assets/images/default-image.jpg')}}" id="edit_upload_preview" height="450px" width="350px" alt="Image" class="img-thumbnail">
                                             @else
-                                            <img src="{{asset('storage/article/'.$dataedits->article_img)}}" id="edit_upload_preview" height="450px" width="350px" alt="Image" class="img-thumbnail">                                 
+                                            <img src="{{asset('storage/article/'.$dataedits->article_img)}}" id="edit_upload_preview" height="450px" width="350px" alt="Image" class="img-thumbnail">
                                             @endif
                                         <br>
                                         <div class="input-group mb-3">
@@ -198,7 +240,7 @@
                                                     @else
                                                     <option value="{{ $year->leave_year_id }}"> {{ $year->leave_year_id }} </option>
                                                     @endif
-                                                        
+
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -259,7 +301,7 @@
                                                     @else
                                                     <option value="{{ $vendor->vendor_id }}"> {{ $vendor->vendor_name }} </option>
                                                     @endif
-                                                       
+
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -267,7 +309,7 @@
 
                                     </div>
 
-                                    <div class="row mt-3"> 
+                                    <div class="row mt-3">
                                         <div class="col-md-2 text-end">
                                             <label for="article_price">ราคา :</label>
                                         </div>
@@ -296,7 +338,7 @@
                                                     <option value="{{ $buy->buy_id }}">{{ $buy->buy_name }}
                                                     </option>
                                                     @endif
-                                                        
+
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -319,7 +361,7 @@
                                                     @else
                                                     <option value="{{ $procat->category_id }}">{{ $procat->category_name }}</option>
                                                     @endif
-                                                        
+
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -339,7 +381,7 @@
                                                     @else
                                                     <option value="{{ $deb_subsub->DEPARTMENT_SUB_SUB_ID }}"> {{ $deb_subsub->DEPARTMENT_SUB_SUB_NAME }} </option>
                                                     @endif
-                                                        
+
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -362,7 +404,7 @@
                                                         @else
                                                         <option value="{{ $prodecli->decline_id }}"> {{ $prodecli->decline_name }} </option>
                                                         @endif
-                                                            
+
                                                         @endforeach
                                                 </select>
                                             </div>
@@ -384,7 +426,7 @@
                                                     <option value="{{ $te->article_status_id }}">
                                                         {{ $te->article_status_name }} </option>
                                                     @endif
-                                                        
+
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -410,27 +452,27 @@
                                                         {{ $uni->unit_name }}
                                                     </option>
                                                     @endif
-                                                       
+
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-2 text-end">
                                             <label for="" style="color: red">* ถ้าไม่มีให้เพิ่ม</label>
-                                        </div> 
-                                        <div class="col-md-3"> 
+                                        </div>
+                                        <div class="col-md-3">
                                             <div class="form-outline bga">
                                                 <input type="text" id="UNIT_INSERT" name="UNIT_INSERT" class="form-control form-control-sm shadow"/>
                                                 {{-- <label class="form-label" for="UNIT_INSERT">เพิ่มหน่วยนับ</label> --}}
-                                            </div> 
+                                            </div>
                                         </div>
-                                        <div class="col-md-1"> 
+                                        <div class="col-md-1">
                                             <div class="form-group">
                                                 <button type="button" class="btn btn-primary btn-sm" onclick="addunit();">
                                                     เพิ่ม
-                                                </button> 
+                                                </button>
                                             </div>
-                                        </div> 
+                                        </div>
                                     </div>
 
                                     <div class="row mt-3">
@@ -452,43 +494,82 @@
                                                         {{ $bra->brand_name }}
                                                     </option>
                                                     @endif
-                                                       
+
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-md-2 text-end">
                                             <label for="" style="color: rgb(255, 145, 0)">* ถ้าไม่มีให้เพิ่ม </label>
-                                        </div> 
-                                        <div class="col-md-3"> 
+                                        </div>
+                                        <div class="col-md-3">
                                             <div class="form-outline bga">
                                                 <input type="text" id="BRAND_INSERT" name="BRAND_INSERT" class="form-control form-control-sm shadow"/>
                                                 {{-- <label class="form-label" for="BRAND_INSERT">เพิ่มยี่ห้อ</label> --}}
-                                            </div> 
+                                            </div>
                                         </div>
-                                        <div class="col-md-1"> 
+                                        <div class="col-md-1">
                                             <div class="form-group">
                                                 <button type="button" class="btn btn-primary btn-sm" onclick="addbrand();">
                                                     เพิ่ม
-                                                </button> 
+                                                </button>
                                             </div>
-                                        </div> 
+                                        </div>
                                     </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-2 text-end">
+                                            <label for="article_brand_id">ประเภทรถ :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="article_type_id" name="article_type_id"
+                                                    class="form-select form-select-lg show_brand" style="width: 100%">
+                                                    <option value=""></option>
+                                                    @foreach ($car_type as $ty)
+                                                        @if ($dataedits->article_type_id == $ty->car_type_id)
+                                                            <option value="{{ $ty->car_type_id }}" selected> {{ $ty->car_type_name }} </option>
+                                                        @else
+                                                            <option value="{{ $ty->car_type_id }}"> {{ $ty->car_type_name }} </option>
+                                                        @endif
+
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 text-end">
+                                            <label for="store_id">รพ. :</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="store_id" name="store_id"
+                                                    class="form-select form-select-lg show_brand" style="width: 100%">
+                                                    <option value=""></option>
+                                                    @foreach ($users_hos as $hos)
+                                                        @if ($dataedits->store_id == $hos->users_hos_id)
+                                                            <option value="{{ $hos->users_hos_id }}" selected> {{ $hos->users_hos_name }} </option>
+                                                        @else
+                                                            <option value="{{ $hos->users_hos_id }}"> {{ $hos->users_hos_name }} </option>
+                                                        @endif
+
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
 
 
+                                    </div>
                                 </div>
                             </div>
                             </div>
-                                       
+
                                     <div class="card-footer">
                                         <div class="col-md-12 text-end">
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                                     บันทึกข้อมูล
                                                 </button>
-                                                <a href="{{ url('article/article_index') }}"
-                                                    class="btn btn-danger btn-sm">
+                                                <a href="{{ url('article/article_index') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                     <i class="fa-solid fa-xmark me-2"></i>
                                                     ยกเลิก
                                                 </a>
@@ -501,6 +582,33 @@
                 </div>
             </div>
         </div>
- 
 
-    @endsection
+
+        @endsection
+        @section('footer')
+
+            <script>
+                $(document).ready(function() {
+
+                    $('#datepicker').datepicker({
+                        format: 'yyyy-mm-dd'
+                    });
+                    $('#datepicker2').datepicker({
+                        format: 'yyyy-mm-dd'
+                    });
+
+                    // $('#example').DataTable();
+                    // $('#hospcode').select2({
+                    //     placeholder: "--เลือก--",
+                    //     allowClear: true
+                    // });
+                    // $.ajaxSetup({
+                    //     headers: {
+                    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    //     }
+                    // });
+
+                });
+
+            </script>
+        @endsection

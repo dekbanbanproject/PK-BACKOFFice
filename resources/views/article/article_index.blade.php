@@ -1,4 +1,4 @@
-@extends('layouts.article')
+@extends('layouts.articleslide')
 
 @section('title', 'PK-BACKOFFice || ครุภัณฑ์')
 {{-- @section('menu') --}}
@@ -51,7 +51,7 @@ $count_article = StaticController::count_article();
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     $("#sid" + article_id).remove();
-                                    // window.location.reload(); 
+                                    // window.location.reload();
                                     window.location = "{{ url('article/article_index') }}";
                                 }
                             })
@@ -76,96 +76,91 @@ $count_article = StaticController::count_article();
     use App\Http\Controllers\ArticleController;
     $refnumber = ArticleController::refnumber();
     ?>
-     <style>
-        @media (min-width: 950px) {
-            .modal {
-                --bs-modal-width: 950px;
+      <style>
+        #button {
+            display: block;
+            margin: 20px auto;
+            padding: 30px 30px;
+            background-color: #eee;
+            border: solid #ccc 1px;
+            cursor: pointer;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cv-spinner {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 250px;
+            height: 250px;
+            border: 10px #ddd solid;
+            border-top: 10px #1fdab1 solid;
+            border-radius: 50%;
+            animation: sp-anime 0.8s infinite linear;
+        }
+
+        @keyframes sp-anime {
+            100% {
+                transform: rotate(390deg);
             }
         }
 
-        @media (min-width: 1500px) {
-            .modal-xls {
-                --bs-modal-width: 1500px;
-            }
-        }
-
-        @media (min-width: 1500px) {
-            .container-fluids {
-                width: 1500px;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: auto;
-            }
-
-            .dataTables_wrapper .dataTables_filter {
-                float: right
-            }
-
-            .dataTables_wrapper .dataTables_length {
-                float: left
-            }
-
-            .dataTables_info {
-                float: left;
-            }
-
-            .dataTables_paginate {
-                float: right
-            }
-
-            .custom-tooltip {
-                --bs-tooltip-bg: var(--bs-primary);
-            }
-
-            .table thead tr th {
-                font-size: 14px;
-            }
-
-            .table tbody tr td {
-                font-size: 13px;
-            }
-
-            .menu {
-                font-size: 13px;
-            }
-        }
-
-        .hrow {
-            height: 2px;
-            margin-bottom: 9px;
+        .is-hide {
+            display: none;
         }
     </style>
-    <div class="container-fluids">
+     <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div>
+
+        </div>
         <div class="row ">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header ">
-                        <div class="d-flex">
-                            <div class="">
-                                <label for="">ข้อมูลครุภัณฑ์</label>
-                            </div>
-                            <div class="ms-auto">
-                                <a href="{{ url('article/article_index_add') }}" class="btn btn-info btn-sm">
-                                    <i class="fa-solid fa-folder-plus text-white me-2"></i>
-                                    เพิ่มข้อมูลครุภัณฑ์
-                                </a>
 
+                                <label for="">ข้อมูลครุภัณฑ์</label>
+
+                            <div class="btn-actions-pane-right">
+                                <a href="{{ url('article/article_index_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                    <i class="fa-solid fa-folder-plus text-info me-2"></i>
+                                เพิ่มข้อมูลครุภัณฑ์
+                            </a>
                             </div>
-                        </div>
+
                     </div>
 
                     <div class="card-body shadow">
 
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="wproduct_idth: 100%;"
-                                id="table_id">
+                            <table id="example" class="table table-striped table-bordered "
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            {{-- <table class="table table-hover table-bordered table-sm myTable" style="wproduct_idth: 100%;"
+                                id="table_id"> --}}
                                 {{-- <table class="table table-hover table-bordered border-primary" style="wproduct_idth: 100%;" product_id="table_id"> เส้นสีฟ้า --}}
                                 <thead>
-                                    <tr height="10px">
+                                    <tr height="10px" style="font-size: 14px;">
                                         <th width="4%" class="text-center">ลำดับ</th>
                                         <th width="14%" class="text-center">รหัสครุภัณฑ์</th>
                                         <th class="text-center">รายการครุภัณฑ์</th>
-                                        <th width="15%" class="text-center">ประเภทค่าเสื่อม</th>
+                                        {{-- <th width="15%" class="text-center">ประเภทค่าเสื่อม</th> --}}
                                         <th width="15%" class="text-center">หมวดครุภัณฑ์</th>
                                         <th width="20%" class="text-center">ประจำหน่วยงาน</th>
                                         <th width="10%" class="text-center">Manage</th>
@@ -176,32 +171,32 @@ $count_article = StaticController::count_article();
                                     $date = date('Y');
                                     ?>
                                     @foreach ($article_data as $item)
-                                        <tr id="sid{{ $item->article_id }}">
+                                       <tr height="20" style="font-size: 14px;" id="sid{{ $item->article_id }}">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
-                                            <td class="p-2" width="14%">{{ $item->article_num }} </td>
+                                            <td class="p-2" width="20%">{{ $item->article_num }} </td>
                                             <td class="p-2">{{ $item->article_name }}</td>
-                                            <td class="p-2" width="15%">{{ $item->article_decline_name }}</td>
-                                            <td class="p-2" width="15%">{{ $item->article_categoryname }}</td>
-                                            <td class="p-2" width="17%">{{ $item->article_deb_subsub_name }}</td>
+                                            {{-- <td class="p-2" width="15%">{{ $item->article_decline_name }}</td> --}}
+                                            <td class="p-2" width="19%">{{ $item->article_categoryname }}</td>
+                                            <td class="p-2" width="19%">{{ $item->article_deb_subsub_name }}</td>
                                             <td class="text-center" width="7%">
 
                                                 {{-- <div class="dropdown">
                                                     <button class="dropdown-toggle btn btn-sm text-secondary" href="#" id="dropdownMenuLink" data-mdb-toggle="dropdown" aria-expanded="false" >
                                                       ทำรายการ
-                                                    </button>                                      
+                                                    </button>
                                                         <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                                                          
+
                                                               <li>
                                                                 <a href="{{ url('article/article_index_edit/' .$item->article_id) }}" class="text-warning me-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" title="แก้ไข" >
                                                                   <i class="fa-solid fa-pen-to-square me-2 mt-3 ms-4"></i>
                                                                   <label for="" style="color: black">แก้ไข</label>
-                                                                </a>  
+                                                                </a>
                                                               </li>
                                                               <li>
                                                                 <a class="text-danger" href="javascript:void(0)" onclick="article_destroy({{ $item->article_id }})">
                                                                   <i class="fa-solid fa-trash-can me-2 mt-3 ms-4 mb-4"></i>
                                                                   <label for="" style="color: black">ลบ</label>
-                                                                </a> 
+                                                                </a>
                                                               </li>
                                                         </ul>
                                                 </div> --}}
@@ -209,7 +204,7 @@ $count_article = StaticController::count_article();
                                                     <button type="button"
                                                         class="btn btn-outline-secondary btn-sm dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                                        ทำรายการ 
+                                                        ทำรายการ
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item text-warning"
@@ -295,4 +290,30 @@ $count_article = StaticController::count_article();
 
 
 
-            @endsection
+                @endsection
+                @section('footer')
+
+                    <script>
+                        $(document).ready(function() {
+
+                            $('#datepicker').datepicker({
+                                format: 'yyyy-mm-dd'
+                            });
+                            $('#datepicker2').datepicker({
+                                format: 'yyyy-mm-dd'
+                            });
+
+                            $('#example').DataTable();
+                            $('#hospcode').select2({
+                                placeholder: "--เลือก--",
+                                allowClear: true
+                            });
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+
+                        });
+                    </script>
+                @endsection

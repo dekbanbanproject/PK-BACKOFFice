@@ -15,13 +15,13 @@ return new class extends Migration
     {
         if (!Schema::hasTable('article_data'))
         {
-        Schema::create('article_data', function (Blueprint $table) {           
+        Schema::create('article_data', function (Blueprint $table) {
             $table->bigIncrements('article_id');
             $table->string('article_fsn')->nullable();  //เลขหมวดครุภัณฑ์
             $table->string('article_num')->nullable();  //เลขครุภัณฑ์
             $table->string('article_name')->nullable();  //ชื่อครุภัณฑ์
-            $table->string('article_attribute')->nullable(); //คุณลักษณะ 
-            $table->double('article_price', 10, 2)->nullable();//ราคา 
+            $table->string('article_attribute')->nullable(); //คุณลักษณะ
+            $table->double('article_price', 10, 2)->nullable();//ราคา
             $table->string('article_year')->nullable(); //ปีงบประมาณ
             $table->date('article_recieve_date')->nullable();//วันที่รับเข้า
             $table->string('article_spypriceid')->nullable(); //ราคาสืบ
@@ -29,13 +29,13 @@ return new class extends Migration
             $table->string('article_register')->nullable(); //เลขทะเบียน
 
             $table->string('medical_typecat_id')->nullable(); //ประเภทเครื่องมือ
-            
+
             $table->string('article_typeid')->nullable(); //ประเภทครุภัณฑ์
             $table->string('article_typename')->nullable(); //ชื่อประเภทครุภัณฑ์
             $table->string('article_categoryid')->nullable(); //หวมดครุภัณฑ์
             $table->string('article_categoryname')->nullable(); //ชื่อหวมดครุภัณฑ์
             $table->string('article_groupid')->nullable();//ชนิดวัสดุ
-            $table->string('article_groupname')->nullable();//ชื่อชนิดวัสดุ    
+            $table->string('article_groupname')->nullable();//ชื่อชนิดวัสดุ
 
             $table->string('article_method_id')->nullable();//วิธีได้มา
             $table->string('article_buy_id')->nullable();//การจัดซื้อ
@@ -47,7 +47,7 @@ return new class extends Migration
             $table->string('article_vendor_name')->nullable();//ผู้จำหน่าย
             $table->string('article_deb_subsub_id')->nullable();//ประจำหน่วยงาน
             $table->string('article_deb_subsub_name')->nullable();//ประจำหน่วยงาน
-            
+
             $table->string('article_car_type_id')->nullable();//ประเภทรถยนต์
             $table->string('article_car_type_name')->nullable();//ประเภทรถยนต์
             $table->string('article_car_number')->nullable();//เลขตัวรถยนต์
@@ -63,25 +63,28 @@ return new class extends Migration
             $table->string('article_long_id')->nullable();//อายุการใช้งาน
             $table->date('article_exp_id')->nullable();//หมดสภาพ
 
-            $table->string('article_model_id')->nullable();//รุ่น 
-            $table->string('article_model_name')->nullable();//รุ่น 
-            $table->string('article_color_id')->nullable();//สี 
-            $table->string('article_color_name')->nullable();//สี 
+            $table->string('article_model_id')->nullable();//รุ่น
+            $table->string('article_model_name')->nullable();//รุ่น
+            $table->string('article_color_id')->nullable();//สี
+            $table->string('article_color_name')->nullable();//สี
             $table->string('article_serial')->nullable();//เลขเครื่อง
             $table->string('article_brand_id')->nullable();//ยี่ห้อ
             $table->string('article_brand_name')->nullable();//ยี่ห้อ
             $table->string('article_size_id')->nullable();//ขนาด
-                      
+
             $table->string('article_unit_id')->nullable(); //หน่วย
             $table->string('article_unit_name')->nullable(); //ชื่อหน่วย
 
             $table->string('article_used')->nullable();//ใช้บ่อย
-            
+
             $table->binary('article_img')->nullable();
             $table->string('article_img_name')->nullable();
             $table->string('store_id')->nullable();
             $table->enum('article_claim', ['CLAIM', 'NOCLAIM'])->default('NOCLAIM')->nullable();//ส่งเคลมใด้
             $table->string('article_group_id')->nullable(); //แยกชนิดให้ รพ ภูเขียว
+            $table->string('article_used')->nullable();
+            $table->string('medical_typecat_id')->nullable(); //
+            $table->string('article_type_id')->nullable(); // 
             $table->timestamps();
         });
     }

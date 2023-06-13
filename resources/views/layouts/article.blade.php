@@ -11,7 +11,7 @@
    <!-- App favicon -->
    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
 
-   
+
 
    {{-- <link href="{{ asset('assets/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
    <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -35,7 +35,7 @@
    <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
    <!-- App Css-->
    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-  
+
    <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
 
     <!-- select2 -->
@@ -46,22 +46,22 @@
         body {
             font-family: 'Kanit', sans-serif;
             font-size: 13px;
-    
+
         }
-    
+
         label {
             font-family: 'Kanit', sans-serif;
             font-size: 14px;
-    
+
         }
-    
+
         @media only screen and (min-width: 1200px) {
             label {
                 /* float:right; */
             }
-    
+
         }
-    
+
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -69,13 +69,13 @@
             -moz-user-select: none;
             user-select: none;
         }
-    
+
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
         }
-    
+
         .b-example-divider {
             height: 3rem;
             background-color: rgba(0, 0, 0, .1);
@@ -83,25 +83,25 @@
             border-width: 1px 0;
             box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
         }
-    
+
         .b-example-vr {
             flex-shrink: 0;
             width: 1.5rem;
             height: 100vh;
         }
-    
+
         .bi {
             vertical-align: -.125em;
             fill: currentColor;
         }
-    
+
         .nav-scroller {
             position: relative;
             z-index: 2;
             height: 2.75rem;
             overflow-y: hidden;
         }
-    
+
         .nav-scroller .nav {
             display: flex;
             flex-wrap: nowrap;
@@ -112,37 +112,37 @@
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
         }
-    
+
         .dataTables_wrapper .dataTables_filter {
             float: right
         }
-    
+
         .dataTables_wrapper .dataTables_length {
             float: left
         }
-    
+
         .dataTables_info {
             float: left;
         }
-    
+
         .dataTables_paginate {
             float: right
         }
-    
+
         .custom-tooltip {
             --bs-tooltip-bg: var(--bs-primary);
-    
-    
+
+
         }
-    
+
         .table thead tr th {
             font-size: 14px;
         }
-    
+
         .table tbody tr td {
             font-size: 13px;
         }
-    
+
         .menu {
             font-size: 13px;
         }
@@ -160,12 +160,12 @@
 
     <!-- Begin page -->
     <div id="layout-wrapper">
- 
+
       <header id="page-topbar" >
         <div class="navbar-header">
             <div class="d-flex">
                 <!-- LOGO -->
-                <div class="navbar-brand-box">                       
+                <div class="navbar-brand-box">
                 </div>
                 <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
                     data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
@@ -182,15 +182,15 @@
                 </div>
 
             </div>
-            <?php  
-                    $datadetail = DB::connection('mysql')->select(                                                            '   
-                            select * from orginfo 
+            <?php
+                    $datadetail = DB::connection('mysql')->select(                                                            '
+                            select * from orginfo
                             where orginfo_id = 1                                                                                                                      ',
-                    ); 
+                    );
                 ?>
-                
 
-            <div class="d-flex">                      
+
+            <div class="d-flex">
               <div class="dropdown d-none d-lg-inline-block ms-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                     <i class="ri-fullscreen-line" style="color: rgb(170, 7, 97)"></i>
@@ -305,7 +305,7 @@
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
-                      
+
                         <a class="dropdown-item" href="{{ url('user/profile_edit/' . Auth::user()->id) }}"><i
                                 class="ri-user-line align-middle me-1"></i> Profile</a>
                         <div class="dropdown-divider"></div>
@@ -321,7 +321,7 @@
 
                 <div class="dropdown d-inline-block user-dropdown">
                 </div>
-    
+
             </div>
         </div>
     </header>
@@ -330,7 +330,7 @@
             <div class="container-fluid">
                 <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
-                    
+
 
                     <div class="collapse navbar-collapse" id="topnav-menu-content">
                         <ul class="navbar-nav ">
@@ -341,21 +341,21 @@
                             </li> --}}
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{url('land/land_index')}}" id="topnav-apps"
-                                    role="button"> 
+                                    role="button">
                                     <i class="fa-brands fa-slack me-2 text-warning"></i>
-                                    
+
                                     ข้อมูลที่ดิน </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{url('building/building_index')}}" id="topnav-apps"
-                                    role="button"> 
+                                    role="button">
                                     <i class="fa-regular fa-building me-2 text-info"></i>
                                     ข้อมูลอาคาร
                                 </a>
                             </li>
                             <li class="nav-item ">
                                 <a class="nav-link" href="{{url('article/article_index')}}" id="topnav-apps"
-                                    role="button"> 
+                                    role="button">
                                     <i class="fa-regular fa-clipboard me-2 text-danger"></i>
                                     ข้อมูลครุภัณฑ์
                                 </a>
@@ -372,7 +372,7 @@
                                   <i class="ri-apps-2-line me-2"></i>ขายทอดตลาด
                               </a>
                           </li> --}}
-                          
+
                             {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button">
                                     <i class="ri-apps-2-line me-2"></i>รายงาน<div class="arrow-down"></div>
@@ -383,31 +383,31 @@
                                 >
                                     <i class="ri-apps-2-line me-2"></i>ตั่งค่า <div class="arrow-down"></div>
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-apps"> 
-                                    <a href="{{url("warehouse/warehouse_inven")}}" class="dropdown-item">คลังวัสดุ</a> 
-                                    <a href="{{url("warehouse/warehouse_vendor")}}" class="dropdown-item">ตัวแทนจำหน่าย</a> 
-                                </div>                                       
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="{{url("warehouse/warehouse_inven")}}" class="dropdown-item">คลังวัสดุ</a>
+                                    <a href="{{url("warehouse/warehouse_vendor")}}" class="dropdown-item">ตัวแทนจำหน่าย</a>
+                                </div>
                             </li>  --}}
                         </ul>
 
-                         
-                        
+
+
                     </div>
                 </nav>
             </div>
         </div>
- 
+
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
             <div class="page-content">
-               
+
                     @yield('content')
-                
+
             </div>
             <!-- End Page-content -->
-     
+
             {{-- <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">
@@ -429,26 +429,26 @@
         </div>
         <!-- end main content-->
     </div>
-   
+
     <!-- END layout-wrapper -->
 
-  
+
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
- 
+
     <!-- Right Sidebar -->
     {{-- <div class="right-bar">
         <div data-simplebar class="h-100">
-            <div class="rightbar-title d-flex align-items-center px-3 py-4">            
+            <div class="rightbar-title d-flex align-items-center px-3 py-4">
                 <h5 class="m-0 me-2">Settings</h5>
                 <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
                     <i class="mdi mdi-close noti-icon"></i>
                 </a>
             </div>
-        </div> 
+        </div>
     </div> --}}
     <!-- /Right-bar -->
- 
+
 
     <!-- JAVASCRIPT -->
     <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
@@ -485,13 +485,13 @@
 
     <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-    
+
     <!-- Responsive examples -->
     <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
 
     <!-- Datatable init js -->
-    <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script> 
+    <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
 
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
 
@@ -503,9 +503,9 @@
           $('#example2').DataTable();
           $('#example3').DataTable();
           $('#example4').DataTable();
-          $('#example5').DataTable();  
+          $('#example5').DataTable();
           $('#table_id').DataTable();
-         
+
           $('#building_userid').select2({
               placeholder:"--เลือก--",
               allowClear:true
@@ -534,8 +534,8 @@
               placeholder:"--เลือก--",
               allowClear:true
           });
-         
-  
+
+
           $('#article_deb_subsub_id').select2({
               placeholder:"--หน่วยงาน--",
               allowClear:true
@@ -544,7 +544,7 @@
             placeholder:"--เลือก--",
               allowClear:true
           });
-        
+
           $('#article_decline_id').select2({
             placeholder:"--เลือก--",
               allowClear:true
@@ -576,19 +576,19 @@
           $('#article_status_id').select2({
               placeholder:"--สถานะ--",
               allowClear:true
-          });  
+          });
           $('#article_brand_id').select2({
               placeholder:"--เลือก--",
               allowClear:true
-          });  
+          });
           $('#room_type').select2({
               placeholder:"--เลือก--",
               allowClear:true
-          });  
+          });
           $('#building_type_id').select2({
               placeholder:"--เลือก--",
               allowClear:true
-          }); 
+          });
           $('#land_province').select2({
               placeholder:"--เลือก--",
               allowClear:true
@@ -608,21 +608,21 @@
           $('#land_user_id').select2({
               placeholder:"--เลือก--",
               allowClear:true
-          }); 
-          
+          });
+
       });
-  
-  
+
+
       $(document).ready(function(){
           $.ajaxSetup({
                headers: {
                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                }
           });
-  
+
           $('#insert_landForm').on('submit',function(e){
-                e.preventDefault();  
-                var form = this; 
+                e.preventDefault();
+                var form = this;
                 $.ajax({
                   url:$(form).attr('action'),
                   method:$(form).attr('method'),
@@ -635,8 +635,8 @@
                   },
                   success:function(data){
                     if (data.status == 0 ) {
-                      
-                    } else {          
+
+                    } else {
                       Swal.fire({
                         title: 'บันทึกข้อมูลสำเร็จ',
                         text: "You Insert data success",
@@ -646,18 +646,18 @@
                         // cancelButtonColor: '#d33',
                         confirmButtonText: 'เรียบร้อย'
                       }).then((result) => {
-                        if (result.isConfirmed) {                  
+                        if (result.isConfirmed) {
                           window.location="{{url('land/land_index')}}";
                         }
-                      })      
+                      })
                     }
                   }
                 });
           });
-  
+
           $('#update_landForm').on('submit',function(e){
-                  e.preventDefault();            
-                  var form = this; 
+                  e.preventDefault();
+                  var form = this;
                   $.ajax({
                     url:$(form).attr('action'),
                     method:$(form).attr('method'),
@@ -670,32 +670,32 @@
                     },
                     success:function(data){
                       if (data.status == 0 ) {
-                        
-                      } else {          
+
+                      } else {
                         Swal.fire({
                           title: 'แก้ไขข้อมูลสำเร็จ',
                           text: "You edit data success",
                           icon: 'success',
                           showCancelButton: false,
-                          confirmButtonColor: '#06D177', 
+                          confirmButtonColor: '#06D177',
                           confirmButtonText: 'เรียบร้อย'
                         }).then((result) => {
-                          if (result.isConfirmed) {  
+                          if (result.isConfirmed) {
                             window.location="{{url('land/land_index')}}";
                           }
-                        })      
+                        })
                       }
                     }
                   });
           });
-  
+
       });
-  
+
       //********** Building  ********************//
       $(document).ready(function(){
             $('#insert_buildingForm').on('submit',function(e){
               e.preventDefault();
-          
+
                   var form = this;
                   // alert('OJJJJOL');
                   $.ajax({
@@ -710,8 +710,8 @@
                     },
                     success:function(data){
                       if (data.status == 0 ) {
-                        
-                      } else {          
+
+                      } else {
                         Swal.fire({
                           title: 'บันทึกข้อมูลสำเร็จ',
                           text: "You Insert data success",
@@ -721,18 +721,18 @@
                           // cancelButtonColor: '#d33',
                           confirmButtonText: 'เรียบร้อย'
                         }).then((result) => {
-                          if (result.isConfirmed) {      
+                          if (result.isConfirmed) {
                             window.location="{{url('building/building_index')}}";
                           }
-                        })      
+                        })
                       }
                     }
                   });
             });
-          
+
             $('#update_buildingForm').on('submit',function(e){
               e.preventDefault();
-          
+
               var form = this;
               // alert('OJJJJOL');
               $.ajax({
@@ -747,8 +747,8 @@
                 },
                 success:function(data){
                   if (data.status == 0 ) {
-                    
-                  } else {          
+
+                  } else {
                     Swal.fire({
                       title: 'แก้ไขข้อมูลสำเร็จ',
                       text: "You edit data success",
@@ -758,18 +758,18 @@
                       // cancelButtonColor: '#d33',
                       confirmButtonText: 'เรียบร้อย'
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
+                      if (result.isConfirmed) {
                         window.location="{{url('building/building_index')}}";
                       }
-                    })      
+                    })
                   }
                 }
               });
             });
-            
+
             $('#insert_leveloneForm').on('submit',function(e){
               e.preventDefault();
-          
+
               var form = this;
               // alert('OJJJJOL');
               $.ajax({
@@ -783,18 +783,18 @@
                   $(form).find('span.error-text').text('');
                 },
                 success:function(data){
-                  if (data.status == 0 ) {     
+                  if (data.status == 0 ) {
                     Swal.fire({
                       icon: 'error',
                       title: 'มีข้อมูลนี้แล้ว...',
                       text: 'ข้อมูลนี้ได้ถูกเพิ่มไปแล้ว!',
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
-                        window.location.reload(); 
+                      if (result.isConfirmed) {
+                        window.location.reload();
                       }
-                    })     
-                    
-                  } else {          
+                    })
+
+                  } else {
                     Swal.fire({
                       title: 'บันทึกข้อมูลสำเร็จ',
                       text: "You Insert data success",
@@ -804,18 +804,18 @@
                       // cancelButtonColor: '#d33',
                       confirmButtonText: 'เรียบร้อย'
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
-                        window.location.reload(); 
+                      if (result.isConfirmed) {
+                        window.location.reload();
                       }
-                    })      
+                    })
                   }
                 }
               });
             });
-            
+
             $('#insert_levelForm').on('submit',function(e){
               e.preventDefault();
-          
+
               var form = this;
               // alert('OJJJJOL');
               $.ajax({
@@ -835,11 +835,11 @@
                       title: 'มีข้อมูลนี้แล้ว...',
                       text: 'ข้อมูลนี้ได้ถูกเพิ่มไปแล้ว!',
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
-                        window.location.reload(); 
+                      if (result.isConfirmed) {
+                        window.location.reload();
                       }
-                    })   
-                  } else {          
+                    })
+                  } else {
                     Swal.fire({
                       title: 'บันทึกข้อมูลสำเร็จ',
                       text: "You Insert data success",
@@ -849,18 +849,18 @@
                       // cancelButtonColor: '#d33',
                       confirmButtonText: 'เรียบร้อย'
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
-                        window.location.reload(); 
+                      if (result.isConfirmed) {
+                        window.location.reload();
                       }
-                    })      
+                    })
                   }
                 }
               });
             });
-  
+
             $('#insert_levelroomForm').on('submit',function(e){
               e.preventDefault();
-          
+
               var form = this;
               // alert('OJJJJOL');
               $.ajax({
@@ -880,11 +880,11 @@
                       title: 'มีข้อมูลนี้แล้ว...',
                       text: 'ข้อมูลนี้ได้ถูกเพิ่มไปแล้ว!',
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
-                        window.location.reload(); 
+                      if (result.isConfirmed) {
+                        window.location.reload();
                       }
-                    })   
-                  } else {          
+                    })
+                  } else {
                     Swal.fire({
                       title: 'บันทึกข้อมูลสำเร็จ',
                       text: "You Insert data success",
@@ -894,22 +894,22 @@
                       // cancelButtonColor: '#d33',
                       confirmButtonText: 'เรียบร้อย'
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
-                        window.location.reload(); 
+                      if (result.isConfirmed) {
+                        window.location.reload();
                       }
-                    })      
+                    })
                   }
                 }
               });
             });
-  
+
       });
-  
+
       //********** Article  ********************//
       $(document).ready(function(){
             $('#insert_articleForm').on('submit',function(e){
                   e.preventDefault();
-              
+
                   var form = this;
                     //   alert('OJJJJOL');
                   $.ajax({
@@ -924,8 +924,8 @@
                     },
                     success:function(data){
                       if (data.status == 0 ) {
-                        
-                      } else {          
+
+                      } else {
                         Swal.fire({
                           title: 'บันทึกข้อมูลสำเร็จ',
                           text: "You Insert data success",
@@ -935,18 +935,18 @@
                           // cancelButtonColor: '#d33',
                           confirmButtonText: 'เรียบร้อย'
                         }).then((result) => {
-                          if (result.isConfirmed) {         
+                          if (result.isConfirmed) {
                             window.location="{{url('article/article_index')}}";
                           }
-                        })      
+                        })
                       }
                     }
                   });
             });
-          
+
             $('#update_articleForm').on('submit',function(e){
               e.preventDefault();
-          
+
               var form = this;
               // alert('OJJJJOL');
               $.ajax({
@@ -961,8 +961,8 @@
                 },
                 success:function(data){
                   if (data.status == 0 ) {
-                    
-                  } else {          
+
+                  } else {
                     Swal.fire({
                       title: 'แก้ไขข้อมูลสำเร็จ',
                       text: "You edit data success",
@@ -972,16 +972,16 @@
                       // cancelButtonColor: '#d33',
                       confirmButtonText: 'เรียบร้อย'
                     }).then((result) => {
-                      if (result.isConfirmed) {                  
+                      if (result.isConfirmed) {
                         window.location="{{url('article/article_index')}}";
                       }
-                    })      
+                    })
                   }
                 }
               });
-            });        
+            });
       });
-  
+
       function addunit() {
           var unitnew = document.getElementById("UNIT_INSERT").value;
           // alert(unitnew);
@@ -998,11 +998,11 @@
               }
           })
       }
-  
+
       function addbrand() {
-          var brandnew = document.getElementById("BRAND_INSERT").value; 
+          var brandnew = document.getElementById("BRAND_INSERT").value;
           var _token = $('input[name="_token"]').val();
-          $.ajax({ 
+          $.ajax({
               url: "{{url('article/addbrand')}}",
               method: "GET",
               data: {
@@ -1014,11 +1014,7 @@
               }
           })
       }
-  
-      
-  
-     
-  
+   
   </script>
 </body>
 
