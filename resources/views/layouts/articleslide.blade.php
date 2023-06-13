@@ -275,8 +275,8 @@
     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
 
-    <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script>
-
+    {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
+    <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
@@ -353,7 +353,7 @@
             $('#example5').DataTable();
             $('#table_id').DataTable();
 
-            $('#store_id').select2({
+            $('#store_ids').select2({
                 placeholder:"--เลือก--",
                 allowClear:true
             });
