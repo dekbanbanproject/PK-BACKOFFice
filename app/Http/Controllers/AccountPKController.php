@@ -2073,6 +2073,47 @@ class AccountPKController extends Controller
             'year'          =>     $year
         ]);
     }
+    public function account_pkti2166_stmtang(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+       
+           $data = DB::connection('mysql')->select('
+                SELECT a.an,a.vn,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.acc_code,a.account_code,a.income,a.debit_total,au.repno,au.type_req,au.price_approve
+                from acc_1102050101_2166 a 
+                LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
+                WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'" AND au.repno IS NULL;
+            '); 
+           $sum_money_ = DB::connection('mysql')->select('
+               SELECT SUM(a.debit_total) as total
+               from acc_1102050101_2166 a
+               LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
+               WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'" AND au.repno IS NULL;
+           ');
+           foreach ($sum_money_ as $key => $value) {
+               $sum_debit_total = $value->total;
+           }
+           $sum_stm_ = DB::connection('mysql')->select('
+               SELECT SUM(au.price_approve) as stmtotal
+               from acc_1102050101_2166 a
+               LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
+               WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'" AND au.repno IS NULL;
+           ');
+           foreach ($sum_stm_ as $key => $value) {
+               $sum_stm_total = $value->stmtotal;
+           }
+
+        return view('account_pk.account_pkti2166_stmtang',[
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'data'              =>     $data,
+            'months'            =>     $months,
+            'year'              =>     $year,
+            'sum_debit_total'   =>     $sum_debit_total,
+            'sum_stm_total'     =>     $sum_stm_total
+        ]);
+    }
     public function account_pkti2166_stam(Request $request)
     {
         $id = $request->ids;
@@ -2154,21 +2195,20 @@ class AccountPKController extends Controller
         // dd($id);
         $data['users'] = User::get();
 
-        $acc_debtor = DB::select('
-        SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.vstdate,a.ptname,a.pttype,a.subinscl
-        ,a.income,a.uc_money
-        FROM acc_debtor a
-        left join acc_stm_ti ac ON ac.cid = a.cid and ac.vstdate = a.vstdate
-
-           SELECT sum(a.price_approve) as priceapprove
-            from acc_stm_ti a
-            LEFT JOIN acc_debtor ad ON ad.cid = a.cid AND ad.vstdate = a.vstdate
-                    WHERE ad.account_code="1102050101.2166"
-                    AND ad.stamp = "Y" and ad.income <> 0
-                    and month(ad.vstdate) = "'.$months.'"
-                    and year(ad.vstdate) = "'.$year.'"
-
+        $acc_debtor = DB::select(' 
+        SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.account_code,a.income,a.debit,a.debit_total,ai.repno,ai.type_req,SUM(ai.price_approve) as price_approve
+        FROM acc_1102050101_2166 a
+        LEFT JOIN acc_stm_ti ai ON ai.cid = a.cid AND ai.vstdate = a.vstdate
+        WHERE a.account_code="1102050101.2166"						 
+            and month(a.vstdate) = "'.$months.'"
+            and year(a.vstdate) = "'.$year.'"
+            AND ai.repno IS NOT NULL
+			GROUP BY a.vn
         ');
+        // SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.vstdate,a.ptname,a.pttype,a.subinscl
+        // ,a.income,a.uc_money
+        // FROM acc_debtor a
+        // left join acc_stm_ti ac ON ac.cid = a.cid and ac.vstdate = a.vstdate
 
         return view('account_pk.account_pkti2166_stm', $data, [
             'startdate'     =>     $startdate,

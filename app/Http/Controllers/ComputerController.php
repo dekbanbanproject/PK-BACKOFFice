@@ -736,7 +736,7 @@ class ComputerController extends Controller
         $data['product_method'] = Product_method::get();
         $data['product_buy'] = Product_buy::get();
         $data['building_data'] = Building::leftjoin('product_decline', 'product_decline.decline_id', '=', 'building_data.building_decline_id')->where('building_type_id', '!=', '1')->where('building_type_id', '!=', '5')->orderBy('building_id', 'DESC')->get();
-        $data['article_data'] = Article::where('article_categoryid', '=', '38')->where('article_status_id', '=', '1')
+        $data['article_data'] = Article::where('article_categoryid', '=', '38')->where('article_status_id', '=', '3')
             // $data['article_data'] = Article::where('article_decline_id','=','6')->where('article_categoryid','=','38')->where('article_status_id','=','1')
             ->orderBy('article_id', 'DESC')
             ->get();

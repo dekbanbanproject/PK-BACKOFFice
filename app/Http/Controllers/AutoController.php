@@ -160,7 +160,7 @@ class AutoController extends Controller
                     LEFT JOIN hos.an_stat a ON ip.an = a.an 
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     LEFT JOIN patient p on p.hn=a.hn
-                    WHERE a.dchdate BETWEEN "2023-05-03" AND "2023-05-23"
+                    WHERE a.dchdate = CURDATE()
                     group by p.cid
                     limit 1500
                     
@@ -209,9 +209,9 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select(' 
             SELECT cid,vn,an
             FROM check_sit_auto  
-            WHERE vstdate = CURDATE() 
+            WHERE vstdate = "2023-06-11" 
             AND subinscl IS NULL   
-            LIMIT 50
+            LIMIT 30
         ');
         // BETWEEN "2023-01-05" AND "2023-05-16"       CURDATE()     
         foreach ($data_sitss as $key => $item) {

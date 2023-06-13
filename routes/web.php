@@ -1286,6 +1286,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkti2166/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166'])->name('acc.account_pkti2166');//
     Route::match(['get','post'],'account_pkti2166_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stm'])->name('acc.account_pkti2166_stm');//
     Route::match(['get','post'],'account_pkti2166_stam',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stam'])->name('acc.account_pkti2166_stam');//  stamp OPD
+    Route::match(['get','post'],'account_pkti2166_stmtang/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stmtang'])->name('acc.account_pkti2166_stmtang');//
 
     Route::match(['get','post'],'ti2166_send/{id}',[App\Http\Controllers\AccountPKController::class, 'ti2166_send'])->name('acc.ti2166_send');//
     Route::match(['get','post'],'ti2166_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'ti2166_detail'])->name('acc.ti2166_detail');//

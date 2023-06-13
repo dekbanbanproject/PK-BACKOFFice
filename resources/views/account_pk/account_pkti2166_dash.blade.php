@@ -8,19 +8,18 @@
         }
     </script>
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    $ynow = date('Y')+543;
-    $yb =  date('Y')+542;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+        $ynow = date('Y')+543;
+        $yb =  date('Y')+542;
     ?>
-
      <style>
         #button {
             display: block;
@@ -67,12 +66,7 @@
             display: none;
         }
     </style>
-
-    <?php
-        $ynow = date('Y')+543;
-        $yb =  date('Y')+542;
-    ?>
-
+ 
    <div class="tabs-animation">
         <div id="preloader">
             <div id="status">
@@ -173,8 +167,7 @@
                                                         WHERE month(a.vstdate) = "'.$item->months.'"
                                                         AND year(a.vstdate) = "'.$item->year.'"
                                                         AND au.repno IS NULL
-                                                    ');
-                                                    // AND au.rep IS NULL
+                                                    '); 
                                                     foreach ($sumnext_ as $key => $value4) {
                                                         $Ndebittotal = $value4->Ndebit_total;
                                                         $Ndebitcount = $value4->NoApvit;
@@ -222,16 +215,16 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkucs217_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($debit_total, 2) }} ">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($debit_total, 2) }}</span></p>
                                                         </div>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkucs217_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป {{number_format($Ndebittotal, 2) }} ">
-                                                            <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($Ndebittotal, 2) }}</span></p>
+                                                    <a href="{{url('account_pkti2166_stmtang/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่วนต่าง {{number_format($Ndebittotal, 2) }} ">
+                                                            <p class="text-muted mb-0"><span class="text-secondary fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($Ndebittotal, 2) }}</span></p>
                                                         </div>
                                                     </a>
                                                 </div>

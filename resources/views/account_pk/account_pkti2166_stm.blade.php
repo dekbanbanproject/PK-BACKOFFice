@@ -91,43 +91,45 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                style=" border-spacing: 0; width: 100%;">
+                                {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap"
+                                style=" border-spacing: 0; width: 100%;"> --}}
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
+                                            {{-- <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th>  --}}
                                             <th class="text-center" width="5%">vn</th> 
-                                            <th class="text-center">an</th>
+                                            {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">vstdate</th>  
                                             <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th> 
+                                            {{-- <th class="text-center">spsch</th>  --}}
                                             <th class="text-center">income</th>
-                                            <th class="text-center">uc_money</th>  
+                                            <th class="text-center">price_approve</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1; ?>
                                         @foreach ($acc_debtor as $item) 
-                                            <tr id="tr_{{$item->acc_debtor_id}}">                                                  
+                                            <tr >                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
+                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>   --}}
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
+{{--                                                 
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  --}}
                                                 
                                                 <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
-                                                <td class="text-center" width="10%">{{ number_format($item->uc_money, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->price_approve, 2) }}</td> 
  
                                             </tr>
                                         @endforeach
