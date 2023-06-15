@@ -13,8 +13,8 @@
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-   
+
+
 
     {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -50,16 +50,18 @@
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <link rel="stylesheet"
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-<!-- Plugins css -->
-{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+
+   <link rel="stylesheet" href="{{ asset('global.css') }}" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/github.min.css" />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
 </head>
 <style>
-    body{   
+    body{
     background:
-        url(/pkbackoffice/public/images/bg7.jpg); 
+        url(/pkbackoffice/public/images/bg7.jpg);
     background-repeat: no-repeat;
-    background-attachment: fixed; 
-    background-size: 100% 100%; 
+    background-attachment: fixed;
+    background-size: 100% 100%;
     }
 .Bgsidebar {
       background-image: url('/pkbackoffice/public/images/bgside.jpg');
@@ -72,13 +74,13 @@
 </style>
 
 <body data-topbar="dark">
- 
+
     <!-- Begin page -->
     <div id="layout-wrapper">
 
         <header id="page-topbar">
             <div class="navbar-header shadow-lg Bgheader">
-              
+
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -93,11 +95,11 @@
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
+                            <span class="logo-sm">
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
@@ -105,20 +107,20 @@
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
+                    <?php
+                        $org = DB::connection('mysql')->select(                                                            '
+                                select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                        );
                     ?>
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
-                            
+
                         </div>
-                    </form>                                         
+                    </form>
                 </div>
 
 
@@ -129,13 +131,13 @@
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
                     </div>
- 
- 
+
+
                 </div>
             </div>
         </header>
         <style>
-            .nom6{ 
+            .nom6{
                 background: linear-gradient(to right,#ffafbd);
                 /* background: linear-gradient(to right, #c9ffbf, #ffafbd); */
             }
@@ -143,86 +145,86 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         <div class="vertical-menu Bgsidebar">
-            <div data-simplebar class="h-100"> 
+            <div data-simplebar class="h-100">
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
                         {{-- <li>
-                            <a href="{{ url('authen_dashboard') }}">  
+                            <a href="{{ url('authen_dashboard') }}">
                                 <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard Authen</span>
-                            </a> 
+                            </a>
                         </li>  --}}
                         <li>
-                            <a href="{{ url('report_authen') }}">  
+                            <a href="{{ url('report_authen') }}">
                                 <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard Authen</span>
-                            </a> 
-                        </li> 
+                            </a>
+                        </li>
                         <li>
-                            <a href="{{ url('report_dashboard') }}">  
+                            <a href="{{ url('report_dashboard') }}">
                                 <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard</span>
-                            </a> 
-                        </li> 
+                            </a>
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-clipboard-user text-danger"></i>
                                 <span>Check Sit</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('check_sit_day') }}">เช็คสิทธิ์รายวัน</a></li> 
-                                <li><a href="{{ url('check_sit_money') }}"> เช็คสิทธิ์ Money PK</a></li> 
+                                <li><a href="{{ url('check_sit_day') }}">เช็คสิทธิ์รายวัน</a></li>
+                                <li><a href="{{ url('check_sit_money') }}"> เช็คสิทธิ์ Money PK</a></li>
                             </ul>
                         </li>
-                        
+
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-truck-medical text-danger"></i>
                                 <span>Refer</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('report_refer') }}">การใช้งานรถ Refer BK</a></li>  
-                                <li ><a href="{{ url('report_refer_hos') }}">การใช้งานรถ Refer Hos</a></li>  
+                                <li ><a href="{{ url('report_refer') }}">การใช้งานรถ Refer BK</a></li>
+                                <li ><a href="{{ url('report_refer_hos') }}">การใช้งานรถ Refer Hos</a></li>
                                 {{-- <li ><a href="{{ url('report_refer_opds') }}">การบันทึกข้อมูล OPD Refer</a></li> --}}
                                 <li ><a href="{{ url('refer_opds_cross') }}" >Referข้าม CUP ภายในจังหวัด</a></li>
                                 <li ><a href="{{ url('report_ct') }}" >เรียกเก็บค่า CT ในจังหวัด</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-wheelchair text-danger"></i>
                                 <span>อุปกรณ์อวัยวะเที่ยม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('check_knee_ipd') }}" >ข้อเข่า</a></li> 
-                                <li ><a href="{{ url('check_kradook') }}" >แผ่นโลหะกระดูก</a></li>  
-                                <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li> 
+                                <li ><a href="{{ url('check_knee_ipd') }}" >ข้อเข่า</a></li>
+                                <li ><a href="{{ url('check_kradook') }}" >แผ่นโลหะกระดูก</a></li>
+                                <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>ข้อมูลการรักษานักโทษ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('prisoner_opd') }}" >438-OPD</a></li>  
-                                <li ><a href="{{ url('prisoner_ipd') }}" >438-IPD</a></li> 
+                                <li ><a href="{{ url('prisoner_opd') }}" >438-OPD</a></li>
+                                <li ><a href="{{ url('prisoner_ipd') }}" >438-IPD</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
                                 <span>Telemed</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('telemedicine') }}" >Telemed นัด</a></li>  
-                                <li ><a href="{{ url('telemedicine_visit') }}" >Telemed เปิด Visit</a></li> 
+                                <li ><a href="{{ url('telemedicine') }}" >Telemed นัด</a></li>
+                                <li ><a href="{{ url('telemedicine_visit') }}" >Telemed เปิด Visit</a></li>
                             </ul>
-                        </li> 
-                        
+                        </li>
+
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -346,15 +348,18 @@
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('presentation.js') }}"></script>
+    <script src="{{ asset('circularProgressBar.min.js') }}"></script>
     @yield('footer')
 
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-           
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -362,8 +367,8 @@
             });
 
         });
- 
-    </script> 
+
+    </script>
 </body>
 
 </html>
