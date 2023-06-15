@@ -31,6 +31,14 @@ Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class
 
 Route::match(['get','post'],'acc_test',[App\Http\Controllers\AccController::class,'acc_test'])->name('ktb.acc_test');
 
+Route::match(['get','post'],'report_authen',[App\Http\Controllers\ReportFontController::class, 'report_authen'])->name('rep.report_authen');// report
+Route::match(['get','post'],'reportauthen_getbar',[App\Http\Controllers\ReportFontController::class, 'reportauthen_getbar'])->name('rep.reportauthen_getbar');// report
+Route::match(['get','post'],'reportauthen_getbaripd',[App\Http\Controllers\ReportFontController::class, 'reportauthen_getbaripd'])->name('rep.reportauthen_getbaripd');// report
+
+Route::match(['get','post'],'authen/getauthen_auto',[App\Http\Controllers\AUTHENCHECKController::class, 'getauthen_auto'])->name('getauthen_auto');
+Route::match(['get','post'],'authen_getbar',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar'])->name('authen_getbar');
+Route::match(['get','post'],'authen_getbar_days',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar_days'])->name('authen_getbar_days');
+
 Route::match(['get','post'],'report_dashboard',[App\Http\Controllers\ReportFontController::class, 'report_dashboard'])->name('rep.report_dashboard');// report
 Route::match(['get','post'],'report_or',[App\Http\Controllers\ReportFontController::class, 'report_or'])->name('rep.report_or');// report
 Route::match(['get','post'],'report_ormonth/{month}',[App\Http\Controllers\ReportFontController::class, 'report_ormonth'])->name('rep.report_ormonth');// report
@@ -85,9 +93,7 @@ Route::match(['get','post'],'authen/checkauthen_auto',[App\Http\Controllers\AUTH
 Route::match(['get','post'],'authen/checkauthen_update_vn',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_update_vn'])->name('checkauthen_update_vn');
 Route::match(['get','post'],'checkauthen_update_vn_data',[App\Http\Controllers\AUTHENCHECKController::class, 'checkauthen_update_vn_data'])->name('Sit.checkauthen_update_vn_data');
 
-Route::match(['get','post'],'authen/getauthen_auto',[App\Http\Controllers\AUTHENCHECKController::class, 'getauthen_auto'])->name('getauthen_auto');
-Route::match(['get','post'],'authen_getbar',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar'])->name('authen_getbar');
-Route::match(['get','post'],'authen_getbar_days',[App\Http\Controllers\AUTHENCHECKController::class, 'authen_getbar_days'])->name('authen_getbar_days');
+
 
 
 Route::match(['get','post'],'checkauthen_autospsch',[App\Http\Controllers\AutoController::class, 'checkauthen_autospsch'])->name('sit.checkauthen_autospsch');

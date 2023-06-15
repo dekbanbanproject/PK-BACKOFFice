@@ -59,6 +59,7 @@ use App\Models\Visit_pttype_authen_report;
 use App\Models\Dashboard_authenstaff_day;
 use App\Models\Acc_debtor;
 use App\Models\Check_sit_auto_claim;
+use App\Models\Db_year;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -475,6 +476,7 @@ class AutoController extends Controller
 
     public function depauthen_auto(Request $request)
     {
+       
             $data_authen = DB::connection('mysql3')->select('
                 SELECT v.vstdate,o.main_dep,sk.department,COUNT(DISTINCT o.vn) as vn,count(DISTINCT wr.claimCode) as claimCode
                         ,count(DISTINCT wr.tel) as Success ,COUNT(DISTINCT o.vn)-count(DISTINCT wr.tel) as Unsuccess
@@ -559,6 +561,61 @@ class AutoController extends Controller
                     ]);
                 }
             }
+
+            Db_year::truncate();
+
+            $db_year_ = DB::connection('mysql3')->select('
+                        SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD 
+                        ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year  
+                        FROM ovst o 
+                        LEFT JOIN vn_stat v on v.vn = o.vn 
+                        LEFT JOIN patient p on p.hn = o.hn 
+                        LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
+                        WHERE o.vstdate BETWEEN "2022-09-01" AND "2023-09-30"
+                        GROUP BY month
+			            ORDER BY year,month ASC
+            ');
+         
+         
+            foreach ($db_year_ as $key => $value3) {
+                Db_year::insert([
+                    'month'       => $value3->month,
+                    'year'        => $value3->year,
+                    'countvn'     => $value3->countvn,
+                    'countan'     => $value3->countan,
+                    'authen_opd'  => $value3->authenOPD 
+                ]);
+            }
+
+            $db_year_update = DB::connection('mysql3')->select('
+                    SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.AN) as authenIPD 
+                        ,MONTH(o.vstdate) as months,YEAR(o.vstdate) as years  
+                        FROM ovst o 
+                        LEFT JOIN an_stat a on a.an = o.an
+                        LEFT JOIN patient p on p.hn = o.hn 
+                        LEFT JOIN rcmdb.authencode ra ON ra.AN = o.an  
+                        WHERE o.vstdate BETWEEN "2022-09-01" AND "2023-09-30" 
+                        GROUP BY months
+                        ORDER BY years,months DESC
+            ');
+            // $db_year_update = DB::connection('mysql3')->select('
+            //         SELECT COUNT(DISTINCT claimCode) as authen
+            //         ,MONTH(claimDate) as months,YEAR(claimDate) as years  
+            //         FROM visit_pttype_authen_report
+            //         GROUP BY months
+            //         ORDER BY years DESC
+            // ');
+            
+            foreach ($db_year_update as $key => $value4) {
+                $yearnew = $value4->years;
+                Db_year::where('month', $value4->months)->where('year', $yearnew)
+                ->update([
+                    'authen_ipd'     => $value4->authenIPD 
+                ]);
+            }
+
+
+
             return view('auto.depauthen_auto');
     }
 
@@ -582,7 +639,7 @@ class AutoController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=NGIwYTA3YzUtYmQyZC00ZjliLTg0NWMtYTNjMTcxOWFkZGZl; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Cookie: SESSION=ZWU3YmU5MGMtNDE4Mi00MGU3LWIzMWItM2M2ZWQ0ODkzYThh; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',
@@ -654,38 +711,38 @@ class AutoController extends Controller
                     // dd($checktransId);
                     if ($checktransId > 0) {
 
-                            Visit_pttype_authen_report::where('transId', $transId)
-                                ->update([
-                                            // 'transId'                           => $transId,
-                                            'hmain'                             => $hmain,
-                                            'personalId'                        => $personalId,
-                                            'patientName'                       => $patientName,
-                                            'addrNo'                            => $addrNo,
-                                            'moo'                               => $moo,
-                                            'moonanName'                        => $moonanName,
-                                            'tumbonName'                        => $tumbonName,
-                                            'amphurName'                        => $amphurName,
-                                            'changwatName'                      => $changwatName,
-                                            'birthdate'                         => $birthdate,
-                                            'tel'                               => $tel,
-                                            'mainInscl'                         => $mainInscl,
-                                            'mainInsclName'                     => $mainInsclName,
-                                            'subInscl'                          => $subInscl,
-                                            'subInsclName'                      => $subInsclName,
-                                            'claimDate'                         => $checkdate,
-                                            'claimTime'                         => $checktime,
-                                            'claimCode'                         => $claimCode,
-                                            'claimType'                         => $claimType,
-                                            'claimTypeName'                     => $claimTypeName,
-                                            'hnCode'                            => $hnCode,
-                                            'claimStatus'                       => $claimStatus,
-                                            'patientType'                       => $patientType,
-                                            'createBy'                          => $createBy,
-                                            'sourceChannel'                     => $sourceChannel,
-                                            'mainInsclWithName'                 => $mainInsclWithName,
-                                            'claimAuthen'                       => $claimAuthen,
-                                            'date_data'                         => $datenow
-                                ]);
+                            // Visit_pttype_authen_report::where('transId', $transId)
+                                // ->update([
+                                //             // 'transId'                           => $transId,
+                                //             'hmain'                             => $hmain,
+                                //             'personalId'                        => $personalId,
+                                //             'patientName'                       => $patientName,
+                                //             'addrNo'                            => $addrNo,
+                                //             'moo'                               => $moo,
+                                //             'moonanName'                        => $moonanName,
+                                //             'tumbonName'                        => $tumbonName,
+                                //             'amphurName'                        => $amphurName,
+                                //             'changwatName'                      => $changwatName,
+                                //             'birthdate'                         => $birthdate,
+                                //             'tel'                               => $tel,
+                                //             'mainInscl'                         => $mainInscl,
+                                //             'mainInsclName'                     => $mainInsclName,
+                                //             'subInscl'                          => $subInscl,
+                                //             'subInsclName'                      => $subInsclName,
+                                //             'claimDate'                         => $checkdate,
+                                //             'claimTime'                         => $checktime,
+                                //             'claimCode'                         => $claimCode,
+                                //             'claimType'                         => $claimType,
+                                //             'claimTypeName'                     => $claimTypeName,
+                                //             'hnCode'                            => $hnCode,
+                                //             'claimStatus'                       => $claimStatus,
+                                //             'patientType'                       => $patientType,
+                                //             'createBy'                          => $createBy,
+                                //             'sourceChannel'                     => $sourceChannel,
+                                //             'mainInsclWithName'                 => $mainInsclWithName,
+                                //             'claimAuthen'                       => $claimAuthen,
+                                //             'date_data'                         => $datenow
+                                // ]);
                     } else {
 
                             $data_add = Visit_pttype_authen_report::create([

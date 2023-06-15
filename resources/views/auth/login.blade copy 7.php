@@ -39,7 +39,7 @@
         background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
             url(/pkbackoffice/public/sky16/images/bgPK.jpg)no-repeat 50%; 
         background-size: cover;
-        background-attachment: fixed;
+        /* background-attachment: fixed; */
         /* display: flex; */
         /* align-items: center; */
         justify-content: center;
@@ -60,13 +60,13 @@
   
     .popic {
         position: absolute;
-        width: 180px;
-        height: 170px;
+        width: 210px;
+        height: 210px;
         background:
             url(/pkbackoffice/public/images/ponews.png)no-repeat 100%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
-        top: 8%;
+        top: 1%;
         right: 1%;
         z-index: -1;
         animation: float 2s ease-in-out infinite;
@@ -80,8 +80,8 @@
             url(/pkbackoffice/public/images/po.png)no-repeat 100%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
-        top: 24%;
-        right: 1%;
+        top: 25%;
+        right: 2%;
         z-index: -1;
         animation: float 2s ease-in-out infinite;
     }
@@ -131,7 +131,7 @@
                 </ul>
                 <form class="d-flex" role="search">
                     {{-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> --}}
-                    <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="modal"
+                    <button class="btn btn-outline-warning" type="button" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
                         <i class="fa-solid fa-fingerprint text-warning"></i>
                         เข้าสู่ระบบ
@@ -151,7 +151,7 @@
         <div class="popic_name"> </div>
     </div>
 
-    {{-- <div class="container mt-5">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
                 <div class="card"
@@ -176,7 +176,9 @@
                                     <img src="{{ asset('images/Vision01.jpg') }}" class="bd-placeholder-img"
                                         width="100%" height="100%">
                                     <div class="container">
-                                        <div class="carousel-caption text-end"> 
+                                        <div class="carousel-caption text-end">
+                                            {{-- <h1>Example headline.</h1> --}}
+                                            {{-- <p class="opacity-75">Some representative placeholder content for the first slide of the carousel.</p> --}}
                                             <p><a class="btn btn-lg btn-primary" href="#">Detail</a></p>
                                         </div>
                                     </div>
@@ -185,7 +187,9 @@
                                     <img src="{{ asset('images/Vision02.jpg') }}" class="bd-placeholder-img"
                                         width="100%" height="100%">
                                     <div class="container">
-                                        <div class="carousel-caption text-end"> 
+                                        <div class="carousel-caption text-end">
+                                            {{-- <h1>Another example headline.</h1> --}}
+                                            {{-- <p>Some representative placeholder content for the second slide of the carousel.</p> --}}
                                             <p><a class="btn btn-lg btn-primary" href="#">Detail</a></p>
                                         </div>
                                     </div>
@@ -194,7 +198,9 @@
                                     <img src="{{ asset('images/Vision01.jpg') }}" class="bd-placeholder-img"
                                         width="100%" height="100%">
                                     <div class="container">
-                                        <div class="carousel-caption text-end"> 
+                                        <div class="carousel-caption text-end">
+                                            {{-- <h1>One more for good measure.</h1> --}}
+                                            {{-- <p>Some representative placeholder content for the third slide of this carousel.</p> --}}
                                             <p><a class="btn btn-lg btn-primary" href="#">Detail</a></p>
                                         </div>
                                     </div>
@@ -228,9 +234,9 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     
-    {{-- <div class="container">
+    <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="col-md-4 d-flex align-items-center">
                 <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
@@ -260,7 +266,7 @@
                 </li>
             </ul>
         </footer>
-    </div> --}}
+    </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

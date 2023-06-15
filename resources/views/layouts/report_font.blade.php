@@ -149,8 +149,14 @@
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ url('authen_dashboard') }}">  
+                                <i class="fa-solid fa-gauge-high text-danger"></i>
+                                <span>Dashboard Authen</span>
+                            </a> 
+                        </li>  --}}
+                        <li>
+                            <a href="{{ url('report_authen') }}">  
                                 <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard Authen</span>
                             </a> 
@@ -268,8 +274,8 @@
     <div class="rightbar-overlay"></div>
 
     <!-- JAVASCRIPT -->
+    {{-- <script type="text/javascript" src="{{ asset('disacc/vendors/jquery/dist/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
@@ -315,16 +321,27 @@
     <!-- Datatable init js -->
     <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-
     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
-
-
     <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script type="text/javascript"
+    src="{{ asset('disacc/vendors/jquery.fancytree/dist/jquery.fancytree-all-deps.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('disacc/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('disacc/vendors/chart.js/dist/Chart.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('disacc/vendors/jquery-circle-progress/dist/circle-progress.min.js') }}">
+</script>
+    <script type="text/javascript" src="{{ asset('disacc/js/charts/apex-charts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/circle-progress.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/demo.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/scrollbar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/toastr.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/treeview.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/form-components/toggle-switch.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script>
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>

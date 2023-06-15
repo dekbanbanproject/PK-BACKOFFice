@@ -20,6 +20,146 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class ReportFontController extends Controller
 {
+    public function reportauthen_getbar(Request $request)
+    {
+        $y = date('Y');
+        $date = date('Y-m-d'); 
+        $year_ = DB::connection('mysql')->select(' 
+            SELECT * FROM budget_year WHERE active = "True" 
+        ');
+        foreach ($year_ as $key => $value) {
+            $startdate = $value->date_begin;
+            $enddate = $value->date_end;
+        }
+        $chart = DB::connection('mysql')->select(' 
+            SELECT * FROM db_year WHERE year = "2022" 
+        '); 
+        $labels = [
+          1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+        ];
+         $countvn = $countan = $authen_opd = $authen_ipd = [];
+        
+        foreach ($chart as $key => $chartitems) { 
+            // $countan[$chartitems->month] = $chartitems->countan;
+            $countvn[$chartitems->month] = $chartitems->countvn;
+            $authen_opd[$chartitems->month] = $chartitems->authen_opd;  
+        }       
+        foreach ($labels as $month => $name) { 
+        //    if (!array_key_exists($month,$countan)) {
+        //     $countan[$month] = 0;
+        //    }
+           if (!array_key_exists($month,$countvn)) {
+            $countvn[$month] = 0;
+           }
+           if (!array_key_exists($month,$authen_opd)) {
+            $authen_opd[$month] = 0;
+           }  
+        } 
+        // ksort($countan);
+        ksort($countvn);
+        ksort($authen_opd);  
+
+        // foreach ($chart as $key => $items) { 
+        //     $countan[$items->month] = $items->countan;  
+        //     $authen_ipd[$items->month] = $items->authen_ipd; 
+        // }
+        // foreach ($labels as $month => $name) { 
+        //     if (!array_key_exists($month,$countan)) {
+        //      $countan[$month] = 0;
+        //     } 
+        //     if (!array_key_exists($month,$authen_ipd)) {
+        //      $authen_ipd[$month] = 0;
+        //     } 
+        //  } 
+        //  ksort($countan);   
+        //  ksort($authen_ipd);
+
+ 
+      
+        return [
+            'labels'          =>  array_values($labels),
+            'datasets'     =>  [
+                [ 
+                    'label'           =>  'visit OPD',
+                    'borderColor'     => 'rgba(255, 26, 104, 1)',
+                    'backgroundColor' => 'rgba(255, 26, 104, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            =>  array_values($countvn)
+                ],
+                [ 
+                    'label'           =>  'Authen',
+                    'borderColor'     => 'rgba(75, 192, 192, 1)',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            => array_values($authen_opd) 
+                ],
+               
+            
+            ],
+        ];
+
+ 
+    }
+    public function reportauthen_getbaripd(Request $request)
+    {
+        $y = date('Y');
+        $date = date('Y-m-d');
+         
+        $chart = DB::connection('mysql')->select(' 
+            SELECT * FROM db_year WHERE year = "2022" 
+        '); 
+        $labels = [
+          1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+        ];
+        // $labels2 = [
+        //     1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+        //   ];
+         $countvn = $countan = $authen_opd = $authen_ipd = [];
+        
+        foreach ($chart as $key => $chartitems) { 
+            $countan[$chartitems->month] = $chartitems->countan;  
+            $authen_ipd[$chartitems->month] = $chartitems->authen_ipd; 
+        }
+       
+        foreach ($labels as $month => $name) { 
+           if (!array_key_exists($month,$countan)) {
+            $countan[$month] = 0;
+           } 
+           if (!array_key_exists($month,$authen_ipd)) {
+            $authen_ipd[$month] = 0;
+           } 
+        } 
+        ksort($countan);   
+        ksort($authen_ipd);
+      
+        return [
+            'labels'          =>  array_values($labels),
+            'datasets'     =>  [
+                [ 
+                    'label'           =>  'visit IPD',
+                    'borderColor'     => 'rgba(255, 26, 104, 1)',
+                    'backgroundColor' => 'rgba(255, 26, 104, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            =>  array_values($countan)
+                ],
+                [ 
+                    'label'           =>  'Authen',
+                    'borderColor'     => 'rgba(75, 192, 192, 1)',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            => array_values($authen_ipd) 
+                ],
+               
+            
+            ],
+        ];
+
+ 
+    }
     public function report_dashboard(Request $request)
     { 
         $datenow = date('Y-m-d');
@@ -121,6 +261,60 @@ class ReportFontController extends Controller
             'countkradook'      =>  $countkradook,
         ]);
     }
+    public function report_authen(Request $request)
+    {
+        $date = date('Y-m-d');
+        
+        $data_dep = DB::connection('mysql3')->select(' 
+                SELECT o.main_dep,sk.department,COUNT(o.vn) as VN   
+                FROM ovst o 
+                LEFT JOIN visit_pttype v on v.vn=o.vn
+                LEFT JOIN vn_stat vs on vs.vn=o.vn
+                LEFT JOIN visit_pttype_authen vpa on vpa.visit_pttype_authen_vn=o.vn
+                LEFT OUTER JOIN kskdepartment sk on sk.depcode=o.main_dep
+                WHERE o.vstdate = CURDATE()  
+                
+                GROUP BY o.main_dep
+        ');
+        
+        foreach ($data_dep as $key => $value2) {
+            $maindep = $value2->main_dep;
+        }
+        $data_ = DB::connection('mysql')->select(' 
+                SELECT *   
+                FROM dashboard_authen_day 
+                WHERE vstdate = CURDATE()   
+        ');
+         foreach ($data_ as $key => $value) {
+            $vn_ = $value->vn;
+            $Kios_ = $value->Kios;
+            $Staff_ = $value->Staff;
+            $Success_ = $value->Total_Success;
+            
+        } 
+        $data_department = DB::connection('mysql')->select(' 
+                SELECT *   
+                FROM dashboard_department_authen 
+                WHERE vstdate = CURDATE()  
+                ORDER BY main_dep DESC 
+        ');
+        $data_staff = DB::connection('mysql')->select(' 
+                SELECT *
+                FROM dashboard_authenstaff_day 
+                WHERE vstdate = CURDATE() 
+                ORDER BY length(vn) DESC, vn DESC 
+        ');
+ 
+        return view('dashboard.report_authen',[ 
+            'vn'               => $vn_,
+            'Kios'             => $Kios_,
+            'Staff'            => $Staff_,
+            'Success'          => $Success_,
+            'data_dep'         => $data_dep,
+            'data_department'  => $data_department,
+            'data_staff'       => $data_staff,
+        ] );
+    }
     public function check_knee_ipddetail(Request $request,$newDate,$datenow)
     { 
         $dataknee_ = DB::connection('mysql3')->select('   
@@ -150,8 +344,7 @@ class ReportFontController extends Controller
             'newDate'        =>  $newDate,
             'datenow'        =>  $datenow,
         ]);
-    }
- 
+    } 
     public function report_or(Request $request)
     {
         $year_id = $request->year_id;
