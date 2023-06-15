@@ -32,7 +32,7 @@ class ReportFontController extends Controller
             $enddate = $value->date_end;
         }
         $chart = DB::connection('mysql')->select(' 
-            SELECT * FROM db_year WHERE year = "2022" 
+            SELECT * FROM db_year WHERE year = "'.$y.'" 
         '); 
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
@@ -108,7 +108,7 @@ class ReportFontController extends Controller
         $date = date('Y-m-d');
          
         $chart = DB::connection('mysql')->select(' 
-            SELECT * FROM db_year WHERE year = "2022" 
+            SELECT * FROM db_year WHERE year = "'.$y.'"  
         '); 
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
