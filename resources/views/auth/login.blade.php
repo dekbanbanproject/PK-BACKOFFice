@@ -37,7 +37,7 @@
         width: 100%;
         height: 100%;
         background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-            url(/pkbackoffice/public/sky16/images/bgPK.jpg)no-repeat 50%; 
+            url(/pkbackoffice/public/sky16/images/bgPK.jpg)no-repeat 50%;
         background-size: cover;
         background-attachment: fixed;
         /* display: flex; */
@@ -46,7 +46,7 @@
         /* min-height: 58rem; */
         /* padding-top: 2.5rem; */
     }
- 
+
     .logo {
         width: 100px;
         height: 100px;
@@ -57,7 +57,7 @@
         align-items: center;
         justify-content: center;
     }
-  
+
     .popic {
         position: absolute;
         width: 180px;
@@ -85,7 +85,7 @@
         z-index: -1;
         animation: float 2s ease-in-out infinite;
     }
- 
+
 
     @keyframes float {
         0% {
@@ -122,11 +122,11 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url('sit_auto') }}" target="bank">Auto
+                        <a class="nav-link active" aria-current="page" href="{{ url('sit_auto') }}" target="_blank">Auto
                             Systems</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('report_dashboard') }}" target="bank">Report</a>
+                        <a class="nav-link" href="{{ url('report_authen') }}" target="_blank">Report</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
@@ -176,7 +176,7 @@
                                     <img src="{{ asset('images/Vision01.jpg') }}" class="bd-placeholder-img"
                                         width="100%" height="100%">
                                     <div class="container">
-                                        <div class="carousel-caption text-end"> 
+                                        <div class="carousel-caption text-end">
                                             <p><a class="btn btn-lg btn-primary" href="#">Detail</a></p>
                                         </div>
                                     </div>
@@ -185,7 +185,7 @@
                                     <img src="{{ asset('images/Vision02.jpg') }}" class="bd-placeholder-img"
                                         width="100%" height="100%">
                                     <div class="container">
-                                        <div class="carousel-caption text-end"> 
+                                        <div class="carousel-caption text-end">
                                             <p><a class="btn btn-lg btn-primary" href="#">Detail</a></p>
                                         </div>
                                     </div>
@@ -194,7 +194,7 @@
                                     <img src="{{ asset('images/Vision01.jpg') }}" class="bd-placeholder-img"
                                         width="100%" height="100%">
                                     <div class="container">
-                                        <div class="carousel-caption text-end"> 
+                                        <div class="carousel-caption text-end">
                                             <p><a class="btn btn-lg btn-primary" href="#">Detail</a></p>
                                         </div>
                                     </div>
@@ -229,7 +229,7 @@
             </div>
         </div>
     </div> --}}
-    
+
     {{-- <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="col-md-4 d-flex align-items-center">

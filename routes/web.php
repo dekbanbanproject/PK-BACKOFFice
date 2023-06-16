@@ -32,6 +32,8 @@ Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class
 Route::match(['get','post'],'acc_test',[App\Http\Controllers\AccController::class,'acc_test'])->name('ktb.acc_test');
 
 Route::match(['get','post'],'report_authen',[App\Http\Controllers\ReportFontController::class, 'report_authen'])->name('rep.report_authen');// report
+Route::match(['get','post'],'report_authen_sub/{month}/{year}',[App\Http\Controllers\ReportFontController::class, 'report_authen_sub'])->name('rep.report_authen_sub');// report
+Route::match(['get','post'],'report_authen_subsub/{month}/{year}/{staff}',[App\Http\Controllers\ReportFontController::class, 'report_authen_subsub'])->name('rep.report_authen_subsub');// report
 Route::match(['get','post'],'reportauthen_getbar',[App\Http\Controllers\ReportFontController::class, 'reportauthen_getbar'])->name('rep.reportauthen_getbar');// report
 Route::match(['get','post'],'reportauthen_getbaripd',[App\Http\Controllers\ReportFontController::class, 'reportauthen_getbaripd'])->name('rep.reportauthen_getbaripd');// report
 

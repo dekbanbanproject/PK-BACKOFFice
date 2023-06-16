@@ -242,13 +242,13 @@ class ReportFontController extends Controller
         $date = date('Y-m-d');
         $y = date('Y');
         $data_year = DB::connection('mysql3')->select('
-            SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD
+            SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT ra.VN) as authenOPD
                 ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
             FROM ovst o
             LEFT JOIN vn_stat v on v.vn = o.vn
             LEFT JOIN patient p on p.hn = o.hn
             LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
-                WHERE YEAR(o.vstdate) = "'.$y.'"
+                WHERE YEAR(o.vstdate) = "'.$y.'" AND o.an is null
                 GROUP BY month
 			    ORDER BY month ASC
         ');
@@ -266,6 +266,47 @@ class ReportFontController extends Controller
             // 'data_dep'         => $data_dep,
             // 'data_department'  => $data_department,
             // 'data_staff'       => $data_staff,
+        ] );
+    }
+    public function report_authen_sub(Request $request,$month,$year)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $data_year = DB::connection('mysql3')->select('
+                SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD,COUNT(DISTINCT o.vn)-COUNT(DISTINCT ra.VN) as noAuthen
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,vs.staff
+                FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
+                LEFT JOIN visit_pttype vs on vs.vn = o.vn
+                LEFT JOIN patient p on p.hn = o.hn
+                LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
+                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND vs.staff <> "" AND o.an is null
+                GROUP BY vs.staff
+		        ORDER BY noAuthen DESC
+        ');
+
+        return view('dashboard.report_authen_sub',[
+            'data_year'               => $data_year,
+        ] );
+    }
+    public function report_authen_subsub(Request $request,$month,$year,$staff)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $data_year = DB::connection('mysql3')->select('
+        SELECT DISTINCT o.vn,o.hn,p.cid,o.an,concat(p.pname,p.fname,"  ",p.lname) as Fullname
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,vs.staff
+                FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
+                LEFT JOIN visit_pttype vs on vs.vn = o.vn
+                LEFT JOIN patient p on p.hn = o.hn
+                LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
+                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND vs.staff = "'.$staff.'" AND ra.VN IS NULL
+                AND o.an is null
+        ');
+
+        return view('dashboard.report_authen_subsub',[
+            'data_year'               => $data_year,
         ] );
     }
     public function check_knee_ipddetail(Request $request,$newDate,$datenow)
