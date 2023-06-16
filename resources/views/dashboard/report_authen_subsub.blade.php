@@ -64,7 +64,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายชื่อคนไข้ที่มาใช้บริการ
+                        รายชื่อคนไข้ที่มาใช้บริการแต่ไมออก Authen Code
                         <div class="btn-actions-pane-right">
 
                         </div>
@@ -76,19 +76,15 @@
                                     <th class="text-center">ลำดับ</th>
                                     <th class="text-center">cid</th>
                                     <th class="text-center">hn</th>
-                                    <th class="text-center">ชื่อ-นามสกุล</th>
-                                    {{-- <th class="text-center">โรงพยาบาล</th> --}}
-                                    {{-- <th class="text-center">สิทธิ์ Hos</th> --}}
+                                    <th class="text-center">vn</th>
                                     <th class="text-center">วันที่รับบริการ</th>
+                                    <th class="text-center">ชื่อ-นามสกุล</th>
                                     <th class="text-center">pdx</th>
-                                    <th class="text-center">dx0</th>
-                                    <th class="text-center">dx1</th>
-                                    <th class="text-center">income</th>
-                                    <th class="text-center">ยอดเรียกเก็บ</th>
+                                    <th class="text-center">pttype</th>
                                     <th class="text-center">Total</th>
                                 </tr>
                             </thead>
-                            {{-- <tbody>
+                            <tbody>
                                 <?php $number = 0;$total1 = 0; $total2 = 0;$total3 = 0; ?>
                                 @foreach ($datashow_ as $item)
                                     <?php $number++; ?>
@@ -96,20 +92,16 @@
                                         <td class="text-font" style="text-align: center;width: 5%;">{{ $number }}</td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 10%;" > {{ $item->cid }}</td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->hn }}</td>
-                                        <td class="text-font text-pedding" style="text-align: left;"> {{ $item->ptname }} </td>
-                                        <td class="text-font text-pedding" style="text-align: left;width: 15%;"> {{ $item->hospmain }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->pttype }} </td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 10%;"> {{ $item->vn }}</td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 10%;"> {{ $item->vstdate }}</td>
+                                        <td class="text-font text-pedding" style="text-align: left;"> {{ $item->Fullname }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pdx }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->dx0 }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->dx1 }} </td>
-                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#b00ec5">&nbsp;&nbsp; {{ number_format($item->income,2) }} </td>
-                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b"> &nbsp;&nbsp;{{ number_format($item->refer,2) }} </td>
-                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#0bc597"> &nbsp;&nbsp;{{ number_format(($item->total),2) }} </td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pttype }} </td>
+                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f02e0b"> &nbsp;&nbsp;{{ number_format(($item->debit),2) }} </td>
                                     </tr>
 
                                 @endforeach
-                            </tbody>  --}}
+                            </tbody>
                         </table>
                     </div>
                 </div>

@@ -563,7 +563,8 @@ class AutoController extends Controller
             }
 
             Db_year::truncate();
-
+            $date = date('Y-m-d');
+            $y = date('Y');
             $db_year_ = DB::connection('mysql3')->select('
                         SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD
                         ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
@@ -571,18 +572,18 @@ class AutoController extends Controller
                         LEFT JOIN vn_stat v on v.vn = o.vn
                         LEFT JOIN patient p on p.hn = o.hn
                         LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
-                        WHERE o.vstdate BETWEEN "2022-09-01" AND "2023-09-30"
+                        WHERE YEAR(o.vstdate) = "'.$y.'"
+                        AND o.an is null
                         GROUP BY month
 			            ORDER BY year,month ASC
             ');
 
-
+            // WHERE o.vstdate BETWEEN "2022-09-01" AND "2023-09-30"
             foreach ($db_year_ as $key => $value3) {
                 Db_year::insert([
                     'month'       => $value3->month,
                     'year'        => $value3->year,
                     'countvn'     => $value3->countvn,
-                    'countan'     => $value3->countan,
                     'authen_opd'  => $value3->authenOPD
                 ]);
             }
@@ -594,7 +595,7 @@ class AutoController extends Controller
                         LEFT JOIN an_stat a on a.an = o.an
                         LEFT JOIN patient p on p.hn = o.hn
                         LEFT JOIN rcmdb.authencode ra ON ra.AN = o.an
-                        WHERE o.vstdate BETWEEN "2022-09-01" AND "2023-09-30"
+                        WHERE YEAR(o.vstdate) = "'.$y.'" AND o.an is not null
                         GROUP BY months
                         ORDER BY years,months DESC
             ');
@@ -610,6 +611,7 @@ class AutoController extends Controller
                 $yearnew = $value4->years;
                 Db_year::where('month', $value4->months)->where('year', $yearnew)
                 ->update([
+                    'countan'        => $value4->countan,
                     'authen_ipd'     => $value4->authenIPD
                 ]);
             }

@@ -37,7 +37,7 @@ class ReportFontController extends Controller
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
         ];
-         $countvn = $countan = $authen_opd = $authen_ipd = [];
+         $countvn = $countan = $authen_opd = $noauthen_opd = $authen_ipd = [];
 
         foreach ($chart as $key => $chartitems) {
             $countvn[$chartitems->month] = $chartitems->countvn;
@@ -59,8 +59,8 @@ class ReportFontController extends Controller
             'datasets'     =>  [
                 [
                     'label'           =>  'visit OPD',
-                    'borderColor'     => 'rgba(255, 26, 104, 1)',
-                    'backgroundColor' => 'rgba(255, 26, 104, 0.2)',
+                    'borderColor'     => 'rgba(255, 205, 86 , 1)',
+                    'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
                     'data'            =>  array_values($countvn)
@@ -75,8 +75,8 @@ class ReportFontController extends Controller
                 ],
             ],
         ];
-
-
+        // 255, 26, 104 ชมพู
+        // 255, 205, 86
     }
     public function reportauthen_getbaripd(Request $request)
     {
@@ -115,8 +115,8 @@ class ReportFontController extends Controller
             'datasets'     =>  [
                 [
                     'label'           =>  'visit IPD',
-                    'borderColor'     => 'rgba(255, 26, 104, 1)',
-                    'backgroundColor' => 'rgba(255, 26, 104, 0.2)',
+                    'borderColor'     => 'rgba(54, 162, 235, 1)',
+                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
                     'data'            =>  array_values($countan)
@@ -253,19 +253,8 @@ class ReportFontController extends Controller
 			    ORDER BY month ASC
         ');
 
-        // foreach ($data_dep as $key => $value2) {
-        //     $maindep = $value2->main_dep;
-        // }
-
-
         return view('dashboard.report_authen',[
             'data_year'               => $data_year,
-            // 'Kios'             => $Kios_,
-            // 'Staff'            => $Staff_,
-            // 'Success'          => $Success_,
-            // 'data_dep'         => $data_dep,
-            // 'data_department'  => $data_department,
-            // 'data_staff'       => $data_staff,
         ] );
     }
     public function report_authen_sub(Request $request,$month,$year)
@@ -274,14 +263,16 @@ class ReportFontController extends Controller
         $y = date('Y');
         $data_year = DB::connection('mysql3')->select('
                 SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD,COUNT(DISTINCT o.vn)-COUNT(DISTINCT ra.VN) as noAuthen
-                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,vs.staff
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff,ou.name as fullstaff
+                ,SUM(v.income)-SUM(v.discount_money)-SUM(v.rcpt_money) sumdebit
                 FROM ovst o
                 LEFT JOIN vn_stat v on v.vn = o.vn
                 LEFT JOIN visit_pttype vs on vs.vn = o.vn
                 LEFT JOIN patient p on p.hn = o.hn
+                LEFT JOIN opduser ou ON ou.loginname = o.staff
                 LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
-                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND vs.staff <> "" AND o.an is null
-                GROUP BY vs.staff
+                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND o.staff <> "" AND o.an is null
+                GROUP BY o.staff
 		        ORDER BY noAuthen DESC
         ');
 
@@ -293,20 +284,22 @@ class ReportFontController extends Controller
     {
         $date = date('Y-m-d');
         $y = date('Y');
-        $data_year = DB::connection('mysql3')->select('
-        SELECT DISTINCT o.vn,o.hn,p.cid,o.an,concat(p.pname,p.fname,"  ",p.lname) as Fullname
-                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,vs.staff
+        $datashow_ = DB::connection('mysql3')->select('
+        SELECT v.vstdate,o.vn,o.hn,p.cid,o.an,concat(p.pname,p.fname,"  ",p.lname) as Fullname,v.pttype,v.pdx
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff,v.income-v.discount_money-v.rcpt_money as debit
                 FROM ovst o
                 LEFT JOIN vn_stat v on v.vn = o.vn
                 LEFT JOIN visit_pttype vs on vs.vn = o.vn
                 LEFT JOIN patient p on p.hn = o.hn
+                LEFT JOIN opitemrece op ON op.vn = o.vn
                 LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
-                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND vs.staff = "'.$staff.'" AND ra.VN IS NULL
+                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND o.staff = "'.$staff.'" AND ra.VN IS NULL
                 AND o.an is null
+                GROUP BY v.vn
         ');
 
         return view('dashboard.report_authen_subsub',[
-            'data_year'               => $data_year,
+            'datashow_'               => $datashow_,
         ] );
     }
     public function check_knee_ipddetail(Request $request,$newDate,$datenow)
