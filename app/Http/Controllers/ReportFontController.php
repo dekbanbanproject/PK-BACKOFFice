@@ -42,6 +42,7 @@ class ReportFontController extends Controller
         foreach ($chart as $key => $chartitems) {
             $countvn[$chartitems->month] = $chartitems->countvn;
             $authen_opd[$chartitems->month] = $chartitems->authen_opd;
+            $noauthen_opd[$chartitems->month] = $chartitems->countvn - $chartitems->authen_opd;
         }
         foreach ($labels as $month => $name) {
            if (!array_key_exists($month,$countvn)) {
@@ -50,15 +51,18 @@ class ReportFontController extends Controller
            if (!array_key_exists($month,$authen_opd)) {
             $authen_opd[$month] = 0;
            }
+           if (!array_key_exists($month,$noauthen_opd)) {
+            $noauthen_opd[$month] = 0;
+           }
         }
         ksort($countvn);
         ksort($authen_opd);
-
+        ksort($noauthen_opd);
         return [
             'labels'          =>  array_values($labels),
             'datasets'     =>  [
                 [
-                    'label'           =>  'visit OPD',
+                    'label'           =>  'จำนวนคนไข้ที่มารับบริการ OPD',
                     'borderColor'     => 'rgba(255, 205, 86 , 1)',
                     'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
                     'borderWidth'     => '1',
@@ -66,12 +70,20 @@ class ReportFontController extends Controller
                     'data'            =>  array_values($countvn)
                 ],
                 [
-                    'label'           =>  'Authen',
+                    'label'           =>  'Authen Code',
                     'borderColor'     => 'rgba(75, 192, 192, 1)',
                     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
                     'data'            => array_values($authen_opd)
+                ],
+                [
+                    'label'           =>  'ไม่ Authen',
+                    'borderColor'     => 'rgba(255, 99, 132, 1)',
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            => array_values($noauthen_opd)
                 ],
             ],
         ];
@@ -92,11 +104,12 @@ class ReportFontController extends Controller
         // $labels2 = [
         //     1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
         //   ];
-         $countvn = $countan = $authen_opd = $authen_ipd = [];
+         $countvn = $countan = $authen_opd = $authen_ipd = $noauthen_ipd= [];
 
         foreach ($chart as $key => $chartitems) {
             $countan[$chartitems->month] = $chartitems->countan;
             $authen_ipd[$chartitems->month] = $chartitems->authen_ipd;
+            $noauthen_ipd[$chartitems->month] = $chartitems->countan - $chartitems->authen_ipd;
         }
 
         foreach ($labels as $month => $name) {
@@ -106,30 +119,42 @@ class ReportFontController extends Controller
            if (!array_key_exists($month,$authen_ipd)) {
             $authen_ipd[$month] = 0;
            }
+           if (!array_key_exists($month,$noauthen_ipd)) {
+            $noauthen_ipd[$month] = 0;
+           }
         }
         ksort($countan);
         ksort($authen_ipd);
+        ksort($noauthen_ipd);
 
         return [
             'labels'          =>  array_values($labels),
             'datasets'     =>  [
                 [
-                    'label'           =>  'visit IPD',
-                    'borderColor'     => 'rgba(54, 162, 235, 1)',
-                    'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
+                    'label'           =>  'จำนวนคนไข้ที่มารับบริการ IPD',
+                    'borderColor'     => 'rgba(0,0,139, 1)',
+                    'backgroundColor' => 'rgba(0,0,139, 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
                     'data'            =>  array_values($countan)
                 ],
+                // 54, 162, 235 ฟ้า
                 [
-                    'label'           =>  'Authen',
+                    'label'           =>  'Authen Code',
                     'borderColor'     => 'rgba(75, 192, 192, 1)',
                     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
                     'data'            => array_values($authen_ipd)
                 ],
-
+                [
+                    'label'           =>  'ไม่ Authen',
+                    'borderColor'     => 'rgba(255, 99, 132, 1)',
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            => array_values($noauthen_ipd)
+                ],
 
             ],
         ];
@@ -264,18 +289,20 @@ class ReportFontController extends Controller
         $data_year = DB::connection('mysql3')->select('
                 SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD,COUNT(DISTINCT o.vn)-COUNT(DISTINCT ra.VN) as noAuthen
                 ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff,ou.name as fullstaff
-                ,SUM(v.income)-SUM(v.discount_money)-SUM(v.rcpt_money) sumdebit
+
+                ,SUM(op.sum_price) as sumdebit
                 FROM ovst o
                 LEFT JOIN vn_stat v on v.vn = o.vn
                 LEFT JOIN visit_pttype vs on vs.vn = o.vn
                 LEFT JOIN patient p on p.hn = o.hn
                 LEFT JOIN opduser ou ON ou.loginname = o.staff
+                LEFT JOIN opitemrece op ON op.vn = o.vn
                 LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
                 WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND o.staff <> "" AND o.an is null
                 GROUP BY o.staff
 		        ORDER BY noAuthen DESC
         ');
-
+        // ,SUM(v.income)-SUM(v.discount_money)-SUM(v.rcpt_money) sumdebit
         return view('dashboard.report_authen_sub',[
             'data_year'               => $data_year,
         ] );
@@ -286,7 +313,8 @@ class ReportFontController extends Controller
         $y = date('Y');
         $datashow_ = DB::connection('mysql3')->select('
         SELECT v.vstdate,o.vn,o.hn,p.cid,o.an,concat(p.pname,p.fname,"  ",p.lname) as Fullname,v.pttype,v.pdx
-                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff,v.income-v.discount_money-v.rcpt_money as debit
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff
+                ,SUM(op.sum_price) as debit
                 FROM ovst o
                 LEFT JOIN vn_stat v on v.vn = o.vn
                 LEFT JOIN visit_pttype vs on vs.vn = o.vn
@@ -297,7 +325,7 @@ class ReportFontController extends Controller
                 AND o.an is null
                 GROUP BY v.vn
         ');
-
+        // ,v.income-v.discount_money-v.rcpt_money as debit
         return view('dashboard.report_authen_subsub',[
             'datashow_'               => $datashow_,
         ] );

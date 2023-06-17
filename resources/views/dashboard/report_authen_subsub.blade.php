@@ -93,7 +93,7 @@
                                         <td class="text-font text-pedding" style="text-align: center;width: 10%;" > {{ $item->cid }}</td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->hn }}</td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 10%;"> {{ $item->vn }}</td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 10%;"> {{ $item->vstdate }}</td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->vstdate }}</td>
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->Fullname }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pdx }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pttype }} </td>

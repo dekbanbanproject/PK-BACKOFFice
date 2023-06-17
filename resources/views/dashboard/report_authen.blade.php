@@ -251,9 +251,10 @@
                                         <div class="widget-chart-flex">
                                             <div class="widget-numbers mb-0 w-100">
                                                 <div class="widget-chart-flex">
-                                                    <div class="fsize-3 text-danger">
+                                                    <div class="fsize-2 text-warning">
                                                         <small class="opacity-5 text-muted"><i class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
-                                                        {{$item->countvn}} คน
+                                                        <label for="" style="font-size: 13px"> {{$item->countvn}} คน</label>
+
                                                     </div>
                                                     <div class="ms-auto">
 
@@ -263,12 +264,13 @@
                                                                     <span class="pe-1">
                                                                         <i class="fa fa-angle-left"></i>
                                                                     </span>
-                                                                     {{$item->authenOPD}}
+                                                                    <label for="" style="font-size: 12px"> {{$item->authenOPD}}</label>
                                                                 </span>
                                                                 /
                                                             <a href="{{url('report_authen_sub/'.$item->month.'/'.$item->year)}}" target="_blank">
                                                                 <span class="text-danger ps-2">
-                                                                     {{($item->countvn - $item->authenOPD)}} คน
+                                                                    <label for="" style="font-size: 12px"> {{($item->countvn - $item->authenOPD)}} คน</label>
+
                                                                     <span class="pe-1">
                                                                         <i class="fa fa-angle-right"></i>
                                                                     </span>
