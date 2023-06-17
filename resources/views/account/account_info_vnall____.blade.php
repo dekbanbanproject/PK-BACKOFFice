@@ -29,20 +29,20 @@
     $pos = strrpos($url, '/') + 1;
     ?>
     <div class="container-fluid">
-
-    <div class="row mt-3">
+ 
+    <div class="row mt-3"> 
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body py-0 px-2 mt-2">
                     <div class="table-responsive">
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap myTable"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> 
                             <thead>
                                 <tr>
                                     <th width="5%" class="text-center">ลำดับ</th>
                                     <th class="text-center">HN</th>
                                     <th class="text-center">CID</th>
-                                    <th class="text-center">PDX</th>
+                                    <th class="text-center">PDX</th> 
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">ชื่อ - สกุล</th>
                                     <th class="text-center">ลูกหนี้</th>
@@ -60,33 +60,33 @@
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                @foreach ($datashow as $item2)
+                                @foreach ($datashow as $item2)                                            
                                         <tr>
                                             <td>{{$i++ }}</td>
-                                            <td class="text-center">{{$item2->hn }}</td>
+                                            <td class="text-center">{{$item2->hn }}</td> 
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vnstmx/'.$item2->cid.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->cid}}</a>
-                                            </td>
-                                            <td class="text-center">{{$item2->pdx }}</td>
-                                            <td class="text-center">{{$item2->vstdate }}</td>
-                                            <td class="text-left">{{$item2->fullname }}</td>
-                                            <td class="text-center">{{$item2->uc_money }}</td>
-                                            <td class="text-center">{{$item2->paid_money }}</td>
-                                            <td class="text-center">{{$item2->rcpno }}</td>
-                                            <td class="text-center">{{$item2->hincome }}</td>
-                                            <td class="text-center">{{$item2->rramont }}</td>
-                                            <td class="text-center">{{$item2->edc }}</td>
-                                            <td class="text-center">{{$item2->cc }}</td>
-                                            <td class="text-center">{{$item2->apphoscode }}</td>
-                                            <td class="text-center">{{$item2->appktb }}</td>
-                                            <td class="text-center">{{$item2->age_y }}</td>
-
+                                                <a href="{{url('account_info_vnstmx/'.$item2->cid.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->cid}}</a>  
+                                            </td>    
+                                            <td class="text-center">{{$item2->pdx }}</td> 
+                                            <td class="text-center">{{$item2->vstdate }}</td> 
+                                            <td class="text-center">{{$item2->fullname }}</td> 
+                                            <td class="text-center">{{$item2->uc_money }}</td> 
+                                            <td class="text-center">{{$item2->paid_money }}</td> 
+                                            <td class="text-center">{{$item2->rcpno }}</td> 
+                                            <td class="text-center">{{$item2->hincome }}</td> 
+                                            <td class="text-center">{{$item2->rramont }}</td> 
+                                            <td class="text-center">{{$item2->edc }}</td> 
+                                            <td class="text-center">{{$item2->cc }}</td> 
+                                            <td class="text-center">{{$item2->apphoscode }}</td> 
+                                            <td class="text-center">{{$item2->appktb }}</td>   
+                                            <td class="text-center">{{$item2->age_y }}</td> 
+                                           
                                             @if ($item2->scheck == 'check')
-                                                <td class="text-center"><button type="button" class="btn btn-success">CHECK</button></td>
+                                                <td class="text-center"><button type="button" class="btn btn-success">CHECK</button></td> 
                                             @else
-                                                <td class="text-center"><button type="button" class="btn btn-warning">ออก stm</button></td>
+                                                <td class="text-center"><button type="button" class="btn btn-warning">ออก stm</button></td> 
                                             @endif
-
+                                                                            
                                         </tr>
                                 @endforeach
                             </tbody>
