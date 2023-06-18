@@ -62,46 +62,10 @@
 
         <div class="row">
 
-            {{-- @foreach ($data_year as $item)
-                <div class="col-sm-12 col-md-3">
-                    <div class="card-shadow-primary mb-3 widget-chart widget-chart2 text-start card">
-                        <div class="widget-chat-wrapper-outer">
-                            <div class="widget-chart-content">
-                                <h5 class="text-start">{{$item->staff}}</h5>
-                                <div class="widget-chart-flex">
-                                    <div class="widget-numbers mb-0 w-100">
-                                        <div class="widget-chart-flex">
-                                            <div class="fsize-3 text-primary">
-                                                <small class="opacity-5 text-muted"><i class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
-                                                <label for="" style="font-size: 12px">{{$item->countvn}} คน</label>
-
-                                            </div>
-
-                                            <div class="ms-auto">
-                                                <a href="{{url('report_authen_subsub/'.$item->month.'/'.$item->year.'/'.$item->staff)}}" target="_blank">
-                                                    <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
-                                                            <span class="text-danger ps-2">
-                                                                <span class="pe-1">
-                                                                    <i class="fa fa-angle-left"></i>
-                                                                </span>
-                                                                <label for="" style="font-size: 14px">ไม่ Authen {{$item->noAuthen}} คน</label>
-                                                            </span>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach --}}
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        แยกตามรายชื่อเจ้าหน้าที่
+                        รายชื่อเจ้าหน้าที่ไม่ Authen Code
                         <div class="btn-actions-pane-right">
 
                         </div>
@@ -120,15 +84,15 @@
                             </thead>
                             <tbody>
                                 <?php $number = 0;$total1 = 0; $total2 = 0;$total3 = 0; ?>
-                                @foreach ($data_year as $item)
+                                @foreach ($data_yearipd as $item)
                                     <?php $number++; ?>
                                     <tr height="20">
                                         <td class="text-font" style="text-align: center;width: 5%;">{{ $number }}</td>
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->fullstaff }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->countvn }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->authenOPD }} </td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->countan }} </td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->authenIPD }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 15%;">
-                                            <a href="{{url('report_authen_subsub/'.$item->month.'/'.$item->year.'/'.$item->staff)}}" class="text-danger" target="_blank">{{ $item->noAuthen }}</a>
+                                            <a href="{{url('report_authen_subsubipd/'.$item->month.'/'.$item->year.'/'.$item->staff)}}" class="text-danger" target="_blank">{{ $item->noAuthen }}</a>
                                             {{-- <a href="{{url('report_authen_subsub/'.$item->month.'/'.$item->year.'/'.$item->staff)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger btn-sm" target="_blank">{{ $item->noAuthen }}</a> --}}
                                         </td>
                                         <td class="text-font text-pedding" style="text-align: right;width: 20%;color:#f02e0b"> &nbsp;&nbsp;{{ number_format(($item->sumdebit),2) }} </td>

@@ -595,7 +595,8 @@ class AutoController extends Controller
                         LEFT JOIN an_stat a on a.an = o.an
                         LEFT JOIN patient p on p.hn = o.hn
                         LEFT JOIN rcmdb.authencode ra ON ra.AN = o.an
-                        WHERE YEAR(o.vstdate) = "'.$y.'" AND o.an is not null
+                        WHERE YEAR(o.vstdate) = "'.$y.'"
+                       
                         GROUP BY months
                         ORDER BY years,months DESC
             ');

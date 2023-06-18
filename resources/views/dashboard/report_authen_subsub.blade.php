@@ -64,7 +64,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายชื่อคนไข้ที่มาใช้บริการแต่ไมออก Authen Code
+                        รายชื่อคนไข้ที่มาใช้บริการแต่ไม่ออก Authen Code
                         <div class="btn-actions-pane-right">
 
                         </div>

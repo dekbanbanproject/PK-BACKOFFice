@@ -207,10 +207,11 @@ class AccountController extends Controller
                 ,month(a.vstdate) as months
                 ,count(distinct a.vn) as vn
                 ,(
-                    SELECT COUNT(distinct a.vn) as vnull
+                            SELECT COUNT(distinct a.vn) as vnull
                             from hos.vn_stat a
                             left outer join hos.ipt o on o.vn = a.vn
                             LEFT JOIN hos.patient p on p.hn = a.hn
+                            left outer join hos.rcpt_print r on r.vn =a.vn
                             left outer join hos.rcpt_debt rr on rr.vn = a.vn
                             left outer join hos.hpc11_ktb_approval hh on hh.pid=p.cid and hh.transaction_date = a.vstdate
                             left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
@@ -224,12 +225,12 @@ class AccountController extends Controller
                 from hos.vn_stat a
                 left outer join hos.ipt o on o.vn = a.vn
                 LEFT JOIN hos.patient p on p.hn = a.hn
+                left outer join hos.rcpt_print r on r.vn =a.vn
                 left outer join hos.rcpt_debt rr on rr.vn = a.vn
                 left outer join hos.hpc11_ktb_approval hh on hh.pid=p.cid and hh.transaction_date = a.vstdate
                 left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
                 where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and a.pttype in("o1","o2","o3","o4","o5")
-
                 and a.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
                 and o.an is null
                 and a.uc_money > 1
@@ -322,7 +323,7 @@ class AccountController extends Controller
                 and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
                 and e.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
                 and year(e.vstdate) = "' . $year . '"
-                and month(e.vstdate) = "' . $months . '"
+                and month(e.vstdate) = "' . $months . '"  
                 group by e.vn,e.vstdate
                 order by e.vstdate
         ');
@@ -361,7 +362,7 @@ class AccountController extends Controller
                 where e.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and e.pttype in("o1","o2","o3","o4","o5")
                 and o.an IS NULL
-                and e.uc_money > 0
+                and e.uc_money > 1
                 and e.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
                 and year(e.vstdate) = "' . $year . '"
                 and month(e.vstdate) = "' . $months . '"

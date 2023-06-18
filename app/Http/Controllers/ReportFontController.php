@@ -277,9 +277,23 @@ class ReportFontController extends Controller
                 GROUP BY month
 			    ORDER BY month ASC
         ');
+        $data_yearipd = DB::connection('mysql3')->select('
 
+                SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.AN) as authenIPD
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
+                FROM ovst o
+                LEFT JOIN an_stat a on a.an = o.an
+                LEFT JOIN patient p on p.hn = o.hn
+                LEFT JOIN rcmdb.authencode ra ON ra.AN = o.an
+                WHERE YEAR(o.vstdate) = "'.$y.'"
+                AND o.an is not null
+                GROUP BY month
+                ORDER BY year,month DESC
+        ');
+        // AND COUNT(DISTINCT o.an) <> 0
         return view('dashboard.report_authen',[
             'data_year'               => $data_year,
+            'data_yearipd'               => $data_yearipd,
         ] );
     }
     public function report_authen_sub(Request $request,$month,$year)
@@ -287,7 +301,8 @@ class ReportFontController extends Controller
         $date = date('Y-m-d');
         $y = date('Y');
         $data_year = DB::connection('mysql3')->select('
-                SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD,COUNT(DISTINCT o.vn)-COUNT(DISTINCT ra.VN) as noAuthen
+                SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD
+                ,COUNT(DISTINCT o.vn)-COUNT(DISTINCT ra.VN) as noAuthen
                 ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff,ou.name as fullstaff
 
                 ,SUM(op.sum_price) as sumdebit
@@ -328,6 +343,33 @@ class ReportFontController extends Controller
         // ,v.income-v.discount_money-v.rcpt_money as debit
         return view('dashboard.report_authen_subsub',[
             'datashow_'               => $datashow_,
+        ] );
+    }
+
+    public function report_authen_subipd(Request $request,$month,$year)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $data_yearipd = DB::connection('mysql3')->select('
+                SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.AN) as authenIPD
+                ,COUNT(DISTINCT o.an)-COUNT(DISTINCT ra.AN) as noAuthen
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff,ou.name as fullstaff
+
+                ,SUM(op.sum_price) as sumdebit
+                FROM ovst o
+                LEFT JOIN an_stat a on a.an = o.an
+                LEFT JOIN visit_pttype vs on vs.vn = o.an
+                LEFT JOIN patient p on p.hn = o.hn
+                LEFT JOIN opduser ou ON ou.loginname = o.staff
+                LEFT JOIN opitemrece op ON op.an = o.an
+                LEFT JOIN rcmdb.authencode ra ON ra.aN = o.an
+                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND o.staff <> "" AND ra.AN is null
+                GROUP BY o.staff
+		        ORDER BY noAuthen DESC
+        ');
+        // ,SUM(v.income)-SUM(v.discount_money)-SUM(v.rcpt_money) sumdebit
+        return view('dashboard.report_authen_subipd',[
+            'data_yearipd'               => $data_yearipd,
         ] );
     }
     public function check_knee_ipddetail(Request $request,$newDate,$datenow)
