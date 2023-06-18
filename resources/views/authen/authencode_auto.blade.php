@@ -150,7 +150,7 @@
                                                     style="color: rgb(197, 8, 33);font-size:30px">กรุณาเสียบบัตรประชาชน</label>
                                                 <br>
                                             @else
-                                                <a href="{{ url('authencode_auto_save') }}"
+                                                <a href="{{ url('authencode_auto_detail') }}"
                                                     class="btn shadow-lg mb-4"
                                                     style="background-color: rgb(7, 222, 150)">
                                                     <div class="card" style="width: 280px;height:120px;background-color: rgb(7, 222, 150);border-color: white">
