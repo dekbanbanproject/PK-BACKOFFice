@@ -1284,6 +1284,54 @@ class AccountPKController extends Controller
             'status'    => '200'
         ]);
     }
+
+    public function account_pkucs202_stm(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+               SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2
+               ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue
+               from acc_1102050101_202 a
+            LEFT JOIN acc_stm_ucs s ON s.an = a.an
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND s.rep IS NOT NULL
+
+        ');
+
+
+        $sum_money_ = DB::connection('mysql')->select('
+           SELECT SUM(a.debit_total) as total
+           from acc_1102050101_202 a
+           LEFT JOIN acc_stm_ucs au ON au.an = a.an
+           WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
+       ');
+       foreach ($sum_money_ as $key => $value) {
+           $sum_debit_total = $value->total;
+       }
+        $sum_stm_ = DB::connection('mysql')->select('
+           SELECT SUM(au.inst) as stmtotal
+           from acc_1102050101_202 a
+           LEFT JOIN acc_stm_ucs au ON au.an = a.an
+           WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
+       ');
+       foreach ($sum_stm_ as $key => $value) {
+           $sum_stm_total = $value->stmtotal;
+       }
+   
+        return view('account_pk.account_pkucs202_stm', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow,
+            'months'            =>     $months,
+            'year'              =>     $year,
+            'sum_debit_total'   =>     $sum_debit_total,
+            'sum_stm_total'     =>     $sum_stm_total
+        ]);
+    }
     public function account_pkucs202_stmnull(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
