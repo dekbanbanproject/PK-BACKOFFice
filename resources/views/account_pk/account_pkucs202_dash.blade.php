@@ -195,8 +195,8 @@
                                                         $total_yokma_ = $value5->debityokma;
                                                         $count_yokma_ = $value5->anyokma;
                                                     }   
-                                                    // $total_yokma = $total_yokma_ + $Ndebittotal;
-                                                    $total_yokma = $total_yokma_;
+                                                    $total_yokma = $total_yokma_ + $Ndebittotal - $ip_paytrue;
+                                                    // $total_yokma = $ip_paytrue;
                                                     $count_yokma = $count_yokma_ + $Ndebitcount
                                              ?>        
                                             <div class="row">

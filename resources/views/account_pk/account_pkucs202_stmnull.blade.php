@@ -69,7 +69,9 @@
                         </div>
                     </div>
                     <div class="card-body">  
-                            <table id="example" class="table table-striped table-bordered "
+                            {{-- <table id="example" class="table table-striped table-bordered "
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -203,15 +205,13 @@
                                 @endforeach  
                                
                             </tbody>
-                                        <tr style="background-color: #f3fca1">
+                                        {{-- <tr style="background-color: #f3fca1">
                                             <td colspan="8" class="text-end" style="background-color: #ff9d9d"></td>
                                             <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td>
                                             <td class="text-end" style="background-color: #f3d1be">{{ number_format($sum_stm_total,2)}}</td>
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
-                                            {{-- <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td>  --}}
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>  
-                                            {{-- <td class="text-end" style="background-color: #ff9d9d"></td> dt-responsive nowrap--}}
-                                        </tr>  
+                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td>  
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>   
+                                        </tr>   --}}
                         </table>
                     </div>
                 </div>
