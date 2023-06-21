@@ -205,6 +205,7 @@
                                 <span>Claim</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('sixteendata') }}">ส่งออก 16 แฟ้ม</a></li>
                                 <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         {{-- <li><a href="{{ url('anc_Pregnancy_test') }}">การทดสอบการตั้งครรภ์ (Pregnancy test)</a></li> --}}

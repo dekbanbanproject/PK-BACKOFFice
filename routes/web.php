@@ -1650,6 +1650,18 @@ Route::match(['get','post'],'medicine_saltsearch',[App\Http\Controllers\Medicine
 Route::match(['get','post'],'medicine_salt_sub/{months}/{startdate}/{enddate}',[App\Http\Controllers\MedicineController::class, 'medicine_salt_sub'])->name('me.medicine_salt_sub');//
 Route::match(['get','post'],'medicine_salt_subhn/{hn}',[App\Http\Controllers\MedicineController::class, 'medicine_salt_subhn'])->name('me.medicine_salt_subhn');//
 
+//********************* */ Claim 16 แฟ้ม ***********************************
+Route::match(['get','post'],'sixteendata',[App\Http\Controllers\ClaimreferController::class, 'sixteendata'])->name('data.sixteendata');//
+Route::match(['get','post'],'sixteendata_pull',[App\Http\Controllers\ClaimreferController::class, 'sixteendata_pull'])->name('data.sixteendata_pull');//
+
+
+
+
+
+
+
+
+
 
 
 //********************* */ Claim  ***********************************

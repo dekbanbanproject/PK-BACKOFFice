@@ -123,9 +123,10 @@ class AccountPKController extends Controller
                 LEFT JOIN opitemrece op ON op.vn = o.vn
 
             where o.vstdate between "' . $startdate . '" and "' . $enddate . '"
-            and o.an IS NULL
+            
             group by o.vn
         ');
+        // and o.an IS NULL
             foreach ($datashow as $key => $value) {
                 $check = Acc_debtor::where('vn', $value->vn)->count();
                 // $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
