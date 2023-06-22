@@ -97,7 +97,8 @@
                                         <td class="text-center" width="10%">{{ $item->vn }}</td>
                                                 <td class="text-center" width="10%">{{ $item->an }}</td>
                                                 <td class="text-center" width="5%">
-                                                    {{ $item->hn }}
+                                                   
+                                                    <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย"> {{ $item->hn }} </button>
                                                 </td>
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>
                                                 <td class="p-2" >{{ $item->ptname }}</td>
@@ -106,11 +107,13 @@
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->income_group }}</td>
                                                 <td class="text-end" width="10%">
-                                                    <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย">{{ number_format($item->debit,2)}} </button>
+                                                    {{-- <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย"> --}}
+                                                        {{ number_format($item->debit,2)}} 
+                                                    {{-- </button> --}}
                                                 </td>
                                     </tr>
 
-                                    <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    {{-- <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -127,8 +130,7 @@
                                                                 FROM acc_opitemrece_stm
                                                                 WHERE an ="'.$item->an.'"
                                                         ');
-                                                    ?>
-                                                        {{-- AND income ="'.$item->income_group.'" --}}
+                                                    ?> 
                                                      <div class="row">
                                                         <div class="col-md-2 text-primary">
                                                             <label for="">icode </label>
@@ -167,8 +169,7 @@
                                                     @endforeach
                                                     <div class="row">
                                                         <div class="col"> </div>
-                                                        <div class="col-md-2 text-danger">
-                                                            {{-- <label for="" >{{ number_format($item->money_hosxp,2)}} บาท</label>  --}}
+                                                        <div class="col-md-2 text-danger"> 
                                                         </div>
                                                     </div>
                                                 </div>
@@ -183,7 +184,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 @endforeach
 
                             </tbody>

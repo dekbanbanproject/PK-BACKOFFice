@@ -574,7 +574,7 @@ $pos = strrpos($url, '/') + 1;
                                                 <h4 class="text-start mb-2">การบัญชี</h4>                                                         
                                             </div>    
                                             <div class="avatar-sm me-2">
-                                                <a href="{{ url('account_pk') }}" target="_blank">
+                                                <a href="{{ url('account_pk_dash') }}" target="_blank">
                                                     <span class="avatar-title bg-light text-primary rounded-3">
                                                         <p style="font-size: 10px;"> 
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-light text-primary rounded-3"> 

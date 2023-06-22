@@ -99,11 +99,15 @@
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
                     </div> 
                 </div>
-                <div class="col-md-1 text-start">
-                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> --}}
-                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                <div class="col-md-2 text-start">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">  
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา
                     </button>
+                    <a href="{{url('account_pkucs202_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
+                        ดึงข้อมูล
+                    </a>
                 </div>
             </div>
         </form>  
@@ -120,18 +124,7 @@
                                             <?php 
                                                 $y = $item->year; 
                                                 $ynew = $y + 543;
-                                                // $datas = DB::select('
-                                                //     SELECT count(an) as Can,SUM(debit)-sum(debit_drug)-sum(debit_instument)-sum(debit_toa)-sum(debit_refer) as sumdebit from acc_debtor  
-                                                //         WHERE account_code="1102050101.202"             
-                                                //         AND stamp = "N" 
-                                                //         and month(dchdate) = "'.$item->months.'" 
-                                                //         and year(dchdate) = "'.$item->year.'";
-                                                // ');
-                                             
-                                                // foreach ($datas as $key => $value) {
-                                                //     $count_N = $value->Can;
-                                                //     $sum_N = $value->sumdebit;
-                                                // }
+                                               
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT an) as Can
                                                         ,SUM(debit) as sumdebit                                                     
@@ -145,13 +138,9 @@
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
                                                 }
-                                                // $datasum_ = DB::select('
-                                                //     SELECT sum(debit_total) as debit_total from acc_1102050101_202  
-                                                //         WHERE month(dchdate) = "'.$item->months.'" 
-                                                //         and year(dchdate) = "'.$item->year.'"                                                                  
-                                                // ');
+                                                
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(*) as Cvit 
+                                                    SELECT sum(debit_total) as debit_total,count(an) as Cvit 
                                                             from acc_1102050101_202 
                                                             WHERE month(dchdate) = "'.$item->months.'" 
                                                             and year(dchdate) = "'.$item->year.'"                                                                
@@ -165,27 +154,28 @@
                                                         SELECT count(DISTINCT a.an) as Apvit ,sum(au.ip_paytrue) as ip_paytrue
                                                             FROM acc_1102050101_202 a 
 		                                                    LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                                                            and month(a.dchdate) = "'.$item->months.'" 
-                                                            and year(a.dchdate) = "'.$item->year.'"                                                                  
+                                                            WHERE year(a.dchdate) = "'.$item->year.'"
+                                                            AND month(a.dchdate) = "'.$item->months.'"
+                                                            AND a.status = "Y"                                                                  
                                                     ');
                                                     foreach ($sumapprove_ as $key => $value3) {
                                                         $ip_paytrue = $value3->ip_paytrue;
-                                                        $debit_count = $value3->Apvit;
+                                                        $stm_count = $value3->Apvit;
                                                     }   
                                                     // สีส้ม ยกยอดไป
                                                     
-                                                    $sumnext_ = DB::select('
-                                                        SELECT count(DISTINCT a.an) as NoApvit ,sum(a.debit_total) as Ndebit_total
-                                                        FROM acc_1102050101_202 a 
-                                                        LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                                                        WHERE month(a.dchdate) = "'.$item->months.'" 
-                                                        AND year(a.dchdate) = "'.$item->year.'" 
-                                                        AND au.rep IS NULL                                       
-                                                    ');
-                                                    foreach ($sumnext_ as $key => $value4) {
-                                                        $Ndebittotal = $value4->Ndebit_total;
-                                                        $Ndebitcount = $value4->NoApvit;
-                                                    }       
+                                                    // $sumnext_ = DB::select('
+                                                    //     SELECT count(DISTINCT a.an) as NoApvit ,sum(a.debit_total) as Ndebit_total
+                                                    //     FROM acc_1102050101_202 a 
+                                                    //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+                                                    //     WHERE month(a.dchdate) = "'.$item->months.'" 
+                                                    //     AND year(a.dchdate) = "'.$item->year.'" 
+                                                    //     AND au.rep IS NULL                                       
+                                                    // ');
+                                                    // foreach ($sumnext_ as $key => $value4) {
+                                                    //     $Ndebittotal = $value4->Ndebit_total;
+                                                    //     $Ndebitcount = $value4->NoApvit;
+                                                    // }       
                                                     $sumyokma_ = DB::select('
                                                         SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
                                                             FROM acc_1102050101_202 
@@ -194,10 +184,9 @@
                                                     foreach ($sumyokma_ as $key => $value5) {
                                                         $total_yokma_ = $value5->debityokma;
                                                         $count_yokma_ = $value5->anyokma;
-                                                    }   
-                                                    $total_yokma = $total_yokma_ + $Ndebittotal - $ip_paytrue;
-                                                    // $total_yokma = $ip_paytrue;
-                                                    $count_yokma = $count_yokma_ + $Ndebitcount
+                                                    }  
+                                                    $total_yokma = $sum_Y - $ip_paytrue + $total_yokma_; 
+                                                    $count_yokma = $count_yokma_ 
                                              ?>        
                                             <div class="row">
                                                 <div class="col-md-5 text-start mt-4 ms-4">
@@ -229,7 +218,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="{{url('account_pkucs202_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM{{number_format($ip_paytrue, 2) }}">
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM{{number_format($ip_paytrue, 2) }} / {{$stm_count}}Visit">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($ip_paytrue, 2) }}</span></p>
                                                         </div> 
                                                     </a>

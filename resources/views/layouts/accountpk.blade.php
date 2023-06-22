@@ -248,18 +248,16 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>                       
 
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-success"></i>
                                 <span>ดึงข้อมูล</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('account_pk') }}">ดึงลูกหนี้จาก Hos-opd</a></li> 
-                                <li><a href="{{ url('account_pk_ipd') }}">ดึงลูกหนี้จาก Hos-ipd</a></li> 
-                                {{-- <li><a href="{{ url('account_pk_ipd') }}">แยกลูกหนี้ 02(202)=>217</a></li>  --}}
-                                {{-- <li><a href="{{ url('account_pk_ipd') }}">แยกลูกหนี้ 03(202)=>217</a></li>  --}}
+                                <li><a href="{{ url('account_pk_ipd') }}">ดึงลูกหนี้จาก Hos-ipd</a></li>  
                             </ul>
-                        </li> 
+                        </li>  --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}

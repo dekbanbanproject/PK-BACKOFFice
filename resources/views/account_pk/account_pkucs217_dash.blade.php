@@ -99,10 +99,14 @@
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
                     </div> 
                 </div>
-                <div class="col-md-1 text-start">
+                <div class="col-md-2 text-start">
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                     </button>
+                    <a href="{{url('account_pkucs217_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
+                        ดึงข้อมูล
+                    </a>
                 </div>
             </div>
         </form>  
@@ -121,7 +125,7 @@
                                                 $y = $item->year; 
                                                 $ynew = $y + 543;
                                                 $datas = DB::select('
-                                                    SELECT count(DISTINCT an) as Can
+                                                    SELECT count(an) as Can
                                                     ,SUM(debit) as sumdebit                                                     
                                                     from acc_debtor  
                                                         WHERE account_code="1102050101.217"             
@@ -146,30 +150,42 @@
                                               
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.inst) as debit_total
+                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.hc)+sum(au.hc_drug)+sum(au.ae)+sum(au.ae_drug)+sum(au.inst) as debit_total
                                                             FROM acc_1102050101_217 a 
 		                                                    LEFT JOIN acc_stm_ucs au ON au.an = a.an
                                                             and month(a.dchdate) = "'.$item->months.'" 
-                                                            and year(a.dchdate) = "'.$item->year.'"                                                                  
+                                                            and year(a.dchdate) = "'.$item->year.'" 
+                                                            AND a.status = "Y"                                                                  
                                                     ');
                                                     foreach ($sumapprove_ as $key => $value3) {
                                                         $debit_total = $value3->debit_total;
-                                                        $debit_count = $value3->Apvit;
+                                                        $stm_count = $value3->Apvit;
                                                     }   
                                                     // สีส้ม ยกยอดไป
-                                                $sumnext_ = DB::select('
-                                                    SELECT count(DISTINCT a.an) as NoApvit ,sum(a.debit_total) as Ndebit_total
-                                                        FROM acc_1102050101_217 a 
-                                                        LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                                                        WHERE month(a.dchdate) = "'.$item->months.'" 
-                                                        AND year(a.dchdate) = "'.$item->year.'" 
-                                                        AND au.rep IS NULL
+                                                    // $sumnext_ = DB::select('
+                                                    //     SELECT count(DISTINCT a.an) as NoApvit ,sum(a.debit_total) as Ndebit_total
+                                                    //     FROM acc_1102050101_217 a 
+                                                    //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+                                                    //     WHERE month(a.dchdate) = "'.$item->months.'" 
+                                                    //     AND year(a.dchdate) = "'.$item->year.'" 
+                                                    //     AND au.rep IS NULL
                                                                                                                   
-                                                    ');
-                                                    foreach ($sumnext_ as $key => $value4) {
-                                                        $Ndebittotal = $value4->Ndebit_total;
-                                                        $Ndebitcount = $value4->NoApvit;
-                                                    }                                                       
+                                                    // ');
+                                                    // foreach ($sumnext_ as $key => $value4) {
+                                                    //     $Ndebittotal = $value4->Ndebit_total;
+                                                    //     $Ndebitcount = $value4->NoApvit;
+                                                    // }           
+                                                    $sumyokma_ = DB::select('
+                                                        SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
+                                                            FROM acc_1102050101_217 
+                                                            WHERE status ="N"                                 
+                                                    '); 
+                                                    foreach ($sumyokma_ as $key => $value5) {
+                                                        $total_yokma_ = $value5->debityokma;
+                                                        $count_yokma_ = $value5->anyokma;
+                                                    }  
+                                                    $total_yokma = $sum_Y + $total_yokma_; 
+                                                    $count_yokma = $count_yokma_                                             
                                             ?>        
                                             <div class="row">
                                                 <div class="col-md-5 text-start mt-4 ms-4">
@@ -201,15 +217,15 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="{{url('account_pkucs217_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($debit_total, 2) }} ">
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($debit_total, 2) }} / {{$stm_count}}Visit ">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($debit_total, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="{{url('account_pkucs217_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป {{number_format($Ndebittotal, 2) }} ">
-                                                            <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($Ndebittotal, 2) }}</span></p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit">
+                                                            <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($total_yokma, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
