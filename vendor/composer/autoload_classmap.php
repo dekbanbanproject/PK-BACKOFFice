@@ -37,6 +37,7 @@ return array(
     'App\\Http\\Controllers\\ChecksitController' => $baseDir . '/app/Http/Controllers/ChecksitController.php',
     'App\\Http\\Controllers\\CheckwardController' => $baseDir . '/app/Http/Controllers/CheckwardController.php',
     'App\\Http\\Controllers\\ClaimController' => $baseDir . '/app/Http/Controllers/ClaimController.php',
+    'App\\Http\\Controllers\\ClaimreferController' => $baseDir . '/app/Http/Controllers/ClaimreferController.php',
     'App\\Http\\Controllers\\ComputerController' => $baseDir . '/app/Http/Controllers/ComputerController.php',
     'App\\Http\\Controllers\\ConfigDatabaseController' => $baseDir . '/app/Http/Controllers/ConfigDatabaseController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',

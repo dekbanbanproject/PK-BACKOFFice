@@ -682,6 +682,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\ChecksitController' => __DIR__ . '/../..' . '/app/Http/Controllers/ChecksitController.php',
         'App\\Http\\Controllers\\CheckwardController' => __DIR__ . '/../..' . '/app/Http/Controllers/CheckwardController.php',
         'App\\Http\\Controllers\\ClaimController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClaimController.php',
+        'App\\Http\\Controllers\\ClaimreferController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClaimreferController.php',
         'App\\Http\\Controllers\\ComputerController' => __DIR__ . '/../..' . '/app/Http/Controllers/ComputerController.php',
         'App\\Http\\Controllers\\ConfigDatabaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/ConfigDatabaseController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
