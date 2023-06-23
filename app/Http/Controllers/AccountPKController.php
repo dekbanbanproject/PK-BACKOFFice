@@ -1160,10 +1160,10 @@ class AccountPKController extends Controller
     }
     public function account_pkucs217_stam(Request $request)
     {
-    $id = $request->ids;
-    $iduser = Auth::user()->id;
-    Acc_1102050101_217_stam::truncate();
-    $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        Acc_1102050101_217_stam::truncate();
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
             Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
                     ->update([
                         'stamp' => 'Y'
@@ -1187,13 +1187,13 @@ class AccountPKController extends Controller
                 'acc_debtor_userid' => $iduser
             ]);
         }
-    $acc_217_stam = DB::connection('mysql')->select('
-        SELECT vn,an,hn,cid,ptname,vstdate,dchdate,pttype,income_group,account_code,sum(debit) as debit,sum(debit_total) as debit_total,acc_debtor_userid
-        from acc_1102050101_217_stam
-        GROUP BY an;
-    ');
-    foreach ($acc_217_stam as $key => $value2) {
-            Acc_1102050101_217::insert([
+        $acc_217_stam = DB::connection('mysql')->select('
+            SELECT vn,an,hn,cid,ptname,vstdate,dchdate,pttype,income_group,account_code,sum(debit) as debit,sum(debit_total) as debit_total,acc_debtor_userid
+            from acc_1102050101_217_stam
+            GROUP BY an;
+        ');
+        foreach ($acc_217_stam as $key => $value2) {
+                Acc_1102050101_217::insert([
                 'vn'                => $value2->vn,
                 'hn'                => $value2->hn,
                 'an'                => $value2->an,
@@ -1209,45 +1209,45 @@ class AccountPKController extends Controller
                 'acc_debtor_userid' => $value2->acc_debtor_userid
             ]);
 
-    }
-    $acc_opitemrece_ = DB::connection('mysql')->select('
-            SELECT * from
+        }
+        $acc_opitemrece_ = DB::connection('mysql')->select('
+                SELECT * from
 
-            (SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
-            FROM acc_opitemrece ao
-            LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
-            WHERE income ="02"
+                (SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
+                FROM acc_opitemrece ao
+                LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+                WHERE income ="02"
 
-            union
+                union
 
-            SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
-            FROM acc_opitemrece ao
-            LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
-            WHERE icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015","3001412","3001417","3010829","3010726")
+                SELECT ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
+                FROM acc_opitemrece ao
+                LEFT JOIN acc_1102050101_217_stam a On ao.an = a.an
+                WHERE icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015","3001412","3001417","3010829","3010726")
 
-            ) as tmp
+                ) as tmp
 
-    ');
-    foreach ($acc_opitemrece_ as $va2) {
-        Acc_opitemrece_stm::insert([
-            'hn'                 => $va2->hn,
-            'an'                 => $va2->an,
-            'vn'                 => $va2->vn,
-            'vstdate'            => $va2->vstdate,
-            'pttype'             => $va2->pttype,
-            'paidst'             => $va2->paidst,
-            'finance_number'     => $va2->finance_number,
-            'income'             => $va2->income,
-            'icode'              => $va2->icode,
-            'name'               => $va2->dname,
-            'qty'                => $va2->qty,
-            'cost'               => $va2->cost,
-            'unitprice'          => $va2->unitprice,
-            'discount'           => $va2->discount,
-            'sum_price'          => $va2->sum_price
-        ]);
+        ');
+        foreach ($acc_opitemrece_ as $va2) {
+            Acc_opitemrece_stm::insert([
+                'hn'                 => $va2->hn,
+                'an'                 => $va2->an,
+                'vn'                 => $va2->vn,
+                'vstdate'            => $va2->vstdate,
+                'pttype'             => $va2->pttype,
+                'paidst'             => $va2->paidst,
+                'finance_number'     => $va2->finance_number,
+                'income'             => $va2->income,
+                'icode'              => $va2->icode,
+                'name'               => $va2->dname,
+                'qty'                => $va2->qty,
+                'cost'               => $va2->cost,
+                'unitprice'          => $va2->unitprice,
+                'discount'           => $va2->discount,
+                'sum_price'          => $va2->sum_price
+            ]);
 
-    }
+        }
         return response()->json([
             'status'    => '200'
         ]);
