@@ -4378,36 +4378,36 @@ class AccountPKController extends Controller
                             //     $epoPay = $value3['EPOs'];
                             //     dd($epoPay );
                             // }
-                            // $checkc = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
-                            // if ( $checkc > 0) {                      
-                            //     Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
-                            //         ->update([
-                            //             'invno'             => $invno,
-                            //             'hn'                => $hn,
-                            //             'STMdoc'            => @$STMdoc,
-                            //             'vstdate'           => $dttdate,
-                            //             'paid'              => $paid,
-                            //             'rid'               => $rid,
-                            //             // 'EPOpay'            => $value2['EPOs']['EPO']['epoPay'],
-                            //             'hdrate'            => $hdrate,
-                            //             'hdcharge'          => $hdcharge,
-                            //             'amount'            => $amount
-                            //         ]);
-                            // } else {                                
-                            //         Acc_stm_ti_total::insert([
-                            //             'invno'             => $invno,
-                            //             'hn'                => $hn,
-                            //             'STMdoc'            => @$STMdoc,
-                            //             'vstdate'           => $dttdate,
-                            //             'paid'              => $paid,
-                            //             'rid'               => $rid,
-                            //             // 'EPOpay'            =>$EPOs_,
-                            //             'hdrate'            => $hdrate,
-                            //             'hdcharge'          => $hdcharge,
-                            //             'amount'            => $amount
-                            //         ]);
+                            $checkc = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
+                            if ( $checkc > 0) {                      
+                                Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
+                                    ->update([
+                                        'invno'             => $invno,
+                                        'hn'                => $hn,
+                                        'STMdoc'            => @$STMdoc,
+                                        'vstdate'           => $dttdate,
+                                        'paid'              => $paid,
+                                        'rid'               => $rid,
+                                        // 'EPOpay'            => $value2['EPOs']['EPO']['epoPay'],
+                                        'hdrate'            => $hdrate,
+                                        'hdcharge'          => $hdcharge,
+                                        'amount'            => $amount
+                                    ]);
+                            } else {                                
+                                    Acc_stm_ti_total::insert([
+                                        'invno'             => $invno,
+                                        'hn'                => $hn,
+                                        'STMdoc'            => @$STMdoc,
+                                        'vstdate'           => $dttdate,
+                                        'paid'              => $paid,
+                                        'rid'               => $rid,
+                                        // 'EPOpay'            =>$EPOs_,
+                                        'hdrate'            => $hdrate,
+                                        'hdcharge'          => $hdcharge,
+                                        'amount'            => $amount
+                                    ]);
 
-                            // }
+                            }
                     }
                 }
                  
