@@ -84,8 +84,8 @@
             @csrf --}}
             <div class="row"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050101.304</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.304</p>
+                    <h4 class="card-title">Detail 1102050101.308</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.308</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -104,7 +104,7 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_304_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                    <a href="{{url('account_308_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
                     </a>
@@ -129,7 +129,7 @@
                                                     SELECT count(an) as Can
                                                     ,SUM(debit) as sumdebit                                                     
                                                     from acc_debtor  
-                                                        WHERE account_code="1102050101.304"             
+                                                        WHERE account_code="1102050101.308"             
                                                         AND stamp = "N" 
                                                         and month(dchdate) = "'.$item->months.'" 
                                                         and year(dchdate) = "'.$item->year.'";
@@ -140,7 +140,7 @@
                                                 }
                                                 $datasum_ = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(*) as Cvit 
-                                                        from Acc_1102050101_304  
+                                                        from Acc_1102050101_308  
                                                         WHERE month(dchdate) = "'.$item->months.'" 
                                                         and year(dchdate) = "'.$item->year.'"                                                                  
                                                 ');
@@ -152,7 +152,7 @@
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
                                                         SELECT count(DISTINCT a.an) as Apvit ,sum(au.hc)+sum(au.hc_drug)+sum(au.ae)+sum(au.ae_drug)+sum(au.inst) as debit_total
-                                                            FROM Acc_1102050101_304 a 
+                                                            FROM Acc_1102050101_308 a 
 		                                                    LEFT JOIN acc_stm_ucs au ON au.an = a.an
                                                             and month(a.dchdate) = "'.$item->months.'" 
                                                             and year(a.dchdate) = "'.$item->year.'" 
@@ -165,7 +165,7 @@
                                                      
                                                     $sumyokma_ = DB::select('
                                                         SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
-                                                            FROM Acc_1102050101_304 
+                                                            FROM Acc_1102050101_308 
                                                             WHERE status ="N"                                 
                                                     '); 
                                                     foreach ($sumyokma_ as $key => $value5) {
@@ -181,7 +181,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-4 text-end mt-2 me-4">
-                                                    <a href="{{url('account_304_pull')}}" target="_blank"> 
+                                                    <a href="{{url('account_308_pull')}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
                                                             <h4 class="text-end">{{$count_N}} Visit</h4> 
                                                         </div> 
@@ -197,21 +197,21 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_304_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_308_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}} / {{$count_Y}}Visit"> 
                                                             <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_304_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_308_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($debit_total, 2) }} / {{$stm_count}}Visit ">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($debit_total, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_304_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                    <a href="{{url('account_308_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit">
                                                             <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($total_yokma, 2) }}</span></p>
                                                         </div> 

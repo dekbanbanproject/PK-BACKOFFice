@@ -63,7 +63,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header"> 
-                       รายละเอียดตั้งลูกหนี้ผัง 1102050101.304 ยกยอดไป
+                       รายละเอียดตั้งลูกหนี้ผัง 1102050101.308 ยกยอดไป
                         <div class="btn-actions-pane-right">
                            
                         </div>

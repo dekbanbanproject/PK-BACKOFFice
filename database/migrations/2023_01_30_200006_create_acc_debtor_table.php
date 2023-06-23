@@ -63,7 +63,7 @@ return new class extends Migration
                 $table->string('debit_instument')->nullable();// 
                 $table->string('debit_toa')->nullable();// 
                 $table->string('debit_refer')->nullable();// 
-                $table->string('debit_ipd_total')->nullable();// 
+                $table->string('debit_total')->nullable();// 
 
                 $table->string('max_debt_amount')->nullable();// 
                 $table->string('acc_debtor_filename')->nullable();// 

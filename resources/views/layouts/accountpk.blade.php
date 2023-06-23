@@ -319,9 +319,10 @@
                                 <span>ไต</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkti4011_dash') }}">OFC(ผัง 4011)</a></li> 
-                                <li><a href="{{ url('account_pkti8011_dash') }}">LGO(ผัง 8011)</a></li> 
-                                <li><a href="{{ url('account_pkti2166_dash') }}">UCS(ผัง 2166)</a></li> 
+                                <li><a href="{{ url('account_pkti4011_dash') }}">OFC-4011</a></li> 
+                                <li><a href="{{ url('account_pkti8011_dash') }}">LGO-8011</a></li> 
+                                <li><a href="{{ url('account_pkti2166_dash') }}">UCS-2166</a></li> 
+                                <li><a href="{{ url('account_pkti3099_dash') }}">SSS-3099</a></li> 
                             </ul>
                         </li> 
                         <li>
@@ -332,8 +333,9 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
-                                <li><a href="{{ url('upstm_ti') }}">Upstm ไต(Excel)</a></li> 
-                                <li><a href="{{ url('upstm_tixml') }}">Upstm ไต(Xml)</a></li> 
+                                <li><a href="{{ url('upstm_ti') }}">UCS-LGO(Excel)</a></li> 
+                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml)</a></li> 
+                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li> 
                             </ul>
                         </li> 
                         <li>

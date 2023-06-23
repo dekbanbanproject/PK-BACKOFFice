@@ -101,7 +101,8 @@
                 </div>
                 <div class="col-md-2 text-start">
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา
                     </button>
                     <a href="{{url('account_pkucs217_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>

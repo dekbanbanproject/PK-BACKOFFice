@@ -237,7 +237,7 @@
                             </div>                                           
                         </div> 
                     @else
-                        <div class="grid-menu-col">
+                        {{-- <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12"> 
                                     <div class="d-flex text-start">
@@ -311,7 +311,7 @@
                                     </div>   
                                 </div> 
                             </div>                                           
-                        </div> 
+                        </div>  --}}
                     @endif                 
                        
                    

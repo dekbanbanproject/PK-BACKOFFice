@@ -32,6 +32,7 @@ return new class extends Migration
                 $table->double('hdcharge', 12, 4)->nullable();// 
                 $table->double('amount', 12, 4)->nullable();// 
                 $table->double('paid', 12, 4)->nullable();// 
+                $table->double('EPOpay', 12, 4)->nullable();// 
                 $table->string('rid')->nullable();//  
                 $table->string('accp')->nullable();//  
                 $table->string('HDflag')->nullable();//   
