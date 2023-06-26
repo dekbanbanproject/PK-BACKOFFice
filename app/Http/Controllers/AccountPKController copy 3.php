@@ -996,7 +996,7 @@ class AccountPKController extends Controller
                                     'account_name'       => 'บริการเฉพาะ(CR)',
                                     'income_group'       => '03',
                                     'debit'              => $value->debit_drug,
-                                    'debit_total'    => $value->debit_drug
+                                    'debit_ipd_total'    => $value->debit_drug
                                 ]);
                             }
                     }
@@ -1022,7 +1022,6 @@ class AccountPKController extends Controller
                             ]);
                         }
                     }
-               
                     // Acc_opitemrece::where('an', '=', $value->an)->delete();
 
                     // $acc_opitemrece_ = DB::connection('mysql3')->select('
