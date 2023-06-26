@@ -85,40 +85,33 @@
                                     {{-- <th class="text-center">dchdate</th> --}}
                                     {{-- <th class="text-center">pttype</th> --}}
                                     
-                                    <th class="text-center">ลูกหนี้</th>
-                                    <th class="text-center">ยอดชดเชย</th>
+                                    <th class="text-center">ลูกหนี้ Hos</th>
+                                    <th class="text-center">amount STM</th>
+                                    <th class="text-center">Epo STM</th>
+                                    <th class="text-center">ยอดชดเชย STM</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0; ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
-                                    @if ($item->debit_total <> $item->amount)
-                                        <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                            <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->invno }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>   
-                                            <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vstdate }}</td>    
-                                            <td class="text-end" style="color:rgb(248, 12, 12)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(243, 12, 12)"> {{ number_format($item->amount,2)}} </td>
-                                        </tr>
-                                    @else
+                                   
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                            <td class="text-center" width="10%">{{ $item->invno }}</td>  
-                                            <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="10%">{{ $item->hn }}</td>   
+                                            <td class="text-center" width="10%">{{ $item->vn }}</td>  
+                                            <td class="text-center" width="10%">{{ $item->hn }}</td> 
+                                            <td class="text-center" width="10%">{{ $item->cid }}</td>   
                                             <td class="p-2" >{{ $item->ptname }}</td>  
                                             <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> 
-                                                        {{ number_format($item->amount,2)}}  
-                                            </td>
+                                            
+                                            <td class="text-end" style="color:rgb(17, 17, 17)" width="7%">{{ number_format($item->amount,2)}}</td>
+                                            <td class="text-end" style="color:rgb(19, 18, 18)" width="7%">{{$item->EPOpay}}</td>
+
+                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->rep_money,2)}} </td>
                                         </tr>
                                         
-                                    @endif
+                               
 
                                     {{-- <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">

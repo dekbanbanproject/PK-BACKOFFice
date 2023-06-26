@@ -1022,37 +1022,37 @@ class AccountPKController extends Controller
                             ]);
                         }
                     }
-                    Acc_opitemrece::where('an', '=', $value->an)->delete();
+                    // Acc_opitemrece::where('an', '=', $value->an)->delete();
 
-                    $acc_opitemrece_ = DB::connection('mysql3')->select('
-                            SELECT a.vn,o.an,o.hn,o.vstdate,o.rxdate,a.dchdate,o.income as income_group,o.pttype,o.paidst
-                            ,o.icode,s.name as iname,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price
-                            FROM opitemrece o
-                            LEFT JOIN an_stat a ON o.an = a.an
-                            left outer join s_drugitems s on s.icode = o.icode
-                            WHERE o.an ="'.$value->an.'"
-                    ');
-                    foreach ($acc_opitemrece_ as $key => $va2) {
-                        Acc_opitemrece::insert([
-                            'hn'                 => $va2->hn,
-                            'an'                 => $va2->an,
-                            'vn'                 => $va2->vn,
-                            'pttype'             => $va2->pttype,
-                            'paidst'             => $va2->paidst,
-                            'rxdate'             => $va2->rxdate,
-                            'vstdate'            => $va2->vstdate,
-                            'dchdate'            => $va2->dchdate,
-                            'income'             => $va2->income_group,
-                            'icode'              => $va2->icode,
-                            'name'               => $va2->iname,
-                            'qty'                => $va2->qty,
-                            'cost'               => $va2->cost,
-                            'finance_number'     => $va2->finance_number,
-                            'unitprice'          => $va2->unitprice,
-                            'discount'           => $va2->discount,
-                            'sum_price'          => $va2->sum_price,
-                        ]);
-                    }
+                    // $acc_opitemrece_ = DB::connection('mysql3')->select('
+                    //         SELECT a.vn,o.an,o.hn,o.vstdate,o.rxdate,a.dchdate,o.income as income_group,o.pttype,o.paidst
+                    //         ,o.icode,s.name as iname,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price
+                    //         FROM opitemrece o
+                    //         LEFT JOIN an_stat a ON o.an = a.an
+                    //         left outer join s_drugitems s on s.icode = o.icode
+                    //         WHERE o.an ="'.$value->an.'"
+                    // ');
+                    // foreach ($acc_opitemrece_ as $key => $va2) {
+                    //     Acc_opitemrece::insert([
+                    //         'hn'                 => $va2->hn,
+                    //         'an'                 => $va2->an,
+                    //         'vn'                 => $va2->vn,
+                    //         'pttype'             => $va2->pttype,
+                    //         'paidst'             => $va2->paidst,
+                    //         'rxdate'             => $va2->rxdate,
+                    //         'vstdate'            => $va2->vstdate,
+                    //         'dchdate'            => $va2->dchdate,
+                    //         'income'             => $va2->income_group,
+                    //         'icode'              => $va2->icode,
+                    //         'name'               => $va2->iname,
+                    //         'qty'                => $va2->qty,
+                    //         'cost'               => $va2->cost,
+                    //         'finance_number'     => $va2->finance_number,
+                    //         'unitprice'          => $va2->unitprice,
+                    //         'discount'           => $va2->discount,
+                    //         'sum_price'          => $va2->sum_price,
+                    //     ]);
+                    // }
         }
         return response()->json([
             'status'    => '200'
@@ -3713,7 +3713,7 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
  
          $data = DB::select('
-         SELECT U2.invno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.amount,U2.STMdoc  
+         SELECT U2.invno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.amount,U2.EPOpay,U2.STMdoc ,U2.amount+U2.EPOpay as rep_money
              from acc_1102050101_3099 U1
              LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
              WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'";
@@ -3736,8 +3736,8 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
  
          $datashow = DB::select('
-         SELECT U2.invno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.amount,U2.STMdoc
-         FROM acc_1102050101_4011 U1
+         SELECT U2.invno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.amount,U2.STMdoc,U2.EPOpay,U2.amount+U2.EPOpay as rep_money
+         FROM acc_1102050101_3099 U1
          LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
              WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'" 
              AND U2.amount IS NOT NULL        
@@ -3760,11 +3760,11 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
  
          $datashow = DB::connection('mysql')->select('
-             SELECT U2.invno,U1.vn,U1.hn,U1.ptname,U1.vstdate,U1.debit_total,U2.amount,U1.debit_total-U2.amount as total_yokma,U2.STMdoc
-                 FROM acc_1102050101_4011 U1
+             SELECT U2.invno,U1.vn,U1.hn,U1.ptname,U1.vstdate,U1.debit_total,U2.amount
+                 FROM acc_1102050101_3099 U1
                  LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
                  WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'" 
-                 AND U1.status ="N" 
+                 AND U1.status ="N" GROUP BY U1.vn
              '); 
          
  
@@ -4351,15 +4351,45 @@ class AccountPKController extends Controller
                 $tbill_ = $bills_['HDBill'];
                 // dd($tbill_ );
                 foreach ($tbill_ as $key => $value) {
-                    $tbill = $value['TBill'];
-                    // dd($tbill );
+                    $tbill        = $value['TBill'];
+                    $hn           = $value['hn'];
+                    $fullname     = $value['name'];
+                    $cid          = $value['pid'];
+                    $quota        = $value['quota'];
+                    $hdcharge     = $value['hdcharge'];
+                    $payable      = $value['payable'];
+                    $EPO_2          = $value['EPO'];
+                    // $EPO_tt          = $value['EPO']['epoPay'];
+                    if (isset($value['EPO']['epoPay'])) {
+                        $EPO_tt = $value['EPO']['epoPay'];
+                    } else {
+                        $EPO_tt = '';
+                        // break;
+                    }
+                    // return $value[$EPO_tt] ?? null;
+                    // dd($EPO_tt );
+                    // if ( $EPO_tt == '') {
+                    //     $EPO_tt_          = '';
+
+                    // } else {
+                    //     $EPO_tt_          = $value['EPO']['epoPay'];
+                    // }
+                    // dd($EPO_tt_ );
+                    
+                    // foreach ($EPO_2 as $key => $value0) {
+                    //     $epoPay = $value0->epoPay;
+                    //     dd($epoPay );
+                    // }
+                    // dd($EPO );
                     foreach ($tbill as $key => $value2) {
-                            $hcode = $value2['hcode'];
+                            $hcode = $value2['hreg'];
                             // dd($hcode );
                             $station = $value2['station']; 
                             $invno = $value2['invno'];
-                            $hn = $value2['hn'];
+                            // dd($invno );
+                            // $hn = $value2['hn'];
                             $amount = $value2['amount'];
+                            // $amount = $value2->amount;
                             $paid = $value2['paid'];
                             $rid = $value2['rid'];
                             $hdrate = $value2['hdrate'];
@@ -4372,8 +4402,8 @@ class AccountPKController extends Controller
                             // }
                             // $EPOs_ = $value2['EPOs']['EPO']['epoPay'];
                             // $EPOs_ = $value2['EPO']['epoPay'];
-                            $EPOs_ = $value2['EPOs'];
-                            dd($EPOs_ );
+                            // $EPOs_ = $value2['EPOs'];
+                            // dd($amount );
                             // foreach ($EPOs_ as $key => $value3) {
                             //     $epoPay = $value3['EPOs'];
                             //     dd($epoPay );
@@ -4388,12 +4418,16 @@ class AccountPKController extends Controller
                                         'vstdate'           => $dttdate,
                                         'paid'              => $paid,
                                         'rid'               => $rid,
-                                        // 'EPOpay'            => $value2['EPOs']['EPO']['epoPay'],
+                                        'cid'               => $cid,
+                                        'fullname'          => $fullname,
+                                        'EPOpay'            => $EPO_tt, 
                                         'hdrate'            => $hdrate,
                                         'hdcharge'          => $hdcharge,
-                                        'amount'            => $amount
+                                        'amount'            => $amount,
+                                        // 'Total_amount'      => $payable
                                     ]);
-                            } else {                                
+                            } else {     
+                                // if ($amount != '') {
                                     Acc_stm_ti_total::insert([
                                         'invno'             => $invno,
                                         'hn'                => $hn,
@@ -4401,11 +4435,15 @@ class AccountPKController extends Controller
                                         'vstdate'           => $dttdate,
                                         'paid'              => $paid,
                                         'rid'               => $rid,
-                                        // 'EPOpay'            =>$EPOs_,
+                                        'cid'               => $cid,
+                                        'fullname'          => $fullname,
+                                        'EPOpay'            => $EPO_tt,
                                         'hdrate'            => $hdrate,
                                         'hdcharge'          => $hdcharge,
-                                        'amount'            => $amount
+                                        'amount'            => $amount,
+                                        // 'Total_amount'      => $payable
                                     ]);
+                               
 
                             }
                     }

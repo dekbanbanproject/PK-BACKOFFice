@@ -153,7 +153,7 @@
                                                 // AND status = "N" 
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.amount) as amountpay
+                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.amount)+sum(au.EPOpay) as amountpay
                                                             FROM acc_1102050101_3099 a 
 		                                                    LEFT JOIN acc_stm_ti_total au ON au.hn = a.hn AND au.vstdate = a.vstdate
                                                             WHERE year(a.vstdate) = "'.$item->year.'"
@@ -167,7 +167,7 @@
                                                     // สีส้ม ยกยอดไป                                                           
                                                     $sumyokma_ = DB::select('
                                                          
-                                                        SELECT count(DISTINCT  U1.vn) as anyokma,U1.vn,U1.hn,U1.ptname,U1.vstdate,U1.debit_total,U2.amount,U1.debit_total-U2.amount as total_yokma
+                                                        SELECT count(DISTINCT  U1.vn) as anyokma,sum(U1.debit_total) as total_yokma
                                                         FROM acc_1102050101_3099 U1
                                                         LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
                                                         WHERE year(U1.vstdate) = "'.$item->year.'"
