@@ -1,7 +1,7 @@
 @extends('layouts.meetting')
-@section('title', 'ZOFFice || ห้องประชุม')
+@section('title', 'PK-BACKOFFICE || ห้องประชุม')
 
-@section('menu')
+{{-- @section('menu')
     <style>
         .btn {
             font-size: 15px;
@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-@endsection
+@endsection --}}
 
 @section('content')
     <script>

@@ -408,77 +408,102 @@ public function meettingroom_check(Request $request)
     $enddate = $request->query('enddate');
     $datastatus = $request->query('meeting_status_code');
     $data['meeting_status'] = Meeting_status::orderBy('meeting_status_id','ASC')->get();
+    // dd($datastatus);
+    if ($datastatus != '') {
+        $data['meeting_service'] = Meeting_service::join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')
+        ->where('meeting_service.meetting_status','=',$datastatus)
+        ->WhereBetween('meeting_date_begin',[$startdate,$enddate])->get(); 
+    } elseif($datastatus == 'ALL') {
+        $data['meeting_service'] = Meeting_service::join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')
+        //  ->where('meeting_service.meetting_status','=','ALL')
+        ->WhereBetween('meeting_date_begin',[$startdate,$enddate])->get(); 
+    } else {
+        $data['meeting_service'] = Meeting_service::join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')
+        ->WhereBetween('meeting_date_begin',[$startdate,$enddate])->get(); 
+    }
+
+    // if (condition) {
+    //     # code...
+    // }elseif (condition) {
+    //     # code...
+    
+    // } else {
+    //     # code...
+    // }
+    
+    
+ 
 
     // $date = date('Y-m-d');
     // $date = date('m');
       
      // dd($date);
 
-    if ($datastatus== null) {
-        $query = Meeting_service::select('meeting_service.*','meeting_status.*')
-            ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')
-            // ->where('meeting_service.meetting_status',$data['meeting_status_code'])
-            ->where(function ($query) use ($data){
-                $query->where('meetting_title','like','%'.$data['q'].'%');
-                $query->orwhere('meetting_year','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
-                $query->orwhere('room_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
-            })
-            ->where('meetting_status','=','REQUEST') 
-            ->orderBy('meeting_date_begin','DESC')
-            ->orderBy('meeting_service.meeting_id','DESC');
-            $data['meeting_service'] = $query->get(); 
-        }elseif ($datastatus == 'ALL'){
-            $query = Meeting_service::select('meeting_service.*','meeting_status.*')
-            ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')         
-            ->where(function ($query) use ($data){
-                $query->where('meetting_title','like','%'.$data['q'].'%');
-                $query->orwhere('meetting_year','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
-                $query->orwhere('room_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
-            })
-            ->orderBy('meeting_date_begin','DESC')
-            ->orderBy('meeting_service.meeting_id','DESC');
-            $data['meeting_service'] = $query->get();
+    // if ($datastatus== null) {
+    //     $query = Meeting_service::select('meeting_service.*','meeting_status.*')
+    //         ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')
+    //         // ->where('meeting_service.meetting_status',$data['meeting_status_code'])
+    //         ->where(function ($query) use ($data){
+    //             $query->where('meetting_title','like','%'.$data['q'].'%');
+    //             $query->orwhere('meetting_year','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('room_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
+    //         })
+    //         ->where('meetting_status','=','REQUEST') 
+    //         ->orderBy('meeting_date_begin','DESC')
+    //         ->orderBy('meeting_service.meeting_id','DESC');
+    //         $data['meeting_service'] = $query->get(); 
+    //     }elseif ($datastatus == 'ALL'){
+    //         $query = Meeting_service::select('meeting_service.*','meeting_status.*')
+    //         ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')         
+    //         ->where(function ($query) use ($data){
+    //             $query->where('meetting_title','like','%'.$data['q'].'%');
+    //             $query->orwhere('meetting_year','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('room_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
+    //         })
+    //         ->orderBy('meeting_date_begin','DESC')
+    //         ->orderBy('meeting_service.meeting_id','DESC');
+    //         $data['meeting_service'] = $query->get();
 
-        }elseif ($data['startdate'] != null || $data['enddate'] != null){
-            $query = Meeting_service::select('meeting_service.*','meeting_status.*')
-            ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')         
-            ->where(function ($query) use ($data){
-                $query->where('meetting_title','like','%'.$data['q'].'%');
-                $query->orwhere('meetting_year','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
-                $query->orwhere('room_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
-            })
-            ->where('meetting_status','=',$datastatus) 
-            ->WhereBetween('meeting_date_begin',[$data['startdate'],$data['enddate']])  
-            ->orderBy('meeting_date_begin','DESC')
-            ->orderBy('meeting_service.meeting_id','DESC');
-            $data['meeting_service'] = $query->get();
+    //     }elseif ($startdate != null || $enddate != null){
+    //         $query = Meeting_service::select('meeting_service.*','meeting_status.*')
+    //         ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status')         
+    //         ->where(function ($query) use ($data){
+    //             $query->where('meetting_title','like','%'.$data['q'].'%');
+    //             $query->orwhere('meetting_year','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('room_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
+    //         })
+    //         ->where('meetting_status','=',$datastatus) 
+    //         ->WhereBetween('meeting_date_begin',[$startdate,$enddate])  
+    //         ->orderBy('meeting_date_begin','DESC')
+    //         ->orderBy('meeting_service.meeting_id','DESC');
+    //         $data['meeting_service'] = $query->get();
 
 
-        }else {
-            $query = Meeting_service::select('meeting_service.*','meeting_status.*')
-            ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status') 
-            ->where(function ($query) use ($data){
-                $query->where('meetting_title','like','%'.$data['q'].'%');
-                $query->orwhere('meetting_year','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
-                $query->orwhere('room_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
-                $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
-            })
-            ->where('meetting_status','=',$datastatus) 
-            ->orderBy('meeting_date_begin','DESC')
-            ->orderBy('meeting_service.meeting_id','DESC');
-            $data['meeting_service'] = $query->get(); 
-        }
+    //     }else {
+    //         $query = Meeting_service::select('meeting_service.*','meeting_status.*')
+    //         ->join('meeting_status','meeting_status.meeting_status_code','=','meeting_service.meetting_status') 
+    //         ->where(function ($query) use ($data){
+    //             $query->where('meetting_title','like','%'.$data['q'].'%');
+    //             $query->orwhere('meetting_year','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_objective_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('room_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_debsubsubtrue_name','like','%'.$data['q'].'%');
+    //             $query->orwhere('meeting_status_code','like','%'.$data['q'].'%');
+    //         })
+    //         ->where('meetting_status','=',$datastatus) 
+    //         ->orderBy('meeting_date_begin','DESC')
+    //         ->orderBy('meeting_service.meeting_id','DESC');
+    //         $data['meeting_service'] = $query->get(); 
+    //     }
         
 
     // if($data['meeting_status_code'])
@@ -672,6 +697,17 @@ public function meettingroom_check_allow_update(Request $request)
 
     $update = Meeting_service::find($id); 
     $update->meetting_status = 'ALLOCATE';
+
+    $update->meetting_title = $request->meetting_title;
+    $update->meetting_target = $request->meetting_target;
+    $update->meeting_objective_name = $request->meeting_objective_name;
+    $update->meetting_year = $request->meetting_year;
+    $update->meetting_person_qty = $request->meetting_person_qty;
+    $update->meeting_date_begin = $request->meeting_date_begin;
+    $update->meeting_date_end = $request->meeting_date_end;
+    $update->meeting_time_begin = $request->meeting_time_begin;
+    $update->meeting_time_end = $request->meeting_time_end;
+    $update->meeting_tel = $request->meeting_tel;
     $update->save();
 
     return response()->json([
