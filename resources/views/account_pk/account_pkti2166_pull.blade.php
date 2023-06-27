@@ -115,7 +115,7 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pkti4011_stam')}}">
+                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pkti2166_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -313,7 +313,7 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('acc.account_pkti4011_pulldata') }}",
+                                    url: "{{ route('acc.account_pkti2166_pulldata') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

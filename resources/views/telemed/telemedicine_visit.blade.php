@@ -102,8 +102,7 @@
                                     <th class="text-center">vn</th>
                                     <th class="text-center">ชื่อ-นามสกุล</th> 
                                     <th class="text-center">อายุ</th>
-                                    <th class="text-center">pttname</th>
-                                    <th class="text-center">hometel</th>
+                                    <th class="text-center">pttname</th> 
                                     <th class="text-center">department</th>                                     
                                     <th class="text-center">ที่อยู่</th> 
                                     <th class="text-center">hometel</th> 
@@ -121,8 +120,7 @@
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vn }}</td> 
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->ptname }} </td> 
                                         <td class="text-font text-pedding" style="text-align: center;"> {{ $item->age_y }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: left;"> {{ $item->pttname }} </td> 
-                                        <td class="text-font text-pedding" style="text-align: center;"> {{ $item->hometel }}</td> 
+                                        <td class="text-font text-pedding" style="text-align: left;"> {{ $item->pttname }} </td>  
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->department }} </td> 
                                         <td class="text-font text-pedding" style="text-align: left;"> {{ $item->ptadress }} </td> 
                                         <td class="text-font text-pedding" style="text-align: left;">{{ $item->hometel}} </td> 

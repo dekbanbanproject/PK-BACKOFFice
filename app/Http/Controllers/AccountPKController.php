@@ -27,6 +27,7 @@ use App\Models\Acc_1102050101_304;
 use App\Models\Acc_1102050101_308;
 use App\Models\Acc_1102050101_4011;
 use App\Models\Acc_1102050101_3099;
+use App\Models\Acc_stm_ti_totalhead;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -3861,7 +3862,7 @@ class AccountPKController extends Controller
                     WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
                     and account_code="1102050101.2166"
 
-                    group by month(a.vstdate) asc;
+                    group by month(a.vstdate) desc;
             ');
             // and stamp = "N"
         } else {
@@ -3877,12 +3878,9 @@ class AccountPKController extends Controller
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.2166"
 
-                    group by month(a.vstdate) asc;
+                    group by month(a.vstdate) desc;
             ');
         }
-
-
-
         return view('account_pk.account_pkti2166_dash',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
@@ -3892,6 +3890,110 @@ class AccountPKController extends Controller
             'date'             => $date,
         ]);
     }
+    public function account_pkti2166_pull(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y');
+        // dd($year);
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ($startdate == '') {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl from acc_debtor a
+                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
+                WHERE a.account_code="1102050101.2166"
+                AND a.stamp = "N" 
+                group by a.vn
+                order by a.vstdate asc;
+
+            ');
+            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+        } else {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
+        }
+        
+        return view('account_pk.account_pkti2166_pull',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'acc_debtor'    =>     $acc_debtor,
+        ]);
+    }
+    public function account_pkti2166_pulldata(Request $request)
+     {
+         $datenow = date('Y-m-d');
+         $startdate = $request->datepicker;
+         $enddate = $request->datepicker2;
+         // Acc_opitemrece::truncate();
+         $acc_debtor = DB::connection('mysql3')->select('
+             SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                     ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
+                     ,v.hospmain,op.income as income_group
+                     ,o.vstdate as vstdatesave
+                     ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
+                     ,ptt.pttype_eclaim_id
+                     ,o.pttype
+                     ,e.gf_opd as gfmis,e.code as acc_code
+                     ,e.ar_opd as account_code
+                     ,e.name as account_name
+                     ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                     ,v.rcpno_list as rcpno
+                     ,v.income-v.discount_money-v.rcpt_money as debit
+                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                     ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                     ,ptt.max_debt_money
+             from ovst o
+             left join vn_stat v on v.vn=o.vn
+             left join patient pt on pt.hn=o.hn
+             LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+             LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+             LEFT JOIN opitemrece op ON op.vn = o.vn
+             WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+             AND ptt.pttype IN("M3","M4")
+             GROUP BY o.vn 
+         ');
+ 
+         foreach ($acc_debtor as $key => $value) {
+                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.2166')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                     if ($check == 0) {
+                        Acc_debtor::insert([
+                             'hn'                 => $value->hn,
+                             'an'                 => $value->an,
+                             'vn'                 => $value->vn,
+                             'cid'                => $value->cid,
+                             'ptname'             => $value->ptname,
+                             'pttype'             => $value->pttype,
+                             'vstdate'            => $value->vstdatesave, 
+                             'acc_code'           => $value->acc_code,
+                             'account_code'       => $value->account_code,
+                             'account_name'       => $value->account_name,
+                             'income_group'       => $value->income_group,
+                             'income'             => $value->income,
+                             'uc_money'           => $value->uc_money,
+                             'discount_money'     => $value->discount_money,
+                             'paid_money'         => $value->paid_money,
+                             'rcpt_money'         => $value->rcpt_money,
+                             'debit'              => $value->debit,
+                             'debit_drug'         => $value->debit_drug,
+                             'debit_instument'    => $value->debit_instument,
+                             'debit_toa'          => $value->debit_toa,
+                             'debit_refer'        => $value->debit_refer,
+                             'debit_total'        => $value->debit,
+                             'max_debt_amount'    => $value->max_debt_money,
+                             'acc_debtor_userid'  => Auth::user()->id
+                         ]);
+                     } 
+         }
+ 
+             return response()->json([
+ 
+                 'status'    => '200'
+             ]);
+     }
     public function account_pkti2166(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
@@ -3996,37 +4098,38 @@ class AccountPKController extends Controller
                         'debit_instument'   => $value->debit_instument,
                         'debit_refer'       => $value->debit_refer,
                         'debit_toa'         => $value->debit_toa,
-                        'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+                        'debit_total'       => $value->debit_total,
                         'max_debt_amount'   => $value->max_debt_amount,
                         'acc_debtor_userid' => $iduser
                     ]);
-                    $acc_opitemrece_ = DB::connection('mysql')->select('
-                            SELECT a.stamp,ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
-                            FROM acc_opitemrece ao
-                            LEFT JOIN acc_debtor a ON ao.vn = a.vn
-                            WHERE a.account_code ="acc_1102050101_2166" AND a.stamp ="Y"
-                            AND ao.vn ="'.$value->vn.'"
-                    ');
-                    foreach ($acc_opitemrece_ as $va2) {
-                        Acc_opitemrece_stm::insert([
-                            'hn'                 => $va2->hn,
-                            'an'                 => $va2->an,
-                            'vn'                 => $va2->vn,
-                            'vstdate'            => $va2->vstdate,
-                            'pttype'             => $va2->pttype,
-                            'paidst'             => $va2->paidst,
-                            'finance_number'     => $va2->finance_number,
-                            'income'             => $va2->income,
-                            'icode'              => $va2->icode,
-                            'name'               => $va2->dname,
-                            'qty'                => $va2->qty,
-                            'cost'               => $va2->cost,
-                            'unitprice'          => $va2->unitprice,
-                            'discount'           => $va2->discount,
-                            'sum_price'          => $va2->sum_price
-                        ]);
+                    // 'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+                    // $acc_opitemrece_ = DB::connection('mysql')->select('
+                    //         SELECT a.stamp,ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
+                    //         FROM acc_opitemrece ao
+                    //         LEFT JOIN acc_debtor a ON ao.vn = a.vn
+                    //         WHERE a.account_code ="acc_1102050101_2166" AND a.stamp ="Y"
+                    //         AND ao.vn ="'.$value->vn.'"
+                    // ');
+                    // foreach ($acc_opitemrece_ as $va2) {
+                    //     Acc_opitemrece_stm::insert([
+                    //         'hn'                 => $va2->hn,
+                    //         'an'                 => $va2->an,
+                    //         'vn'                 => $va2->vn,
+                    //         'vstdate'            => $va2->vstdate,
+                    //         'pttype'             => $va2->pttype,
+                    //         'paidst'             => $va2->paidst,
+                    //         'finance_number'     => $va2->finance_number,
+                    //         'income'             => $va2->income,
+                    //         'icode'              => $va2->icode,
+                    //         'name'               => $va2->dname,
+                    //         'qty'                => $va2->qty,
+                    //         'cost'               => $va2->cost,
+                    //         'unitprice'          => $va2->unitprice,
+                    //         'discount'           => $va2->discount,
+                    //         'sum_price'          => $va2->sum_price
+                    //     ]);
 
-                    }
+                    // }
         }
 
 
@@ -4224,7 +4327,7 @@ class AccountPKController extends Controller
             $json = json_encode($xmlObject);
             $result = json_decode($json, true);
 
-            dd($result);
+            // dd($result);
             @$stmAccountID = $result['stmAccountID'];
             @$hcode = $result['hcode'];
             @$hname = $result['hname'];
@@ -4232,16 +4335,32 @@ class AccountPKController extends Controller
             @$STMdoc = $result['STMdoc'];
             @$dateStart = $result['dateStart'];
             @$dateEnd = $result['dateEnd'];
-            @$dateData = $result['dateData'];
-            @$dateIssue = $result['dateIssue'];
-            @$acount = $result['acount'];
-            @$Total_amount = $result['amount'];
-            @$Total_thamount = $result['thamount'];
-            @$STMdat = $result['STMdat'];
+            @$datedue = $result['datedue'];
+            @$dateIssue = $result['dateIssue']; 
+            @$amount = $result['amount'];
+            @$thamount = $result['thamount']; 
             @$TBills = $result['TBills']['TBill'];
             // @$TBills = $result['TBills']['HDBills']['TBill']; //sss
             $bills_       = @$TBills;
-            dd($bills_ );
+            // dd($bills_ ); 
+            $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
+            if ($checkchead > 0) {
+                # code...
+            } else {
+                Acc_stm_ti_totalhead::insert([
+                    'stmAccountID'    => @$stmAccountID,
+                    'hcode'           => @$hcode, 
+                    'hname'           => @$hname,
+                    'AccPeriod'       => @$AccPeriod,
+                    'STMdoc'          => @$STMdoc,
+                    'dateStart'       => @$dateStart,
+                    'dateEnd'         => @$dateEnd,
+                    'datedue'        => @$datedue,
+                    'dateIssue'       => @$dateIssue,
+                    'amount'          => @$amount,
+                    'thamount'        => @$thamount
+                ]); 
+            } 
                 foreach ($bills_ as $value) {
                     $hreg = $value['hreg'];
                     $station = $value['station'];
@@ -4257,56 +4376,49 @@ class AccountPKController extends Controller
                     $dtttime = $dttranDate[1];
                     $checkc = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
 
-                    if ( $checkc > 0) {
-                        // Acc_stm_ti::where('hn', $hn)->where('vstdate', $dttdate)
-                        //     ->update([
-                        //         'invno'            => $invno,
-                        //         'dttran'           => $dttran,
-                        //         'hn'               => $hn,
-                        //         'amount'           => $amount,
-                        //         'paid'             => $paid,
-                        //         'rid'              => $rid,
-                        //         'HDflag'           => $HDflag,
-                        //         'vstdate'          => $dttdate
-                        //     ]);
+                    if ( $checkc > 0) { 
                         Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
                             ->update([
                                 'invno'             => $invno,
                                 'hn'                => $hn,
+                                'station'           => $station,
                                 'STMdoc'            => @$STMdoc,
                                 'vstdate'           => $dttdate,
                                 'paid'              => $paid,
                                 'rid'               => $rid,
                                 'HDflag'            => $HDflag,
-                                'amount'            => $amount
+                                'amount'            => $amount,
+                                'Total_amount'      => $amount
                             ]);
-                    } else {
-                            // Acc_stm_ti::insert([
-                            //     'invno'            => $invno,
-                            //     'dttran'           => $dttran,
-                            //     'hn'               => $hn,
-                            //     'amount'           => $amount,
-                            //     'paid'             => $paid,
-                            //     'rid'              => $rid,
-                            //     'HDflag'           => $HDflag,
-                            //     'vstdate'          => $dttdate
-                            // ]);
+                            Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
+                            ->update([ 
+                                'status'            => 'Y'
+                            ]);
 
+                    } else {                           
                             Acc_stm_ti_total::insert([
                                 'invno'             => $invno,
                                 'hn'                => $hn,
+                                'station'           => $station,
                                 'STMdoc'            => @$STMdoc,
                                 'vstdate'           => $dttdate,
                                 'paid'              => $paid,
                                 'rid'               => $rid,
                                 'HDflag'            => $HDflag,
-                                'amount'            => $amount
+                                'amount'            => $amount,
+                                'Total_amount'      => $amount
+                            ]); 
+                            
+                            Acc_1102050101_4011::where('hn',$hn)->where('vstdate',$dttdate)
+                            ->update([ 
+                                'status'            => 'Y'
                             ]);
-
                     }
-                }
-
-                return redirect()->back();
+                } 
+                // return redirect()->back();
+                return response()->json([
+                    'status'    => '200'
+                ]);
 
     }
     public function upstm_tixml_sss(Request $request)
@@ -4342,80 +4454,82 @@ class AccountPKController extends Controller
             @$dateData = $result['dateData'];
             @$dateIssue = $result['dateIssue'];
             @$acount = $result['acount'];
-            @$Total_amount = $result['amount'];
-            @$Total_thamount = $result['thamount'];
+            @$amount = $result['amount'];
+            @$thamount = $result['thamount'];
             @$STMdat = $result['STMdat'];
             @$HDBills = $result['HDBills'];
             // @$TBills = $result['HDBills']['HDBill']['TBill']; //sss
+
+            $checkchead = Acc_stm_ti_totalhead::where('stmAccountID', @$stmAccountID)->where('AccPeriod', @$AccPeriod)->count();
+            if ($checkchead > 0) {
+                # code...
+            } else {
+                Acc_stm_ti_totalhead::insert([
+                    'stmAccountID'    => @$stmAccountID,
+                    'hcode'           => @$hcode, 
+                    'hname'           => @$hname,
+                    'AccPeriod'       => @$AccPeriod,
+                    'STMdoc'          => @$STMdoc,
+                    'dateStart'       => @$dateStart,
+                    'dateEnd'         => @$dateEnd,
+                    'datedue'         => @$dateData,
+                    'dateIssue'       => @$dateIssue,
+                    'acount'          => @$acount,
+                    'amount'          => @$amount,
+                    'thamount'        => @$thamount
+                ]); 
+            }  
             $bills_       = @$HDBills;
             // dd($bills_ ); 
                 $tbill_ = $bills_['HDBill'];
                 // dd($tbill_ );
-                foreach ($tbill_ as $key => $value) {
-                    $tbill        = $value['TBill'];
-                    $hn           = $value['hn'];
+                foreach ($tbill_ as $key => $value) { 
+                    // $hn           = $value['hn'];
                     $fullname     = $value['name'];
                     $cid          = $value['pid'];
-                    $quota        = $value['quota'];
-                    $hdcharge     = $value['hdcharge'];
-                    $payable      = $value['payable'];
-                    $EPO_2          = $value['EPO'];
-                    // $EPO_tt          = $value['EPO']['epoPay'];
-                    if (isset($value['EPO']['epoPay'])) {
-                        $EPO_tt = $value['EPO']['epoPay'];
-                    } else {
-                        $EPO_tt = '';
-                        // break;
-                    }
-                    // return $value[$EPO_tt] ?? null;
-                    // dd($EPO_tt );
-                    // if ( $EPO_tt == '') {
-                    //     $EPO_tt_          = '';
-
+                    // $quota        = $value['quota'];
+                    // $hdcharge     = $value['hdcharge'];
+                    // $payable      = $value['payable'];
+                    // $EPO_2          = $value['EPO']; 
+                    // if (isset($value['EPO']['epoPay'])) {
+                    //     $EPO_tt = $value['EPO']['epoPay'];
                     // } else {
-                    //     $EPO_tt_          = $value['EPO']['epoPay'];
+                    //     $EPO_tt = ''; 
                     // }
-                    // dd($EPO_tt_ );
-                    
-                    // foreach ($EPO_2 as $key => $value0) {
-                    //     $epoPay = $value0->epoPay;
-                    //     dd($epoPay );
-                    // }
-                    // dd($EPO );
+                    $tbill        = $value['TBill'];
                     foreach ($tbill as $key => $value2) {
                             $hcode = $value2['hreg'];
                             // dd($hcode );
-                            $station = $value2['station']; 
-                            $invno = $value2['invno'];
-                            // dd($invno );
-                            // $hn = $value2['hn'];
-                            $amount = $value2['amount'];
-                            // $amount = $value2->amount;
-                            $paid = $value2['paid'];
-                            $rid = $value2['rid'];
-                            $hdrate = $value2['hdrate'];
-                            $hdcharge = $value2['hdcharge'];
+                            $station    = $value2['station']; 
+                            $hn         = $value2['hn'];
+                            $invno      = $value2['invno']; 
+                            $amount     = $value2['amount']; 
+                            $paid       = $value2['paid'];
+                            $rid        = $value2['rid'];
+                            $hdrate     = $value2['hdrate'];
+                            $hdcharge   = $value2['hdcharge'];
+                            $HDflag     = $value2['HDflag'];
+                            $dttran     = $value2['dttran'];
                             $dttranDate = explode("T",$value2['dttran']);
-                            $dttdate = $dttranDate[0];
-                            $dtttime = $dttranDate[1];
-                            // if ($value2['EPOs'] == '') {
-                            //     # code...
-                            // }
-                            // $EPOs_ = $value2['EPOs']['EPO']['epoPay'];
-                            // $EPOs_ = $value2['EPO']['epoPay'];
-                            // $EPOs_ = $value2['EPOs'];
-                            // dd($amount );
-                            // foreach ($EPOs_ as $key => $value3) {
-                            //     $epoPay = $value3['EPOs'];
-                            //     dd($epoPay );
-                            // }
-                            $checkc = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
+                            $dttdate    = $dttranDate[0];
+                            $dtttime    = $dttranDate[1]; 
+                            if (isset($value2['EPOs']['EPO']['epoPay'])) {
+                                $EPO_tt = $value2['EPOs']['EPO']['epoPay'];
+                                $Total = $amount + $EPO_tt;
+                            } else {
+                                $EPO_tt = ''; 
+                                $Total = '';
+                            }
+                            $checkc     = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
+                            $datenow = date('Y-m-d');
                             if ( $checkc > 0) {                      
                                 Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
                                     ->update([
+                                        'station'           => $station,
                                         'invno'             => $invno,
                                         'hn'                => $hn,
                                         'STMdoc'            => @$STMdoc,
+                                        'dttran'            => $dttran,
                                         'vstdate'           => $dttdate,
                                         'paid'              => $paid,
                                         'rid'               => $rid,
@@ -4424,35 +4538,165 @@ class AccountPKController extends Controller
                                         'EPOpay'            => $EPO_tt, 
                                         'hdrate'            => $hdrate,
                                         'hdcharge'          => $hdcharge,
-                                        'amount'            => $amount,
-                                        // 'Total_amount'      => $payable
+                                        'amount'            => $amount, 
+                                        'HDflag'            => $HDflag, 
+                                        'Total_amount'      => $Total,
+                                        'date_save'         => $datenow 
                                     ]);
-                            } else {     
-                                // if ($amount != '') {
-                                    Acc_stm_ti_total::insert([
-                                        'invno'             => $invno,
-                                        'hn'                => $hn,
-                                        'STMdoc'            => @$STMdoc,
-                                        'vstdate'           => $dttdate,
-                                        'paid'              => $paid,
-                                        'rid'               => $rid,
-                                        'cid'               => $cid,
-                                        'fullname'          => $fullname,
-                                        'EPOpay'            => $EPO_tt,
-                                        'hdrate'            => $hdrate,
-                                        'hdcharge'          => $hdcharge,
-                                        'amount'            => $amount,
-                                        // 'Total_amount'      => $payable
+                                    Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
+                                    ->update([ 
+                                        'status'            => 'Y'
                                     ]);
-                               
-
+                            } else {      
+                                Acc_stm_ti_total::insert([
+                                    'station'           => $station,
+                                    'invno'             => $invno,
+                                    'hn'                => $hn,
+                                    'STMdoc'            => @$STMdoc,
+                                    'dttran'            => $dttran,
+                                    'vstdate'           => $dttdate,
+                                    'paid'              => $paid,
+                                    'rid'               => $rid,
+                                    'cid'               => $cid,
+                                    'fullname'          => $fullname,
+                                    'EPOpay'            => $EPO_tt, 
+                                    'hdrate'            => $hdrate,
+                                    'hdcharge'          => $hdcharge,
+                                    'amount'            => $amount, 
+                                    'HDflag'            => $HDflag, 
+                                    'Total_amount'      => $Total,
+                                    'date_save'         => $datenow
+                                ]);   
+                                Acc_1102050101_3099::where('hn',$hn)->where('vstdate',$dttdate)
+                                ->update([ 
+                                    'status'            => 'Y'
+                                ]);                            
                             }
                     }
-                }
-                 
-                return redirect()->back();
-
+                }                 
+                // return redirect()->back();
+                return response()->json([
+                    'status'    => '200'
+                ]);
     }
+
+    // public function upstm_tixml_sssimport(Request $request)
+    // {
+    //         $tar_file_ = $request->file;
+    //         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+    //         $filename = pathinfo($file_, PATHINFO_FILENAME);
+    //         $extension = pathinfo($file_, PATHINFO_EXTENSION);
+    //         $xmlString = file_get_contents(($tar_file_));
+    //         $xmlObject = simplexml_load_string($xmlString);
+    //         $json = json_encode($xmlObject);
+    //         $result = json_decode($json, true);
+
+    //         // dd($result);
+    //         @$stmAccountID = $result['stmAccountID'];
+    //         @$hcode = $result['hcode'];
+    //         @$hname = $result['hname'];
+    //         @$AccPeriod = $result['AccPeriod'];
+    //         @$STMdoc = $result['STMdoc'];
+    //         @$dateStart = $result['dateStart'];
+    //         @$dateEnd = $result['dateEnd'];
+    //         @$dateData = $result['dateData'];
+    //         @$dateIssue = $result['dateIssue'];
+    //         @$acount = $result['acount'];
+    //         @$amount = $result['amount'];
+    //         @$thamount = $result['thamount'];
+    //         @$STMdat = $result['STMdat'];
+    //         @$HDBills = $result['HDBills']; 
+    //         $checkchead = Acc_stm_ti_totalhead::where('stmAccountID', @$stmAccountID)->where('AccPeriod', @$AccPeriod)->count();
+    //         if ($checkchead > 0) { 
+    //         } else {
+    //             Acc_stm_ti_totalhead::insert([
+    //                 'stmAccountID'    => @$stmAccountID,
+    //                 'hcode'           => @$hcode, 
+    //                 'hname'           => @$hname,
+    //                 'AccPeriod'       => @$AccPeriod,
+    //                 'STMdoc'          => @$STMdoc,
+    //                 'dateStart'       => @$dateStart,
+    //                 'dateEnd'         => @$dateEnd,
+    //                 'datedue'         => @$dateData,
+    //                 'dateIssue'       => @$dateIssue,
+    //                 'acount'          => @$acount,
+    //                 'amount'          => @$amount,
+    //                 'thamount'        => @$thamount
+    //             ]); 
+    //         }  
+    //         $bills_       = @$HDBills; 
+    //             $tbill_ = $bills_['HDBill']; 
+    //             foreach ($tbill_ as $key => $value) {
+    //                 $tbill        = $value['TBill'];
+    //                 $hn           = $value['hn'];
+    //                 $fullname     = $value['name'];
+    //                 $cid          = $value['pid'];
+    //                 $quota        = $value['quota'];
+    //                 $hdcharge     = $value['hdcharge'];
+    //                 $payable      = $value['payable'];
+    //                 $EPO_2          = $value['EPO']; 
+                    
+    //                 if (isset($value['EPO']['epoPay'])) {
+    //                     $EPO_tt = $value['EPO']['epoPay'];
+    //                 } else {
+    //                     $EPO_tt = ''; 
+    //                 }
+                   
+    //                 foreach ($tbill as $key => $value2) {
+    //                         $hcode = $value2['hreg']; 
+    //                         $station = $value2['station']; 
+    //                         $invno = $value2['invno']; 
+    //                         $amount = $value2['amount']; 
+    //                         $paid = $value2['paid'];
+    //                         $rid = $value2['rid'];
+    //                         $hdrate = $value2['hdrate'];
+    //                         $hdcharge = $value2['hdcharge'];
+    //                         $dttranDate = explode("T",$value2['dttran']);
+    //                         $dttdate = $dttranDate[0];
+    //                         $dtttime = $dttranDate[1];
+                           
+    //                         $checkc = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
+    //                         if ( $checkc > 0) {                      
+    //                             Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
+    //                                 ->update([
+    //                                     'invno'             => $invno,
+    //                                     'hn'                => $hn,
+    //                                     'STMdoc'            => @$STMdoc,
+    //                                     'vstdate'           => $dttdate,
+    //                                     'paid'              => $paid,
+    //                                     'rid'               => $rid,
+    //                                     'cid'               => $cid,
+    //                                     'fullname'          => $fullname,
+    //                                     'EPOpay'            => $EPO_tt, 
+    //                                     'hdrate'            => $hdrate,
+    //                                     'hdcharge'          => $hdcharge,
+    //                                     'amount'            => $amount,
+    //                                     // 'Total_amount'      => $payable
+    //                                 ]);
+    //                         } else {     
+    //                             // if ($amount != '') {
+    //                             Acc_stm_ti_total::insert([
+    //                                 'invno'             => $invno,
+    //                                 'hn'                => $hn,
+    //                                 'STMdoc'            => @$STMdoc,
+    //                                 'vstdate'           => $dttdate,
+    //                                 'paid'              => $paid,
+    //                                 'rid'               => $rid,
+    //                                 'cid'               => $cid,
+    //                                 'fullname'          => $fullname,
+    //                                 'EPOpay'            => $EPO_tt,
+    //                                 'hdrate'            => $hdrate,
+    //                                 'hdcharge'          => $hdcharge,
+    //                                 'amount'            => $amount,
+    //                                 // 'Total_amount'      => $payable
+    //                             ]);                               
+    //                         }
+    //                 }
+    //             }
+                 
+    //             return redirect()->back();
+
+    // }
 
     public function acc_setting(Request $request)
     {

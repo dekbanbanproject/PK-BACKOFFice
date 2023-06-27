@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->date('vstdate')->nullable();//วันที่เข้ารับบริการ 
                 // $table->double('sum_price_approve', 12, 4)->nullable();//รวมจ่ายชดเชยสุทธิ 
                 $table->date('date_save')->nullable();// 
-                
+                $table->string('station')->nullable();// 
                 $table->string('vn')->nullable();//   
                 $table->string('invno')->nullable();//  
                 $table->string('dttran',255)->nullable();//   
@@ -33,22 +33,22 @@ return new class extends Migration
                 // $table->double('amount', 12, 4)->nullable();// 
                 // $table->double('paid', 12, 4)->nullable();// 
                 // $table->double('EPOpay', 12, 4)->nullable();// 
-                $table->string('sum_price_approve')->nullable();// 
-                $table->string('hdrate')->nullable();// 
-                $table->string('hdcharge')->nullable();// 
-                $table->string('amount')->nullable();// 
-                $table->string('paid')->nullable();// 
-                $table->string('EPOpay')->nullable();// 
+                // $table->string('sum_price_approve')->nullable();// 
+               
 
                 $table->string('rid')->nullable();//  
                 $table->string('accp')->nullable();//  
                 $table->string('HDflag')->nullable();//   
 
-                $table->string('AccPeriod')->nullable();//  
-                $table->string('STMdoc')->nullable();//  
+                // $table->string('AccPeriod')->nullable();//  
+                $table->string('hdrate')->nullable();// 
+                $table->string('hdcharge')->nullable();// 
+                $table->string('amount')->nullable();// 
+                $table->string('paid')->nullable();// 
+                $table->string('EPOpay')->nullable();// 
                 $table->string('Total_amount')->nullable();//  
-                $table->string('Total_thamount')->nullable();//  
-                
+                // $table->string('Total_thamount')->nullable();//  
+                $table->string('STMdoc')->nullable();//  
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH'])->default('REP')->nullable(); 
                 $table->timestamps();
             });

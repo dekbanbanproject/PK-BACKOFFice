@@ -79,7 +79,7 @@
                     <div class="main-card mb-3 card">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
-                                <form action="{{ route('acc.upstm_tixml_import') }}" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('acc.upstm_tixml_import') }}" method="POST" enctype="multipart/form-data" id="insert_stmForm">
                                     @csrf
                                         <div class="col-sm-12">
                                             <div class="widget-chart widget-chart-hover">
@@ -156,6 +156,43 @@
                   }
                 }
               });
+            });
+
+            $('#insert_stmForm').on('submit',function(e){
+                    e.preventDefault();
+
+                    var form = this;
+                      //   alert('OJJJJOL');
+                    $.ajax({
+                      url:$(form).attr('action'),
+                      method:$(form).attr('method'),
+                      data:new FormData(form),
+                      processData:false,
+                      dataType:'json',
+                      contentType:false,
+                      beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                      },
+                      success:function(data){
+                        if (data.status == 0 ) {
+
+                        } else {
+                            Swal.fire({
+                                title: 'บันทึกข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                window.location="{{url('upstm_tixml')}}";
+                                }
+                            })
+                        }
+                      }
+                    });
             });
               
         });

@@ -1299,10 +1299,14 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkti3099_stam',[App\Http\Controllers\AccountPKController::class, 'account_pkti3099_stam'])->name('acc.account_pkti3099_stam');// 
 
     Route::match(['get','post'],'account_pkti8011_dash',[App\Http\Controllers\AccountPKController::class, 'account_pkti8011_dash'])->name('acc.account_pkti8011_dash');//
+    Route::match(['get','post'],'account_pkti8011_pull',[App\Http\Controllers\AccountPKController::class, 'account_pkti8011_pull'])->name('acc.account_pkti8011_pull');//
+    Route::match(['get','post'],'account_pkti8011_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_pkti8011_pulldata'])->name('acc.account_pkti8011_pulldata');//
     Route::match(['get','post'],'account_pkti8011/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti8011'])->name('acc.account_pkti8011');//
     Route::match(['get','post'],'account_pkti8011_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti8011_stm'])->name('acc.account_pkti8011_stm');//
 
     Route::match(['get','post'],'account_pkti2166_dash',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_dash'])->name('acc.account_pkti2166_dash');//
+    Route::match(['get','post'],'account_pkti2166_pull',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_pull'])->name('acc.account_pkti2166_pull');//
+    Route::match(['get','post'],'account_pkti2166_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_pulldata'])->name('acc.account_pkti2166_pulldata');//
     Route::match(['get','post'],'account_pkti2166/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166'])->name('acc.account_pkti2166');//
     Route::match(['get','post'],'account_pkti2166_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stm'])->name('acc.account_pkti2166_stm');//
     Route::match(['get','post'],'account_pkti2166_stam',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stam'])->name('acc.account_pkti2166_stam');//  stamp OPD

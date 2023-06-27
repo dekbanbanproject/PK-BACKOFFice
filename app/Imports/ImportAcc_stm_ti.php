@@ -32,8 +32,7 @@ class ImportAcc_stm_ti implements ToCollection
             $vstdate = $year.'-'.$mo.'-'.$day; 
             #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
             // dd($vstdate);
-            Acc_stm_ti::create([
-                
+            Acc_stm_ti::create([                
                 'repno' => $row[1],
                 'tranid' => $row[2],
                 'hn' => $row[3],
@@ -46,6 +45,31 @@ class ImportAcc_stm_ti implements ToCollection
                 'price_req' => $row[10],
                 'price_approve' => $row[11],
                 'price_approve_no' => $row[12], 
+            ]);
+            Acc_stm_ti_excel::creat([
+                'repno' => $row[1],
+                'tranid' => $row[2],
+                'hn' => $row[3],
+                'an' => $row[4],
+                'cid' => $row[5],
+                'fullname' => $row[6], 
+                'hipdata_code' => $row[7],             
+                'regdate' =>$regdate,
+                'vstdate' => $vstdate, 
+                'no' => $row[10],
+                'list' => $row[11],
+                'qty' => $row[12],
+                'unitprice' => $row[13], 
+                'unitprice_max' => $row[14], 
+                'price_request' => $row[15], 
+                'pscode' => $row[16], 
+                'percent' => $row[17], 
+                'pay_amount' => $row[18], 
+                'nonpay_amount' => $row[19], 
+                'payplus_amount' => $row[20],  
+                'payback_amount' => $row[21], 
+                'active' => $row[22], 
+                'filename' => $row[23]
             ]);
         }
     }

@@ -76,7 +76,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center" width="5%">vn</th>
+                                    <th class="text-center" width="5%">invno</th>
                                     {{-- <th class="text-center">an</th> --}}
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>

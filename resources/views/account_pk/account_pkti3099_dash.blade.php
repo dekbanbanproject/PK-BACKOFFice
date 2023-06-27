@@ -127,8 +127,7 @@
                                                 $ynew = $y + 543;
                                               
                                                 $datas = DB::select('
-                                                    SELECT count(DISTINCT vn) as Can
-                                                        ,SUM(debit) as sumdebit                                                     
+                                                    SELECT count(DISTINCT vn) as Can ,SUM(debit) as sumdebit                                                     
                                                         from acc_debtor  
                                                             WHERE account_code="1102050101.3099"             
                                                             AND stamp = "N" 

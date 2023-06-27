@@ -74,8 +74,8 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('acc.account_pkti2166_dash') }}" method="GET">
-            @csrf
+        {{-- <form action="{{ route('acc.account_pkti2166_dash') }}" method="GET">
+            @csrf --}}
             <div class="row">
                 <div class="col-md-4">
                     <h4 class="card-title">Detail 1102050101.2166</h4>
@@ -93,13 +93,18 @@
                             data-date-language="th-th" value="{{ $enddate }}" required/>
                     </div>
                 </div>
-                <div class="col-md-1 text-start">
+                <div class="col-md-2 text-start">
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา
                     </button>
+                    <a href="{{url('account_pkti2166_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
+                        ดึงข้อมูล
+                    </a>
                 </div>
             </div>
-        </form>
+        {{-- </form> --}}
         <div class="row ">
             @foreach ($datashow as $item)
             <div class="col-xl-6 col-md-6">
@@ -126,7 +131,7 @@
                                                 }
 
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(*) as Cvit
+                                                    SELECT sum(debit_total) as debit_total,count(vn) as Cvit
                                                         from acc_1102050101_2166
                                                         WHERE month(vstdate) = "'.$item->months.'"
                                                         and year(vstdate) = "'.$item->year.'"
@@ -148,29 +153,47 @@
                                                 //     $sum_approveY = $value3->priceapprove;
                                                 // }
                                                  // สีเขียว STM
-                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.price_approve) as debit_total
-                                                            FROM acc_1102050101_2166 a
-		                                                    LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
-                                                            and month(a.vstdate) = "'.$item->months.'"
-                                                            and year(a.vstdate) = "'.$item->year.'"
+                                                //  $sumapprove_ = DB::select('
+                                                //         SELECT count(DISTINCT a.vn) as Apvit ,sum(au.price_approve) as debit_total
+                                                //             FROM acc_1102050101_2166 a
+		                                        //             LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
+                                                //             and month(a.vstdate) = "'.$item->months.'"
+                                                //             and year(a.vstdate) = "'.$item->year.'"
+                                                //     ');
+                                                //     foreach ($sumapprove_ as $key => $value3) {
+                                                //         $debit_total = $value3->debit_total;
+                                                //         $debit_count = $value3->Apvit;
+                                                //     }
+                                                $sumapprove_ = DB::select('
+                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.sum_price_approve)+sum(au.EPOpay) as amountpay
+                                                            FROM acc_1102050101_2166 a 
+		                                                    LEFT JOIN acc_stm_ti_total au ON au.hn = a.hn AND au.vstdate = a.vstdate
+                                                            WHERE year(a.vstdate) = "'.$item->year.'"
+                                                            AND month(a.vstdate) = "'.$item->months.'"
+                                                            AND a.status = "Y"                                                                  
                                                     ');
                                                     foreach ($sumapprove_ as $key => $value3) {
-                                                        $debit_total = $value3->debit_total;
-                                                        $debit_count = $value3->Apvit;
-                                                    }
+                                                        $amountpay = $value3->amountpay;
+                                                        $stm_count = $value3->Apvit;
+                                                    } 
                                                     // สีส้ม ยกยอดไป
-                                                $sumnext_ = DB::select('
-                                                    SELECT count(DISTINCT a.vn) as NoApvit ,sum(a.debit_total) as Ndebit_total
-                                                        FROM acc_1102050101_2166 a
-                                                        LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
-                                                        WHERE month(a.vstdate) = "'.$item->months.'"
-                                                        AND year(a.vstdate) = "'.$item->year.'"
-                                                        AND au.repno IS NULL
-                                                    '); 
+                                                $sumnext_ = DB::select(' 
+                                                    SELECT count(DISTINCT  U1.vn) as anyokma,sum(U1.debit_total) as total_yokma
+                                                            FROM acc_1102050101_2166 U1
+                                                            LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+                                                            WHERE year(U1.vstdate) = "'.$item->year.'"
+                                                            AND month(U1.vstdate) = "'.$item->months.'"
+                                                            AND U1.status ="N" 
+                                                    ');  
+                                                    //   SELECT count(DISTINCT a.vn) as NoApvit ,sum(a.debit_total) as Ndebit_total
+                                                    //     FROM acc_1102050101_2166 a
+                                                    //     LEFT JOIN acc_stm_ti au ON au.cid = a.cid AND au.vstdate = a.vstdate
+                                                    //     WHERE month(a.vstdate) = "'.$item->months.'"
+                                                    //     AND year(a.vstdate) = "'.$item->year.'"
+                                                    //     AND au.repno IS NULL
                                                     foreach ($sumnext_ as $key => $value4) {
-                                                        $Ndebittotal = $value4->Ndebit_total;
-                                                        $Ndebitcount = $value4->NoApvit;
+                                                        $total_yokma = $value4->total_yokma;
+                                                        $count_yokma = $value4->anyokma;
                                                     }
                                                     $sumyokma_ = DB::select('
                                                         SELECT count(DISTINCT vn) as anyokma ,sum(debit_total) as debityokma
@@ -181,9 +204,9 @@
                                                         $total_yokma_ = $value5->debityokma;
                                                         $count_yokma_ = $value5->anyokma;
                                                     }
-                                                    $total_yokma = $total_yokma_ + $Ndebittotal;
+                                                    // $total_yokma = $total_yokma_ + $amountpay;
                                                     // $total_yokma = $total_yokma_;
-                                                    $count_yokma = $count_yokma_ + $Ndebitcount
+                                                    // $count_yokma = $count_yokma_ + $stm_count
                                             ?>
                                             <div class="row">
                                                 <div class="col-md-5 text-start mt-4 ms-4">
@@ -216,15 +239,15 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="{{url('account_pkti2166_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($debit_total, 2) }} ">
-                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($debit_total, 2) }}</span></p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($amountpay, 2) }} / {{$stm_count}}Visit ">
+                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($amountpay, 2) }}</span></p>
                                                         </div>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="{{url('account_pkti2166_stmtang/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่วนต่าง {{number_format($Ndebittotal, 2) }} ">
-                                                            <p class="text-muted mb-0"><span class="text-secondary fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($Ndebittotal, 2) }}</span></p>
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่วนต่าง {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit">
+                                                            <p class="text-muted mb-0"><span class="text-secondary fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($total_yokma, 2) }}</span></p>
                                                         </div>
                                                     </a>
                                                 </div>
@@ -260,7 +283,7 @@
                             </div>
                         </div>
                     @else
-                        <div class="grid-menu-col">
+                        {{-- <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
                                     <div class="d-flex text-start">
@@ -310,7 +333,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     @endif
 
 

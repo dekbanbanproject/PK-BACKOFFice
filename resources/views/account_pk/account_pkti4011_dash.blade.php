@@ -176,7 +176,7 @@
                                                     // สีส้ม ยกยอดไป                                                           
                                                     $sumyokma_ = DB::select('
                                                          
-                                                        SELECT count(DISTINCT  U1.vn) as anyokma,U1.vn,U1.hn,U1.ptname,U1.vstdate,U1.debit_total,U2.amount,U1.debit_total-U2.amount as total_yokma
+                                                        SELECT count(DISTINCT  U1.vn) as anyokma,SUM(debit_total) as Kongkang
                                                         FROM acc_1102050101_4011 U1
                                                         LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
                                                         WHERE year(U1.vstdate) = "'.$item->year.'"
@@ -184,7 +184,7 @@
                                                         AND U1.status ="N"
                                                     '); 
                                                     foreach ($sumyokma_ as $key => $value5) {
-                                                        $total_yokma = $value5->total_yokma;
+                                                        $total_yokma = $value5->Kongkang;
                                                         $count_yokma = $value5->anyokma;
                                                     }  
                                                     // $total_yokma = $total_yokma_;

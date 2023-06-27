@@ -63,7 +63,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header"> 
-                       รายละเอียดตั้งลูกหนี้ผัง 1102050101.308 ยกยอดไป
+                       รายละเอียดตั้งลูกหนี้ผัง 1102050101.4011 ยกยอดไป
                         <div class="btn-actions-pane-right">
                            
                         </div>
@@ -102,7 +102,7 @@
                                                 <td class="p-2" >{{ $item->ptname }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
                                                 {{-- <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td> --}}
-                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->total_yokma,2)}}</td>
+                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
                                                 
                                     </tr>
                                         <?php
