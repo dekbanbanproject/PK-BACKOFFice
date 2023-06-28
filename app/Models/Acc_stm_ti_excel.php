@@ -38,9 +38,9 @@ class Acc_stm_ti_excel extends Authenticatable
         'pay_amount',
         'nonpay_amount',
         'payplus_amount',
-        'payback_amount' ,
+        'payback_amount',
         'active',
         'filename'
     ];
-    // public $timestamps = false;   
+    public $timestamps = false;   
 }

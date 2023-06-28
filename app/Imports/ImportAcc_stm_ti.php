@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Acc_stm_ti;
+use App\Models\Acc_stm_ti_excel;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Collection;
@@ -15,7 +16,7 @@ class ImportAcc_stm_ti implements ToCollection
         foreach ($rows as $row) 
         { 
             #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
-            $regdate_ = $row[7];
+            $regdate_ = $row[9];
             $starttime = substr($regdate_, 0, 5);
             $regday = substr($regdate_, 0, 2);
             $regmo = substr($regdate_, 3, 2);
@@ -23,7 +24,7 @@ class ImportAcc_stm_ti implements ToCollection
             
             $regdate = $regyear.'-'.$regmo.'-'.$regday;
 
-            $vstdate_ = $row[8];
+            $vstdate_ = $row[10];
             $starttime = substr($vstdate_, 0, 5);
             $day = substr($vstdate_, 0, 2);
             $mo = substr($vstdate_, 3, 2);
@@ -32,44 +33,44 @@ class ImportAcc_stm_ti implements ToCollection
             $vstdate = $year.'-'.$mo.'-'.$day; 
             #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
             // dd($vstdate);
-            Acc_stm_ti::create([                
-                'repno' => $row[1],
-                'tranid' => $row[2],
-                'hn' => $row[3],
-                'cid' => $row[4],
-                'fullname' => $row[5],
-                'subinscl' => $row[6],              
-                'regdate' =>$regdate,
-                'vstdate' => $vstdate,
-                'type_req' => $row[9],
-                'price_req' => $row[10],
-                'price_approve' => $row[11],
-                'price_approve_no' => $row[12], 
-            ]);
+            // Acc_stm_ti::create([                
+            //     'repno' => $row[1],
+            //     'tranid' => $row[2],
+            //     'hn' => $row[3],
+            //     'cid' => $row[4],
+            //     'fullname' => $row[5],
+            //     'subinscl' => $row[6],              
+            //     'regdate' =>$regdate,
+            //     'vstdate' => $vstdate,
+            //     'type_req' => $row[9],
+            //     'price_req' => $row[10],
+            //     'price_approve' => $row[11],
+            //     'price_approve_no' => $row[12], 
+            // ]);
             Acc_stm_ti_excel::creat([
-                'repno' => $row[1],
-                'tranid' => $row[2],
-                'hn' => $row[3],
-                'an' => $row[4],
-                'cid' => $row[5],
-                'fullname' => $row[6], 
-                'hipdata_code' => $row[7],             
+                'repno' => $row[2],
+                'tranid' => $row[3],
+                'hn' => $row[4],
+                'an' => $row[5],
+                'cid' => $row[6],
+                'fullname' => $row[7], 
+                'hipdata_code' => $row[8],             
                 'regdate' =>$regdate,
                 'vstdate' => $vstdate, 
-                'no' => $row[10],
-                'list' => $row[11],
-                'qty' => $row[12],
-                'unitprice' => $row[13], 
-                'unitprice_max' => $row[14], 
-                'price_request' => $row[15], 
-                'pscode' => $row[16], 
-                'percent' => $row[17], 
-                'pay_amount' => $row[18], 
-                'nonpay_amount' => $row[19], 
-                'payplus_amount' => $row[20],  
-                'payback_amount' => $row[21], 
-                'active' => $row[22], 
-                'filename' => $row[23]
+                'no' => $row[11],
+                'list' => $row[12],
+                'qty' => $row[13],
+                'unitprice' => $row[14], 
+                'unitprice_max' => $row[15], 
+                'price_request' => $row[16], 
+                'pscode' => $row[17], 
+                'percent' => $row[18], 
+                'pay_amount' => $row[19], 
+                'nonpay_amount' => $row[20], 
+                'payplus_amount' => $row[21],  
+                'payback_amount' => $row[22], 
+                'active' => $row[23], 
+                'filename' => $row[24]
             ]);
         }
     }

@@ -28,6 +28,7 @@ use App\Models\Acc_1102050101_308;
 use App\Models\Acc_1102050101_4011;
 use App\Models\Acc_1102050101_3099;
 use App\Models\Acc_stm_ti_totalhead;
+use App\Models\Acc_stm_ti_excel;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -47,6 +48,7 @@ use Arr;
 use GuzzleHttp\Client;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportAcc_stm_ti;
+use App\Imports\ImportAcc_stm_tiexcel_import;
 
 use App\Models\Acc_1102050101_217_stam;
 use App\Models\Acc_opitemrece_stm;
@@ -4268,42 +4270,97 @@ class AccountPKController extends Controller
     public function upstm_ti_import(Request $request)
     {
         // dd($request->file('file'));
-        Excel::import(new ImportAcc_stm_ti, $request->file('file')->store('files'));
-
-        $data_ = DB::connection('mysql')->select('
-            SELECT repno,hn,cid,fullname,vstdate,SUM(price_approve) as Sumprice
-            FROM acc_stm_ti
-            WHERE price_approve <> ""
+        // Excel::import(new ImportAcc_stm_ti, $request->file('file')->store('files'));
+        Acc_stm_ti_excel::truncate();
+        
+            Excel::import(new ImportAcc_stm_tiexcel_import, $request->file('file')->store('files'));
+             return response()->json([
+                'status'    => '200', 
+            ]);
+        
+        $data_ = DB::connection('mysql')->select(' 
+            SELECT repno,hn,cid,fullname,vstdate,SUM(pay_amount) as Sumprice,filename
+            FROM acc_stm_ti_excel
+            WHERE pay_amount <> ""
             GROUP BY cid,vstdate
         ');
         foreach ($data_ as $key => $value) {
-            // $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate);
-            // if ($check > 0) {
-            //     Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-            //         ->update([
-            //             'repno'             => $value->repno,
-            //             'hn'                => $value->hn,
-            //             'cid'               => $value->cid,
-            //             'fullname'          => $value->fullname,
-            //             'vstdate'           => $value->vstdate,
-            //             'sum_price_approve' => $value->Sumprice
-            //         ]);
-            // } else {
+            $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate);
+            if ($check > 0) {
+                Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                    ->update([
+                        'repno'             => $value->repno,
+                        'hn'                => $value->hn,
+                        'cid'               => $value->cid,
+                        'fullname'          => $value->fullname,
+                        'vstdate'           => $value->vstdate,
+                        'sum_price_approve' => $value->Sumprice,
+                        'Total_amount'      => $value->Sumprice,
+                        'STMdoc'            => $value->filename
+                ]);
+            } else {
                 Acc_stm_ti_total::create([
                     'repno'             => $value->repno,
                     'hn'                => $value->hn,
                     'cid'               => $value->cid,
                     'fullname'          => $value->fullname,
                     'vstdate'           => $value->vstdate,
-                    'sum_price_approve' => $value->Sumprice
+                    'sum_price_approve' => $value->Sumprice,
+                    'Total_amount'      => $value->Sumprice,
+                    'STMdoc'            => $value->filename
                 ]);
-            // }
+            }
         }
-
-        return response()->json([
-            'status'    => '200',
-            // 'borrow'    =>  $borrow
-        ]);
+        // return response()->json([
+        //     'status'    => '200', 
+        // ]);
+    }
+    public function upstm_ti_importtotal(Request $request)
+    {
+   
+        Acc_stm_ti_excel::truncate();
+        
+            Excel::import(new ImportAcc_stm_tiexcel_import, $request->file('file')->store('files'));
+             return response()->json([
+                'status'    => '200', 
+            ]);
+        
+        $data_ = DB::connection('mysql')->select(' 
+            SELECT repno,hn,cid,fullname,vstdate,SUM(pay_amount) as Sumprice,filename
+            FROM acc_stm_ti_excel
+            WHERE pay_amount <> ""
+            GROUP BY cid,vstdate
+        ');
+        foreach ($data_ as $key => $value) {
+            $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate);
+            if ($check > 0) {
+                Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                    ->update([
+                        'repno'             => $value->repno,
+                        'hn'                => $value->hn,
+                        'cid'               => $value->cid,
+                        'fullname'          => $value->fullname,
+                        'vstdate'           => $value->vstdate,
+                        'sum_price_approve' => $value->Sumprice,
+                        'Total_amount'      => $value->Sumprice,
+                        'STMdoc'            => $value->filename
+                ]);
+            } else {
+                Acc_stm_ti_total::create([
+                    'repno'             => $value->repno,
+                    'hn'                => $value->hn,
+                    'cid'               => $value->cid,
+                    'fullname'          => $value->fullname,
+                    'vstdate'           => $value->vstdate,
+                    'sum_price_approve' => $value->Sumprice,
+                    'Total_amount'      => $value->Sumprice,
+                    'STMdoc'            => $value->filename
+                ]);
+            }
+        }
+        // return response()->json([
+        //     'status'    => '200', 
+        // ]);
     }
     public function upstm_tixml(Request $request)
     {

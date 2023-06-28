@@ -1317,6 +1317,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'upstm_ti',[App\Http\Controllers\AccountPKController::class, 'upstm_ti'])->name('acc.upstm_ti');// ไต
     Route::match(['get','post'],'upstm_ti_import',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_import'])->name('acc.upstm_ti_import');// ไต
+    Route::match(['get','post'],'upstm_ti_importtotal',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_importtotal'])->name('acc.upstm_ti_importtotal');// ไต
     Route::match(['get','post'],'upstm_hn',[App\Http\Controllers\AccountPKController::class, 'upstm_hn'])->name('acc.upstm_hn');// ไต
 
     Route::match(['get','post'],'upstm_tixml',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml'])->name('acc.upstm_tixml');// ไต
