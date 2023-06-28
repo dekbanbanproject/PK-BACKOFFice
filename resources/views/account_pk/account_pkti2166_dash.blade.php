@@ -165,17 +165,17 @@
                                                 //         $debit_count = $value3->Apvit;
                                                 //     }
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.sum_price_approve)+sum(au.EPOpay) as amountpay
+                                                            SELECT count(DISTINCT a.vn) as Apvit ,sum(au.sum_price_approve) as amountpay
                                                             FROM acc_1102050101_2166 a 
-		                                                    LEFT JOIN acc_stm_ti_total au ON au.hn = a.hn AND au.vstdate = a.vstdate
+                                                            LEFT JOIN acc_stm_ti_total au ON au.cid = a.cid AND au.vstdate = a.vstdate
                                                             WHERE year(a.vstdate) = "'.$item->year.'"
                                                             AND month(a.vstdate) = "'.$item->months.'"
                                                             AND a.status = "Y"                                                                  
-                                                    ');
-                                                    foreach ($sumapprove_ as $key => $value3) {
+                                                ');
+                                                foreach ($sumapprove_ as $key => $value3) {
                                                         $amountpay = $value3->amountpay;
                                                         $stm_count = $value3->Apvit;
-                                                    } 
+                                                } 
                                                     // สีส้ม ยกยอดไป
                                                 $sumnext_ = DB::select(' 
                                                     SELECT count(DISTINCT  U1.vn) as anyokma,sum(U1.debit_total) as total_yokma
@@ -198,7 +198,9 @@
                                                     $sumyokma_ = DB::select('
                                                         SELECT count(DISTINCT vn) as anyokma ,sum(debit_total) as debityokma
                                                             FROM acc_1102050101_2166
-                                                            WHERE status ="N"
+                                                            WHERE year(vstdate) = "'.$item->year.'"
+                                                            AND month(vstdate) = "'.$item->months.'" 
+                                                            AND status ="N"
                                                     ');
                                                     foreach ($sumyokma_ as $key => $value5) {
                                                         $total_yokma_ = $value5->debityokma;

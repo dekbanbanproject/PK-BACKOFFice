@@ -90,7 +90,7 @@
             <div class="col-xl-8 col-md-6">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_ti_import') }}" method="POST" id="Upstmti"
+                        <form action="{{ route('acc.upstm_ofcexcel_save') }}" method="POST" id="Upstmti"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -103,19 +103,19 @@
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    @if ($countc > 0)
+                                    {{-- @if ($countc > 0) --}}
                                         <a href="{{ url('upstm_ti_importtotal') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
                                         </a>
-                                    @else
+                                    {{-- @else --}}
                                         <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="UP STM"></i>
                                             UP STM
                                         </button>
-                                    @endif
+                                    {{-- @endif --}}
                                     
                                     
                                 </div>

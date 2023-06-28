@@ -302,14 +302,20 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-danger"></i> --}}
+                                <i class="fa-brands fa-btc text-primary"></i>
+                                <span>OFC</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('account_401_dash') }}">ผัง-401</a></li>  
+                            </ul>
+                        </li> 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-brands fa-btc text-danger"></i>
                                 <span>LGO</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pklgo801_dash') }}">ผัง-801</a></li> 
-                                {{-- <li><a href="{{ url('account_pklgo802') }}">ผัง-802</a></li>  --}}
-                                {{-- <li><a href="{{ url('account_pklgo803') }}">ผัง-803</a></li>  --}}
-                                {{-- <li><a href="{{ url('account_pklgo804') }}">ผัง-804</a></li>  --}}
+                                <li><a href="{{ url('account_pklgo801_dash') }}">ผัง-801</a></li>  
                             </ul>
                         </li> 
                         <li>
@@ -332,8 +338,9 @@
                                 <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
-                                <li><a href="{{ url('upstm_ti') }}">UCS-LGO(Excel)</a></li> 
+                                {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}                                
+                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel)</a></li> 
+                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)</a></li> 
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml)</a></li> 
                                 <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li> 
                             </ul>
