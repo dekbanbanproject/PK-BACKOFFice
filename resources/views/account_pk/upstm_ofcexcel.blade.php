@@ -98,24 +98,24 @@
                                 <div class="col"></div>
                                 <div class="col-md-6">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL</label>
+                                        <label for="formFileLg" class="form-label">UP STM EXCEL =>> วิธีใช้ -->>> ตัดหัว Excel -->>> เพิ่ม Columnสุดท้าย ใส่ชื่อไฟล์  -->>> แปลงวันที่เป็น United kingdom ->>> Coppy วันที่จากExcel ลง table Acc_stm_ofcexcel</label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    {{-- @if ($countc > 0) --}}
-                                        <a href="{{ url('upstm_ti_importtotal') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                    @if ($countc > 0)  
+                                        <a href="{{ url('upstm_ofcexcel_senddata') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
                                         </a>
-                                    {{-- @else --}}
+                                    @else
                                         <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="UP STM"></i>
                                             UP STM
                                         </button>
-                                    {{-- @endif --}}
+                                    @endif
                                     
                                     
                                 </div>
@@ -180,9 +180,9 @@
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
 
-                                    <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->repno }}</td> 
+                                    <tr height="20" >
+                                        <td class="text-font" style="text-align: center;" width="4%" >{{ $number }}</td>
+                                        <td class="text-center" width="10%" > {{ $item->repno }}</td> 
                                         @if ($item->months == '1')
                                         <td width="10%" class="text-center" >มกราคม </td>
                                     @elseif ($item->months == '2')
@@ -208,7 +208,7 @@
                                     @else
                                         <td width="10%" class="text-center">ธันวาคม</td>
                                     @endif
-                                        <td class="text-end" style="color:rgb(248, 12, 12)" width="7%"> {{ $item->filename }}</td>
+                                        <td class="p-2" style="color:rgb(248, 12, 12)" width="7%"> {{ $item->STMdoc }}</td>
                                     </tr>
                                 @endforeach
 
@@ -327,6 +327,43 @@
                         }
                     }
                 });
+            });
+
+            $('#Senddata').on('submit',function(e){
+                    e.preventDefault();
+
+                    var form = this;
+                      //   alert('OJJJJOL');
+                    $.ajax({
+                      url:$(form).attr('action'),
+                      method:$(form).attr('method'),
+                      data:new FormData(form),
+                      processData:false,
+                      dataType:'json',
+                      contentType:false,
+                      beforeSend:function(){
+                        $(form).find('span.error-text').text('');
+                      },
+                      success:function(data){
+                        if (data.status == 0 ) {
+
+                        } else {
+                            Swal.fire({
+                                title: 'บันทึกข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                window.location="{{url('upstm_ofcexcel')}}";
+                                }
+                            })
+                        }
+                      }
+                    });
             });
 
             //    $('#UpdateHN').click(function() {

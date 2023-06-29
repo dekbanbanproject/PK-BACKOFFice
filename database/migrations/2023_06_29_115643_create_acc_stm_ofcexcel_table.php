@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     { 
-        if (!Schema::hasTable('acc_stm_ofc'))
+        if (!Schema::hasTable('acc_stm_ofcexcel'))
         {
-            Schema::connection('mysql')->create('acc_stm_ofc', function (Blueprint $table) {
-                $table->bigIncrements('acc_stm_ofc_id'); 
+            Schema::connection('mysql')->create('acc_stm_ofcexcel', function (Blueprint $table) {
+                $table->bigIncrements('acc_stm_ofcexcel_id'); 
                 $table->string('repno',100)->nullable();//   
-                $table->string('no')->nullable();// 
+                $table->string('no')->nullable();//  
                 $table->string('hn')->nullable();//   
                 $table->string('an')->nullable();//  
                 $table->string('cid')->nullable();//
@@ -51,6 +51,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acc_stm_ofc');
+        Schema::dropIfExists('acc_stm_ofcexcel');
     }
 };

@@ -125,16 +125,7 @@
                                             <?php 
                                                 $y = $item->year; 
                                                 $ynew = $y + 543;
-                                                // $datas = DB::select('
-                                                //     SELECT count(distinct vn) as Cvn from acc_debtor  
-                                                //         WHERE account_code="1102050101.4011"             
-                                                //         AND stamp = "N" and income <>0 
-                                                //         and month(vstdate) = "'.$item->months.'" 
-                                                //         and year(vstdate) = "'.$item->year.'";
-                                                // ');
-                                                // foreach ($datas as $key => $value) {
-                                                //     $count_N = $value->Cvn;
-                                                // }
+                                               
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT vn) as Can
                                                         ,SUM(debit) as sumdebit                                                     

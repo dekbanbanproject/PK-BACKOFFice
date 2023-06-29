@@ -87,6 +87,7 @@
                                     {{-- <th class="text-center">ส่วนต่าง</th>  --}}
                                     {{-- <th class="text-center">Stm 202</th>  --}}
                                     <th class="text-center">ยอดชดเชย</th>  
+                                    <th class="text-center">STMdoc</th> 
                                    
                                 </tr>
                             </thead>
@@ -106,6 +107,7 @@
                                                     <td class="text-end" width="10%" style="color:rgb(243, 12, 12)"> 
                                                         {{ number_format($item->amount,2)}}  
                                                 </td>
+                                                <td class="p-2" >{{ $item->STMdoc }}</td>  
                                         </tr>
                                     @else
                                         <tr height="20" style="font-size: 14px;">
@@ -119,6 +121,7 @@
                                                     <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> 
                                                         {{ number_format($item->amount,2)}}  
                                                 </td>
+                                                <td class="p-2" >{{ $item->STMdoc }}</td>  
                                         </tr>
                                         
                                     @endif
@@ -217,7 +220,7 @@
                                             <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td> 
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>   --}}
                                             {{-- <td class="text-end" style="background-color: #ff9d9d"></td> dt-responsive nowrap--}}
-                                            {{-- <td colspan="2" class="text-end" style="background-color: #ff9d9d"></td> --}}
+                                            <td class="text-end" style="background-color: #ff9d9d"></td>
                                         </tr>  
                         </table>
                     </div>

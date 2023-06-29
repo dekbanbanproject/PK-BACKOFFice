@@ -84,8 +84,8 @@
             @csrf --}}
             <div class="row"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050101.4011</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.4011</p>
+                    <h4 class="card-title">Detail 1102050101.401</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.401</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -114,7 +114,7 @@
         {{-- </form>   --}}
         <div class="row "> 
             @foreach ($datashow as $item)   
-            <div class="col-xl-6 col-md-6">
+            <div class="col-xl-6 col-md-12">
                 <div class="main-card mb-3 card">   
                     @if ($startdate == '')
                         <div class="grid-menu-col">
@@ -153,9 +153,9 @@
                                                 // AND status = "N" 
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.amount) as amountpay
+                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.pricereq_all) as amountpay
                                                             FROM acc_1102050101_401 a 
-		                                                    LEFT JOIN acc_stm_ti_total au ON au.hn = a.hn AND au.vstdate = a.vstdate
+		                                                    LEFT JOIN acc_stm_ofc au ON au.hn = a.hn AND au.vstdate = a.vstdate
                                                             WHERE year(a.vstdate) = "'.$item->year.'"
                                                             AND month(a.vstdate) = "'.$item->months.'"
                                                             AND a.status = "Y"                                                                  
@@ -176,6 +176,15 @@
                                                         $total_yokma = $value5->debityokma;
                                                         $count_yokma = $value5->anyokma;
                                                     }  
+                                                    $sumyokma_all_ = DB::select('
+                                                        SELECT count(DISTINCT vn) as anyokma ,sum(debit_total) as debityokma
+                                                                FROM acc_1102050101_401
+                                                                WHERE status ="N"
+                                                    '); 
+                                                    foreach ($sumyokma_all_ as $key => $value6) {
+                                                        $total_yokma_all = $value6->debityokma;
+                                                        $count_yokma_all = $value6->anyokma;
+                                                    }  
                                                                                             
                                             ?>  
                                             <div class="row">
@@ -184,7 +193,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-3 text-end mt-2 me-4">
-                                                    <a href="{{url('account_pkti4011_pull')}}" target="_blank"> 
+                                                    <a href="{{url('account_401_pull')}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
                                                             <h4 class="text-end">{{$count_N}} Visit</h4> 
                                                         </div> 
@@ -192,31 +201,38 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <a href="" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ {{number_format($sum_N, 2)}}">
-                                                            <p class="text-muted mb-0"><span class="text-info fw-bold font-size-12 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i>{{ number_format($sum_N, 2) }}</span></p>
+                                                            <p class="text-muted mb-0"><span class="text-info fw-bold font-size-12 me-2"><i class="fa-solid fa-sack-dollar me-1 align-middle"></i><br>{{ number_format($sum_N, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <a href="{{url('account_pkti4011_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                <div class="col-md-2">
+                                                    <a href="{{url('account_401_detail/'.$item->months.'/'.$item->year)}}" target="_blank"> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}} / {{$count_Y}}Visit"> 
-                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span></p>
+                                                            <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i><br>{{ number_format($sum_Y, 2) }}</span></p>
+                                                        </div> 
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <a href="{{url('account_401_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM {{number_format($amountpay, 2) }} / {{$stm_count}}Visit">
+                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i><br>{{ number_format($amountpay, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkti4011_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM{{number_format($amountpay, 2) }} / {{$stm_count}}Visit">
-                                                            <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($amountpay, 2) }}</span></p>
+                                                    <a href="{{url('account_401_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไปเดือนนี้ {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit">
+                                                            <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i><br>{{number_format($total_yokma, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkti4011_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank"> 
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit">
-                                                            <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{number_format($total_yokma, 2) }}</span></p>
+                                                    <a href="{{url('account_401_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank"> 
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไปรวมทั้งหมด {{number_format($total_yokma_all, 2) }} / {{$count_yokma_all}}Visit">
+                                                            <p class="text-muted mb-0"><span class="text-primary fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i><br>{{number_format($total_yokma_all, 2) }}</span></p>
                                                         </div> 
                                                     </a>
                                                 </div>
