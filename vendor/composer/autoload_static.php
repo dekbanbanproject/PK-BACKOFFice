@@ -810,6 +810,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Acc_opitemrece' => __DIR__ . '/../..' . '/app/Models/Acc_opitemrece.php',
         'App\\Models\\Acc_opitemrece_stm' => __DIR__ . '/../..' . '/app/Models/Acc_opitemrece_stm.php',
         'App\\Models\\Acc_stm_ofc' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ofc.php',
+        'App\\Models\\Acc_stm_ofcexcel' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ofcexcel.php',
         'App\\Models\\Acc_stm_ti' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ti.php',
         'App\\Models\\Acc_stm_ti_excel' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ti_excel.php',
         'App\\Models\\Acc_stm_ti_total' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ti_total.php',

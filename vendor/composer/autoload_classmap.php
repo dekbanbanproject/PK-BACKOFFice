@@ -165,6 +165,7 @@ return array(
     'App\\Models\\Acc_opitemrece' => $baseDir . '/app/Models/Acc_opitemrece.php',
     'App\\Models\\Acc_opitemrece_stm' => $baseDir . '/app/Models/Acc_opitemrece_stm.php',
     'App\\Models\\Acc_stm_ofc' => $baseDir . '/app/Models/Acc_stm_ofc.php',
+    'App\\Models\\Acc_stm_ofcexcel' => $baseDir . '/app/Models/Acc_stm_ofcexcel.php',
     'App\\Models\\Acc_stm_ti' => $baseDir . '/app/Models/Acc_stm_ti.php',
     'App\\Models\\Acc_stm_ti_excel' => $baseDir . '/app/Models/Acc_stm_ti_excel.php',
     'App\\Models\\Acc_stm_ti_total' => $baseDir . '/app/Models/Acc_stm_ti_total.php',
