@@ -44,7 +44,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-user-tie font-size-30 mt-3" style="color: rgb(234, 157, 172)"></i>
+                                                                <i class="fa-solid fa-3x fa-user-tie font-size-30 mt-3" style="color: rgb(164, 7, 179)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -73,7 +73,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                 <i class="fa-solid fa-3x fa-hospital-user font-size-30 mt-3" style="color: rgb(237, 102, 176)"></i>
+                                                                 <i class="fa-solid fa-3x fa-hospital-user font-size-30 mt-3" style="color: rgb(170, 7, 97)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -102,7 +102,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-book-open-reader font-size-30 mt-3" style="color: rgb(220, 136, 227)"></i>
+                                                                <i class="fa-solid fa-3x fa-book-open-reader font-size-30 mt-3" style="color: rgb(128, 5, 139)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -131,65 +131,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-truck-medical font-size-30 mt-3" style="color: rgb(145, 234, 243)"></i>
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
-                                                <h4 class="text-start mb-2">ห้องประชุม</h4>
-                                            </div>
-                                            <div class="avatar-sm me-2">
-                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank">
-                                                    <span class="avatar-title bg-white text-primary rounded-3">
-                                                        <p style="font-size: 10px;">
-                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                 <i class="fa-solid fa-3x fa-house-laptop font-size-30 mt-3" style="color: rgb(118, 223, 176)"></i>
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
-                                                <h4 class="text-start mb-2">ซ่อมบำรุง</h4>
-                                            </div>
-                                            <div class="avatar-sm me-2">
-                                                <a href="{{ url('repaire_narmal') }}" target="_blank">
-                                                    <span class="avatar-title bg-white text-primary rounded-3">
-                                                        <p style="font-size: 10px;">
-                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-screwdriver-wrench font-size-30 mt-3" style="color: rgb(90, 160, 212)"></i>
+                                                                <i class="fa-solid fa-3x fa-truck-medical font-size-30 mt-3" style="color: rgb(21, 220, 238)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -205,7 +147,94 @@ $pos = strrpos($url, '/') + 1;
         </div>
 
         <div class="row">
-            <div class="col-xl-2 col-md-2">
+            {{-- <div class="col-xl-4 col-md-4">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
+                                                <h4 class="text-start mb-2">ยานพาหนะ</h4>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('car/car_narmal_calenda') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-truck-medical font-size-30 mt-3" style="color: rgb(21, 220, 238)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  --}}
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
+                                                <h4 class="text-start mb-2">ห้องประชุม</h4>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                 <i class="fa-solid fa-3x fa-house-laptop font-size-30 mt-3" style="color: rgb(13, 205, 119)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
+                                                <h4 class="text-start mb-2">ซ่อมบำรุง</h4>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('repaire_narmal') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-screwdriver-wrench font-size-30 mt-3" style="color: rgb(42, 157, 245)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -234,7 +263,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -250,123 +279,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                 <i class="fa-solid fa-3x fa-notes-medical font-size-30 mt-3" style="color: rgb(137, 134, 236)"></i>
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
-                                                <h4 class="text-start mb-2">บ้านพัก</h4>
-                                            </div>
-                                            <div class="avatar-sm me-2">
-                                                <a href="{{ url('housing/housing_dashboard') }}" target="_blank">
-                                                    <span class="avatar-title bg-white text-primary rounded-3">
-                                                        <p style="font-size: 10px;">
-                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-house-chimney-user font-size-30 mt-3" style="color: rgb(103, 153, 192)"></i>
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
-                                                <h4 class="text-start mb-2">แผนงาน</h4>
-                                            </div>
-                                            <div class="avatar-sm me-2">
-                                                <a href="{{ url('plan') }}" target="_blank">
-                                                    <span class="avatar-title bg-white text-primary rounded-3">
-                                                        <p style="font-size: 10px;">
-                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-clipboard font-size-30 mt-3" style="color: rgb(240, 136, 136)"></i>
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
-                                                <h4 class="text-start mb-2">ทรัพย์สิน</h4>
-                                            </div>
-                                            <div class="avatar-sm me-2">
-                                                <a href="{{ url('article/article_index') }}" target="_blank">
-                                                    <span class="avatar-title bg-white text-primary rounded-3">
-                                                        <p style="font-size: 10px;">
-                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-building-shield font-size-30 mt-3" style="color: rgb(160, 173, 166)"></i>
-                                                            </button>
-                                                        </p>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
-                                                <h4 class="text-start mb-2">พัสดุ</h4>
-                                            </div>
-                                            <div class="avatar-sm me-2">
-                                                <a href="{{ url('supplies/supplies_index') }}" target="_blank">
-                                                    <span class="avatar-title bg-white text-primary rounded-3">
-                                                        <p style="font-size: 10px;">
-                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                 <i class="fa-solid fa-3x fa-paste font-size-30 mt-3" style="color: rgb(103, 205, 161)"></i>
+                                                                 <i class="fa-solid fa-3x fa-microscope font-size-30 mt-3" style="color: rgb(248, 166, 44)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -382,7 +295,126 @@ $pos = strrpos($url, '/') + 1;
         </div>
 
         <div class="row">
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
+                                                <h4 class="text-start mb-2">บ้านพัก</h4>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('housing/housing_dashboard') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-house-chimney-user font-size-30 mt-3" style="color: rgb(8, 71, 120)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
+                                                <h4 class="text-start mb-2">แผนงาน</h4>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('plan') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-clipboard font-size-30 mt-3" style="color: rgb(198, 31, 31)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
+                                                <h4 class="text-start mb-2">ทรัพย์สิน</h4>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('article/article_index') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                <i class="fa-solid fa-3x fa-building-shield font-size-30 mt-3" style="color: rgb(126, 130, 128)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-14 mb-2">PK-BACKOFFice</p>
+                                                <h4 class="text-start mb-2">พัสดุ</h4>
+                                            </div>
+                                            <div class="avatar-sm me-2">
+                                                <a href="{{ url('supplies/supplies_index') }}" target="_blank">
+                                                    <span class="avatar-title bg-white text-primary rounded-3">
+                                                        <p style="font-size: 10px;">
+                                                            <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                 <i class="fa-solid fa-3x fa-paste font-size-30 mt-3" style="color: rgb(6, 159, 93)"></i>
+                                                            </button>
+                                                        </p>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -398,7 +430,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-shop-lock font-size-30 mt-3" style="color: rgb(74, 164, 178)"></i>
+                                                                <i class="fa-solid fa-3x fa-shop-lock font-size-30 mt-3" style="color: rgb(5, 125, 144)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -411,7 +443,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -427,7 +459,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-prescription font-size-30 mt-3" style="color: rgb(63, 128, 128)"></i>
+                                                                <i class="fa-solid fa-3x fa-prescription font-size-30 mt-3" style="color: rgb(4, 112, 112)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -440,7 +472,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -456,7 +488,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-person-booth font-size-30 mt-3" style="color: rgb(187, 115, 115)"></i>
+                                                                <i class="fa-solid fa-3x fa-person-booth font-size-30 mt-3" style="color: rgb(155, 50, 50)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -469,7 +501,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -485,7 +517,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                 <i class="fa-solid fa-3x fa-sack-dollar font-size-30 mt-3" style="color: rgb(235, 111, 158)"></i>
+                                                                 <i class="fa-solid fa-3x fa-sack-dollar font-size-30 mt-3" style="color: rgb(221, 8, 89)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -498,7 +530,10 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+        </div>
+
+        <div class="row">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -514,7 +549,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-money-check-dollar font-size-30 mt-3" style="color: rgb(212, 65, 129)"></i>
+                                                                <i class="fa-solid fa-3x fa-money-check-dollar font-size-30 mt-3" style="color: rgb(182, 6, 82)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -527,7 +562,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -556,10 +591,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -591,7 +623,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -620,7 +652,10 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+        </div>
+
+        <div class="row">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -650,7 +685,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -679,7 +714,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
