@@ -277,8 +277,7 @@
                             <div class="col"></div>
                             <div class="col-md-8 text-center">
                                 {{-- <img src="{{ asset('images/sto.png') }}" class="bi me-2" width="120" height="150" alt=""> --}}
-                                <img src="{{ asset('images/logo150.png') }}" class="bi mb-3" width="150"
-                                    height="150" alt="">
+                                <img src="{{ asset('images/logo150.png') }}" class="bi mb-3" width="150" height="150" alt="">
                             </div>
                             <div class="col"></div>
                         </div>

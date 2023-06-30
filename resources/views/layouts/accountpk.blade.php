@@ -55,8 +55,7 @@
 <style>
     body{
         background:
-            url(/pkbackoffice/public/images/bg7.png);
-            /* url(/pkbackoffice/public/images/bg5.jpg); */
+            /* url(/pkbackoffice/public/images/bg7.png);  */
             /* -webkit-background-size: cover; */
         background-repeat: no-repeat;
 		background-attachment: fixed;
@@ -119,8 +118,8 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg Bgheader">
-                {{-- <div class="navbar-header" style="background-color: rgb(141, 135, 136)"> --}}
+            {{-- <div class="navbar-header shadow-lg Bgheader"> --}}
+                <div class="navbar-header shadow-lg" style="background-color: rgb(255, 255, 255)">
                 {{-- <div class="d-flex">
                     <div class="navbar-brand-box">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
@@ -191,7 +190,7 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(175, 171, 171)"></i>
                         </button>
                     </div>
 
@@ -205,10 +204,10 @@
                                 <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
                                     width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
                             @endif
-                            <span class="d-none d-xl-inline-block ms-1">
+                            <span class="d-none d-xl-inline-block ms-1" style="color: rgb(175, 171, 171)">
                                 {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                             </span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block" style="color: rgb(175, 171, 171)"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
@@ -307,6 +306,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('account_401_dash') }}">ผัง-401</a></li>
+                                <li><a href="{{ url('account_402_dash') }}">ผัง-402</a></li>
                             </ul>
                         </li>
                         <li>

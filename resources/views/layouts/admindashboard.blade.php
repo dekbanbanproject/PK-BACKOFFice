@@ -52,11 +52,12 @@
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
 <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<link href="{{ asset('css/loginheader.css') }}" rel="stylesheet" />
 </head>
  <style>
     body{   
         background:
-            url(/pkbackoffice/public/images/bg2.jpg);
+            /* url(/pkbackoffice/public/images/bg2.jpg); */
             /* -webkit-background-size: cover; */
         background-repeat: no-repeat;
 		background-attachment: fixed;

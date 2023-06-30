@@ -144,7 +144,7 @@
                                                             from acc_1102050101_4022
                                                             WHERE month(dchdate) = "'.$item->months.'"
                                                             and year(dchdate) = "'.$item->year.'"
-
+                                                            AND status = "N"
                                                 ');
                                                 foreach ($datasum_ as $key => $value2) {
                                                     $sum_Y = $value2->debit_total;
@@ -171,7 +171,7 @@
                                                     // สีส้ม ยกยอดไป
                                                     $sumyokma_ = DB::select('
 
-                                                        SELECT count(DISTINCT  U1.vn) as anyokma,SUM(U1.debit_total) as Kongkang
+                                                        SELECT count(DISTINCT  U1.vn) as anyokma,SUM(U1.debit_total) as debityokma
                                                         FROM acc_1102050101_4022 U1
                                                         LEFT JOIN acc_stm_ofc au ON au.cid = U1.cid AND au.vstdate = U1.vstdate
                                                         WHERE year(U1.dchdate) = "'.$item->year.'"
@@ -179,13 +179,18 @@
                                                         AND U1.status ="N"
                                                     ');
                                                     foreach ($sumyokma_ as $key => $value5) {
-                                                        $total_yokma = $value5->Kongkang;
+                                                        $total_yokma = $value5->debityokma;
                                                         $count_yokma = $value5->anyokma;
                                                     }
-                                                    // $total_yokma = $total_yokma_;
-                                                    // $total_yokma = $total_yokma_ +($sum_Y - $amountpay);
-                                                    // $total_yokma = $total_yokma_;
-                                                    // $count_yokma = $count_yokma_;
+                                                    $sumyokma_all_ = DB::select('
+                                                        SELECT count(DISTINCT vn) as anyokma ,sum(debit_total) as debityokma
+                                                                FROM acc_1102050101_4022
+                                                                WHERE status ="N"
+                                                    '); 
+                                                    foreach ($sumyokma_all_ as $key => $value6) {
+                                                        $total_yokma_all = $value6->debityokma;
+                                                        $count_yokma_all = $value6->anyokma;
+                                                    }  
 
                                             ?>
                                             <div class="row">
