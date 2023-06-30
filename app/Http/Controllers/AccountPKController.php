@@ -3462,7 +3462,7 @@ class AccountPKController extends Controller
                      ,sum(a.income) as income
                      ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
                      FROM acc_debtor a
-                     left outer join leave_month l on l.MONTH_ID = month(a.  )
+                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
                      and account_code="1102050101.402"
                      and income <> 0
