@@ -3663,11 +3663,11 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
 
          $data = DB::select('
-         SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
-             from acc_1102050101_401 U1
-             LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-             WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-             GROUP BY U1.vn
+         SELECT U2.repno,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
+             from acc_1102050101_402 U1
+             LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+             WHERE month(U1.dchdate) = "'.$months.'" and year(U1.dchdate) = "'.$year.'"
+             GROUP BY U1.an
          ');
 
          return view('account_pk.account_402_detail', $data, [
@@ -3687,13 +3687,13 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
 
          $datashow = DB::select('
-         SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
-             from acc_1102050101_401 U1
-             LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-             WHERE month(U1.vstdate) = "'.$months.'"
-             and year(U1.vstdate) = "'.$year.'"
+         SELECT U2.repno,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
+             from acc_1102050101_402 U1
+             LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+             WHERE month(U1.dchdate) = "'.$months.'"
+             and year(U1.dchdate) = "'.$year.'"
              AND U2.pricereq_all IS NOT NULL
-             GROUP BY U1.vn
+             GROUP BY U1.an
          ');
          return view('account_pk.account_402_stm', $data, [
              'startdate'         =>     $startdate,
@@ -3713,10 +3713,10 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
 
          $datashow = DB::connection('mysql')->select('
-                 SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
-                 from acc_1102050101_401 U1
-                 LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                 WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+                 SELECT U2.repno,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
+                 from acc_1102050101_402 U1
+                 LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+                 WHERE month(U1.dchdate) = "'.$months.'" and year(U1.dchdate) = "'.$year.'"
                  AND U1.status ="N"
              ');
 
@@ -3739,14 +3739,14 @@ class AccountPKController extends Controller
          $data['users'] = User::get();
          $mototal = $months + 1;
          $datashow = DB::connection('mysql')->select('
-                 SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
-                 from acc_1102050101_401 U1
+                 SELECT U2.repno,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
+                 from acc_1102050101_402 U1
                  LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
                  WHERE U1.status ="N"
-                 AND month(U1.vstdate) < "'.$mototal.'"
-                 and year(U1.vstdate) = "'.$year.'"
+                 AND month(U1.dchdate) < "'.$mototal.'"
+                 and year(U1.dchdate) = "'.$year.'"
                  AND U2.pricereq_all IS NULL
-                 GROUP BY U1.vn
+                 GROUP BY U1.an
              ');
          return view('account_pk.account_402_stmnull_all', $data, [
              'startdate'         =>     $startdate,
@@ -5589,7 +5589,7 @@ class AccountPKController extends Controller
                 ]);
     }
 
-    
+
 
     public function acc_setting(Request $request)
     {
