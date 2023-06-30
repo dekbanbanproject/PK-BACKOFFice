@@ -4838,8 +4838,8 @@ class AccountPKController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT *,SUM(pricereq_all) as Sumprice
             FROM acc_stm_ofcexcel
-            GROUP BY cid,vstdate
         ');
+        // GROUP BY cid,vstdate
         foreach ($data_ as $key => $value) {
                 Acc_stm_ofc::create([
                     'repno'             => $value->repno,
@@ -4866,7 +4866,7 @@ class AccountPKController extends Controller
                     'HDflag'            => 'OFC'
                 ]);
 
-                acc_1102050101_401::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                acc_1102050101_4022::where('cid',$value->cid)->where('vstdate',$value->vstdate)
                 ->update([
                     'status'   => 'Y'
                 ]);
