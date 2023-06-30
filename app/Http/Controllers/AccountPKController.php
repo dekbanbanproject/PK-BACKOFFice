@@ -3348,7 +3348,7 @@ class AccountPKController extends Controller
         SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
             from acc_1102050101_401 U1
             LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-            WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'" 
+            WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
             GROUP BY U1.vn
         ');
 
@@ -3372,7 +3372,7 @@ class AccountPKController extends Controller
         SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
             from acc_1102050101_401 U1
             LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-            WHERE month(U1.vstdate) = "'.$months.'" 
+            WHERE month(U1.vstdate) = "'.$months.'"
             and year(U1.vstdate) = "'.$year.'"
             AND U2.pricereq_all IS NOT NULL
             GROUP BY U1.vn
@@ -3452,7 +3452,7 @@ class AccountPKController extends Controller
          $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
          $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
          $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
- 
+
          if ($startdate == '') {
              $datashow = DB::select('
                  SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -3468,7 +3468,7 @@ class AccountPKController extends Controller
                      and income <> 0
                      group by month(a.dchdate) order by month(a.dchdate) desc limit 3;
              ');
- 
+
          } else {
              $datashow = DB::select('
                  SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -3485,7 +3485,7 @@ class AccountPKController extends Controller
                      group by month(a.dchdate) order by month(a.dchdate) desc;
              ');
          }
- 
+
          return view('account_pk.account_402_dash',[
              'startdate'        => $startdate,
              'enddate'          => $enddate,
@@ -3512,13 +3512,13 @@ class AccountPKController extends Controller
                  AND a.stamp = "N"
                  group by a.an
                  order by a.dchdate asc;
- 
+
              ');
              // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
          } else {
              // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
          }
- 
+
          return view('account_pk.account_402_pull',[
              'startdate'     =>     $startdate,
              'enddate'       =>     $enddate,
@@ -3539,9 +3539,9 @@ class AccountPKController extends Controller
                 ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
                 ,a.dchdate
                 ,ptt.pttype_eclaim_id
-                ,a.pttype,ptt.name as namelist 
+                ,a.pttype,ptt.name as namelist
                 ,e.code as acc_code
-                ,e.ar_ipd as account_code 
+                ,e.ar_ipd as account_code
                 ,e.name as account_name
                 ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                 ,a.rcpno_list as rcpno
@@ -3561,10 +3561,10 @@ class AccountPKController extends Controller
                 LEFT JOIN opitemrece op ON op.an = i.an
                 LEFT JOIN drugitems d on d.icode=op.icode
              WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-             AND ptt.pttype IN("O1","O2","O3","O4","O5") 
+             AND ptt.pttype IN("O1","O2","O3","O4","O5")
 			GROUP BY i.an
          ');
- 
+
          foreach ($acc_debtor as $key => $value) {
                      $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
                      if ($check == 0) {
@@ -3596,11 +3596,11 @@ class AccountPKController extends Controller
                              'acc_debtor_userid'  => Auth::user()->id
                          ]);
                      }
- 
+
          }
- 
+
              return response()->json([
- 
+
                  'status'    => '200'
              ]);
      }
@@ -3648,7 +3648,7 @@ class AccountPKController extends Controller
                              'acc_debtor_userid' => $iduser
                      ]);
                  }
- 
+
          }
          return response()->json([
              'status'    => '200'
@@ -3661,15 +3661,15 @@ class AccountPKController extends Controller
          $enddate = $request->enddate;
          // dd($id);
          $data['users'] = User::get();
- 
+
          $data = DB::select('
          SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
              from acc_1102050101_401 U1
              LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-             WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'" 
+             WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
              GROUP BY U1.vn
          ');
- 
+
          return view('account_pk.account_402_detail', $data, [
              'startdate'     =>     $startdate,
              'enddate'       =>     $enddate,
@@ -3685,12 +3685,12 @@ class AccountPKController extends Controller
          $enddate = $request->enddate;
          // dd($id);
          $data['users'] = User::get();
- 
+
          $datashow = DB::select('
          SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
              from acc_1102050101_401 U1
              LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-             WHERE month(U1.vstdate) = "'.$months.'" 
+             WHERE month(U1.vstdate) = "'.$months.'"
              and year(U1.vstdate) = "'.$year.'"
              AND U2.pricereq_all IS NOT NULL
              GROUP BY U1.vn
@@ -3701,7 +3701,7 @@ class AccountPKController extends Controller
              'datashow'          =>     $datashow,
              'months'            =>     $months,
              'year'              =>     $year,
- 
+
          ]);
      }
      public function account_402_stmnull(Request $request,$months,$year)
@@ -3711,7 +3711,7 @@ class AccountPKController extends Controller
          $enddate = $request->enddate;
          // dd($id);
          $data['users'] = User::get();
- 
+
          $datashow = DB::connection('mysql')->select('
                  SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
                  from acc_1102050101_401 U1
@@ -3719,8 +3719,8 @@ class AccountPKController extends Controller
                  WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
                  AND U1.status ="N"
              ');
- 
- 
+
+
          return view('account_pk.account_402_stmnull', $data, [
              'startdate'         =>     $startdate,
              'enddate'           =>     $enddate,
@@ -3729,7 +3729,7 @@ class AccountPKController extends Controller
              'year'              =>     $year,
          ]);
      }
- 
+
      public function account_402_stmnull_all(Request $request,$months,$year)
      {
          $datenow = date('Y-m-d');
@@ -5161,7 +5161,7 @@ class AccountPKController extends Controller
     public function upstm_ofcexcel_senddata(Request $request)
     {
         $data_ = DB::connection('mysql')->select('
-            SELECT * 
+            SELECT *
             FROM acc_stm_ofcexcel
         ');
         // GROUP BY cid,vstdate
@@ -5589,123 +5589,7 @@ class AccountPKController extends Controller
                 ]);
     }
 
-    // public function upstm_tixml_sssimport(Request $request)
-    // {
-    //         $tar_file_ = $request->file;
-    //         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-    //         $filename = pathinfo($file_, PATHINFO_FILENAME);
-    //         $extension = pathinfo($file_, PATHINFO_EXTENSION);
-    //         $xmlString = file_get_contents(($tar_file_));
-    //         $xmlObject = simplexml_load_string($xmlString);
-    //         $json = json_encode($xmlObject);
-    //         $result = json_decode($json, true);
-
-    //         // dd($result);
-    //         @$stmAccountID = $result['stmAccountID'];
-    //         @$hcode = $result['hcode'];
-    //         @$hname = $result['hname'];
-    //         @$AccPeriod = $result['AccPeriod'];
-    //         @$STMdoc = $result['STMdoc'];
-    //         @$dateStart = $result['dateStart'];
-    //         @$dateEnd = $result['dateEnd'];
-    //         @$dateData = $result['dateData'];
-    //         @$dateIssue = $result['dateIssue'];
-    //         @$acount = $result['acount'];
-    //         @$amount = $result['amount'];
-    //         @$thamount = $result['thamount'];
-    //         @$STMdat = $result['STMdat'];
-    //         @$HDBills = $result['HDBills'];
-    //         $checkchead = Acc_stm_ti_totalhead::where('stmAccountID', @$stmAccountID)->where('AccPeriod', @$AccPeriod)->count();
-    //         if ($checkchead > 0) {
-    //         } else {
-    //             Acc_stm_ti_totalhead::insert([
-    //                 'stmAccountID'    => @$stmAccountID,
-    //                 'hcode'           => @$hcode,
-    //                 'hname'           => @$hname,
-    //                 'AccPeriod'       => @$AccPeriod,
-    //                 'STMdoc'          => @$STMdoc,
-    //                 'dateStart'       => @$dateStart,
-    //                 'dateEnd'         => @$dateEnd,
-    //                 'datedue'         => @$dateData,
-    //                 'dateIssue'       => @$dateIssue,
-    //                 'acount'          => @$acount,
-    //                 'amount'          => @$amount,
-    //                 'thamount'        => @$thamount
-    //             ]);
-    //         }
-    //         $bills_       = @$HDBills;
-    //             $tbill_ = $bills_['HDBill'];
-    //             foreach ($tbill_ as $key => $value) {
-    //                 $tbill        = $value['TBill'];
-    //                 $hn           = $value['hn'];
-    //                 $fullname     = $value['name'];
-    //                 $cid          = $value['pid'];
-    //                 $quota        = $value['quota'];
-    //                 $hdcharge     = $value['hdcharge'];
-    //                 $payable      = $value['payable'];
-    //                 $EPO_2          = $value['EPO'];
-
-    //                 if (isset($value['EPO']['epoPay'])) {
-    //                     $EPO_tt = $value['EPO']['epoPay'];
-    //                 } else {
-    //                     $EPO_tt = '';
-    //                 }
-
-    //                 foreach ($tbill as $key => $value2) {
-    //                         $hcode = $value2['hreg'];
-    //                         $station = $value2['station'];
-    //                         $invno = $value2['invno'];
-    //                         $amount = $value2['amount'];
-    //                         $paid = $value2['paid'];
-    //                         $rid = $value2['rid'];
-    //                         $hdrate = $value2['hdrate'];
-    //                         $hdcharge = $value2['hdcharge'];
-    //                         $dttranDate = explode("T",$value2['dttran']);
-    //                         $dttdate = $dttranDate[0];
-    //                         $dtttime = $dttranDate[1];
-
-    //                         $checkc = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
-    //                         if ( $checkc > 0) {
-    //                             Acc_stm_ti_total::where('hn',$hn)->where('vstdate',$dttdate)
-    //                                 ->update([
-    //                                     'invno'             => $invno,
-    //                                     'hn'                => $hn,
-    //                                     'STMdoc'            => @$STMdoc,
-    //                                     'vstdate'           => $dttdate,
-    //                                     'paid'              => $paid,
-    //                                     'rid'               => $rid,
-    //                                     'cid'               => $cid,
-    //                                     'fullname'          => $fullname,
-    //                                     'EPOpay'            => $EPO_tt,
-    //                                     'hdrate'            => $hdrate,
-    //                                     'hdcharge'          => $hdcharge,
-    //                                     'amount'            => $amount,
-    //                                     // 'Total_amount'      => $payable
-    //                                 ]);
-    //                         } else {
-    //                             // if ($amount != '') {
-    //                             Acc_stm_ti_total::insert([
-    //                                 'invno'             => $invno,
-    //                                 'hn'                => $hn,
-    //                                 'STMdoc'            => @$STMdoc,
-    //                                 'vstdate'           => $dttdate,
-    //                                 'paid'              => $paid,
-    //                                 'rid'               => $rid,
-    //                                 'cid'               => $cid,
-    //                                 'fullname'          => $fullname,
-    //                                 'EPOpay'            => $EPO_tt,
-    //                                 'hdrate'            => $hdrate,
-    //                                 'hdcharge'          => $hdcharge,
-    //                                 'amount'            => $amount,
-    //                                 // 'Total_amount'      => $payable
-    //                             ]);
-    //                         }
-    //                 }
-    //             }
-
-    //             return redirect()->back();
-
-    // }
+    
 
     public function acc_setting(Request $request)
     {
