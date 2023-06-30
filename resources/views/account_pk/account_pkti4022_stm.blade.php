@@ -98,10 +98,10 @@
                                         <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
                                             <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                             <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->repno }}</td>
-                                                    <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vn }}</td>
-                                                    <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->an }}</td>
-                                                    <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>
-                                                    <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->cid }}</td>
+                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vn }}</td>
+                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->an }}</td>
+                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>
+                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->cid }}</td>
                                                     <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->ptname }}</td>
                                                     <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vstdate }}</td>
                                                     <td class="text-end" style="color:rgb(248, 12, 12)" width="7%">{{ number_format($item->debit_total,2)}}</td>
@@ -117,12 +117,12 @@
                                             <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->an }}</td>
                                             <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>
                                             <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->cid }}</td>
-                                            <td class="p-2" >{{ $item->ptname }}</td>
-                                            <td class="text-center" width="10%">{{ $item->vstdate }}</td>
-                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">
-                                                {{ number_format($item->pricereq_all,2)}}
-                                        </td>
+                                                    <td class="p-2" >{{ $item->ptname }}</td>
+                                                    <td class="text-center" width="10%">{{ $item->vstdate }}</td>
+                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
+                                                    <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">
+                                                        {{ number_format($item->pricereq_all,2)}}
+                                                </td>
                                         </tr>
 
                                     @endif

@@ -3661,13 +3661,37 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
+        SELECT U2.repno,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
             from acc_1102050101_4022 U1
             LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
             WHERE month(U1.dchdate) = "'.$months.'" and year(U1.dchdate) = "'.$year.'";
         ');
         // LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate
         return view('account_pk.account_pkti4022_detail', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data,
+            'months'        =>     $months,
+            'year'          =>     $year
+        ]);
+    }
+    public function account_pkti4022_stm(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $data = DB::select('
+        SELECT U2.repno,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
+            from acc_1102050101_4022 U1
+            LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+            WHERE month(U1.dchdate) = "'.$months.'" and year(U1.dchdate) = "'.$year.'"
+            AND U1.status = "Y";
+        ');
+        // LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate
+        return view('account_pk.account_pkti4022_stm', $data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'data'          =>     $data,
