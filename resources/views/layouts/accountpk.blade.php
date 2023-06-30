@@ -13,8 +13,8 @@
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-   
+
+
 
     {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -48,12 +48,12 @@
    <!-- select2 -->
     <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
+
 <!-- Plugins css -->
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
-    body{   
+    body{
         background:
             url(/pkbackoffice/public/images/bg7.png);
             /* url(/pkbackoffice/public/images/bg5.jpg); */
@@ -66,7 +66,7 @@
         /* align-items: center; */
         /* justify-content: center; */
         /* width: 100vw;   ให้เต็มพอดี */
-        /* height: 100vh; ให้เต็มพอดี  */ 
+        /* height: 100vh; ให้เต็มพอดี  */
         }
     .Bgsidebar {
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
@@ -100,7 +100,7 @@
         color: #ccbcd1;
     }
 </style>
- 
+
 
 <body data-topbar="dark">
 
@@ -110,7 +110,7 @@
     {{-- <div id="preloader">
         <div id="status">
             <div class="spinner">
-                
+
             </div>
         </div>
     </div> --}}
@@ -121,7 +121,7 @@
         <header id="page-topbar">
             <div class="navbar-header shadow-lg Bgheader">
                 {{-- <div class="navbar-header" style="background-color: rgb(141, 135, 136)"> --}}
-                {{-- <div class="d-flex"> 
+                {{-- <div class="d-flex">
                     <div class="navbar-brand-box">
                         <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
                     </div>
@@ -158,11 +158,11 @@
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
+                            <span class="logo-sm">
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(3, 3, 3)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(3, 3, 3)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
@@ -170,20 +170,20 @@
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color:rgb(7, 7, 7)"></i>
                     </button>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
+                    <?php
+                        $org = DB::connection('mysql')->select(                                                            '
+                                select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                        );
                     ?>
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(7, 7, 7)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
-                            
+
                         </div>
-                    </form>                                         
+                    </form>
                 </div>
 
 
@@ -241,12 +241,12 @@
         <div class="vertical-menu Bgsidebar">
 
             <div data-simplebar class="h-100">
- 
+
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title">Menu</li>                       
+                        <li class="menu-title">Menu</li>
 
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -254,8 +254,8 @@
                                 <span>ดึงข้อมูล</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pk') }}">ดึงลูกหนี้จาก Hos-opd</a></li> 
-                                <li><a href="{{ url('account_pk_ipd') }}">ดึงลูกหนี้จาก Hos-ipd</a></li>  
+                                <li><a href="{{ url('account_pk') }}">ดึงลูกหนี้จาก Hos-opd</a></li>
+                                <li><a href="{{ url('account_pk_ipd') }}">ดึงลูกหนี้จาก Hos-ipd</a></li>
                             </ul>
                         </li>  --}}
                         <li>
@@ -265,18 +265,18 @@
                                 <span>UCS</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkucs202_dash') }}">ผัง-202</a></li> 
-                                <li><a href="{{ url('account_pkucs217_dash') }}">ผัง-217</a></li> 
+                                <li><a href="{{ url('account_pkucs202_dash') }}">ผัง-202</a></li>
+                                <li><a href="{{ url('account_pkucs217_dash') }}">ผัง-217</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-info"></i>
                                 <span>OFC</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkofc401_dash') }}">ผัง-401</a></li> 
-                                <li><a href="{{ url('account_pkofc402_dash') }}">ผัง-402</a></li> 
+                                <li><a href="{{ url('account_pkofc401_dash') }}">ผัง-401</a></li>
+                                <li><a href="{{ url('account_pkofc402_dash') }}">ผัง-402</a></li>
                             </ul>
                         </li>  --}}
                         {{-- <li>
@@ -285,7 +285,7 @@
                                 <span>SSS</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pksss') }}">ตั้งลูกหนี้</a></li> 
+                                <li><a href="{{ url('account_pksss') }}">ตั้งลูกหนี้</a></li>
                             </ul>
                         </li>  --}}
                         <li>
@@ -295,10 +295,10 @@
                                 <span>ประกันสังคม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_304_dash') }}">ผัง-304</a></li> 
-                                <li><a href="{{ url('account_308_dash') }}">ผัง-308</a></li> 
+                                <li><a href="{{ url('account_304_dash') }}">ผัง-304</a></li>
+                                <li><a href="{{ url('account_308_dash') }}">ผัง-308</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-danger"></i> --}}
@@ -306,18 +306,18 @@
                                 <span>OFC</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_401_dash') }}">ผัง-401</a></li>  
+                                <li><a href="{{ url('account_401_dash') }}">ผัง-401</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-brands fa-btc text-danger"></i>
                                 <span>LGO</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pklgo801_dash') }}">ผัง-801</a></li>  
+                                <li><a href="{{ url('account_pklgo801_dash') }}">ผัง-801</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-brands fa-btc text-primary"></i>
@@ -325,13 +325,13 @@
                                 <span>ไต</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkti4011_dash') }}">OFC-4011</a></li> 
-                                <li><a href="{{ url('account_pkti4022_dash') }}">OFC-4022</a></li> 
-                                <li><a href="{{ url('account_pkti8011_dash') }}">LGO-8011</a></li> 
-                                <li><a href="{{ url('account_pkti2166_dash') }}">UCS-2166</a></li> 
-                                <li><a href="{{ url('account_pkti3099_dash') }}">SSS-3099</a></li> 
+                                <li><a href="{{ url('account_pkti4011_dash') }}">OFC-4011</a></li>
+                                <li><a href="{{ url('account_pkti4022_dash') }}">OFC-4022</a></li>
+                                <li><a href="{{ url('account_pkti8011_dash') }}">LGO-8011</a></li>
+                                <li><a href="{{ url('account_pkti2166_dash') }}">UCS-2166</a></li>
+                                <li><a href="{{ url('account_pkti3099_dash') }}">SSS-3099</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-warning"></i> --}}
@@ -339,49 +339,49 @@
                                 <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}                                
-                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel)</a></li> 
-                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)</a></li> 
-                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml)</a></li> 
-                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li> 
+                                {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
+                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel)</a></li>
+                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel-ไต)</a></li>
+                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml)</a></li>
+                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-line text-info"></i>
                                 <span>STM report</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li> 
-                                <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li> 
+                                <li><a href="{{ url('acc_stm') }}">เทียบ stm</a></li>
+                                <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-sliders text-danger"></i>
                                 <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('acc_setting') }}">Mapping Pttype</a></li>  
+                                <li><a href="{{ url('acc_setting') }}">Mapping Pttype</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-line text-danger"></i>
                                 <span>รายงาน</span>
-                            </a> 
+                            </a>
                         </li>  --}}
                         {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-gears text-danger"></i>
                                 <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('p4p_work_position') }}">ตำแหน่งสายงาน</a></li> 
-                                <li><a href="{{ url('p4p_workgroupset') }}">หมวดภาระงาน</a></li>  
+                                <li><a href="{{ url('p4p_work_position') }}">ตำแหน่งสายงาน</a></li>
+                                <li><a href="{{ url('p4p_workgroupset') }}">หมวดภาระงาน</a></li>
                             </ul>
                         </li> --}}
-                       
+
 
 
                     </ul>
@@ -498,13 +498,13 @@
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
     @yield('footer')
 
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-           
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -514,10 +514,10 @@
         });
 
         $(document).ready(function() {
-            
+
         });
 
-       
+
     </script>
 
 </body>
