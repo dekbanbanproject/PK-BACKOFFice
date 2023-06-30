@@ -160,6 +160,10 @@
                                                             AND month(a.dchdate) = "'.$item->months.'"
                                                             AND a.status = "Y"
                                                     ');
+                                                    // SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
+                                                    // from acc_1102050101_4022 U1
+                                                    // LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+                                                    // WHERE month(U1.dchdate) = "05" and year(U1.dchdate) = "2023"
                                                     foreach ($sumapprove_ as $key => $value3) {
                                                         $amountpay = $value3->amountpay;
                                                         $stm_count = $value3->Apvit;
@@ -190,7 +194,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-3 text-end mt-2 me-4">
-                                                    <a href="{{url('account_pkti4011_pull')}}" target="_blank">
+                                                    <a href="{{url('account_pkti4022_pull')}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                             <h4 class="text-end">{{$count_N}} Visit</h4>
                                                         </div>
@@ -206,21 +210,21 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkti4011_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_pkti4022_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{number_format($sum_Y, 2)}} / {{$count_Y}}Visit">
                                                             <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="fa-solid fa-dollar-sign me-1 align-middle"></i>{{ number_format($sum_Y, 2) }}</span></p>
                                                         </div>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkti4011_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_pkti4022_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="STM{{number_format($amountpay, 2) }} / {{$stm_count}}Visit">
                                                             <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($amountpay, 2) }}</span></p>
                                                         </div>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <a href="{{url('account_pkti4011_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_pkti4022_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดยกไป {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit">
                                                             <p class="text-muted mb-0"><span class="text-warning fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{number_format($total_yokma, 2) }}</span></p>
                                                         </div>

@@ -103,7 +103,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-people-line font-size-25 mt-3" style="color: rgb(131, 105, 192)"></i>
+                                                                <i class="fa-solid fa-3x fa-people-line font-size-25 mt-3" style="color: rgb(171, 149, 223)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -425,7 +425,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-screwdriver-wrench font-size-25 mt-3" style="color: rgb(90, 160, 212)"></i>
+                                                                <i class="fa-solid fa-3x fa-screwdriver-wrench font-size-25 mt-3" style="color: rgb(140, 189, 226)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
@@ -459,7 +459,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
                                                                 <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(107, 189, 202)"></i>
-                                                            </button>  
+                                                            </button>
                                                         </p>
                                                     </span>
                                                 </a>
@@ -663,7 +663,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-25 mt-3" style="color: rgb(156, 149, 152)"></i>
+                                                                <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-25 mt-3" style="color: rgb(187, 181, 184)"></i>
                                                             </button>
                                                         </p>
                                                     </span>
