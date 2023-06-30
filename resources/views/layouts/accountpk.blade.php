@@ -315,7 +315,10 @@
                                 <span>LGO</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pklgo801_dash') }}">ผัง-801</a></li>
+                                <li><a href="{{ url('account_801_dash') }}">ผัง-801</a></li>
+                                <li><a href="{{ url('account_802_dash') }}">ผัง-802</a></li>
+                                <li><a href="{{ url('account_803_dash') }}">ผัง-803</a></li>
+                                <li><a href="{{ url('account_804_dash') }}">ผัง-804</a></li>
                             </ul>
                         </li>
                         <li>
