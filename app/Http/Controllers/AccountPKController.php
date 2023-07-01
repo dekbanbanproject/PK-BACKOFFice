@@ -4207,9 +4207,7 @@ class AccountPKController extends Controller
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }
-
         }
-
             return response()->json([
 
                 'status'    => '200'
@@ -6370,8 +6368,6 @@ class AccountPKController extends Controller
                     'status'    => '200'
                 ]);
     }
-
-
 
     public function acc_setting(Request $request)
     {
