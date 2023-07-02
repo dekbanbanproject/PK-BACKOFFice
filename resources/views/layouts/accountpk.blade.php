@@ -347,6 +347,8 @@
                                 <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel-ไต)</a></li>
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml)</a></li>
                                 <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li>
+                                <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)</a></li>
+                                <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li>
                             </ul>
                         </li>
                         <li>

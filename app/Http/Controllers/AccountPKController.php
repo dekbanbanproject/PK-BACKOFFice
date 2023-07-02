@@ -38,6 +38,9 @@ use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
+use App\Models\Acc_stm_lgo;
+use App\Models\Acc_stm_lgoexcel;
+
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -59,7 +62,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
-
+use App\Imports\ImportAcc_stm_lgoexcel_import;
 use App\Models\Acc_1102050101_217_stam;
 use App\Models\Acc_opitemrece_stm;
 
@@ -5976,6 +5979,110 @@ class AccountPKController extends Controller
                 ]);
         }
         Acc_stm_ofcexcel::truncate();
+        // return response()->json([
+        //     'status'    => '200',
+        // ]);
+        return redirect()->back();
+    }
+
+    public function upstm_lgoexcel(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+                SELECT rep,vstdate,SUM(claim_true) as Sumprice,STMdoc,month(vstdate) as months
+                FROM acc_stm_lgoexcel
+                GROUP BY rep
+            ');
+        $countc = DB::table('acc_stm_lgoexcel')->count();
+        // dd($countc );
+        return view('account_pk.upstm_lgoexcel',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    public function upstm_lgoexcel_save(Request $request)
+    {
+            Excel::import(new ImportAcc_stm_lgoexcel_import, $request->file('file')->store('files'));
+
+             return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function upstm_lgoexcel_senddata(Request $request)
+    {
+        $data_ = DB::connection('mysql')->select('
+            SELECT *
+            FROM acc_stm_lgoexcel
+        ');
+        // GROUP BY cid,vstdate
+        foreach ($data_ as $key => $value) {
+                Acc_stm_lgo::create([ 
+                        'rep'         => $value->rep,
+                        'no'          => $value->no,
+                        'tranid'      => $value->tranid,
+                        'hn'          => $value->hn,
+                        'an'          => $value->an,
+                        'cid'         => $value->cid,
+                        'fullname'    => $value->fullname, 
+                        'type'        => $value->type,   
+                        'vstdate'     => $value->vstdate,
+                        'dchdate'     => $value->dchdate, 
+                        'price1'      => $value->price1,
+                        'pp_spsch'    => $value->pp_spsch,
+                        'errorcode'   => $value->errorcode,
+                        'kongtoon'    => $value->kongtoon, 
+                        'typeservice' => $value->typeservice, 
+                        'refer'       => $value->refer, 
+                        'pttype_have' => $value->pttype_have, 
+                        'pttype_true' => $value->pttype_true, 
+                        'mian_pttype' => $value->mian_pttype, 
+                        'secon_pttype' =>$value->secon_pttype, 
+                        'href'        => $value->href, 
+                        'HCODE'       => $value->HCODE,  
+                        'prov1'       => $value->prov1,  
+                        'code_dep'    => $value->code_dep,  
+                        'name_dep'    => $value->name_dep,  
+                        'proj'        => $value->proj,  
+                        'pa'          => $value->pa,  
+                        'drg'         => $value->drg,  
+                        'rw'          => $value->rw,  
+                        'income'      => $value->income,  
+                        'pp_gep'      => $value->pp_gep,  
+                        'claim_true'  => $value->claim_true,  
+                        'claim_false' => $value->claim_false,  
+                        'cash_money'  => $value->cash_money,  
+                        'pay'         => $value->pay,  
+                        'ps'          => $value->ps,  
+                        'ps_percent'  => $value->ps_percent,  
+                        'ccuf'        => $value->ccuf,  
+                        'AdjRW'       => $value->AdjRW,  
+                        'plb'         => $value->plb,  
+                        'IPLG'        => $value->IPLG,  
+                        'OPLG'        => $value->OPLG,  
+                        'PALG'        => $value->PALG,  
+                        'INSTLG'      => $value->INSTLG,  
+                        'OTLG'        => $value->OTLG,  
+                        'PP'          => $value->PP, 
+                        'DRUG'        => $value->DRUG,   
+                        'IPLG2'       => $value->IPLG2,  
+                        'OPLG2'       => $value->OPLG2,  
+                        'PALG2'       => $value->PALG2,  
+                        'INSTLG2'     => $value->INSTLG2,  
+                        'OTLG2'       => $value->OTLG2,  
+                        'ORS'         => $value->ORS,  
+                        'VA'          => $value->VA,  
+                        'STMdoc'      => $value->STMdoc  
+                ]);
+                acc_1102050102_801::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                ->update([
+                    'status'   => 'Y'
+                ]);
+        }
+        Acc_stm_lgoexcel::truncate();
         // return response()->json([
         //     'status'    => '200',
         // ]);

@@ -159,12 +159,12 @@
                                                 // AND status = "N"
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.pricereq_all) as pricereq_all
+                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true) as pricereq_all
                                                             FROM acc_1102050102_801 a
-		                                                    LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate
+		                                                    LEFT JOIN acc_stm_lgo au ON au.cid = a.cid AND au.vstdate = a.vstdate
                                                             WHERE year(a.vstdate) = "'.$item->year.'"
                                                             AND month(a.vstdate) = "'.$item->months.'"
-                                                            AND au.pricereq_all IS NOT NULL
+                                                            AND au.rep IS NOT NULL
                                                     ');
 
                                                     foreach ($sumapprove_ as $key => $value3) {
@@ -187,11 +187,11 @@
                                                     $sumyokma_all_ = DB::select('
                                                         SELECT count(DISTINCT U1.vn) as anyokma ,sum(U1.debit_total) as debityokma
                                                                 FROM acc_1102050102_801 U1
-                                                                LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+                                                                LEFT JOIN acc_stm_lgo U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
                                                                 WHERE U1.status ="N"
                                                                 AND month(U1.vstdate) < "'.$mo.'"
                                                                 and year(U1.vstdate) = "'.$item->year.'"
-                                                                AND U2.pricereq_all IS NULL
+                                                                AND U2.rep IS NULL
                                                     ');
 
                                                     foreach ($sumyokma_all_ as $key => $value6) {
@@ -366,12 +366,12 @@
                                             // AND status = "N"
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select('
-                                                    SELECT count(DISTINCT a.vn) as Apvit ,sum(au.pricereq_all) as pricereq_all
+                                                    SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true) as pricereq_all
                                                         FROM acc_1102050102_801 a
-                                                        LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate
+                                                        LEFT JOIN acc_stm_lgo au ON au.cid = a.cid AND au.vstdate = a.vstdate
                                                         WHERE year(a.vstdate) = "'.$item->year.'"
                                                         AND month(a.vstdate) = "'.$item->months.'"
-                                                        AND au.pricereq_all IS NOT NULL
+                                                        AND au.rep IS NOT NULL
                                                 ');
 
                                                 foreach ($sumapprove_ as $key => $value3) {
@@ -394,11 +394,11 @@
                                                 $sumyokma_all_ = DB::select('
                                                     SELECT count(DISTINCT U1.vn) as anyokma ,sum(U1.debit_total) as debityokma
                                                             FROM acc_1102050102_801 U1
-                                                            LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+                                                            LEFT JOIN acc_stm_lgo U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
                                                             WHERE U1.status ="N"
                                                             AND month(U1.vstdate) < "'.$mo.'"
                                                             and year(U1.vstdate) = "'.$item->year.'"
-                                                            AND U2.pricereq_all IS NULL
+                                                            AND U2.rep IS NULL
                                                 ');
 
                                                 foreach ($sumyokma_all_ as $key => $value6) {

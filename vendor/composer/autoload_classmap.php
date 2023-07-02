@@ -162,6 +162,7 @@ return array(
     'App\\Models\\Acc_1102050102_801' => $baseDir . '/app/Models/Acc_1102050102_801.php',
     'App\\Models\\Acc_1102050102_802' => $baseDir . '/app/Models/Acc_1102050102_802.php',
     'App\\Models\\Acc_1102050102_803' => $baseDir . '/app/Models/Acc_1102050102_803.php',
+    'App\\Models\\Acc_1102050102_804' => $baseDir . '/app/Models/Acc_1102050102_804.php',
     'App\\Models\\Acc_debtor' => $baseDir . '/app/Models/Acc_debtor.php',
     'App\\Models\\Acc_debtor_sendmoney' => $baseDir . '/app/Models/Acc_debtor_sendmoney.php',
     'App\\Models\\Acc_debtor_stamp' => $baseDir . '/app/Models/Acc_debtor_stamp.php',

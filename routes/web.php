@@ -1329,6 +1329,14 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ofcexcel_save',[App\Http\Controllers\AccountPKController::class, 'upstm_ofcexcel_save'])->name('acc.upstm_ofcexcel_save');//
     Route::match(['get','post'],'upstm_ofcexcel_senddata',[App\Http\Controllers\AccountPKController::class, 'upstm_ofcexcel_senddata'])->name('acc.upstm_ofcexcel_senddata');//
 
+    Route::match(['get','post'],'upstm_lgoexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_lgoexcel'])->name('acc.upstm_lgoexcel');//
+    Route::match(['get','post'],'upstm_lgoexcel_save',[App\Http\Controllers\AccountPKController::class, 'upstm_lgoexcel_save'])->name('acc.upstm_lgoexcel_save');//
+    Route::match(['get','post'],'upstm_lgoexcel_senddata',[App\Http\Controllers\AccountPKController::class, 'upstm_lgoexcel_senddata'])->name('acc.upstm_lgoexcel_senddata');//
+
+    Route::match(['get','post'],'upstm_lgoipexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_lgoipexcel'])->name('acc.upstm_lgoipexcel');//
+    Route::match(['get','post'],'upstm_lgoipexcel_save',[App\Http\Controllers\AccountPKController::class, 'upstm_lgoipexcel_save'])->name('acc.upstm_lgoipexcel_save');//
+    Route::match(['get','post'],'upstm_lgoipexcel_senddata',[App\Http\Controllers\AccountPKController::class, 'upstm_lgoipexcel_senddata'])->name('acc.upstm_lgoipexcel_senddata');//
+
     Route::match(['get','post'],'upstm',[App\Http\Controllers\AccountPKController::class, 'upstm'])->name('acc.upstm');//
     Route::match(['get','post'],'upstm_save',[App\Http\Controllers\AccountPKController::class, 'upstm_save'])->name('acc.upstm_save');//
     Route::match(['get','post'],'upstm_import',[App\Http\Controllers\AccountPKController::class, 'upstm_import'])->name('acc.upstm_import');//

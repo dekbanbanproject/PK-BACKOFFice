@@ -812,6 +812,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Acc_1102050102_801' => __DIR__ . '/../..' . '/app/Models/Acc_1102050102_801.php',
         'App\\Models\\Acc_1102050102_802' => __DIR__ . '/../..' . '/app/Models/Acc_1102050102_802.php',
         'App\\Models\\Acc_1102050102_803' => __DIR__ . '/../..' . '/app/Models/Acc_1102050102_803.php',
+        'App\\Models\\Acc_1102050102_804' => __DIR__ . '/../..' . '/app/Models/Acc_1102050102_804.php',
         'App\\Models\\Acc_debtor' => __DIR__ . '/../..' . '/app/Models/Acc_debtor.php',
         'App\\Models\\Acc_debtor_sendmoney' => __DIR__ . '/../..' . '/app/Models/Acc_debtor_sendmoney.php',
         'App\\Models\\Acc_debtor_stamp' => __DIR__ . '/../..' . '/app/Models/Acc_debtor_stamp.php',
