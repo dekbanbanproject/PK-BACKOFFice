@@ -889,13 +889,29 @@ class AccountPKController extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.cid = a.cid and c.vstdate = a.vstdate
+                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
                 WHERE a.account_code="1102050101.217"
                 AND a.stamp = "N"
-                and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
-                order by a.dchdate asc;
+                group by a.an
+                order by a.vstdate asc;
             ');
+            // AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+
+            // SELECT a.*,c.subinscl from acc_debtor a
+            // left outer join check_sit_auto c on c.cid = a.cid and c.vstdate = a.vstdate
+            // WHERE a.account_code="1102050101.217"
+            // AND a.stamp = "N"
+            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+            // order by a.dchdate asc;
         } else {
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl from acc_debtor a
+                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
+                WHERE a.account_code="1102050101.217"
+                AND a.stamp = "N"
+                group by a.an
+                order by a.vstdate asc;
+            ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
         return view('account_pk.account_pkucs217_pull',[
@@ -1386,15 +1402,32 @@ class AccountPKController extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.cid = a.cid and c.vstdate = a.vstdate
-
+                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
                 WHERE a.account_code="1102050101.202"
                 AND a.stamp = "N"
-                and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
-                order by a.dchdate asc;
+
+                group by a.an
+                order by a.vstdate asc;
 
             ');
+            // AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            // SELECT a.*,c.subinscl from acc_debtor a
+            // left outer join check_sit_auto c on c.cid = a.cid and c.vstdate = a.vstdate
+
+            // WHERE a.account_code="1102050101.202"
+            // AND a.stamp = "N"
+            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+            // order by a.dchdate asc;
         } else {
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl from acc_debtor a
+                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
+                WHERE a.account_code="1102050101.202"
+                AND a.stamp = "N"
+                group by a.an
+                order by a.vstdate asc;
+
+            ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
 
@@ -6020,62 +6053,62 @@ class AccountPKController extends Controller
         ');
         // GROUP BY cid,vstdate
         foreach ($data_ as $key => $value) {
-                Acc_stm_lgo::create([ 
+                Acc_stm_lgo::create([
                         'rep'         => $value->rep,
                         'no'          => $value->no,
                         'tranid'      => $value->tranid,
                         'hn'          => $value->hn,
                         'an'          => $value->an,
                         'cid'         => $value->cid,
-                        'fullname'    => $value->fullname, 
-                        'type'        => $value->type,   
+                        'fullname'    => $value->fullname,
+                        'type'        => $value->type,
                         'vstdate'     => $value->vstdate,
-                        'dchdate'     => $value->dchdate, 
+                        'dchdate'     => $value->dchdate,
                         'price1'      => $value->price1,
                         'pp_spsch'    => $value->pp_spsch,
                         'errorcode'   => $value->errorcode,
-                        'kongtoon'    => $value->kongtoon, 
-                        'typeservice' => $value->typeservice, 
-                        'refer'       => $value->refer, 
-                        'pttype_have' => $value->pttype_have, 
-                        'pttype_true' => $value->pttype_true, 
-                        'mian_pttype' => $value->mian_pttype, 
-                        'secon_pttype' =>$value->secon_pttype, 
-                        'href'        => $value->href, 
-                        'HCODE'       => $value->HCODE,  
-                        'prov1'       => $value->prov1,  
-                        'code_dep'    => $value->code_dep,  
-                        'name_dep'    => $value->name_dep,  
-                        'proj'        => $value->proj,  
-                        'pa'          => $value->pa,  
-                        'drg'         => $value->drg,  
-                        'rw'          => $value->rw,  
-                        'income'      => $value->income,  
-                        'pp_gep'      => $value->pp_gep,  
-                        'claim_true'  => $value->claim_true,  
-                        'claim_false' => $value->claim_false,  
-                        'cash_money'  => $value->cash_money,  
-                        'pay'         => $value->pay,  
-                        'ps'          => $value->ps,  
-                        'ps_percent'  => $value->ps_percent,  
-                        'ccuf'        => $value->ccuf,  
-                        'AdjRW'       => $value->AdjRW,  
-                        'plb'         => $value->plb,  
-                        'IPLG'        => $value->IPLG,  
-                        'OPLG'        => $value->OPLG,  
-                        'PALG'        => $value->PALG,  
-                        'INSTLG'      => $value->INSTLG,  
-                        'OTLG'        => $value->OTLG,  
-                        'PP'          => $value->PP, 
-                        'DRUG'        => $value->DRUG,   
-                        'IPLG2'       => $value->IPLG2,  
-                        'OPLG2'       => $value->OPLG2,  
-                        'PALG2'       => $value->PALG2,  
-                        'INSTLG2'     => $value->INSTLG2,  
-                        'OTLG2'       => $value->OTLG2,  
-                        'ORS'         => $value->ORS,  
-                        'VA'          => $value->VA,  
-                        'STMdoc'      => $value->STMdoc  
+                        'kongtoon'    => $value->kongtoon,
+                        'typeservice' => $value->typeservice,
+                        'refer'       => $value->refer,
+                        'pttype_have' => $value->pttype_have,
+                        'pttype_true' => $value->pttype_true,
+                        'mian_pttype' => $value->mian_pttype,
+                        'secon_pttype' =>$value->secon_pttype,
+                        'href'        => $value->href,
+                        'HCODE'       => $value->HCODE,
+                        'prov1'       => $value->prov1,
+                        'code_dep'    => $value->code_dep,
+                        'name_dep'    => $value->name_dep,
+                        'proj'        => $value->proj,
+                        'pa'          => $value->pa,
+                        'drg'         => $value->drg,
+                        'rw'          => $value->rw,
+                        'income'      => $value->income,
+                        'pp_gep'      => $value->pp_gep,
+                        'claim_true'  => $value->claim_true,
+                        'claim_false' => $value->claim_false,
+                        'cash_money'  => $value->cash_money,
+                        'pay'         => $value->pay,
+                        'ps'          => $value->ps,
+                        'ps_percent'  => $value->ps_percent,
+                        'ccuf'        => $value->ccuf,
+                        'AdjRW'       => $value->AdjRW,
+                        'plb'         => $value->plb,
+                        'IPLG'        => $value->IPLG,
+                        'OPLG'        => $value->OPLG,
+                        'PALG'        => $value->PALG,
+                        'INSTLG'      => $value->INSTLG,
+                        'OTLG'        => $value->OTLG,
+                        'PP'          => $value->PP,
+                        'DRUG'        => $value->DRUG,
+                        'IPLG2'       => $value->IPLG2,
+                        'OPLG2'       => $value->OPLG2,
+                        'PALG2'       => $value->PALG2,
+                        'INSTLG2'     => $value->INSTLG2,
+                        'OTLG2'       => $value->OTLG2,
+                        'ORS'         => $value->ORS,
+                        'VA'          => $value->VA,
+                        'STMdoc'      => $value->STMdoc
                 ]);
                 acc_1102050102_801::where('cid',$value->cid)->where('vstdate',$value->vstdate)
                 ->update([

@@ -210,7 +210,7 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an
             FROM check_sit_auto
-            WHERE vstdate = "2023-06-11"
+            WHERE vstdate = CURDATE()
             AND subinscl IS NULL
             LIMIT 30
         ');
@@ -596,7 +596,7 @@ class AutoController extends Controller
                         LEFT JOIN patient p on p.hn = o.hn
                         LEFT JOIN rcmdb.authencode ra ON ra.AN = o.an
                         WHERE YEAR(o.vstdate) = "'.$y.'"
-                       
+
                         GROUP BY months
                         ORDER BY years,months DESC
             ');
