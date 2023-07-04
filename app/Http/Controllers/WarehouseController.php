@@ -918,6 +918,7 @@ class WarehouseController extends Controller
     public function warehouse_update_product(Request $request)
     {
         $id = $request->warehouse_rep_id;
+
         $code = $request->warehouse_rep_code;
         $update = Warehouse_rep::find($id);
         $update->warehouse_rep_status = 'recieve';
@@ -965,6 +966,9 @@ class WarehouseController extends Controller
                     $warehouse_rep_sub_expdate = $request->warehouse_rep_sub_expdate;
                     $warehouse_rep_sub_status = $request->warehouse_rep_sub_status;
 
+                    $idsub = $request->warehouse_rep_sub_id;
+                    $idsubcode = $request->warehouse_rep_code;
+
                     $number = count($product_id);
                     $count = 0;
                     for ($count = 0; $count < $number; $count++) {
@@ -974,25 +978,45 @@ class WarehouseController extends Controller
                         $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
                         $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
 
-                        $add2 = new Warehouse_rep_sub();
-                        $add2->warehouse_rep_id = $id;
-                        $add2->warehouse_rep_code = $code;
-                        $add2->product_id = $idpro->product_id;
-                        $add2->product_code = $idpro->product_code;
-                        $add2->product_name = $idpro->product_name;
-                        $add2->product_type_id = $idtype->products_typefree_id;
-                        $add2->product_type_name = $idtype->products_typefree_name;
-                        $add2->product_unit_subid = $idunit->unit_id;
-                        $add2->product_unit_subname = $idunit->unit_name;
-                        $add2->product_lot = $product_lot[$count];
-                        $add2->product_qty = $product_qty[$count];
-                        $add2->product_price = $product_price[$count];
-                        $add2->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
-                        $add2->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
-                        $add2->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
+                        $update5 = Warehouse_rep_sub::find($idsub[$count]);
+                        $update5->warehouse_rep_id = $id;
+                        $update5->warehouse_rep_code = $idsubcode;
+                        $update5->product_id = $idpro->product_id;
+                        $update5->product_code = $idpro->product_code;
+                        $update5->product_name = $idpro->product_name;
+                        $update5->product_type_id = $idtype->products_typefree_id;
+                        $update5->product_type_name = $idtype->products_typefree_name;
+                        $update5->product_unit_subid = $idunit->unit_id;
+                        $update5->product_unit_subname = $idunit->unit_name;
+                        $update5->product_lot = $product_lot[$count];
+                        $update5->product_qty = $product_qty[$count];
+                        $update5->product_price = $product_price[$count];
+                        $update5->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
+                        $update5->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
+                        $update5->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
                         $total = $product_qty[$count] * $product_price[$count];
-                        $add2->product_price_total = $total;
-                        $add2->save();
+                        $update5->product_price_total = $total;
+                        $update5->save();
+
+                        // $add2 = new Warehouse_rep_sub();
+                        // $add2->warehouse_rep_id = $id;
+                        // $add2->warehouse_rep_code = $code;
+                        // $add2->product_id = $idpro->product_id;
+                        // $add2->product_code = $idpro->product_code;
+                        // $add2->product_name = $idpro->product_name;
+                        // $add2->product_type_id = $idtype->products_typefree_id;
+                        // $add2->product_type_name = $idtype->products_typefree_name;
+                        // $add2->product_unit_subid = $idunit->unit_id;
+                        // $add2->product_unit_subname = $idunit->unit_name;
+                        // $add2->product_lot = $product_lot[$count];
+                        // $add2->product_qty = $product_qty[$count];
+                        // $add2->product_price = $product_price[$count];
+                        // $add2->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
+                        // $add2->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
+                        // $add2->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
+                        // $total = $product_qty[$count] * $product_price[$count];
+                        // $add2->product_price_total = $total;
+                        // $add2->save();
 
                     }
                     $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$id)->sum('product_price_total');

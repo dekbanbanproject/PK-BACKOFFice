@@ -128,7 +128,7 @@ $loter = $date.''.$time
                                     </thead>
                                     <tbody class="tbody1">
                                         @if ( $count == 0)
-                                            @foreach ($data_sub as $item) --}}
+                                            @foreach ($data_sub as $item)
                                                 <tr height="30" style="font-size:13px">
                                                         <td style="text-align: center;"> 1 </td>
                                                         <td>
@@ -231,6 +231,9 @@ $loter = $date.''.$time
                                                         @foreach ($data_sub as $item)
                                                             <tr height="30" style="font-size:13px">
                                                                 <td style="text-align: center;">  {{$count}}</td>
+
+                                                                <input name="warehouse_rep_sub_id[]" id="warehouse_rep_sub_id{{$count}}" type="hidden" class="form-control form-control-sm" value="{{$item->warehouse_rep_sub_id}}" onkeyup="checksummoney(<?php echo $count;?>)">
+                                                                <input name="warehouse_rep_code[]" id="warehouse_rep_code{{$count}}" type="hidden" class="form-control form-control-sm" value="{{$item->warehouse_rep_code}}" onkeyup="checksummoney(<?php echo $count;?>)">
                                                                 <td>
                                                                     <select name="product_id[]" id="product_id{{$count}}" class="form-control form-control-sm " style="width: 100%;" onchange="checkunitref(0);">
                                                                         <option value="" selected>--รายการวัสดุ--</option>
