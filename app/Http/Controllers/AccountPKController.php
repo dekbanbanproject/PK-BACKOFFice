@@ -4001,7 +4001,7 @@ class AccountPKController extends Controller
          ]);
      }
 
-      // *************************** account_pk 401*******************************************
+      // *************************** account_pk 602*******************************************
 
     public function account_602_dash(Request $request)
     {
@@ -4130,8 +4130,7 @@ class AccountPKController extends Controller
                 WHERE a.account_code="1102050102.801"
                 AND a.stamp = "N"
                 group by a.vn
-                order by a.vstdate asc;
-
+                order by a.vstdate asc
             ');
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
         } else {
