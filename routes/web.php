@@ -113,7 +113,7 @@ Route::match(['get','post'],'sit_pull_auto',[App\Http\Controllers\AutoController
 Route::match(['get','post'],'sit_auto',[App\Http\Controllers\AutoController::class, 'sit_auto'])->name('sit.sit_auto');//
 Route::match(['get','post'],'repage',[App\Http\Controllers\AutoController::class, 'repage'])->name('sit.repage');//
 Route::match(['get','post'],'sit_pullacc_auto',[App\Http\Controllers\AutoController::class, 'sit_pullacc_auto'])->name('auto.sit_pullacc_auto');//
- 
+
 
 
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//
@@ -456,6 +456,10 @@ Route::middleware(['type'])->group(function(){
       Route::match(['get','post'],'warehouse/warehouse_index',[App\Http\Controllers\WarehouseController::class, 'warehouse_index'])->name('ware.warehouse_index');//
       Route::match(['get','post'],'warehouse/warehouse_add',[App\Http\Controllers\WarehouseController::class, 'warehouse_add'])->name('ware.warehouse_add');//
       Route::match(['get','post'],'warehouse/warehouse_addsub/{id}',[App\Http\Controllers\WarehouseController::class,'warehouse_addsub'])->name('ware.warehouse_addsub');//
+      Route::match(['get','post'],'warehouse_add_product/{id}',[App\Http\Controllers\WarehouseController::class,'warehouse_add_product'])->name('ware.warehouse_add_product');//
+      Route::match(['get','post'],'warehouse_edit_product/{id}',[App\Http\Controllers\WarehouseController::class,'warehouse_edit_product'])->name('ware.warehouse_edit_product');//
+      Route::match(['get','post'],'warehouse_update_product',[App\Http\Controllers\WarehouseController::class,'warehouse_update_product'])->name('ware.warehouse_update_product');//
+      Route::match(['get','post'],'warehouse_addsave',[App\Http\Controllers\WarehouseController::class, 'warehouse_addsave'])->name('ware.warehouse_addsave');//
 
       Route::match(['get','post'],'warehouse_billsave',[App\Http\Controllers\WarehouseController::class, 'warehouse_billsave'])->name('ware.warehouse_billsave');//
       Route::match(['get','post'],'warehouse_billupdate',[App\Http\Controllers\WarehouseController::class, 'warehouse_billupdate'])->name('ware.warehouse_billupdate');//
@@ -1312,7 +1316,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkti2166_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stm'])->name('acc.account_pkti2166_stm');//
     Route::match(['get','post'],'account_pkti2166_stam',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stam'])->name('acc.account_pkti2166_stam');//  stamp OPD
     Route::match(['get','post'],'account_pkti2166_stmtang/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkti2166_stmtang'])->name('acc.account_pkti2166_stmtang');//
-    
+
     Route::match(['get','post'],'ti2166_send/{id}',[App\Http\Controllers\AccountPKController::class, 'ti2166_send'])->name('acc.ti2166_send');//
     Route::match(['get','post'],'ti2166_detail/{id}',[App\Http\Controllers\AccountPKController::class, 'ti2166_detail'])->name('acc.ti2166_detail');//
 

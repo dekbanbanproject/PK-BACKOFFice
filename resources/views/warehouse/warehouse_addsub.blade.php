@@ -38,14 +38,14 @@
                             <input type="hidden" name="warehouse_rep_id" id="warehouse_rep_id" value="{{$warehouse_rep->warehouse_rep_id}}">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"> 
+                    <div class="card-header">
                         <div class="d-flex">
                             <div class="p-2">
                                 <label for="">ตรวจรับทั่วไป  </label>
                             </div>
                             <div class="ms-auto">
-                                <div class="row">                                   
-                                   
+                                <div class="row">
+
                                         @if ($warehouse_rep->warehouse_rep_send == 'FINISH')
                                             <div class="col-md-4">
                                                 <div class="form-check">
@@ -53,8 +53,8 @@
                                                     <label class="form-check-label" for="warehouse_rep_send">
                                                     ครบ
                                                     </label>
-                                                </div> 
-                                            </div> 
+                                                </div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="warehouse_rep_send" id="warehouse_rep_send" value="STALE">
@@ -62,7 +62,7 @@
                                                       ไม่ครบ
                                                     </label>
                                                   </div>
-                                            </div>                                          
+                                            </div>
                                         @else
                                         <div class="col-md-4">
                                             <div class="form-check">
@@ -70,7 +70,7 @@
                                                 <label class="form-check-label" for="warehouse_rep_send">
                                                 ครบ
                                                 </label>
-                                            </div> 
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-check">
@@ -80,18 +80,18 @@
                                                 </label>
                                               </div>
                                         </div>
-                                            
+
                                         @endif
-                                       
-                                  
-                                    
+
+
+
                                     <div class="col me-5"></div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-body shadow-lg">
-                        
+
                         <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
 
                         <div class="row">
@@ -161,7 +161,7 @@
                                                 @else
                                                 <option value="{{ $itemu->id }}"> {{ $itemu->fname }} {{ $itemu->lname }} </option>
                                                 @endif
-                                                    
+
                                                 @endforeach
                                             </select>
                                         </div>
@@ -180,7 +180,7 @@
                                                 @else
                                                 <option value="{{ $inven->warehouse_inven_id }}"> {{ $inven->warehouse_inven_name }}</option>
                                                 @endif
-                                                    
+
                                                 @endforeach
                                             </select>
                                         </div>
@@ -199,7 +199,7 @@
                                                 @else
                                                 <option value="{{ $ven->vendor_id }}"> {{ $ven->vendor_name }}</option>
                                                 @endif
-                                                    
+
                                                 @endforeach
                                             </select>
                                         </div>
@@ -213,11 +213,11 @@
                                                 id="example-datetime-local-input" name="warehouse_rep_date" value="{{$warehouse_rep->warehouse_rep_date}}">
 
                                         </div>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
                             </div>
-                        </div> 
-                        <hr> 
+                        </div>
+                        <hr>
                                 <div class="card-body shadow-lg">
 
 
@@ -237,7 +237,7 @@
                                                     <td style="text-align: center;" width="6%">วันผลิต</td>
                                                     <td style="text-align: center;" width="6%">วันหมดอายุ</td>
                                                     <td style="text-align: center;" width="6%">status</td>
-                                                     
+
                                                 </tr>
                                             </thead>
                                             <tbody class="tbody">
@@ -255,10 +255,10 @@
                                                         </td>
                                                         <td>
                                                             <select name="product_type_id[]" id="product_type_id0" class="form-control form-control-sm" style="width: 100%;" >
-                                                            
+
                                                                 @foreach ($products_typefree as $free)
                                                                             <option value="{{ $free -> products_typefree_id }}">{{ $free->products_typefree_name}}</option>
-                                                                        @endforeach                   
+                                                                        @endforeach
                                                             </select>
                                                         </td>
                                                         <td><div class="showunit0">
@@ -266,7 +266,7 @@
                                                                 <option value="" selected>--หน่วย--</option>
                                                                 @foreach ($product_unit as $uni)
                                                                             <option value="{{ $uni -> unit_id }}">{{ $uni->unit_name}}</option>
-                                                                        @endforeach                   
+                                                                        @endforeach
                                                             </select>
                                                         </td>
                                                         <td>
@@ -275,9 +275,9 @@
 
                                                         <td>
                                                             <input name="product_price[]" id="product_price0" type="number" class="form-control form-control-sm" onkeyup="checksummoney(0)">
-                                            
-                                                        <td> 
-                                                                <div class="summoney0"></div>  
+
+                                                        <td>
+                                                                <div class="summoney0"></div>
                                                         </td>
                                                         <td>
                                                             <?php  $detallot = 'L'.substr(date("Ymd"),2).'-'.date("His"); ?>
@@ -298,29 +298,29 @@
                                                             <select name="warehouse_rep_sub_status[]" id="warehouse_rep_sub_status0" class="form-control form-control-sm" style="width: 100%;" >
                                                                 @if ($item->warehouse_rep_sub_status == '1')
                                                                 <option value="1" selected>ครบ</option>
-                                                                <option value="2">ไม่ครบ</option> 
+                                                                <option value="2">ไม่ครบ</option>
                                                                 @else
                                                                 <option value="1">ครบ</option>
-                                                                <option value="2" selected>ไม่ครบ</option>  
-                                                                @endif                 
+                                                                <option value="2" selected>ไม่ครบ</option>
+                                                                @endif
                                                             </select>
                                                         </td>
-                                                         
+
                                                     </tr>
-                                                    
+
                                                 @else
-                                               
+
                                                         <?php $count = 1; ?>
-                                                        @foreach ($warehouse_repsub_ok as $item)  
+                                                        @foreach ($warehouse_repsub_ok as $item)
                                                                 <tr height="30" style="font-size:13px">
                                                                     <td style="text-align: center;" > {{$count}}</td>
                                                                     <td>
-                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_name}}" readonly>                                                                        
+                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_name}}" readonly>
                                                                     </td>
                                                                     <td>
-                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_type_name}}" readonly>  
+                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_type_name}}" readonly>
                                                                     </td>
-                                                                    <td> 
+                                                                    <td>
                                                                         <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_unit_subname}}" readonly>
                                                                     </td>
                                                                     <td>
@@ -328,11 +328,11 @@
                                                                     </td>
 
                                                                     <td>
-                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_price}}" readonly>                                                        
+                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_price}}" readonly>
                                                                     <td width="12%">
-                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_price_total}}" readonly> 
+                                                                        <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_price_total}}" readonly>
                                                                     </td>
-                                                                    <td> 
+                                                                    <td>
                                                                         <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->product_lot}}" readonly>
                                                                     </td>
                                                                     <td width="10%">
@@ -341,21 +341,21 @@
                                                                     <td width="10%">
                                                                         <input name="" id="" type="text" class="form-control form-control-sm" value="{{$item->warehouse_rep_sub_expdate}}" readonly>
                                                                     </td>
-                                                                    <td width="6%">                                                                        
+                                                                    <td width="6%">
                                                                             @if ($item->warehouse_rep_sub_status == '1')
                                                                             <input name="" id="" type="text" class="form-control form-control-sm" value="ครบ" readonly>
                                                                             @else
-                                                                            <input name="" id="" type="text" class="form-control form-control-sm bg-danger" style="color: #FFFFFF" value="ไม่ครบ" readonly> 
-                                                                            @endif  
+                                                                            <input name="" id="" type="text" class="form-control form-control-sm bg-danger" style="color: #FFFFFF" value="ไม่ครบ" readonly>
+                                                                            @endif
                                                                     </td>
-                                                                    
+
                                                                 </tr>
 
                                                         <?php  $count++;?>
                                                         @endforeach
-                                                    
+
                                                 @endif
-                                               
+
                                             </tbody>
                                         </table>
 
@@ -388,6 +388,7 @@
                                             <tbody class="tbody1">
                                                 @if ($count == 0)
                                                 {{-- <input type="hidden" name="warehouse_rep_id" id="warehouse_rep_id" value="{{$warehouse_rep->warehouse_rep_id}}"> --}}
+                                                {{-- @foreach ($warehouse_repsub as $item)
                                                     <tr height="30" style="font-size:13px">
                                                         <td style="text-align: center;"> 1 </td>
                                                         <td>
@@ -401,10 +402,10 @@
                                                         </td>
                                                         <td>
                                                             <select name="product_type_id[]" id="product_type_id0" class="form-control form-control-sm" style="width: 100%;" >
-                                                            
+
                                                                 @foreach ($products_typefree as $free)
                                                                             <option value="{{ $free -> products_typefree_id }}">{{ $free->products_typefree_name}}</option>
-                                                                        @endforeach                   
+                                                                        @endforeach
                                                             </select>
                                                         </td>
                                                         <td><div class="showunit0">
@@ -412,7 +413,7 @@
                                                                 <option value="" selected>--หน่วย--</option>
                                                                 @foreach ($product_unit as $uni)
                                                                             <option value="{{ $uni -> unit_id }}">{{ $uni->unit_name}}</option>
-                                                                        @endforeach                   
+                                                                        @endforeach
                                                             </select>
                                                         </td>
                                                         <td>
@@ -421,9 +422,9 @@
 
                                                         <td>
                                                             <input name="product_price[]" id="product_price0" type="number" class="form-control form-control-sm" onkeyup="checksummoney(0)">
-                                            
-                                                        <td> 
-                                                                <div class="summoney0"></div>  
+
+                                                        <td>
+                                                                <div class="summoney0"></div>
                                                         </td>
                                                         <td>
                                                             <?php  $detallot = 'L'.substr(date("Ymd"),2).'-'.date("His"); ?>
@@ -444,11 +445,11 @@
                                                             <select name="warehouse_rep_sub_status[]" id="warehouse_rep_sub_status0" class="form-control form-control-sm" style="width: 100%;" >
                                                                 @if ($item->warehouse_rep_sub_status == '1')
                                                                 <option value="1" selected>ครบ</option>
-                                                                <option value="2">ไม่ครบ</option> 
+                                                                <option value="2">ไม่ครบ</option>
                                                                 @else
                                                                 <option value="1">ครบ</option>
-                                                                <option value="2" selected>ไม่ครบ</option>  
-                                                                @endif                 
+                                                                <option value="2" selected>ไม่ครบ</option>
+                                                                @endif
                                                             </select>
                                                         </td>
                                                         <td style="text-align: center;">
@@ -456,15 +457,15 @@
                                                                 style="color:#FFFFFF;">
                                                             </a>
                                                         </td>
-                                                       
-                                                       
+
+
                                                     </tr>
-                                                    
-                                                @else                                               
+                                                    @endforeach --}}
+                                                @else
                                                         <?php $count = 1; ?>
-                                                       
-                                                            @if ($counproduct > 0) 
-                                                            @foreach ($warehouse_repsub as $item)   
+
+                                                            @if ($counproduct > 0)
+                                                            @foreach ($warehouse_repsub as $item)
                                                                 <tr height="30" style="font-size:13px">
                                                                     <td style="text-align: center;">  {{$count}}</td>
                                                                     <td>
@@ -476,20 +477,20 @@
                                                                             @else
                                                                             <option value="{{ $list->product_id }}"> {{ $list->product_name }}</option>
                                                                             @endif
-                                                                                
+
                                                                             @endforeach
                                                                         </select>
                                                                     </td>
                                                                     <td>
                                                                         <select name="product_type_id[]" id="product_type_id{{$count}}" class="form-control form-control-sm" style="width: 100%;" >
-                                                                        
+
                                                                             @foreach ($products_typefree as $free)
                                                                             @if ($item->product_type_id == $free->products_typefree_id)
                                                                             <option value="{{ $free->products_typefree_id }}" selected>{{ $free->products_typefree_name}}</option>
                                                                             @else
                                                                             <option value="{{ $free->products_typefree_id }}">{{ $free->products_typefree_name}}</option>
                                                                             @endif
-                                                                            @endforeach                   
+                                                                            @endforeach
                                                                         </select>
                                                                     </td>
                                                                     <td><div class="showunit0">
@@ -501,8 +502,8 @@
                                                                             @else
                                                                             <option value="{{ $uni -> unit_id }}">{{ $uni->unit_name}}</option>
                                                                             @endif
-                                                                                        
-                                                                            @endforeach                   
+
+                                                                            @endforeach
                                                                         </select>
                                                                     </td>
                                                                     <td>
@@ -510,7 +511,7 @@
                                                                     </td>
                                                                     <td>
                                                                         <input name="product_price[]" id="product_price{{$count}}" type="number" class="form-control form-control-sm" value="{{$item->product_price}}" onkeyup="checksummoney(<?php echo $count;?>)">
-                                                                    <td>                                                                    
+                                                                    <td>
                                                                     <div class="summoney{{$count}}"></div>
                                                                     </td>
                                                                     <td>
@@ -533,11 +534,11 @@
                                                                         <select name="warehouse_rep_sub_status[]" id="warehouse_rep_sub_status{{$count}}" class="form-control form-control-sm" style="width: 100%;" >
                                                                             @if ($item->warehouse_rep_sub_status == '1')
                                                                             <option value="1" selected>ครบ</option>
-                                                                            <option value="2">ไม่ครบ</option> 
+                                                                            <option value="2">ไม่ครบ</option>
                                                                             @else
                                                                             <option value="1">ครบ</option>
-                                                                            <option value="2" selected>ไม่ครบ</option>  
-                                                                            @endif                     
+                                                                            <option value="2" selected>ไม่ครบ</option>
+                                                                            @endif
                                                                         </select>
                                                                     </td>
                                                                     <td style="text-align: center;">
@@ -545,38 +546,36 @@
                                                                             style="color:#FFFFFF;">
                                                                         </a>
                                                                     </td>
-                                                                   
-                                                                </tr>                                                            
+
+                                                                </tr>
 
                                                         <?php  $count++;?>
-                                                        @endforeach      
-                                                        
+                                                        @endforeach
                                                         @else
 
-                                                                
-                                                        @endif 
-                                                        
+                                                        @endif
+
                                                 @endif
-                                               
+
                                             </tbody>
                                         </table>
 
                                         <hr>
                                         <div class="row">
                                             <div class="col-md-7"> </div>
-                                                <div class="col-md-2 text-end">  
+                                                <div class="col-md-2 text-end">
                                                     <label for="" style="color: red">รวมมูลค่า</label>
                                                 </div>
-                                                <div class="col-md-2">   
-                                                    <input class="form-control form-control-sm" style="text-align: right;background-color:#fffec5 ;font-size: 16px;color:red" type="text" name="total" id="total" readonly>                                            
+                                                <div class="col-md-2">
+                                                    <input class="form-control form-control-sm" style="text-align: right;background-color:#fffec5 ;font-size: 16px;color:red" type="text" name="total" id="total" readonly>
                                                 </div>
-                                                <div class="col-md-1">  
+                                                <div class="col-md-1">
                                                     <label for="" style="color: red">บาท</label>
                                                 </div>
                                             </div>
                                         </div>
 
-                                     
+
                         </div>
                     </div>
                     <div class="card-footer">
@@ -603,17 +602,17 @@
 @section('footer')
     <script>
 
-        function run01(){    
-                    var count = $('.tbody1').children('tr').length;   
+        function run01(){
+                    var count = $('.tbody1').children('tr').length;
                     var number;
-                        for (number = 1; number < count+1; number++) {          
+                        for (number = 1; number < count+1; number++) {
                             checksummoney(number);
-                                
-                        }     
-                    
+
+                        }
+
                 }
-        function checkunitref(number){    
-        var unitnew = document.getElementById("product_id"+number).value;        
+        function checkunitref(number){
+        var unitnew = document.getElementById("product_id"+number).value;
             var _token = $('input[name="_token"]').val();
                     $.ajax({
                         url: "{{url('warehouse/checkunitref')}}",
@@ -625,12 +624,12 @@
                         success: function (result) {
                             $('.showunit'+number).html(result);
                         }
-                    })   
+                    })
             }
-    
-            $(document).ready(function() {           
 
-                $('select').select2();            
+            $(document).ready(function() {
+
+                $('select').select2();
                 $('#product_id').select2({
                     placeholder: "--เลือก--",
                     allowClear: true
@@ -661,31 +660,31 @@
                             number+
                             '</td>'+
                             '<td>'+
-                            '<select name="product_id[]" id="product_id'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;" onchange="checkunitref('+number+')">'+            
-                            '<option value="" selected>--รายการวัสดุ--</option>'+ 
+                            '<select name="product_id[]" id="product_id'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;" onchange="checkunitref('+number+')">'+
+                            '<option value="" selected>--รายการวัสดุ--</option>'+
                             '@foreach ($product_data as $list)'+
                             '<option value="{{ $list->product_id }}">{{$list->product_name}}</option>'+
                             '@endforeach'+
                             '</select> '+
-                            '</td>'+      
+                            '</td>'+
                             '<td>'+
-                            '<select name="product_type_id[]" id="product_type_id'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;">'+            
+                            '<select name="product_type_id[]" id="product_type_id'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;">'+
                             '@foreach ($products_typefree as $free)'+
                             '<option value="{{ $free->products_typefree_id }}">{{$free->products_typefree_name}}</option>'+
                             '@endforeach'+
                             '</select> '+
-                            '</td>'+  
+                            '</td>'+
                             '<td><div class="showunit'+number+'">'+
-                            '<select name="product_unit_subid[]" id="product_unit_subid'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;">'+            
-                            '<option value="" selected>--หน่วย--</option>'+ 
+                            '<select name="product_unit_subid[]" id="product_unit_subid'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;">'+
+                            '<option value="" selected>--หน่วย--</option>'+
                             '@foreach ($product_unit as $uni)'+
                             '<option value="{{ $uni->unit_id }}">{{$uni->unit_name}}</option>'+
                             '@endforeach'+
                             '</select> '+
-                            '</td>'+             
+                            '</td>'+
                             '<td>'+
                             '<input name="product_qty[]" id="product_qty'+number+'" type="number" class="form-control form-control-sm" onkeyup="checksummoney('+number+');">'+
-                            '</td>'+ 
+                            '</td>'+
                             '<td>'+
                             '<input name="product_price[]" id="product_price'+number+'" type="number" class="form-control form-control-sm" onkeyup="checksummoney('+number+');">'+
                             '</td>'+
@@ -704,21 +703,21 @@
                             '<td>'+
                             '<select name="warehouse_rep_sub_status[]" id="warehouse_rep_sub_status'+number+'" class="form-control form-control-sm" style="width: 100%;">'+
                             '<option value="1">ครบ</option>'+
-                            '<option value="2">ไม่ครบ</option>'+                   
+                            '<option value="2">ไม่ครบ</option>'+
                             '</select>'+
                             '</td>'+
-                            '<td style="text-align: center;"><a class="btn btn-sm btn-danger fa fa-trash-alt remove1" style="color:#FFFFFF;"></a></td>'+ 
+                            '<td style="text-align: center;"><a class="btn btn-sm btn-danger fa fa-trash-alt remove1" style="color:#FFFFFF;"></a></td>'+
                             '</tr>';
                     $('.tbody1').append(tr);
                     };
                     $('.tbody1').on('click','.remove1', function(){
-                $(this).parent().parent().remove(); 
-                
+                $(this).parent().parent().remove();
+
                 });
 
             });
     </script>
-<script> 
+<script>
             $('body').on('keydown', 'input, select, textarea', function(e) {
             var self = $(this)
             , form = self.parents('form:eq(0)')
@@ -736,8 +735,8 @@
                 return false;
             }
         });
-                
-        //-----------------------------------------------------       
+
+        //-----------------------------------------------------
         $('body').on('keydown', 'input, select, textarea', function(e) {
         var self = $(this)
         , form = self.parents('form:eq(0)')
@@ -756,11 +755,11 @@
         }
     });
 
-    function checksummoney(number){          
-       
+    function checksummoney(number){
+
           var SUP_TOTAL=document.getElementById("product_qty"+number).value;
-          var PRICE_PER_UNIT=document.getElementById("product_price"+number).value;          
-         // alert(SUP_TOTAL);          
+          var PRICE_PER_UNIT=document.getElementById("product_price"+number).value;
+         // alert(SUP_TOTAL);
           var _token=$('input[name="_token"]').val();
                $.ajax({
                        url:"{{route('ware.checksummoney')}}",
@@ -770,9 +769,9 @@
                           $('.summoney'+number).html(result);
                           findTotal();
                        }
-               })               
-      }           
-    
+               })
+      }
+
               function numberWithCommas(nStr) {
                 nStr += '';
                     x = nStr.split('.');
@@ -784,7 +783,7 @@
                     }
                     return x1 + x2;
             }
-            
+
             function findTotal(){
             var arr = document.getElementsByName('sum');
             var tot=0;
@@ -807,28 +806,28 @@
             }
             return x1 + x2;
     }
-    
+
       function findTotal(){
         var arr = document.getElementsByName('sum');
         var tot=0;
-    
+
         count = $('.tbody1').children('tr').length;
         for(var i=0;i<count;i++){
                 tot += parseFloat(arr[i].value);
-        }    
-        count = tot.toFixed(5);    
-        document.getElementById('total').value = numberWithCommas(count);   
-    
+        }
+        count = tot.toFixed(5);
+        document.getElementById('total').value = numberWithCommas(count);
+
     }
-  
-   
-    
+
+
+
 </script>
 <script>
      $(document).ready(function() {
         $('#warehouse_update').on('submit',function(e){
-                    e.preventDefault();            
-                    var form = this; 
+                    e.preventDefault();
+                    var form = this;
                     $.ajax({
                           url:$(form).attr('action'),
                           method:$(form).attr('method'),
@@ -841,27 +840,27 @@
                           },
                           success:function(data){
                             if (data.status == 0 ) {
-                              
-                            } else {          
+
+                            } else {
                               Swal.fire({
                                 title: 'แก้ไขข้อมูลสำเร็จ',
                                 text: "You Edit data success",
                                 icon: 'success',
                                 showCancelButton: false,
-                                confirmButtonColor: '#06D177', 
+                                confirmButtonColor: '#06D177',
                                 confirmButtonText: 'เรียบร้อย'
                               }).then((result) => {
-                                if (result.isConfirmed) {                  
+                                if (result.isConfirmed) {
                                   window.location="{{url('warehouse/warehouse_index')}}";
                                 }
-                              })      
+                              })
                             }
                           }
                     });
               });
               $('#warehouse_updateaddsub').on('submit',function(e){
-                    e.preventDefault();            
-                    var form = this; 
+                    e.preventDefault();
+                    var form = this;
                     $.ajax({
                           url:$(form).attr('action'),
                           method:$(form).attr('method'),
@@ -874,20 +873,20 @@
                           },
                           success:function(data){
                             if (data.status == 0 ) {
-                              
-                            } else {          
+
+                            } else {
                               Swal.fire({
                                 title: 'เพิ่มรายการสำเร็จ',
                                 text: "You Insert data success",
                                 icon: 'success',
                                 showCancelButton: false,
-                                confirmButtonColor: '#06D177', 
+                                confirmButtonColor: '#06D177',
                                 confirmButtonText: 'เรียบร้อย'
                               }).then((result) => {
-                                if (result.isConfirmed) {                  
+                                if (result.isConfirmed) {
                                   window.location="{{url('warehouse/warehouse_index')}}";
                                 }
-                              })      
+                              })
                             }
                           }
                     });
@@ -896,4 +895,3 @@
 </script>
 
 @endsection
- 

@@ -13,18 +13,18 @@
         <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-      
-       
-    
+
+
+
         {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
         <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
         <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
-    
+
         <!-- jquery.vectormap css -->
         <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
             rel="stylesheet" type="text/css" />
-    
+
         <!-- DataTables -->
         <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
             type="text/css" />
@@ -32,38 +32,61 @@
             type="text/css" />
         <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
             type="text/css" />
-    
+
         <!-- Responsive datatable examples -->
         <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
             rel="stylesheet" type="text/css" />
-    
+
         <!-- Bootstrap Css -->
         <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-    
+
         <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
        <!-- select2 -->
         <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        <link rel="stylesheet"
        href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-    
+
 
    {{-- <link href="{{ asset('css/tablewarehouse.css') }}" rel="stylesheet"> --}}
 </head>
- 
 
+<style>
+     body{
+        background:
+            /* url(/pkbackoffice/public/images/bg7.png);  */
+            /* -webkit-background-size: cover; */
+        background-repeat: no-repeat;
+		background-attachment: fixed;
+		/* background-size: cover; */
+        background-size: 100% 100%;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* width: 100vw;   ให้เต็มพอดี */
+        /* height: 100vh; ให้เต็มพอดี  */
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+    .Bgheader {
+  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+		background-repeat: no-repeat;
+	}
+</style>
 <body data-topbar="dark">
- 
+
     <!-- Begin page -->
     <div id="layout-wrapper">
 
         <header id="page-topbar">
             <div class="navbar-header" style="background-color: rgb(252, 252, 252)">
-              
+
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -78,11 +101,11 @@
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
+                            <span class="logo-sm">
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
@@ -90,20 +113,20 @@
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
+                    <?php
+                        $org = DB::connection('mysql')->select(                                                            '
+                                select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                        );
                     ?>
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
-                            
+
                         </div>
-                    </form>                                         
+                    </form>
                 </div>
 
 
@@ -118,18 +141,18 @@
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            
+
                             <img src="{{ asset('assets/images/default-image.jpg') }}" height="22px"
                                     width="22px" alt="Header Avatar" class="rounded-circle header-profile-user">
-              
+
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
                             <a class="dropdown-item" href=""><i class="ri-user-line align-middle me-1"></i> Profile</a>
-                            <div class="dropdown-divider"></div> 
-                           
+                            <div class="dropdown-divider"></div>
+
                         </div>
-                    </div> 
+                    </div>
 
                     {{-- <div class="dropdown d-inline-block user-dropdown">
 
@@ -140,46 +163,46 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu">
+        <div class="vertical-menu Bgsidebar">
 
-            <div data-simplebar class="h-100" style="background-color: rgb(5, 125, 144)">
-               
+            <div data-simplebar class="h-100" >
+
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title" style="color: white">Menu</li>
+                        <li class="menu-title">Menu</li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-shop-lock" style="color: white"></i>
-                                <span style="color: white">คลังวัสดุ</span>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-shop-lock text-danger"></i>
+                                <span>คลังวัสดุ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('warehouse/warehouse_index') }}" style="color: white">ตรวจรับวัสดุ</a></li>  
-                                <li ><a href="{{ url('warehouse/warehouse_pay') }}" style="color: white">เบิกจ่ายวัสดุ</a></li>  
-                                <li ><a href="{{ url('warehouse/warehouse_main') }}" style="color: white">Stock-Card คลังหลัก</a></li>  
+                                <li ><a href="{{ url('warehouse/warehouse_index') }}" style="color: rgb(5, 5, 5)">ตรวจรับวัสดุ</a></li>
+                                <li ><a href="{{ url('warehouse/warehouse_pay') }}" style="color: rgb(0, 0, 0)">เบิกจ่ายวัสดุ</a></li>
+                                <li ><a href="{{ url('warehouse/warehouse_main') }}" style="color: rgb(0, 0, 0)">Stock-Card คลังหลัก</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
-                                <i class="fa-solid fa-gears text-white"></i>
-                                <span style="color: white">ตั่งค่า</span>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-gears text-danger"></i>
+                                <span >ตั่งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('warehouse/warehouse_inven') }}" style="color: white">คลังวัสดุ</a></li>
-                                <li ><a href="{{ url('warehouse/warehouse_vendor') }}" style="color: white">ตัวแทนจำหน่าย</a></li>  
+                                <li ><a href="{{ url('warehouse/warehouse_inven') }}" >คลังวัสดุ</a></li>
+                                <li ><a href="{{ url('warehouse/warehouse_vendor') }}">ตัวแทนจำหน่าย</a></li>
                             </ul>
-                        </li> 
+                        </li>
                         {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-user-nurse text-danger"></i>
                                 <span style="color: white">ห้องผ่าตัด</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('report_or') }}" style="color: white">Dashboard</a></li>  
+                                <li ><a href="{{ url('report_or') }}" style="color: white">Dashboard</a></li>
                             </ul>
                         </li>  --}}
-  
+
 
                     </ul>
                 </div>
@@ -212,7 +235,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - งานประกันสุขภาพ
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>
@@ -294,14 +317,14 @@
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
     @yield('footer')
-    
-    
+
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-           
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -310,8 +333,8 @@
 
         });
 
-        
-       
+
+
     </script>
 
 </body>
