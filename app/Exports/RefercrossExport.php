@@ -18,7 +18,7 @@ class RefercrossExport implements FromCollection,WithHeadings
     }
     public function headings():array{
         return [
-            'vn','an','hn','cid','vstdate','vsttime','ptname','pttype','hospcode','hospmain','icd10','pdx','dx0','dx1','income','refer','Total'      
+            'vn','an','hn','cid','vstdate','vsttime','ptname','pttype','hospcode','hospmain','pdx','dx0','dx1','income','refer','Total'      
         ];
     }
 }

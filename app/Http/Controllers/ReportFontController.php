@@ -791,6 +791,7 @@ class ReportFontController extends Controller
                 concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,r.name as refername,
                 ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price,s.nhso_adp_code
+                ,sum(if(s.icode IN ("3010829","3010830","3010861","3010862","3010863","3010864","3011012","3011068","3011069","3011070","3011071","3011072","3011073","3011074","3011075","3011076","3011077","3011078","3011078"),sum_price,0)) as PriceRefer 
                 FROM referout ro
                 LEFT OUTER JOIN ovst o on o.vn = ro.vn
                 LEFT OUTER JOIN patient p on p.hn=ro.hn
@@ -817,6 +818,7 @@ class ReportFontController extends Controller
                 ,concat(h.hosptype," ",h.name) as hospname,h.province_name,h.area_code,
                 ro.with_ambulance,ro.with_nurse,pe.name as pttype_name,
                 r.name as refername,ro.refer_point,concat(ro.pdx," : ",ic.name) as icd_name,ot.unitprice,ot.qty,ot.sum_price,s.nhso_adp_code
+                ,sum(if(s.icode IN ("3010829","3010830","3010861","3010862","3010863","3010864","3011012","3011068","3011069","3011070","3011071","3011072","3011073","3011074","3011075","3011076","3011077","3011078","3011078"),sum_price,0)) as PriceRefer 
                 from referout ro
                 LEFT OUTER JOIN ipt o on o.an = ro.vn
                 LEFT OUTER JOIN patient p on p.hn=ro.hn
@@ -1066,7 +1068,7 @@ class ReportFontController extends Controller
             SELECT * FROM
             (
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
-                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 1000 then v.income
                         else "1000"
@@ -1080,13 +1082,16 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join er_regist g on g.vn=v.vn 
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and i.an is null
+                        AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain = "'.$hospcode.'"
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
@@ -1095,7 +1100,7 @@ class ReportFontController extends Controller
                         UNION
 
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
-                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 700 then v.income
                         else "700"
@@ -1109,13 +1114,16 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join er_regist g on g.vn=v.vn 
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and i.an is null
+                        AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain = "'.$hospcode.'"
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
@@ -1152,10 +1160,10 @@ class ReportFontController extends Controller
            }
         } else {
             $datashow_ = DB::connection('mysql3')->select('
-                        SELECT * FROM
+                    SELECT * FROM
                         (
                             SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
-                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 1000 then v.income
                         else "1000"
@@ -1169,13 +1177,16 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join er_regist g on g.vn=v.vn 
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and i.an is null
+                        AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
@@ -1184,7 +1195,7 @@ class ReportFontController extends Controller
                         UNION
 
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
-                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 700 then v.income
                         else "700"
@@ -1198,13 +1209,16 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join er_regist g on g.vn=v.vn 
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and i.an is null
+                        AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
@@ -1257,10 +1271,10 @@ class ReportFontController extends Controller
         // $hospcode = $request->hospcode;
 
             $export = DB::connection('mysql3')->select('
-                    SELECT * FROM
-                    (
+            SELECT * FROM
+            (
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
-                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 1000 then v.income
                         else "1000"
@@ -1274,13 +1288,16 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join er_regist g on g.vn=v.vn 
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and i.an is null
+                        AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain = "'.$hospcode.'"
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
@@ -1289,7 +1306,7 @@ class ReportFontController extends Controller
                         UNION
 
                         SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
-                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer
+                        ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 700 then v.income
                         else "700"
@@ -1303,13 +1320,16 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join er_regist g on g.vn=v.vn 
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and i.an is null
+                        AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain = "'.$hospcode.'"
-                        and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                        and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
@@ -1340,9 +1360,9 @@ class ReportFontController extends Controller
         $datashow_ = DB::connection('mysql3')->select('
             SELECT
                 v.hn,v.vn,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname
-                ,v.cid,v.pttype,v.pdx,group_concat(distinct oo.icd10) as icd10
+                ,v.cid,v.pttype,v.pdx,group_concat(distinct oo.icd10) as icd10,v.pttype
                 ,h.hospcode,h.name as hospmain ,v.income,v.paid_money,v.uc_money
-                ,SUM(op.sum_price)
+                ,SUM(op.sum_price),n.name As nameCT
 
                 from vn_stat v
                 left outer join opitemrece op on op.vn = v.vn
@@ -1353,6 +1373,7 @@ class ReportFontController extends Controller
                 left join opdscreen d on d.vn = v.vn
                 left join hospcode h on h.hospcode = v.hospmain
                 left join ovst ov on ov.vn = v.vn
+                left outer join nondrugitems n on n.icode = op.icode
                 left join visit_pttype vv on vv.vn = v.vn
                 left join hshooterdb.m_stm s on s.vn = v.vn
                 left outer join hos.pttype pt on pt.pttype =v.pttype
@@ -1361,10 +1382,10 @@ class ReportFontController extends Controller
                 where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                 and i.an is null
                 and v.hospmain = "'.$hospcode.'"
-                and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81")
+                and v.pttype in("98","99","74","50","89","71","88","82","76","72","73","77","75","87","90","91","81","A7")
                 and op.icode in("3009186","3009187","3009147","3009188","3010113","3009176","3009158","3009148","3009173","3009178","3009160","3009157"
                 ,"3009191","3009139","3009155","3009193","3009180","3009159","3009167","3009162","3009140","3010044","3009172","3009165","3009166","3009161")
-                and pt.hipdata_code ="UCS"
+                and pt.hipdata_code IN("UCS","SSS") 
                 and v.vn not in(select vn from eclaimdb.opitemrece_refer where vn = o1.vn)
                 group by v.vn;
         ');

@@ -127,10 +127,10 @@
                                         <?php
                                             $total1 = $total1 + ($item->debit_total-$item->inst); 
                                             $total2 = $total2 + $item->ip_paytrue;
-                                            $total3 = $total2 + $item->total_approve;
+                                            $total3 = $total3 + $item->total_approve;
                                         ?>
 
-                                    <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    {{-- <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -190,7 +190,7 @@
                                                     <div class="row">
                                                         <div class="col"> </div> 
                                                         <div class="col-md-2 text-danger">
-                                                            {{-- <label for="" >{{ number_format($item->money_hosxp,2)}} บาท</label>  --}}
+                                                          
                                                         </div> 
                                                     </div>
                                                 </div>
@@ -205,19 +205,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 @endforeach  
                                
                             </tbody>
-                                        <tr style="background-color: #f3fca1">
+                                        {{-- <tr style="background-color: #f3fca1">
                                             <td colspan="8" class="text-end" style="background-color: #ff9d9d"></td>
                                             <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td>
                                             <td class="text-end" style="background-color: #f3d1be">{{ number_format($sum_stm_total,2)}}</td>
                                             <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
                                             <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>  
-                                            {{-- <td class="text-end" style="background-color: #ff9d9d"></td> dt-responsive nowrap--}}
-                                        </tr>  
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>   
+                                        </tr>   --}}
                         </table>
                     </div>
                 </div>

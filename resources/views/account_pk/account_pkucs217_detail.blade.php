@@ -84,6 +84,7 @@
                                     <th class="text-center">vstdate</th>
                                     <th class="text-center">dchdate</th>
                                     <th class="text-center">pttype</th>
+                                    {{-- <th class="text-center">สปสช</th> --}}
                                     <th class="text-center">income</th>
                                     <th class="text-center">ลูกหนี้</th>
                                 </tr>
@@ -105,6 +106,7 @@
                                                 <td class="text-center" width="10%">{{ $item->vstdate }}</td>
                                                 <td class="text-center" width="10%">{{ $item->dchdate }}</td>
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>
+                                                {{-- <td class="text-center" style="color:rgb(14, 108, 196)" width="5%">{{ $item->subinscl}}</td> --}}
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->income_group }}</td>
                                                 <td class="text-end" width="10%">
                                                     {{-- <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย"> --}}

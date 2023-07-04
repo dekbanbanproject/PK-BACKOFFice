@@ -123,7 +123,7 @@
                                                 </td>  --}}
                                     </tr>
                                         <?php
-                                            $total1 = $total1 + ($item->debit_total-$item->inst); 
+                                            $total1 = $total1 + ($item->debit_total-$item->ip_paytrue); 
                                             $total2 = $total2 + $item->ip_paytrue;
                                             $total3 = $total3 + $item->total_approve;
                                         ?>

@@ -119,7 +119,8 @@
                                         <th>hospname</th> 
                                         <th>AMBULANCE</th> 
                                         <th>พยาบาล</th>  
-                                      
+                                        <th>ค่าพาหนะ</th> 
+                                        {{-- <th>ค่ารถ refer รับกลับ</th>  --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -140,7 +141,7 @@
                                         @if ($inforefer->with_ambulance == 'Y' && $inforefer->with_nurse == 'Y')
                                             <tr height="20" style="background-color: rgb(182, 243, 238)">
                                                 <td class="text-font" style="text-align: center;">{{$number}}</td>  
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->department}}</td>
+                                                <td class="text-font text-pedding" style="text-align: left;width: 5%;">{{$inforefer->department}}</td>
                                                 <td class="text-font text-pedding" style="text-align: left;">
                                                 
                                                     @foreach ($detail_ as $item) 
@@ -174,6 +175,8 @@
                                                 <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospname}}</td>
                                                 <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_ambulance}}</td>
                                                 <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>   
+                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->PriceRefer}}</td> 
+                                                {{-- <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->ReferBack}}</td>  --}}
                                             </tr>
                                         @else
                                             <tr height="20">
@@ -211,7 +214,9 @@
                                                 <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospmain}}</td>
                                                 <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->hospname}}</td>
                                                 <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_ambulance}}</td>
-                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>   
+                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->with_nurse}}</td>  
+                                                <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->PriceRefer}}</td> 
+                                                {{-- <td class="text-font text-pedding" style="text-align: left;">{{$inforefer->ReferBack}}</td>   --}}
                                             </tr>
                                         @endif
                                        

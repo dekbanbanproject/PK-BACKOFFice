@@ -131,6 +131,7 @@
                                     <th class="text-center">income</th>
                                     <th class="text-center">ยอดเรียกเก็บ</th>
                                     <th class="text-center">Total</th>
+                                    <th class="text-center">Level</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -139,12 +140,12 @@
                                     <?php $number++; ?>
                                     <tr height="20">
                                         <td class="text-font" style="text-align: center;width: 5%;">{{ $number }}</td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 10%;" > {{ $item->cid }}</td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->hn }}</td>
-                                        <td class="text-font text-pedding" style="text-align: left;"> {{ $item->ptname }} </td>
-                                        <td class="text-font text-pedding" style="text-align: left;width: 15%;"> {{ $item->hospmain }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->pttype }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 10%;"> {{ $item->vstdate }}</td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 7%;" > {{ $item->cid }}</td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->hn }}</td>
+                                        <td class="text-font text-pedding" style="text-align: left;width: 10%;"> {{ $item->ptname }} </td>
+                                        <td class="text-font text-pedding" style="text-align: left;width: 12%;"> {{ $item->hospmain }} </td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pttype }} </td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->vstdate }}</td>
                                         {{-- <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vsttime }} </td>  --}}
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pdx }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->dx0 }} </td>
@@ -152,6 +153,7 @@
                                         <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#b00ec5">&nbsp;&nbsp; {{ number_format($item->income,2) }} </td>
                                         <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b"> &nbsp;&nbsp;{{ number_format($item->refer,2) }} </td>
                                         <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#0bc597"> &nbsp;&nbsp;{{ number_format(($item->total),2) }} </td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->er_emergency_level_name }} </td>
                                     </tr>
                                         <?php
                                             $total1 = $total1 + ($item->income);
@@ -166,6 +168,7 @@
                                 <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td>
                                 <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td>
                                 <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>
+                                <td class="text-end" style="background-color: #ff9d9d"></td>
                             </tr>
                         </table>
 

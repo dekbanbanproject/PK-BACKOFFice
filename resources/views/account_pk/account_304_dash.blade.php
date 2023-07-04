@@ -114,7 +114,7 @@
         <div class="row "> 
             @foreach ($datashow as $item)   
             <div class="col-xl-6 col-md-6">
-                <div class="main-card mb-3 card">   
+                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
 
                     @if ($startdate == '')
                         <div class="grid-menu-col">

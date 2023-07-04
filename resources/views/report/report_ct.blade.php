@@ -109,7 +109,9 @@
                                 <div class="col"></div>
                             </div> 
                         </form> 
-                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap mt-2"
+                            {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap mt-2"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -125,7 +127,7 @@
                                     <th class="text-center">ค่าบริการ</th> 
                                     <th class="text-center">ค่ายา(CM)</th>
                                     <th class="text-center">ยอดเรียกเก็บตามข้อตกลง</th> 
- 
+                                    <th class="text-center">pttype</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,11 +149,12 @@
                                         <td class="text-font text-pedding text-center"> {{ $item->hospcode }} </td> 
                                         <td class="text-font text-pedding text-center"> {{ $item->vstdate }} </td> 
                                         <td class="text-font text-pedding text-center"> {{ $item->pdx }} </td> 
-                                        <td class="text-font text-pedding p-2" > {{ $item->icd10 }} </td> 
+                                        <td class="text-font text-pedding p-2" > {{ $item->nameCT }} </td> 
                                         {{-- {{ number_format($item->income,2) }} --}}
                                         <td class="text-font text-pedding text-end">&nbsp;&nbsp; {{ number_format($priccost,2) }}  </td> 
                                         <td class="text-font text-pedding text-end">&nbsp;&nbsp;   </td> 
                                         <td class="text-font text-pedding text-end"> &nbsp;&nbsp;  </td>  
+                                        <td class="text-font text-pedding text-center"> {{ $item->pttype }} </td> 
                                     </tr>
                                 @endforeach
                                

@@ -246,7 +246,16 @@
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
-
+                        <li>
+                            <a href="{{url('sit_acc_debtorauto')}}" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-invoice-dollar text-success"></i>
+                                <span>ตรวจสอบสิทธิ์</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('sit_acc_debtorauto') }}">ตรวจสอบสิทธิ์ Auto</a></li> 
+                            </ul>
+                           
+                        </li> 
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-success"></i>
@@ -319,6 +328,17 @@
                                 <li><a href="{{ url('account_802_dash') }}">ผัง-802</a></li>
                                 <li><a href="{{ url('account_803_dash') }}">ผัง-803</a></li>
                                 <li><a href="{{ url('account_804_dash') }}">ผัง-804</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                {{-- <i class="fa-solid fa-file-invoice-dollar text-danger"></i> --}}
+                                <i class="fa-brands fa-btc" style="color: #e42ad4"></i>
+                                <span>พรบ</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('account_602_dash') }}">ผัง-602</a></li>
+                                <li><a href="{{ url('account_603_dash') }}">ผัง-603</a></li>
                             </ul>
                         </li>
                         <li>
