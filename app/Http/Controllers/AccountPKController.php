@@ -34,6 +34,8 @@ use App\Models\Acc_1102050102_802;
 use App\Models\Acc_1102050102_803;
 use App\Models\Acc_1102050102_804;
 use App\Models\Acc_1102050101_4022;
+use App\Models\Acc_1102050102_602;
+use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
@@ -4055,6 +4057,220 @@ class AccountPKController extends Controller
             'datashow'         => $datashow,
             'newyear'          => $newyear,
             'date'             => $date,
+        ]);
+    }
+    public function account_602_pull(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $months = date('m');
+        $year = date('Y');
+        // dd($year);
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ($startdate == '') {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
+            $acc_debtor = DB::select('
+                SELECT * from acc_debtor a 
+                WHERE a.account_code="1102050102.602"
+                AND a.stamp = "N"
+                group by a.vn
+                order by a.vstdate asc
+            ');
+            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+        } else {
+            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
+        }
+
+        return view('account_pk.account_602_pull',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'acc_debtor'    =>     $acc_debtor,
+        ]);
+    }
+    public function account_602_pulldata(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->datepicker;
+        $enddate = $request->datepicker2;
+        // Acc_opitemrece::truncate();
+        $acc_debtor = DB::connection('mysql3')->select('
+            SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                ,o.vstdate,totime(o.vsttime) as vsttime
+                ,v.hospmain,op.income as income_group
+                ,o.vstdate as vstdatesave
+                ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
+                ,ptt.pttype_eclaim_id
+                ,v.pttype,ptt.name as namelist 
+                ,e.gf_opd as gfmis,e.code as acc_code
+                ,e.ar_opd as account_code
+                ,e.name as account_name
+                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                ,v.rcpno_list as rcpno
+                ,v.income-v.discount_money-v.rcpt_money as debit
+                ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                ,ptt.max_debt_money
+            from vn_stat v
+            left join ovst o on v.vn=o.vn
+            left join patient pt on pt.hn=v.hn
+            LEFT JOIN pttype ptt on v.pttype=ptt.pttype
+            LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+            LEFT JOIN opitemrece op ON op.vn = o.vn
+            WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            AND v.pttype IN("31","36","37","38","39") 
+            and (o.an="" or o.an is null)
+            GROUP BY v.vn 
+        ');
+
+        foreach ($acc_debtor as $key => $value) {
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.602')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    if ($check == 0) {
+                        Acc_debtor::insert([
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an,
+                            'vn'                 => $value->vn,
+                            'cid'                => $value->cid,
+                            'ptname'             => $value->ptname,
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdate,
+                            'acc_code'           => $value->acc_code,
+                            'account_code'       => $value->account_code,
+                            'account_name'       => $value->account_name,
+                            'income_group'       => $value->income_group,
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->debit,
+                            'debit_drug'         => $value->debit_drug,
+                            'debit_instument'    => $value->debit_instument,
+                            'debit_toa'          => $value->debit_toa,
+                            'debit_refer'        => $value->debit_refer,
+                            'debit_total'        => $value->debit,
+                            'max_debt_amount'    => $value->max_debt_money,
+                            'acc_debtor_userid'  => Auth::user()->id
+                        ]);
+                    }
+
+        }
+
+            return response()->json([
+
+                'status'    => '200'
+            ]);
+    }
+    public function account_602_stam(Request $request)
+    {
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
+                    ->update([
+                        'stamp' => 'Y'
+                    ]);
+        foreach ($data as $key => $value) {
+                $date = date('Y-m-d H:m:s');
+            //  $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->where('account_code','1102050101.4011')->count();
+                $check = Acc_debtor::where('vn', $value->vn)->where('debit_total','=','0')->count();
+                if ($check > 0) {
+                # code...
+                } else {
+                    Acc_1102050102_602::insert([
+                            'vn'                => $value->vn,
+                            'hn'                => $value->hn,
+                            'an'                => $value->an,
+                            'cid'               => $value->cid,
+                            'ptname'            => $value->ptname,
+                            'vstdate'           => $value->vstdate,
+                            'regdate'           => $value->regdate,
+                            'dchdate'           => $value->dchdate,
+                            'pttype'            => $value->pttype,
+                            'pttype_nhso'       => $value->pttype_spsch,
+                            'acc_code'          => $value->acc_code,
+                            'account_code'      => $value->account_code,
+                            'income'            => $value->income,
+                            'income_group'      => $value->income_group,
+                            'uc_money'          => $value->uc_money,
+                            'discount_money'    => $value->discount_money,
+                            'rcpt_money'        => $value->rcpt_money,
+                            'debit'             => $value->debit,
+                            'debit_drug'        => $value->debit_drug,
+                            'debit_instument'   => $value->debit_instument,
+                            'debit_refer'       => $value->debit_refer,
+                            'debit_toa'         => $value->debit_toa,
+                            'debit_total'       => $value->debit,
+                            'max_debt_amount'   => $value->max_debt_amount,
+                            'acc_debtor_userid' => $iduser
+                    ]);
+                }
+
+        }
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+    public function account_602_detail(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $data = DB::select('
+        SELECT U1.acc_1102050102_602_id,U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice 
+            from acc_1102050102_602 U1
+            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_id = U1.acc_1102050102_602_id  
+            WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+            GROUP BY U1.vn
+        ');
+
+        return view('account_pk.account_602_detail', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data,
+            'months'        =>     $months,
+            'year'          =>     $year
+        ]);
+    }
+    public function account_602_edit(Request $request, $id)
+    {
+        $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_id','=','acc_1102050102_602.acc_1102050102_602_id')
+        ->find($id);
+
+        return response()->json([
+            'status'      => '200',
+            'acc602'      =>  $acc602,
+        ]);
+    }
+
+    public function account_602_update(Request $request)
+    {
+        $id = $request->acc_1102050102_602_id;
+        $update = Acc_1102050102_602::find($id);
+        $update->status = "Y";
+        $update->save();
+
+        $add = new Acc_stm_prb();
+        $add->acc_1102050102_602_id = $id;
+        $add->req_no           = $request->req_no;
+        $add->cid              = $request->cid;
+        $add->ptname           = $request->ptname;
+        $add->claim_no         = $request->claim_no;
+        $add->vendor           = $request->vendor;
+        $add->money_billno     = $request->money_billno;
+        $add->paytype          = $request->paytype;
+        $add->no               = $request->no;
+        $add->payprice         = $request->payprice;
+        $add->paydate          = $request->paydate;
+        $add->savedate         = $request->savedate;
+        $add->save();
+        return response()->json([
+            'status'      => '200' 
         ]);
     }
 

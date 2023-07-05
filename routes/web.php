@@ -1461,6 +1461,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_602_pull',[App\Http\Controllers\AccountPKController::class, 'account_602_pull'])->name('acc.account_602_pull');//
     Route::match(['get','post'],'account_602_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_602_pulldata'])->name('acc.account_602_pulldata');//
     Route::match(['get','post'],'account_602/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_602'])->name('acc.account_602');//
+    Route::match(['get','post'],'account_602_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'account_602_edit'])->name('acc.account_602_edit');//
+    Route::match(['get','post'],'account_602_update',[App\Http\Controllers\AccountPKController::class, 'account_602_update'])->name('acc.account_602_update');//
     Route::match(['get','post'],'account_602_detail/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_602_detail'])->name('acc.account_602_detail');//
     Route::match(['get','post'],'account_602_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_602_stm'])->name('acc.account_602_stm');//
     Route::match(['get','post'],'account_602_stmnull/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_602_stmnull'])->name('acc.account_602_stmnull');//
