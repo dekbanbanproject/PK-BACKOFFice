@@ -1,5 +1,5 @@
 {{-- @extends('layouts.accpk') --}}
-@extends('layouts.warehouse')
+@extends('layouts.warehouse_new')
 @section('title', 'PK-BACKOFFice || คลังวัสดุ')
 @section('content')
 
@@ -46,7 +46,7 @@
             })
         }
 
-       
+
     </script>
     <?php
     if (Auth::check()) {
@@ -117,10 +117,10 @@
             height: 2px;
             margin-bottom: 9px;
         }
-        
+
     </style>
-     
-    <div class="container-fluids">
+
+    <div class="container-fluid">
         <div class="row ">
             <div class="col-md-12">
                 <div class="card shadow">
@@ -146,14 +146,14 @@
                                 class="table table-hover table-striped table-bordered myTable">
                                 <thead>
                                     <tr>
-                                        <th width="3%" class="text-center">ลำดับ</th> 
+                                        <th width="3%" class="text-center">ลำดับ</th>
                                         <th width="9%" class="text-center">คลัง</th>
                                         <th width="10%" class="text-center">รหัสวัสดุ</th>
                                         <th class="text-center">รายการวัสดุ</th>
                                         <th class="text-center">หมวดวัสดุ</th>
                                         <th width="8%" class="text-center">จำนวน</th>
                                         <th width="8%" class="text-center">ราคารวม</th>
-                                        <th width="5%" class="text-center">สถานะ</th> 
+                                        <th width="5%" class="text-center">สถานะ</th>
                                         <th width="5%" class="text-center">จัดการ</th>
                                     </tr>
                                 </thead>
@@ -162,18 +162,18 @@
                                     $date = date('Y');
                                     ?>
                                     @foreach ($warehouse_stock as $item)
-                                        <tr id="sid{{ $item->warehouse_stock_id }}">
-                                            <td class="text-center" width="3%">{{ $i++ }}</td> 
+                                        <tr id="sid{{ $item->warehouse_recieve_id }}">
+                                            <td class="text-center" width="3%">{{ $i++ }}</td>
                                             <td class="text-center" width="12%">{{ $item->warehouse_inven_name }} </td>
                                             <td class="text-center" width="10%">{{ $item->product_code }}</td>
                                             {{-- <td class="text-center" width="9%">
                                                 {{ DateThai($item->warehouse_rep_date) }}
                                             </td> --}}
                                             <td class="p-2">{{ $item->product_name }}</td>
-                                            <td class="p-2" width="12%">{{ $item->product_categoryname }}</td>
-                                            <td class="text-center" width="7%">{{ $item->product_qty }} </td>
-                                            <td class="text-center" width="10%">{{ $item->product_price_total }} </td>
-                                            <td class="text-center" width="5%">{{ $item->warehouse_stock_status }} </td>
+                                            <td class="p-2" width="12%">{{ $item->category_name }}</td>
+                                            <td class="text-center" width="7%">{{ $item->qty }} </td>
+                                            <td class="text-center" width="10%">{{ $item->totalprice }} </td>
+                                            <td class="text-center" width="5%">{{ $item->warehouse_recieve_sub_status }} </td>
                                             <td class="text-center" width="5%">
                                                 <div class="dropdown d-inline-block">
                                                     <button type="button" aria-haspopup="true" aria-expanded="false"
@@ -182,25 +182,25 @@
                                                         ทำรายการ
                                                     </button>
                                                     <div tabindex="-1" role="menu" aria-hidden="true"
-                                                        class="dropdown-menu-hover-link dropdown-menu">                                                       
-                                                       
+                                                        class="dropdown-menu-hover-link dropdown-menu">
+
                                                             <a class="dropdown-item text-primary" href=""  style="font-size:14px"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#detail{{ $item->warehouse_stock_id }}">
+                                                                data-bs-target="#detail{{ $item->warehouse_recieve_id }}">
                                                                 <i class="fa-solid fa-circle-info me-2 text-info" style="font-size:14px"></i>
                                                                 <span>รายละเอียด</span>
-                                                            </a>                                                         
+                                                            </a>
                                                     </div>
                                                 </div>
 
                                             </td>
                                         </tr>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="detail{{ $item->warehouse_stock_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="detail{{ $item->warehouse_recieve_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-xls">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">รายละเอียด {{ $item->product_name }}</h1> 
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">รายละเอียด {{ $item->product_name }}</h1>
                                                 <p>
                                                     <a class="btn btn-outline-info" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="--bs-btn-border-radius: .7rem;">
                                                       รายการรับเข้า
@@ -212,12 +212,12 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <?php $ii = 1;
-                                                        $datadetail = DB::connection('mysql')->select(                                                            '   
+                                                        $datadetail = DB::connection('mysql')->select(                                                            '
                                                                 select ws.product_id,ws.product_code,ws.product_name,ws.product_type_name,ws.product_qty
                                                                 ,wr.warehouse_rep_date,ws.product_price,ws.product_price_total,ws.product_unit_subname,ws.product_lot
                                                                 from warehouse_rep wr
-                                                                left outer join warehouse_rep_sub ws on ws.warehouse_rep_id = wr.warehouse_rep_id 
-                                                                where wr.warehouse_rep_inven_id ="'.$item->warehouse_inven_id .'"  
+                                                                left outer join warehouse_rep_sub ws on ws.warehouse_rep_id = wr.warehouse_rep_id
+                                                                where wr.warehouse_rep_inven_id ="'.$item->warehouse_recieve_inven_id .'"
                                                                 and ws.product_code ="'.$item->product_code .'"                                                                                                                      ',
                                                         );
                                                         $total = 0;
@@ -234,14 +234,14 @@
                                                                 <div class="col-md-1 text-center" style="font-size:14px">หน่วยนับ </div>
                                                                 <div class="col-md-1 text-center" style="font-size:14px">ราคา </div>
                                                                 <div class="col-md-2 text-center" style="font-size:14px">ราคารวม </div>
-                                                            </div> 
-                                                            <hr>  
+                                                            </div>
+                                                            <hr>
                                                             @foreach ($datadetail as $item3)
-                                                                <div class="row hrow"> 
+                                                                <div class="row hrow">
                                                                     <div class="col-md-2 text-center" style="font-size:14px;"> {{$item3->warehouse_rep_date}}</div>
                                                                     <div class="col-md-1 text-center" style="font-size:14px"> {{ $item3->product_code }}</div>
                                                                     <div class="col-md-2 text-center" style="font-size:14px"> {{ $item3->product_lot }}</div>
-                                                                    <div class="col-md-2" style="font-size:14px"> {{ $item3->product_name }}</div>  
+                                                                    <div class="col-md-2" style="font-size:14px"> {{ $item3->product_name }}</div>
                                                                     <div class="col-md-1 text-center" style="font-size:14px">
                                                                         {{ $item3->product_qty }} </div>
                                                                         <div class="col-md-1 text-center" style="font-size:14px">
@@ -252,12 +252,12 @@
                                                                         {{ number_format($item3->product_price_total, 4) }}
                                                                     </div>
                                                                 </div>
-                                                                <hr> 
+                                                                <hr>
                                                             <?php
                                                             $total = $total + $item3->product_qty * $item3->product_price;
                                                             ?>
                                                             @endforeach
-                                                            <div class="text-end me-5"> 
+                                                            <div class="text-end me-5">
                                                                 <label for=""
                                                                     class="me-5">ราคารวมทั้งหมด</label><label
                                                                     for=""> <b style="color: red;font-size:17px">
@@ -275,7 +275,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" style="--bs-btn-border-radius: .7rem;"><i
-                                                    class="fa-solid fa-xmark me-2"></i>Close</button> 
+                                                    class="fa-solid fa-xmark me-2"></i>Close</button>
                                                 </div>
                                             </div>
                                             </div>

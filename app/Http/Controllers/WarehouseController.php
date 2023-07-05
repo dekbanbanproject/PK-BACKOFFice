@@ -480,13 +480,13 @@ class WarehouseController extends Controller
                 'product_price'                      => $value2->product_price,
                 'product_price_total'                => $value2->product_price_total,
                 'product_lot'                        => $value2->product_lot,
-                'warehouse_recieve_sub_exedate'      => $value2->warehouse_recieve_sub_exedate,
-                'warehouse_recieve_sub_expdate'      => $value2->warehouse_recieve_sub_expdate,
+                'warehouse_recieve_sub_exedate'      => $value2->warehouse_rep_sub_exedate,
+                'warehouse_recieve_sub_expdate'      => $value2->warehouse_rep_sub_expdate,
                 'warehouse_recieve_sub_status'       => '2',
-                'warehouse_recieve_sub_total'        => $value2->warehouse_recieve_sub_total,
+                'warehouse_recieve_sub_total'        => $value2->warehouse_rep_sub_total,
             ]);
         }
- 
+
         return response()->json([
             'status'     => '200'
         ]);
@@ -803,16 +803,20 @@ class WarehouseController extends Controller
         $data['product_data'] = Products::where('product_groupid', '=', 1)->orwhere('product_groupid', '=', 2)->orderBy('product_id', 'DESC')->get();
         $data['countsttus'] = DB::table('warehouse_rep_sub')->where('warehouse_rep_sub_status', '=','2')->count();
 
-        $data['warehouse_stock'] = DB::connection('mysql')
-            ->select('select wr.warehouse_stock_id,wr.warehouse_inven_id,wi.warehouse_inven_name,pd.product_name,pd.product_code,pu.unit_name,wr.product_qty
-            ,wr.product_price_total,wr.warehouse_stock_status,pd.product_categoryname
-            from warehouse_stock wr
-            left outer join product_data pd on pd.product_id=wr.product_id
-            left outer join warehouse_inven wi on wi.warehouse_inven_id=wr.warehouse_inven_id
-            left outer join product_unit pu on pu.unit_id=wr.product_unit_subid
-            where wr.warehouse_inven_id = "'.$id.'"
-
+        $data['warehouse_stock'] = DB::connection('mysql')->select('
+            SELECT wr.warehouse_recieve_id,wr.warehouse_recieve_inven_id,wi.warehouse_inven_name,pc.category_name
+                    ,pd.product_code,pd.product_name,pu.unit_name
+                    ,SUM(wrs.product_qty) as qty,SUM(wrs.product_price_total) as totalprice,wrs.warehouse_recieve_sub_status
+                    from warehouse_recieve wr
+                    left outer join warehouse_recieve_sub wrs on wrs.warehouse_recieve_id=wr.warehouse_recieve_id
+                    left outer join product_data pd on pd.product_id=wrs.product_id
+                    left outer join product_category pc on pc.category_id=pd.product_categoryid
+                    left outer join warehouse_inven wi on wi.warehouse_inven_id=wr.warehouse_recieve_inven_id
+                    left outer join product_unit pu on pu.unit_id=wrs.product_unit_subid
+                    where wr.warehouse_recieve_inven_id = "'.$id.'"
+					GROUP BY wrs.product_code
             ');
+            
             // group by wr.warehouse_inven_id
         // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
         return view('warehouse.warehouse_main_detail', $data);

@@ -1,5 +1,5 @@
 {{-- @extends('layouts.accpk') --}}
-@extends('layouts.warehouse')
+@extends('layouts.warehouse_new')
 @section('title', 'PK-BACKOFFice || คลังวัสดุ')
 @section('content')
 
@@ -46,7 +46,7 @@
             })
         }
 
-       
+
     </script>
     <?php
     if (Auth::check()) {
@@ -64,56 +64,523 @@
     $count_service = StaticController::count_service();
     ?>
     <div class="container-fluid">
-        <div class="row "> 
+
+        <div class="row ">
             @foreach ($warehouse_inven as $item)
-                <div class="col-6 col-md-4 col-xl-2 mt-3">  
-                    <div class="card">
-                        <div class="card-body shadow-lg">          
-                            <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" class="nav-link text-dark text-center">
-                            
-                            @if ($item->warehouse_inven_id == '1')
-                            <i class="fa-solid fa-3x fa-warehouse text-primary"></i> 
-                            @elseif ($item->warehouse_inven_id == '2')
-                            <i class="fa-solid fa-3x fa-warehouse text-success"></i> 
-                            @elseif ($item->warehouse_inven_id == '3')
-                            <i class="fa-solid fa-3x fa-warehouse text-info"></i> 
-                            @elseif ($item->warehouse_inven_id == '4')
-                            <i class="fa-solid fa-3x fa-warehouse text-warning"></i> 
-                            @elseif ($item->warehouse_inven_id == '5')
-                            <i class="fa-solid fa-3x fa-warehouse text-danger"></i> 
-                            @elseif ($item->warehouse_inven_id == '6')
-                            <i class="fa-solid fa-3x fa-warehouse text-secondary"></i> 
-                            @elseif ($item->warehouse_inven_id == '7')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: palevioletred"></i> 
-                            @elseif ($item->warehouse_inven_id == '8')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(216, 53, 107)"></i>
-                            @elseif ($item->warehouse_inven_id == '9')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(2, 78, 44)"></i>
-                            @elseif ($item->warehouse_inven_id == '10')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(241, 48, 0)"></i>
-                            @elseif ($item->warehouse_inven_id == '11')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(132, 6, 144)"></i>
-                            @elseif ($item->warehouse_inven_id == '12')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(138, 112, 216)"></i>
-                            @elseif ($item->warehouse_inven_id == '13')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(39, 8, 38)"></i>
-                            @elseif ($item->warehouse_inven_id == '14')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(229, 237, 10)"></i>
-                            @elseif ($item->warehouse_inven_id == '15')
-                            <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(11, 88, 99)"></i>
-                            @else
-                                
-                            @endif
-                            <br>
-                            <label for="" class="mt-2">{{$item->warehouse_inven_name}}</label>
-                            </a>
+                
+                @if ($item->warehouse_inven_id == '1')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(236, 188, 198)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(236, 188, 198)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                @elseif ($item->warehouse_inven_id == '2')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(107, 189, 202)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(107, 189, 202)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @elseif ($item->warehouse_inven_id == '3')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color:rgba(245, 164, 209, 0.452)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgba(245, 164, 209, 0.452)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @elseif ($item->warehouse_inven_id == '4')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(207, 248, 253)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(207, 248, 253)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @elseif ($item->warehouse_inven_id == '5')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(182, 157, 240)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(182, 157, 240)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @elseif ($item->warehouse_inven_id == '6')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgba(187, 192, 187, 0.781)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgba(210, 211, 210, 0.781)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @elseif ($item->warehouse_inven_id == '7')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(209, 178, 250)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(209, 178, 250)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: palevioletred"></i> --}}
+                @elseif ($item->warehouse_inven_id == '8')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(141, 185, 218)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(141, 185, 218)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(216, 53, 107)"></i> --}}
+                @elseif ($item->warehouse_inven_id == '9')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(245, 180, 150)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(245, 180, 150)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(2, 78, 44)"></i> --}}
+                @elseif ($item->warehouse_inven_id == '10')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(252, 177, 210)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(252, 177, 210)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(241, 48, 0)"></i> --}}
+                @elseif ($item->warehouse_inven_id == '11')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgba(237, 199, 247, 0.781)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgba(237, 199, 247, 0.781)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(132, 6, 144)"></i> --}}
+                @elseif ($item->warehouse_inven_id == '12')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgba(247, 242, 173, 0.781)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgba(247, 242, 173, 0.781)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(138, 112, 216)"></i> --}}
+                @elseif ($item->warehouse_inven_id == '13')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgba(210, 211, 210, 0.781)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgba(210, 211, 210, 0.781)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(39, 8, 38)"></i> --}}
+                @elseif ($item->warehouse_inven_id == '14')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(155, 230, 243)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(155, 230, 243)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(229, 237, 10)"></i> --}}
+                @elseif ($item->warehouse_inven_id == '15')
+                <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(107, 189, 202)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+                                                                    {{-- <i class="fa-solid fa-3x fa-user-tie font-size-25 mt-3" style="color: rgb(234, 157, 172)"></i> --}}
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(107, 189, 202)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <i class="fa-solid fa-3x fa-warehouse" style="color: rgb(11, 88, 99)"></i> --}}
+                @else
+
+                @endif
+                {{-- <div class="col-xl-3 col-md-3">
+                    <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(107, 189, 202)">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                    <h5 class="text-start mb-2">{{$item->warehouse_inven_name}}</h5>
+                                                </div>
+                                                <div class="avatar-sm me-2">
+                                                    <a href="{{url("warehouse/warehouse_main_detail/".$item->warehouse_inven_id)}}" target="_blank">
+                                                        <span class="avatar-title bg-white text-primary rounded-3">
+                                                            <p style="font-size: 10px;">
+                                                                <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
+
+                                                                    <i class="fa-solid fa-3x fa-warehouse font-size-25 mt-3" style="color: rgb(107, 189, 202)"></i>
+                                                                </button>
+                                                            </p>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+                @endforeach
             </div>
-            @endforeach
-       
+
+
         </div>
     </div>
-    
+
 
 @endsection

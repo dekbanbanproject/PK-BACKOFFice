@@ -58,28 +58,41 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('ware.warehouse_confirm_recieve') }}" + '/' + warehouse_rep_id,
+                        url: "{{ url('warehouse_confirm_recieve') }}" + '/' + warehouse_rep_id,
                         type: 'POST',
                         data: {
                             _token: $("input[name=_token]").val()
                         },
-                        success: function(response) {
-                            Swal.fire({
-                                title: 'นำเข้าคลังเรียบร้อย!',
+                        success: function(data) {
+                            if (data.status == 200 ) {
+                                Swal.fire({
+                                title: 'นำเข้าคลังเรียบร้อย',
                                 text: "You Insert data success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',
-                                // cancelButtonColor: '#d33',
                                 confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
+                              }).then((result) => {
                                 if (result.isConfirmed) {
-                                    // $("#sid" + product_id).remove();
                                     window.location.reload();
-                                    // window.location =
-                                    //     "{{ url('supplies/supplies_index') }}"; //
                                 }
-                            })
+                              })
+
+                            } else {
+                            //   Swal.fire({
+                            //     title: 'นำเข้าคลังเรียบร้อย',
+                            //     text: "You Insert data success",
+                            //     icon: 'success',
+                            //     showCancelButton: false,
+                            //     confirmButtonColor: '#06D177',
+                            //     confirmButtonText: 'เรียบร้อย'
+                            //   }).then((result) => {
+                            //     if (result.isConfirmed) {
+                            //         window.location.reload();
+                            //     }
+                            //   })
+                            }
+
                         }
                     })
                 }
@@ -203,7 +216,7 @@
                             </a> --}}
                                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>เปิดบิล
+                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>ออกบิล
                                 </button>
                             </div>
                         </div>
@@ -762,7 +775,7 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">เปิดบิล</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">ออกบิล</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>

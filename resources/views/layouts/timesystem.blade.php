@@ -13,8 +13,8 @@
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-   
+
+
 
     {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -54,7 +54,7 @@
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
   <style>
-        body{   
+        body{
         background:
             url(/pkbackoffice/public/images/bg5.jpg);
             /* url(/pkbackoffice/public/images/bg5.jpg); */
@@ -67,7 +67,7 @@
         /* align-items: center; */
         /* justify-content: center; */
         /* width: 100vw;   ให้เต็มพอดี */
-        /* height: 100vh; ให้เต็มพอดี  */ 
+        /* height: 100vh; ให้เต็มพอดี  */
         }
     .Bgsidebar {
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
@@ -86,7 +86,7 @@
 
         <header id="page-topbar">
             <div class="navbar-header shadow-lg Bgheader" >
-              
+
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -101,11 +101,11 @@
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
+                            <span class="logo-sm">
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5>
                             </span>
                         </a>
                     </div>
@@ -113,28 +113,28 @@
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
+                    <?php
+                        $org = DB::connection('mysql')->select(                                                            '
+                                select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                        );
                     ?>
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
-                            
+
                         </div>
-                    </form>                                         
+                    </form>
                 </div>
- 
+
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
-                    </div> 
+                    </div>
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -152,7 +152,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}" style="font-size: 12px"><i
+                            <a class="dropdown-item" href="{{ url('admin_profile_edit/' . Auth::user()->id) }}" style="font-size: 12px"><i
                                     class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
@@ -170,9 +170,9 @@
             </div>
         </header>
         {{-- <style>
-            .nom6{ 
+            .nom6{
                 background: linear-gradient(to right,#ffafbd);
-              
+
             }
         </style> --}}
 
@@ -183,17 +183,17 @@
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
-                <div id="sidebar-menu"> 
+                <div id="sidebar-menu">
                         <ul class="metismenu list-unstyled" id="side-menu" >
-                    
+
                         <li class="menu-title">Menu</li>
                         <li>
-                            <a href="{{ url('time_dashboard') }}">  
+                            <a href="{{ url('time_dashboard') }}">
                                 <i class="fa-solid fa-gauge-high text-white"></i>
                                 <span>Dashboard</span>
                                 {{-- <span style="color: white">Dashboard</span> --}}
-                            </a> 
-                        </li> 
+                            </a>
+                        </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
@@ -206,7 +206,7 @@
                                 {{-- <li><a href="{{ url('time_index_day') }}">เวลาเข้า-ออก (รายวัน)</a></li> --}}
                             </ul>
                         </li>
-                      
+
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -319,10 +319,10 @@
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
-    
+
     @yield('footer')
 
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
@@ -330,7 +330,7 @@
             $('#example3').DataTable();
             $('#example4').DataTable();
             $('#example5').DataTable();
-           
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -340,10 +340,10 @@
         });
 
         $(document).ready(function() {
-            
+
         });
 
-       
+
     </script>
 
 </body>
