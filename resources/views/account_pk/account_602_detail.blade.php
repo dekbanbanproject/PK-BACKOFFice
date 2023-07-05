@@ -130,8 +130,7 @@
                                         </tr>
                                     @else --}}
                                         <tr height="20" style="font-size: 14px;">
-                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                             
+                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
                                             <td class="text-center" width="10%">{{ $item->vn }}</td> 
                                             <td class="text-center" width="10%">{{ $item->hn }}</td> 
                                             <td class="text-center" width="10%">{{ $item->cid }}</td>   
@@ -147,25 +146,19 @@
                                                         ทำรายการ
                                                     </button>
                                                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
-                                                        <button type="button"class="dropdown-item menu edit_data text-success" 
-                                                            value="{{ $item->acc_1102050102_602_id }}" 
-                                                            data-bs-toggle="tooltip" data-bs-placement="left"
-                                                            title="ตัด STM"> 
-                                                            <i class="fa-solid fa-clipboard-check me-2 text-success" style="font-size:13px"></i>
-                                                            <span>ตัด STM</span>
-                                                        </button>
-                                                        {{-- <button type="button"class="dropdown-item menu edit_data"
-                                                            value="{{ $item->warehouse_inven_id }}" data-bs-toggle="tooltip"
-                                                            data-bs-placement="left" title="แก้ไข">
-                                                            <i
-                                                                class="fa-solid fa-pen-to-square mt-2 ms-2 mb-2 me-2 text-warning"></i>
-                                                            <label for=""
-                                                                style="color: rgb(243, 168, 7)">แก้ไข</label>
-                                                        </button> --}}
-                                                        {{-- <a class="dropdown-item text-info" href="{{ url('warehouse_edit_product/' ) }}" style="font-size:13px" target="blank">
-                                                            <i class="fa-solid fa-clipboard-check me-2 text-info" style="font-size:13px"></i>
-                                                            <span>ตัด STM</span>
-                                                        </a> --}}
+                                                        {{-- @if ($item->money_billno == '') --}}
+                                                            <button type="button"class="dropdown-item menu edit_data text-success" 
+                                                                value="{{ $item->acc_1102050102_602_id }}" 
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                title="ตัด STM"> 
+                                                                <i class="fa-solid fa-clipboard-check me-2 text-success" style="font-size:13px"></i>
+                                                                <span>ตัด STM</span>
+                                                            </button>
+                                                        {{-- @else --}}
+                                                            
+                                                        {{-- @endif --}}
+                                                        
+                                                        
                                                 </div>
                                             </div>
 
@@ -387,6 +380,7 @@
 
             $(document).on('click', '.edit_data', function() {
             var acc_1102050102_602_id = $(this).val();
+            // alert(acc_1102050102_602_id);
             $('#updteModal').modal('show');
             $.ajax({
                 type: "GET",
@@ -405,7 +399,7 @@
                     $('#paytype').val(data.acc602.paytype)
                     $('#payprice').val(data.acc602.payprice)
                     $('#paydate').val(data.acc602.paydate)
-                    $('#savedate').val(data.acc602.savedate)
+                    // $('#savedate').val(data.acc602.savedate)
                 },
             });
         });

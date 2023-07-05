@@ -3670,9 +3670,7 @@ class AccountPKController extends Controller
                 SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
                 from acc_1102050101_401 U1
                 LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                WHERE U1.status ="N"
-                AND month(U1.vstdate) < "'.$mototal.'"
-                and year(U1.vstdate) = "'.$year.'"
+                WHERE U1.status ="N" 
                 AND U2.pricereq_all IS NULL
                 GROUP BY U1.vn
             ');
@@ -3988,9 +3986,7 @@ class AccountPKController extends Controller
                  SELECT U2.repno,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
                  from acc_1102050101_402 U1
                  LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                 WHERE U1.status ="N"
-                 AND month(U1.dchdate) < "'.$mototal.'"
-                 and year(U1.dchdate) = "'.$year.'"
+                 WHERE U1.status ="N" 
                  AND U2.pricereq_all IS NULL
                  GROUP BY U1.an
              ');
@@ -4224,7 +4220,7 @@ class AccountPKController extends Controller
         $data = DB::select('
         SELECT U1.acc_1102050102_602_id,U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice 
             from acc_1102050102_602 U1
-            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_id = U1.acc_1102050102_602_id  
+            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
             WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
             GROUP BY U1.vn
         ');
@@ -4239,7 +4235,7 @@ class AccountPKController extends Controller
     }
     public function account_602_edit(Request $request, $id)
     {
-        $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_id','=','acc_1102050102_602.acc_1102050102_602_id')
+        $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
         ->find($id);
 
         return response()->json([
@@ -4250,13 +4246,17 @@ class AccountPKController extends Controller
 
     public function account_602_update(Request $request)
     {
-        $id = $request->acc_1102050102_602_id;
-        $update = Acc_1102050102_602::find($id);
-        $update->status = "Y";
-        $update->save();
+        $id = $request->acc_1102050102_602_id; 
+
+        Acc_1102050102_602::whereIn('acc_1102050102_602_id',explode(",",$id))
+        ->update([
+            'status' => 'Y'
+        ]);
+
+        Acc_stm_prb::whereIn('acc_1102050102_602_sid',explode(",",$id))->delete();
 
         $add = new Acc_stm_prb();
-        $add->acc_1102050102_602_id = $id;
+        $add->acc_1102050102_602_sid = $id;
         $add->req_no           = $request->req_no;
         $add->pid              = $request->cid;
         $add->fullname           = $request->ptname;
@@ -4271,6 +4271,84 @@ class AccountPKController extends Controller
         $add->save();
         return response()->json([
             'status'      => '200' 
+        ]);
+    }
+    public function account_602_stmnull(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $datashow = DB::connection('mysql')->select('
+                SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice 
+                from acc_1102050102_602 U1
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
+                WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+                AND U1.status ="N"
+            ');
+
+
+        return view('account_pk.account_602_stmnull', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow,
+            'months'            =>     $months,
+            'year'              =>     $year,
+        ]);
+    }
+
+    public function account_602_stmnull_all(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $datashow = DB::connection('mysql')->select('
+                SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice 
+                from acc_1102050102_602 U1
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
+                WHERE U1.status ="N"  
+                AND U2.acc_1102050102_602_sid IS NULL
+               
+            ');
+
+            // AND month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'" 
+        return view('account_pk.account_602_stmnull_all', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow,
+            'months'            =>     $months,
+            'year'              =>     $year,
+        ]);
+    }
+    public function account_602_stm(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+        SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.payprice) as payprice,U2.money_billno
+            from acc_1102050102_602 U1
+            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id 
+            WHERE month(U1.vstdate) = "'.$months.'"
+            and year(U1.vstdate) = "'.$year.'"
+            AND U2.acc_1102050102_602_sid IS NOT NULL
+            GROUP BY U1.vn
+        ');
+        return view('account_pk.account_602_stm', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow,
+            'months'            =>     $months,
+            'year'              =>     $year,
+
         ]);
     }
 
