@@ -135,6 +135,7 @@
                                 @foreach ($datashow_ as $item)
                                     <?php $number++; 
                                      $data_ = DB::connection('mysql3')->select('SELECT SUM(cost) as pricecost FROM opitemrece WHERE vn="'.$item->vn.'" AND income = "08"');
+                                    //  $data_ = DB::connection('mysql3')->select('SELECT SUM(cost) as pricecost FROM opitemrece WHERE vn="'.$item->vn.'" AND income = "08"');
                                      foreach ($data_ as $key => $value) {
                                         $priccost = $value->pricecost;
                                      }
@@ -151,7 +152,8 @@
                                         <td class="text-font text-pedding text-center"> {{ $item->pdx }} </td> 
                                         <td class="text-font text-pedding p-2" > {{ $item->nameCT }} </td> 
                                         {{-- {{ number_format($item->income,2) }} --}}
-                                        <td class="text-font text-pedding text-end">&nbsp;&nbsp; {{ number_format($priccost,2) }}  </td> 
+                                        <td class="text-font text-pedding text-end">&nbsp;&nbsp; {{ number_format($item->income,2) }}  </td> 
+                                        {{-- <td class="text-font text-pedding text-end">&nbsp;&nbsp;  </td>  --}}
                                         <td class="text-font text-pedding text-end">&nbsp;&nbsp;   </td> 
                                         <td class="text-font text-pedding text-end"> &nbsp;&nbsp;  </td>  
                                         <td class="text-font text-pedding text-center"> {{ $item->pttype }} </td> 

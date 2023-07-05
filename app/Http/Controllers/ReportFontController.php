@@ -1387,7 +1387,7 @@ class ReportFontController extends Controller
                 ,"3009191","3009139","3009155","3009193","3009180","3009159","3009167","3009162","3009140","3010044","3009172","3009165","3009166","3009161")
                 and pt.hipdata_code IN("UCS","SSS") 
                 and v.vn not in(select vn from eclaimdb.opitemrece_refer where vn = o1.vn)
-                group by v.vn;
+                group by op.vn,op.icode
         ');
         $hosshow = DB::connection('mysql3')->select('
             SELECT hospcode,name as hosname FROM hospcode WHERE hospcode IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")

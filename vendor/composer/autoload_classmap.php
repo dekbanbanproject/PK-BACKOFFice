@@ -173,6 +173,7 @@ return array(
     'App\\Models\\Acc_stm_lgoexcel' => $baseDir . '/app/Models/Acc_stm_lgoexcel.php',
     'App\\Models\\Acc_stm_ofc' => $baseDir . '/app/Models/Acc_stm_ofc.php',
     'App\\Models\\Acc_stm_ofcexcel' => $baseDir . '/app/Models/Acc_stm_ofcexcel.php',
+    'App\\Models\\Acc_stm_prb' => $baseDir . '/app/Models/Acc_stm_prb.php',
     'App\\Models\\Acc_stm_ti' => $baseDir . '/app/Models/Acc_stm_ti.php',
     'App\\Models\\Acc_stm_ti_excel' => $baseDir . '/app/Models/Acc_stm_ti_excel.php',
     'App\\Models\\Acc_stm_ti_total' => $baseDir . '/app/Models/Acc_stm_ti_total.php',
