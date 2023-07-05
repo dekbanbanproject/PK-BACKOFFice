@@ -308,7 +308,7 @@ $loter = $date.''.$time
                 var today = new Date();
                 var date = String(today.getFullYear()).substring(2)+''+String(today.getMonth()+1).padStart(2, '0')+''+String(today.getDate()).padStart(2, '0');
                 var time = String(today.getHours()).padStart(2, '0') + "" + String(today.getMinutes()).padStart(2, '0') + "" + String(today.getSeconds()).padStart(2, '0');;
-                var dateTime = 'L'+date+'-'+time;
+                var dateTime = 'L'+date+''+time;
                 var tr ='<tr style="font-size:13px">'+
                         '<td style="text-align: center;">'+
                         number+

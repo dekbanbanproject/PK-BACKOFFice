@@ -281,7 +281,7 @@ $loter = $date.''.$time
                                                                 <div class="summoney{{$count}}"></div>
                                                                 </td>
                                                                 <td>
-                                                                    <?php  $detallot = 'L'.substr(date("Ymd"),2).'-'.date("His"); ?>
+                                                                    <?php  $detallot = 'L'.substr(date("Ymd"),2).''.date("His"); ?>
                                                                     <?php if($item->product_lot <> '' && $item->product_lot <> null){$detallot = $item->product_lot; }else{ $detallot = 'L'.substr(date("Ymd"),2).'-'.date("His"); } ?>
                                                                     <input name="product_lot[]" id="product_lot[]"
                                                                         class="form-control form-control-sm" value="{{$detallot}}">
@@ -416,7 +416,7 @@ $loter = $date.''.$time
                 var today = new Date();
                 var date = String(today.getFullYear()).substring(2)+''+String(today.getMonth()+1).padStart(2, '0')+''+String(today.getDate()).padStart(2, '0');
                 var time = String(today.getHours()).padStart(2, '0') + "" + String(today.getMinutes()).padStart(2, '0') + "" + String(today.getSeconds()).padStart(2, '0');;
-                var dateTime = 'L'+date+'-'+time;
+                var dateTime = 'L'+date+''+time;
                 var tr ='<tr style="font-size:13px">'+
                         '<td style="text-align: center;">'+
                         number+

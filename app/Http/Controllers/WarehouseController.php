@@ -794,6 +794,7 @@ class WarehouseController extends Controller
         $count = DB::table('warehouse_rep_sub')->where('warehouse_rep_id','=',$id)->count();
 
         $counproduct = DB::table('warehouse_rep_sub')->where('warehouse_rep_id','=',$id)->where('warehouse_rep_sub_status','=','2')->count();
+
         $inven = DB::table('warehouse_rep')
         ->leftjoin('warehouse_inven','warehouse_inven.warehouse_inven_id','=','warehouse_rep.warehouse_rep_inven_id')
         ->where('warehouse_rep_id','=',$id)->first();
@@ -834,15 +835,15 @@ class WarehouseController extends Controller
                 for ($count = 0; $count < $number; $count++) {
 
                     $idpro = DB::table('product_data')->where('product_id', '=', $product_id[$count])->first();
-                    $maxid = DB::table('warehouse_rep')->max('warehouse_rep_id');
+                    // $maxid = DB::table('warehouse_rep')->max('warehouse_rep_id');
                     $maxcode = DB::table('warehouse_rep')->max('warehouse_rep_code');
                     $date = date("Y-m-d H:i:s");
                     $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
                     $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
 
                     $add2 = new Warehouse_rep_sub();
-                    $add2->warehouse_rep_id = $maxid;
-                    $add2->warehouse_rep_code = $maxcode;
+                    $add2->warehouse_rep_id = $warehouse_rep_id;
+                    // $add2->warehouse_rep_code = $maxcode;
                     $add2->product_id = $idpro->product_id;
                     $add2->product_code = $idpro->product_code;
                     $add2->product_name = $idpro->product_name;
@@ -862,9 +863,9 @@ class WarehouseController extends Controller
 
 
                 }
-                $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$maxid)->sum('product_price_total');
-                $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$maxid)->where('warehouse_rep_sub_status', '=','2')->count();
-                $update = Warehouse_rep::find($maxid);
+                $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->sum('product_price_total');
+                $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$warehouse_rep_id)->where('warehouse_rep_sub_status', '=','2')->count();
+                $update = Warehouse_rep::find($warehouse_rep_id);
                 $update->warehouse_rep_total = $sumrecieve;
                 if ($countsttus == '0') {
                     $update->warehouse_rep_send = 'FINISH';
