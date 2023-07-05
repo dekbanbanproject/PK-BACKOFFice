@@ -169,9 +169,11 @@
                         </div>
                     </div>
                     <div class="card-body shadow-lg">
-                        <div class="table-responsive">
-                            <table style="width: 100%;" id="example"
-                                class="table table-hover table-striped table-bordered myTable">
+                        {{-- <div class="table-responsive"> --}}
+                            {{-- <table style="width: 100%;" id="example"
+                                class="table table-hover table-striped table-bordered myTable"> --}}
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
                                         <th width="3%" class="text-center">ลำดับ</th>
@@ -270,7 +272,7 @@
                                                                 <i class="fa-solid fa-circle-info me-2 text-info"
                                                                     style="font-size:13px"></i>
                                                                 <span>รายละเอียด</span></a> --}}
-                                                                <div class="dropdown-divider"></div>
+                                                                {{-- <div class="dropdown-divider"></div> --}}
                                                                 <a class="dropdown-item text-success"
                                                                     href="{{ url('warehouse_add_product/' . $item->warehouse_rep_id) }}"
                                                                     style="font-size:13px" target="blank">
@@ -304,7 +306,7 @@
                                                                 <i class="fa-solid fa-circle-info me-2 text-info"
                                                                     style="font-size:13px"></i>
                                                                 <span>รายละเอียด</span></a> --}}
-                                                            <div class="dropdown-divider"></div>
+                                                            {{-- <div class="dropdown-divider"></div> --}}
                                                             <a class="dropdown-item"
                                                                 href="{{ url('warehouse/warehouse_addsub/' . $item->warehouse_rep_id) }}"
                                                                 style="color: rgb(5, 173, 134);font-size:13px">
@@ -322,7 +324,7 @@
                                                         @endif
 
                                                         @if ($item->warehouse_rep_status == 'recieve' && $item->warehouse_rep_send == 'WAIT')
-                                                            <div class="dropdown-divider"></div>
+                                                            {{-- <div class="dropdown-divider"></div> --}}
                                                             <a class="dropdown-item text-success"
                                                                 href="{{ url('warehouse_add_product/' . $item->warehouse_rep_id) }}"
                                                                 style="font-size:13px" target="blank">
@@ -340,7 +342,7 @@
                                                         @endif
 
                                                         @if ($item->warehouse_rep_status == 'recieve' && $item->warehouse_rep_send == 'STALE')
-                                                            <div class="dropdown-divider"></div>
+                                                            {{-- <div class="dropdown-divider"></div> --}}
                                                             <a class="dropdown-item text-success"
                                                                 href="javascript:void(0)"
                                                                 onclick="warehouse_confirmbefor({{ $item->warehouse_rep_id }})"
@@ -378,10 +380,10 @@
                                                                 <span>ยืนยันรับเข้าคลัง</span>
                                                             </a>
                                                             <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item text-success"
+                                                            <a class="dropdown-item text-info"
                                                             href="{{ url('warehouse_edit_product/' . $item->warehouse_rep_id) }}"
                                                             style="font-size:13px" target="blank">
-                                                            <i class="fa-solid fa-clipboard-check me-2 text-success"
+                                                            <i class="fa-solid fa-clipboard-check me-2 text-info"
                                                                 style="font-size:13px"></i>
                                                             <span>แก้ไขรายการวัสดุ</span>
                                                         </a>
@@ -706,7 +708,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
+                        {{-- </div> --}}
                     </div>
                 </div>
             </div>

@@ -123,7 +123,7 @@ $loter = $date.''.$time
                         <input type="hidden" name="warehouse_inven_id" id="warehouse_inven_id" value="{{$inven->warehouse_inven_id }}">
 
                         <div class="card-body shadow-lg">
-                            <div class="table-responsive">
+                            {{-- <div class="table-responsive"> --}}
                                 <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
                                     <thead>
                                         <tr
@@ -229,7 +229,7 @@ $loter = $date.''.$time
                                         </div>
                                     </div>
                                 </div>
-                        </div>
+                        {{-- </div> --}}
 
                         <div class="card-footer">
                             <div class="col-md-12 text-end">
