@@ -4258,8 +4258,8 @@ class AccountPKController extends Controller
         $add = new Acc_stm_prb();
         $add->acc_1102050102_602_id = $id;
         $add->req_no           = $request->req_no;
-        $add->cid              = $request->cid;
-        $add->ptname           = $request->ptname;
+        $add->pid              = $request->cid;
+        $add->fullname           = $request->ptname;
         $add->claim_no         = $request->claim_no;
         $add->vendor           = $request->vendor;
         $add->money_billno     = $request->money_billno;

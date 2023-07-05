@@ -21,8 +21,8 @@ return new class extends Migration
                 $table->string('req_no',100)->nullable();// รับแจ้ง  
                 $table->string('claim_no')->nullable();// เคลม
                 $table->string('vendor')->nullable();// บริษัทประกันภัย
-                $table->string('cid')->nullable();// ผู้ประสบภัย 
-                $table->string('ptname')->nullable();// ผู้ประสบภัย 
+                $table->string('pid')->nullable();// ผู้ประสบภัย 
+                $table->string('fullname')->nullable();// ผู้ประสบภัย 
                 $table->string('no')->nullable();// ครั้งที่
                 $table->string('payprice')->nullable();//จำนวนเงิน
                 $table->date('paydate')->nullable();//วันที่จ่าย
