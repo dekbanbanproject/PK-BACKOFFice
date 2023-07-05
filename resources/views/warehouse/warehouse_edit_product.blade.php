@@ -233,7 +233,7 @@ $loter = $date.''.$time
                                                                 <td style="text-align: center;">  {{$count}}</td>
 
                                                                 <input name="warehouse_rep_sub_id[]" id="warehouse_rep_sub_id{{$count}}" type="hidden" class="form-control form-control-sm" value="{{$item->warehouse_rep_sub_id}}" onkeyup="checksummoney(<?php echo $count;?>)">
-                                                                <input name="warehouse_rep_code[]" id="warehouse_rep_code{{$count}}" type="hidden" class="form-control form-control-sm" value="{{$item->warehouse_rep_code}}" onkeyup="checksummoney(<?php echo $count;?>)">
+                                                                {{-- <input name="warehouse_rep_code[]" id="warehouse_rep_code{{$count}}" type="text" class="form-control form-control-sm" value="{{$item->warehouse_rep_code}}" onkeyup="checksummoney(<?php echo $count;?>)"> --}}
                                                                 <td>
                                                                     <select name="product_id[]" id="product_id{{$count}}" class="form-control form-control-sm " style="width: 100%;" onchange="checkunitref(0);">
                                                                         <option value="" selected>--รายการวัสดุ--</option>
@@ -625,8 +625,8 @@ $loter = $date.''.$time
 
                             } else {
                               Swal.fire({
-                                title: 'เพิ่มรายการสำเร็จ',
-                                text: "You Insert data success",
+                                title: 'แก้ไขรายการสำเร็จ',
+                                text: "You Edit data success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',

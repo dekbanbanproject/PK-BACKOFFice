@@ -45,6 +45,46 @@
                 }
             })
         }
+        function warehouse_confirm_recieve(warehouse_rep_id) {
+            Swal.fire({
+                title: 'ยืนยันการรับเข้าคลังใช่ไหม?',
+                text: "รายการวัสดุจะถูกนำเข้าคลังตามที่เลือกไว้ !!",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ยืนยัน !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('ware.warehouse_confirm_recieve') }}" + '/' + warehouse_rep_id,
+                        type: 'POST',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'นำเข้าคลังเรียบร้อย!',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // $("#sid" + product_id).remove();
+                                    window.location.reload();
+                                    // window.location =
+                                    //     "{{ url('supplies/supplies_index') }}"; //
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
 
         function warehouse_confirm(warehouse_rep_id) {
             Swal.fire({
@@ -373,7 +413,7 @@
                                                             <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item text-primary"
                                                                 href="javascript:void(0)"
-                                                                onclick="warehouse_confirm({{ $item->warehouse_rep_id }})"
+                                                                onclick="warehouse_confirm_recieve({{ $item->warehouse_rep_id }})"
                                                                 style="font-size:13px">
                                                                 <i class="fa-solid fa-clipboard-check me-2 text-primary"
                                                                     style="font-size:13px"></i>

@@ -160,6 +160,7 @@ return array(
     'App\\Models\\Acc_1102050102_201' => $baseDir . '/app/Models/Acc_1102050102_201.php',
     'App\\Models\\Acc_1102050102_301' => $baseDir . '/app/Models/Acc_1102050102_301.php',
     'App\\Models\\Acc_1102050102_602' => $baseDir . '/app/Models/Acc_1102050102_602.php',
+    'App\\Models\\Acc_1102050102_603' => $baseDir . '/app/Models/Acc_1102050102_603.php',
     'App\\Models\\Acc_1102050102_801' => $baseDir . '/app/Models/Acc_1102050102_801.php',
     'App\\Models\\Acc_1102050102_802' => $baseDir . '/app/Models/Acc_1102050102_802.php',
     'App\\Models\\Acc_1102050102_803' => $baseDir . '/app/Models/Acc_1102050102_803.php',

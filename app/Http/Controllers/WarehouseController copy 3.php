@@ -424,74 +424,6 @@ class WarehouseController extends Controller
         ]);
     }
 
-    public function warehouse_confirm_recieve(Request $request,$id)
-    {
-        $update = Warehouse_rep::find($id);
-        $update->warehouse_rep_status = 'allow';
-        $update->warehouse_rep_send = 'FINISH';
-        $update->save();
-
-        DB::table('warehouse_rep_sub')
-            ->where('warehouse_rep_id','=', $id)
-            ->update(['warehouse_rep_sub_status' => '1']);
-
-        $rep = Warehouse_rep::where('warehouse_rep_id','=',$id)->first();
-        $checkproduct = Warehouse_rep_sub::where('warehouse_rep_id', '=', $id)->get();
-        $couninven = DB::table('warehouse_stock')->where('warehouse_inven_id', '=', $rep->warehouse_rep_inven_id)->count();
-
-        $datashow_ = DB::connection('mysql')->select('
-                SELECT * from warehouse_rep WHERE warehouse_rep_id = "'.$id.'"
-        ');
-        foreach ($datashow_ as $key => $value1) {
-            Warehouse_recieve::insert([
-                'warehouse_recieve_code'          => $value1->warehouse_rep_code,
-                'warehouse_recieve_no_bill'       => $value1->warehouse_rep_no_bill,
-                'warehouse_recieve_po'            => $value1->warehouse_rep_po,
-                'warehouse_recieve_year'          => $value1->warehouse_rep_year,
-                'warehouse_recieve_type'          => $value1->warehouse_rep_type,
-                'warehouse_recieve_user_id'       => $value1->warehouse_rep_user_id,
-                'warehouse_recieve_inven_id'      => $value1->warehouse_rep_inven_id,
-                'warehouse_recieve_vendor_id'     => $value1->warehouse_rep_vendor_id,
-                'warehouse_recieve_date'          => $value1->warehouse_rep_date,
-                'warehouse_recieve_status'        => '2',
-                'warehouse_recieve_send'          => 'FINISH',
-                'warehouse_recieve_total'         => $value1->warehouse_rep_total,
-                'store_id'                        => $value1->store_id,
-            ]);
-        }
-        $datashowsub_ = DB::connection('mysql')->select('
-                SELECT * from warehouse_rep_sub WHERE warehouse_rep_id = "'.$id.'"
-        ');
-        $maxid = DB::table('warehouse_recieve')->max('warehouse_recieve_id');
-        $maxcode = DB::table('warehouse_recieve')->max('warehouse_recieve_code');
-
-        foreach ($datashowsub_ as $key => $value2) {
-            Warehouse_recieve_sub::insert([
-                'warehouse_recieve_id'               => $maxid,
-                'warehouse_recieve_code'             => $maxcode,
-                'product_id'                         => $value2->product_id,
-                'product_code'                       => $value2->product_code,
-                'product_name'                       => $value2->product_name,
-                'product_type_id'                    => $value2->product_type_id,
-                'product_unit_bigid'                 => $value2->product_unit_bigid,
-                'product_unit_subid'                 => $value2->product_unit_subid,
-                'product_unit_total'                 => $value2->product_unit_total,
-                'product_qty'                        => $value2->product_qty,
-                'product_price'                      => $value2->product_price,
-                'product_price_total'                => $value2->product_price_total,
-                'product_lot'                        => $value2->product_lot,
-                'warehouse_recieve_sub_exedate'      => $value2->warehouse_recieve_sub_exedate,
-                'warehouse_recieve_sub_expdate'      => $value2->warehouse_recieve_sub_expdate,
-                'warehouse_recieve_sub_status'       => '2',
-                'warehouse_recieve_sub_total'        => $value2->warehouse_recieve_sub_total,
-            ]);
-        }
- 
-        return response()->json([
-            'status'     => '200'
-        ]);
-    }
-
     public function warehouse_confirm(Request $request,$id)
     {
         $update = Warehouse_rep::find($id);
@@ -999,6 +931,33 @@ class WarehouseController extends Controller
         $counproduct = DB::table('warehouse_rep_sub')->where('warehouse_rep_id','=',$id)->where('warehouse_rep_sub_status','=','2')->count();
         $warehouse_repsub = DB::connection('mysql')->table('warehouse_rep_sub')->where('warehouse_rep_id','=',$id)->where('warehouse_rep_sub_status','=','2')->get();
 
+        // foreach ($checkproduct as $key => $item) {
+
+        // if ($counproduct > 0 ) {
+        //     foreach ($warehouse_repsub as $itemstock){
+        //         $qtystock = $itemstock->product_qty + $item->product_qty;
+        //         $pricetotakstock = $itemstock->product_price_total + $item->product_price_total;
+
+        //         DB::table('warehouse_rep_sub')
+        //         ->where('warehouse_rep_id','=', $id)
+        //         ->where('product_id', '=', $itemstock->product_id)
+        //         ->update([
+        //             'product_qty' => $qtystock,
+        //             'product_price_total'  => $pricetotakstock,
+        //             'warehouse_rep_sub_status' => '1'
+        //         ]);
+        //     }
+        //     $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$id)->sum('product_price_total');
+        //     $update3 = Warehouse_rep::find($id);
+        //     $update3->warehouse_rep_total = $sumrecieve;
+        //     $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$id)->where('warehouse_rep_sub_status', '=','2')->count();
+        //     if ($countsttus == '0') {
+        //         $update3->warehouse_rep_send = 'FINISH';
+        //     } else {
+        //         $update3->warehouse_rep_send = 'STALE';
+        //     }
+        //     $update3->save();
+        // } else {
             Warehouse_rep_sub::where('warehouse_rep_id','=',$id)->delete();
 
                 if ($request->product_id != '' || $request->product_id != null) {
@@ -1026,6 +985,26 @@ class WarehouseController extends Controller
                         $date = date("Y-m-d H:i:s");
                         $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
                         $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
+
+                        // $update5 = Warehouse_rep_sub::find($idsub[$count]);
+                        // $update5->warehouse_rep_id = $id;
+                        // $update5->warehouse_rep_code = $id_code;
+                        // $update5->product_id = $idpro->product_id;
+                        // $update5->product_code = $idpro->product_code;
+                        // $update5->product_name = $idpro->product_name;
+                        // $update5->product_type_id = $idtype->products_typefree_id;
+                        // $update5->product_type_name = $idtype->products_typefree_name;
+                        // $update5->product_unit_subid = $idunit->unit_id;
+                        // $update5->product_unit_subname = $idunit->unit_name;
+                        // $update5->product_lot = $product_lot[$count];
+                        // $update5->product_qty = $product_qty[$count];
+                        // $update5->product_price = $product_price[$count];
+                        // $update5->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
+                        // $update5->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
+                        // $update5->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
+                        // $total = $product_qty[$count] * $product_price[$count];
+                        // $update5->product_price_total = $total;
+                        // $update5->save();
 
                         $add2 = new Warehouse_rep_sub();
                         $add2->warehouse_rep_id = $id;
@@ -1058,7 +1037,9 @@ class WarehouseController extends Controller
                         $update3->warehouse_rep_send = 'STALE';
                     }
                     $update3->save();
+                // }
 
+            // }
         }
         return response()->json([
             'status'     => '200'

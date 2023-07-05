@@ -473,6 +473,8 @@ Route::middleware(['type'])->group(function(){
       Route::match(['get','post'],'warehouse/warehouse_confirm/{id}',[App\Http\Controllers\WarehouseController::class, 'warehouse_confirm'])->name('ware.warehouse_confirm');//
       Route::delete('warehouse/warehouse_destroy/{id}',[App\Http\Controllers\WarehouseController::class, 'warehouse_destroy'])->name('ware.warehouse_destroy');//
 
+      Route::match(['get','post'],'warehouse_confirm_recieve/{id}',[App\Http\Controllers\WarehouseController::class, 'warehouse_confirm_recieve'])->name('ware.warehouse_confirm_recieve');//
+
       Route::match(['get','post'],'warehouse/warehouse_inven',[App\Http\Controllers\WarehouseController::class,'warehouse_inven'])->name('ware.warehouse_inven');//
       Route::match(['get','post'],'warehouse/warehouse_inven_add',[App\Http\Controllers\WarehouseController::class,'warehouse_inven_add'])->name('ware.warehouse_inven_add');//
       Route::match(['get','post'],'warehouse/warehouse_invensave',[App\Http\Controllers\WarehouseController::class,'warehouse_invensave'])->name('ware.warehouse_invensave');//
