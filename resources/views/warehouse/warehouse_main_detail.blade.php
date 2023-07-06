@@ -186,7 +186,7 @@
 
                                                             <a class="dropdown-item text-primary" href=""  style="font-size:14px"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#detail{{ $item->warehouse_recieve_id }}">
+                                                                data-bs-target="#detail{{ $item->product_id }}">
                                                                 <i class="fa-solid fa-circle-info me-2 text-info" style="font-size:14px"></i>
                                                                 <span>รายละเอียด</span>
                                                             </a>
@@ -196,8 +196,8 @@
                                             </td>
                                         </tr>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="detail{{ $item->warehouse_recieve_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xls">
+                                        <div class="modal fade" id="detail{{ $item->product_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="exampleModalLabel">รายละเอียด {{ $item->product_name }}</h1>
@@ -213,12 +213,18 @@
                                                 <div class="modal-body">
                                                     <?php $ii = 1;
                                                         $datadetail = DB::connection('mysql')->select(                                                            '
-                                                                select ws.product_id,ws.product_code,ws.product_name,ws.product_type_name,ws.product_qty
-                                                                ,wr.warehouse_rep_date,ws.product_price,ws.product_price_total,ws.product_unit_subname,ws.product_lot
-                                                                from warehouse_rep wr
-                                                                left outer join warehouse_rep_sub ws on ws.warehouse_rep_id = wr.warehouse_rep_id
-                                                                where wr.warehouse_rep_inven_id ="'.$item->warehouse_recieve_inven_id .'"
-                                                                and ws.product_code ="'.$item->product_code .'"                                                                                                                      ',
+                                                                select ws.product_id,ws.product_code,ws.product_name,ws.product_qty
+                                                                ,wr.warehouse_recieve_date,ws.product_price,ws.product_price_total,pu.unit_name,ws.product_lot
+                                                                 
+
+                                                                from warehouse_recieve_sub ws
+                                                                left outer join warehouse_recieve wr on ws.warehouse_recieve_id = wr.warehouse_recieve_id
+
+                                                                left outer join product_data pd on pd.product_id=ws.product_id
+                                                                left outer join product_category pc on pc.category_id=pd.product_categoryid
+                                                                left outer join warehouse_inven wi on wi.warehouse_inven_id=wr.warehouse_recieve_inven_id
+                                                                left outer join product_unit pu on pu.unit_id=ws.product_unit_subid
+                                                                where ws.product_code ="'.$item->product_code .'"                                                                                                                      ',
                                                         );
                                                         $total = 0;
                                                         ?>
@@ -229,26 +235,26 @@
                                                                 <div class="col-md-2 text-center" style="font-size:14px">วันที่รับ </div>
                                                                 <div class="col-md-1 text-center" style="font-size:14px">รหัสวัสดุ </div>
                                                                 <div class="col-md-2 text-center" style="font-size:14px">LOT </div>
-                                                                <div class="col-md-2 text-center" style="font-size:14px">รายการวัสดุ </div>
+                                                                <div class="col-md-3 text-center" style="font-size:14px">รายการวัสดุ </div>
                                                                 <div class="col-md-1 text-center" style="font-size:14px">จำนวน </div>
                                                                 <div class="col-md-1 text-center" style="font-size:14px">หน่วยนับ </div>
                                                                 <div class="col-md-1 text-center" style="font-size:14px">ราคา </div>
-                                                                <div class="col-md-2 text-center" style="font-size:14px">ราคารวม </div>
+                                                                <div class="col-md-1 text-center" style="font-size:14px">ราคารวม </div>
                                                             </div>
                                                             <hr>
                                                             @foreach ($datadetail as $item3)
                                                                 <div class="row hrow">
-                                                                    <div class="col-md-2 text-center" style="font-size:14px;"> {{$item3->warehouse_rep_date}}</div>
+                                                                    <div class="col-md-2 text-center" style="font-size:14px;"> {{DateThai($item3->warehouse_recieve_date)}}</div>
                                                                     <div class="col-md-1 text-center" style="font-size:14px"> {{ $item3->product_code }}</div>
                                                                     <div class="col-md-2 text-center" style="font-size:14px"> {{ $item3->product_lot }}</div>
-                                                                    <div class="col-md-2" style="font-size:14px"> {{ $item3->product_name }}</div>
+                                                                    <div class="col-md-3" style="font-size:14px"> {{ $item3->product_name }}</div>
                                                                     <div class="col-md-1 text-center" style="font-size:14px">
                                                                         {{ $item3->product_qty }} </div>
                                                                         <div class="col-md-1 text-center" style="font-size:14px">
-                                                                            {{ $item3->product_unit_subname }} </div>
+                                                                            {{ $item3->unit_name }} </div>
                                                                     <div class="col-md-1 text-center" style="font-size:14px">
                                                                         {{ number_format($item3->product_price, 4) }}</div>
-                                                                    <div class="col-md-2 text-center" style="font-size:14px">
+                                                                    <div class="col-md-1 text-center" style="font-size:14px">
                                                                         {{ number_format($item3->product_price_total, 4) }}
                                                                     </div>
                                                                 </div>

@@ -201,7 +201,47 @@
     $time = date('H:i:s');
     $loter = $date . '' . $time;
     ?>
-
+<style>
+    #button{
+           display:block;
+           margin:20px auto;
+           padding:30px 30px;
+           background-color:#eee;
+           border:solid #ccc 1px;
+           cursor: pointer;
+           }
+           #overlay{
+           position: fixed;
+           top: 0;
+           z-index: 100;
+           width: 100%;
+           height:100%;
+           display: none;
+           background: rgba(0,0,0,0.6);
+           }
+           .cv-spinner {
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           }
+           .spinner {
+           width: 250px;
+           height: 250px;
+           border: 10px #ddd solid;
+           border-top: 10px #1fdab1 solid;
+           border-radius: 50%;
+           animation: sp-anime 0.8s infinite linear;
+           }
+           @keyframes sp-anime {
+           100% {
+               transform: rotate(390deg);
+           }
+           }
+           .is-hide{
+           display:none;
+           }
+</style>
     <div class="container-fluid">
         <div class="row ">
             <div class="col-md-12">
@@ -315,8 +355,7 @@
                                                         class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
                                                         ทำรายการ
                                                     </button>
-                                                    <div tabindex="-1" role="menu" aria-hidden="true"
-                                                        class="dropdown-menu-hover-link dropdown-menu">
+                                                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
 
                                                         @if ($item->warehouse_rep_status == 'recieve')
                                                             {{-- <a class="dropdown-item text-info" href=""

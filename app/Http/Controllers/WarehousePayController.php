@@ -61,6 +61,13 @@ use App\Models\Com_repaire_signature;
 use App\Models\Warehouse_pay;
 use App\Models\Medical_repaire;
 
+use DataTables;
+use PDF;
+use Auth;
+use Illuminate\Support\Facades\Storage;
+use setasign\Fpdi\Fpdi;
+use Intervention\Image\ImageManagerStatic as Image;
+
 class WarehousePayController extends Controller
 {
     public static function refnumber()
@@ -197,6 +204,90 @@ class WarehousePayController extends Controller
         $data['product_unit'] = DB::table('product_unit')->get();
       
         return view('warehouse.warehouse_pay_sub',$data);
+    }
+    public function warehouse_payadd(Request $request,$id)
+    {
+        $data['warehouse_pay'] = DB::table('warehouse_pay')->where('warehouse_pay_id','=',$id)->first();
+        $data['budget_year'] = DB::table('budget_year')->get();
+        $data['users'] = User::get();
+        $data['products_vendor'] = Products_vendor::get();
+        $data['warehouse_inven'] = DB::table('warehouse_inven')->get();
+        $data['department_sub_sub'] = Department_sub_sub::get();
+
+        $data['inven'] = DB::table('warehouse_pay')
+        ->leftjoin('warehouse_inven','warehouse_inven.warehouse_inven_id','=','warehouse_pay.warehouse_pay_frominven_id')
+        ->where('warehouse_pay_id','=',$id)->first();
+
+        $data['product_data'] = Products::where('store_id', '=', Auth::user()->store_id)->orderBy('product_id', 'DESC')->get();
+        $data['products_typefree'] = DB::table('products_typefree')->get();
+        $data['product_unit'] = DB::table('product_unit')->get();
+
+        return view('warehouse.warehouse_payadd',$data);
+    }
+    public function warehouse_addsave(Request $request)
+    {
+        $warehouse_rep_id    = $request->warehouse_rep_id;
+        $store_id            = $request->store_id;
+        $warehouse_inven_id  = $request->warehouse_inven_id; 
+
+            if ($request->product_id != '' || $request->product_id != null) {
+                $product_id = $request->product_id;
+                $product_type_id = $request->product_type_id;
+                $product_qty = $request->product_qty;
+                $product_price = $request->product_price;
+                $product_unit_subid = $request->product_unit_subid;
+                $product_lot = $request->product_lot;
+                $warehouse_rep_sub_exedate = $request->warehouse_rep_sub_exedate;
+                $warehouse_rep_sub_expdate = $request->warehouse_rep_sub_expdate;
+                $warehouse_rep_sub_status = $request->warehouse_rep_sub_status;
+
+                $number = count($product_id);
+                $count = 0;
+                for ($count = 0; $count < $number; $count++) {
+
+                    $idpro = DB::table('product_data')->where('product_id', '=', $product_id[$count])->first(); 
+                    $maxcode = DB::table('warehouse_rep')->max('warehouse_rep_code');
+                    $date = date("Y-m-d H:i:s");
+                    $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
+                    $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
+
+                    $add2 = new Warehouse_rep_sub();
+                    $add2->warehouse_rep_id = $warehouse_rep_id; 
+                    $add2->product_id = $idpro->product_id;
+                    $add2->product_code = $idpro->product_code;
+                    $add2->product_name = $idpro->product_name;
+                    $add2->product_type_id = $idtype->products_typefree_id;
+                    $add2->product_type_name = $idtype->products_typefree_name;
+                    $add2->product_unit_subid = $idunit->unit_id;
+                    $add2->product_unit_subname = $idunit->unit_name;
+                    $add2->product_lot = $product_lot[$count];
+                    $add2->product_qty = $product_qty[$count];
+                    $add2->product_price = $product_price[$count];
+                    $add2->warehouse_rep_sub_exedate = $warehouse_rep_sub_exedate[$count];
+                    $add2->warehouse_rep_sub_expdate = $warehouse_rep_sub_expdate[$count];
+                    $add2->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
+                    $total = $product_qty[$count] * $product_price[$count];
+                    $add2->product_price_total = $total;
+                    $add2->save();
+
+
+                }
+                $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->sum('product_price_total');
+                $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$warehouse_rep_id)->where('warehouse_rep_sub_status', '=','2')->count();
+                $update = Warehouse_rep::find($warehouse_rep_id);
+                $update->warehouse_rep_total = $sumrecieve;
+                if ($countsttus == '0') {
+                    $update->warehouse_rep_send = 'FINISH';
+                } else {
+                    $update->warehouse_rep_send = 'STALE';
+                }
+
+                $update->save();
+
+            }
+            return response()->json([
+                'status'     => '200'
+            ]); 
     }
 
 }

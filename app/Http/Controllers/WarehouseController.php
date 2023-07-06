@@ -805,7 +805,7 @@ class WarehouseController extends Controller
 
         $data['warehouse_stock'] = DB::connection('mysql')->select('
             SELECT wr.warehouse_recieve_id,wr.warehouse_recieve_inven_id,wi.warehouse_inven_name,pc.category_name
-                    ,pd.product_code,pd.product_name,pu.unit_name
+                    ,wrs.product_id,pd.product_code,pd.product_name,pu.unit_name
                     ,SUM(wrs.product_qty) as qty,SUM(wrs.product_price_total) as totalprice,wrs.warehouse_recieve_sub_status
                     from warehouse_recieve wr
                     left outer join warehouse_recieve_sub wrs on wrs.warehouse_recieve_id=wr.warehouse_recieve_id
@@ -952,9 +952,7 @@ class WarehouseController extends Controller
             }
             return response()->json([
                 'status'     => '200'
-            ]);
-
-
+            ]); 
     }
     public function warehouse_edit_product(Request $request,$id)
     {

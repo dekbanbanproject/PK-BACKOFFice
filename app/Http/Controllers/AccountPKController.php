@@ -1360,7 +1360,7 @@ class AccountPKController extends Controller
                 'income_group'      => $value->income_group,
                 'account_code'      => $value->account_code,
                 'debit'             => $value->debit,
-                'debit_total'       => $value->debit_ipd_total,
+                'debit_total'       => $value->debit_total,
                 'acc_debtor_userid' => $iduser
             ]);
         }
@@ -6631,9 +6631,9 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $acc_debtor = DB::select('
-        SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.account_code,a.income,a.debit,a.debit_total,ai.repno,ai.type_req,SUM(ai.price_approve) as price_approve
+        SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.account_code,a.income,a.debit,a.debit_total,ai.repno,SUM(ai.sum_price_approve) as price_approve
         FROM acc_1102050101_2166 a
-        LEFT JOIN acc_stm_ti ai ON ai.cid = a.cid AND ai.vstdate = a.vstdate
+        LEFT JOIN acc_stm_ti_total ai ON ai.cid = a.cid AND ai.vstdate = a.vstdate 
         WHERE a.account_code="1102050101.2166"
             and month(a.vstdate) = "'.$months.'"
             and year(a.vstdate) = "'.$year.'"

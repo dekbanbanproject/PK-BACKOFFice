@@ -121,6 +121,7 @@ class ApiController extends Controller
     {
         $date = date("Y-m-d");
         $dayback = date('Y-m-d', strtotime($date . ' -1 day')); //ย้อนหลัง 1 วัน  
+        // $dayback = date('Y-m-d', strtotime($date . ' -1 year')); 
         // dd($date);
         $data_api = DB::connection('mysql3')->select('   
                 SELECT nr.*,EXTRACT(hour FROM nr.ortime - nr.admit_time) AS waiting_time
@@ -135,7 +136,7 @@ class ApiController extends Controller
                 FROM ipt i
                 LEFT JOIN operation_list ol on i.an=ol.an 
                 LEFT JOIN operation_detail od on ol.operation_id=od.operation_id  
-                INNER JOIN operation_item oi on od.operation_item_id=oi.operation_item_id and oi.operation_item_id in("1057","1058","1059","973","989","990","991") 
+                INNER JOIN operation_item oi on od.operation_item_id=oi.operation_item_id  
                 LEFT JOIN operation_team ot on ot.operation_detail_id=od.operation_detail_id  
                 LEFT OUTER JOIN operation_anes_physical_status ops on ops.operation_anes_physical_status_id=ol.operation_anes_physical_status_id
                 LEFT JOIN operation_position op on op.position_id=ot.position_id  
@@ -154,6 +155,7 @@ class ApiController extends Controller
                 ,p.cid,address3.name,address2.name,address1.name,p.addrpart,p.moopart,p.birthday,p.hometel,i.ward,ward.name) as nr
                 ORDER BY dc_time DESC 
         ');
+        // INNER JOIN operation_item oi on od.operation_item_id=oi.operation_item_id and oi.operation_item_id in("1057","1058","1059","973","989","990","991") 
         // and  oi.operation_item_id in("1057","1058","1059","973","989","990","991")
         return response([
             $data_api 

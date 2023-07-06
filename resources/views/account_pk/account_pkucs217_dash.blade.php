@@ -379,7 +379,7 @@
                                                             FROM acc_1102050101_217
                                                             WHERE year(dchdate) = "'.$item->year.'"
                                                             AND month(dchdate) = "'.$item->months.'"
-                                                            AND status ="N" 
+                                                            AND status ="N"
                                                 ');
                                                 foreach ($sumyokma_ as $key => $value5) {
                                                     $total_yokma = $value5->debityokma;

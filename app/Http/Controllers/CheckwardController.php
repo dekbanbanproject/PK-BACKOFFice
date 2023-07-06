@@ -34,11 +34,11 @@ class CheckwardController extends Controller
                 and pi.pttype in("o1","o2","o3","o4","o5","20","l1","l2","l3","l4","l5","l6","l7","21")
                 left outer join hos.ipt_pttype px on px.an = i.an and px.pttype in("a7","14","15","34","35","37") 
                 left outer join hos.ward w on w.ward = i.ward
-                left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","ARUNEE")
+                left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","ARUNEE","jariya")
                 and hn=i.hn order by note_datetime desc limit 1)
-                left outer join hos.ptnote ptt on ptt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+                left outer join hos.ptnote ptt on ptt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
                 and hn=i.hn 
-                and (select note_datetime from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+                and (select note_datetime from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
                 and hn=i.hn order by note_datetime desc limit 1) < i.regdate
                 order by note_datetime desc limit 1)
                 where aa.dchdate is null
@@ -73,7 +73,7 @@ class CheckwardController extends Controller
         $data_warddetatil = DB::connection('mysql3')->select('   
             select a.hn,a.an,concat(p.pname,p.fname," ",p.lname) as fullname,p.cid,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income) as Aincome,round(a.inc08,2) as inc08,
             (select concat(plain_text, ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา"
-            ,"เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+            ,"เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
             and hn=i.hn order by note_datetime desc limit 1) as nn,r.name as abname
             ,i.pttype AS "HOSpttype"
             ,cs.check_sit_subinscl AS "spsch"
@@ -108,7 +108,7 @@ class CheckwardController extends Controller
             ,ifnull(cs.check_sit_subinscl,c1.check_sit_subinscl) AS spsch
             ,ip.hospmain
                 ,ifnull(group_concat(distinct cs.check_sit_hmain,"<br/>",cs.check_sit_startdate),group_concat(distinct c1.check_sit_hmain,"<br/>",c1.check_sit_startdate)) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income) as Aincome,round(a.inc08,2) as inc08,
-            (select concat(plain_text, ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+            (select concat(plain_text, ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
             and hn=i.hn order by note_datetime desc limit 1) as nn,r.name as abname
             
             from hos.ipt i
@@ -117,13 +117,13 @@ class CheckwardController extends Controller
             left outer join hos.doctor d on d.code = i.dch_doctor
             left outer join hos.ward w on w.ward = i.ward
             left outer join hos.roomno r on r.an = i.an
-            left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+            left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
             and hn=i.hn order by note_datetime desc limit 1)
             left outer join hos.ipt_pttype ip on ip.an = i.an
             left join money_bn.check_sit cs on cs.check_sit_vn = i.vn
             left join money_bn.check_sit c1 on c1.check_sit_an = i.an
             where a.dchdate is null
-            and (select note_datetime from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+            and (select note_datetime from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
             and hn=i.hn  order by note_datetime desc limit 1) < a.regdate
             and w.ward = "'.$id.'" group by i.an
             union
@@ -131,7 +131,7 @@ class CheckwardController extends Controller
                     ,ifnull(cs.check_sit_subinscl,c1.check_sit_subinscl) AS spsch
             ,ip.hospmain
                 ,ifnull(group_concat(distinct cs.check_sit_hmain,"<br/>",cs.check_sit_startdate),group_concat(distinct c1.check_sit_hmain,"<br/>",c1.check_sit_startdate)) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income),round(a.inc08,2),
-            (select concat(plain_text, ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+            (select concat(plain_text, ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
             and hn=i.hn order by note_datetime desc limit 1),r.name
 
             from hos.ipt i
@@ -140,7 +140,7 @@ class CheckwardController extends Controller
             left outer join hos.doctor d on d.code = i.dch_doctor
             left outer join hos.ward w on w.ward = i.ward
             left outer join hos.roomno r on r.an = i.an
-            left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+            left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
             and hn=i.hn order by note_datetime desc limit 1)
             left outer join hos.ipt_pttype ip on ip.an = i.an
             left join money_bn.check_sit cs on cs.check_sit_vn = i.vn
@@ -168,7 +168,7 @@ class CheckwardController extends Controller
                 ,cs.check_sit_subinscl AS spsch
        ,ip.hospmain
               ,group_concat(distinct cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income) as Aincome ,round(a.inc08,2) as inc08,
-       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1) as nn,r.name as abname 
          
        from hos.ipt i
@@ -177,7 +177,7 @@ class CheckwardController extends Controller
        left outer join hos.doctor d on d.code = i.dch_doctor
        left outer join hos.ward w on w.ward = i.ward
        left outer join hos.roomno r on r.an = i.an
-       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1)
        left outer join hos.ipt_pttype ip on ip.an = i.an
        left join money_bn.check_sit cs on cs.check_sit_vn = i.an
@@ -193,7 +193,7 @@ class CheckwardController extends Controller
                 ,cs.check_sit_subinscl AS spsch
        ,ip.hospmain
               ,group_concat(distinct "<br/>",cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income),round(a.inc08,2),
-       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1),r.name
        
        from hos.ipt i
@@ -202,7 +202,7 @@ class CheckwardController extends Controller
        left outer join hos.doctor d on d.code = i.dch_doctor
        left outer join hos.ward w on w.ward = i.ward
        left outer join hos.roomno r on r.an = i.an
-       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1)
        left outer join hos.ipt_pttype ip on ip.an = i.an
        left join money_bn.check_sit cs on cs.check_sit_vn = i.an
@@ -231,7 +231,7 @@ class CheckwardController extends Controller
                 ,cs.check_sit_subinscl AS spsch
        ,ip.hospmain
               ,group_concat(distinct cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income) as Aincome ,round(a.inc08,2) as inc08,
-       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1) as nn,r.name as abname 
          
        from hos.ipt i
@@ -240,7 +240,7 @@ class CheckwardController extends Controller
        left outer join hos.doctor d on d.code = i.dch_doctor
        left outer join hos.ward w on w.ward = i.ward
        left outer join hos.roomno r on r.an = i.an
-       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1)
        left outer join hos.ipt_pttype ip on ip.an = i.an
        left join money_bn.check_sit cs on cs.check_sit_vn = i.an
@@ -256,7 +256,7 @@ class CheckwardController extends Controller
                 ,cs.check_sit_subinscl AS spsch
        ,ip.hospmain
               ,group_concat(distinct "<br/>",cs.check_sit_hmain,"<br/>",cs.check_sit_startdate) AS hosstartdate,a.pdx,a.regdate,a.dchdate,a.admdate,round(a.income),round(a.inc08,2),
-       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       (select concat(plain_text,  ""  ,note_datetime," ",note_staff) from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1),r.name
        
        from hos.ipt i
@@ -265,7 +265,7 @@ class CheckwardController extends Controller
        left outer join hos.doctor d on d.code = i.dch_doctor
        left outer join hos.ward w on w.ward = i.ward
        left outer join hos.roomno r on r.an = i.an
-       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee")
+       left outer join hos.ptnote pt on pt.hn =(select hn from hos.ptnote where note_staff in ("joy","toob","rung1234","จารุชา","เยี่ยมรัตน์","kanjana","Justeyely","Saranya","arunee","jariya")
        and hn=i.hn order by note_datetime desc limit 1)
        left outer join hos.ipt_pttype ip on ip.an = i.an
        left join money_bn.check_sit cs on cs.check_sit_vn = i.an
