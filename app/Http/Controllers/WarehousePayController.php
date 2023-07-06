@@ -118,7 +118,7 @@ class WarehousePayController extends Controller
             LEFT JOIN department_sub_sub ds on ds.DEPARTMENT_SUB_SUB_ID = w.payin_inven_id
             LEFT JOIN users u on u.id = w.pay_user_id
             LEFT JOIN warehouse_pay_status wp on wp.warehouse_pay_status_code = w.pay_status
-
+            ORDER BY w.warehouse_pay_id DESC
         ');
 
         // ,wp.pay_status_name
