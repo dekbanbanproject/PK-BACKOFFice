@@ -12,12 +12,12 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    { 
+    {
         if (!Schema::hasTable('warehouse_pay'))
         {
             Schema::create('warehouse_pay', function (Blueprint $table) {
                 $table->bigIncrements('warehouse_pay_id');
-                $table->string('pay_code')->nullable();//เลขที่บิล 
+                $table->string('pay_code')->nullable();//เลขที่บิล
                 $table->string('pay_year')->nullable();//ปี
                 $table->enum('pay_type', ['ASSET', 'STORE'])->default('STORE');
                 $table->string('pay_user_id')->nullable();//ผู้รับ
@@ -25,7 +25,7 @@ return new class extends Migration
                 $table->string('payin_inven_id')->nullable();//รับเข้าคลัง
                 $table->string('payout_inven_id')->nullable();//จ่ายจากคลัง
                 $table->string('pay_vendor_id')->nullable();//ตัวแทนจำหน่าย
-                $table->dateTime('pay_date')->nullable();//ลงวันที่เวลารับ
+                $table->date('pay_date')->nullable();//ลงวันที่เวลารับ
                 $table->Time('pay_time')->nullable();//ลงเวลารับ
                 $table->string('pay_status')->nullable();  //สถานะ
                 $table->enum('pay_send', ['STALE','WAIT', 'FINISH'])->default('WAIT'); //สถานะการส่ง

@@ -150,29 +150,53 @@
                                         <th width="9%" class="text-center">คลัง</th>
                                         <th width="10%" class="text-center">รหัสวัสดุ</th>
                                         <th class="text-center">รายการวัสดุ</th>
-                                        <th class="text-center">หมวดวัสดุ</th>
-                                        <th width="8%" class="text-center">จำนวน</th>
+                                        {{-- <th class="text-center">หมวดวัสดุ</th> --}}
+                                        <th width="8%" class="text-center">รับเข้า</th>
+                                        <th width="8%" class="text-center">จ่ายออก</th>
+                                        <th width="8%" class="text-center">คงเหลือ</th>
                                         <th width="8%" class="text-center">ราคารวม</th>
                                         <th width="5%" class="text-center">สถานะ</th>
                                         <th width="5%" class="text-center">จัดการ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $i = 1;
-                                    $date = date('Y');
-                                    ?>
+                                    <?php $i = 1; $date = date('Y'); ?>
                                     @foreach ($warehouse_stock as $item)
+                                    <?php
+                                        $paydetail_ = DB::connection('mysql')->select(                                                            '
+                                            SELECT w.warehouse_pay_id,w.payout_inven_id,wi.warehouse_inven_name,pc.category_name
+                                                ,ws.product_id,ws.product_code,pd.product_name,pu.unit_name,w.pay_date,ws.product_lot
+                                                ,SUM(ws.product_qty) as qty_pay,ws.product_price,SUM(ws.product_price_total) as totalprice_pay
+
+                                                from warehouse_pay w
+                                                left outer join warehouse_pay_sub ws on ws.warehouse_pay_id = w.warehouse_pay_id
+                                                left outer join product_data pd on pd.product_id=ws.product_id
+                                                left outer join product_category pc on pc.category_id=pd.product_categoryid
+                                                left outer join warehouse_inven wi on wi.warehouse_inven_id=w.payout_inven_id
+                                                left outer join product_unit pu on pu.unit_id=ws.product_unit_subid
+                                                where w.payout_inven_id ="'.$item->warehouse_recieve_inven_id .'"
+                                                AND ws.product_code ="'.$item->product_code .'"                                                                                                        ',
+                                        );
+                                        foreach ($paydetail_ as $key => $value) {
+                                           $qty_pay =  $value->qty_pay;
+                                           $price_pay =  $value->totalprice_pay;
+                                        }
+                                        // GROUP BY ws.product_code
+                                        // where w.payout_inven_id ="'.$item->warehouse_recieve_inven_id .'"
+                                    ?>
                                         <tr id="sid{{ $item->warehouse_recieve_id }}">
                                             <td class="text-center" width="3%">{{ $i++ }}</td>
                                             <td class="text-center" width="12%">{{ $item->warehouse_inven_name }} </td>
-                                            <td class="text-center" width="10%">{{ $item->product_code }}</td>
+                                            <td class="text-center" width="8%">{{ $item->product_code }}</td>
                                             {{-- <td class="text-center" width="9%">
                                                 {{ DateThai($item->warehouse_rep_date) }}
                                             </td> --}}
                                             <td class="p-2">{{ $item->product_name }}</td>
-                                            <td class="p-2" width="12%">{{ $item->category_name }}</td>
-                                            <td class="text-center" width="7%">{{ $item->qty }} </td>
-                                            <td class="text-center" width="10%">{{ $item->totalprice }} </td>
+                                            {{-- <td class="p-2" width="12%">{{ $item->category_name }}</td> --}}
+                                            <td class="text-center" width="7%">{{ $item->qty_recieve }} </td>
+                                            <td class="text-center" width="7%">{{ $qty_pay }} </td>
+                                            <td class="text-center" width="7%">{{ $item->qty_recieve - $qty_pay  }} </td>
+                                            <td class="text-center" width="8%">{{ number_format($item->totalprice_recieve - $price_pay, 4) }}</td>
                                             <td class="text-center" width="5%">{{ $item->warehouse_recieve_sub_status }} </td>
                                             <td class="text-center" width="5%">
                                                 <div class="dropdown d-inline-block">
@@ -195,6 +219,8 @@
 
                                             </td>
                                         </tr>
+
+
                                         <!-- Modal -->
                                         <div class="modal fade" id="detail{{ $item->product_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-xl">
@@ -215,8 +241,6 @@
                                                         $datadetail = DB::connection('mysql')->select(                                                            '
                                                                 select ws.product_id,ws.product_code,ws.product_name,ws.product_qty
                                                                 ,wr.warehouse_recieve_date,ws.product_price,ws.product_price_total,pu.unit_name,ws.product_lot
-                                                                 
-
                                                                 from warehouse_recieve_sub ws
                                                                 left outer join warehouse_recieve wr on ws.warehouse_recieve_id = wr.warehouse_recieve_id
 

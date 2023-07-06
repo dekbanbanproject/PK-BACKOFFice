@@ -805,8 +805,8 @@ class WarehouseController extends Controller
 
         $data['warehouse_stock'] = DB::connection('mysql')->select('
             SELECT wr.warehouse_recieve_id,wr.warehouse_recieve_inven_id,wi.warehouse_inven_name,pc.category_name
-                    ,wrs.product_id,pd.product_code,pd.product_name,pu.unit_name
-                    ,SUM(wrs.product_qty) as qty,SUM(wrs.product_price_total) as totalprice,wrs.warehouse_recieve_sub_status
+                    ,wrs.product_id,wrs.product_code,pd.product_name,pu.unit_name,wr.warehouse_recieve_date,wrs.product_lot,wrs.product_price
+                    ,SUM(wrs.product_qty) as qty_recieve,SUM(wrs.product_price_total) as totalprice_recieve,wrs.warehouse_recieve_sub_status
                     from warehouse_recieve wr
                     left outer join warehouse_recieve_sub wrs on wrs.warehouse_recieve_id=wr.warehouse_recieve_id
                     left outer join product_data pd on pd.product_id=wrs.product_id
@@ -816,7 +816,7 @@ class WarehouseController extends Controller
                     where wr.warehouse_recieve_inven_id = "'.$id.'"
 					GROUP BY wrs.product_code
             ');
-            
+
             // group by wr.warehouse_inven_id
         // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
         return view('warehouse.warehouse_main_detail', $data);
@@ -934,7 +934,7 @@ class WarehouseController extends Controller
                     $total = $product_qty[$count] * $product_price[$count];
                     $add2->product_price_total = $total;
                     $add2->save();
- 
+
 
                 }
                 $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->sum('product_price_total');
@@ -952,7 +952,7 @@ class WarehouseController extends Controller
             }
             return response()->json([
                 'status'     => '200'
-            ]); 
+            ]);
     }
     public function warehouse_edit_product(Request $request,$id)
     {
@@ -1139,14 +1139,14 @@ class WarehouseController extends Controller
 
         $output = '<select name="product_unit_subid" id="product_unit_subid"  class="form-control form-control-sm" style="width: 100%;" >';
                     foreach ($infounits as $infounit) {
-                        $output .= ' <option value="' . $infounit->unit_id . '" selected>' . $infounit->unit_name . '</option>'; 
-        $output .= '</select> '; 
+                        $output .= ' <option value="' . $infounit->unit_id . '" selected>' . $infounit->unit_name . '</option>';
+        $output .= '</select> ';
         // $output = '<input name="product_price[]" id="product_price0" type="text" class="form-control form-control-sm" readonly';
-          
+
         echo $output;
 
         // $output = '<input name="product_price[]" id="product_price0" type="text" class="form-control form-control-sm" readonly';
-        // $output .= ' <value="' . $infoproduct->unit_id . '" >'; 
+        // $output .= ' <value="' . $infoproduct->unit_id . '" >';
         }
     }
 
