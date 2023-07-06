@@ -83,7 +83,9 @@ $loter = $date.''.$time
 
         </div>
         <div class="row">
-           
+            <form class="custom-validation" action="{{ route('pay.warehouse_payadd_save') }}" method="POST"
+                            id="warehouse_paysave" enctype="multipart/form-data">
+                            @csrf
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -95,43 +97,125 @@ $loter = $date.''.$time
                         </div>
                     </div>
                     {{-- <div class="card-body shadow-lg"> --}}
- 
-                    <form class="custom-validation" action="{{ route('pay.warehouse_payadd_save') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card-body shadow-lg"> 
-                            <div class="row">
-                                <div class="col"></div> 
-                                <div class="col-md-6">
-                                    <select name="product_id" id="product_id" class="form-control form-control-sm " style="width: 100%;" required>
-                                        <option value="" selected>--รายการวัสดุ--</option>
-                                        @foreach ($product as $list) 
-                                            <option value="{{ $list->product_id }}">{{ $list->product_code }} {{ $list->product_name }} ==>ราคา {{ $list->price }} ==>LOT {{ $list->product_lot }} ==>ยอดคงเหลือ {{ $list->total }} {{ $list->unit_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-1">
-                                    <input type="text" name="product_qty" id="product_qty" >
-                                </div>
-                                <div class="col-md-1">
-                                    <button type="submit" class=" me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
-                                        <i class="fas fa-plus me-2"></i>
-                                        ADD
-                                    </button>
-                                </div> 
-                                <div class="col"></div> 
-                            </div>
-                        </form>
-                        {{-- <form class="custom-validation" action="{{ route('pay.warehouse_payadd_save') }}" method="POST"
-                        id="warehouse_paysave" enctype="multipart/form-data">
-                        @csrf --}}
-                            <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
-                            <input type="hidden" name="warehouse_pay_id" id="warehouse_pay_id" value="{{$warehouse_pay->warehouse_pay_id }}">
-                            <input type="hidden" name="warehouse_inven_id" id="warehouse_inven_id" value="{{$inven->warehouse_inven_id }}">
+
+                        <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
+                        <input type="hidden" name="warehouse_rep_id" id="warehouse_rep_id" value="{{$warehouse_pay->warehouse_pay_id }}">
+                        <input type="hidden" name="warehouse_inven_id" id="warehouse_inven_id" value="{{$inven->warehouse_inven_id }}">
+
+                        <div class="card-body shadow-lg">
+                            {{-- <div class="table-responsive"> --}}
+                                <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
+                                    <thead>
+                                        <tr
+                                            style="background-color: rgb(68, 101, 101);color:#FFFFFF;font-size:14px">
+                                            <td style="text-align: center;"width="3%">ลำดับ</td>
+                                            <td style="text-align: center;">รายการวัสดุ</td>
+                                            {{-- <td style="text-align: center;" width="8%">ประเภท</td> --}}
+                                            <td style="text-align: center;" width="10%">หน่วย</td>
+                                            <td style="text-align: center;" width="10%">จำนวน</td>
+                                            {{-- <td style="text-align: center;" width="8%">ราคาต่อหน่วย</td> --}}
+                                            {{-- <td style="text-align: center;" width="12%">มูลค่า</td> --}}
+                                            {{-- <td style="text-align: center;" width="12%">Lot</td> --}}
+                                            {{-- <td style="text-align: center;" width="6%">วันผลิต</td> --}}
+                                            {{-- <td style="text-align: center;" width="6%">วันหมดอายุ</td> --}}
+                                            {{-- <td style="text-align: center;" width="6%">status</td> --}}
+                                            <td style="text-align: center;" width="4%">
+                                                <a class="btn btn-sm btn-success addRow" style="color:#FFFFFF;"><i
+                                                        class="fas fa-plus"></i></a>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody1">
+                                        <tr height="30" style="font-size:13px">
+                                            <td style="text-align: center;"> 1 </td>
+                                            <td>
+                                                <select name="product_id[]" id="product_id0" class="form-control form-control-sm " style="width: 100%;" onchange="checkunitref_pay(0);" required>
+                                                    <option value="" selected>--รายการวัสดุ--</option>
+                                                    @foreach ($product as $list) 
+                                                        <option value="{{ $list->product_id }}" style="font-size: 13px;color:red">{{ $list->product_code }} {{ $list->product_name }} ==>ราคา {{ $list->price }} ==>LOT {{ $list->product_lot }} ==>ยอดคงเหลือ {{ $list->total }}</option>
+                                                     
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            {{-- <td>
+                                                <select name="product_type_id[]" id="product_type_id0" class="form-control form-control-sm" style="width: 100%;" >
+
+                                                    @foreach ($products_typefree as $free)
+                                                                <option value="{{ $free -> products_typefree_id }}">{{ $free->products_typefree_name}}</option>
+                                                            @endforeach
+                                                </select>
+                                            </td> --}}
+                                            <td><div class="showunit0">
+                                                <select name="product_unit_subid[]" id="product_unit_subid[]"  class="form-control form-control-sm" style="width: 100%;">
+                                                    <option value="" selected>--หน่วย--</option>
+                                                    @foreach ($product_unit as $uni)
+                                                                <option value="{{ $uni -> unit_id }}">{{ $uni->unit_name}}</option>
+                                                            @endforeach
+                                                </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input name="product_qty[]" id="product_qty0" type="number" class="form-control form-control-sm" onkeyup="checksummoney(0)">
+                                            </td>
+
+                                            {{-- <td>
+                                                <div class="showprice0">
+                                                    <input name="product_price[]" id="product_price0" type="text" class="form-control form-control-sm" readonly>
+                                                </div>
+                                            <td>
+                                                    <div class="summoney0"></div>
+                                            </td>
+                                            <td> 
+                                                <div class="showunit0">
+                                                    <input name="product_lot[]" id="product_lot[]" class="form-control form-control-sm">
+                                                </div>
+                                            </td> --}}
+                                            {{-- <td>
+                                                <input name="warehouse_rep_sub_exedate[]"
+                                                    id="warehouse_rep_sub_exedate[]"
+                                                    class="form-control form-control-sm" type="date">
+                                            </td> --}}
+                                            {{-- <td>
+                                                <input name="warehouse_rep_sub_expdate[]"
+                                                    id="warehouse_rep_sub_expdate[]"
+                                                    class="form-control form-control-sm" type="date">
+                                            </td> --}}
+                                            {{-- <td>
+                                                <select name="warehouse_rep_sub_status[]" id="warehouse_rep_sub_status0" class="form-control form-control-sm" style="width: 100%;" >
+                                                <option value="1">ครบ</option>
+                                                <option value="2">ไม่ครบ</option>
+                                                </select>
+                                            </td> --}}
+                                            <td style="text-align: center;">
+                                                <a class="btn btn-sm btn-danger fa fa-trash-alt remove1"
+                                                    style="color:#FFFFFF;">
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                {{-- <hr>
+                                <div class="row">
+                                    <div class="col-md-7"> </div>
+                                        <div class="col-md-2 text-end">
+                                            <label for="" style="color: red">รวมมูลค่า</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="form-control form-control-sm" style="text-align: right;background-color:#fffec5 ;font-size: 16px;color:red" type="text" name="total" id="total" readonly>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="" style="color: red">บาท</label>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                        {{-- </div> --}}
 
                         <div class="card-footer mt-3">
                             <div class="col-md-12 text-end">
                                 <div class="form-group">
-                                    <button type="button" class=" me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success btn-sm">
+                                    <button type="submit" class=" me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
                                         <i class="fa-solid fa-floppy-disk me-2"></i>
                                         บันทึกข้อมูล
                                     </button>
@@ -143,7 +227,7 @@ $loter = $date.''.$time
                             </div>
                         </div>
 
-                    {{-- </form> --}}
+                    </form>
                 </div>
             </div>
         </div>
@@ -215,7 +299,7 @@ $loter = $date.''.$time
                         '<select name="product_id[]" id="product_id'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;" onchange="checkunitref_pay('+number+')">'+
                         '<option value="" selected>--รายการวัสดุ--</option>'+
                         '@foreach ($product_data as $list)'+
-                        '<option value="{{ $list->product_id }}">{{ $list->product_code }} {{ $list->product_name }} ==>ราคา {{ $list->price }} ==>LOT {{ $list->product_lot }} ==>ยอดคงเหลือ {{ $list->total }}</option>'+
+                        '<option value="{{ $list->product_id }}">{{$list->product_name}}</option>'+
                         '@endforeach'+
                         '</select> '+
                         '</td>'+ 
@@ -229,6 +313,15 @@ $loter = $date.''.$time
                         '</td>'+
                         '<td>'+
                         '<input name="product_qty[]" id="product_qty'+number+'" type="number" class="form-control form-control-sm" onkeyup="checksummoney('+number+');">'+
+                        '</td>'+
+                        '<td>'+
+                        '<input name="product_price[]" id="product_price'+number+'" type="text" class="form-control form-control-sm" onkeyup="checksummoney('+number+');">'+
+                        '</td>'+
+                        '<td>'+
+                        '<div class="summoney'+number+'"></div>'+
+                        '</td>'+
+                        '<td>'+
+                        '<input name="product_lot[]" id="product_lot'+number+'" class="form-control form-control-sm" value="'+dateTime+'">'+
                         '</td>'+ 
                         '<td style="text-align: center;"><a class="btn btn-sm btn-danger fa fa-trash-alt remove1" style="color:#FFFFFF;"></a></td>'+
                         '</tr>';

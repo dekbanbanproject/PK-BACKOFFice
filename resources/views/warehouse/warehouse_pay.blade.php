@@ -213,32 +213,24 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_code">เลขที่บิล :</label>
+                                <label for="pay_code">เลขที่บิล :</label>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="warehouse_pay_code" type="text"
-                                        class="form-control form-control-sm" name="warehouse_pay_code"
+                                    <input id="pay_code" type="text"
+                                        class="form-control form-control-sm" name="pay_code"
                                         value="{{ $refnumber }}"
                                          readonly>
                                 </div>
                             </div>
-                            <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_no_bill">เลขที่เอกสาร :</label>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <input id="warehouse_pay_no_bill" type="text"
-                                        class="form-control form-control-sm" name="warehouse_pay_no_bill">
-                                </div>
-                            </div>
+                         
                             
                             <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_year">ปีงบ :</label>
+                                <label for="pay_year">ปีงบ :</label>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <select id="warehouse_pay_year" name="warehouse_pay_year"
+                                    <select id="pay_year" name="pay_year"
                                         class="form-select form-select-lg" style="width: 100%">
                                         <option value="">--เลือก--</option>
                                         @foreach ($budget_year as $ye)
@@ -252,16 +244,28 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>                            
+                            </div>  
+
+                            <div class="col-md-2 text-end">
+                                <label for="pay_date">วันที่จ่าย  :</label>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <input id="pay_date" type="date"
+                                        class="form-control form-control-sm" name="pay_date" value="{{ $date }}">
+                                </div>
+                            </div>
+                            
+                            
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_fromuser_id">ผู้จ่าย :</label>
+                                <label for="pay_payuser_id">ผู้จ่าย :</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group"> 
-                                        <select id="warehouse_pay_fromuser_id" name="warehouse_pay_fromuser_id"
+                                        <select id="pay_payuser_id" name="pay_payuser_id"
                                         class="form-select form-select-lg" style="width: 100%">
                                         <option value="">--เลือก--</option>
                                         @foreach ($users as $ue)
@@ -275,11 +279,11 @@
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_repuser_id">ผู้รับ :</label>
+                                <label for="pay_user_id">ผู้รับ :</label>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <select id="warehouse_pay_repuser_id" name="warehouse_pay_repuser_id"
+                                    <select id="pay_user_id" name="pay_user_id"
                                         class="form-select form-select-lg" style="width: 100%">
                                         <option value="">--เลือก--</option>
                                         @foreach ($users as $ue)                                               
@@ -288,24 +292,16 @@
                                     </select>                                    
                                 </div>
                             </div>
-                            <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_date">วันที่จ่าย  :</label>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <input id="warehouse_pay_date" type="date"
-                                        class="form-control form-control-sm" name="warehouse_pay_date" value="{{ $date }}">
-                                </div>
-                            </div>
+                           
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_frominven_id">จ่ายจากคลัง :</label>
+                                <label for="payout_inven_id">จ่ายจากคลัง :</label>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group"> 
-                                    <select id="warehouse_pay_frominven_id" name="warehouse_pay_frominven_id"
+                                    <select id="payout_inven_id" name="payout_inven_id"
                                     class="form-select form-select-lg" style="width: 100%">
                                     <option value="">--เลือก--</option>
                                     @foreach ($warehouse_inven as $inven)
@@ -317,11 +313,11 @@
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">
-                                <label for="warehouse_pay_inven_id">รับเข้าคลัง :</label>
+                                <label for="payin_inven_id">รับเข้าคลัง :</label>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <select id="warehouse_pay_inven_id" name="warehouse_pay_inven_id"
+                                    <select id="payin_inven_id" name="payin_inven_id"
                                     class="form-select form-select-lg" style="width: 100%">
                                     <option value="">--เลือก--</option>
                                     @foreach ($department_sub_sub as $dep)
@@ -388,28 +384,28 @@
                     }
                 });
                 $('#Savebtn').click(function() {
-                    var warehouse_pay_code = $('#warehouse_pay_code').val();
-                    var warehouse_pay_no_bill = $('#warehouse_pay_no_bill').val();
-                    var warehouse_pay_year = $('#warehouse_pay_year').val();
-                    var warehouse_pay_fromuser_id = $('#warehouse_pay_fromuser_id').val();
-                    var warehouse_pay_repuser_id = $('#warehouse_pay_repuser_id').val();
-                    var warehouse_pay_date = $('#warehouse_pay_date').val();
-                    var warehouse_pay_frominven_id = $('#warehouse_pay_frominven_id').val();
-                    var warehouse_pay_inven_id = $('#warehouse_pay_inven_id').val();
+                    var pay_code = $('#pay_code').val();
+                    // var warehouse_pay_no_bill = $('#warehouse_pay_no_bill').val();
+                    var pay_year = $('#pay_year').val();
+                    var pay_payuser_id = $('#pay_payuser_id').val();
+                    var pay_user_id = $('#pay_user_id').val();
+                    var pay_date = $('#pay_date').val();
+                    var payin_inven_id = $('#payin_inven_id').val();
+                    var payout_inven_id = $('#payout_inven_id').val();
                     var store_id = $('#store_id').val();
                     $.ajax({
                         url: "{{ route('pay.warehouse_paysave') }}",
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            warehouse_pay_code,
-                            warehouse_pay_no_bill,
-                            warehouse_pay_year,
-                            warehouse_pay_fromuser_id,
-                            warehouse_pay_repuser_id,
-                            warehouse_pay_date,
-                            warehouse_pay_inven_id,
-                            warehouse_pay_frominven_id,
+                            pay_code,
+                            // warehouse_pay_no_bill,
+                            pay_year,
+                            pay_payuser_id,
+                            pay_user_id,
+                            pay_date,
+                            payout_inven_id,
+                            payin_inven_id,
                             store_id
                         },
                         success: function(data) {

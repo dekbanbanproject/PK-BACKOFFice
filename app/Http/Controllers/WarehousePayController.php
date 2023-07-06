@@ -59,6 +59,7 @@ use App\Models\Car_drive;
 use App\Models\Com_repaire;
 use App\Models\Com_repaire_signature;
 use App\Models\Warehouse_pay;
+use App\Models\Warehouse_pay_sub;
 use App\Models\Medical_repaire;
 
 use DataTables;
@@ -107,18 +108,18 @@ class WarehousePayController extends Controller
         $data['department_sub_sub'] = Department_sub_sub::get();
 
         $data['warehouse_pay'] = DB::connection('mysql')->select('
-        select  wi.warehouse_inven_name,w.warehouse_pay_id,w.warehouse_pay_code,w.warehouse_pay_no_bill,
-            w.warehouse_pay_po,w.warehouse_pay_type,w.warehouse_pay_fromuser_id,w.warehouse_pay_date,
-            w.warehouse_pay_repuser_id,w.warehouse_pay_inven_id,w.warehouse_pay_frominven_id,w.warehouse_pay_status,
-            w.warehouse_pay_send,w.warehouse_pay_total,w.store_id,w.warehouse_pay_year,u.fname,u.lname,wp.warehouse_pay_status_name
+        select  wi.warehouse_inven_name,w.warehouse_pay_id,w.pay_code
+            ,w.pay_type,w.pay_user_id,w.pay_date
+            ,w.payin_inven_id,w.pay_status,
+            w.pay_send,w.pay_total,w.store_id,w.pay_year,u.fname,u.lname
             
             from warehouse_pay w
-            LEFT JOIN warehouse_inven wi on wi.warehouse_inven_id = w.warehouse_pay_inven_id
-            LEFT JOIN users u on u.id = w.warehouse_pay_repuser_id
-            LEFT JOIN warehouse_pay_status wp on wp.warehouse_pay_status_code = w.warehouse_pay_status
+            LEFT JOIN warehouse_inven wi on wi.warehouse_inven_id = w.payin_inven_id
+            LEFT JOIN users u on u.id = w.pay_user_id
+            LEFT JOIN warehouse_pay_status wp on wp.warehouse_pay_status_code = w.pay_status
                 
         ');
-
+        // ,wp.pay_status_name
         // select m.medical_borrow_id,m.medical_borrow_active,m.medical_borrow_date,m.medical_borrow_backdate
         // ,a.article_name,d.DEPARTMENT_SUB_SUB_NAME,m.medical_borrow_qty,m.medical_borrow_debsubsub_id,a.article_num
         // ,m.medical_borrow_users_id,m.medical_borrow_backusers_id,a.medical_typecat_id,a.article_status_id
@@ -149,16 +150,15 @@ class WarehousePayController extends Controller
         $artcleid = Article::where('article_id', '=', $artcle)->first();
 
         DB::table('warehouse_pay')->insert([
-            'warehouse_pay_code'         => $request->warehouse_pay_code,
-            'warehouse_pay_no_bill'      => $request->warehouse_pay_no_bill,
-            'warehouse_pay_year'         => $request->warehouse_pay_year,
-            'warehouse_pay_fromuser_id'  => $request->warehouse_pay_fromuser_id,
-            'warehouse_pay_repuser_id'   => $request->warehouse_pay_repuser_id,
-            'warehouse_pay_date'         => $request->warehouse_pay_date,
-            'warehouse_pay_frominven_id' => $request->warehouse_pay_frominven_id,
-            'warehouse_pay_inven_id'     => $request->warehouse_pay_inven_id,
+            'pay_code'         => $request->pay_code, 
+            'pay_year'         => $request->pay_year,
+            'pay_payuser_id'  => $request->pay_payuser_id,
+            'pay_user_id'   => $request->pay_user_id,
+            'pay_date'         => $request->pay_date,
+            'payout_inven_id' => $request->payout_inven_id,
+            'payin_inven_id'     => $request->payin_inven_id,
             'store_id'                   => $request->store_id,
-            'warehouse_pay_status'       => 'pay',
+            'pay_status'       => 'pay',
             'created_at' => $date,
             'updated_at' => $date
         ]);
@@ -215,15 +215,103 @@ class WarehousePayController extends Controller
         $data['department_sub_sub'] = Department_sub_sub::get();
 
         $data['inven'] = DB::table('warehouse_pay')
-        ->leftjoin('warehouse_inven','warehouse_inven.warehouse_inven_id','=','warehouse_pay.warehouse_pay_frominven_id')
+        ->leftjoin('warehouse_inven','warehouse_inven.warehouse_inven_id','=','warehouse_pay.payin_inven_id')
         ->where('warehouse_pay_id','=',$id)->first();
 
         $data['product_data'] = Products::where('store_id', '=', Auth::user()->store_id)->orderBy('product_id', 'DESC')->get();
         $data['products_typefree'] = DB::table('products_typefree')->get();
         $data['product_unit'] = DB::table('product_unit')->get();
 
+
+        $data['product'] = DB::select('
+                SELECT pd.product_id,pd.product_code,wr.product_lot,pd.product_name,pu.unit_name
+        
+                    ,ifnull(case  
+                    when wr.product_qty ="" then "0" 
+                    else wr.product_qty end,"0") recieve_qty
+                    
+                    ,ifnull(case  
+                    when wp.product_qty ="" then "0" 
+                    else wp.product_qty end,"0") pay_qty
+                    
+                    ,ifnull(case  
+                    when wr.product_qty > 0 then wr.product_qty 
+                    when wp.product_qty > 0 then wp.product_qty 
+                    else wr.product_qty-wp.product_qty end,"0") total
+                    
+                    ,wr.product_price as price
+                    ,wr.product_price_total as price_total
+                    
+                    FROM product_data pd
+                    left outer join warehouse_recieve_sub wr on wr.product_id = pd.product_id 
+                    left outer join warehouse_pay_sub wp on wp.product_id = pd.product_id 
+                    left outer join product_category pc on pc.category_id = pd.product_categoryid
+                    left outer join product_unit pu on pu.unit_id = wr.product_unit_subid
+        ');
+
         return view('warehouse.warehouse_payadd',$data);
     }
+    public function warehouse_payadd_save(Request $request)
+    {
+        $warehouse_pay_id      = $request->warehouse_pay_id;
+        $warehouse_inven_id    = $request->warehouse_inven_id;
+        $product_id = $request->product_id;
+        $product_id = $request->product_id;
+        $data_product = DB::select('
+                SELECT pd.product_id,pd.product_code,wr.product_lot,pd.product_name
+                ,pu.unit_id
+                ,pu.unit_name
+
+                    ,ifnull(case  
+                    when wr.product_qty ="" then "0" 
+                    else wr.product_qty end,"0") recieve_qty
+                    
+                    ,ifnull(case  
+                    when wp.product_qty ="" then "0" 
+                    else wp.product_qty end,"0") pay_qty
+                    
+                    ,ifnull(case  
+                    when wr.product_qty > 0 then wr.product_qty 
+                    when wp.product_qty > 0 then wp.product_qty 
+                    else wr.product_qty-wp.product_qty end,"0") total
+                    
+                    ,wr.product_price as price
+                    ,wr.product_price_total as price_total
+                    
+                    FROM product_data pd
+                    left outer join warehouse_recieve_sub wr on wr.product_id = pd.product_id 
+                    left outer join warehouse_pay_sub wp on wp.product_id = pd.product_id 
+                    left outer join product_category pc on pc.category_id = pd.product_categoryid
+                    left outer join product_unit pu on pu.unit_id = wr.product_unit_subid
+                    where pd.product_id = "'.$product_id.'"
+        ');
+        foreach ($data_product as $key => $value) {
+            Warehouse_pay_sub::insert([
+                'warehouse_pay_id'                   => $warehouse_pay_id, 
+                'product_id'                         => $value->product_id,
+                'product_code'                       => $value->product_code,
+                'product_name'                       => $value->product_name,
+                // 'product_type_id'                    => $value->product_type_id,
+                // 'product_unit_bigid'                 => $value->product_unit_bigid,
+                'product_unit_subid'                 => $value->unit_id,
+                // 'product_unit_total'                 => $value->product_unit_total,
+                'product_qty'                        => $value->product_qty,
+                'product_price'                      => $value->product_price,
+                'product_price_total'                => $value->product_price_total,
+                'product_lot'                        => $value->product_lot,
+                'warehouse_recieve_sub_exedate'      => $value->warehouse_rep_sub_exedate,
+                'warehouse_recieve_sub_expdate'      => $value->warehouse_rep_sub_expdate,
+                'warehouse_recieve_sub_status'       => '2',
+                'warehouse_recieve_sub_total'        => $value->warehouse_rep_sub_total,
+            ]);
+        }
+       
+        return response()->json([
+            'status'     => '200'
+        ]);
+    }
+
+
     public function warehouse_addsave(Request $request)
     {
         $warehouse_rep_id    = $request->warehouse_rep_id;

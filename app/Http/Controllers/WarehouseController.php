@@ -934,7 +934,7 @@ class WarehouseController extends Controller
                     $total = $product_qty[$count] * $product_price[$count];
                     $add2->product_price_total = $total;
                     $add2->save();
-
+ 
 
                 }
                 $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->sum('product_price_total');
@@ -1092,6 +1092,19 @@ class WarehouseController extends Controller
         echo $output;
     }
 
+    // function checksummoney_pay(Request $request)
+    // {
+    //     $SUP_TOTAL = $request->get('SUP_TOTAL');
+    //     $PRICE_PER_UNIT = $request->get('PRICE_PER_UNIT');
+
+    //     $sum = $SUP_TOTAL * $PRICE_PER_UNIT;
+
+    //     $output = '
+    //             <input type="hidden" type="text" name="sum" value="' . $sum . '" />
+    //             <div style="text-align: right; margin-right: 10px;font-size: 14px;">' . number_format($sum, 5) . '</div>';
+    //     echo $output;
+    // }
+
 
     function checkunitref(Request $request)
     {
@@ -1111,6 +1124,29 @@ class WarehouseController extends Controller
 
             $output .= '</select> ';
             echo $output;
+        }
+    }
+
+    function checkunitref_pay(Request $request)
+    {
+
+        $productid  = $request->product_id;
+        // $SUP_UNIT_ID_H = $request->get('SUP_UNIT_ID_H');
+
+        $infoproduct = DB::table('product_data')->where('product_id', '=', $productid)->first();
+
+        $infounits = DB::table('product_unit')->where('unit_id', '=', $infoproduct->product_unit_subid)->get();
+
+        $output = '<select name="product_unit_subid" id="product_unit_subid"  class="form-control form-control-sm" style="width: 100%;" >';
+                    foreach ($infounits as $infounit) {
+                        $output .= ' <option value="' . $infounit->unit_id . '" selected>' . $infounit->unit_name . '</option>'; 
+        $output .= '</select> '; 
+        // $output = '<input name="product_price[]" id="product_price0" type="text" class="form-control form-control-sm" readonly';
+          
+        echo $output;
+
+        // $output = '<input name="product_price[]" id="product_price0" type="text" class="form-control form-control-sm" readonly';
+        // $output .= ' <value="' . $infoproduct->unit_id . '" >'; 
         }
     }
 

@@ -17,17 +17,13 @@ return new class extends Migration
         {
         Schema::create('warehouse_stock', function (Blueprint $table) {
             $table->bigIncrements('warehouse_stock_id');  
-            $table->string('warehouse_inven_id')->nullable();// 
-            $table->string('warehouse_inven_name')->nullable();// 
+            $table->string('warehouse_inven_id')->nullable();//  
             $table->string('product_id')->nullable();// 
             $table->string('product_code')->nullable();// 
             $table->string('product_name')->nullable();  //ชื่อ
-            $table->string('product_type_id')->nullable(); //
-            $table->string('product_type_name')->nullable(); //            
-            $table->string('product_unit_bigid')->nullable(); //หน่วยบรรจุ
-            $table->string('product_unit_bigname')->nullable(); //ชื่อหน่วยบรรจุ            
-            $table->string('product_unit_subid')->nullable(); //หน่วยย่อย
-            $table->string('product_unit_subname')->nullable(); //ชื่อหน่วยย่อย
+            $table->string('product_type_id')->nullable(); //           
+            $table->string('product_unit_bigid')->nullable(); //หน่วยบรรจุ            
+            $table->string('product_unit_subid')->nullable(); //หน่วยย่อย 
             $table->string('product_unit_total')->nullable(); //ยอดรวมหน่วย
             $table->string('product_qty')->nullable();  //จำนวน 
             $table->double('product_price', 10, 2)->nullable();//ราคา

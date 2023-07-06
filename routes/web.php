@@ -498,6 +498,9 @@ Route::middleware(['type'])->group(function(){
 
       Route::get('warehouse/checksummoney',[App\Http\Controllers\WarehouseController::class, 'checksummoney'])->name('ware.checksummoney');//
       Route::get('warehouse/checkunitref',[App\Http\Controllers\WarehouseController::class, 'checkunitref'])->name('ware.checkunitref');//
+
+      Route::get('warehouse/checksummoney_pay',[App\Http\Controllers\WarehouseController::class, 'checksummoney_pay'])->name('ware.checksummoney_pay');//
+      Route::get('warehouse/checkunitref_pay',[App\Http\Controllers\WarehouseController::class, 'checkunitref_pay'])->name('ware.checkunitref_pay');//
       // Route::match(['get','post'],'warehouse/warehouse_save',[App\Http\Controllers\WarehouseController::class, 'warehouse_save'])->name('ware.warehouse_save');//
       Route::match(['get','post'],'warehouse/warehouse_main',[WarehouseController::class,'warehouse_main'])->name('ware.warehouse_main');
       Route::match(['get','post'],'warehouse/warehouse_main_detail/{id}',[WarehouseController::class,'warehouse_main_detail'])->name('ware.warehouse_main_detail');

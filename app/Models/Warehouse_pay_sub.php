@@ -8,16 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Warehouse_pay extends Authenticatable
+class Warehouse_pay_sub extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'warehouse_pay';
-    protected $primaryKey = 'warehouse_pay_id';
+    protected $table = 'warehouse_pay_sub';
+    protected $primaryKey = 'warehouse_pay_sub_id';
     protected $fillable = [
-        'pay_code',
-        'pay_year',
-        'pay_type'
+        'warehouse_pay_id',
+        'product_id',
+        'product_code'
          
     ];
 
