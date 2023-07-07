@@ -88,6 +88,7 @@ Route::get('authen_realtime',[App\Http\Controllers\AuthenController::class,'auth
 Route::match(['get','post'],'token_add',[App\Http\Controllers\AUTHENCHECKController::class,'token_add'])->name('aa.token_add');
 Route::match(['get','post'],'token_save',[App\Http\Controllers\AUTHENCHECKController::class,'token_save'])->name('aa.token_save');
 
+Route::match(['get','post'],'authencode_confirm',[App\Http\Controllers\AuthenautoController::class,'authencode_confirm'])->name('authencode_confirm');
 
 Route::match(['get','post'],'authencode_auto',[App\Http\Controllers\AuthenautoController::class,'authencode_auto'])->name('authencode_auto');
 Route::match(['get','post'],'authencode_auto_detail',[App\Http\Controllers\AuthenautoController::class,'authencode_auto_detail'])->name('authencode_auto_detail');
