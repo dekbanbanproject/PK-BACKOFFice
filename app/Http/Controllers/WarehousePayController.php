@@ -121,6 +121,8 @@ class WarehousePayController extends Controller
             ORDER BY w.warehouse_pay_id DESC
         ');
 
+    
+
         // ,wp.pay_status_name
         // select m.medical_borrow_id,m.medical_borrow_active,m.medical_borrow_date,m.medical_borrow_backdate
         // ,a.article_name,d.DEPARTMENT_SUB_SUB_NAME,m.medical_borrow_qty,m.medical_borrow_debsubsub_id,a.article_num
