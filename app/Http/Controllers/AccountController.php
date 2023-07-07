@@ -203,39 +203,52 @@ class AccountController extends Controller
         $enddate = $request->enddate;
 
         $datashow = DB::connection('mysql3')->select('
-                select year(a.vstdate) as monyear
-                ,month(a.vstdate) as months
-                ,count(distinct a.vn) as vn
-                ,(
-                            SELECT COUNT(distinct a.vn) as vnull
-                            from hos.vn_stat a
-                            left outer join hos.ipt o on o.vn = a.vn
-                            LEFT JOIN hos.patient p on p.hn = a.hn
-                            left outer join hos.rcpt_print r on r.vn =a.vn
-                            left outer join hos.rcpt_debt rr on rr.vn = a.vn
-                            left outer join hos.hpc11_ktb_approval hh on hh.pid=p.cid and hh.transaction_date = a.vstdate
-                            left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
-                            where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
-                            and a.pttype in("o1","o2","o3","o4","o5")
-                            and (rr.sss_approval_code is null or rr.sss_approval_code ="")
-                            and a.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
-                            and o.an is null
-                            and a.uc_money > 1
-                ) as vnnull
-                from hos.vn_stat a
-                left outer join hos.ipt o on o.vn = a.vn
-                LEFT JOIN hos.patient p on p.hn = a.hn
-                left outer join hos.rcpt_print r on r.vn =a.vn
-                left outer join hos.rcpt_debt rr on rr.vn = a.vn
-                left outer join hos.hpc11_ktb_approval hh on hh.pid=p.cid and hh.transaction_date = a.vstdate
-                left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
-                where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
-                and a.pttype in("o1","o2","o3","o4","o5")
-                and a.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
-                and o.an is null
-                and a.uc_money > 1
-                group by year(a.vstdate),month(a.vstdate)
+                select year(v.vstdate) as monyear ,month(v.vstdate) as months ,count(distinct v.vn) as vn 
+                from hos.vn_stat v
+                left outer join hos.ipt i on i.vn = v.vn
+                LEFT JOIN hos.patient p on p.hn = v.hn
+                left outer join hos.rcpt_print r on r.vn =v.vn
+                left outer join hos.rcpt_debt rr on rr.vn = v.vn 
+                where v.vstdate between "' . $startdate . '" AND "' . $enddate . '"
+                and v.pttype in("o1","o2","o3","o4","o5") 
+                and (i.an ="" or i.an is null)
+                and v.uc_money > 1
+                group by year(v.vstdate),month(v.vstdate)
+ 
+            
         ');
+        // select year(a.vstdate) as monyear
+        // ,month(a.vstdate) as months
+        // ,count(distinct a.vn) as vn
+        // ,(
+        //             SELECT COUNT(distinct a.vn) as vnull
+        //             from hos.vn_stat a
+        //             left outer join hos.ipt o on o.vn = a.vn
+        //             LEFT JOIN hos.patient p on p.hn = a.hn
+        //             left outer join hos.rcpt_print r on r.vn =a.vn
+        //             left outer join hos.rcpt_debt rr on rr.vn = a.vn
+        //             left outer join hos.hpc11_ktb_approval hh on hh.pid=p.cid and hh.transaction_date = a.vstdate
+        //             left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
+        //             where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
+        //             and a.pttype in("o1","o2","o3","o4","o5")
+        //             and (rr.sss_approval_code is null or rr.sss_approval_code ="")
+        //             and a.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
+        //             and o.an is null
+        //             and a.uc_money > 1
+        // ) as vnnull
+        // from hos.vn_stat a
+        // left outer join hos.ipt o on o.vn = a.vn
+        // LEFT JOIN hos.patient p on p.hn = a.hn
+        // left outer join hos.rcpt_print r on r.vn =a.vn
+        // left outer join hos.rcpt_debt rr on rr.vn = a.vn
+        // left outer join hos.hpc11_ktb_approval hh on hh.pid=p.cid and hh.transaction_date = a.vstdate
+        // left outer join eclaimdb.m_registerdata m on m.opdseq = a.vn and m.status in("0","1","4")
+        // where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
+        // and a.pttype in("o1","o2","o3","o4","o5")
+        // and a.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
+        // and o.an is null
+        // and a.uc_money > 1
+        // group by year(a.vstdate),month(a.vstdate)
         // and (rr.sss_approval_code is null or rr.sss_approval_code ="")
         $datashow2 = DB::connection('mysql3')->select('
                 select year(a.vstdate) as monyear
@@ -250,7 +263,7 @@ class AccountController extends Controller
                 left outer join hos.ktb_edc_transaction k on k.vn = a.vn
                 where a.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and a.pttype in("of")
-                and o.an is null
+                and (o.an ="" or o.an is null)
                 and a.uc_money > 1
                 group by month(a.vstdate)
         ');
@@ -316,14 +329,13 @@ class AccountController extends Controller
                 left outer join hos.rcpt_debt rr on rr.vn = e.vn
                 left outer join hos.ktb_edc_transaction k on k.vn = e.vn
                 left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
-                where e.vstdate between "' . $startdate . '" AND "' . $enddate . '"
+                where year(e.vstdate) = "' . $year . '" and month(e.vstdate) = "' . $months . '"  
                 and e.pttype in("o1","o2","o3","o4","o5")
-                and o.an IS NULL
+                and (o.an ="" or o.an is null)
                 and e.uc_money > 0
                 and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
                 and e.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
-                and year(e.vstdate) = "' . $year . '"
-                and month(e.vstdate) = "' . $months . '"  
+              
                 group by e.vn,e.vstdate
                 order by e.vstdate
         ');

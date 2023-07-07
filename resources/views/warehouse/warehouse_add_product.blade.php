@@ -23,6 +23,7 @@ $pos = strrpos($url, '/') + 1;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\StaticController;
+use App\Models\Warehouse_rep_sub;
 $refnumber = WarehouseController::refnumber();
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y') + 543;
@@ -152,9 +153,13 @@ $loter = $date.''.$time
                                                 <select name="product_id[]" id="product_id0" class="form-control form-control-sm " style="width: 100%;" onchange="checkunitref(0);" required>
                                                     <option value="" selected>--รายการวัสดุ--</option>
                                                     @foreach ($product_data as $list)
-                                                        <option value="{{ $list->product_id }}">
-                                                            {{ $list->product_name }}</option>
+                                                    <?php $countcheck =  Warehouse_rep_sub::where('product_code','=',$list->product_code)->where('warehouse_rep_sub_status','=',1)->count();?>
+                                                        @if($countcheck == 0  )
+                                                            <option value="{{ $list->product_id }}"> {{ $list->product_code }}{{ $list->product_name }}</option>
+                                                        @endif
                                                     @endforeach
+ 
+
                                                 </select>
                                             </td>
                                             <td>
@@ -317,7 +322,7 @@ $loter = $date.''.$time
                         '<select name="product_id[]" id="product_id'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;" onchange="checkunitref('+number+')">'+
                         '<option value="" selected>--รายการวัสดุ--</option>'+
                         '@foreach ($product_data as $list)'+
-                        '<option value="{{ $list->product_id }}">{{$list->product_name}}</option>'+
+                        '<option value="{{ $list->product_id }}">{{ $list->product_code }}{{$list->product_name}}</option>'+
                         '@endforeach'+
                         '</select> '+
                         '</td>'+

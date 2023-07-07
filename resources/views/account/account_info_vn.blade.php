@@ -76,7 +76,7 @@
                                             <td class="text-center">{{$item2->hincome }}</td>
                                             <td class="text-center">{{$item2->rramont }}</td>
                                             <td class="text-center">{{$item2->edc }}</td>
-                                            <td class="text-center">{{$item2->cc }}</td>
+                                            <td class="p-2">{{$item2->cc }}</td>
                                             <td class="text-center">{{$item2->apphoscode }}</td>
                                             <td class="text-center">{{$item2->appktb }}</td>
                                             <td class="text-center">{{$item2->age_y }}</td>

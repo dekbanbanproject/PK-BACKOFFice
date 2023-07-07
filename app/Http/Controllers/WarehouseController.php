@@ -856,7 +856,7 @@ class WarehouseController extends Controller
 
         $data['warehouse_inven'] = DB::table('warehouse_inven')->get();
 
-        $data['product_data'] = Products::where('store_id', '=', Auth::user()->store_id)->orderBy('product_id', 'DESC')->get();
+       
 
         $data['products_typefree'] = DB::table('products_typefree')->get();
         $data['product_unit'] = DB::table('product_unit')->get();
@@ -872,6 +872,11 @@ class WarehouseController extends Controller
         $inven = DB::table('warehouse_rep')
         ->leftjoin('warehouse_inven','warehouse_inven.warehouse_inven_id','=','warehouse_rep.warehouse_rep_inven_id')
         ->where('warehouse_rep_id','=',$id)->first();
+
+
+        // $data['product_data'] = Products::where('store_id', '=', Auth::user()->store_id)->where('warehouse_rep_id','=',$id)->orderBy('product_id', 'DESC')->get();
+        $data['product_data'] = Products::where('store_id', '=', Auth::user()->store_id)->orderBy('product_id', 'DESC')->get();
+        // $product_data = DB::table('product_data')
 
 
 
@@ -917,7 +922,7 @@ class WarehouseController extends Controller
 
                     $add2 = new Warehouse_rep_sub();
                     $add2->warehouse_rep_id = $warehouse_rep_id;
-                    // $add2->warehouse_rep_code = $maxcode;
+                    $add2->warehouse_rep_code = $maxcode;
                     $add2->product_id = $idpro->product_id;
                     $add2->product_code = $idpro->product_code;
                     $add2->product_name = $idpro->product_name;

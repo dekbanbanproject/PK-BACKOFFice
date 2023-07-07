@@ -82,6 +82,26 @@
                             <tbody>
                                 <?php $i = 1; ?>
                                 @foreach ($datashow as $item2)
+
+                                <?php 
+                                    $data_null_ = DB::connection('mysql3')->select('
+                                                select year(v.vstdate) as monyear ,month(v.vstdate) as months ,count(distinct v.vn) as vnnull 
+                                                from hos.vn_stat v
+                                                left outer join hos.ipt i on i.vn = v.vn
+                                                LEFT JOIN hos.patient p on p.hn = v.hn
+                                                left outer join hos.rcpt_print r on r.vn =v.vn
+                                                left outer join hos.rcpt_debt rr on rr.vn = v.vn 
+                                                where month(v.vstdate) = "' . $item2->months . '" AND year(v.vstdate) = "' . $item2->monyear . '" 
+                                                and v.pttype in("o1","o2","o3","o4","o5") 
+                                                and i.an is null and (rr.sss_approval_code is null or rr.sss_approval_code ="")
+                                                and v.uc_money > 1 
+                                        ');
+                                        foreach ($data_null_ as $key => $value) {
+                                            $data_null = $value->vnnull;
+                                        }
+                                 // group by year(v.vstdate),month(v.vstdate) 
+                                ?>
+
                                         <tr>
                                             <td>{{$i++ }}</td>
                                             <td class="text-center">{{$item2->monyear }}</td>
@@ -115,7 +135,7 @@
                                                 <a href="{{url('account_info_vnall/'.$item2->monyear.'/'.$item2->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vn}}</a>
                                             </td>
                                             <td class="text-center">
-                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item2->vnnull}}</a>
+                                                <a href="{{url('account_info_vn/'.$item2->monyear.'/'.$item2->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $data_null}}</a>
                                             </td>
                                         </tr>
                                 @endforeach
