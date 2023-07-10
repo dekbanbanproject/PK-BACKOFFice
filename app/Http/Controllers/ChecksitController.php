@@ -159,12 +159,17 @@ class ChecksitController extends Controller
                 ];
                 $startcount++;
             }
-            DB::table('check_authen')->insert($data);
+            DB::table('check_authenexcel')->insert($data);
+            // DB::table('check_authen')->insert($data);
         } catch (Exception $e) {
             $error_code = $e->errorInfo[1];
             return back()->withErrors('There was a problem uploading the data!');
         }
-        return back()->withSuccess('Great! Data has been successfully uploaded.');
+            // return back()->withSuccess('Great! Data has been successfully uploaded.');
+                    return response()->json([
+                    'status'    => '200',
+                ]);
+
     }
 
 
