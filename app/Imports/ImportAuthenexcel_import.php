@@ -88,7 +88,7 @@ class ImportAuthenexcel_import implements ToCollection
             // $regdate = $regyear.'-'.$regmo.'-'.$regday;
 
             $vstdate_ = $row[15];
-            $starttime = substr($vstdate_, 0, 5);
+            // $starttime = substr($vstdate_, 0, 5);
             $day = substr($vstdate_, 0, 2);
             $mo = substr($vstdate_, 3, 2);
             $year = substr($vstdate_, 6, 10);
@@ -97,32 +97,59 @@ class ImportAuthenexcel_import implements ToCollection
             #ตัดขีด, ตัด : ออก แล้วเรียงใหม่
             // dd($vstdate);
         
-            Check_authen::creat([
-                'hcode'             => $row[0],
-                'hosname'           => $row[1],
-                'cid'               => $row[2],
-                'fullname'          => $row[3],
-                'birthday'          => $row[4],
-                'homtel'            => $row[5],           
-                'mainpttype'        => $row[6],
-                'subpttype'         => $row[7], 
-                'repcode'           => $row[8],
-                'claimcode'         => $row[9],
-                'claimtype'         => $row[10],
-                'servicerep'        => $row[11], 
-                'servicename'       => $row[12], 
-                'hncode'            => $row[13], 
-                'ancode'            => $row[14], 
-                'vstdate'           => $vstdate, 
-                // 'regdate'           => $regdate_, 
-                'status'            => $row[17], 
-                'requestauthen'     => $row[18],  
-                'authentication'    => $row[19],  
-                'staff_service'     => $row[20],
-                'date_editauthen'   => $row[21],
-                'name_editauthen'   => $row[22],
-                'comment'           => $row[23]
-            ]);
+            // Check_authen::creat([
+            //     'hcode'             => $row[0],
+            //     'hosname'           => $row[1],
+            //     'cid'               => $row[2],
+            //     'fullname'          => $row[3],
+            //     'birthday'          => $row[4],
+            //     'homtel'            => $row[5],           
+            //     'mainpttype'        => $row[6],
+            //     'subpttype'         => $row[7], 
+            //     'repcode'           => $row[8],
+            //     'claimcode'         => $row[9],
+            //     'claimtype'         => $row[10],
+            //     'servicerep'        => $row[11], 
+            //     'servicename'       => $row[12], 
+            //     'hncode'            => $row[13], 
+            //     'ancode'            => $row[14], 
+            //     'vstdate'           => $vstdate, 
+            //     // 'regdate'           => $regdate_, 
+            //     'status'            => $row[17], 
+            //     'requestauthen'     => $row[18],  
+            //     'authentication'    => $row[19],  
+            //     'staff_service'     => $row[20],
+            //     'date_editauthen'   => $row[21],
+            //     'name_editauthen'   => $row[22],
+            //     'comment'           => $row[23]
+        // ]);
+                 return new Check_authen([
+            'hcode'             => $row[0],
+            'hosname'           => $row[1],
+            'cid'               => $row[2],
+            'fullname'          => $row[3],
+            'birthday'          => $row[4],
+            'homtel'            => $row[5],           
+            'mainpttype'        => $row[6],
+            'subpttype'         => $row[7], 
+            'repcode'           => $row[8],
+            'claimcode'         => $row[9],
+            'claimtype'         => $row[10],
+            'servicerep'        => $row[11], 
+            'servicename'       => $row[12], 
+            'hncode'            => $row[13], 
+            'ancode'            => $row[14], 
+            'vstdate'           => $row[15], 
+            // 'regdate'           => $regdate_, 
+            'status'            => $row[17], 
+            'requestauthen'     => $row[18],  
+            'authentication'    => $row[19],  
+            'staff_service'     => $row[20],
+            'date_editauthen'   => $row[21],
+            'name_editauthen'   => $row[22],
+            'comment'           => $row[23]
+        ]);
+          
         }
     }
 }
