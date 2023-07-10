@@ -252,7 +252,8 @@
                                 <span>ตรวจสอบสิทธิ์</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('sit_acc_debtorauto') }}">ตรวจสอบสิทธิ์ Auto</a></li> 
+                                <li><a href="{{ url('sit_accpull_auto') }}" target="blank">ดึงข้อมูล Auto</a></li> 
+                                <li><a href="{{ url('sit_acc_debtorauto') }}" target="blank">ตรวจสอบสิทธิ์ Auto</a></li> 
                             </ul>
                            
                         </li> 

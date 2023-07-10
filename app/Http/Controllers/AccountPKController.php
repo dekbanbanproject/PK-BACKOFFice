@@ -82,6 +82,68 @@ date_default_timezone_set("Asia/Bangkok");
 
 class AccountPKController extends Controller
 {
+     // ดึงข้อมูลมาไว้เช็คสิทธิ์
+     public function sit_accpull_auto(Request $request)
+     {
+             $data_sits = DB::connection('mysql3')->select('
+                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                 FROM ovst o
+                 join patient p on p.hn=o.hn
+                 JOIN pttype pt on pt.pttype=o.pttype
+                 JOIN opduser op on op.loginname = o.staff
+                 WHERE o.vstdate BETWEEN "2023-07-01" AND "2023-07-05"
+                 group by p.cid
+                 limit 1500
+             ');
+            //  BETWEEN "2023-07-01" AND "2023-07-05"
+             // CURDATE()
+             foreach ($data_sits as $key => $value) {
+                 $check = Check_sit_auto::where('vn', $value->vn)->count();
+                 if ($check == 0) {
+                     Check_sit_auto::insert([
+                         'vn' => $value->vn,
+                         'an' => $value->an,
+                         'hn' => $value->hn,
+                         'cid' => $value->cid,
+                         'vstdate' => $value->vstdate,
+                         'vsttime' => $value->vsttime,
+                         'fullname' => $value->fullname,
+                         'pttype' => $value->pttype,
+                         'hospmain' => $value->hospmain,
+                         'hospsub' => $value->hospsub,
+                         'staff' => $value->staff
+                     ]);
+                 }
+             }
+             $data_sits_ipd = DB::connection('mysql3')->select('
+                     SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
+                     from hos.opitemrece op
+                     LEFT JOIN hos.ipt ip ON ip.an = op.an
+                     LEFT JOIN hos.an_stat a ON ip.an = a.an
+                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                     LEFT JOIN patient p on p.hn=a.hn
+                     WHERE a.dchdate BETWEEN "2023-07-01" AND "2023-07-05"
+                     group by p.cid
+                     limit 1500
+ 
+             ');
+            //  BETWEEN "2023-06-11" AND "2023-06-30"
+             // CURDATE()
+             foreach ($data_sits_ipd as $key => $value2) {
+                 $check = Check_sit_auto::where('an', $value2->an)->count();
+                 if ($check == 0) {
+                     Check_sit_auto::insert([
+                         'vn' => $value2->vn,
+                         'an' => $value2->an,
+                         'hn' => $value2->hn,
+                         'cid' => $value2->cid,
+                         'pttype' => $value2->pttype,
+                         'dchdate' => $value2->dchdate
+                     ]);
+                 }
+             }
+             return view('authen.sit_pull_auto');
+     }
     public function sit_acc_debtorauto(Request $request)
     {
         $datestart = $request->datestart;
@@ -98,7 +160,7 @@ class AccountPKController extends Controller
         $data_sitss = DB::connection('mysql')->select('
         SELECT cid,vn,an
 		FROM acc_debtor
-		WHERE vstdate BETWEEN "2023-06-11" AND "2023-06-30"
+		WHERE vstdate BETWEEN "2023-07-01" AND "2023-07-05"
 		AND subinscl IS NULL AND subinscl IS NULL AND status IS NULL
 		LIMIT 100
         ');
