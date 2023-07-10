@@ -15,7 +15,7 @@
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^9.0",
         "phpoffice/phpexcel": "^1.8",
-        "phpoffice/phpspreadsheet": "^1.28",
+        "phpoffice/phpspreadsheet": "^1.29",
         "picqer/php-barcode-generator": "^2.2",
         "psr/simple-cache": "2.0",
         "setasign/fpdf": "^1.8",

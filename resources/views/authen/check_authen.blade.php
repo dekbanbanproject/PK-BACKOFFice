@@ -59,13 +59,13 @@
                     <div class="card-header">
                         Report check รายชื่อ Authen
                         <div class="btn-actions-pane-right">
-                            <div role="group" class="btn-group-sm btn-group">       
-                        {{--     
+                            <div role="group" class="btn-group-sm btn-group">
+                        {{--
                                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="pe-7s-science btn-icon-wrapper"></i>Token
                                 </button> --}}
                                 <a href="{{url('https://authenservice.nhso.go.th/authencode/#/claimcode/create')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" target="_blank">
-                                    <i class="pe-7s-check btn-icon-wrapper"></i>ดึงรายงาน Authen 
+                                    <i class="pe-7s-check btn-icon-wrapper"></i>ดึงรายงาน Authen
                                 </a>
                                 {{-- <a href="{{url('check_sit_daysitauto')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning" target="_blank">
                                     <i class="pe-7s-check btn-icon-wrapper"></i>Checksit Auto
@@ -84,12 +84,12 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             <div class="row">
-                
+
                                                 <div class="col"></div>
                                                 <div class="col-md-6">
                                                     <div class="mb-3 mt-3">
                                                         <label for="formFileLg" class="form-label">UP REPORT AUTHEN EXCEL</label>
-                                                        <input class="form-control form-control-lg" id="formFileLg" name="file"
+                                                        <input class="form-control form-control-lg" id="formFileLg" name="uploaded_file"
                                                             type="file" required>
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     </div>
@@ -106,11 +106,11 @@
                                                             UP STM
                                                         </button>
                                                     {{-- @endif --}}
-                                                    
-                                                    
+
+
                                                 </div>
                                                 <div class="col"></div>
-                
+
                                             </div>
                                         </form>
                                     </div>
@@ -133,9 +133,9 @@
                                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                                             data-date-language="th-th" value="{{ $dateend }}" />
-                                    </div> 
+                                    </div>
                                 </div>
- 
+
 
 
                                 <div class="col-md-1">
@@ -150,7 +150,7 @@
                         </form>
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless" id="example">
-                               
+
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
@@ -170,7 +170,7 @@
                                 <tbody>
                                     <?php $ia = 1; ?>
                                     @foreach ($data_sit as $item)
-                                   
+
                                     @if ( $item->pttype == 'A7' && $item->subinscl == 'S1' && $item->hospmain == $item->hmain)
                                         <tr style="background-color: rgb(255, 255, 255)">
                                             <td>{{ $ia++ }}</td>
