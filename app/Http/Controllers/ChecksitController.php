@@ -18,7 +18,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 // use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\OtExport;
 // use App\Imports\UsersImport;
-use Maatwebsite\Excel\Facades\Excel; 
+ 
 use App\Models\Article;
 use App\Models\Product_prop;
 use App\Models\Product_decline;
@@ -31,7 +31,9 @@ use App\Models\Leave_leader;
 use App\Models\Leave_leader_sub;
 use App\Models\Check_sit_auto;
 use App\Models\Check_sit;
+use App\Models\Check_sit_auto_claim;
 use App\Models\Ssop_stm;
+use App\Models\Acc_debtor;
 use App\Models\Ssop_session;
 use App\Models\Ssop_opdx;
 use App\Models\Pang_stamp_temp;
@@ -61,13 +63,87 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Stevebauman\Location\Facades\Location; 
 use SoapClient; 
-use SplFileObject;
-// use File;
+use SplFileObject; 
+use PHPExcel;
+use PHPExcel_IOFactory; 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ImportAuthenexcel_import;
  
  
 
 class ChecksitController extends Controller
 { 
+    public function check_authen(Request $request)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+ 
+            $data_sit = DB::connection('mysql')->select(' 
+                SELECT *
+                FROM check_authen  
+                WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'" 
+                GROUP BY vstdate
+            ');             
+     
+        return view('authen.check_authen',[            
+            'data_sit'       => $data_sit, 
+            'datestart'      => $datestart, 
+            'dateend'        => $dateend,           
+        ]);
+    }
+    public function check_authen_excel(Request $request)
+    {
+            Excel::import(new ImportAuthenexcel_import, $request->file('file')->store('files'));
+
+             return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function upstm_ofcexcel_senddata(Request $request)
+    {
+        $data_ = DB::connection('mysql')->select('
+            SELECT *
+            FROM acc_stm_ofcexcel
+        ');
+        // GROUP BY cid,vstdate
+        foreach ($data_ as $key => $value) {
+                Acc_stm_ofc::create([
+                    'repno'             => $value->repno,
+                    'no'                => $value->no,
+                    'hn'                => $value->hn,
+                    'an'                => $value->an,
+                    'cid'               => $value->cid,
+                    'fullname'          => $value->fullname,
+                    'vstdate'           => $value->vstdate,
+                    'dchdate'           => $value->dchdate,
+                    'PROJCODE'          => $value->PROJCODE,
+                    'AdjRW'             => $value->AdjRW,
+                    'price_req'         => $value->price_req,
+                    'prb'               => $value->prb,
+                    'room'              => $value->room,
+                    'inst'              => $value->inst,
+                    'drug'              => $value->drug,
+                    'income'            => $value->income,
+                    'refer'             => $value->refer,
+                    'waitdch'           => $value->waitdch,
+                    'service'           => $value->service,
+                    'pricereq_all'      => $value->pricereq_all,
+                    'STMdoc'            => $value->STMdoc,
+                    'HDflag'            => 'OFC'
+                ]);
+                acc_1102050101_4022::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                ->update([
+                    'status'   => 'Y'
+                ]);
+        }
+        Acc_stm_ofcexcel::truncate();
+        // return response()->json([
+        //     'status'    => '200',
+        // ]);
+        return redirect()->back();
+    }
     public function check_sit_day(Request $request)
     {
         $datestart = $request->startdate;
@@ -90,7 +166,7 @@ class ChecksitController extends Controller
                 GROUP BY cid
             ');             
         // }    
-        return view('authen.check_sit_day ',[            
+        return view('authen.check_sit_day',[            
             'data_sit'    => $data_sit, 
             'start'     => $datestart, 
             'end'        => $dateend,           
@@ -227,6 +303,226 @@ class ChecksitController extends Controller
         //     'end'        => $dateend,           
         // ]);
     }
+     // ดึงข้อมูลมาไว้เช็คสิทธิ์
+     public function check_sit_daypullauto(Request $request)
+     {
+             $data_sits = DB::connection('mysql3')->select('
+                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                 FROM ovst o
+                 join patient p on p.hn=o.hn
+                 JOIN pttype pt on pt.pttype=o.pttype
+                 JOIN opduser op on op.loginname = o.staff
+                 WHERE o.vstdate = "2023-07-10"
+                 group by p.cid
+                 limit 1500
+             ');
+             // CURDATE()
+             foreach ($data_sits as $key => $value) {
+                 $check = Check_sit_auto::where('vn', $value->vn)->count();
+                 if ($check == 0) {
+                     Check_sit_auto::insert([
+                         'vn' => $value->vn,
+                         'an' => $value->an,
+                         'hn' => $value->hn,
+                         'cid' => $value->cid,
+                         'vstdate' => $value->vstdate,
+                         'vsttime' => $value->vsttime,
+                         'fullname' => $value->fullname,
+                         'pttype' => $value->pttype,
+                         'hospmain' => $value->hospmain,
+                         'hospsub' => $value->hospsub,
+                         'staff' => $value->staff
+                     ]);
+                 }
+             }
+             $data_sits_ipd = DB::connection('mysql3')->select('
+                     SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
+                     from hos.opitemrece op
+                     LEFT JOIN hos.ipt ip ON ip.an = op.an
+                     LEFT JOIN hos.an_stat a ON ip.an = a.an
+                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                     LEFT JOIN patient p on p.hn=a.hn
+                     WHERE a.dchdate = CURDATE()
+                     group by p.cid
+                     limit 1500
+ 
+             ');
+             // CURDATE()
+             foreach ($data_sits_ipd as $key => $value2) {
+                 $check = Check_sit_auto::where('an', $value2->an)->count();
+                 if ($check == 0) {
+                     Check_sit_auto::insert([
+                         'vn' => $value2->vn,
+                         'an' => $value2->an,
+                         'hn' => $value2->hn,
+                         'cid' => $value2->cid,
+                         'pttype' => $value2->pttype,
+                         'dchdate' => $value2->dchdate
+                     ]);
+                 }
+             }
+             return view('authen.check_sit_daypullauto');
+     }
+     public function check_sit_daysitauto(Request $request)
+     {
+         $datestart = $request->datestart;
+         $dateend = $request->dateend;
+         $date = date('Y-m-d');
+         $token_data = DB::connection('mysql')->select('
+             SELECT cid,token FROM ssop_token
+         ');
+         
+         foreach ($token_data as $key => $valuetoken) {
+             $cid_ = $valuetoken->cid;
+             $token_ = $valuetoken->token;
+         }
+         $data_sitss = DB::connection('mysql')->select('
+             SELECT cid,vn,an
+             FROM check_sit_auto
+             WHERE vstdate = "2023-07-10"
+             AND subinscl IS NULL
+             LIMIT 30
+         ');
+         // BETWEEN "2023-07-01" AND "2023-05-16"       CURDATE()
+         foreach ($data_sitss as $key => $item) {
+             $pids = $item->cid;
+             $vn = $item->vn;
+             $an = $item->an;
+             $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                 array(
+                     "uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',
+                                     "trace"      => 1,
+                                     "exceptions" => 0,
+                                     "cache_wsdl" => 0
+                     )
+                 );
+                 $params = array(
+                     'sequence' => array(
+                         "user_person_id" => "$cid_",
+                         "smctoken" => "$token_",
+                         "person_id" => "$pids"
+                 )
+             );
+             $contents = $client->__soapCall('searchCurrentByPID',$params);
+             foreach ($contents as $v) {
+                 @$status = $v->status ;
+                 @$maininscl = $v->maininscl;
+                 @$startdate = $v->startdate;
+                 @$hmain = $v->hmain ;
+                 @$subinscl = $v->subinscl ;
+                 @$person_id_nhso = $v->person_id;
+ 
+                 @$hmain_op = $v->hmain_op;  //"10978"
+                 @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                 @$hsub = $v->hsub;    //"04047"
+                 @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                 @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+ 
+ 
+                 IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                     $date = date("Y-m-d");
+                     Check_sit_auto::where('vn', $vn)
+                         ->update([
+                             'status' => 'จำหน่าย/เสียชีวิต',
+                             'maininscl' => @$maininscl,
+                             'startdate' => @$startdate,
+                             'hmain' => @$hmain,
+                             'subinscl' => @$subinscl,
+                             'person_id_nhso' => @$person_id_nhso,
+                             'hmain_op' => @$hmain_op,
+                             'hmain_op_name' => @$hmain_op_name,
+                             'hsub' => @$hsub,
+                             'hsub_name' => @$hsub_name,
+                             'subinscl_name' => @$subinscl_name,
+                             'upsit_date'    => $date
+                     ]);
+                     Check_sit_auto_claim::where('vn', $vn)
+                         ->update([
+                             'status' => 'จำหน่าย/เสียชีวิต',
+                             'maininscl' => @$maininscl,
+                             'startdate' => @$startdate,
+                             'hmain' => @$hmain,
+                             'subinscl' => @$subinscl,
+                             'person_id_nhso' => @$person_id_nhso,
+                             'hmain_op' => @$hmain_op,
+                             'hmain_op_name' => @$hmain_op_name,
+                             'hsub' => @$hsub,
+                             'hsub_name' => @$hsub_name,
+                             'subinscl_name' => @$subinscl_name,
+                             'upsit_date'    => $date
+                     ]);
+ 
+                     Acc_debtor::where('vn', $vn)
+                         ->update([
+                             'status' => @$status,
+                             'maininscl' => @$maininscl,
+                             'hmain' => @$hmain,
+                             'subinscl' => @$subinscl,
+                             'pttype_spsch' => @$subinscl,
+                             'hsub' => @$hsub,
+ 
+                     ]);
+                 }elseif(@$maininscl !="" || @$subinscl !=""){
+                         $date2 = date("Y-m-d");
+                             Check_sit_auto::where('vn', $vn)
+                             ->update([
+                                 'status' => @$status,
+                                 'maininscl' => @$maininscl,
+                                 'startdate' => @$startdate,
+                                 'hmain' => @$hmain,
+                                 'subinscl' => @$subinscl,
+                                 'person_id_nhso' => @$person_id_nhso,
+                                 'hmain_op' => @$hmain_op,
+                                 'hmain_op_name' => @$hmain_op_name,
+                                 'hsub' => @$hsub,
+                                 'hsub_name' => @$hsub_name,
+                                 'subinscl_name' => @$subinscl_name,
+                                 'upsit_date'    => $date2
+                             ]);
+                             Check_sit_auto_claim::where('vn', $vn)
+                             ->update([
+                                 'status' => @$status,
+                                 'maininscl' => @$maininscl,
+                                 'startdate' => @$startdate,
+                                 'hmain' => @$hmain,
+                                 'subinscl' => @$subinscl,
+                                 'person_id_nhso' => @$person_id_nhso,
+                                 'hmain_op' => @$hmain_op,
+                                 'hmain_op_name' => @$hmain_op_name,
+                                 'hsub' => @$hsub,
+                                 'hsub_name' => @$hsub_name,
+                                 'subinscl_name' => @$subinscl_name,
+                                 'upsit_date'    => $date2
+                             ]);
+                             Acc_debtor::where('vn', $vn)
+                                 ->update([
+                                     'status' => @$status,
+                                     'maininscl' => @$maininscl,
+                                     'hmain' => @$hmain,
+                                     'subinscl' => @$subinscl,
+                                     'pttype_spsch' => @$subinscl,
+                                     'hsub' => @$hsub,
+ 
+                                 ]);
+                             Acc_debtor::where('an', $an)
+                                 ->update([
+                                     'status' => @$status,
+                                     'maininscl' => @$maininscl,
+                                     'hmain' => @$hmain,
+                                     'subinscl' => @$subinscl,
+                                     'pttype_spsch' => @$subinscl,
+                                     'hsub' => @$hsub,
+ 
+                                 ]);
+                       
+                 }
+ 
+             }
+         }
+ 
+         return view('authen.check_sit_daysitauto');
+ 
+     }
 
     public function check_sit_pull(Request $request)
     {

@@ -120,8 +120,16 @@ Route::match(['get','post'],'sit_pullacc_auto',[App\Http\Controllers\AutoControl
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//
 Route::match(['get','post'],'depauthen_auto',[App\Http\Controllers\AutoController::class, 'depauthen_auto'])->name('db.depauthen_auto');//
 
+Route::match(['get','post'],'check_authen',[App\Http\Controllers\ChecksitController::class, 'check_authen'])->name('claim.check_authen');//
+Route::match(['get','post'],'check_authen_excel',[App\Http\Controllers\ChecksitController::class, 'check_authen_excel'])->name('claim.check_authen_excel');//
+Route::match(['get','post'],'check_authen_send',[App\Http\Controllers\ChecksitController::class, 'check_authen_send'])->name('claim.check_authen_send');//
+
 Route::match(['get','post'],'check_sit_day',[App\Http\Controllers\ChecksitController::class, 'check_sit_day'])->name('claim.check_sit_day');//
 Route::match(['get','post'],'check_sit_daysearch',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysearch'])->name('claim.check_sit_daysearch');//
+
+Route::match(['get','post'],'check_sit_daysitauto',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysitauto'])->name('claim.check_sit_daysitauto');//
+Route::match(['get','post'],'check_sit_daypullauto',[App\Http\Controllers\ChecksitController::class, 'check_sit_daypullauto'])->name('claim.check_sit_daypullauto');//
+
 Route::match(['get','post'],'check_sit_pull',[App\Http\Controllers\ChecksitController::class, 'check_sit_pull'])->name('claim.check_sit_pull');//
 Route::match(['get','post'],'check_sit_font',[App\Http\Controllers\ChecksitController::class, 'check_sit_font'])->name('claim.check_sit_font');//
 Route::match(['get','post'],'check_sit_token',[App\Http\Controllers\ChecksitController::class, 'check_sit_token'])->name('claim.check_sit_token');//

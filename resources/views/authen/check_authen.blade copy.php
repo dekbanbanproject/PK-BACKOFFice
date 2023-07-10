@@ -57,30 +57,25 @@
             <div class="col-md-12">
                  <div class="main-card mb-3 card">
                     <div class="card-header">
-                        Report check sit
+                        Report check รายชื่อ Authen
                         <div class="btn-actions-pane-right">
-                            <div role="group" class="btn-group-sm btn-group">
-                                {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="PullCheck">
-                                    <i class="pe-7s-shuffle btn-icon-wrapper"></i>ดึงข้อมูล
-                                </button> --}}
-                                {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
-                                    <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
-                                </button>  --}}
+                            <div role="group" class="btn-group-sm btn-group">       
+                        {{--     
                                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     <i class="pe-7s-science btn-icon-wrapper"></i>Token
-                                </button>
-                                <a href="{{url('check_sit_daypullauto')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" target="_blank">
-                                    <i class="pe-7s-check btn-icon-wrapper"></i>ดึงข้อมูล Auto
+                                </button> --}}
+                                <a href="{{url('https://authenservice.nhso.go.th/authencode/#/claimcode/create')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" target="_blank">
+                                    <i class="pe-7s-check btn-icon-wrapper"></i>ดึงรายงาน Authen 
                                 </a>
-                                <a href="{{url('check_sit_daysitauto')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning" target="_blank">
+                                {{-- <a href="{{url('check_sit_daysitauto')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning" target="_blank">
                                     <i class="pe-7s-check btn-icon-wrapper"></i>Checksit Auto
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
 
-                        <form action="{{ route('claim.check_sit_day') }}" method="POST">
+                        <form action="{{ route('claim.check_authen') }}" method="POST">
                             @csrf
                             <div class="row mt-3">
                                 <div class="col"></div>
@@ -90,32 +85,13 @@
                                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                            data-date-language="th-th" value="{{ $start }}" />
+                                            data-date-language="th-th" value="{{ $datestart }}" />
                                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                            data-date-language="th-th" value="{{ $end }}" />
+                                            data-date-language="th-th" value="{{ $dateend }}" />
                                     </div> 
                                 </div>
-
-                                {{-- <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $start }}">
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 text-center">ถึงวันที่</div>
-                                <div class="col-md-2 text-center">
-                                    <div class="input-group" id="datepicker1">
-                                        <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                            value="{{ $end }}">
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div> --}}
-
+ 
 
 
                                 <div class="col-md-1">

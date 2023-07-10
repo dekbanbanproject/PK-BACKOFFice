@@ -408,6 +408,7 @@ return array(
     'App\\Models\\Warehouse_inven' => $baseDir . '/app/Models/Warehouse_inven.php',
     'App\\Models\\Warehouse_inven_person' => $baseDir . '/app/Models/Warehouse_inven_person.php',
     'App\\Models\\Warehouse_pay' => $baseDir . '/app/Models/Warehouse_pay.php',
+    'App\\Models\\Warehouse_pay_sub' => $baseDir . '/app/Models/Warehouse_pay_sub.php',
     'App\\Models\\Warehouse_recieve' => $baseDir . '/app/Models/Warehouse_recieve.php',
     'App\\Models\\Warehouse_recieve_sub' => $baseDir . '/app/Models/Warehouse_recieve_sub.php',
     'App\\Models\\Warehouse_rep' => $baseDir . '/app/Models/Warehouse_rep.php',

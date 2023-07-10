@@ -53,8 +53,7 @@
         background:
             url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%;
         background-size: cover;
-        display: flex;
-        align-items: center;
+        display: flex;  
         justify-content: center;
     }
 

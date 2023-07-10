@@ -1058,6 +1058,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Warehouse_inven' => __DIR__ . '/../..' . '/app/Models/Warehouse_inven.php',
         'App\\Models\\Warehouse_inven_person' => __DIR__ . '/../..' . '/app/Models/Warehouse_inven_person.php',
         'App\\Models\\Warehouse_pay' => __DIR__ . '/../..' . '/app/Models/Warehouse_pay.php',
+        'App\\Models\\Warehouse_pay_sub' => __DIR__ . '/../..' . '/app/Models/Warehouse_pay_sub.php',
         'App\\Models\\Warehouse_recieve' => __DIR__ . '/../..' . '/app/Models/Warehouse_recieve.php',
         'App\\Models\\Warehouse_recieve_sub' => __DIR__ . '/../..' . '/app/Models/Warehouse_recieve_sub.php',
         'App\\Models\\Warehouse_rep' => __DIR__ . '/../..' . '/app/Models/Warehouse_rep.php',

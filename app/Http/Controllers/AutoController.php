@@ -262,11 +262,11 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an
             FROM check_sit_auto
-            WHERE vstdate = CURDATE()
+            WHERE vstdate = "2023-07-03"
             AND subinscl IS NULL
             LIMIT 30
         ');
-        // BETWEEN "2023-01-05" AND "2023-05-16"       CURDATE()
+        // BETWEEN "2023-07-01" AND "2023-05-16"       CURDATE()
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
             $vn = $item->vn;
