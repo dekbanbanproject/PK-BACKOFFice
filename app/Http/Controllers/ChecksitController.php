@@ -232,12 +232,16 @@ class ChecksitController extends Controller
         // } else {
             // $data_sit = DB::connection('mysql7')->select('
             $data_sit = DB::connection('mysql')->select('
-                SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
-                FROM check_sit_auto
-                WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
-                GROUP BY cid
+                SELECT 
+                c.vn,c.an,c.cid,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.claimtype,ca.servicerep,c.staff
+                FROM check_sit_auto c
+                LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
+                
+                WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+                GROUP BY c.vn
             ');
         // }
+        // SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
         return view('authen.check_sit_day',[
             'data_sit'    => $data_sit,
             'start'     => $datestart,
@@ -384,11 +388,11 @@ class ChecksitController extends Controller
                  join patient p on p.hn=o.hn
                  JOIN pttype pt on pt.pttype=o.pttype
                  JOIN opduser op on op.loginname = o.staff
-                 WHERE o.vstdate = "2023-07-10"
+                 WHERE o.vstdate = CURDATE()
                  group by p.cid
                  limit 1500
              ');
-             // CURDATE()
+             // CURDATE() "2023-07-10"
              foreach ($data_sits as $key => $value) {
                  $check = Check_sit_auto::where('vn', $value->vn)->count();
                  if ($check == 0) {
@@ -451,7 +455,7 @@ class ChecksitController extends Controller
          $data_sitss = DB::connection('mysql')->select('
              SELECT cid,vn,an
              FROM check_sit_auto
-             WHERE vstdate = "2023-07-10"
+             WHERE vstdate = CURDATE()
              AND subinscl IS NULL
              LIMIT 30
          ');

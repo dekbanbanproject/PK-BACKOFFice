@@ -144,6 +144,7 @@
                                         <th>pttype สปสช</th>
                                         <th>hmain สปสช</th>
                                         <th>hsub สปสช</th>
+                                        <th>claimcode</th>
                                         <th>staff</th>
                                     </tr>
                                 </thead>
@@ -170,6 +171,12 @@
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
                                             <td>{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
+                                          
+                                            @if ($item->claimcode == '')
+                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
+                                            @else
+                                                <td>{{ $item->claimcode }}</td>
+                                            @endif
                                             <td>{{ $item->staff }}</td>
                                         </tr>
                                     @elseif( $item->pttype != $item->subinscl )
@@ -199,6 +206,11 @@
                                             </td>
                                             <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
+                                            @if ($item->claimcode == '')
+                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
+                                            @else
+                                                <td>{{ $item->claimcode }}</td>
+                                            @endif
                                             <td>{{ $item->staff }}</td>
                                         </tr>
                                     @else
@@ -216,6 +228,11 @@
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
                                             <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
+                                            @if ($item->claimcode == '')
+                                            <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
+                                            @else
+                                                <td>{{ $item->claimcode }}</td>
+                                            @endif
                                             <td>{{ $item->staff }}</td>
                                         </tr>
                                     @endif
