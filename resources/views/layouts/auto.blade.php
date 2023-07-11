@@ -389,7 +389,7 @@
                                         </a>
                                     </li> --}}
                                     <li>
-                                        <a href="{{ url('sit_pull_auto') }}">
+                                        <a href="{{ url('sit_pull_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                              Pull Data Auto
                                         </a>
@@ -401,11 +401,17 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="{{ url('check_spsch') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Authen Spsch Auto
+                                        </a>
+                                    </li>
+                                    {{-- <li>
                                         <a href="{{ url('repage') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Repage Auto
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <a href="{{ url('dbday_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
@@ -418,12 +424,12 @@
                                             Department Authen Auto
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{ url('checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Report สปสช Auto
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     {{-- <li>
                                         <a href="{{ url('sit_pullacc_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>

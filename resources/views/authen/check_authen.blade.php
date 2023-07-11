@@ -57,7 +57,7 @@
             <div class="col-md-12">
                  <div class="main-card mb-3 card">
                     <div class="card-header">
-                        Report check รายชื่อ Authen
+                        IMPORT Authen และวันที่ Import Excel Authen
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">
                         {{--
@@ -147,98 +147,32 @@
                                  <div class="col"></div>
                             </div>
 
-                        </form>
+                        </form> --}}
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless" id="example">
 
                                 <thead>
                                     <tr>
-                                        <th>ลำดับ</th>
-                                        <th>vn</th>
-                                        <th>cid</th>
-                                        <th>vstdate</th>
-                                        <th>fullname</th>
-                                        <th>pttype Hos</th>
-                                        <th>hospmain Hos</th>
-                                        <th>hospsub Hos</th>
-                                        <th>pttype สปสช</th>
-                                        <th>hmain สปสช</th>
-                                        <th>hsub สปสช</th>
-                                        <th>staff</th>
+                                        <th>ลำดับ</th> 
+                                        <th>vstdate</th> 
+                                        {{-- <th>จัดการ</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $ia = 1; ?>
-                                    @foreach ($data_sit as $item)
-
-                                    @if ( $item->pttype == 'A7' && $item->subinscl == 'S1' && $item->hospmain == $item->hmain)
-                                        <tr style="background-color: rgb(255, 255, 255)">
-                                            <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->vn }}</td>
-                                            <td>{{ $item->cid }}</td>
-                                            <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->fullname }}</td>
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>
-                                            <td >{{ $item->hospmain }}</td>
-                                            <td>{{ $item->hospsub }}</td>
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
-                                            <td>{{ $item->hmain }}</td>
-                                            <td>{{ $item->hsub }}</td>
-                                            <td>{{ $item->staff }}</td>
-                                        </tr>
-                                    @elseif( $item->pttype != $item->subinscl )
-
+                                    <?php $i = 1; ?>
+                                    @foreach ($data_show as $item) 
                                         <tr>
-                                            <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->vn }}</td>
-                                            <td>{{ $item->cid }}</td>
-                                            <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->fullname }}</td>
-                                            <td>
-                                                <?php
-                                                      $pttype_hos = DB::connection('mysql')->table('pttype')->where('pttype','=',$item->pttype)->first();
-                                                      $d = $pttype_hos->name;
-                                                ?>
-                                                <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-danger" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$d}}">
-                                                    {{ $item->pttype }}
-                                                </button>
-
-                                            </td>
-                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td>
-                                            <td>{{ $item->hospsub }}</td>
-                                            <td >
-                                                <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-warning" data-container="body" data-bs-toggle="popover" data-bs-placement="top" data-bs-content=" {{$item->subinscl_name}}">
-                                                    {{ $item->subinscl }}
-                                                </button>
-                                            </td>
-                                            <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
-                                            <td>{{ $item->hsub }}</td>
-                                            <td>{{ $item->staff }}</td>
+                                            <td>{{ $i++ }}</td> 
+                                            <td>{{ $item->vstdate }}</td> 
+                                            {{-- <td></td> --}}
                                         </tr>
-                                    @else
-                                        <tr style="background-color: rgb(255, 255, 255)">
-                                            <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->vn }}</td>
-                                            <td>{{ $item->cid }}</td>
-                                            <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->fullname }}</td>
-
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>
-                                            <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td>
-                                            <td>{{ $item->hospsub }}</td>
-
-                                            <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
-                                            <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
-                                            <td>{{ $item->hsub }}</td>
-                                            <td>{{ $item->staff }}</td>
-                                        </tr>
-                                    @endif
+                                   
 
                                     @endforeach
 
                                 </tbody>
                             </table>
-                        </div> --}}
+                        </div>
 
                     </div>
                 </div>

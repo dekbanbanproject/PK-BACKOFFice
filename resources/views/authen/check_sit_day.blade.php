@@ -135,6 +135,7 @@
                                     <tr>
                                         <th>ลำดับ</th>
                                         <th>vn</th>
+                                        <th>hn</th>
                                         <th>cid</th>
                                         <th>vstdate</th>
                                         <th>fullname</th>
@@ -145,6 +146,7 @@
                                         <th>hmain สปสช</th>
                                         <th>hsub สปสช</th>
                                         <th>claimcode</th>
+                                        <th>claimtype</th>
                                         <th>staff</th>
                                     </tr>
                                 </thead>
@@ -162,6 +164,7 @@
                                         <tr style="background-color: rgb(255, 255, 255)">
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td>
+                                            <td>{{ $item->hn }}</td>
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->fullname }}</td>
@@ -174,8 +177,10 @@
                                           
                                             @if ($item->claimcode == '')
                                                 <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
+                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
                                             @else
                                                 <td>{{ $item->claimcode }}</td>
+                                                <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
                                         </tr>
@@ -184,6 +189,7 @@
                                         <tr>
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td>
+                                            <td>{{ $item->hn }}</td>
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->fullname }}</td>
@@ -208,8 +214,10 @@
                                             <td>{{ $item->hsub }}</td>
                                             @if ($item->claimcode == '')
                                                 <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
+                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
                                             @else
                                                 <td>{{ $item->claimcode }}</td>
+                                                <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
                                         </tr>
@@ -217,6 +225,7 @@
                                         <tr style="background-color: rgb(255, 255, 255)">
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td>
+                                            <td>{{ $item->hn }}</td>
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->fullname }}</td>
@@ -230,8 +239,10 @@
                                             <td>{{ $item->hsub }}</td>
                                             @if ($item->claimcode == '')
                                             <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
+                                            <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
                                             @else
                                                 <td>{{ $item->claimcode }}</td>
+                                                <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
                                         </tr>
