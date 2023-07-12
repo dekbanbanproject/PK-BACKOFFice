@@ -1,6 +1,6 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
- 
+
 @section('content')
     <script>
         function TypeAdmin() {
@@ -20,7 +20,7 @@
     $ynow = date('Y')+543;
     $yb =  date('Y')+542;
     ?>
-     
+
      <style>
         #button {
             display: block;
@@ -76,13 +76,13 @@
    <div class="tabs-animation">
         <div id="preloader">
             <div id="status">
-                <div class="spinner"> 
+                <div class="spinner">
                 </div>
             </div>
         </div>
         <form action="{{ route('acc.account_pkucs202_dash') }}" method="GET">
             @csrf
-            <div class="row"> 
+            <div class="row">
                 <div class="col-md-4">
                     <h4 class="card-title">Detail 1102050101.202</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.202</p>
@@ -96,23 +96,23 @@
                             data-date-language="th-th" value="{{ $startdate }}" required/>
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div> 
+                            data-date-language="th-th" value="{{ $enddate }}" required/>
+                    </div>
                 </div>
                 <div class="col-md-2 text-start">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">  
+                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_pkucs202_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                    <a href="{{url('account_pkucs202_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
                     </a>
                 </div>
             </div>
-        </form>  
-        <div class="row "> 
-            @foreach ($datashow as $item)   
+        </form>
+        <div class="row ">
+            @foreach ($datashow as $item)
             <div class="col-xl-4 col-md-12">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)">
                     @if ($startdate == '')
@@ -155,11 +155,11 @@
                                                 $sumapprove_ = DB::select('
                                                         SELECT count(DISTINCT a.an) as Apvit ,sum(au.ip_paytrue) as ip_paytrue
                                                             FROM acc_1102050101_202 a
-                                                            LEFT JOIN acc_stm_ucs au ON au.an = a.an 
+                                                            LEFT JOIN acc_stm_ucs au ON au.an = a.an
                                                             WHERE year(a.dchdate) = "'.$item->year.'"
                                                             AND month(a.dchdate) = "'.$item->months.'"
                                                             AND au.ip_paytrue IS NOT NULL
-
+ 
                                                     ');
                                                     foreach ($sumapprove_ as $key => $value3) {
                                                         $amountpay = $value3->ip_paytrue;
@@ -181,7 +181,7 @@
                                                     $sumyokma_all_ = DB::select('
                                                         SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
                                                                 FROM acc_1102050101_202 U1
-                                                                LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an 
+                                                                LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
                                                                 WHERE U1.status ="N"
                                                                 AND month(U1.dchdate) < "'.$mo.'"
                                                                 and year(U1.dchdate) = "'.$item->year.'"
@@ -362,7 +362,7 @@
                                             $sumapprove_ = DB::select('
                                                     SELECT count(DISTINCT a.an) as Apvit ,sum(au.ip_paytrue) as ip_paytrue
                                                         FROM acc_1102050101_202 a
-                                                        LEFT JOIN acc_stm_ucs au ON au.an = a.an 
+                                                        LEFT JOIN acc_stm_ucs au ON au.an = a.an
                                                         WHERE year(a.dchdate) = "'.$item->year.'"
                                                         AND month(a.dchdate) = "'.$item->months.'"
                                                         AND au.ip_paytrue IS NOT NULL
@@ -388,7 +388,7 @@
                                                 $sumyokma_all_ = DB::select('
                                                     SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
                                                             FROM acc_1102050101_202 U1
-                                                            LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an 
+                                                            LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
                                                             WHERE U1.status ="N"
                                                             AND month(U1.dchdate) < "'.$mo.'"
                                                             and year(U1.dchdate) = "'.$item->year.'"

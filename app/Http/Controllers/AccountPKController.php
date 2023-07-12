@@ -44,6 +44,7 @@ use App\Models\acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
+use App\Models\Acc_stm_ucs_excel;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -62,7 +63,7 @@ use SoapClient;
 use Arr;
 // use Storage;
 use GuzzleHttp\Client;
- 
+
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
@@ -74,7 +75,7 @@ use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;  
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -128,7 +129,7 @@ class AccountPKController extends Controller
                      WHERE a.dchdate BETWEEN "2023-07-01" AND "2023-07-05"
                      group by p.cid
                      limit 1500
- 
+
              ');
             //  BETWEEN "2023-06-11" AND "2023-06-30"
              // CURDATE()
@@ -155,7 +156,7 @@ class AccountPKController extends Controller
         $token_data = DB::connection('mysql')->select('
             SELECT cid,token FROM ssop_token
         ');
-       
+
         foreach ($token_data as $key => $valuetoken) {
             $cid_ = $valuetoken->cid;
             $token_ = $valuetoken->token;
@@ -181,7 +182,7 @@ class AccountPKController extends Controller
                     )
                 );
                 $params = array(
-                    'sequence' => array( 
+                    'sequence' => array(
                         "user_person_id" => "$cid_",
                         "smctoken" => "$token_",
                         // "person_id" => "$pids"
@@ -224,7 +225,7 @@ class AccountPKController extends Controller
                             'subinscl_name' => @$subinscl_name,
                             'upsit_date'    => $date
                     ]);
-                     
+
                     Acc_debtor::where('vn', $vn)
                         ->update([
                             'status' => 'จำหน่าย/เสียชีวิต',
@@ -254,7 +255,7 @@ class AccountPKController extends Controller
                                 'subinscl_name' => @$subinscl_name,
                                 'upsit_date'    => $date2
                             ]);
-                            
+
                             Acc_debtor::where('vn', $vn)
                                 ->update([
                                     'status' => 'จำหน่าย/เสียชีวิต',
@@ -262,11 +263,11 @@ class AccountPKController extends Controller
                                     'hmain' => @$hmain,
                                     'subinscl' => @$subinscl,
                                     'pttype_spsch' => @$subinscl,
-                                    'hsub' => @$hsub, 
+                                    'hsub' => @$hsub,
                                 ]);
-                           
+
                 // }else{
-               
+
                 //     Acc_debtor::where('vn', $vn)
                 //     ->update([
                 //         'status' => @$status,
@@ -274,8 +275,8 @@ class AccountPKController extends Controller
                 //         'hmain' => @$hmain,
                 //         'subinscl' => @$subinscl,
                 //         'pttype_spsch' => @$subinscl,
-                //         'hsub' => @$hsub, 
-                //     ]);  
+                //         'hsub' => @$hsub,
+                //     ]);
                 }
 
             }
@@ -1362,7 +1363,7 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $acc_debtor = DB::select('
-            SELECT * from acc_debtor  
+            SELECT * from acc_debtor
             WHERE account_code="1102050101.217"
             AND stamp = "N"
             and account_code="1102050101.217"
@@ -1387,7 +1388,7 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT *  from acc_1102050101_217  
+            SELECT *  from acc_1102050101_217
             WHERE month(dchdate) = "'.$months.'" and year(dchdate) = "'.$year.'"
             AND status = "N"
         ');
@@ -1504,9 +1505,9 @@ class AccountPKController extends Controller
 
         $datashow = DB::select('
             SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2
-            ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue 
+            ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue
             from acc_1102050101_217 a
-            LEFT JOIN acc_stm_ucs s ON s.an = a.an 
+            LEFT JOIN acc_stm_ucs s ON s.an = a.an
             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND s.rep IS NOT NULL
 
         ');
@@ -1562,9 +1563,9 @@ class AccountPKController extends Controller
                 SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
                 from acc_1102050101_217 a
                 LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                WHERE a.status ="N" 
-                AND month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
-                GROUP BY a.an 
+                WHERE a.status ="N"
+                AND month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+                GROUP BY a.an
         ');
 
         $sum_money_ = DB::connection('mysql')->select('
@@ -1604,7 +1605,7 @@ class AccountPKController extends Controller
         // dd($id);
         $data['users'] = User::get();
         $mototal = $months + 1;
-        $datashow = DB::connection('mysql')->select(' 
+        $datashow = DB::connection('mysql')->select('
                 SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,au.STMdoc
                     from acc_1102050101_217 a
                     LEFT JOIN acc_stm_ucs au ON au.an = a.an
@@ -1612,7 +1613,7 @@ class AccountPKController extends Controller
                     AND month(a.dchdate) < "'.$mototal.'"
                     and year(a.dchdate) = "'.$year.'"
                     AND au.ip_paytrue IS NULL
-                    GROUP BY a.an 
+                    GROUP BY a.an
 
             ');
         return view('account_pk.account_pkucs217_stmnull_all', $data, [
@@ -1636,9 +1637,9 @@ class AccountPKController extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT *  from acc_debtor 
+                SELECT *  from acc_debtor
                 WHERE account_code="1102050101.202"
-                AND stamp = "N" 
+                AND stamp = "N"
                 group by an
                 order by vstdate asc;
 
@@ -1663,7 +1664,7 @@ class AccountPKController extends Controller
                 order by a.vstdate asc;
 
             ');
-            // ,c.subinscl 
+            // ,c.subinscl
             // left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
@@ -1947,8 +1948,8 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            
-            SELECT *  from acc_1102050101_202  
+
+            SELECT *  from acc_1102050101_202
             WHERE month(dchdate) = "'.$months.'" and year(dchdate) = "'.$year.'"
             AND status = "N"
         ');
@@ -2094,7 +2095,7 @@ class AccountPKController extends Controller
            SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
            from acc_1102050101_202 a
            LEFT JOIN acc_stm_ucs au ON au.an = a.an
-           WHERE status ="N" 
+           WHERE status ="N"
            AND month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'";
 
 
@@ -2141,7 +2142,7 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
         $mototal = $months + 1;
         $datashow = DB::connection('mysql')->select('
-              
+
 
                 SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,au.STMdoc
                     from acc_1102050101_202 a
@@ -3736,7 +3737,7 @@ class AccountPKController extends Controller
                 SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
                 from acc_1102050101_401 U1
                 LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                WHERE U1.status ="N" 
+                WHERE U1.status ="N"
                 AND U2.pricereq_all IS NULL
                 GROUP BY U1.vn
             ');
@@ -4052,7 +4053,7 @@ class AccountPKController extends Controller
                  SELECT U2.repno,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
                  from acc_1102050101_402 U1
                  LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                 WHERE U1.status ="N" 
+                 WHERE U1.status ="N"
                  AND U2.pricereq_all IS NULL
                  GROUP BY U1.an
              ');
@@ -4132,7 +4133,7 @@ class AccountPKController extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT * from acc_debtor a 
+                SELECT * from acc_debtor a
                 WHERE a.account_code="1102050102.602"
                 AND a.stamp = "N"
                 group by a.vn
@@ -4163,7 +4164,7 @@ class AccountPKController extends Controller
                 ,o.vstdate as vstdatesave
                 ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
                 ,ptt.pttype_eclaim_id
-                ,v.pttype,ptt.name as namelist 
+                ,v.pttype,ptt.name as namelist
                 ,e.gf_opd as gfmis,e.code as acc_code
                 ,e.ar_opd as account_code
                 ,e.name as account_name
@@ -4182,9 +4183,9 @@ class AccountPKController extends Controller
             LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
             LEFT JOIN opitemrece op ON op.vn = o.vn
             WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            AND v.pttype IN("31","36","37","38","39") 
+            AND v.pttype IN("31","36","37","38","39")
             and (o.an="" or o.an is null)
-            GROUP BY v.vn 
+            GROUP BY v.vn
         ');
 
         foreach ($acc_debtor as $key => $value) {
@@ -4284,9 +4285,9 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.acc_1102050102_602_id,U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice 
+        SELECT U1.acc_1102050102_602_id,U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice
             from acc_1102050102_602 U1
-            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
+            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
             WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
             GROUP BY U1.vn
         ');
@@ -4311,7 +4312,7 @@ class AccountPKController extends Controller
     }
     public function account_602_update(Request $request)
     {
-        $id = $request->acc_1102050102_602_id; 
+        $id = $request->acc_1102050102_602_id;
 
         Acc_1102050102_602::whereIn('acc_1102050102_602_id',explode(",",$id))
         ->update([
@@ -4335,7 +4336,7 @@ class AccountPKController extends Controller
         $add->savedate         = $request->savedate;
         $add->save();
         return response()->json([
-            'status'      => '200' 
+            'status'      => '200'
         ]);
     }
     public function account_602_stmnull(Request $request,$months,$year)
@@ -4347,9 +4348,9 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::connection('mysql')->select('
-                SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice 
+                SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice
                 from acc_1102050102_602 U1
-                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
                 WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
                 AND U1.status ="N"
             ');
@@ -4372,15 +4373,15 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::connection('mysql')->select('
-                SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice 
+                SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice
                 from acc_1102050102_602 U1
-                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
-                WHERE U1.status ="N"  
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
+                WHERE U1.status ="N"
                 AND U2.acc_1102050102_602_sid IS NULL
-               
+
             ');
 
-            // AND month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'" 
+            // AND month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_pk.account_602_stmnull_all', $data, [
             'startdate'         =>     $startdate,
             'enddate'           =>     $enddate,
@@ -4400,7 +4401,7 @@ class AccountPKController extends Controller
         $datashow = DB::select('
         SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.payprice) as payprice,U2.money_billno
             from acc_1102050102_602 U1
-            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id 
+            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
             WHERE month(U1.vstdate) = "'.$months.'"
             and year(U1.vstdate) = "'.$year.'"
             AND U2.acc_1102050102_602_sid IS NOT NULL
@@ -4483,7 +4484,7 @@ class AccountPKController extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT * from acc_debtor  
+                SELECT * from acc_debtor
                 WHERE account_code="1102050102.603"
                 AND stamp = "N"
                 group by an
@@ -4508,24 +4509,24 @@ class AccountPKController extends Controller
          $enddate = $request->datepicker2;
          // Acc_opitemrece::truncate();
          $acc_debtor = DB::connection('mysql3')->select('
-                select 
-                o.vn,a.hn,i.an,showcid(p.cid) as cid,i.pttype,o.vstdate,a.dchdate,i.pttype_number,i.max_debt_amount,pt.name as pttype_name 
+                select
+                o.vn,a.hn,i.an,showcid(p.cid) as cid,i.pttype,o.vstdate,a.dchdate,i.pttype_number,i.max_debt_amount,pt.name as pttype_name
                 ,concat(p.pname,p.fname," ",p.lname) as ptname,a.income ,format(a.paid_money,2) as paid_money,e.code as acc_code
                 ,e.ar_ipd as account_code,e.name as account_name
                 ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
-                ,a.rcpno_list as rcpno                 				  
-                                                                    
-                ,ifnull(case  
-                when i.max_debt_amount ="" then a.income 
+                ,a.rcpno_list as rcpno
+
+                ,ifnull(case
+                when i.max_debt_amount ="" then a.income
                 else i.max_debt_amount end,a.income) debit
-                
-                from ipt_pttype i  
-                left outer join pttype pt on pt.pttype = i.pttype 
-                left outer join pttype_eclaim e on e.code=pt.pttype_eclaim_id 
+
+                from ipt_pttype i
+                left outer join pttype pt on pt.pttype = i.pttype
+                left outer join pttype_eclaim e on e.code=pt.pttype_eclaim_id
                 left outer join an_stat a on a.an = i.an
-                LEFT OUTER JOIN patient p ON p.hn=a.hn 
-                LEFT JOIN ovst o on o.an = i.an 
-                 
+                LEFT OUTER JOIN patient p ON p.hn=a.hn
+                LEFT JOIN ovst o on o.an = i.an
+
              WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
              and e.ar_ipd = "1102050102.603"
             GROUP BY i.an
@@ -6698,7 +6699,7 @@ class AccountPKController extends Controller
         $acc_debtor = DB::select('
         SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.account_code,a.income,a.debit,a.debit_total,ai.repno,SUM(ai.sum_price_approve) as price_approve
         FROM acc_1102050101_2166 a
-        LEFT JOIN acc_stm_ti_total ai ON ai.cid = a.cid AND ai.vstdate = a.vstdate 
+        LEFT JOIN acc_stm_ti_total ai ON ai.cid = a.cid AND ai.vstdate = a.vstdate
         WHERE a.account_code="1102050101.2166"
             and month(a.vstdate) = "'.$months.'"
             and year(a.vstdate) = "'.$year.'"
@@ -6972,29 +6973,51 @@ class AccountPKController extends Controller
         $the_file = $request->file('file');
         try{
             $spreadsheet = IOFactory::load($the_file->getRealPath());
-            $sheet        = $spreadsheet->getActiveSheet();
+            // $sheet        = $spreadsheet->getActiveSheet();
+            $sheet        = $spreadsheet->setActiveSheetIndex(2);
             $row_limit    = $sheet->getHighestDataRow();
             $column_limit = $sheet->getHighestDataColumn();
             $row_range    = range( 15, $row_limit );
             $column_range = range( 'AP', $column_limit );
             $startcount = 15;
+            // $nobook =  range( 7, $row_limit );
+            // $nobook = range( 7, $column_limit );
             $data = array();
             foreach ( $row_range as $row ) {
 
-                $reg = $sheet->getCell( 'I' . $row )->getValue();
-
-                // $starttime = substr($reg, 0, 5);
-                $regday = substr($reg, 0, 2);
-                $regmo = substr($reg, 3, 2);
-                $regyear = substr($reg, 6, 10);            
-                $dchdate = $regyear.'-'.$regmo.'-'.$regday;
+                // $sss_date_now = date("Y-m-d");
+                // $aipn_time_now = date("H:i:s");
+                //  #ตัดขีด, ตัด : ออก
+                // $pattern_date = '/-/i';
+                // $aipn_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+                // $pattern_time = '/:/i';
+                // $aipn_time_now_preg = preg_replace($pattern_time, '', $aipn_time_now);
+                #ตัดขีด, ตัด : ออก
 
                 $vst = $sheet->getCell( 'H' . $row )->getValue();
-                // $starttime = substr($vst, 0, 5);
+                // $vst_mo = $sheet->getCell( 'H' . $row )->getValue();
+
                 $day = substr($vst, 0, 2);
                 $mo = substr($vst, 3, 2);
                 $year = substr($vst, 6, 10);
-                $vstdate = $year.'-'.$mo.'-'.$day; 
+                // $time = str_replace('', 11, 19);
+                $vstdate = $year.'-'.$mo.'-'.$day;
+
+
+                // $match_stm=$result["C"].(str_replace(" ","",str_replace("/","",str_replace(":","",$result["G"]))));
+                // $string = 'Welcom to Laravel';
+                // $spreadsheet->getActiveSheet()->setCellValue('H', 39813);
+                // Excel-date/time
+                // $spreadsheet->getActiveSheet()->setCellValue('D1', 39813)
+                // $spreadsheet->getActiveSheet()->getStyle('D1')
+                //     ->getNumberFormat()
+                //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+                $reg = $sheet->getCell( 'I' . $row )->getValue();
+                $regday = substr($reg, 0, 2);
+                $regmo = substr($reg, 3, 2);
+                $regyear = substr($reg, 6, 10);
+                // $starttime = substr($reg, 11, 19);
+                $dchdate = $regyear.'-'.$regmo.'-'.$regday;
 
                 $data[] = [
                     'rep'                   =>$sheet->getCell( 'A' . $row )->getValue(),
@@ -7003,13 +7026,20 @@ class AccountPKController extends Controller
                     'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
                     'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
                     'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                    'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(), 
+                    'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
 
-                    // 'dchdate'               =>$dchdate,
+                    // $sheet->getActiveSheet()->setCellValue('H', 39813)
+                    // 'vstdate'               =>$sheet->setCellValue('H', 39813),
+                    // 'dchdate'               =>$sheet->setCellValue('I', 39813),
+                    // 'vstdate'               =>$sheet->getCell( 'H' . $row ,39813)->getValue(),
+                    // 'dchdate'               =>$sheet->getCell( 'I' . $row ,39813)->getValue(),
+                    // ->setCellValue('D1', 39813)
+
                     // 'vstdate'               =>$vstdate,
+                    // 'dchdate'               =>$dchdate,
 
-                    'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(),
                     'vstdate'               =>$sheet->getCell( 'H' . $row )->getValue(),
+                    'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(),
 
                     'maininscl'             =>$sheet->getCell( 'J' . $row )->getValue(),
                     'projectcode'           =>$sheet->getCell( 'K' . $row )->getValue(),
@@ -7044,10 +7074,18 @@ class AccountPKController extends Controller
                     'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
                     'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
                 ];
+
+                Acc_1102050101_202::where('an',$sheet->getCell( 'E' . $row )->getValue())
+                ->update([
+                    'status'   => 'Y'
+                ]);
+                // 'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
+                // nobook
                 $startcount++;
             }
-            DB::table('acc_stm_ucs_excel')->insert($data);
-            // DB::table('check_authen')->insert($data);
+            // DB::table('acc_stm_ucs_excel')->insert($data);
+            DB::table('acc_stm_ucs')->insert($data);
+
         } catch (Exception $e) {
             $error_code = $e->errorInfo[1];
             return back()->withErrors('There was a problem uploading the data!');
@@ -7058,6 +7096,73 @@ class AccountPKController extends Controller
                 ]);
 
     }
+
+    public function upstm_ucs_sendexcel(Request $request)
+    {
+        $data_ = DB::connection('mysql')->select('
+            SELECT *
+            FROM acc_stm_ucs_excel
+        ');
+        // GROUP BY cid,vstdate
+        foreach ($data_ as $key => $value) {
+                Acc_stm_ucs::create([
+                    'rep'             => $value->rep,
+                    'repno'                => $value->repno,
+                    'tranid'                => $value->tranid,
+                    'hn'                => $value->hn,
+                    'an'                => $value->an,
+                    'cid'               => $value->cid,
+                    'fullname'          => $value->fullname,
+                    'vstdate'           => $value->vstdate,
+                    'dchdate'           => $value->dchdate,
+                    'maininscl'          => $value->maininscl,
+                    'projectcode'             => $value->projectcode,
+                    'debit'         => $value->debit,
+                    'debit_prb'               => $value->debit_prb,
+                    'adjrw'              => $value->adjrw,
+                    'ps1'              => $value->ps1,
+                    'ps2'              => $value->ps2,
+                    'ccuf'            => $value->ccuf,
+                    'adjrw2'             => $value->adjrw2,
+                    'pay_money'           => $value->pay_money,
+                    'pay_slip'           => $value->pay_slip,
+                    'pay_after'      => $value->pay_after,
+                    'op'            => $value->op,
+                    'ip_pay1'            => $value->ip_pay1,
+                    'ip_paytrue'            => $value->ip_paytrue,
+                    'hc'            => $value->hc,
+                    'hc_drug'            => $value->hc_drug,
+                    'ae'            => $value->ae,
+                    'ae_drug'            => $value->ae_drug,
+                    'inst'            => $value->inst,
+                    'dmis_money1'            => $value->dmis_money1,
+                    'dmis_money2'            => $value->dmis_money2,
+                    'dmis_drug'            => $value->dmis_drug,
+                    'palliative_care'            => $value->palliative_care,
+                    'dmishd'            => $value->dmishd,
+                    'pp'            => $value->pp,
+                    'fs'            => $value->fs,
+                    'opbkk'            => $value->opbkk,
+                    'total_approve'            => $value->total_approve,
+                    'va'            => $value->va,
+                    'covid'            => $value->covid,
+                    'date_save'            => $value->date_save,
+                    'STMdoc'            => $value->STMdoc
+                ]);
+                Acc_1102050101_202::where('an',$value->an)
+                ->update([
+                    'status'   => 'Y'
+                ]);
+        }
+        Acc_stm_ucs_excel::truncate();
+        // return response()->json([
+        //     'status'    => '200',
+        // ]);
+        return redirect()->back();
+    }
+
+
+
     // Acc_stm_ti
     public function upstm_ti(Request $request)
     {
@@ -7191,7 +7296,7 @@ class AccountPKController extends Controller
                 $starttime = substr($reg, 0, 5);
                 $regday = substr($reg, 0, 2);
                 $regmo = substr($reg, 3, 2);
-                $regyear = substr($reg, 6, 10);            
+                $regyear = substr($reg, 6, 10);
                 $regdate = $regyear.'-'.$regmo.'-'.$regday;
 
                 $vst = $sheet->getCell( 'K' . $row )->getValue();
@@ -7199,7 +7304,7 @@ class AccountPKController extends Controller
                 $day = substr($vst, 0, 2);
                 $mo = substr($vst, 3, 2);
                 $year = substr($vst, 6, 10);
-                $vstdate = $year.'-'.$mo.'-'.$day; 
+                $vstdate = $year.'-'.$mo.'-'.$day;
 
                 $data[] = [
                     // 'hcode'                 =>$sheet->getCell( 'A' . $row )->getValue(),
@@ -7209,7 +7314,7 @@ class AccountPKController extends Controller
                     'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
                     'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
                     'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
-                    'hipdata_code'          =>$sheet->getCell( 'H' . $row )->getValue(), 
+                    'hipdata_code'          =>$sheet->getCell( 'H' . $row )->getValue(),
 
                     'regdate'               =>$regdate,
                     'vstdate'               =>$vstdate,

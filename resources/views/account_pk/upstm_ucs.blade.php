@@ -93,7 +93,7 @@
                         <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" id="Upstm" enctype="multipart/form-data">
                         {{-- <form action="{{ route('acc.upstm_ti_import') }}" method="POST" id="Upstmti" enctype="multipart/form-data"> --}}
                             @csrf
-                          
+
                             <div class="row">
 
                                 <div class="col"></div>
@@ -117,8 +117,8 @@
                                             UP STM
                                         </button>
                                     {{-- @endif --}}
-                                    
-                                    
+
+
                                 </div>
                                 <div class="col"></div>
 
@@ -183,7 +183,7 @@
 
                                     <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->rep }}</td> 
+                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->rep }}</td>
                                         @if ($item->months == '1')
                                         <td width="10%" class="text-center" >มกราคม </td>
                                     @elseif ($item->months == '2')
@@ -331,7 +331,7 @@
             });
 
             //    $('#UpdateHN').click(function() {
-            //             var datepicker = $('#datepicker').val();  
+            //             var datepicker = $('#datepicker').val();
             //             var datepicker2 = $('#datepicker2').val();
 
             //             $.ajax({
@@ -339,7 +339,7 @@
             //                 type: "POST",
             //                 dataType: 'json',
             //                 data: {
-            //                     datepicker,datepicker2 
+            //                     datepicker,datepicker2
             //                 },
             //                 success: function(data) {
             //                     if (data.status == 200) {
