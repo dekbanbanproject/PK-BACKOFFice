@@ -225,7 +225,7 @@ class ChecksitController extends Controller
  
             $data_sit = DB::connection('mysql')->select('
                 SELECT 
-                c.vn,c.hn,c.an,c.cid,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl
+                c.vn,c.hn,c.an,c.cid,c.hometel,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl
                 ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,ca.servicerep,c.staff
                 FROM check_sit_auto c
                 LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
@@ -376,7 +376,7 @@ class ChecksitController extends Controller
      public function check_sit_daypullauto(Request $request)
      {
              $data_sits = DB::connection('mysql3')->select('
-                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                 SELECT o.an,o.vn,p.hn,p.cid,p.hometel,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
                  FROM ovst o
                  join patient p on p.hn=o.hn
                  JOIN pttype pt on pt.pttype=o.pttype
@@ -388,32 +388,51 @@ class ChecksitController extends Controller
              // CURDATE() "2023-07-10"
              foreach ($data_sits as $key => $value) {
                  $check = Check_sit_auto::where('vn', $value->vn)->count();
-                 if ($check == 0) {
-                     Check_sit_auto::insert([
-                         'vn' => $value->vn,
-                         'an' => $value->an,
-                         'hn' => $value->hn,
-                         'cid' => $value->cid,
-                         'vstdate' => $value->vstdate,
-                         'vsttime' => $value->vsttime,
-                         'fullname' => $value->fullname,
-                         'pttype' => $value->pttype,
-                         'hospmain' => $value->hospmain,
-                         'hospsub' => $value->hospsub,
-                         'staff' => $value->staff
-                     ]);
-                 }
+                      
+                    if ($check > 0) {
+                        Check_sit_auto::where('vn', $value->vn)
+                        ->update([
+                            'vn' => $value->vn,
+                            'an' => $value->an,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'hometel' => $value->hometel,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff
+                        ]);
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn' => $value->vn,
+                            'an' => $value->an,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'hometel' => $value->hometel,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff
+                        ]);
+                    }
+                    
              }
              $data_sits_ipd = DB::connection('mysql3')->select('
-                     SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
-                     from hos.opitemrece op
-                     LEFT JOIN hos.ipt ip ON ip.an = op.an
-                     LEFT JOIN hos.an_stat a ON ip.an = a.an
-                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
-                     LEFT JOIN patient p on p.hn=a.hn
-                     WHERE a.dchdate = CURDATE()
-                     group by p.cid
-                     limit 1500
+                SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
+                from ovst o
+                LEFT JOIN hos.ipt ip ON ip.an = o.an
+                LEFT JOIN hos.an_stat a ON ip.an = a.an
+                LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                LEFT JOIN patient p on p.hn=a.hn
+                WHERE a.dchdate = CURDATE()
+                group by p.cid
+                limit 1500
 
              ');
              // CURDATE()
@@ -448,11 +467,11 @@ class ChecksitController extends Controller
          $data_sitss = DB::connection('mysql')->select('
              SELECT cid,vn,an
              FROM check_sit_auto
-             WHERE vstdate = CURDATE()
-             AND subinscl IS NULL
-             LIMIT 30
+             WHERE vstdate BETWEEN "2023-06-01" AND "2023-06-30" 
+             AND subinscl IS NULL AND `status` is null
+             LIMIT 100
          ');
-         // BETWEEN "2023-07-01" AND "2023-05-16"       CURDATE()
+         // BETWEEN "2023-07-01" AND "2023-07-12"      = CURDATE()
          foreach ($data_sitss as $key => $item) {
              $pids = $item->cid;
              $vn = $item->vn;
@@ -1089,7 +1108,7 @@ class ChecksitController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=NGJmMDFjMGItNzgzNS00MmZmLTlkM2MtZWZmMzllNWYyMzU5; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Cookie: SESSION=N2Q0ODhiYjMtMDI4MS00Y2ExLWEyMjgtMzMyNDBlYWViMDll; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',

@@ -395,7 +395,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('sit_auto') }}" target="_blank">
+                                        <a href="{{ url('check_sit_daysitauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Checksit Auto
                                         </a>

@@ -62,7 +62,7 @@ use SoapClient;
 use Arr;
 // use Storage;
 use GuzzleHttp\Client;
- 
+use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
@@ -73,12 +73,9 @@ use App\Models\Acc_opitemrece_stm;
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;  
-use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\Reader\Exception;
-use PhpOffice\PhpSpreadsheet\Writer\Xls;
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -6946,118 +6943,6 @@ class AccountPKController extends Controller
         return redirect()->back();
     }
 
-    public function upstm_ucs(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('
-            SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
-            FROM acc_stm_ucs_excel
-            GROUP BY rep
-            ');
-        $countc = DB::table('acc_stm_ucs_excel')->count();
-        // dd($countc );
-        return view('account_pk.upstm_ucs',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'      =>     $datashow,
-            'countc'        =>     $countc
-        ]);
-    }
-    function upstm_ucs_excel(Request $request){
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
-        $the_file = $request->file('file');
-        try{
-            $spreadsheet = IOFactory::load($the_file->getRealPath());
-            $sheet        = $spreadsheet->getActiveSheet();
-            $row_limit    = $sheet->getHighestDataRow();
-            $column_limit = $sheet->getHighestDataColumn();
-            $row_range    = range( 15, $row_limit );
-            $column_range = range( 'AP', $column_limit );
-            $startcount = 15;
-            $data = array();
-            foreach ( $row_range as $row ) {
-
-                $reg = $sheet->getCell( 'I' . $row )->getValue();
-
-                // $starttime = substr($reg, 0, 5);
-                $regday = substr($reg, 0, 2);
-                $regmo = substr($reg, 3, 2);
-                $regyear = substr($reg, 6, 10);            
-                $dchdate = $regyear.'-'.$regmo.'-'.$regday;
-
-                $vst = $sheet->getCell( 'H' . $row )->getValue();
-                // $starttime = substr($vst, 0, 5);
-                $day = substr($vst, 0, 2);
-                $mo = substr($vst, 3, 2);
-                $year = substr($vst, 6, 10);
-                $vstdate = $year.'-'.$mo.'-'.$day; 
-
-                $data[] = [
-                    'rep'                   =>$sheet->getCell( 'A' . $row )->getValue(),
-                    'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
-                    'tranid'                =>$sheet->getCell( 'C' . $row )->getValue(),
-                    'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
-                    'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
-                    'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                    'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(), 
-
-                    // 'dchdate'               =>$dchdate,
-                    // 'vstdate'               =>$vstdate,
-
-                    'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(),
-                    'vstdate'               =>$sheet->getCell( 'H' . $row )->getValue(),
-
-                    'maininscl'             =>$sheet->getCell( 'J' . $row )->getValue(),
-                    'projectcode'           =>$sheet->getCell( 'K' . $row )->getValue(),
-                    'debit'                 =>$sheet->getCell( 'L' . $row )->getValue(),
-                    'debit_prb'             =>$sheet->getCell( 'M' . $row )->getValue(),
-                    'adjrw'                 =>$sheet->getCell( 'N' . $row )->getValue(),
-                    'ps1'                   =>$sheet->getCell( 'O' . $row )->getValue(),
-                    'ps2'                   =>$sheet->getCell( 'P' . $row )->getValue(),
-                    'ccuf'                  =>$sheet->getCell( 'Q' . $row )->getValue(),
-                    'adjrw2'                =>$sheet->getCell( 'R' . $row )->getValue(),
-                    'pay_money'             =>$sheet->getCell( 'S' . $row )->getValue(),
-                    'pay_slip'              =>$sheet->getCell( 'T' . $row )->getValue(),
-                    'pay_after'             =>$sheet->getCell( 'U' . $row )->getValue(),
-                    'op'                    =>$sheet->getCell( 'V' . $row )->getValue(),
-                    'ip_pay1'               =>$sheet->getCell( 'W' . $row )->getValue(),
-                    'ip_paytrue'            =>$sheet->getCell( 'X' . $row )->getValue(),
-                    'hc'                    =>$sheet->getCell( 'Y' . $row )->getValue(),
-                    'hc_drug'               =>$sheet->getCell( 'Z' . $row )->getValue(),
-                    'ae'                    =>$sheet->getCell( 'AA' . $row )->getValue(),
-                    'ae_drug'               =>$sheet->getCell( 'AB' . $row )->getValue(),
-                    'inst'                  =>$sheet->getCell( 'AC' . $row )->getValue(),
-                    'dmis_money1'           =>$sheet->getCell( 'AD' . $row )->getValue(),
-                    'dmis_money2'           =>$sheet->getCell( 'AE' . $row )->getValue(),
-                    'dmis_drug'             =>$sheet->getCell( 'AF' . $row )->getValue(),
-                    'palliative_care'       =>$sheet->getCell( 'AG' . $row )->getValue(),
-                    'dmishd'                =>$sheet->getCell( 'AH' . $row )->getValue(),
-                    'pp'                    =>$sheet->getCell( 'AI' . $row )->getValue(),
-                    'fs'                    =>$sheet->getCell( 'AJ' . $row )->getValue(),
-                    'opbkk'                 =>$sheet->getCell( 'AK' . $row )->getValue(),
-                    'total_approve'         =>$sheet->getCell( 'AL' . $row )->getValue(),
-                    'va'                    =>$sheet->getCell( 'AM' . $row )->getValue(),
-                    'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
-                    'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
-                ];
-                $startcount++;
-            }
-            DB::table('acc_stm_ucs_excel')->insert($data);
-            // DB::table('check_authen')->insert($data);
-        } catch (Exception $e) {
-            $error_code = $e->errorInfo[1];
-            return back()->withErrors('There was a problem uploading the data!');
-        }
-            // return back()->withSuccess('Great! Data has been successfully uploaded.');
-                    return response()->json([
-                    'status'    => '200',
-                ]);
-
-    }
     // Acc_stm_ti
     public function upstm_ti(Request $request)
     {
@@ -7128,26 +7013,26 @@ class AccountPKController extends Controller
     public function upstm_ti_importtotal(Request $request)
     {
         $data_ = DB::connection('mysql')->select('
-                SELECT repno,hn,cid,fullname,vstdate,filename,hipdata_code,sum(pay_amount) as Sumprice
-                FROM acc_stm_ti_excel
-                GROUP BY cid,vstdate
+            SELECT *,SUM(pay_amount) as Sumprice
+            FROM acc_stm_ti_excel
+            GROUP BY cid,vstdate
         ');
         foreach ($data_ as $key => $value) {
-            $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
-            if ($check > 0) {
-                Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                    ->update([
-                        // 'repno'             => $value->repno,
-                        // 'hn'                => $value->hn,
-                        // 'cid'               => $value->cid,
-                        // 'fullname'          => $value->fullname,
-                        // 'vstdate'           => $value->vstdate,
-                        // 'sum_price_approve' => $value->Sumprice,
-                        'Total_amount'      => $value->Sumprice,
-                        'STMdoc'            => $value->filename,
-                        'HDflag'            => $value->hipdata_code
-                ]);
-            } else {
+            // $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)->where('STMdoc',$value->filename)->count();
+            // if ($check > 0) {
+            //     Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+            //         ->update([
+            //             'repno'             => $value->repno,
+            //             'hn'                => $value->hn,
+            //             'cid'               => $value->cid,
+            //             'fullname'          => $value->fullname,
+            //             'vstdate'           => $value->vstdate,
+            //             'sum_price_approve' => $value->Sumprice,
+            //             'Total_amount'      => $value->Sumprice,
+            //             'STMdoc'            => $value->filename,
+            //             'HDflag'            => $value->hipdata_code
+            //     ]);
+            // } else {
                 Acc_stm_ti_total::create([
                     'repno'             => $value->repno,
                     'hn'                => $value->hn,
@@ -7159,7 +7044,7 @@ class AccountPKController extends Controller
                     'STMdoc'            => $value->filename,
                     'HDflag'            => $value->hipdata_code
                 ]);
-            }
+            // }
             Acc_1102050101_2166::where('cid',$value->cid)->where('vstdate',$value->vstdate)
                 ->update([
                     'status'   => 'Y'
@@ -7169,80 +7054,6 @@ class AccountPKController extends Controller
 
         Acc_stm_ti_excel::truncate();
         return redirect()->back();
-    }
-    function upstm_ti_importexcel(Request $request){
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
-        $the_file = $request->file('file');
-        try{
-            $spreadsheet = IOFactory::load($the_file->getRealPath());
-            $sheet        = $spreadsheet->getActiveSheet();
-            $row_limit    = $sheet->getHighestDataRow();
-            $column_limit = $sheet->getHighestDataColumn();
-            $row_range    = range( 9, $row_limit );
-            $column_range = range( 'F', $column_limit );
-            $startcount = 9;
-            $data = array();
-            foreach ( $row_range as $row ) {
-
-                $reg = $sheet->getCell( 'J' . $row )->getValue();
-
-                $starttime = substr($reg, 0, 5);
-                $regday = substr($reg, 0, 2);
-                $regmo = substr($reg, 3, 2);
-                $regyear = substr($reg, 6, 10);            
-                $regdate = $regyear.'-'.$regmo.'-'.$regday;
-
-                $vst = $sheet->getCell( 'K' . $row )->getValue();
-                $starttime = substr($vst, 0, 5);
-                $day = substr($vst, 0, 2);
-                $mo = substr($vst, 3, 2);
-                $year = substr($vst, 6, 10);
-                $vstdate = $year.'-'.$mo.'-'.$day; 
-
-                $data[] = [
-                    // 'hcode'                 =>$sheet->getCell( 'A' . $row )->getValue(),
-                    'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
-                    'tranid'                =>$sheet->getCell( 'C' . $row )->getValue(),
-                    'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
-                    'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
-                    'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                    'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
-                    'hipdata_code'          =>$sheet->getCell( 'H' . $row )->getValue(), 
-
-                    'regdate'               =>$regdate,
-                    'vstdate'               =>$vstdate,
-
-                    // 'regdate'               =>$sheet->getCell( 'J' . $row )->getValue(),
-                    // 'vstdate'               =>$sheet->getCell( 'K' . $row )->getValue(),
-                    'no'                    =>$sheet->getCell( 'L' . $row )->getValue(),
-                    'list'                  =>$sheet->getCell( 'M' . $row )->getValue(),
-                    'qty'                   =>$sheet->getCell( 'N' . $row )->getValue(),
-                    'unitprice'             =>$sheet->getCell( 'O' . $row )->getValue(),
-                    'unitprice_max'         =>$sheet->getCell( 'P' . $row )->getValue(),
-                    'price_request'         =>$sheet->getCell( 'Q' . $row )->getValue(),
-                    'pscode'                =>$sheet->getCell( 'R' . $row )->getValue(),
-                    'percent'               =>$sheet->getCell( 'S' . $row )->getValue(),
-                    'pay_amount'            =>$sheet->getCell( 'T' . $row )->getValue(),
-                    'nonpay_amount'         =>$sheet->getCell( 'U' . $row )->getValue(),
-                    'payplus_amount'        =>$sheet->getCell( 'V' . $row )->getValue(),
-                    'payback_amount'        =>$sheet->getCell( 'W' . $row )->getValue(),
-                    'filename'              =>$sheet->getCell( 'Y' . $row )->getValue(),
-                ];
-                $startcount++;
-            }
-            DB::table('acc_stm_ti_excel')->insert($data);
-            // DB::table('check_authen')->insert($data);
-        } catch (Exception $e) {
-            $error_code = $e->errorInfo[1];
-            return back()->withErrors('There was a problem uploading the data!');
-        }
-            // return back()->withSuccess('Great! Data has been successfully uploaded.');
-                    return response()->json([
-                    'status'    => '200',
-                ]);
-
     }
     public function upstm_tixml(Request $request)
     {

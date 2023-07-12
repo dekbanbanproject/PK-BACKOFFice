@@ -48,7 +48,7 @@ return new class extends Migration
                 $table->string('EPOpay')->nullable();// 
                 $table->string('Total_amount')->nullable();//  
                 // $table->string('Total_thamount')->nullable();//  
-                $table->string('STMdoc')->nullable();//  
+                $table->text('STMdoc',500)->nullable();//  
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH'])->default('REP')->nullable(); 
                 $table->timestamps();
             });

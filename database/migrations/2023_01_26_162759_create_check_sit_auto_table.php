@@ -22,6 +22,7 @@ return new class extends Migration
                 $table->string('an')->nullable();// 
                 $table->string('hn')->nullable();// 
                 $table->string('cid')->nullable();// 
+                $table->string('hometel')->nullable();// 
                 $table->date('vstdate')->nullable();//  
                 $table->Time('vsttime')->nullable();// 
                 $table->date('dchdate')->nullable();// 

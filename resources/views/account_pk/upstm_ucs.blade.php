@@ -90,7 +90,7 @@
             <div class="col-xl-8 col-md-6">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_ti_importexcel') }}" method="POST" id="Upstmti" enctype="multipart/form-data">
+                        <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" id="Upstm" enctype="multipart/form-data">
                         {{-- <form action="{{ route('acc.upstm_ti_import') }}" method="POST" id="Upstmti" enctype="multipart/form-data"> --}}
                             @csrf
                           
@@ -104,19 +104,19 @@
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    @if ($countc > 0)
-                                        <a href="{{ url('upstm_ti_importtotal') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                    {{-- @if ($countc > 0)
+                                        <a href="{{ url('upstm_ucs_sendexcel') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
                                         </a>
-                                    @else
+                                    @else --}}
                                         <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="UP STM"></i>
                                             UP STM
                                         </button>
-                                    @endif
+                                    {{-- @endif --}}
                                     
                                     
                                 </div>
@@ -169,7 +169,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">repno</th>
+                                    <th class="text-center">rep</th>
                                     <th class="text-center">months</th>
                                     <th class="text-center">filename</th>
 
@@ -183,7 +183,7 @@
 
                                     <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->repno }}</td> 
+                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->rep }}</td> 
                                         @if ($item->months == '1')
                                         <td width="10%" class="text-center" >มกราคม </td>
                                     @elseif ($item->months == '2')
@@ -209,7 +209,7 @@
                                     @else
                                         <td width="10%" class="text-center">ธันวาคม</td>
                                     @endif
-                                        <td class="text-end" style="color:rgb(248, 12, 12)" width="7%"> {{ $item->filename }}</td>
+                                        <td class="text-end" style="color:rgb(248, 12, 12)" width="7%"> {{ $item->STMdoc }}</td>
                                     </tr>
                                 @endforeach
 
@@ -281,7 +281,7 @@
                 format: 'yyyy-mm-dd'
             });
 
-            $('#Upstmti').on('submit', function(e) {
+            $('#Upstm').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 // alert('OJJJJOL');

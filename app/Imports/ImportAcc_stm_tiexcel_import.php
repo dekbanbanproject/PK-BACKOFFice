@@ -24,6 +24,7 @@ class ImportAcc_stm_tiexcel_import implements ToModel
         $regmo = substr($regdate_, 3, 2);
         $regyear = substr($regdate_, 6, 10);            
         $regdate = $regyear.'-'.$regmo.'-'.$regday;
+        
         $vstdate_ = $row[10];
         $starttime = substr($vstdate_, 0, 5);
         $day = substr($vstdate_, 0, 2);

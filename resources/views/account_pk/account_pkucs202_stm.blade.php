@@ -90,7 +90,7 @@
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">Stm 202</th> 
                                     <th class="text-center">ยอดชดเชยทั้งสิ้น</th>  
-                                   
+                                    <th class="text-center">STMdoc</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,7 +117,7 @@
                                                 <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->ip_paytrue),2)}}</td> 
                                                 <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
                                                 <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
-                                                 
+                                                <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
                                                 {{-- <td class="text-end" width="10%"> 
                                                     <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย">{{ number_format($item->debit,2)}} </button> 
                                                 </td>  --}}
@@ -214,7 +214,7 @@
                                             <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
                                             <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td> 
                                             <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>  
-                                            {{-- <td class="text-end" style="background-color: #ff9d9d"></td> dt-responsive nowrap--}}
+                                            <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  
                         </table>
                     </div>

@@ -1342,6 +1342,11 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ti_import',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_import'])->name('acc.upstm_ti_import');// ไต
     Route::match(['get','post'],'upstm_ti_importtotal',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_importtotal'])->name('acc.upstm_ti_importtotal');// ไต
     Route::match(['get','post'],'upstm_hn',[App\Http\Controllers\AccountPKController::class, 'upstm_hn'])->name('acc.upstm_hn');// ไต
+    Route::match(['get','post'],'upstm_ti_importexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_importexcel'])->name('acc.upstm_ti_importexcel');// ไต
+
+    Route::match(['get','post'],'upstm_ucs',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs');// 
+    Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');// 
+    Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');// 
 
     Route::match(['get','post'],'upstm_tixml',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml'])->name('acc.upstm_tixml');// ไต
     Route::match(['get','post'],'upstm_tixml_import',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml_import'])->name('acc.upstm_tixml_import');// ไต
