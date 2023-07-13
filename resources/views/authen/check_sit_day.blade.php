@@ -60,7 +60,7 @@
                         Report check sit
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">
-                                
+
                                 {{-- <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Checksitbtn">
                                     <i class="pe-7s-check btn-icon-wrapper"></i>ตรวจสอบสิทธิ์
                                 </button>  --}}
@@ -92,7 +92,7 @@
                                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                                             data-date-language="th-th" value="{{ $end }}" />
-                                    </div> 
+                                    </div>
                                 </div>
 
                                 {{-- <div class="col-md-1 text-end">วันที่</div>
@@ -127,7 +127,9 @@
 
                         </form>
                         <div class="table-responsive mt-3">
-                            <table class="align-middle mb-0 table table-borderless" id="example">
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            {{-- <table class="align-middle mb-0 table table-borderless" id="example"> --}}
                                 {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
                                 <thead>
                                     <tr>
@@ -174,7 +176,7 @@
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
                                             <td>{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
-                                          
+
                                             @if ($item->claimcode == '')
                                                 <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
                                                 <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
