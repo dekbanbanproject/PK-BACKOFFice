@@ -389,9 +389,11 @@
                                         </a>
                                     </li> --}}
                                     <li>
-                                        <a href="{{ url('sit_pull_auto') }}" target="_blank">
+                                        <a href="{{ url('check_sit_daypullauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                              Pull Data Auto
+                                             {{-- check_sit_daypullauto --}}
+                                             {{-- sit_pull_auto --}}
                                         </a>
                                     </li>
                                     <li>

@@ -381,7 +381,7 @@ class ChecksitController extends Controller
                  join patient p on p.hn=o.hn
                  JOIN pttype pt on pt.pttype=o.pttype
                  JOIN opduser op on op.loginname = o.staff
-                 WHERE o.vstdate = CURDATE()
+                 WHERE o.vstdate = CURDATE() 
                  group by p.cid
                  limit 1500
              ');
@@ -467,11 +467,11 @@ class ChecksitController extends Controller
          $data_sitss = DB::connection('mysql')->select('
              SELECT cid,vn,an
              FROM check_sit_auto
-             WHERE vstdate BETWEEN "2023-06-01" AND "2023-06-30" 
+             WHERE vstdate = CURDATE() 
              AND subinscl IS NULL AND `status` is null
              LIMIT 100
          ');
-         // BETWEEN "2023-07-01" AND "2023-07-12"      = CURDATE()
+         // BETWEEN "2023-07-01" AND "2023-07-13"      = CURDATE()     WHERE vstdate BETWEEN "2023-06-01" AND "2023-06-30" 
          foreach ($data_sitss as $key => $item) {
              $pids = $item->cid;
              $vn = $item->vn;
