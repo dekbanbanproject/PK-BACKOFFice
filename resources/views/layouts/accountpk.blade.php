@@ -304,6 +304,8 @@
                                 <span>ประกันสังคม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('account_301_dash') }}">ผัง-301</a></li>
+                                <li><a href="{{ url('account_302_dash') }}">ผัง-302</a></li>
                                 <li><a href="{{ url('account_304_dash') }}">ผัง-304</a></li>
                                 <li><a href="{{ url('account_308_dash') }}">ผัง-308</a></li>
                             </ul>

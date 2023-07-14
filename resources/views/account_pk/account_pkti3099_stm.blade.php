@@ -77,9 +77,9 @@
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     <th class="text-center">vn</th> 
-                                    <th class="text-center">an</th>
+                                    {{-- <th class="text-center">an</th> --}}
                                     <th class="text-center" >hn</th>
-                                    {{-- <th class="text-center" >cid</th> --}}
+                                    <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
                                     {{-- <th class="text-center">vstdate</th>   --}}
                                     <th class="text-center">vstdate</th>   

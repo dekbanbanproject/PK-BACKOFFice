@@ -189,7 +189,8 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-3 text-end mt-2 me-4">
-                                                    <a href="{{url('account_pkti3099_pull')}}" target="_blank"> 
+                                                    {{-- <a href="{{url('account_pkti3099_pull')}}" target="_blank">  --}}
+                                                    <a> 
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง"> 
                                                             <h4 class="text-end">{{$count_N}} Visit</h4> 
                                                         </div> 

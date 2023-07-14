@@ -1109,7 +1109,7 @@ class ChecksitController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=N2FmMDg3YjgtYTQzMS00YzU4LTk3MWMtOTdmYzE4YmIzYzEy; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Cookie: SESSION=ZmIwNmE2ZmMtY2MwYS00ZWFhLWEyZjItYWFlMzAzMTlhMmI1; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',
@@ -1248,4 +1248,53 @@ class ChecksitController extends Controller
         ]);
 
     }
+    // public function check_web(Request $request)
+    // {
+    //     $date_now = date('Y-m-d');
+    //     $date_start = "2023-05-07";
+    //     $date_end = "2023-05-09";
+    //     // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
+    //     $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=10&sort=transId,desc";
+
+    //     // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
+    //     $curl = curl_init();
+    //     curl_setopt_array($curl, array(
+    //         // CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-01-05&page=0&size=1000',
+    //         CURLOPT_URL => $url,
+    //         CURLOPT_RETURNTRANSFER => 1,
+    //         CURLOPT_SSL_VERIFYHOST => 0,
+    //         CURLOPT_SSL_VERIFYPEER => 0,
+    //         CURLOPT_CUSTOMREQUEST => 'GET',
+    //         CURLOPT_HTTPHEADER => array(
+    //             'Accept: application/json, text/plain, */*',
+    //             'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
+    //             'Connection: keep-alive',
+    //             'Cookie: SESSION=ZmIwNmE2ZmMtY2MwYS00ZWFhLWEyZjItYWFlMzAzMTlhMmI1; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+    //             'Referer: https://authenservice.nhso.go.th/authencode/',
+    //             'Sec-Fetch-Dest: empty',
+    //             'Sec-Fetch-Mode: cors',
+    //             'Sec-Fetch-Site: same-origin',
+    //             'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    //             'sec-ch-ua: "Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+    //             'sec-ch-ua-mobile: ?0',
+    //             'sec-ch-ua-platform: "Windows"'
+    //         ),
+    //     ));
+
+    //     $response = curl_exec($curl);
+    //     curl_close($curl);
+    //     // dd($curl);
+    //     $contents = $response;
+    //     // dd($contents);
+    //     $result = json_decode($contents, true);
+
+    //     @$content = $result['content'];
+    //     // dd($content);
+ 
+    //     return view('authen.check_spsch',[
+    //         'response'  => $response,
+    //         'result'  => $result,
+    //     ]);
+
+    // }
 }
