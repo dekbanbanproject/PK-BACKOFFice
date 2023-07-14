@@ -91,7 +91,7 @@ class ChecksitController extends Controller
 
             $data_show = DB::connection('mysql')->select('
                 SELECT *
-                FROM check_authen 
+                FROM check_authen
                 GROUP BY vstdate
                 ORDER BY vstdate DESC;
             ');
@@ -222,14 +222,14 @@ class ChecksitController extends Controller
     {
         $datestart = $request->startdate;
         $dateend = $request->enddate;
- 
+
             $data_sit = DB::connection('mysql')->select('
-                SELECT 
+                SELECT
                 c.vn,c.hn,c.an,c.cid,c.hometel,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl
                 ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,ca.servicerep,c.staff
                 FROM check_sit_auto c
                 LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
-                
+
                 WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
                 GROUP BY c.vn
             ');
@@ -381,14 +381,14 @@ class ChecksitController extends Controller
                  join patient p on p.hn=o.hn
                  JOIN pttype pt on pt.pttype=o.pttype
                  JOIN opduser op on op.loginname = o.staff
-                 WHERE o.vstdate = CURDATE() 
+                 WHERE o.vstdate = CURDATE()
                  group by p.cid
                  limit 1500
              ');
              // CURDATE() "2023-07-10"
              foreach ($data_sits as $key => $value) {
                  $check = Check_sit_auto::where('vn', $value->vn)->count();
-                      
+
                     if ($check > 0) {
                         Check_sit_auto::where('vn', $value->vn)
                         ->update([
@@ -421,7 +421,7 @@ class ChecksitController extends Controller
                             'staff' => $value->staff
                         ]);
                     }
-                    
+
              }
              $data_sits_ipd = DB::connection('mysql3')->select('
                 SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
@@ -467,11 +467,12 @@ class ChecksitController extends Controller
          $data_sitss = DB::connection('mysql')->select('
              SELECT cid,vn,an
              FROM check_sit_auto
-             WHERE vstdate = CURDATE() 
-             AND subinscl IS NULL AND `status` is null
+             WHERE vstdate = CURDATE()
+             AND subinscl IS NULL
              LIMIT 100
          ');
-         // BETWEEN "2023-07-01" AND "2023-07-13"      = CURDATE()     WHERE vstdate BETWEEN "2023-06-01" AND "2023-06-30" 
+        //  AND `status` is null
+         // BETWEEN "2023-07-01" AND "2023-07-13"      = CURDATE()     WHERE vstdate BETWEEN "2023-06-01" AND "2023-06-30"
          foreach ($data_sitss as $key => $item) {
              $pids = $item->cid;
              $vn = $item->vn;
@@ -1088,10 +1089,10 @@ class ChecksitController extends Controller
         ]);
     }
     public function check_spsch(Request $request)
-    { 
+    {
         $date_now = date('Y-m-d');
         $date_start = "2023-05-07";
-        $date_end = "2023-05-09"; 
+        $date_end = "2023-05-09";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
@@ -1119,7 +1120,7 @@ class ChecksitController extends Controller
                 'sec-ch-ua-platform: "Windows"'
             ),
         ));
- 
+
         $response = curl_exec($curl);
         curl_close($curl);
         // dd($curl);
@@ -1127,12 +1128,12 @@ class ChecksitController extends Controller
         // dd($contents);
         $result = json_decode($contents, true);
 
-        @$content = $result['content']; 
+        @$content = $result['content'];
         // dd($content);
- 
+
         foreach ($content as $key => $value) {
-            $transId = $value['transId'];  
-            
+            $transId = $value['transId'];
+
             isset( $value['hmain'] ) ? $hmain = $value['hmain'] : $hmain = "";
             isset( $value['hname'] ) ? $hname = $value['hname'] : $hname = "";
             isset( $value['personalId'] ) ? $personalId = $value['personalId'] : $personalId = "";
@@ -1154,48 +1155,48 @@ class ChecksitController extends Controller
             isset( $value['claimCode'] ) ? $claimCode = $value['claimCode'] : $claimCode = "";
             isset( $value['claimType'] ) ? $claimType = $value['claimType'] : $claimType = "";
             isset( $value['claimTypeName'] ) ? $claimTypeName = $value['claimTypeName'] : $claimTypeName = "";
-            isset( $value['hnCode'] ) ? $hnCode = $value['hnCode'] : $hnCode = ""; 
+            isset( $value['hnCode'] ) ? $hnCode = $value['hnCode'] : $hnCode = "";
             isset( $value['createDate'] ) ? $createDate = $value['createDate'] : $createDate = "";
             isset( $value['claimAuthen'] ) ? $claimAuthen = $value['claimAuthen'] : $claimAuthen = "";
             isset( $value['createBy'] ) ? $createBy = $value['createBy'] : $createBy = "";
             isset( $value['mainInsclWithName'] ) ? $mainInsclWithName = $value['mainInsclWithName'] : $mainInsclWithName = "";
             isset( $value['sourceChannel'] ) ? $sourceChannel = $value['sourceChannel'] : $sourceChannel = "";
-          
+
             $claimDate = explode("T",$value['claimDate']);
             $checkdate = $claimDate[0];
             $checktime = $claimDate[1];
-            // dd($transId); 
-                $datenow = date("Y-m-d");               
-                    $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count(); 
-                    $checkclaimCode = Check_authen::where('claimCode','=',$claimCode)->count();                  
+            // dd($transId);
+                $datenow = date("Y-m-d");
+                    $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count();
+                    $checkclaimCode = Check_authen::where('claimCode','=',$claimCode)->count();
                     // dd($checktransId);
-                    if ($checkclaimCode > 0) {                       
+                    if ($checkclaimCode > 0) {
                             Check_authen::where('claimCode', $claimCode)
-                                ->update([ 
+                                ->update([
                                     'cid'                        => $personalId,
-                                    'fullname'                   => $patientName, 
-                                    'hosname'                    => $hname, 
-                                    'hcode'                      => $hmain,                            
+                                    'fullname'                   => $patientName,
+                                    'hosname'                    => $hname,
+                                    'hcode'                      => $hmain,
                                     'vstdate'                    => $checkdate,
-                                    'regdate'                    => $checkdate, 
+                                    'regdate'                    => $checkdate,
                                     'claimcode'                  => $claimCode,
-                                    'claimtype'                  => $claimType, 
+                                    'claimtype'                  => $claimType,
                                     'birthday'                   => $birthdate,
                                     'homtel'                     => $tel,
                                     'repcode'                    => $claimStatus,
-                                    'hncode'                     => $hnCode,  
+                                    'hncode'                     => $hnCode,
                                     'servicerep'                 => $patientType,
-                                    'servicename'                => $claimTypeName, 
-                                    'mainpttype'                 => $mainInsclWithName, 
+                                    'servicename'                => $claimTypeName,
+                                    'mainpttype'                 => $mainInsclWithName,
                                     'subpttype'                  => $subInsclName,
                                     'requestauthen'              => $sourceChannel,
                                     'authentication'             => $claimAuthen,
-                                ]);  
+                                ]);
                               Visit_pttype_authen_report::where('transId', $transId)
-                                ->update([ 
+                                ->update([
                                     'personalId'                        => $personalId,
-                                    'patientName'                       => $patientName, 
-                                    'addrNo'                            => $addrNo,                            
+                                    'patientName'                       => $patientName,
+                                    'addrNo'                            => $addrNo,
                                     'moo'                               => $moo,
                                     'moonanName'                        => $moonanName,
                                     'tumbonName'                        => $tumbonName,
@@ -1210,41 +1211,41 @@ class ChecksitController extends Controller
                                     'claimCode'                         => $claimCode,
                                     'claimType'                         => $claimType,
                                     'claimTypeName'                     => $claimTypeName,
-                                    'hnCode'                            => $hnCode, 
-                                    'createBy'                          => $createBy, 
+                                    'hnCode'                            => $hnCode,
+                                    'createBy'                          => $createBy,
                                     'mainInsclWithName'                 => $mainInsclWithName,
-                                    'claimAuthen'                        => $claimAuthen,  
+                                    'claimAuthen'                        => $claimAuthen,
                                     'date_data'                          => $datenow
-                                ]);                         
-                    } else {                       
-                        Check_authen::create([                                 
+                                ]);
+                    } else {
+                        Check_authen::create([
                                 'cid'                        => $personalId,
-                                'fullname'                   => $patientName, 
-                                'hosname'                    => $hname, 
-                                'hcode'                      => $hmain,                            
+                                'fullname'                   => $patientName,
+                                'hosname'                    => $hname,
+                                'hcode'                      => $hmain,
                                 'vstdate'                    => $checkdate,
-                                'regdate'                    => $checkdate, 
+                                'regdate'                    => $checkdate,
                                 'claimcode'                  => $claimCode,
-                                'claimtype'                  => $claimType, 
+                                'claimtype'                  => $claimType,
                                 'birthday'                   => $birthdate,
                                 'homtel'                     => $tel,
                                 'repcode'                    => $claimStatus,
-                                'hncode'                     => $hnCode,  
+                                'hncode'                     => $hnCode,
                                 'servicerep'                 => $patientType,
-                                'servicename'                => $claimTypeName, 
-                                'mainpttype'                 => $mainInsclWithName, 
+                                'servicename'                => $claimTypeName,
+                                'mainpttype'                 => $mainInsclWithName,
                                 'subpttype'                  => $subInsclName,
                                 'requestauthen'              => $sourceChannel,
                                 'authentication'             => $claimAuthen,
-                                
+
                         ]);
-                      
-                    }   
+
+                    }
         }
         return view('authen.check_spsch',[
             'response'  => $response,
-            'result'  => $result, 
-        ]);     
-        
+            'result'  => $result,
+        ]);
+
     }
 }
