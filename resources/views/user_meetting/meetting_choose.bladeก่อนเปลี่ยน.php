@@ -74,10 +74,6 @@
         .is-hide {
             display: none;
         }
-        /* .body{
-            font-family: sans-serif;
-            font-size: 14px;
-        } */
     </style>
     {{-- <div class="container-fluid" >
   <div class="px-0 py-0 mb-2">
@@ -119,27 +115,21 @@
                             @csrf
 
 
-                            {{-- <div class="row">
-                                <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div id='calendar'></div>
                                 </div>
-                            </div> --}}
-                            <div class="row"> 
-                                <div class="col-md-5">
-                                    <div id='calendar'></div>
-                                </div>
-                                <div class="col-md-7">
+                                <div class="col-md-6">
 
                                     <input type="hidden" id="room_id" name="room_id" value="{{ $dataedits->room_id }}">
                                     <input type="hidden" id="status" name="status" value="REQUEST">
-                                    <input type="hidden" id="userid" name="userid" value="{{ Auth::user()->id }}"> 
-                                    <input type="hidden" id="meetting_year" name="meetting_year" value="{{$yy}}">
-                                    
-                                    <div class="row mt-3">
-                                        <div class="col-md-4">
-                                            <p for="meetting_title">เรื่องการประชุม </p>
+                                    <input type="hidden" id="userid" name="userid" value="{{ Auth::user()->id }}">
+
+                                    <div class="row">
+                                        <div class="col-md-4 text-end">
+                                            <label for="meetting_title">เรื่องการประชุม </label>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <input id="meetting_title" type="text"
                                                     class="form-control @error('meetting_title') is-invalid @enderror"
@@ -174,10 +164,10 @@
                                     </div> --}}
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
-                                            <p for="meeting_objective_id">วัตถุประสงค์</p>
+                                        <div class="col-md-4 text-end">
+                                            <label for="meeting_objective_id">วัตถุประสงค์</label>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <select name="meeting_objective_id" id="meeting_objective_id"
                                                     class="form-control form-control-lg" style="width: 100%;">
@@ -191,15 +181,13 @@
                                         </div>
                                     </div>
 
-
-
                                     <div class="row mt-3">
-                                        {{-- <div class="col-md-4 text-end">
+                                        <div class="col-md-4 text-end">
                                             <label for="meetting_year">ปีงบประมาณ </label>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <select name="meetting_year" id="meetting_year" class="form-control" 
+                                                <select name="meetting_year" id="meetting_year" class="form-control"
                                                     style="width: 100%;">
                                                     <option value="" selected>--เลือก--</option>
                                                     @foreach ($budget_year as $year)
@@ -213,11 +201,11 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div> --}}
-                                        <div class="col-md-4">
-                                            <p for="meetting_person_qty">จำนวนผู้เข้าร่วม</p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-3 text-end">
+                                            <label for="meetting_person_qty">ผู้เข้าร่วม</label>
+                                        </div>
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <input id="meetting_person_qty" type="text"
                                                     class="form-control @error('meetting_person_qty') is-invalid @enderror"
@@ -229,14 +217,17 @@
                                                     </span>
                                                 @enderror
                                             </div>
-                                        </div> 
+                                        </div>
+                                        {{-- <div class="col-md-1">
+                                            <label for="lname">คน</label>
+                                        </div> --}}
                                     </div>
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
-                                            <p for="meeting_date_begin">ตั้งแต่วันที่ </p>
+                                        <div class="col-md-4 text-end">
+                                            <label for="meeting_date_begin">ตั้งแต่วันที่ </label>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <input id="meeting_date_begin" type="date"
                                                     class="form-control @error('meeting_date_begin') is-invalid @enderror"
@@ -252,10 +243,10 @@
                                     </div>
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
-                                            <p for="meeting_date_end">ถึงวันที่ </p>
+                                        <div class="col-md-4 text-end">
+                                            <label for="meeting_date_end">ถึงวันที่ </label>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <input id="meeting_date_end" type="date"
                                                     class="form-control @error('meeting_date_end') is-invalid @enderror"
@@ -270,11 +261,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="row ">
-                                        <div class="col-md-4 mt-3">
-                                            <p for="meeting_time_begin">ตั้งแต่เวลา </p>
+                                    <div class="row mt-3">
+                                        <div class="col-md-4 text-end">
+                                            <label for="meeting_time_begin">ตั้งแต่เวลา </label>
                                         </div>
-                                        <div class="col-md-3 text-start mt-3">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <input id="meeting_time_begin" type="time"
                                                     class="form-control @error('meeting_time_begin') is-invalid @enderror"
@@ -287,10 +278,10 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-2 mt-3">
-                                            <p for="meeting_time_end">ถึงเวลา </p>
+                                        <div class="col-md-2 text-end">
+                                            <label for="meeting_time_end">ถึงเวลา </label>
                                         </div>
-                                        <div class="col-md-3 text-start mt-3">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <input id="meeting_time_end" type="time"
                                                     class="form-control @error('meeting_time_end') is-invalid @enderror"
@@ -304,12 +295,43 @@
                                             </div>
                                         </div>
                                     </div>
- 
-                                    <div class="row mt-3">
-                                        <div class="col-md-4">
-                                            <p for="meeting_tel">เบอร์โทร </p>
+
+
+
+                                    <!-- <div class="row mt-3">
+                                    <div class="col-md-3 text-end">
+                                        <label for="meeting_time_begin">ตั้งแต่เวลา </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input id="meeting_time_begin" type="time" class="form-control @error('meeting_time_begin') is-invalid @enderror" name="meeting_time_begin" value="{{ old('meeting_time_begin') }}" autocomplete="meeting_time_begin" >
+                                            @error('meeting_time_begin')
+        <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+    @enderror
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <label for="meeting_time_end">ถึงเวลา </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input id="meeting_time_end" type="time" class="form-control @error('meeting_time_end') is-invalid @enderror" name="meeting_time_end" value="{{ old('meeting_time_end') }}" autocomplete="meeting_time_end" >
+                                            @error('meeting_time_end')
+        <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+    @enderror
+                                        </div>
+                                    </div>
+                                  </div> -->
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-4 text-end">
+                                            <label for="meeting_tel">เบอร์โทร </label>
+                                        </div>
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <input id="meeting_tel" type="text" class="form-control"
                                                     name="meeting_tel" value="{{ Auth::user()->tel }}">
@@ -323,10 +345,10 @@
                                     </div>
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
-                                            <p for="meeting_tel">หมายเหตุ </p>
+                                        <div class="col-md-4 text-end">
+                                            <label for="meeting_tel">หมายเหตุ </label>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-8">
                                             <div class="form-group">
                                                 <textarea name="meeting_comment" id="meeting_comment" class="form-control" rows="3">
                                                 </textarea>
@@ -337,27 +359,107 @@
                                 </div>
 
                             </div>
-                            
-                    </div>
-                        <div class="card-footer">
-                            <div class="col"></div>
-                            <div class="col-md-4 text-end">
-                                <div class="form-group ">
-                                    <button type="submit"
-                                        class="mt-2 mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> 
-                                        <i class="pe-7s-diskette btn-icon-wrapper"></i>
-                                        บันทึกข้อมูล
-                                    </button>
-                                    <a href="{{ url('user_meetting/meetting_add/' . Auth::user()->id) }}"
-                                        class="mt-2 mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
-                                        <i class="pe-7s-close btn-icon-wrapper"></i>ยกเลิก
-                                    </a>
+                            {{-- <div class="row mt-3 mb-5">
+                                <div class="col-md-12">
+                                    <div class="card-header shadow">
+                                        <label for="">อุปกรณ์ที่ต้องการ </label>
+                                    </div>
+                                    <div class="card-body">
+                                        <textarea name="meeting_comment" id="meeting_comment" cols="30" rows="10">
+                                    
+                                </textarea>
+                                        <div class="table-responsive">
+                                    <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
+                                        <thead>
+                                            <tr style="background-color: rgb(173, 247, 250)">
+                                                <td style="text-align: center;"width="5%">ลำดับ</td> 
+                                                <td style="text-align: center;">รายการอุปกรณ์</td>                                                                      
+                                                <td style="text-align: center;" width="12%">จำนวน</td>                                                   
+                                                <td style="text-align: center;" width="7%">
+                                                    <a class="btn btn-sm btn-success addRow" style="color:#FFFFFF;"><i class="fas fa-plus" ></i></a>
+                                                </td>
+                                            </tr>
+                                        </thead> 
+                                        <tbody class="tbody1"> 
+                                                <tr height="30" >  
+                                                    <td style="text-align: center;"> 1 </td>                                            
+                                                    <td>
+                                                        <select name="MEETTINGLIST_ID[]" id="MEETTING_LIST_ID0" class="form-control form-control-sm" style="width: 100%;">
+                                                            <option value="" selected>--รายการอุปกรณ์--</option> 
+                                                            @foreach ($meeting_list as $list)
+                                                                <option value="{{ $list ->meeting_list_id }}" selected>{{ $list->meeting_list_name}}</option>
+                                                            @endforeach                   
+                                                        </select>
+                                                    </td>                                                                               
+                                                    <td>
+                                                        <input name="MEETTINGLIST_QTY[]" id="MEETTINGLIST_QTY0" class="form-control form-control-sm">
+                                                    </td>                                               
+                                                    <td style="text-align: center;">
+                                                        <a class="btn btn-sm btn-danger fa fa-trash-alt remove1" style="color:#FFFFFF;">
+                                                        </a>
+                                                    </td>
+                                                </tr>                                                                 
+                                        </tbody>   
+                                    </table>
                                 </div>
-                            </div>
-                        </div>
-                    </form>
+                                    </div>
+                                </div> --}}
 
-                   
+                                {{-- <div class="col-md-6">
+                            <div class="card-header shadow">
+                                <label for="">รายการอาหาร </label>
+                            </div> 
+                            <div class="card-body shadow">
+                                <div class="table-responsive">
+                                    <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
+                                        <thead>
+                                            <tr style="background-color: rgb(173, 247, 250)">
+                                                <td style="text-align: center;"width="5%">ลำดับ</td> 
+                                                <td style="text-align: center;">รายการอาหาร</td>                                                                      
+                                                <td style="text-align: center;" width="10%">จำนวน</td>                                                    
+                                                <td style="text-align: center;" width="7%"><a  class="btn btn-sm btn-success addRow2" style="color:#FFFFFF;"><i class="fas fa-plus" ></i></a></td>
+                                            </tr>
+                                        </thead> 
+                                        <tbody class="tbody2"> 
+                                            <tr height="30" >  
+                                                    <td style="text-align: center;"> 1 </td>                                                
+                                                    <td> 
+                                                        <select name="FOOD_LIST_ID[]" id="FOOD_LIST_ID0" class="form-control form-control-sm" style="width: 100%;">
+                                                            <option value="" selected>--รายการอาหาร--</option> 
+                                                            @foreach ($food_list as $food)
+                                                                <option value="{{ $food->food_list_id }}">{{$food->food_list_name}}</option>
+                                                            @endforeach  
+                                                        </select>
+                                                    </td>                                                                               
+                                                    <td>
+                                                    <input name="FOOD_LIST_QTY[]" id="FOOD_LIST_QTY0" class="form-control form-control-sm" style=" font-family: 'Kanit', sans-serif;">
+                                                    </td> 
+                                                    <td style="text-align: center;"><a class="btn btn-sm btn-danger fa fa-trash-alt remove2" style="color:#FFFFFF;"></a></td>
+                                                </tr>                                                                 
+                                        </tbody>   
+                                    </table>
+                                </div> 
+                            </div>  
+                        </div> --}}
+                            {{-- </div> --}}
+
+                            <div class="card-footer text-end mt-3">
+                                {{-- <div class="col-md-12 text-end"> --}}
+                                    <div class="form-group ">
+                                        <button type="submit"
+                                            class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> 
+                                            <i class="pe-7s-diskette btn-icon-wrapper"></i>
+                                            บันทึกข้อมูล
+                                        </button>
+                                        <a href="{{ url('user_meetting/meetting_add/' . Auth::user()->id) }}"
+                                            class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                            <i class="pe-7s-close btn-icon-wrapper"></i>ยกเลิก
+                                        </a>
+                                    </div>
+                                {{-- </div> --}}
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

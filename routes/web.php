@@ -677,6 +677,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'user_meetting/meetting_add/{iduser}',[App\Http\Controllers\UsermeettingController::class, 'meetting_add'])->name('meetting.meetting_add');//
     Route::match(['get','post'],'user_meetting/meetting_save',[App\Http\Controllers\UsermeettingController::class, 'meetting_save'])->name('meetting.meetting_save');//
     Route::match(['get','post'],'user_meetting/meetting_choose/{id}',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose'])->name('meetting.meetting_choose');//
+    Route::match(['get','post'],'user_meetting/meetting_choose_add/{id}',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose_add'])->name('meetting.meetting_choose_add');//
     Route::match(['get','post'],'user_meetting/meetting_choose_save',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose_save'])->name('meetting.meetting_choose_save');//
     Route::match(['get','post'],'user_meetting/meetting_choose_linesave',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose_linesave'])->name('meetting.meetting_choose_linesave');//
     Route::match(['get','post'],'user_meetting/meetting_choose_edit/{id}',[App\Http\Controllers\UsermeettingController::class, 'meetting_choose_edit'])->name('meetting.meetting_choose_edit');//
