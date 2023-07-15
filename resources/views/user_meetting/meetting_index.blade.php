@@ -217,7 +217,7 @@ if (Auth::check()) {
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
                                     {{-- <tr style="font-size: 14px;"> --}}
-                                    <tr style="font-family: sans-serif;font-size: 13px;">
+                                <tr style="font-family: sans-serif;font-size: 13px;">
                                        <th width="7%">ลำดับ</th>
                                         <th width="10%">สถานะ</th>
                                         <th>ปี</th>

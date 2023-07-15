@@ -532,6 +532,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'warehouse_payadd/{id}',[WarehousePayController::class,'warehouse_payadd'])->name('pay.warehouse_payadd');
     Route::match(['get','post'],'warehouse_payadd_save',[WarehousePayController::class,'warehouse_payadd_save'])->name('pay.warehouse_payadd_save');
+    Route::match(['get','post'],'warehouse_payadd_savesub',[WarehousePayController::class,'warehouse_payadd_savesub'])->name('pay.warehouse_payadd_savesub');
     Route::match(['get','post'],'warehouse/warehouse_pay_sub/{id}',[WarehousePayController::class,'warehouse_pay_sub'])->name('pay.warehouse_pay_sub');
 
     Route::get('warehouse/warehouse_plus/{id}',[WarehouseController::class,'warehouse_plus'])->name('pay.warehouse_plus');

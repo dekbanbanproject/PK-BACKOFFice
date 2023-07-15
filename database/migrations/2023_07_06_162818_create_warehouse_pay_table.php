@@ -31,6 +31,7 @@ return new class extends Migration
                 $table->enum('pay_send', ['STALE','WAIT', 'FINISH'])->default('WAIT'); //สถานะการส่ง
                 $table->string('pay_total')->nullable();  //Totl
                 $table->string('store_id')->nullable();
+                $table->string('pay_repaire_no')->nullable();  //ใบแจ้งซ่อม
                 $table->timestamps();
             });
         }

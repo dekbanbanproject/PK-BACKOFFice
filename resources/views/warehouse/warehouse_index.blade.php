@@ -269,7 +269,7 @@
                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
-                                    <tr>
+                                    <tr style="font-family: sans-serif;font-size: 13px;">
                                         <th width="3%" class="text-center">ลำดับ</th>
                                         {{-- <th width="7%" class="text-center">สถานะ</th> --}}
                                         <th width="9%" class="text-center">เลขที่รับ</th>
@@ -289,7 +289,7 @@
                                     $date = date('Y');
                                     ?>
                                     @foreach ($warehouse_rep as $item)
-                                        <tr id="sid{{ $item->warehouse_rep_id }}">
+                                        <tr id="sid{{ $item->warehouse_rep_id }}" style="font-family: sans-serif;font-size: 13px;">
                                             <td class="text-center" width="3%">{{ $i++ }}</td>
                                             {{-- <td class="text-center" width="7%">{{ $item->warehouse_rep_status }} </td> --}}
                                             <td class="text-center" width="9%">{{ $item->warehouse_rep_code }} </td>

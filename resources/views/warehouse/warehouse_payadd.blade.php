@@ -7,29 +7,29 @@
     }
 </script>
 <?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
 
 ?>
 
 <?php
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\WarehouseController;
-use App\Http\Controllers\StaticController;
-use App\Models\Warehouse_pay_sub;
-$refnumber = WarehouseController::refnumber();
-date_default_timezone_set('Asia/Bangkok');
-$date = date('Y') + 543;
-$datefull = date('Y-m-d H:i:s');
-$time = date("H:i:s");
-$loter = $date.''.$time
+        use Illuminate\Support\Facades\DB;
+        use App\Http\Controllers\WarehouseController;
+        use App\Http\Controllers\StaticController;
+        use App\Models\Warehouse_pay_sub;
+        $refnumber = WarehouseController::refnumber();
+        date_default_timezone_set('Asia/Bangkok');
+        $date = date('Y') + 543;
+        $datefull = date('Y-m-d H:i:s');
+        $time = date("H:i:s");
+        $loter = $date.''.$time
 ?>
 <style>
     #button{
@@ -99,112 +99,117 @@ $loter = $date.''.$time
 
 
                         <div class="card-body shadow-lg">
-                            <form class="custom-validation" action="{{ route('pay.warehouse_payadd_save') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <input type="hidden" name="warehouse_pay_id" id="warehouse_pay_id" value="{{$warehouse_pay->warehouse_pay_id }}">
-                                <div class="row mb-3">
-                                    <div class="col"></div>
-                                    <div class="col-md-1">
-                                        รายการวัสดุ
+                                <form class="custom-validation" action="{{ route('pay.warehouse_payadd_save') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="warehouse_pay_id" id="warehouse_pay_id" value="{{$warehouse_pay->warehouse_pay_id }}">
+                                    <div class="row mb-3">
+                                        {{-- <div class="col"></div> --}}
+                                        <div class="col-md-1">
+                                            รายการวัสดุ
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select name="product_id" id="product_id" class="form-control form-control-sm " style="width: 100%;" required>
+                                                <option value="" selected>--รายการวัสดุ--</option>
+                                                @foreach ($product as $list)
+                                                <?php $countcheck =  Warehouse_pay_sub::where('warehouse_recieve_sub_id','=',$list->warehouse_recieve_sub_id)->count();?>
+                                                    @if($countcheck == 0  )
+                                                        <option value="{{ $list->warehouse_recieve_sub_id }}">{{ $list->product_code }} {{ $list->product_name }}=>ราคา {{ $list->price }}=>LOT {{ $list->product_lot }}=>คงเหลือ {{ $list->total }} {{ $list->unit_name }}</option>
+                                                    @endif
+                                                @endforeach
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 text-center">
+                                            จำนวน
+                                        </div>
+                                        <div class="col-md-1">
+                                            <input type="text" name="product_qty" id="product_qty" class="form-control form-control-sm ">
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button type="submit" class=" me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
+                                                <i class="fas fa-plus me-2"></i>
+                                                ADD
+                                            </button>
+                                        </div>
+                                        {{-- <div class="col"></div> --}}
                                     </div>
-                                    <div class="col-md-6">
-                                        <select name="product_id" id="product_id" class="form-control form-control-sm " style="width: 100%;" required>
-                                            <option value="" selected>--รายการวัสดุ--</option>
-                                            @foreach ($product as $list)
-                                            <?php $countcheck =  Warehouse_pay_sub::where('warehouse_recieve_sub_id','=',$list->warehouse_recieve_sub_id)->count();?>
-                                                @if($countcheck == 0  )
-                                                    <option value="{{ $list->warehouse_recieve_sub_id }}">{{ $list->product_code }} {{ $list->product_name }} ==>ราคา {{ $list->price }} ==>LOT {{ $list->product_lot }} ==>ยอดคงเหลือ {{ $list->total }} {{ $list->unit_name }}</option>
-                                                @endif
-                                            @endforeach
+                                </form>
+                                {{-- <form class="custom-validation" action="{{ route('pay.warehouse_payadd_save') }}" method="POST"
+                                id="warehouse_paysave" enctype="multipart/form-data">
+                                @csrf --}}
+                                <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
 
-                                        </select>
-                                    </div>
-                                    <div class="col-md-1 text-center">
-                                        จำนวน
-                                    </div>
-                                    <div class="col-md-1">
-                                        <input type="text" name="product_qty" id="product_qty" class="form-control form-control-sm ">
-                                    </div>
-                                    <div class="col-md-1">
-                                        <button type="submit" class=" me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
-                                            <i class="fas fa-plus me-2"></i>
-                                            ADD
-                                        </button>
-                                    </div>
-                                    <div class="col"></div>
-                                </div>
-                            </form>
-                        {{-- <form class="custom-validation" action="{{ route('pay.warehouse_payadd_save') }}" method="POST"
-                        id="warehouse_paysave" enctype="multipart/form-data">
-                        @csrf --}}
-                            <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
+                                <input type="hidden" name="warehouse_inven_id" id="warehouse_inven_id" value="{{$data_inven->warehouse_inven_id }}">
 
-                            <input type="hidden" name="warehouse_inven_id" id="warehouse_inven_id" value="{{$data_inven->warehouse_inven_id }}">
+                                <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="3%" class="text-center">ลำดับ</th>
+                                            <th width="9%" class="text-center">รหัสวัสดุ</th>
+                                            <th class="text-center">รายการวัสดุ</th>
+                                            <th class="text-center">หน่วย</th>
+                                            <th width="8%" class="text-center">จำนวน</th>
+                                            <th width="10%" class="text-center">ราคา/หน่วย</th>
+                                            <th width="10%" class="text-center">ราคารวม</th>
+                                            <th width="10%" class="text-center">Lot</th>
+                                            <th width="5%" class="text-center">จัดการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1;
+                                        $date = date('Y');
+                                        ?>
+                                        @foreach ($warehouse_pay_sub as $item)
+                                            <tr id="sid{{ $item->warehouse_pay_sub_id }}">
+                                                <td class="text-center" width="3%">{{ $i++ }}</td>
+                                                <td class="text-center" width="9%">{{ $item->product_code }} </td>
+                                                <td class="p-2">{{ $item->product_name }}</td>
+                                                <td class="p-2" width="14%">{{ $item->unit_name }}</td>
+                                                <td class="text-center" width="9%">{{ $item->product_qty }}</td>
+                                                <td class="text-center" width="10%">{{ $item->product_price }}</td>
+                                                <td class="text-center" width="10%">{{ $item->product_price_total }}</td>
+                                                <td class="text-center" width="10%">{{ $item->product_lot}}</td>
 
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th width="3%" class="text-center">ลำดับ</th>
-                                    <th width="9%" class="text-center">รหัสวัสดุ</th>
-                                    <th class="text-center">รายการวัสดุ</th>
-                                    <th class="text-center">หน่วย</th>
-                                    <th width="8%" class="text-center">จำนวน</th>
-                                    <th width="10%" class="text-center">ราคา/หน่วย</th>
-                                    <th width="10%" class="text-center">ราคารวม</th>
-                                    <th width="10%" class="text-center">Lot</th>
-                                    <th width="5%" class="text-center">จัดการ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $i = 1;
-                                $date = date('Y');
-                                ?>
-                                @foreach ($warehouse_pay_sub as $item)
-                                    <tr id="sid{{ $item->warehouse_pay_sub_id }}">
-                                        <td class="text-center" width="3%">{{ $i++ }}</td>
-                                        <td class="text-center" width="9%">{{ $item->product_code }} </td>
-                                        <td class="p-2">{{ $item->product_name }}</td>
-                                        <td class="p-2" width="14%">{{ $item->unit_name }}</td>
-                                        <td class="text-center" width="9%">{{ $item->product_qty }}</td>
-                                        <td class="text-center" width="10%">{{ $item->product_price }}</td>
-                                        <td class="text-center" width="10%">{{ $item->product_price_total }}</td>
-                                        <td class="text-center" width="10%">{{ $item->product_lot}}</td>
+                                                <td class="text-center" width="5%">
 
-                                        <td class="text-center" width="5%">
-
-                                            <div class="dropdown d-inline-block">
-                                                <button type="button" aria-haspopup="true" aria-expanded="false"
-                                                    data-bs-toggle="dropdown"
-                                                    class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
-                                                    ทำรายการ
-                                                </button>
-                                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
-
-                                                        <button class="dropdown-item text-warning" style="font-size:13px" data-bs-toggle="modal" data-bs-target=".editModal{{ $item->warehouse_pay_sub_id }}">
-                                                            <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
-                                                            <span>แก้ไข</span>
+                                                    <div class="dropdown d-inline-block">
+                                                        <button type="button" aria-haspopup="true" aria-expanded="false"
+                                                            data-bs-toggle="dropdown"
+                                                            class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                            ทำรายการ
                                                         </button>
+                                                        <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
 
-                                                </div>
-                                            </div>
+                                                                <button class="dropdown-item text-warning" style="font-size:13px" data-bs-toggle="modal" data-bs-target=".editModal{{ $item->warehouse_pay_sub_id }}">
+                                                                    <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                                    <span>แก้ไข</span>
+                                                                </button>
 
-                                        </td>
-                                    </tr>
+                                                        </div>
+                                                    </div>
 
-                                @endforeach
-                            </tbody>
-                        </table>
+                                                </td>
+                                            </tr>
+
+                                        @endforeach
+                                    </tbody>
+                                </table>
 
 
 
-
+                        </div>
                         <div class="card-footer mt-3">
                             <div class="col-md-12 text-end">
                                 <div class="form-group">
-                                    <button type="button" class=" me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success btn-sm">
+                                    
+                                    {{-- <button type="button" class=" me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success btn-sm">
                                         <i class="fa-solid fa-floppy-disk me-2"></i>
                                         บันทึกข้อมูล
                                     </button>
+                                    <a href="{{ url('warehouse/warehouse_pay') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger btn-sm">
+                                        <i class="fa-solid fa-xmark me-2"></i>
+                                        ยกเลิก
+                                    </a> --}}
                                     <a href="{{ url('warehouse/warehouse_pay') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger btn-sm">
                                         <i class="fa-solid fa-xmark me-2"></i>
                                         ยกเลิก

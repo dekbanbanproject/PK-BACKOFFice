@@ -84,28 +84,29 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="modal-body">
+                        <div class="card-body">
+
                             <div class="row">
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_code">เลขที่บิล :</label>
+                                    <p for="pay_code">เลขที่บิล :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <input id="pay_code" type="text"
                                             class="form-control form-control-sm" name="pay_code"
-                                            value="{{ $refnumber }}"
+                                            value="{{ $refnumber }}" style="font-family: sans-serif;font-size: 13px;"
                                              readonly>
                                     </div>
                                 </div>
 
 
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_year">ปีงบ :</label>
+                                    <p for="pay_year">ปีงบ :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <select id="pay_year" name="pay_year"
-                                            class="form-select form-select-lg" style="width: 100%">
+                                            class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                             <option value="">--เลือก--</option>
                                             @foreach ($budget_year as $ye)
                                                 @if ($ye->leave_year_id == $dateyear)
@@ -121,21 +122,21 @@
                                 </div>
 
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_date">วันที่จ่าย  :</label>
+                                    <p for="pay_date">วันที่จ่าย  :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <input id="pay_date" type="date"
-                                            class="form-control form-control-sm" name="pay_date" value="{{ $date }}">
+                                            class="form-control form-control-sm" name="pay_date" value="{{ $date }}" style="font-family: sans-serif;font-size: 13px;">
                                     </div>
                                 </div>
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_user_id">ผู้รับ :</label>
+                                    <p for="pay_user_id">ผู้รับ :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <select id="pay_user_id" name="pay_user_id"
-                                            class="form-select form-select-lg" style="width: 100%">
+                                            class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                             <option value="">--เลือก--</option>
                                             @foreach ($users as $ue)
                                                 <option value="{{ $ue->id }}"> {{ $ue->fname }}  {{ $ue->lname }} </option>
@@ -149,12 +150,12 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_payuser_id">ผู้จ่าย :</label>
+                                    <p for="pay_payuser_id">ผู้จ่าย :</p>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                             <select id="pay_payuser_id" name="pay_payuser_id"
-                                            class="form-select form-select-lg" style="width: 100%">
+                                            class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                             <option value="">--เลือก--</option>
                                             @foreach ($users as $ue)
                                                 @if ($ue->id == $iduser)
@@ -168,12 +169,12 @@
                                 </div>
 
                                 <div class="col-md-1 text-end">
-                                    <label for="payout_inven_id">จ่ายจากคลัง :</label>
+                                    <p for="payout_inven_id">จ่ายจากคลัง :</p>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <select id="payout_inven_id" name="payout_inven_id"
-                                        class="form-select form-select-lg" style="width: 100%">
+                                        class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                         <option value="">--เลือก--</option>
                                         @foreach ($warehouse_inven as $inven)
                                             <option value="{{ $inven->warehouse_inven_id }}">
@@ -184,12 +185,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1 text-end">
-                                    <label for="payin_inven_id">รับเข้าคลัง :</label>
+                                    <p for="payin_inven_id">รับเข้าคลัง :</p>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <select id="payin_inven_id" name="payin_inven_id"
-                                        class="form-select form-select-lg" style="width: 100%">
+                                        class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                         <option value="">--เลือก--</option>
                                         @foreach ($department_sub_sub as $dep)
                                             <option value="{{ $dep->DEPARTMENT_SUB_SUB_ID }}">
@@ -201,23 +202,33 @@
                                 </div>
                             </div>
 
-
-                            </div>
                             <input type="hidden" name="store_id" id="store_id" value="{{$storeid}}">
                             <input type="hidden" name="warehouse_pay_id" id="editwarehouse_pay_id" >
-                            <div class="modal-footer">
+
+                            <div class="row">
+                                <div class="col-md-12 text-end">
+                                    <div class="form-group">
+                                        <button type="button" id="Savebtn" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
+                                            <i class="fa-solid fa-floppy-disk me-2"></i>
+                                            สร้างใบจ่าย
+                                        </button> 
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                           
+                            {{-- <div class="card-footer">
                                 <div class="col-md-12 text-end">
                                     <div class="form-group">
                                         <button type="button" id="Savebtn" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
                                             <i class="fa-solid fa-floppy-disk me-2"></i>
                                             สร้างใบเบิก
-                                        </button>
-                                        {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
-                                                class="fa-solid fa-xmark me-2"></i>Close</button> --}}
-
+                                        </button> 
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                     </div>
                 </div>
             </div>
@@ -227,7 +238,7 @@
                     <div class="card">
 
                         <div class="card-header">
-                            รายการเบิกจ่ายวัสดุ
+                            รายการจ่ายวัสดุ
                             <div class="btn-actions-pane-right">
                                 <div role="group" class="btn-group-sm btn-group">
 
@@ -245,7 +256,7 @@
                                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-family: sans-serif;font-size: 13px;">
                                                 <th width="3%" class="text-center">ลำดับ</th>
                                                 <th width="9%" class="text-center">เลขที่บิล</th>
                                                 <th width="4%" class="text-center">ปีงบ</th>
@@ -263,7 +274,7 @@
                                             $date = date('Y');
                                             ?>
                                             @foreach ($warehouse_pay as $item)
-                                                <tr id="sid{{ $item->warehouse_pay_id }}">
+                                                <tr id="sid{{ $item->warehouse_pay_id }}" style="font-family: sans-serif;font-size: 13px;">
                                                     <td class="text-center" width="3%">{{ $i++ }}</td>
                                                     <td class="text-center" width="9%">{{ $item->pay_code }} </td>
                                                     <td class="text-center" width="4%">{{ $item->pay_year }}</td>
@@ -287,19 +298,19 @@
 
                                                         {{-- <div class="btn-group">
                                                             <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <label for="" style="color: rgb(57, 57, 57);font-size:13px">ทำรายการ</label>
+                                                                <p for="" style="color: rgb(57, 57, 57);font-size:13px">ทำรายการ</p>
                                                             </button>
                                                             <div class="dropdown-menu">
                                                                 <a class="dropdown-item text-warning" href="{{url('warehouse/warehouse_pay_edit/'.$item->warehouse_pay_id)}}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="แก้ไข">
                                                                     <i class="fa-solid fa-pen-to-square me-2"></i>
-                                                                    <label for="" style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
+                                                                    <p for="" style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</p>
                                                                 </a>
                                                                 <div class="dropdown-divider"></div>
                                                                 <a class="dropdown-item text-warning" href="{{url('warehouse/warehouse_pay_sub/'.$item->warehouse_pay_id)}}"
                                                                     data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการจ่าย">
                                                                     <i class="fa-solid fa-folder-plus me-2" style="color: rgb(112, 34, 238)"></i>
-                                                                    <label for="" style="color: rgb(112, 34, 238);font-size:13px">เพิ่มรายการจ่าย</label>
+                                                                    <p for="" style="color: rgb(112, 34, 238);font-size:13px">เพิ่มรายการจ่าย</p>
                                                                 </a>
                                                         </div> --}}
                                                         <div class="dropdown d-inline-block">
@@ -325,7 +336,7 @@
                                                                     style="font-size:13px" target="blank">
                                                                     <i class="fa-solid fa-clipboard-check me-2 text-primary"
                                                                         style="font-size:13px"></i>
-                                                                    <span>เพิ่มรายการ</span>
+                                                                    <span>เพิ่มรายการวัสดุ</span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -335,17 +346,17 @@
 
 
                                                   <!-- Modal Edit-->
-                                        <div class="modal fade editModal{{ $item->warehouse_pay_id }}" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                        <div class="modal fade editModal{{ $item->warehouse_pay_id }}" id="editModal" tabindex="-1" role="dialog" aria-pledby="editModalp" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="myExtraLargeModalLabel">แก้ไขใบเบิก</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <h5 class="modal-title" id="myExtraLargeModalp">แก้ไขใบเบิก</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-md-2 text-end">
-                                                                    <label for="pay_code">เลขที่บิล :</label>
+                                                                    <p for="pay_code">เลขที่บิล :</p>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
@@ -358,7 +369,7 @@
 
 
                                                                 <div class="col-md-2 text-end">
-                                                                    <label for="pay_year">ปีงบ :</label>
+                                                                    <p for="pay_year">ปีงบ :</p>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
@@ -377,7 +388,7 @@
                                                                 </div>
 
                                                                 <div class="col-md-2 text-end">
-                                                                    <label for="pay_date">วันที่จ่าย  :</label>
+                                                                    <p for="pay_date">วันที่จ่าย  :</p>
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <div class="form-group">
@@ -390,7 +401,7 @@
 
                                                             <div class="row mt-3">
                                                                 <div class="col-md-2 text-end">
-                                                                    <label for="editpay_payuser_id">ผู้จ่าย :</label>
+                                                                    <p for="editpay_payuser_id">ผู้จ่าย :</p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group">
@@ -408,7 +419,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-2 text-end">
-                                                                    <label for="pay_user_id">ผู้รับ :</label>
+                                                                    <p for="pay_user_id">ผู้รับ :</p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group">
@@ -430,7 +441,7 @@
 
                                                             <div class="row mt-3">
                                                                 <div class="col-md-2 text-end">
-                                                                    <label for="payout_inven_id">จ่ายจากคลัง :</label>
+                                                                    <p for="payout_inven_id">จ่ายจากคลัง :</p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group">
@@ -449,7 +460,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-2 text-end">
-                                                                    <label for="payin_inven_id">รับเข้าคลัง :</label>
+                                                                    <p for="payin_inven_id">รับเข้าคลัง :</p>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <div class="form-group">
@@ -502,18 +513,18 @@
         </div>
 
         <!--  Modal content for the insertborrowdata example -->
-        <div class="modal fade" id="insertpaydata" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+        <div class="modal fade" id="insertpaydata" tabindex="-1" role="dialog" aria-pledby="myExtraLargeModalp"
             aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myExtraLargeModalLabel">สร้างใบเบิก</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="myExtraLargeModalp">สร้างใบเบิก</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-2 text-end">
-                                <label for="pay_code">เลขที่บิล :</label>
+                                <p for="pay_code">เลขที่บิล :</p>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -526,7 +537,7 @@
 
 
                             <div class="col-md-2 text-end">
-                                <label for="pay_year">ปีงบ :</label>
+                                <p for="pay_year">ปีงบ :</p>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -547,7 +558,7 @@
                             </div>
 
                             <div class="col-md-2 text-end">
-                                <label for="pay_date">วันที่จ่าย  :</label>
+                                <p for="pay_date">วันที่จ่าย  :</p>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -561,7 +572,7 @@
 
                         <div class="row mt-3">
                             <div class="col-md-2 text-end">
-                                <label for="pay_payuser_id">ผู้จ่าย :</label>
+                                <p for="pay_payuser_id">ผู้จ่าย :</p>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -579,7 +590,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">
-                                <label for="pay_user_id">ผู้รับ :</label>
+                                <p for="pay_user_id">ผู้รับ :</p>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -597,7 +608,7 @@
 
                         <div class="row mt-3">
                             <div class="col-md-2 text-end">
-                                <label for="payout_inven_id">จ่ายจากคลัง :</label>
+                                <p for="payout_inven_id">จ่ายจากคลัง :</p>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -613,7 +624,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">
-                                <label for="payin_inven_id">รับเข้าคลัง :</label>
+                                <p for="payin_inven_id">รับเข้าคลัง :</p>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">

@@ -84,28 +84,29 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="modal-body">
+                        <div class="card-body">
+
                             <div class="row">
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_code">เลขที่บิล :</label>
+                                    <p for="pay_code">เลขที่บิล :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <input id="pay_code" type="text"
                                             class="form-control form-control-sm" name="pay_code"
-                                            value="{{ $data_warehouse_pay->pay_code }}"
+                                            value="{{ $data_warehouse_pay->pay_code }}" style="font-family: sans-serif;font-size: 13px;"
                                              readonly>
                                     </div>
                                 </div>
 
 
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_year">ปีงบ :</label>
+                                    <p for="pay_year">ปีงบ :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <select id="pay_year" name="pay_year"
-                                            class="form-select form-select-lg" style="width: 100%">
+                                            class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                             <option value="">--เลือก--</option>
                                             @foreach ($budget_year as $ye)
                                                 @if ($ye->leave_year_id == $data_warehouse_pay->pay_year)
@@ -121,21 +122,21 @@
                                 </div>
 
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_date">วันที่จ่าย  :</label>
+                                    <p for="pay_date">วันที่จ่าย  :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <input id="pay_date" type="date"
-                                            class="form-control form-control-sm" name="pay_date" value="{{ $date }}">
+                                            class="form-control form-control-sm" name="pay_date" value="{{ $date }}" style="font-family: sans-serif;font-size: 13px;">
                                     </div>
                                 </div>
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_user_id">ผู้รับ :</label>
+                                    <p for="pay_user_id">ผู้รับ :</p>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <select id="pay_user_id" name="pay_user_id"
-                                            class="form-select form-select-lg" style="width: 100%">
+                                            class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                             <option value="">--เลือก--</option>
                                             @foreach ($users as $uee)
                                             @if ($uee->id == $data_warehouse_pay->pay_user_id)
@@ -153,12 +154,12 @@
 
                             <div class="row mt-3">
                                 <div class="col-md-1 text-end">
-                                    <label for="pay_payuser_id">ผู้จ่าย :</label>
+                                    <p for="pay_payuser_id">ผู้จ่าย :</p>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                             <select id="pay_payuser_id" name="pay_payuser_id"
-                                            class="form-select form-select-lg" style="width: 100%">
+                                            class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                             <option value="">--เลือก--</option>
                                             @foreach ($users as $ue)
                                                 @if ($ue->id == $data_warehouse_pay->pay_payuser_id)
@@ -172,12 +173,12 @@
                                 </div>
 
                                 <div class="col-md-1 text-end">
-                                    <label for="payout_inven_id">จ่ายจากคลัง :</label>
+                                    <p for="payout_inven_id">จ่ายจากคลัง :</p>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <select id="payout_inven_id" name="payout_inven_id"
-                                        class="form-select form-select-lg" style="width: 100%">
+                                        class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                         <option value="">--เลือก--</option>
                                         @foreach ($warehouse_inven as $inven)
                                         @if ($data_warehouse_pay->payout_inven_id ==$inven->warehouse_inven_id )
@@ -191,12 +192,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1 text-end">
-                                    <label for="payin_inven_id">รับเข้าคลัง :</label>
+                                    <p for="payin_inven_id">รับเข้าคลัง :</p>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <select id="payin_inven_id" name="payin_inven_id"
-                                        class="form-select form-select-lg" style="width: 100%">
+                                        class="form-select form-select-lg" style="width: 100%" style="font-family: sans-serif;font-size: 13px;">
                                         <option value="">--เลือก--</option>
                                         @foreach ($department_sub_sub as $dep)
                                         @if ($data_warehouse_pay->payin_inven_id == $dep->DEPARTMENT_SUB_SUB_ID)
@@ -212,10 +213,22 @@
                             </div>
 
 
-                            </div>
+                        
                             <input type="hidden" name="store_id" id="store_id" value="{{$storeid}}">
                             <input type="hidden" name="warehouse_pay_id" id="warehouse_pay_id" value="{{$data_warehouse_pay->warehouse_pay_id}}">
-                            <div class="modal-footer">
+                           
+                            <div class="row ">
+                                <div class="col-md-12 text-end">
+                                    <div class="form-group">
+                                        <button type="button" id="Updatebtn" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
+                                            <i class="fa-solid fa-floppy-disk me-2"></i>
+                                            แก้ไขใบเบิก
+                                        </button> 
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            {{-- <div class="modal-footer">
                                 <div class="col-md-12 text-end">
                                     <div class="form-group">
                                         <button type="button" id="Updatebtn" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary btn-sm">
@@ -225,7 +238,8 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -817,6 +817,10 @@ class WarehouseController extends Controller
 					GROUP BY wrs.product_code
             ');
 
+            $data['data_invent'] = DB::table('warehouse_inven')
+            ->leftjoin('warehouse_recieve','warehouse_recieve.warehouse_recieve_inven_id','=','warehouse_inven.warehouse_inven_id')
+            ->where('warehouse_recieve.warehouse_recieve_inven_id', '=',$id)->first();
+
             // group by wr.warehouse_inven_id
         // left outer join warehouse_rep_sub wrs on wrs.warehouse_rep_id = wr.warehouse_rep_id
         return view('warehouse.warehouse_main_detail', $data);

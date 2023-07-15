@@ -127,7 +127,8 @@
                     <div class="card-header ">
                         <div class="d-flex">
                             <div class="p-2">
-                                <label for="">รายการ Stock-Card คลังหลัก</label>
+                                
+                                <label for="">รายการ Stock-Card คลังหลัก => {{$data_invent->warehouse_inven_name}}</label>
                             </div>
                             <div class="ms-auto p-2">
                                 {{-- <a href="{{ url('warehouse/warehouse_add') }}" class="btn btn-info btn-sm">
@@ -142,21 +143,22 @@
                         <div class="table-responsive">
                             {{-- <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"
                                 id="example"> --}}
-                            <table style="width: 100%;" id="example"
-                                class="table table-hover table-striped table-bordered myTable">
+                            {{-- <table style="width: 100%;" id="example"
+                                class="table table-hover table-striped table-bordered myTable"> --}}
+                                <table id="example" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
-                                    <tr>
+                                    <tr style="font-family: sans-serif;font-size: 13px;">
                                         <th width="3%" class="text-center">ลำดับ</th>
-                                        <th width="9%" class="text-center">คลัง</th>
+                                        {{-- <th width="9%" class="text-center">คลัง</th> --}}
                                         <th width="10%" class="text-center">รหัสวัสดุ</th>
                                         <th class="text-center">รายการวัสดุ</th>
                                         {{-- <th class="text-center">หมวดวัสดุ</th> --}}
-                                        <th width="8%" class="text-center">รับเข้า</th>
-                                        <th width="8%" class="text-center">จ่ายออก</th>
-                                        <th width="8%" class="text-center">คงเหลือ</th>
-                                        <th width="8%" class="text-center">ราคารวม</th>
-                                        <th width="5%" class="text-center">สถานะ</th>
-                                        <th width="5%" class="text-center">จัดการ</th>
+                                        <th width="10%" class="text-center">รับเข้า</th>
+                                        <th width="10%" class="text-center">จ่ายออก</th>
+                                        <th width="10%" class="text-center">คงเหลือ</th>
+                                        <th width="10%" class="text-center">ราคารวม</th>
+                                        {{-- <th width="5%" class="text-center">สถานะ</th> --}}
+                                        <th width="10%" class="text-center">รายละเอียด</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -184,22 +186,29 @@
                                         // GROUP BY ws.product_code
                                         // where w.payout_inven_id ="'.$item->warehouse_recieve_inven_id .'"
                                     ?>
-                                        <tr id="sid{{ $item->warehouse_recieve_id }}">
+                                     {{-- <tr height="20"> style="font-family: sans-serif;font-size: 13px;"--}}
+                                        <tr id="sid{{ $item->warehouse_recieve_id }}" height="15" style="font-family: sans-serif;font-size: 13px;">
                                             <td class="text-center" width="3%">{{ $i++ }}</td>
-                                            <td class="text-center" width="12%">{{ $item->warehouse_inven_name }} </td>
-                                            <td class="text-center" width="8%">{{ $item->product_code }}</td>
+                                            {{-- <td class="text-center" width="12%">{{ $item->warehouse_inven_name }} </td> --}}
+                                            <td class="p-2" width="20%">{{ $item->product_code }}</td>
                                             {{-- <td class="text-center" width="9%">
                                                 {{ DateThai($item->warehouse_rep_date) }}
                                             </td> --}}
                                             <td class="p-2">{{ $item->product_name }}</td>
                                             {{-- <td class="p-2" width="12%">{{ $item->category_name }}</td> --}}
-                                            <td class="text-center" width="7%">{{ $item->qty_recieve }} </td>
-                                            <td class="text-center" width="7%">{{ $qty_pay }} </td>
-                                            <td class="text-center" width="7%">{{ $item->qty_recieve - $qty_pay  }} </td>
-                                            <td class="text-center" width="8%">{{ number_format($item->totalprice_recieve - $price_pay, 4) }}</td>
-                                            <td class="text-center" width="5%">{{ $item->warehouse_recieve_sub_status }} </td>
-                                            <td class="text-center" width="5%">
-                                                <div class="dropdown d-inline-block">
+                                            <td class="text-center" width="8%">{{ $item->qty_recieve }} </td>
+                                            <td class="text-center" width="9%">{{ $qty_pay }} </td>
+                                            <td class="text-center" width="8%">{{ $item->qty_recieve - $qty_pay  }} </td>
+                                            <td class="text-end" width="10%">{{ number_format($item->totalprice_recieve - $price_pay, 4) }}</td>
+                                            {{-- <td class="text-center" width="5%">{{ $item->warehouse_recieve_sub_status }} </td> --}}
+                                            <td class="text-center" width="10%">
+                                                <a class="text-primary" href=""  style="font-size:13px"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#detail{{ $item->product_id }}">
+                                                    <i class="fa-solid fa-circle-info me-2 text-info"></i>
+                                                    {{-- <span>รายละเอียด</span> --}}
+                                                </a>
+                                                {{-- <div class="dropdown d-inline-block">
                                                     <button type="button" aria-haspopup="true" aria-expanded="false"
                                                         data-bs-toggle="dropdown"
                                                         class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
@@ -215,7 +224,7 @@
                                                                 <span>รายละเอียด</span>
                                                             </a>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
                                             </td>
                                         </tr>
