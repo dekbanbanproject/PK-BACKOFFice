@@ -40,7 +40,7 @@
             url(/pkbackoffice/public/sky16/images/bgPK.jpg)no-repeat 50%;
         background-size: cover;
         background-attachment: fixed;
-        /* display: flex; */
+        display: flex;
         /* align-items: center; */
         justify-content: center;
         /* min-height: 58rem; */
@@ -65,7 +65,7 @@
             url(/pkbackoffice/public/images/ponews.png)no-repeat 100%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
-        top: 8%;
+        top: 11%;
         right: 1%;
         z-index: -1;
         animation: float 2s ease-in-out infinite;
@@ -79,7 +79,7 @@
             url(/pkbackoffice/public/images/po.png)no-repeat 100%;
         /* url(/sky16/images/logo250.png)no-repeat 25%; */
         background-size: cover;
-        top: 24%;
+        top: 27%;
         right: 1%;
         z-index: -1;
         animation: float 2s ease-in-out infinite;
@@ -107,9 +107,8 @@
     ?>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="height: 100px;">
         <div class="container">
-            @foreach ($datadetail as $item)
-                {{-- <img src="{{ asset('images/sto.png') }}" class="bi me-2" width="30" height="45" alt=""> --}}
-                <img src="{{ asset('images/logo150.png') }}" class="bi me-4" width="45" height="45"
+            @foreach ($datadetail as $item) 
+                <img src="{{ asset('images/logo150.png') }}" class="bi me-2" width="45" height="45"
                     alt="">
                 <a class="navbar-brand" href="#" style="font-size: 22px">{{ $item->orginfo_name }}</a>
             @endforeach
@@ -141,6 +140,7 @@
     </nav>
 
     <div class="container">
+
         <div class="circle1"> </div>
         <div class="circle2"> </div>
         <div class="circle3"> </div>
@@ -335,6 +335,8 @@
     </div>
 
     <script src="{{ asset('assets/js53/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -130,8 +130,24 @@ if (Auth::check()) {
                             <form action="{{ route('meetting.meetting_index') }}" method="POST">
                                 @csrf
                                 <div class="row"> 
+                                    <div class="col-md-1 text-end">วันที่</div> 
+                                    <div class="col-md-7 text-end">
+                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                            @if ($startdate != '')
+                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $startdate }}" required/>
+                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-language="th-th" value="{{ $enddate }}"/> 
+                                            @else
+                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $datenow }}" required/>
+                                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                            data-date-language="th-th" value="{{ $datenow }}"/> 
+                                            @endif   
+                                        </div> 
+                                    </div>
                                     
-                                    <div class="col-md-1 text-end">วันที่</div>
+                                    {{-- <div class="col-md-1 text-end">วันที่</div>
                                     <div class="col-md-3 text-center">
                                         @if ($startdate == '')
                                             <div class="input-group" id="datepicker1">
@@ -167,7 +183,7 @@ if (Auth::check()) {
                                             </div>
                                         @endif
                                         
-                                    </div> 
+                                    </div>  --}}
                                     <div class="col-md-2 me-2">  
                                         <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="pe-7s-search btn-icon-wrapper"></i> ค้นหา
@@ -200,7 +216,8 @@ if (Auth::check()) {
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
-                                    <tr style="font-size: 14px;">
+                                    {{-- <tr style="font-size: 14px;"> --}}
+                                    <tr style="font-family: sans-serif;font-size: 13px;">
                                        <th width="7%">ลำดับ</th>
                                         <th width="10%">สถานะ</th>
                                         <th>ปี</th>
@@ -221,13 +238,13 @@ if (Auth::check()) {
                                             <td>{{ $ia++ }}</td>
                                             {{-- <td>{{ dateThaifromFull($item->CHEACKIN_DATE) }}</td>  --}}
                                             @if ($item->meetting_status == 'REQUEST')
-                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ร้องขอ</div></td>
+                                            <td class="text-center" width="5%"><div class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">ร้องขอ</div></td>
                                             @elseif ($item->meetting_status == 'ALLOCATE')
-                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">จัดสรร</div></td>  
+                                            <td class="text-center" width="5%"><div class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">จัดสรร</div></td>  
                                             @elseif ($item->meetting_status == 'CANCEL')
-                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ยกเลิก</div></td>                                             
+                                            <td class="text-center" width="5%"><div class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">ยกเลิก</div></td>                                             
                                             @else
-                                            <td class="text-center" width="5%"><div class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">อนุมัติ</div></td>
+                                            <td class="text-center" width="5%"><div class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">อนุมัติ</div></td>
                                             @endif
 
 
@@ -254,7 +271,7 @@ if (Auth::check()) {
                                                         </a>
                                                         <a class="dropdown-item menu" href="javascript:void(0)" onclick="meetting_choose_cancel({{$item->meeting_id}})" data-bs-toggle="tooltip" data-bs-placement="left" title="แจ้งยกเลิก">
                                                           
-                                                            <i class="fa-solid fa-xmark me-2 mt-2 ms-2 mb-2 text-danger"></i>
+                                                            <i class="fa-solid fa-xmark me-2 text-danger"></i>
                                                             <label for="" style="color: rgb(255, 22, 22)">แจ้งยกเลิก</label> 
                                                           </a>
                                                          

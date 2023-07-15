@@ -42,6 +42,7 @@ return new class extends Migration
                 $table->string('meeting_usercheck_name')->nullable();//คนตรวจสอบ
                 $table->string('meeting_po_id')->nullable();//ผู้อนุมัติ
                 $table->string('meeting_po_name')->nullable();//ผู้อนุมัติ 
+                $table->string('meeting_comment')->nullable();//meeting_comment 
                 $table->timestamps();
             });
         }

@@ -136,10 +136,10 @@
                                     <input type="hidden" id="meetting_year" name="meetting_year" value="{{$yy}}">
                                     
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meetting_title">เรื่องการประชุม </p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-9 text-start">
                                             <div class="form-group">
                                                 <input id="meetting_title" type="text"
                                                     class="form-control @error('meetting_title') is-invalid @enderror"
@@ -174,10 +174,10 @@
                                     </div> --}}
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meeting_objective_id">วัตถุประสงค์</p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-9 text-start">
                                             <div class="form-group">
                                                 <select name="meeting_objective_id" id="meeting_objective_id"
                                                     class="form-control form-control-lg" style="width: 100%;">
@@ -214,10 +214,10 @@
                                                 </select>
                                             </div>
                                         </div> --}}
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meetting_person_qty">จำนวนผู้เข้าร่วม</p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-2 text-start">
                                             <div class="form-group">
                                                 <input id="meetting_person_qty" type="text"
                                                     class="form-control @error('meetting_person_qty') is-invalid @enderror"
@@ -230,13 +230,16 @@
                                                 @enderror
                                             </div>
                                         </div> 
+                                        <div class="col-md-1">
+                                            <p for="lname">คน</p>
+                                        </div>
                                     </div>
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meeting_date_begin">ตั้งแต่วันที่ </p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-9 text-start">
                                             <div class="form-group">
                                                 <input id="meeting_date_begin" type="date"
                                                     class="form-control @error('meeting_date_begin') is-invalid @enderror"
@@ -252,10 +255,10 @@
                                     </div>
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meeting_date_end">ถึงวันที่ </p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-9 text-start">
                                             <div class="form-group">
                                                 <input id="meeting_date_end" type="date"
                                                     class="form-control @error('meeting_date_end') is-invalid @enderror"
@@ -271,7 +274,7 @@
                                     </div>
 
                                     <div class="row ">
-                                        <div class="col-md-4 mt-3">
+                                        <div class="col-md-3 mt-3">
                                             <p for="meeting_time_begin">ตั้งแต่เวลา </p>
                                         </div>
                                         <div class="col-md-3 text-start mt-3">
@@ -306,10 +309,10 @@
                                     </div>
  
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meeting_tel">เบอร์โทร </p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-9 text-start">
                                             <div class="form-group">
                                                 <input id="meeting_tel" type="text" class="form-control"
                                                     name="meeting_tel" value="{{ Auth::user()->tel }}">
@@ -323,10 +326,10 @@
                                     </div>
 
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meeting_tel">หมายเหตุ </p>
                                         </div>
-                                        <div class="col-md-8 text-start">
+                                        <div class="col-md-9 text-start">
                                             <div class="form-group">
                                                 <textarea name="meeting_comment" id="meeting_comment" class="form-control" rows="3">
                                                 </textarea>

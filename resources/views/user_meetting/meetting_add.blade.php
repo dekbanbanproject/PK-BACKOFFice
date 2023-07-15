@@ -90,12 +90,12 @@
                     <div class="row">
                           @foreach ( $building_level_room as $items )
                          
-                              <div class="col-md-4 mt-3">
+                              <div class="col-md-6 mt-3">
                                 <div class="card shadow-lg">
-                                  <label for="">{{$items->room_name}}</label>
-                                      <div class="bg-image hover-overlay ripple">
+                                  <label for="" class="text-center mt-3">{{$items->room_name}}</label>
+                                      <div class="bg-image hover-overlay ripple text-center mb-4">
                                             <a href="{{url('user_meetting/meetting_choose/'.$items->room_id)}}">
-                                                  <img src="{{asset('storage/meetting/'.$items->room_img)}}" height="450px" width="350px" alt="Image" class="img-thumbnail"> 
+                                                  <img src="{{asset('storage/meetting/'.$items->room_img)}}" height="auto" width="auto" alt="Image" class="img-thumbnail"> 
                                                   <div class="mask" style="background-color: rgba(57, 192, 237, 0.2);"></div>
                                             </a>                                
                                       </div>

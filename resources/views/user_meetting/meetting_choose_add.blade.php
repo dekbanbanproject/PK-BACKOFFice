@@ -136,7 +136,7 @@
                                     <input type="hidden" id="meetting_year" name="meetting_year" value="{{$yy}}">
                                     
                                     <div class="row mt-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <p for="meetting_title">เรื่องการประชุม </p>
                                         </div>
                                         <div class="col-md-8">
@@ -217,12 +217,10 @@
                                         <div class="col-md-4">
                                             <p for="meetting_person_qty">จำนวนผู้เข้าร่วม</p>
                                         </div>
-                                        <div class="col-md-8">
+                                        <div class="col-md-2">
                                             <div class="form-group">
-                                                <input id="meetting_person_qty" type="text"
-                                                    class="form-control @error('meetting_person_qty') is-invalid @enderror"
-                                                    name="meetting_person_qty" value="{{ old('meetting_person_qty') }}"
-                                                    autocomplete="meetting_person_qty" placeholder="คน">
+                                                <input id="meetting_person_qty" type="text" class="form-control @error('meetting_person_qty') is-invalid @enderror"
+                                                    name="meetting_person_qty" value="{{ old('meetting_person_qty') }}" autocomplete="meetting_person_qty" placeholder="คน">
                                                 @error('meetting_person_qty')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -230,6 +228,9 @@
                                                 @enderror
                                             </div>
                                         </div> 
+                                        <div class="col-md-1">
+                                            <p for="lname">คน</p>
+                                        </div>
                                     </div>
 
                                     <div class="row mt-3">
@@ -335,9 +336,7 @@
                                     </div>
 
                                 </div>
-
-                            </div>
-                            
+                            </div>                            
                     </div>
                         <div class="card-footer">
                             <div class="col"></div>

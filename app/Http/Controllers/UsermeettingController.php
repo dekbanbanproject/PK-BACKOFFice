@@ -938,6 +938,7 @@ public function meetting_choose_linesave(Request $request)
                     $add->meetting_person_qty = $qty;
                     $add->meeting_tel = $tel;  
                     $add->meeting_date_save = $date; 
+                    $add->meeting_comment = $request->meeting_comment;
 
                     if ($idroom != '') {
                         $rosave = DB::table('building_level_room')->where('room_id','=',$idroom)->first();
@@ -1158,6 +1159,7 @@ public function meetting_choose_lineupdate(Request $request)
         $update->meetting_person_qty = $qty;
         $update->meeting_tel = $tel;  
         $update->meeting_date_save = $date; 
+        $update->meeting_comment = $request->meeting_comment;
 
         if ($idroom != '') {
             $rosave = DB::table('building_level_room')->where('room_id','=',$idroom)->first();

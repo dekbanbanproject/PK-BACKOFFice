@@ -197,6 +197,7 @@
     $count_service = StaticController::count_service();
     date_default_timezone_set('Asia/Bangkok');
     $date = date('Y') + 543;
+    $yearnow = date('Y') + 543;
     $datefull = date('Y-m-d H:i:s');
     $time = date('H:i:s');
     $loter = $date . '' . $time;
@@ -507,12 +508,12 @@
                                         </tr>
 
                                         <!-- Modal Edit-->
-                                        <div class="modal fade editModal{{ $item->warehouse_rep_id }}" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                                        <div class="modal fade editModal{{ $item->warehouse_rep_id }}" id="editModal" tabindex="-1" role="dialog" aria-pledby="editModalp" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="editModalLabel">แก้ไขบิล</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                        <h5 class="modal-title" id="editModalp">แก้ไขบิล</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close">
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
@@ -528,7 +529,7 @@
                                                                 <div class="col-md-12">
                                                                     <div class="row">
                                                                         <div class="col-md-1">
-                                                                            <label for="warehouse_rep_no_bill">เลขที่บิล :</label>
+                                                                            <p for="warehouse_rep_no_bill">เลขที่บิล :</p>
                                                                         </div>
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
@@ -537,7 +538,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-1 ">
-                                                                            <label for="warehouse_rep_po">เลขที่ PO :</label>
+                                                                            <p for="warehouse_rep_po">เลขที่ PO :</p>
                                                                         </div>
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
@@ -546,11 +547,12 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-2 text-end">
-                                                                            <label for="warehouse_rep_year">ปีงบ :</label>
+                                                                            <p for="warehouse_rep_year">ปีงบ :</p>
                                                                         </div>
                                                                         <div class="col-md-2">
                                                                             <div class="form-group">
-                                                                                <select id="warehouse_rep_year_edit" name="warehouse_rep_year"
+                                                                                <input id="warehouse_rep_year2" type="text" class="form-control-sm form-control" name="warehouse_rep_year" value="{{$item->warehouse_rep_year}}" readonly>
+                                                                                {{-- <select id="warehouse_rep_year_edit" name="warehouse_rep_year"
                                                                                     class="form-select form-select-lg" style="width: 100%">
                                                                                     @foreach ($budget_year as $ye)
                                                                                         @if ($ye->leave_year_id == $item->warehouse_rep_year)
@@ -559,14 +561,14 @@
                                                                                             <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }}</option>
                                                                                         @endif
                                                                                     @endforeach
-                                                                                </select>
+                                                                                </select> --}}
                                                                             </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="row mt-3">
                                                                         <div class="col-md-2">
-                                                                            <label for="warehouse_rep_inven_id">รับเข้าคลัง :</label>
+                                                                            <p for="warehouse_rep_inven_id">รับเข้าคลัง :</p>
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
@@ -579,13 +581,12 @@
                                                                                     @else
                                                                                         <option value="{{ $inven->warehouse_inven_id }}"> {{ $inven->warehouse_inven_name }} </option>
                                                                                     @endif
-
                                                                                     @endforeach
                                                                                 </select>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-md-2 text-end">
-                                                                            <label for="warehouse_rep_vendor_id">รับจาก :</label>
+                                                                            <p for="warehouse_rep_vendor_id">รับจาก :</p>
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
@@ -622,122 +623,122 @@
 
                                         <!--  Modal content for the above example -->
                                         <div class="modal fade detail{{ $item->warehouse_rep_id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                            role="dialog" aria-pledby="myExtraLargeModalp" aria-hidden="true">
                                             <div class="modal-dialog modal-xl">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="myExtraLargeModalLabel">
+                                                        <h5 class="modal-title" id="myExtraLargeModalp">
                                                             รายละเอียดการตรวจรับ</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
+                                                            aria-p="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
 
                                                         <div class="row">
                                                             <div class="col-md-1">
-                                                                <label for="warehouse_rep_code">เลขที่รับ </label>
+                                                                <p for="warehouse_rep_code">เลขที่รับ </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_code }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <label for="warehouse_rep_no_bill">เลขที่บิล </label>
+                                                                <p for="warehouse_rep_no_bill">เลขที่บิล </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_no_bill }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1 ">
-                                                                <label for="warehouse_rep_po">เลขที่ PO </label>
+                                                                <p for="warehouse_rep_po">เลขที่ PO </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_po }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <label for="warehouse_rep_year">ปีงบ </label>
+                                                                <p for="warehouse_rep_year">ปีงบ </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_year }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <div class="row mt-3">
                                                             <div class="col-md-1">
-                                                                <label for="warehouse_rep_user_id">ผู้รับ </label>
+                                                                <p for="warehouse_rep_user_id">ผู้รับ </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_user_name }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <label for="warehouse_rep_inven_id">รับเข้าคลัง </label>
+                                                                <p for="warehouse_rep_inven_id">รับเข้าคลัง </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_inven_name }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <label for="warehouse_rep_vendor_id">รับจาก </label>
+                                                                <p for="warehouse_rep_vendor_id">รับจาก </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_vendor_name }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1">
-                                                                <label for="">วันที่รับ </label>
+                                                                <p for="">วันที่รับ </p>
                                                             </div>
                                                             <div class="col-md-2">
                                                                 <div class="form-group">
-                                                                    <label
+                                                                    <p
                                                                         for="warehouse_rep_code">{{ $item->warehouse_rep_date }}
-                                                                    </label>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <hr>
                                                         <div class="row bg-info">
-                                                            <div class="col-md-2 text-center"> <label for=""
-                                                                    style="color:white;font-size:17xp">รหัสวัสดุ</label>
+                                                            <div class="col-md-2 text-center"> <p for=""
+                                                                    style="color:white;font-size:17xp">รหัสวัสดุ</p>
                                                             </div>
-                                                            <div class="col-md-3 text-center"> <label for=""
-                                                                    style="color:white;font-size:17xp">รายการวัสดุ</label>
+                                                            <div class="col-md-3 text-center"> <p for=""
+                                                                    style="color:white;font-size:17xp">รายการวัสดุ</p>
                                                             </div>
-                                                            <div class="col-md-1 text-center"> <label for=""
-                                                                    style="color:white;font-size:17xp">หน่วยนับ</label>
+                                                            <div class="col-md-1 text-center"> <p for=""
+                                                                    style="color:white;font-size:17xp">หน่วยนับ</p>
                                                             </div>
-                                                            <div class="col-md-1 text-center"> <label for=""
-                                                                    style="color:white;font-size:17xp">ประเภท</label></div>
-                                                            <div class="col-md-1 text-center"> <label for=""
-                                                                    style="color:white;font-size:17xp">จำนวน</label></div>
-                                                            <div class="col-md-2 text-center"> <label for=""
-                                                                    style="color:white;font-size:17xp">ราคา</label></div>
-                                                            <div class="col-md-2 text-center"> <label for=""
-                                                                    style="color:white;font-size:17xp">ราคารวม</label>
+                                                            <div class="col-md-1 text-center"> <p for=""
+                                                                    style="color:white;font-size:17xp">ประเภท</p></div>
+                                                            <div class="col-md-1 text-center"> <p for=""
+                                                                    style="color:white;font-size:17xp">จำนวน</p></div>
+                                                            <div class="col-md-2 text-center"> <p for=""
+                                                                    style="color:white;font-size:17xp">ราคา</p></div>
+                                                            <div class="col-md-2 text-center"> <p for=""
+                                                                    style="color:white;font-size:17xp">ราคารวม</p>
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -777,12 +778,12 @@
                                                             ?>
                                                         @endforeach
                                                         <div class="text-end me-5">
-                                                            {{-- <label for="">{{ number_format(($item->sum_price),2 )}}</label> --}}
-                                                            <label for=""
-                                                                class="me-4">ราคารวมทั้งหมด</label><label
+                                                            {{-- <p for="">{{ number_format(($item->sum_price),2 )}}</p> --}}
+                                                            <p for=""
+                                                                class="me-4">ราคารวมทั้งหมด</p><p
                                                                 for=""> <b style="color: red;font-size:17px">
-                                                                    {{ number_format($total, 5) }} </b> </label><label
-                                                                for="" class="ms-4"> บาท</label>
+                                                                    {{ number_format($total, 5) }} </b> </p><p
+                                                                for="" class="ms-4"> บาท</p>
                                                         </div>
 
                                                     </div>
@@ -809,13 +810,13 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-pledby="exampleModalp"
         aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">ออกบิล</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalp">ออกบิล</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-p="Close">
                     </button>
                 </div>
                 <div class="modal-body">
@@ -830,7 +831,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-1">
-                                        <label for="warehouse_rep_no_bill">เลขที่บิล :</label>
+                                        <p for="warehouse_rep_no_bill">เลขที่บิล :</p>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
@@ -839,7 +840,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-1 ">
-                                        <label for="warehouse_rep_po">เลขที่ PO :</label>
+                                        <p for="warehouse_rep_po">เลขที่ PO :</p>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
@@ -848,13 +849,14 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 text-end">
-                                        <label for="warehouse_rep_year">ปีงบ :</label>
+                                        <p for="warehouse_rep_year">ปีงบ :</p>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <select id="warehouse_rep_year" name="warehouse_rep_year"
+                                            <input id="warehouse_rep_year2" type="text" class="form-control-sm form-control" name="warehouse_rep_year" value="{{$yearnow}}">
+                                            {{-- <select id="warehouse_rep_year" name="warehouse_rep_year"
                                                 class="form-select form-select-lg" style="width: 100%">
-                                                {{-- <option value="">--เลือก--</option> --}}
+                                                <option value="">--เลือก--</option>
                                                 @foreach ($budget_year as $ye)
                                                     @if ($ye->leave_year_id == $date)
                                                         <option value="{{ $ye->leave_year_id }}" selected> {{ $ye->leave_year_id }} </option>
@@ -862,14 +864,14 @@
                                                         <option value="{{ $ye->leave_year_id }}"> {{ $ye->leave_year_id }}</option>
                                                     @endif
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row mt-3">
                                     <div class="col-md-2">
-                                        <label for="warehouse_rep_inven_id">รับเข้าคลัง :</label>
+                                        <p for="warehouse_rep_inven_id">รับเข้าคลัง :</p>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -885,7 +887,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 text-end">
-                                        <label for="warehouse_rep_vendor_id">รับจาก :</label>
+                                        <p for="warehouse_rep_vendor_id">รับจาก :</p>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">

@@ -117,14 +117,13 @@ $loter = $date.''.$time
                             </div> --}}
                         </div>
                     </div>
-                    {{-- <div class="card-body shadow-lg"> --}}
-
+                    
                         <input type="hidden" name="store_id" id="store_id" value="{{ Auth::user()->store_id }}">
                         <input type="hidden" name="warehouse_rep_id" id="warehouse_rep_id" value="{{$warehouse_rep->warehouse_rep_id }}">
                         <input type="hidden" name="warehouse_inven_id" id="warehouse_inven_id" value="{{$inven->warehouse_inven_id }}">
 
                         <div class="card-body shadow-lg">
-                            {{-- <div class="table-responsive"> --}}
+                   
                                 <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
                                     <thead>
                                         <tr
@@ -234,7 +233,7 @@ $loter = $date.''.$time
                                         </div>
                                     </div>
                                 </div>
-                        {{-- </div> --}}
+                 
 
                         <div class="card-footer">
                             <div class="col-md-12 text-end">
