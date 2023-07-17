@@ -1169,7 +1169,7 @@ class AccountPKController extends Controller
                             'regdate'            => $value->admdate,
                             'dchdate'            => $value->dchdate,
                             'acc_code'           => $value->code,
-                            'account_code'       => $value->pang_debit,
+                            'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
                             'income_group'       => $value->income_group,
                             'income'             => $value->income,
@@ -1505,13 +1505,16 @@ class AccountPKController extends Controller
 
         $datashow = DB::select('
             SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2
-            ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue
+            ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc
             from acc_1102050101_217 a
             LEFT JOIN acc_stm_ucs s ON s.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND s.rep IS NOT NULL
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+            AND s.rep IS NOT NULL
+            group by a.an
+           
 
         ');
-
+        // AND s.rep IS NOT NULL
 
         $sum_money_ = DB::connection('mysql')->select('
         SELECT SUM(a.debit_total) as total
@@ -1720,7 +1723,7 @@ class AccountPKController extends Controller
                             'regdate'            => $value->admdate,
                             'dchdate'            => $value->dchdate,
                             'acc_code'           => $value->code,
-                            'account_code'       => $value->pang_debit,
+                            'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
                             'income_group'       => $value->income_group,
                             'income'             => $value->income,
@@ -1766,7 +1769,7 @@ class AccountPKController extends Controller
                                     'account_name'       => 'บริการเฉพาะ(CR)',
                                     'income_group'       => '02',
                                     'debit'              => $value->debit_instument,
-                                    'debit_ipd_total'    => $value->debit_instument
+                                    'debit_total'    => $value->debit_instument
                                 ]);
                             }
                     }
@@ -1788,7 +1791,7 @@ class AccountPKController extends Controller
                                     'account_name'       => 'บริการเฉพาะ(CR)',
                                     'income_group'       => '03',
                                     'debit'              => $value->debit_drug,
-                                    'debit_ipd_total'    => $value->debit_drug
+                                    'debit_total'        => $value->debit_drug
                                 ]);
                             }
                     }
@@ -1810,7 +1813,7 @@ class AccountPKController extends Controller
                                 'account_name'       => 'บริการเฉพาะ(CR)',
                                 'income_group'       => '20',
                                 'debit'              => $value->debit_refer,
-                                'debit_ipd_total'    => $value->debit_refer
+                                'debit_total'        => $value->debit_refer
                             ]);
                         }
                     }

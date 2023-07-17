@@ -73,6 +73,7 @@
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="5%">dx0</th> 
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="5%">dx1</th> 
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="7%">income</th> 
+               <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="7%">inst</th>  
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="7%">ยอดเรียกเก็บ</th> 
                <th style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="10%">Total</th> 
            </tr>
@@ -80,6 +81,18 @@
        <tbody> 
         <?php $i = 1;;$total1 = 0; $total2 = 0;$total3 = 0; ?>
         @foreach ($export as $item) 
+                    <?php  
+                        $data_ = DB::connection('mysql3')->select('
+                            SELECT sum(sum_price) as sum_price                                
+                                FROM vn_stat v  
+                                left join opitemrece op ON op.vn = v.vn
+                                WHERE v.vn="'.$item->vn.'"
+                                and op.income ="02" 
+                        '); 
+                        foreach ($data_ as $key => $value) {
+                            $inst_income = $value->sum_price;
+                        }                        
+                    ?>
             <tr>
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="5%">{{ $i++ }} </td>
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="10%">{{ $item->cid }}</td>
@@ -92,7 +105,8 @@
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="5%">{{ $item->dx0 }} </td>
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: center;border: 1px solid black;" width="5%">{{ $item->dx1 }} </td> 
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: right;border: 1px solid black;" width="7%">&nbsp;&nbsp;{{ number_format($item->income,2) }} </td> 
-                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: right;border: 1px solid black;" width="7%">&nbsp;&nbsp;{{ number_format($item->refer,2) }} </td> 
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: right;border: 1px solid black;" width="7%">&nbsp;&nbsp;{{ number_format($item->income,2) }} </td> 
+                <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: right;border: 1px solid black;" width="7%">&nbsp;&nbsp;{{ number_format($inst_income,2) }} </td> 
                 <td style="font-family: 'Kanit', sans-serif;border-color:#F0FFFF;text-align: right;border: 1px solid black;" width="10%">&nbsp;&nbsp;{{ number_format($item->total,2) }} </td> 
             </tr>
             <?php
@@ -102,11 +116,12 @@
             ?>
         @endforeach        
        </tbody> 
-       <tr style="background-color: #f3fca1">
-            <td colspan="10" class="text-end" style="background-color: #ff9d9d"></td> 
-            <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
-            <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td> 
-            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>   
+       <tr>
+            <td colspan="10" class="text-end" style="font-family: 'Kanit', sans-serif;border-color:#030303;text-align: right;"></td> 
+            <td class="text-end" style="font-family: 'Kanit', sans-serif;border-color:#020202;text-align: right;">{{ number_format($total1,2)}}</td> 
+            <td class="text-end" style="font-family: 'Kanit', sans-serif;border-color:#070707;text-align: right;">{{ number_format($total2,2)}}</td> 
+            <td class="text-end" style="font-family: 'Kanit', sans-serif;border-color:#0f0f0f;text-align: right;"></td> 
+            <td class="text-end" style="font-family: 'Kanit', sans-serif;border-color:#000000;text-align: right;">{{ number_format($total3,2)}}</td>   
         </tr>  
    </table>
    
