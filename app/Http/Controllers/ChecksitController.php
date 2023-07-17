@@ -231,6 +231,7 @@ class ChecksitController extends Controller
                 LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
 
                 WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                 GROUP BY c.vn
             ');
         // }
