@@ -391,8 +391,8 @@ class ChecksitController extends Controller
              ');
              // CURDATE() "2023-07-10"
              foreach ($data_sits as $key => $value) {
-                 $check = Check_sit_auto::where('vn', $value->vn)->where('fokliad', '>', 0)->count();
-
+                 $check = Check_sit_auto::where('vn', $value->vn)->count();
+                //  $check = Check_sit_auto::where('vn', $value->vn)->where('fokliad', '>', 0)->count();
                     if ($check > 0) {
                         Check_sit_auto::where('vn', $value->vn)
                         ->update([
@@ -408,7 +408,8 @@ class ChecksitController extends Controller
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
                             'staff' => $value->staff,
-                            'fokliad' => 'PG0130001'
+                            // 'fokliad' => 'PG0130001'
+                            'fokliad' => $value->fokliad
                         ]);
                     } else {
                         Check_sit_auto::insert([
@@ -424,8 +425,8 @@ class ChecksitController extends Controller
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
                             'staff' => $value->staff,
-                            'fokliad' => 'PG0060001'
-                            // 'fokliad' => $value->fokliad
+                            // 'fokliad' => 'PG0060001'
+                            'fokliad' => $value->fokliad
                         ]);
                     }
 
@@ -1178,7 +1179,7 @@ class ChecksitController extends Controller
                     $checkclaimCode = Check_authen::where('claimCode','=',$claimCode)->count();
                     // dd($checktransId);
                     if ($checkclaimCode > 0) {
-                        $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','=','PG0130001')->count();
+                        $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
                         if ($checkcCode > 0) {
                             Check_authen::where('claimCode', $claimCode)
                             ->update([
@@ -1252,7 +1253,7 @@ class ChecksitController extends Controller
                             //         'date_data'                          => $datenow
                             //     ]);
                     } else {
-                        $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','=','PG0130001')->count();
+                        $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
                        
                         if ($checkcCode > 0) {
                             Check_authen::create([
