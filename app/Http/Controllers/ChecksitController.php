@@ -226,15 +226,16 @@ class ChecksitController extends Controller
             $data_sit = DB::connection('mysql')->select('
                 SELECT
                 c.vn,c.hn,c.an,c.cid,c.hometel,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl
-                ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,ca.servicerep,c.staff,c.fokliad
+                ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,c.staff,c.fokliad
                 FROM check_sit_auto c
-                LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate AND c.fokliad = ca.claimtype
+                LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate 
 
                 WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                 GROUP BY c.vn
             ');
         // }
+        // LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate AND c.fokliad = ca.claimtype
         // SELECT vn,cid,vstdate,fullname,pttype,hospmain,hospsub,subinscl,hmain,hsub,staff,subinscl_name
         return view('authen.check_sit_day',[
             'data_sit'    => $data_sit,
@@ -1177,54 +1178,106 @@ class ChecksitController extends Controller
                     $checkclaimCode = Check_authen::where('claimCode','=',$claimCode)->count();
                     // dd($checktransId);
                     if ($checkclaimCode > 0) {
+                        $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','<>',NULL)->count();
+                        if ($checkcCode > 0) {
                             Check_authen::where('claimCode', $claimCode)
-                                ->update([
-                                    'cid'                        => $personalId,
-                                    'fullname'                   => $patientName,
-                                    'hosname'                    => $hname,
-                                    'hcode'                      => $hmain,
-                                    'vstdate'                    => $checkdate,
-                                    'regdate'                    => $checkdate,
-                                    'claimcode'                  => $claimCode,
-                                    'claimtype'                  => $claimType,
-                                    'birthday'                   => $birthdate,
-                                    'homtel'                     => $tel,
-                                    'repcode'                    => $claimStatus,
-                                    'hncode'                     => $hnCode,
-                                    'servicerep'                 => $patientType,
-                                    'servicename'                => $claimTypeName,
-                                    'mainpttype'                 => $mainInsclWithName,
-                                    'subpttype'                  => $subInsclName,
-                                    'requestauthen'              => $sourceChannel,
-                                    'authentication'             => $claimAuthen,
-                                ]);
-                              Visit_pttype_authen_report::where('transId', $transId)
-                                ->update([
-                                    'personalId'                        => $personalId,
-                                    'patientName'                       => $patientName,
-                                    'addrNo'                            => $addrNo,
-                                    'moo'                               => $moo,
-                                    'moonanName'                        => $moonanName,
-                                    'tumbonName'                        => $tumbonName,
-                                    'amphurName'                        => $amphurName,
-                                    'changwatName'                      => $changwatName,
-                                    'birthdate'                         => $birthdate,
-                                    'tel'                               => $tel,
-                                    'mainInscl'                         => $mainInscl,
-                                    'mainInsclName'                     => $mainInsclName,
-                                    'subInscl'                          => $subInscl,
-                                    'subInsclName'                      => $subInsclName,
-                                    'claimCode'                         => $claimCode,
-                                    'claimType'                         => $claimType,
-                                    'claimTypeName'                     => $claimTypeName,
-                                    'hnCode'                            => $hnCode,
-                                    'createBy'                          => $createBy,
-                                    'mainInsclWithName'                 => $mainInsclWithName,
-                                    'claimAuthen'                        => $claimAuthen,
-                                    'date_data'                          => $datenow
-                                ]);
+                            ->update([
+                                'cid'                        => $personalId,
+                                'fullname'                   => $patientName,
+                                'hosname'                    => $hname,
+                                'hcode'                      => $hmain,
+                                'vstdate'                    => $checkdate,
+                                'regdate'                    => $checkdate,
+                                'claimcode'                  => $claimCode,
+                                'claimtype'                  => 'PG0130001',
+                                'birthday'                   => $birthdate,
+                                'homtel'                     => $tel,
+                                'repcode'                    => $claimStatus,
+                                'hncode'                     => $hnCode,
+                                'servicerep'                 => $patientType,
+                                'servicename'                => $claimTypeName,
+                                'mainpttype'                 => $mainInsclWithName,
+                                'subpttype'                  => $subInsclName,
+                                'requestauthen'              => $sourceChannel,
+                                'authentication'             => $claimAuthen,
+                            ]);
+                        } else {
+                            Check_authen::where('claimCode', $claimCode)
+                            ->update([
+                                'cid'                        => $personalId,
+                                'fullname'                   => $patientName,
+                                'hosname'                    => $hname,
+                                'hcode'                      => $hmain,
+                                'vstdate'                    => $checkdate,
+                                'regdate'                    => $checkdate,
+                                'claimcode'                  => $claimCode,
+                                'claimtype'                  => $claimType,
+                                'birthday'                   => $birthdate,
+                                'homtel'                     => $tel,
+                                'repcode'                    => $claimStatus,
+                                'hncode'                     => $hnCode,
+                                'servicerep'                 => $patientType,
+                                'servicename'                => $claimTypeName,
+                                'mainpttype'                 => $mainInsclWithName,
+                                'subpttype'                  => $subInsclName,
+                                'requestauthen'              => $sourceChannel,
+                                'authentication'             => $claimAuthen,
+                            ]);
+                        }
+                        
+                           
+                            //   Visit_pttype_authen_report::where('transId', $transId)
+                            //     ->update([
+                            //         'personalId'                        => $personalId,
+                            //         'patientName'                       => $patientName,
+                            //         'addrNo'                            => $addrNo,
+                            //         'moo'                               => $moo,
+                            //         'moonanName'                        => $moonanName,
+                            //         'tumbonName'                        => $tumbonName,
+                            //         'amphurName'                        => $amphurName,
+                            //         'changwatName'                      => $changwatName,
+                            //         'birthdate'                         => $birthdate,
+                            //         'tel'                               => $tel,
+                            //         'mainInscl'                         => $mainInscl,
+                            //         'mainInsclName'                     => $mainInsclName,
+                            //         'subInscl'                          => $subInscl,
+                            //         'subInsclName'                      => $subInsclName,
+                            //         'claimCode'                         => $claimCode,
+                            //         'claimType'                         => $claimType,
+                            //         'claimTypeName'                     => $claimTypeName,
+                            //         'hnCode'                            => $hnCode,
+                            //         'createBy'                          => $createBy,
+                            //         'mainInsclWithName'                 => $mainInsclWithName,
+                            //         'claimAuthen'                        => $claimAuthen,
+                            //         'date_data'                          => $datenow
+                            //     ]);
                     } else {
-                        Check_authen::create([
+                        $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','<>',NULL)->count();
+                       
+                        if ($checkcCode > 0) {
+                            Check_authen::create([
+                                'cid'                        => $personalId,
+                                'fullname'                   => $patientName,
+                                'hosname'                    => $hname,
+                                'hcode'                      => $hmain,
+                                'vstdate'                    => $checkdate,
+                                'regdate'                    => $checkdate,
+                                'claimcode'                  => $claimCode,
+                                'claimtype'                  => 'PG0130001',
+                                'birthday'                   => $birthdate,
+                                'homtel'                     => $tel,
+                                'repcode'                    => $claimStatus,
+                                'hncode'                     => $hnCode,
+                                'servicerep'                 => $patientType,
+                                'servicename'                => $claimTypeName,
+                                'mainpttype'                 => $mainInsclWithName,
+                                'subpttype'                  => $subInsclName,
+                                'requestauthen'              => $sourceChannel,
+                                'authentication'             => $claimAuthen,
+
+                        ]);
+                        } else {
+                            Check_authen::create([
                                 'cid'                        => $personalId,
                                 'fullname'                   => $patientName,
                                 'hosname'                    => $hname,
@@ -1245,9 +1298,19 @@ class ChecksitController extends Controller
                                 'authentication'             => $claimAuthen,
 
                         ]);
+                        }
+                        
 
                     }
         }
+        // $update_ = DB::connection('mysql')->select('
+        //         SELECT
+        //         c.vn,c.hn,cid,vstdate,claimcode,ca.servicerep,ca.claimtype
+        //         FROM check_authen  
+        //         WHERE vstdate = CURDATE()
+        //         AND cid = c.cid and c.vstdate = ca.vstdate 
+        //         GROUP BY vn
+        // ');
         return view('authen.check_spsch',[
             'response'  => $response,
             'result'  => $result,
