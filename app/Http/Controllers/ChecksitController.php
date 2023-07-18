@@ -391,7 +391,7 @@ class ChecksitController extends Controller
              ');
              // CURDATE() "2023-07-10"
              foreach ($data_sits as $key => $value) {
-                 $check = Check_sit_auto::where('vn', $value->vn)->count();
+                 $check = Check_sit_auto::where('vn', $value->vn)->where('fokliad', '>', 0)->count();
 
                     if ($check > 0) {
                         Check_sit_auto::where('vn', $value->vn)
@@ -424,7 +424,7 @@ class ChecksitController extends Controller
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
                             'staff' => $value->staff,
-                            'fokliad' => 'PG0130001'
+                            'fokliad' => 'PG0060001'
                             // 'fokliad' => $value->fokliad
                         ]);
                     }
