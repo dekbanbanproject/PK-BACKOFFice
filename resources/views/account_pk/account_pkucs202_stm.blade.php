@@ -77,14 +77,14 @@
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     <th class="text-center">tranid</th>
-                                    {{-- <th class="text-center" width="5%">vn</th>  --}}
+                                    <th class="text-center" width="5%">vn</th> 
                                     <th class="text-center">an</th>
                                     <th class="text-center" >hn</th>
                                     {{-- <th class="text-center" >cid</th> --}}
                                     <th class="text-center">ptname</th>
                                     {{-- <th class="text-center">vstdate</th>   --}}
                                     <th class="text-center">dchdate</th>  
-                                    <th class="text-center">income</th> 
+                                    {{-- <th class="text-center">income</th>  --}}
                                     <th class="text-center">ลูกหนี้</th> 
                                     {{-- <th class="text-center">Stm 217</th>  --}}
                                     <th class="text-center">ส่วนต่าง</th> 
@@ -99,28 +99,29 @@
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                        <td class="text-center" width="6%">{{ $item->tranid }}</td>  
-                                                <td class="text-center" width="6%">{{ $item->an }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hn }}</td>   
-                                                <td class="p-2" width="10%">{{ $item->ptname }}</td>  
-                                                <td class="text-center" width="6%">{{ $item->dchdate }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->income_group }}</td>   
-                                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
+                                        <td class="text-center" width="6%">{{ $item->tranid }}</td> 
+                                        <td class="text-center" width="6%">{{ $item->vn }}</td>  
+                                        <td class="text-center" width="6%">{{ $item->an }}</td> 
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td>   
+                                        <td class="p-2" width="10%">{{ $item->ptname }}</td>  
+                                        <td class="text-center" width="6%">{{ $item->dchdate }}</td> 
+                                        {{-- <td class="text-center" width="5%">{{ $item->income_group }}</td>    --}}
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
 
-                                                {{-- @if ($item->inst == '0')
-                                                <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
-                                                @else 
-                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format(($item->inst),2)}}</td> 
-                                                @endif --}}
-                                               
+                                        {{-- @if ($item->inst == '0')
+                                        <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
+                                        @else 
+                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format(($item->inst),2)}}</td> 
+                                        @endif --}}
+                                        
 
-                                                <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->ip_paytrue),2)}}</td> 
-                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
-                                                <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
-                                                <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
-                                                {{-- <td class="text-end" width="10%"> 
-                                                    <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย">{{ number_format($item->debit,2)}} </button> 
-                                                </td>  --}}
+                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->ip_paytrue),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
+                                        <td class="p-2" width="10%">{{ $item->STMdoc }}</td>  
+                                        {{-- <td class="text-end" width="10%"> 
+                                            <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย">{{ number_format($item->debit,2)}} </button> 
+                                        </td>  --}}
                                     </tr>
                                         <?php
                                             $total1 = $total1 + ($item->debit_total-$item->ip_paytrue); 
@@ -207,15 +208,14 @@
                                 @endforeach  
                                
                             </tbody>
-                                        <tr style="background-color: #f3fca1">
+                                        {{-- <tr style="background-color: #f3fca1">
                                             <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td>
-                                            {{-- <td class="text-end" style="background-color: #f3d1be">{{ number_format($sum_stm_total,2)}}</td> --}}
+                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td> 
                                             <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
                                             <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td> 
                                             <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>  
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
-                                        </tr>  
+                                        </tr>   --}}
                         </table>
                     </div>
                 </div>
