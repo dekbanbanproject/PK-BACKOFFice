@@ -407,7 +407,7 @@ class ChecksitController extends Controller
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
                             'staff' => $value->staff,
-                            'fokliad' => $value->fokliad
+                            'fokliad' => 'PG0130001'
                         ]);
                     } else {
                         Check_sit_auto::insert([
@@ -423,7 +423,8 @@ class ChecksitController extends Controller
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
                             'staff' => $value->staff,
-                            'fokliad' => $value->fokliad
+                            'fokliad' => 'PG0130001'
+                            // 'fokliad' => $value->fokliad
                         ]);
                     }
 
