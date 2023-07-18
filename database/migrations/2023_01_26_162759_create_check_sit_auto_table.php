@@ -32,7 +32,7 @@ return new class extends Migration
                 $table->string('pttype')->nullable();// 
                 $table->string('fullname')->nullable();// 
                 $table->string('staff')->nullable();// 
-
+                $table->string('fokliad')->nullable();// 
                 
                 $table->string('maininscl')->nullable();// 
                 $table->string('startdate')->nullable();// 

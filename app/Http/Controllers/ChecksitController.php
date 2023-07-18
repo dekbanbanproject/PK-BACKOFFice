@@ -377,10 +377,12 @@ class ChecksitController extends Controller
      {
              $data_sits = DB::connection('mysql3')->select('
                  SELECT o.an,o.vn,p.hn,p.cid,p.hometel,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                 ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
                  FROM ovst o
+                 LEFT JOIN opitemrece op ON op.vn = o.vn
                  join patient p on p.hn=o.hn
                  JOIN pttype pt on pt.pttype=o.pttype
-                 JOIN opduser op on op.loginname = o.staff
+                 JOIN opduser od on od.loginname = o.staff
                  WHERE o.vstdate = CURDATE()
                  group by p.cid
                  limit 1500
@@ -403,7 +405,8 @@ class ChecksitController extends Controller
                             'pttype' => $value->pttype,
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
-                            'staff' => $value->staff
+                            'staff' => $value->staff,
+                            'fokliad' => $value->fokliad
                         ]);
                     } else {
                         Check_sit_auto::insert([
@@ -418,7 +421,8 @@ class ChecksitController extends Controller
                             'pttype' => $value->pttype,
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
-                            'staff' => $value->staff
+                            'staff' => $value->staff,
+                            'fokliad' => $value->fokliad
                         ]);
                     }
 
