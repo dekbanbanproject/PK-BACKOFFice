@@ -386,7 +386,7 @@ class ChecksitController extends Controller
                  JOIN pttype pt on pt.pttype=o.pttype
                  JOIN opduser od on od.loginname = o.staff
                  WHERE o.vstdate = CURDATE()
-                 group by p.cid
+                 group by o.vn
                  limit 1500
              ');
              // CURDATE() "2023-07-10"
