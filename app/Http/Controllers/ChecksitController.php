@@ -1191,7 +1191,7 @@ class ChecksitController extends Controller
                                 'vstdate'                    => $checkdate,
                                 'regdate'                    => $checkdate,
                                 'claimcode'                  => $claimCode,
-                                'claimtype'                  => 'PG0130001',
+                                'claimtype'                  => $claimCode,
                                 'birthday'                   => $birthdate,
                                 'homtel'                     => $tel,
                                 'repcode'                    => $claimStatus,
@@ -1202,6 +1202,7 @@ class ChecksitController extends Controller
                                 'subpttype'                  => $subInsclName,
                                 'requestauthen'              => $sourceChannel,
                                 'authentication'             => $claimAuthen,
+                                // 'PG0130001',
                             ]);
                         } else {
                             Check_authen::create([
