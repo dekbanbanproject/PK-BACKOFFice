@@ -1175,7 +1175,7 @@ class ChecksitController extends Controller
             $checktime = $claimDate[1];
             // dd($transId);
                 $datenow = date("Y-m-d");
-                    $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count();
+                    // $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count();
                    
                     $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
                     // dd($checktransId);
