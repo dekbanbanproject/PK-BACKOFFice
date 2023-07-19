@@ -1307,11 +1307,11 @@ class ChecksitController extends Controller
                                     //         // 'PG0130001',
                                     //     ]);
                                 } else {  
-                                    $checkcs = Check_authen_temp::where('claimCode','=',$claimCode)->count();  
+                                    $checkcs = Check_authen::where('claimCode','=',$claimCode)->count();  
                                     if ($checkcs > 0) {
                                         # code...
                                     } else {
-                                        Check_authen_temp::create([
+                                        Check_authen::create([
                                             'cid'                        => $personalId,
                                             'fullname'                   => $patientName,
                                             'hosname'                    => $hname,
