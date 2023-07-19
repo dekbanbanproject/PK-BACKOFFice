@@ -220,7 +220,7 @@
                                                 {{-- <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td> --}}
                                                 <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
                                             @else
-                                                <td>{{ $item->claimcode }}</td>
+                                                {{-- <td>{{ $item->claimcode }}</td> --}}
                                                 <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
@@ -247,7 +247,7 @@
                                             {{-- <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td> --}}
                                             <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
                                             @else
-                                                <td>{{ $item->claimcode }}</td>
+                                                {{-- <td>{{ $item->claimcode }}</td> --}}
                                                 <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
