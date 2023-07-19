@@ -1329,27 +1329,34 @@ class ChecksitController extends Controller
                                         ]);
                                 }
                         } else {
-                            // Check_authen::create([
-                            //     'cid'                        => $personalId,
-                            //     'fullname'                   => $patientName,
-                            //     'hosname'                    => $hname,
-                            //     'hcode'                      => $hmain,
-                            //     'vstdate'                    => $checkdate,
-                            //     'regdate'                    => $checkdate,
-                            //     'claimcode'                  => $claimCode,
-                            //     'claimtype'                  => $claimType,
-                            //     'birthday'                   => $birthdate,
-                            //     'homtel'                     => $tel,
-                            //     'repcode'                    => $claimStatus,
-                            //     'hncode'                     => $hnCode,
-                            //     'servicerep'                 => $patientType,
-                            //     'servicename'                => $claimTypeName,
-                            //     'mainpttype'                 => $mainInsclWithName,
-                            //     'subpttype'                  => $subInsclName,
-                            //     'requestauthen'              => $sourceChannel,
-                            //     'authentication'             => $claimAuthen,
+                            // $checkc_ = Check_authen::where('claimtype','=','PG0130001')->count();
+                           if ($claimType == 'PG0130001') {
+                            # code...
+                           } else {
+                                Check_authen::create([
+                                    'cid'                        => $personalId,
+                                    'fullname'                   => $patientName,
+                                    'hosname'                    => $hname,
+                                    'hcode'                      => $hmain,
+                                    'vstdate'                    => $checkdate,
+                                    'regdate'                    => $checkdate,
+                                    'claimcode'                  => $claimCode,
+                                    'claimtype'                  => $claimType,
+                                    'birthday'                   => $birthdate,
+                                    'homtel'                     => $tel,
+                                    'repcode'                    => $claimStatus,
+                                    'hncode'                     => $hnCode,
+                                    'servicerep'                 => $patientType,
+                                    'servicename'                => $claimTypeName,
+                                    'mainpttype'                 => $mainInsclWithName,
+                                    'subpttype'                  => $subInsclName,
+                                    'requestauthen'              => $sourceChannel,
+                                    'authentication'             => $claimAuthen,
 
-                            // ]);
+                                ]);
+                           }
+                           
+                           
                         }
                         
 
