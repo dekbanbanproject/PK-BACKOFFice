@@ -1281,9 +1281,9 @@ class ChecksitController extends Controller
                     // } else {
                         // $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
                        
-                        // if ($checkcCode > 0) {
+                        // if ($claimType > 0) {
                                 $checkc = Check_authen_temp::where('claimCode','=',$claimCode)->where('claimtype','=','PG0130001')->count();
-                                if ($checkc > 0) {
+                                if ($checkc == 'PG0130001') {
                                     // Check_authen_temp::where('claimCode', $claimCode)
                                     //     ->update([
                                     //         'cid'                        => $personalId,
@@ -1306,8 +1306,12 @@ class ChecksitController extends Controller
                                     //         'authentication'             => $claimAuthen,
                                     //         // 'PG0130001',
                                     //     ]);
-                                } else {                                 
-                                    Check_authen_temp::create([
+                                } else {  
+                                    $checkcs = Check_authen_temp::where('claimCode','=',$claimCode)->count();  
+                                    if ($checkcs > 0) {
+                                        # code...
+                                    } else {
+                                        Check_authen_temp::create([
                                             'cid'                        => $personalId,
                                             'fullname'                   => $patientName,
                                             'hosname'                    => $hname,
@@ -1328,6 +1332,10 @@ class ChecksitController extends Controller
                                             'authentication'             => $claimAuthen,
 
                                         ]);
+                                    }
+                                    
+                                    
+                                       
                                 }
                         // } else {
                         //     // $checkc_ = Check_authen::where('claimtype','=','PG0130001')->count();
