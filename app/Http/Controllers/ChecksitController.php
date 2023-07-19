@@ -1191,7 +1191,7 @@ class ChecksitController extends Controller
                                 'vstdate'                    => $checkdate,
                                 'regdate'                    => $checkdate,
                                 'claimcode'                  => $claimCode,
-                                'claimtype'                  => $claimCode,
+                                'claimtype'                  => $claimType,
                                 'birthday'                   => $birthdate,
                                 'homtel'                     => $tel,
                                 'repcode'                    => $claimStatus,
