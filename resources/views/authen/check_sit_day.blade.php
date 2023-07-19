@@ -149,6 +149,7 @@
                                         <th>claimcode</th>
                                         <th>claimtype</th>
                                         <th>staff</th>
+                                        <th>main_dep</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -185,6 +186,7 @@
                                                 <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
+                                            <td>{{ $item->main_dep }}</td>
                                         </tr>
                                     @elseif( $item->pttype != $item->subinscl )
 
@@ -222,6 +224,7 @@
                                                 <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
+                                            <td>{{ $item->main_dep }}</td>
                                         </tr>
                                     @else
                                         <tr style="background-color: rgb(255, 255, 255)">
@@ -248,6 +251,7 @@
                                                 <td>{{ $item->claimtype }}</td>
                                             @endif
                                             <td>{{ $item->staff }}</td>
+                                            <td>{{ $item->main_dep }}</td>
                                         </tr>
                                     @endif
 

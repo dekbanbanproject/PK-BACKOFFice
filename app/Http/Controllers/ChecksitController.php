@@ -226,7 +226,7 @@ class ChecksitController extends Controller
 
             $data_sit = DB::connection('mysql')->select('
                 SELECT
-                c.vn,c.hn,c.an,c.cid,c.hometel,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl
+                c.vn,c.hn,c.an,c.cid,c.hometel,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl,c.main_dep
                 ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,c.staff,c.fokliad
                 FROM check_sit_auto c
                 LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate 
