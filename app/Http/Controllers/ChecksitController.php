@@ -1204,8 +1204,7 @@ class ChecksitController extends Controller
                                 'authentication'             => $claimAuthen,
                             ]);
                         } else {
-                            Check_authen::where('claimCode', $claimCode)
-                            ->update([
+                            Check_authen::create([
                                 'cid'                        => $personalId,
                                 'fullname'                   => $patientName,
                                 'hosname'                    => $hname,
@@ -1224,7 +1223,29 @@ class ChecksitController extends Controller
                                 'subpttype'                  => $subInsclName,
                                 'requestauthen'              => $sourceChannel,
                                 'authentication'             => $claimAuthen,
+
                             ]);
+                            // Check_authen::where('claimCode', $claimCode)
+                            // ->update([
+                            //     'cid'                        => $personalId,
+                            //     'fullname'                   => $patientName,
+                            //     'hosname'                    => $hname,
+                            //     'hcode'                      => $hmain,
+                            //     'vstdate'                    => $checkdate,
+                            //     'regdate'                    => $checkdate,
+                            //     'claimcode'                  => $claimCode,
+                            //     'claimtype'                  => $claimType,
+                            //     'birthday'                   => $birthdate,
+                            //     'homtel'                     => $tel,
+                            //     'repcode'                    => $claimStatus,
+                            //     'hncode'                     => $hnCode,
+                            //     'servicerep'                 => $patientType,
+                            //     'servicename'                => $claimTypeName,
+                            //     'mainpttype'                 => $mainInsclWithName,
+                            //     'subpttype'                  => $subInsclName,
+                            //     'requestauthen'              => $sourceChannel,
+                            //     'authentication'             => $claimAuthen,
+                            // ]);
                         }
                         
                            
@@ -1299,7 +1320,7 @@ class ChecksitController extends Controller
                                 'requestauthen'              => $sourceChannel,
                                 'authentication'             => $claimAuthen,
 
-                        ]);
+                            ]);
                         }
                         
 
