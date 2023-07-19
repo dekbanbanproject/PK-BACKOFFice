@@ -1250,7 +1250,7 @@ class ChecksitController extends Controller
                             //     'requestauthen'              => $sourceChannel,
                             //     'authentication'             => $claimAuthen,
                             // ]);
-                        }
+                        // }
                         
                            
                             //   Visit_pttype_authen_report::where('transId', $transId)
@@ -1359,7 +1359,7 @@ class ChecksitController extends Controller
                            
                            
                         // }
-                        
+                    }
 
                     // }
         // }
