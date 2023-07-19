@@ -411,6 +411,7 @@ class ChecksitController extends Controller
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
                             'staff' => $value->staff,
+                            'main_dep' => $value->main_dep,
                             // 'fokliad' => 'PG0130001'
                             'fokliad' => $value->fokliad
                         ]);
@@ -428,6 +429,7 @@ class ChecksitController extends Controller
                             'hospmain' => $value->hospmain,
                             'hospsub' => $value->hospsub,
                             'staff' => $value->staff,
+                            'main_dep' => $value->main_dep,
                             // 'fokliad' => 'PG0060001'
                             'fokliad' => $value->fokliad
                         ]);

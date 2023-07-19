@@ -33,7 +33,7 @@ return new class extends Migration
                 $table->string('fullname')->nullable();// 
                 $table->string('staff')->nullable();// 
                 $table->string('fokliad')->nullable();// 
-                
+                $table->string('main_dep')->nullable();// 
                 $table->string('maininscl')->nullable();// 
                 $table->string('startdate')->nullable();// 
                 $table->string('hmain')->nullable();// 
