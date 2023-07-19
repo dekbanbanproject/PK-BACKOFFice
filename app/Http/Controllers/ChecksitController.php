@@ -1282,8 +1282,8 @@ class ChecksitController extends Controller
                         // $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
                        
                         // if ($claimType > 0) {
-                                $checkc = Check_authen_temp::where('claimCode','=',$claimCode)->where('claimtype','=','PG0130001')->count();
-                                if ($checkc == 'PG0130001') {
+                                $checkc = Check_authen_temp::where('claimtype','=','PG0130001')->count();
+                                if ($checkc >0) {
                                     // Check_authen_temp::where('claimCode', $claimCode)
                                     //     ->update([
                                     //         'cid'                        => $personalId,
