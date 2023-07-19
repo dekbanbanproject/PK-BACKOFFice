@@ -56,6 +56,7 @@ use App\Models\Claim_sixteen_ins;
 use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
 use App\Models\Check_authen;
+use App\Models\Check_authen_temp;
 use App\Models\Visit_pttype_authen_report;
 use Auth;
 use ZipArchive;
@@ -1278,12 +1279,12 @@ class ChecksitController extends Controller
                             //         'date_data'                          => $datenow
                             //     ]);
                     // } else {
-                        $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
+                        // $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
                        
-                        if ($checkcCode > 0) {
-                                $checkc = Check_authen::where('claimCode','=',$claimCode)->count();
+                        // if ($checkcCode > 0) {
+                                $checkc = Check_authen_temp::where('claimCode','=',$claimCode)->count();
                                 if ($checkc > 0) {
-                                        Check_authen::where('claimCode', $claimCode)
+                                    Check_authen_temp::where('claimCode', $claimCode)
                                         ->update([
                                             'cid'                        => $personalId,
                                             'fullname'                   => $patientName,
@@ -1306,7 +1307,7 @@ class ChecksitController extends Controller
                                             // 'PG0130001',
                                         ]);
                                 } else {                                 
-                                        Check_authen::create([
+                                    Check_authen_temp::create([
                                             'cid'                        => $personalId,
                                             'fullname'                   => $patientName,
                                             'hosname'                    => $hname,
@@ -1328,48 +1329,99 @@ class ChecksitController extends Controller
 
                                         ]);
                                 }
-                        } else {
-                            // $checkc_ = Check_authen::where('claimtype','=','PG0130001')->count();
-                           if ($claimType == 'PG0130001') {
-                            # code...
-                           } else {
-                                Check_authen::create([
-                                    'cid'                        => $personalId,
-                                    'fullname'                   => $patientName,
-                                    'hosname'                    => $hname,
-                                    'hcode'                      => $hmain,
-                                    'vstdate'                    => $checkdate,
-                                    'regdate'                    => $checkdate,
-                                    'claimcode'                  => $claimCode,
-                                    'claimtype'                  => $claimType,
-                                    'birthday'                   => $birthdate,
-                                    'homtel'                     => $tel,
-                                    'repcode'                    => $claimStatus,
-                                    'hncode'                     => $hnCode,
-                                    'servicerep'                 => $patientType,
-                                    'servicename'                => $claimTypeName,
-                                    'mainpttype'                 => $mainInsclWithName,
-                                    'subpttype'                  => $subInsclName,
-                                    'requestauthen'              => $sourceChannel,
-                                    'authentication'             => $claimAuthen,
+                        // } else {
+                        //     // $checkc_ = Check_authen::where('claimtype','=','PG0130001')->count();
+                        //    if ($claimType == 'PG0130001') {
+                        //     # code...
+                        //    } else {
+                        //         Check_authen::create([
+                        //             'cid'                        => $personalId,
+                        //             'fullname'                   => $patientName,
+                        //             'hosname'                    => $hname,
+                        //             'hcode'                      => $hmain,
+                        //             'vstdate'                    => $checkdate,
+                        //             'regdate'                    => $checkdate,
+                        //             'claimcode'                  => $claimCode,
+                        //             'claimtype'                  => $claimType,
+                        //             'birthday'                   => $birthdate,
+                        //             'homtel'                     => $tel,
+                        //             'repcode'                    => $claimStatus,
+                        //             'hncode'                     => $hnCode,
+                        //             'servicerep'                 => $patientType,
+                        //             'servicename'                => $claimTypeName,
+                        //             'mainpttype'                 => $mainInsclWithName,
+                        //             'subpttype'                  => $subInsclName,
+                        //             'requestauthen'              => $sourceChannel,
+                        //             'authentication'             => $claimAuthen,
 
-                                ]);
-                           }
+                        //         ]);
+                        //    }
                            
                            
-                        }
+                        // }
                         
 
                     // }
         // }
-        // $update_ = DB::connection('mysql')->select('
-        //         SELECT
-        //         c.vn,c.hn,cid,vstdate,claimcode,ca.servicerep,ca.claimtype
-        //         FROM check_authen  
-        //         WHERE vstdate = CURDATE()
-        //         AND cid = c.cid and c.vstdate = ca.vstdate 
-        //         GROUP BY vn
-        // ');
+        $update_ = DB::connection('mysql')->select('
+                SELECT *  
+                FROM check_authen  
+                WHERE vstdate = CURDATE()
+                AND claimtype <> "PG0130001"
+                GROUP BY vn
+        ');
+        foreach ($update_ as $key => $value) {
+            $checkcss = Check_authen::where('claimCode','=',$claimCode)->count();
+            if ($checkcss > 0) {
+                Check_authen::where('claimCode', $claimCode)->update([
+                    'cid'                        => $value->personalId,
+                    'fullname'                   => $value->patientName,
+                    'hosname'                    => $value->hname,
+                    'hcode'                      => $value->hmain,
+                    'vstdate'                    => $value->checkdate,
+                    'regdate'                    => $value->checkdate,
+                    'claimcode'                  => $value->claimCode,
+                    'claimtype'                  => $value->claimType,
+                    'birthday'                   => $value->birthdate,
+                    'homtel'                     => $value->tel,
+                    'repcode'                    => $value->claimStatus,
+                    'hncode'                     => $value->hnCode,
+                    'servicerep'                 => $value->patientType,
+                    'servicename'                => $value->claimTypeName,
+                    'mainpttype'                 => $value->mainInsclWithName,
+                    'subpttype'                  => $value->subInsclName,
+                    'requestauthen'              => $value->sourceChannel,
+                    'authentication'             => $value->claimAuthen,
+    
+                ]);
+            } else {
+                Check_authen::create([
+                    'cid'                        => $value->personalId,
+                    'fullname'                   => $value->patientName,
+                    'hosname'                    => $value->hname,
+                    'hcode'                      => $value->hmain,
+                    'vstdate'                    => $value->checkdate,
+                    'regdate'                    => $value->checkdate,
+                    'claimcode'                  => $value->claimCode,
+                    'claimtype'                  => $value->claimType,
+                    'birthday'                   => $value->birthdate,
+                    'homtel'                     => $value->tel,
+                    'repcode'                    => $value->claimStatus,
+                    'hncode'                     => $value->hnCode,
+                    'servicerep'                 => $value->patientType,
+                    'servicename'                => $value->claimTypeName,
+                    'mainpttype'                 => $value->mainInsclWithName,
+                    'subpttype'                  => $value->subInsclName,
+                    'requestauthen'              => $value->sourceChannel,
+                    'authentication'             => $value->claimAuthen,
+    
+                ]);
+            }
+            
+           
+        }
+
+
         return view('authen.check_spsch',[
             'response'  => $response,
             'result'  => $result,
