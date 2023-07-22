@@ -60,6 +60,7 @@ use App\Models\Dashboard_authenstaff_day;
 use App\Models\Acc_debtor;
 use App\Models\Check_sit_auto_claim;
 use App\Models\Db_year;
+use App\Models\Db_authen;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -952,6 +953,58 @@ class AutoController extends Controller
             //     group by o.vn
             // ');
             return view('auto.sit_pullacc_auto');
+    }
+
+    public function authen_auto_year(Request $request)
+    { 
+        Db_authen::truncate();
+            $date = date('Y-m-d');
+            $y = date('Y');
+            $db_year_ = DB::connection('mysql3')->select('
+                        SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD
+                        ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
+                        FROM ovst o
+                        LEFT JOIN vn_stat v on v.vn = o.vn
+                        LEFT JOIN patient p on p.hn = o.hn
+                        LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
+                        WHERE YEAR(o.vstdate) = "'.$y.'"
+                        AND o.an is null
+                        GROUP BY month
+			            ORDER BY year,month ASC
+            ');
+
+            // WHERE o.vstdate BETWEEN "2022-09-01" AND "2023-09-30"
+            foreach ($db_year_ as $key => $value3) {
+                Db_authen::insert([
+                    'month'       => $value3->month,
+                    'year'        => $value3->year,
+                    'countvn'     => $value3->countvn,
+                    'authen_opd'  => $value3->authenOPD
+                ]);
+            }
+
+            // $db_year_update = DB::connection('mysql3')->select('
+            //         SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.AN) as authenIPD
+            //             ,MONTH(o.vstdate) as months,YEAR(o.vstdate) as years
+            //             FROM ovst o
+            //             LEFT JOIN an_stat a on a.an = o.an
+            //             LEFT JOIN patient p on p.hn = o.hn
+            //             LEFT JOIN rcmdb.authencode ra ON ra.AN = o.an
+            //             WHERE YEAR(o.vstdate) = "'.$y.'"
+
+            //             GROUP BY months
+            //             ORDER BY years,months DESC
+            // '); 
+            // foreach ($db_year_update as $key => $value4) {
+            //     $yearnew = $value4->years;
+            //     Db_year::where('month', $value4->months)->where('year', $yearnew)
+            //     ->update([
+            //         'countan'        => $value4->countan,
+            //         'authen_ipd'     => $value4->authenIPD
+            //     ]);
+            // } 
+
+            return view('auto.depauthen_auto');
     }
 
 

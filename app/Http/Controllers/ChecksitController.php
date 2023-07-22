@@ -103,21 +103,7 @@ class ChecksitController extends Controller
             'dateend'        => $dateend,
         ]);
     }
-    // public function check_authen_excel(Request $request)
-    // {
-    //     // $file = $request->file('file')->store('files');
-
-    //     // $import = new ImportAuthenexcel_import;
-    //     // $import ->import($file);
-
-    //     // dd();
-
-    //     Excel::import(new ImportAuthenexcel_import, $request->file('file')->store('files'));
-
-    //          return response()->json([
-    //             'status'    => '200',
-    //         ]);
-    // }
+    
 
     function check_authen_excel(Request $request){
         $this->validate($request, [
@@ -1181,79 +1167,7 @@ class ChecksitController extends Controller
             $checktime = $claimDate[1];
             // dd($transId);
                 $datenow = date("Y-m-d");
-                    // $checktransId = Visit_pttype_authen_report::where('transId','=',$transId)->count();
-                   
-                    // $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
-                    // dd($checktransId);
-                    // if ($checkcCode > 0) {
-                    //     $checkc = Check_authen::where('claimCode','=',$claimCode)->count();
-                    //     if ($checkc > 0) {
-                    //         Check_authen::where('claimCode', $claimCode)
-                    //         ->update([
-                    //             'cid'                        => $personalId,
-                    //             'fullname'                   => $patientName,
-                    //             'hosname'                    => $hname,
-                    //             'hcode'                      => $hmain,
-                    //             'vstdate'                    => $checkdate,
-                    //             'regdate'                    => $checkdate,
-                    //             'claimcode'                  => $claimCode,
-                    //             'claimtype'                  => $claimType,
-                    //             'birthday'                   => $birthdate,
-                    //             'homtel'                     => $tel,
-                    //             'repcode'                    => $claimStatus,
-                    //             'hncode'                     => $hnCode,
-                    //             'servicerep'                 => $patientType,
-                    //             'servicename'                => $claimTypeName,
-                    //             'mainpttype'                 => $mainInsclWithName,
-                    //             'subpttype'                  => $subInsclName,
-                    //             'requestauthen'              => $sourceChannel,
-                    //             'authentication'             => $claimAuthen,
-                    //             // 'PG0130001',
-                    //         ]);
-                    //     } else {
-                            // Check_authen::create([
-                            //     'cid'                        => $personalId,
-                            //     'fullname'                   => $patientName,
-                            //     'hosname'                    => $hname,
-                            //     'hcode'                      => $hmain,
-                            //     'vstdate'                    => $checkdate,
-                            //     'regdate'                    => $checkdate,
-                            //     'claimcode'                  => $claimCode,
-                            //     'claimtype'                  => $claimType,
-                            //     'birthday'                   => $birthdate,
-                            //     'homtel'                     => $tel,
-                            //     'repcode'                    => $claimStatus,
-                            //     'hncode'                     => $hnCode,
-                            //     'servicerep'                 => $patientType,
-                            //     'servicename'                => $claimTypeName,
-                            //     'mainpttype'                 => $mainInsclWithName,
-                            //     'subpttype'                  => $subInsclName,
-                            //     'requestauthen'              => $sourceChannel,
-                            //     'authentication'             => $claimAuthen,
-
-                            // ]);
-                            // Check_authen::where('claimCode', $claimCode)
-                            // ->update([
-                            //     'cid'                        => $personalId,
-                            //     'fullname'                   => $patientName,
-                            //     'hosname'                    => $hname,
-                            //     'hcode'                      => $hmain,
-                            //     'vstdate'                    => $checkdate,
-                            //     'regdate'                    => $checkdate,
-                            //     'claimcode'                  => $claimCode,
-                            //     'claimtype'                  => $claimType,
-                            //     'birthday'                   => $birthdate,
-                            //     'homtel'                     => $tel,
-                            //     'repcode'                    => $claimStatus,
-                            //     'hncode'                     => $hnCode,
-                            //     'servicerep'                 => $patientType,
-                            //     'servicename'                => $claimTypeName,
-                            //     'mainpttype'                 => $mainInsclWithName,
-                            //     'subpttype'                  => $subInsclName,
-                            //     'requestauthen'              => $sourceChannel,
-                            //     'authentication'             => $claimAuthen,
-                            // ]);
-                        // }
+                     
                         
                            
                             //   Visit_pttype_authen_report::where('transId', $transId)
@@ -1439,53 +1353,96 @@ class ChecksitController extends Controller
         ]);
 
     }
-    // public function check_web(Request $request)
-    // {
-    //     $date_now = date('Y-m-d');
-    //     $date_start = "2023-05-07";
-    //     $date_end = "2023-05-09";
-    //     // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
-    //     $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=10&sort=transId,desc";
+    
 
-    //     // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
-    //     $curl = curl_init();
-    //     curl_setopt_array($curl, array(
-    //         // CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-01-05&page=0&size=1000',
-    //         CURLOPT_URL => $url,
-    //         CURLOPT_RETURNTRANSFER => 1,
-    //         CURLOPT_SSL_VERIFYHOST => 0,
-    //         CURLOPT_SSL_VERIFYPEER => 0,
-    //         CURLOPT_CUSTOMREQUEST => 'GET',
-    //         CURLOPT_HTTPHEADER => array(
-    //             'Accept: application/json, text/plain, */*',
-    //             'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
-    //             'Connection: keep-alive',
-    //             'Cookie: SESSION=ZmIwNmE2ZmMtY2MwYS00ZWFhLWEyZjItYWFlMzAzMTlhMmI1; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
-    //             'Referer: https://authenservice.nhso.go.th/authencode/',
-    //             'Sec-Fetch-Dest: empty',
-    //             'Sec-Fetch-Mode: cors',
-    //             'Sec-Fetch-Site: same-origin',
-    //             'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-    //             'sec-ch-ua: "Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-    //             'sec-ch-ua-mobile: ?0',
-    //             'sec-ch-ua-platform: "Windows"'
-    //         ),
-    //     ));
+    public function check_dashboard(Request $request)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $data_year = DB::connection('mysql3')->select('
+            SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT ra.VN) as authenOPD
+                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
+            FROM ovst o
+            LEFT JOIN vn_stat v on v.vn = o.vn
+            LEFT JOIN patient p on p.hn = o.hn
+            LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
+                WHERE YEAR(o.vstdate) = "'.$y.'" AND o.an is null
+                GROUP BY month
+			    ORDER BY month ASC
+        ');
+        
+        return view('dashboard.check_dashboard',[
+            'data_year'               => $data_year, 
+        ] );
+    }
+    public function check_dashboard_bar(Request $request)
+    {
+        $y = date('Y');
+        $date = date('Y-m-d');
+        $year_ = DB::connection('mysql')->select('
+            SELECT * FROM budget_year WHERE active = "True"
+        ');
+        foreach ($year_ as $key => $value) {
+            $startdate = $value->date_begin;
+            $enddate = $value->date_end;
+        }
+        $chart = DB::connection('mysql')->select('
+            SELECT * FROM db_year WHERE year = "'.$y.'"
+        ');
+        $labels = [
+          1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+        ];
+         $countvn = $countan = $authen_opd = $noauthen_opd = $authen_ipd = [];
 
-    //     $response = curl_exec($curl);
-    //     curl_close($curl);
-    //     // dd($curl);
-    //     $contents = $response;
-    //     // dd($contents);
-    //     $result = json_decode($contents, true);
-
-    //     @$content = $result['content'];
-    //     // dd($content);
- 
-    //     return view('authen.check_spsch',[
-    //         'response'  => $response,
-    //         'result'  => $result,
-    //     ]);
-
-    // }
+        foreach ($chart as $key => $chartitems) {
+            $countvn[$chartitems->month] = $chartitems->countvn;
+            $authen_opd[$chartitems->month] = $chartitems->authen_opd;
+            $noauthen_opd[$chartitems->month] = $chartitems->countvn - $chartitems->authen_opd;
+        }
+        foreach ($labels as $month => $name) {
+           if (!array_key_exists($month,$countvn)) {
+            $countvn[$month] = 0;
+           }
+           if (!array_key_exists($month,$authen_opd)) {
+            $authen_opd[$month] = 0;
+           }
+           if (!array_key_exists($month,$noauthen_opd)) {
+            $noauthen_opd[$month] = 0;
+           }
+        }
+        ksort($countvn);
+        ksort($authen_opd);
+        ksort($noauthen_opd);
+        return [
+            'labels'          =>  array_values($labels),
+            'datasets'     =>  [
+                [
+                    'label'           =>  'จำนวนคนไข้ที่มารับบริการ OPD',
+                    'borderColor'     => 'rgba(255, 205, 86 , 1)',
+                    'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            =>  array_values($countvn)
+                ],
+                [
+                    'label'           =>  'Authen Code',
+                    'borderColor'     => 'rgba(75, 192, 192, 1)',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            => array_values($authen_opd)
+                ],
+                [
+                    'label'           =>  'ไม่ Authen',
+                    'borderColor'     => 'rgba(255, 99, 132, 1)',
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            => array_values($noauthen_opd)
+                ],
+            ],
+        ];
+        // 255, 26, 104 ชมพู
+        // 255, 205, 86
+    }
 }

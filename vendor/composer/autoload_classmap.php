@@ -301,6 +301,7 @@ return array(
     'App\\Models\\Dashboard_authen_day' => $baseDir . '/app/Models/Dashboard_authen_day.php',
     'App\\Models\\Dashboard_authenstaff_day' => $baseDir . '/app/Models/Dashboard_authenstaff_day.php',
     'App\\Models\\Dashboard_department_authen' => $baseDir . '/app/Models/Dashboard_department_authen.php',
+    'App\\Models\\Db_authen' => $baseDir . '/app/Models/Db_authen.php',
     'App\\Models\\Db_year' => $baseDir . '/app/Models/Db_year.php',
     'App\\Models\\Department' => $baseDir . '/app/Models/Department.php',
     'App\\Models\\Department_sub_sub' => $baseDir . '/app/Models/Department_sub_sub.php',
