@@ -1091,8 +1091,8 @@ class ChecksitController extends Controller
     public function check_spsch(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-05-29";
-        $date_end = "2023-05-30";
+        $date_start = "2023-06-26";
+        $date_end = "2023-06-26";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
