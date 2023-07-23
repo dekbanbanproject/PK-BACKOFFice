@@ -961,16 +961,17 @@ class AutoController extends Controller
             $date = date('Y-m-d');
             $y = date('Y');
             $db_year_ = DB::connection('mysql3')->select('
-                        SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD
-                        ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
+            SELECT  COUNT(DISTINCT o.vn) as countvn ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year 
                         FROM ovst o
                         LEFT JOIN vn_stat v on v.vn = o.vn
                         LEFT JOIN patient p on p.hn = o.hn
-                        LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
+                   
                         WHERE YEAR(o.vstdate) = "'.$y.'"
+                        AND o.main_dep NOT IN("011","036","107")
+                        AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                         AND o.an is null
                         GROUP BY month
-			            ORDER BY year,month ASC
+                    ORDER BY year,month ASC
             ');
 
             // WHERE o.vstdate BETWEEN "2022-09-01" AND "2023-09-30"
@@ -979,32 +980,26 @@ class AutoController extends Controller
                     'month'       => $value3->month,
                     'year'        => $value3->year,
                     'countvn'     => $value3->countvn,
-                    'authen_opd'  => $value3->authenOPD
+                    // 'authen_opd'  => $value3->authenOPD
                 ]);
             }
 
-            // $db_year_update = DB::connection('mysql3')->select('
-            //         SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.AN) as authenIPD
-            //             ,MONTH(o.vstdate) as months,YEAR(o.vstdate) as years
-            //             FROM ovst o
-            //             LEFT JOIN an_stat a on a.an = o.an
-            //             LEFT JOIN patient p on p.hn = o.hn
-            //             LEFT JOIN rcmdb.authencode ra ON ra.AN = o.an
-            //             WHERE YEAR(o.vstdate) = "'.$y.'"
+            $db_year_update = DB::connection('mysql')->select(' 
+                        SELECT COUNT(*) as count_authen,MONTH(vstdate) as months,YEAR(vstdate) as years 
+                        FROM check_authen
+                        WHERE YEAR(vstdate) = "'.$y.'" AND claimtype ="PG0060001"
+                        GROUP BY months
+                        ORDER BY months ASC
+            '); 
+            foreach ($db_year_update as $key => $value4) {
+                $yearnew = $value4->years;
+                Db_authen::where('month', $value4->months)->where('year', $yearnew)
+                ->update([
+                    'authen_opd'      => $value4->count_authen, 
+                ]);
+            } 
 
-            //             GROUP BY months
-            //             ORDER BY years,months DESC
-            // '); 
-            // foreach ($db_year_update as $key => $value4) {
-            //     $yearnew = $value4->years;
-            //     Db_year::where('month', $value4->months)->where('year', $yearnew)
-            //     ->update([
-            //         'countan'        => $value4->countan,
-            //         'authen_ipd'     => $value4->authenIPD
-            //     ]);
-            // } 
-
-            return view('auto.depauthen_auto');
+            return view('auto.authen_auto_year');
     }
 
 
