@@ -108,14 +108,16 @@
                                         <td class="text-center" width="5%">{{ $item->income_group }}</td>   
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
 
-                                        @if ($item->inst == '0')
-                                        <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
+                                        @if ($item->inst == '0' || $item->hc == '0'|| $item->hc_drug == '0'|| $item->ae == '0'|| $item->ae_drug == '0')
+                                        {{-- <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td>  --}}
+                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format(($item->stm217),2)}}</td> 
                                         @else 
-                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format(($item->inst),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
+                                        {{-- <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format(($item->stm217),2)}}</td>  --}}
                                         @endif
                                         
 
-                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->inst),2)}}</td> 
+                                        <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->stm217),2)}}</td> 
                                         <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
                                         <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
                                         <td class="p-2" width="10%">{{ $item->STMdoc }}</td> 

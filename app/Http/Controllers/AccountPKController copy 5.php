@@ -1506,20 +1506,21 @@ class AccountPKController extends Controller
         $datashow = DB::select('
             SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2
             ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc
-            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug as stm217
             from acc_1102050101_217 a
             LEFT JOIN acc_stm_ucs s ON s.an = a.an
             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
-            AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0)
-            group by a.an 
+            AND s.rep IS NOT NULL
+            group by a.an
+           
+
         ');
         // AND s.rep IS NOT NULL
 
         $sum_money_ = DB::connection('mysql')->select('
-            SELECT SUM(a.debit_total) as total
-            from acc_1102050101_217 a
-            LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
+        SELECT SUM(a.debit_total) as total
+        from acc_1102050101_217 a
+        LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
         ');
         foreach ($sum_money_ as $key => $value) {
             $sum_debit_total = $value->total;
@@ -7148,25 +7149,58 @@ class AccountPKController extends Controller
         ]);
     }
     function upstm_ucs_excel(Request $request){
-        // Acc_stm_ucs_excel::truncate();
-
         $this->validate($request, [
             'file' => 'required|file|mimes:xls,xlsx'
         ]);
         $the_file = $request->file('file');
-        // dd($the_file);
+        dd($the_file);
             try{
                 $spreadsheet = IOFactory::load($the_file->getRealPath());
                 // $sheet        = $spreadsheet->getActiveSheet();
-                $sheet        = $spreadsheet->setActiveSheetIndex(2);
+                $sheet        = $spreadsheet->setActiveSheetIndex(3);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( 15, $row_limit );
-                $column_range = range( 'AO', $column_limit );
+                $column_range = range( 'AP', $column_limit );
                 $startcount = 15;
- 
+                // $nobook =  range( 7, $row_limit );
+                // $nobook = range( 7, $column_limit );
                 $data = array();
-                foreach ($row_range as $row ) { 
+                foreach ( $row_range as $row ) {
+
+                    // $sss_date_now = date("Y-m-d");
+                    // $aipn_time_now = date("H:i:s");
+                    //  #ตัดขีด, ตัด : ออก
+                    // $pattern_date = '/-/i';
+                    // $aipn_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+                    // $pattern_time = '/:/i';
+                    // $aipn_time_now_preg = preg_replace($pattern_time, '', $aipn_time_now);
+                    #ตัดขีด, ตัด : ออก
+
+                    // $vst = $sheet->getCell( 'H' . $row )->getValue();
+                    // // $vst_mo = $sheet->getCell( 'H' . $row )->getValue();
+
+                    // $day = substr($vst, 0, 2);
+                    // $mo = substr($vst, 3, 2);
+                    // $year = substr($vst, 6, 10);
+                    // // $time = str_replace('', 11, 19);
+                    // $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    // $match_stm=$result["C"].(str_replace(" ","",str_replace("/","",str_replace(":","",$result["G"]))));
+                    // $string = 'Welcom to Laravel';
+                    // $spreadsheet->getActiveSheet()->setCellValue('H', 39813);
+                    // Excel-date/time
+                    // $spreadsheet->getActiveSheet()->setCellValue('D1', 39813)
+                    // $spreadsheet->getActiveSheet()->getStyle('D1')
+                    //     ->getNumberFormat()
+                    //     ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+                    // $reg = $sheet->getCell( 'I' . $row )->getValue();
+                    // $regday = substr($reg, 0, 2);
+                    // $regmo = substr($reg, 3, 2);
+                    // $regyear = substr($reg, 6, 10);
+                    // // $starttime = substr($reg, 11, 19);
+                    // $dchdate = $regyear.'-'.$regmo.'-'.$regday;
+
                     $data[] = [
                         'rep'                   =>$sheet->getCell( 'A' . $row )->getValue(),
                         'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
@@ -7174,9 +7208,21 @@ class AccountPKController extends Controller
                         'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
                         'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
                         'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                        'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(), 
+                        'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
+
+                        // $sheet->getActiveSheet()->setCellValue('H', 39813)
+                        // 'vstdate'               =>$sheet->setCellValue('H', 39813),
+                        // 'dchdate'               =>$sheet->setCellValue('I', 39813),
+                        // 'vstdate'               =>$sheet->getCell( 'H' . $row ,39813)->getValue(),
+                        // 'dchdate'               =>$sheet->getCell( 'I' . $row ,39813)->getValue(),
+                        // ->setCellValue('D1', 39813)
+
+                        // 'vstdate'               =>$vstdate,
+                        // 'dchdate'               =>$dchdate,
+
                         'vstdate'               =>$sheet->getCell( 'H' . $row )->getValue(),
-                        'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(), 
+                        'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(),
+
                         'maininscl'             =>$sheet->getCell( 'J' . $row )->getValue(),
                         'projectcode'           =>$sheet->getCell( 'K' . $row )->getValue(),
                         'debit'                 =>$sheet->getCell( 'L' . $row )->getValue(),
@@ -7209,28 +7255,23 @@ class AccountPKController extends Controller
                         'va'                    =>$sheet->getCell( 'AM' . $row )->getValue(),
                         'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
                         'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
-                    ]; 
-                    $startcount++;                  
-                }
+                    ];
 
-                // foreach (array_chunk($row_range,2000) as $t) {
-                //     DB::table('acc_stm_ucs_excel')->insert($t);
-                // }
-                $check_ = DB::table('acc_stm_ucs_excel')->where('tranid','=',$sheet->getCell( 'C' . $row )->getValue())->count();
-                if ($check_ > 0) {
-                    # code...
-                } else {
-                 DB::table('acc_stm_ucs_excel')->insert($data);
+                    Acc_1102050101_202::where('an',$sheet->getCell( 'E' . $row )->getValue())
+                    ->update([
+                        'status'   => 'Y'
+                    ]);
+                    // 'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
+                    // nobook
+                    $startcount++;
                 }
-                
-                
-                // DB::table('acc_stm_ucs')->insert($data);
+                // DB::table('acc_stm_ucs_excel')->insert($data);
+                DB::table('acc_stm_ucs')->insert($data);
 
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
-           
             // return back()->withSuccess('Great! Data has been successfully uploaded.');
             return response()->json([
             'status'    => '200',
@@ -7240,128 +7281,69 @@ class AccountPKController extends Controller
 
     public function upstm_ucs_sendexcel(Request $request)
     {
-      
-        try{
-            $data_ = DB::connection('mysql')->select('
-                SELECT *
-                FROM acc_stm_ucs_excel
-            ');
-            $count = 1;
-            $data = array();
-            foreach ($data_ as $key => $row) {
-                $data[] = [
-                    'rep'                   =>$row->rep,
-                    'repno'                 =>$row->repno,
-                    'tranid'                =>$row->tranid,
-                    'hn'                    =>$row->hn,
-                    'an'                    =>$row->an,
-                    'cid'                   =>$row->cid,
-                    'fullname'              =>$row->fullname,
-                    'vstdate'               =>$row->vstdate,
-                    'dchdate'               =>$row->dchdate,
-                    'maininscl'             =>$row->maininscl,
-                    'projectcode'           =>$row->projectcode,
-                    'debit'                 =>$row->debit,
-                    'debit_prb'             =>$row->debit_prb,
-                    'adjrw'                 =>$row->adjrw,
-                    'ps1'                   =>$row->ps1,
-                    'ps2'                   =>$row->ps2,
-                    'ccuf'                  =>$row->ccuf,
-                    'adjrw2'                =>$row->adjrw2,
-                    'pay_money'             =>$row->pay_money,
-                    'pay_slip'              =>$row->pay_slip,
-                    'pay_after'             =>$row->pay_after,
-                    'op'                    =>$row->op,
-                    'ip_pay1'               =>$row->ip_pay1,
-                    'ip_paytrue'            =>$row->ip_paytrue,
-                    'hc'                    =>$row->hc,
-                    'hc_drug'               =>$row->hc_drug,
-                    'ae'                    =>$row->ae,
-                    'ae_drug'               =>$row->ae_drug,
-                    'inst'                  =>$row->inst,
-                    'dmis_money1'           =>$row->dmis_money1,
-                    'dmis_money2'           =>$row->dmis_money2,
-                    'dmis_drug'             =>$row->dmis_drug,
-                    'palliative_care'       =>$row->palliative_care,
-                    'dmishd'                =>$row->dmishd,
-                    'pp'                    =>$row->pp,
-                    'fs'                    =>$row->fs,
-                    'opbkk'                 =>$row->opbkk,
-                    'total_approve'         =>$row->total_approve,
-                    'va'                    =>$row->va,
-                    'covid'                 =>$row->covid,
-                    'STMdoc'                =>$row->STMdoc,
-                ];
-                $count++;
-            }
-            $check_ = DB::table('acc_stm_ucs')->where('tranid','=',$row->tranid)->count();
-            if ($check_ > 0) {
-                # code...
-            } else {
-                DB::table('acc_stm_ucs')->insert($data);
-            }
-            // DB::table('acc_stm_ucs')->insert($data);
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
-       
-        // foreach ($data_ as $key => $value) {
-        //         Acc_stm_ucs::create([
-        //             'rep'               => $value->rep,
-        //             'repno'             => $value->repno,
-        //             'tranid'            => $value->tranid,
-        //             'hn'                => $value->hn,
-        //             'an'                => $value->an,
-        //             'cid'               => $value->cid,
-        //             'fullname'          => $value->fullname,
-        //             'vstdate'           => $value->vstdate,
-        //             'dchdate'           => $value->dchdate,
-        //             'maininscl'         => $value->maininscl,
-        //             'projectcode'       => $value->projectcode,
-        //             'debit'             => $value->debit,
-        //             'debit_prb'         => $value->debit_prb,
-        //             'adjrw'             => $value->adjrw,
-        //             'ps1'               => $value->ps1,
-        //             'ps2'               => $value->ps2,
-        //             'ccuf'              => $value->ccuf,
-        //             'adjrw2'            => $value->adjrw2,
-        //             'pay_money'         => $value->pay_money,
-        //             'pay_slip'          => $value->pay_slip,
-        //             'pay_after'         => $value->pay_after,
-        //             'op'                => $value->op,
-        //             'ip_pay1'           => $value->ip_pay1,
-        //             'ip_paytrue'        => $value->ip_paytrue,
-        //             'hc'                => $value->hc,
-        //             'hc_drug'           => $value->hc_drug,
-        //             'ae'                => $value->ae,
-        //             'ae_drug'           => $value->ae_drug,
-        //             'inst'              => $value->inst,
-        //             'dmis_money1'       => $value->dmis_money1,
-        //             'dmis_money2'       => $value->dmis_money2,
-        //             'dmis_drug'         => $value->dmis_drug,
-        //             'palliative_care'   => $value->palliative_care,
-        //             'dmishd'            => $value->dmishd,
-        //             'pp'                => $value->pp,
-        //             'fs'                => $value->fs,
-        //             'opbkk'             => $value->opbkk,
-        //             'total_approve'     => $value->total_approve,
-        //             'va'                => $value->va,
-        //             'covid'             => $value->covid,
-        //             'date_save'         => $value->date_save,
-        //             'STMdoc'            => $value->STMdoc
-        //         ]);
-        //         Acc_1102050101_202::where('an',$value->an)
-        //         ->update([
-        //             'status'   => 'Y'
-        //         ]);
-        // }
+        $data_ = DB::connection('mysql')->select('
+            SELECT *
+            FROM acc_stm_ucs_excel
+        ');
+        // GROUP BY cid,vstdate
+        foreach ($data_ as $key => $value) {
+                Acc_stm_ucs::create([
+                    'rep'             => $value->rep,
+                    'repno'                => $value->repno,
+                    'tranid'                => $value->tranid,
+                    'hn'                => $value->hn,
+                    'an'                => $value->an,
+                    'cid'               => $value->cid,
+                    'fullname'          => $value->fullname,
+                    'vstdate'           => $value->vstdate,
+                    'dchdate'           => $value->dchdate,
+                    'maininscl'          => $value->maininscl,
+                    'projectcode'             => $value->projectcode,
+                    'debit'         => $value->debit,
+                    'debit_prb'               => $value->debit_prb,
+                    'adjrw'              => $value->adjrw,
+                    'ps1'              => $value->ps1,
+                    'ps2'              => $value->ps2,
+                    'ccuf'            => $value->ccuf,
+                    'adjrw2'             => $value->adjrw2,
+                    'pay_money'           => $value->pay_money,
+                    'pay_slip'           => $value->pay_slip,
+                    'pay_after'      => $value->pay_after,
+                    'op'            => $value->op,
+                    'ip_pay1'            => $value->ip_pay1,
+                    'ip_paytrue'            => $value->ip_paytrue,
+                    'hc'            => $value->hc,
+                    'hc_drug'            => $value->hc_drug,
+                    'ae'            => $value->ae,
+                    'ae_drug'            => $value->ae_drug,
+                    'inst'            => $value->inst,
+                    'dmis_money1'            => $value->dmis_money1,
+                    'dmis_money2'            => $value->dmis_money2,
+                    'dmis_drug'            => $value->dmis_drug,
+                    'palliative_care'            => $value->palliative_care,
+                    'dmishd'            => $value->dmishd,
+                    'pp'            => $value->pp,
+                    'fs'            => $value->fs,
+                    'opbkk'            => $value->opbkk,
+                    'total_approve'            => $value->total_approve,
+                    'va'            => $value->va,
+                    'covid'            => $value->covid,
+                    'date_save'            => $value->date_save,
+                    'STMdoc'            => $value->STMdoc
+                ]);
+                Acc_1102050101_202::where('an',$value->an)
+                ->update([
+                    'status'   => 'Y'
+                ]);
+        }
         Acc_stm_ucs_excel::truncate();
         // return response()->json([
         //     'status'    => '200',
         // ]);
         return redirect()->back();
     }
+
+
 
     // Acc_stm_ti
     public function upstm_ti(Request $request)

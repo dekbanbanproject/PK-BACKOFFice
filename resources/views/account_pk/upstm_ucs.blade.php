@@ -1,9 +1,6 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 
-
-
-
 @section('content')
     <script>
         function TypeAdmin() {
@@ -95,7 +92,6 @@
                             @csrf
 
                             <div class="row">
-
                                 <div class="col"></div>
                                 <div class="col-md-8">
                                     <div class="mb-3 mt-3">
@@ -104,24 +100,20 @@
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    {{-- @if ($countc > 0)
+                                    @if ($countc > 0)
                                         <a href="{{ url('upstm_ucs_sendexcel') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
                                         </a>
-                                    @else --}}
+                                    @else
                                         <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
-                                                data-bs-placement="top" title="UP STM"></i>
+                                            <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
                                             UP STM
                                         </button>
-                                    {{-- @endif --}}
-
-
+                                    @endif
                                 </div>
                                 <div class="col"></div>
-
                             </div>
                         </form>
                     </div>
@@ -137,31 +129,7 @@
             <div class="col-xl-8 col-md-6">
                 <div class="main-card card p-3">
                     <div class="grid-menu-col">
-                        {{-- <div class="row mt-3 mb-3">
-                            <div class="col"></div>
-                            <div class="col-md-1 text-end mt-2">วันที่</div>
-                            <div class="col-md-4 text-end">
-                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                    data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                    <input type="text" class="form-control" name="startdate" id="datepicker"
-                                        placeholder="Start Date" data-date-container='#datepicker1'
-                                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                        required />
-                                    <input type="text" class="form-control" name="enddate" placeholder="End Date"
-                                        id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker"
-                                        data-date-autoclose="true" data-date-language="th-th" required />
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="submit"
-                                    class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                    <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        title="UPDATE HN IS NULL"></i>
-                                    UPDATE HN IS NULL
-                                </button>
-                            </div>
-                            <div class="col"></div>
-                        </div> --}}
+               
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             {{-- <table id="example" class="table table-striped table-bordered "

@@ -7162,11 +7162,15 @@ class AccountPKController extends Controller
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
                 $row_range    = range( 15, $row_limit );
-                $column_range = range( 'AO', $column_limit );
+                $column_range = range( 'AP', $column_limit );
                 $startcount = 15;
- 
+                // $nobook =  range( 7, $row_limit );
+                // $nobook = range( 7, $column_limit );
                 $data = array();
-                foreach ($row_range as $row ) { 
+                foreach ( $row_range as $row ) {
+  
+                    // $match_stm=$result["C"].(str_replace(" ","",str_replace("/","",str_replace(":","",$result["G"]))));
+           
                     $data[] = [
                         'rep'                   =>$sheet->getCell( 'A' . $row )->getValue(),
                         'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
@@ -7174,9 +7178,21 @@ class AccountPKController extends Controller
                         'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
                         'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
                         'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                        'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(), 
+                        'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
+
+                        // $sheet->getActiveSheet()->setCellValue('H', 39813)
+                        // 'vstdate'               =>$sheet->setCellValue('H', 39813),
+                        // 'dchdate'               =>$sheet->setCellValue('I', 39813),
+                        // 'vstdate'               =>$sheet->getCell( 'H' . $row ,39813)->getValue(),
+                        // 'dchdate'               =>$sheet->getCell( 'I' . $row ,39813)->getValue(),
+                        // ->setCellValue('D1', 39813)
+
+                        // 'vstdate'               =>$vstdate,
+                        // 'dchdate'               =>$dchdate,
+
                         'vstdate'               =>$sheet->getCell( 'H' . $row )->getValue(),
-                        'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(), 
+                        'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(),
+
                         'maininscl'             =>$sheet->getCell( 'J' . $row )->getValue(),
                         'projectcode'           =>$sheet->getCell( 'K' . $row )->getValue(),
                         'debit'                 =>$sheet->getCell( 'L' . $row )->getValue(),
@@ -7209,19 +7225,16 @@ class AccountPKController extends Controller
                         'va'                    =>$sheet->getCell( 'AM' . $row )->getValue(),
                         'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
                         'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
-                    ]; 
-                    $startcount++;                  
+                    ];
+ 
+                    $startcount++;
                 }
-
-                // foreach (array_chunk($row_range,2000) as $t) {
-                //     DB::table('acc_stm_ucs_excel')->insert($t);
+                // $check_ = DB::table('acc_stm_ucs_excel')->where('tranid','=',$sheet->getCell( 'C' . $row )->getValue())->count();
+                // if ($check_ > 0) {
+                //     # code...
+                // } else {
+                    DB::table('acc_stm_ucs_excel')->insert($data);
                 // }
-                $check_ = DB::table('acc_stm_ucs_excel')->where('tranid','=',$sheet->getCell( 'C' . $row )->getValue())->count();
-                if ($check_ > 0) {
-                    # code...
-                } else {
-                 DB::table('acc_stm_ucs_excel')->insert($data);
-                }
                 
                 
                 // DB::table('acc_stm_ucs')->insert($data);
