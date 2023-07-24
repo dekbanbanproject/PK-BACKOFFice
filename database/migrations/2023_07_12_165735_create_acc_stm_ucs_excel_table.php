@@ -28,8 +28,8 @@ return new class extends Migration
                 $table->string('dchdate')->nullable();//วันที่จำหน่าย
                 $table->string('maininscl')->nullable();//
                 $table->string('projectcode')->nullable();//
-                $table->double('debit', 12, 4)->nullable();//เรียกเก็บ
-                $table->double('debit_prb', 12, 4)->nullable();//พรบ.
+                $table->string('debit')->nullable();//เรียกเก็บ
+                $table->string('debit_prb')->nullable();//พรบ.
                 $table->string('adjrw')->nullable();//adjrw
                 $table->string('ps1')->nullable();//ล่าช้า (PS)
                 $table->string('ps2')->nullable();//ล่าช้า (PS)
