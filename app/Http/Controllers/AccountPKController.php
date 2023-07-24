@@ -1509,9 +1509,9 @@ class AccountPKController extends Controller
             ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug as stm217
             from acc_1102050101_217 a
             LEFT JOIN acc_stm_ucs s ON s.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
             AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0)
-            group by a.an 
+            group by a.an
         ');
         // AND s.rep IS NOT NULL
 
@@ -2167,7 +2167,7 @@ class AccountPKController extends Controller
         ]);
     }
 
-    
+
      // ***************** 302********************************
      public function account_302_dash(Request $request)
      {
@@ -2175,14 +2175,14 @@ class AccountPKController extends Controller
          $startdate = $request->startdate;
          $enddate = $request->enddate;
          $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
- 
+
          $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
          $date = date('Y-m-d');
          $y = date('Y') + 543;
          $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
          $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
          $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
- 
+
          if ($startdate == '') {
              $datashow = DB::select('
                      SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -2192,12 +2192,12 @@ class AccountPKController extends Controller
                      ,sum(a.income) as income
                      ,sum(a.paid_money) as paid_money
                      ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
- 
+
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
                      and account_code="1102050101.302"
- 
+
                      group by month(a.dchdate) desc;
              ');
              // and stamp = "N"
@@ -2210,16 +2210,16 @@ class AccountPKController extends Controller
                      ,sum(a.income) as income
                      ,sum(a.paid_money) as paid_money
                      ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
- 
+
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                      and account_code="1102050101.302"
- 
+
                      group by month(a.dchdate) desc;
              ');
          }
- 
+
              return view('account_pk.account_302_dash',[
                  'startdate'     =>     $startdate,
                  'enddate'       =>     $enddate,
@@ -2344,7 +2344,7 @@ class AccountPKController extends Controller
         //                     ]);
         //                 }
         //             }
-   
+
         // }
 
             return response()->json([
@@ -2527,8 +2527,8 @@ class AccountPKController extends Controller
                     //     ]);
                     // }
                     // }
- 
-                     
+
+
         }
 
             return response()->json([
@@ -6982,7 +6982,7 @@ class AccountPKController extends Controller
             $this->validate($request, [
                 'file' => 'required|file|mimes:xls,xlsx'
             ]);
-            $the_file = $request->file('file'); 
+            $the_file = $request->file('file');
             try{
                 $spreadsheet = IOFactory::load($the_file->getRealPath());
                 // $sheet        = $spreadsheet->getActiveSheet();
@@ -6994,8 +6994,8 @@ class AccountPKController extends Controller
                 $startcount = 12;
                 // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
                 $data = array();
-                foreach ($row_range as $row ) { 
-                    
+                foreach ($row_range as $row ) {
+
                     $vst = $sheet->getCell( 'G' . $row )->getValue();
                     // $starttime = substr($vst, 0, 5);
                     $day = substr($vst,0,2);
@@ -7020,10 +7020,10 @@ class AccountPKController extends Controller
 
                         'vstdate'               =>$vstdate,
                         'dchdate'               =>$dchdate,
-                        // 'vstdate'                 =>$sheet->getCell( 'G' . $row )->getValue(), 
+                        // 'vstdate'                 =>$sheet->getCell( 'G' . $row )->getValue(),
                         // 'dchdate'                 =>$sheet->getCell( 'H' . $row )->getValue(),
 
-                        'PROJCODE'                =>$sheet->getCell( 'I' . $row )->getValue(), 
+                        'PROJCODE'                =>$sheet->getCell( 'I' . $row )->getValue(),
                         'AdjRW'                   =>$sheet->getCell( 'J' . $row )->getValue(),
                         'price_req'               =>$sheet->getCell( 'K' . $row )->getValue(),
                         'prb'                     =>$sheet->getCell( 'L' . $row )->getValue(),
@@ -7035,22 +7035,22 @@ class AccountPKController extends Controller
                         'waitdch'                 =>$sheet->getCell( 'R' . $row )->getValue(),
                         'service'                 =>$sheet->getCell( 'S' . $row )->getValue(),
                         'pricereq_all'            =>$sheet->getCell( 'T' . $row )->getValue(),
-                        'STMdoc'                  =>$sheet->getCell( 'U' . $row )->getValue(), 
-                    ];                      
+                        'STMdoc'                  =>$sheet->getCell( 'U' . $row )->getValue(),
+                    ];
                     // if ($sheet->getCell( 'B' . $row )->getValue() == '') {
                     //    $no_ = 0;
                     // } else {
                     //     $no_ = $sheet->getCell( 'B' . $row )->getValue();
-                    // } 
-                    $startcount++;                                
-                } 
-                
+                    // }
+                    $startcount++;
+                }
+
                 DB::table('acc_stm_ofcexcel')->insert($data);
-                        
+
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
-            } 
+            }
                return response()->json([
                 'status'    => '200',
             ]);
@@ -7091,8 +7091,8 @@ class AccountPKController extends Controller
             } else {
                 # code...
             }
-            
-               
+
+
                 // acc_1102050101_4022::where('cid',$value->cid)->where('vstdate',$value->vstdate)
                 // ->update([
                 //     'status'   => 'Y'
@@ -7236,6 +7236,9 @@ class AccountPKController extends Controller
         ]);
         $the_file = $request->file('file');
         // dd($the_file);
+        // $tar_file_ = $request->file;
+        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+        // dd($file_);
             try{
                 $spreadsheet = IOFactory::load($the_file->getRealPath());
                 // $sheet        = $spreadsheet->getActiveSheet();
@@ -7245,9 +7248,23 @@ class AccountPKController extends Controller
                 $row_range    = range( 15, $row_limit );
                 $column_range = range( 'AO', $column_limit );
                 $startcount = 15;
- 
+
                 $data = array();
-                foreach ($row_range as $row ) { 
+                foreach ($row_range as $row ) {
+                    $vst = $sheet->getCell( 'H' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,7,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $reg = $sheet->getCell( 'I' . $row )->getValue();
+                    // $starttime = substr($reg, 0, 5);
+                    $regday = substr($reg, 0, 2);
+                    $regmo = substr($reg, 3, 2);
+                    $regyear = substr($reg, 7, 4);
+                    $dchdate = $regyear.'-'.$regmo.'-'.$regday;
+
                     $data[] = [
                         'rep'                   =>$sheet->getCell( 'A' . $row )->getValue(),
                         'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
@@ -7255,9 +7272,12 @@ class AccountPKController extends Controller
                         'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
                         'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
                         'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                        'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(), 
-                        'vstdate'               =>$sheet->getCell( 'H' . $row )->getValue(),
-                        'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(), 
+                        'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
+
+                        'vstdate'               =>$vstdate,
+                        'dchdate'               =>$dchdate,
+                        // 'vstdate'               =>$sheet->getCell( 'H' . $row )->getValue(),
+                        // 'dchdate'               =>$sheet->getCell( 'I' . $row )->getValue(),
                         'maininscl'             =>$sheet->getCell( 'J' . $row )->getValue(),
                         'projectcode'           =>$sheet->getCell( 'K' . $row )->getValue(),
                         'debit'                 =>$sheet->getCell( 'L' . $row )->getValue(),
@@ -7289,28 +7309,31 @@ class AccountPKController extends Controller
                         'total_approve'         =>$sheet->getCell( 'AL' . $row )->getValue(),
                         'va'                    =>$sheet->getCell( 'AM' . $row )->getValue(),
                         'covid'                 =>$sheet->getCell( 'AN' . $row )->getValue(),
-                        'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
-                    ]; 
-                    $startcount++;                  
+                        'STMdoc'                =>$file_
+                        // 'STMdoc'                =>$sheet->getCell( 'AO' . $row )->getValue(),
+                    ];
+                    $startcount++;
+                    // $file_
+
                 }
 
                 // foreach (array_chunk($row_range,2000) as $t) {
                 //     DB::table('acc_stm_ucs_excel')->insert($t);
                 // }
-                $check_ = DB::table('acc_stm_ucs_excel')->where('tranid','=',$sheet->getCell( 'C' . $row )->getValue())->count();
-                if ($check_ > 0) {
-                    # code...
-                } else {
-                 DB::table('acc_stm_ucs_excel')->insert($data);
-                }
-                
-                
+                // $check_ = DB::table('acc_stm_ucs_excel')->where('tranid','=',$sheet->getCell( 'C' . $row )->getValue())->count();
+                // if ($check_ > 0) {
+                //     # code...
+                // } else {
+
+                // }
+                DB::table('acc_stm_ucs_excel')->insert($data);
+
                 // DB::table('acc_stm_ucs')->insert($data);
 
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
-            }           
+            }
             // return back()->withSuccess('Great! Data has been successfully uploaded.');
             return response()->json([
             'status'    => '200',
@@ -7319,7 +7342,7 @@ class AccountPKController extends Controller
 
     public function upstm_ucs_sendexcel(Request $request)
     {
-      
+
         try{
             $data_ = DB::connection('mysql')->select('
                 SELECT *
@@ -7377,7 +7400,7 @@ class AccountPKController extends Controller
             if ($check_ > 0) {
                 # code...
             } else {
-                
+
                 DB::table('acc_stm_ucs')->insert($data);
             }
             // DB::table('acc_stm_ucs')->insert($data);
@@ -7385,7 +7408,7 @@ class AccountPKController extends Controller
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
-       
+
         // foreach ($data_ as $key => $value) {
         //         Acc_stm_ucs::create([
         //             'rep'               => $value->rep,
@@ -7555,7 +7578,8 @@ class AccountPKController extends Controller
         Acc_stm_ti_excel::truncate();
         return redirect()->back();
     }
-    function upstm_ti_importexcel(Request $request){
+    function upstm_ti_importexcel(Request $request)
+    {
         $this->validate($request, [
             'file' => 'required|file|mimes:xls,xlsx'
         ]);
@@ -7814,7 +7838,7 @@ class AccountPKController extends Controller
                     // $quota        = $value['quota'];
                     // $hdcharge     = $value['hdcharge'];
                     // $payable      = $value['payable'];
-                    
+
                     $tbill        = $value['TBill'];
                     foreach ($tbill as $key => $value2) {
                             $hcode = $value2['hreg'];
