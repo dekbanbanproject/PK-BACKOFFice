@@ -98,12 +98,12 @@
                                 <div class="col"></div>
                                 <div class="col-md-6">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL =>> วิธีใช้ -->>> เพิ่ม Columnสุดท้าย ใส่ชื่อไฟล์ ==>> ส่งข้อมูล</label>
+                                        <label for="formFileLg" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
-                                    @if ($countc > 0)  
+                                    @if ($countc > 0)
                                         <a href="{{ url('upstm_ofcexcel_senddata') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
@@ -116,8 +116,8 @@
                                             UP STM
                                         </button>
                                     @endif
-                                    
-                                    
+
+
                                 </div>
                                 <div class="col"></div>
 
@@ -182,7 +182,7 @@
 
                                     <tr height="20" >
                                         <td class="text-font" style="text-align: center;" width="4%" >{{ $number }}</td>
-                                        <td class="text-center" width="10%" > {{ $item->repno }}</td> 
+                                        <td class="text-center" width="10%" > {{ $item->repno }}</td>
                                         @if ($item->months == '1')
                                         <td width="10%" class="text-center" >มกราคม </td>
                                     @elseif ($item->months == '2')
@@ -367,7 +367,7 @@
             });
 
             //    $('#UpdateHN').click(function() {
-            //             var datepicker = $('#datepicker').val();  
+            //             var datepicker = $('#datepicker').val();
             //             var datepicker2 = $('#datepicker2').val();
 
             //             $.ajax({
@@ -375,7 +375,7 @@
             //                 type: "POST",
             //                 dataType: 'json',
             //                 data: {
-            //                     datepicker,datepicker2 
+            //                     datepicker,datepicker2
             //                 },
             //                 success: function(data) {
             //                     if (data.status == 200) {
