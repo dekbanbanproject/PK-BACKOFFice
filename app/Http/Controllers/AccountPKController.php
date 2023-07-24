@@ -7346,51 +7346,70 @@ class AccountPKController extends Controller
                     $check = Acc_stm_ucs::where('tranid','=',$value->tranid)->count();
                     if ($check > 0) {
                         # code...
-                    } else { 
-                        Acc_stm_ucs::create([
-                            'rep'               => $value->rep,
-                            'repno'             => $value->repno,
-                            'tranid'            => $value->tranid,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an,
-                            'cid'               => $value->cid,
-                            'fullname'          => $value->fullname,
-                            'vstdate'           => $value->vstdate,
-                            'dchdate'           => $value->dchdate,
-                            'maininscl'         => $value->maininscl,
-                            'projectcode'       => $value->projectcode,
-                            'debit'             => $value->debit,
-                            'debit_prb'         => $value->debit_prb,
-                            'adjrw'             => $value->adjrw,
-                            'ps1'               => $value->ps1,
-                            'ps2'               => $value->ps2,
-                            'ccuf'              => $value->ccuf,
-                            'adjrw2'            => $value->adjrw2,
-                            'pay_money'         => $value->pay_money,
-                            'pay_slip'          => $value->pay_slip,
-                            'pay_after'         => $value->pay_after,
-                            'op'                => $value->op,
-                            'ip_pay1'           => $value->ip_pay1,
-                            'ip_paytrue'        => $value->ip_paytrue,
-                            'hc'                => $value->hc,
-                            'hc_drug'           => $value->hc_drug,
-                            'ae'                => $value->ae,
-                            'ae_drug'           => $value->ae_drug,
-                            'inst'              => $value->inst,
-                            'dmis_money1'       => $value->dmis_money1,
-                            'dmis_money2'       => $value->dmis_money2,
-                            'dmis_drug'         => $value->dmis_drug,
-                            'palliative_care'   => $value->palliative_care,
-                            'dmishd'            => $value->dmishd,
-                            'pp'                => $value->pp,
-                            'fs'                => $value->fs,
-                            'opbkk'             => $value->opbkk,
-                            'total_approve'     => $value->total_approve,
-                            'va'                => $value->va,
-                            'covid'             => $value->covid,
-                            'date_save'         => $value->date_save,
-                            'STMdoc'            => $value->STMdoc
-                        ]);
+                    } else {
+                        $add = new Acc_stm_ucs();
+                        $add->rep = $value->rep;
+                        $add->repno = $value->repno;
+                        $add->tranid = $value->tranid;
+                        $add->hn = $value->hn;
+                        $add->an = $value->an;
+                        $add->cid = $value->cid;
+                        $add->fullname = $value->fullname;
+                        $add->vstdate = $value->vstdate;
+                        $add->dchdate = $value->dchdate;
+                        $add->maininscl = $value->maininscl;
+                        $add->projectcode = $value->projectcode;
+                        $add->debit = $value->debit;
+                        $add->debit_prb = $value->debit_prb;
+                        $add->adjrw = $value->adjrw;
+                        $add->ps1 = $value->ps1;
+                        $add->ps2 = $value->ps2;
+                        $add->save();
+
+                        // Acc_stm_ucs::create([
+                        //     'rep'               => $value->rep,
+                        //     'repno'             => $value->repno,
+                        //     'tranid'            => $value->tranid,
+                        //     'hn'                => $value->hn,
+                        //     'an'                => $value->an,
+                        //     'cid'               => $value->cid,
+                        //     'fullname'          => $value->fullname,
+                        //     'vstdate'           => $value->vstdate,
+                        //     'dchdate'           => $value->dchdate,
+                        //     'maininscl'         => $value->maininscl,
+                        //     'projectcode'       => $value->projectcode,
+                        //     'debit'             => $value->debit,
+                        //     'debit_prb'         => $value->debit_prb,
+                        //     'adjrw'             => $value->adjrw,
+                        //     'ps1'               => $value->ps1,
+                        //     'ps2'               => $value->ps2,
+                        //     'ccuf'              => $value->ccuf,
+                        //     'adjrw2'            => $value->adjrw2,
+                        //     'pay_money'         => $value->pay_money,
+                        //     'pay_slip'          => $value->pay_slip,
+                        //     'pay_after'         => $value->pay_after,
+                        //     'op'                => $value->op,
+                        //     'ip_pay1'           => $value->ip_pay1,
+                        //     'ip_paytrue'        => $value->ip_paytrue,
+                        //     'hc'                => $value->hc,
+                        //     'hc_drug'           => $value->hc_drug,
+                        //     'ae'                => $value->ae,
+                        //     'ae_drug'           => $value->ae_drug,
+                        //     'inst'              => $value->inst,
+                        //     'dmis_money1'       => $value->dmis_money1,
+                        //     'dmis_money2'       => $value->dmis_money2,
+                        //     'dmis_drug'         => $value->dmis_drug,
+                        //     'palliative_care'   => $value->palliative_care,
+                        //     'dmishd'            => $value->dmishd,
+                        //     'pp'                => $value->pp,
+                        //     'fs'                => $value->fs,
+                        //     'opbkk'             => $value->opbkk,
+                        //     'total_approve'     => $value->total_approve,
+                        //     'va'                => $value->va,
+                        //     'covid'             => $value->covid,
+                        //     'date_save'         => $value->date_save,
+                        //     'STMdoc'            => $value->STMdoc
+                        // ]);
                         Acc_1102050101_202::where('an',$value->an)
                         ->update([
                             'status'   => 'Y'
