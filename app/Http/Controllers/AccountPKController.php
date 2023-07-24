@@ -7061,7 +7061,7 @@ class AccountPKController extends Controller
                 foreach ($data_ as $key => $value) {
                     // $value->no != '' && $value->repno != 'REP' &&
                     if ($value->cid != 'PID' || $value->cid != '') {
-                        $check = Acc_stm_ofc::where('repno','=',$value->repno)->count();
+                        $check = Acc_stm_ofc::where('no','=',$value->no)->count();
                         if ($check > 0) {
                             # code...
                         } else {
