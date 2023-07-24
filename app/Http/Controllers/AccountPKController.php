@@ -7063,7 +7063,7 @@ class AccountPKController extends Controller
                 if ($check > 0) {
                     # code...
                 } else {
-                    $add = new Acc_stm_ucs();
+                    $add = new Acc_stm_ofc();
                     $add->repno          = $value->repno;
                     $add->no             = $value->no;
                     $add->hn             = $value->hn;
