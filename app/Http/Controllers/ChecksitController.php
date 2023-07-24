@@ -1091,9 +1091,9 @@ class ChecksitController extends Controller
     public function check_spsch(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-03-01";
-        $date_end = "2023-03-01";
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_end&page=0&size=1000&sort=transId,desc";
+        $date_start = "2023-04-26";
+        $date_end = "2023-04-26";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
@@ -1359,20 +1359,15 @@ class ChecksitController extends Controller
     {
         $date = date('Y-m-d');
         $y = date('Y');
-        $data_year = DB::connection('mysql3')->select('
-            SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT ra.VN) as authenOPD
-                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
-            FROM ovst o
-            LEFT JOIN vn_stat v on v.vn = o.vn
-            LEFT JOIN patient p on p.hn = o.hn
-            LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
-                WHERE YEAR(o.vstdate) = "'.$y.'" AND o.an is null
-                GROUP BY month
-			    ORDER BY month ASC
+      
+        $data_year2 = DB::connection('mysql')->select('
+            SELECT month,year,countvn,authen_opd 
+            FROM db_authen 
+            WHERE year = "'.$y.'" and authen_opd <> 0
         ');
-        
-        return view('dashboard.check_dashboard',[
-            'data_year'               => $data_year, 
+       
+        return view('dashboard.check_dashboard',[ 
+            'data_year2'              => $data_year2, 
         ] );
     }
     public function check_dashboard_bar(Request $request)
@@ -1387,7 +1382,7 @@ class ChecksitController extends Controller
             $enddate = $value->date_end;
         }
         $chart = DB::connection('mysql')->select('
-            SELECT * FROM db_year WHERE year = "'.$y.'"
+            SELECT * FROM db_authen WHERE year = "'.$y.'"
         ');
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
@@ -1417,12 +1412,12 @@ class ChecksitController extends Controller
             'labels'          =>  array_values($labels),
             'datasets'     =>  [
                 [
-                    'label'           =>  'จำนวนคนไข้ที่มารับบริการ OPD',
+                    'label'           =>  'คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และสิทธิ์ M1-M6',
                     'borderColor'     => 'rgba(255, 205, 86 , 1)',
                     'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
-                    'data'            =>  array_values($countvn)
+                    'data'            =>  array_values($countvn) 
                 ],
                 [
                     'label'           =>  'Authen Code',
@@ -1446,3 +1441,5 @@ class ChecksitController extends Controller
         // 255, 205, 86
     }
 }
+// AND o.main_dep NOT IN("011","036","107")
+// AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")

@@ -157,12 +157,12 @@
                                 <span>Dashboard Authen</span>
                             </a>
                         </li>  --}}
-                        <li>
+                        {{-- <li>
                             <a href="{{ url('report_authen') }}">
                                 <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard Authen</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ url('report_dashboard') }}">
                                 <i class="fa-solid fa-gauge-high text-danger"></i>

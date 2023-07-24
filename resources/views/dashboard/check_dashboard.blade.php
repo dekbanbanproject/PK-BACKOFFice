@@ -79,7 +79,7 @@
                 <div class="main-card mb-3 card p-2" >
                     <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{$ynow}}</h5>
                     <div class="row">
-                        @foreach ($data_year as $item)
+                        @foreach ($data_year2 as $item)
                         <div class="col-sm-12 col-md-4">
                                     @if ($item->month == '1')
                                     <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-primary card shadow-lg">
@@ -150,12 +150,12 @@
                                                                     <span class="pe-1">
                                                                         <i class="fa fa-angle-left"></i>
                                                                     </span>
-                                                                    <label for="" style="font-size: 12px"> {{$item->authenOPD}}</label>
+                                                                    <label for="" style="font-size: 12px"> {{$item->authen_opd}}</label>
                                                                 </span>
                                                                 /
                                                             <a href="{{url('report_authen_sub/'.$item->month.'/'.$item->year)}}" target="_blank">
                                                                 <span class="text-danger ps-2">
-                                                                    <label for="" style="font-size: 12px"> {{($item->countvn - $item->authenOPD)}} คน</label>
+                                                                    <label for="" style="font-size: 12px"> {{($item->countvn - $item->authen_opd)}} คน</label>
 
                                                                     <span class="pe-1">
                                                                         <i class="fa fa-angle-right"></i>
@@ -224,7 +224,7 @@
                 });
 
     </script>
-     <script>
+     {{-- <script>
         var ctx2 = document.getElementById("Mychartipd").getContext("2d");
 
             fetch("{{ route('rep.reportauthen_getbaripd') }}")
@@ -249,9 +249,9 @@
                         })
                 });
 
-    </script>
+    </script> --}}
 
-    <script>
+    {{-- <script>
         window.addEventListener("DOMContentLoaded", () => {
         // update circle when range change
         const pie = document.querySelectorAll("#pie");
@@ -338,5 +338,5 @@
             global.animationTo(options);
         });
         });
-  </script>
+  </script> --}}
     @endsection
