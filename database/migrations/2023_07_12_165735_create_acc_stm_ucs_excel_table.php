@@ -35,29 +35,29 @@ return new class extends Migration
                 $table->string('ps2')->nullable();//ล่าช้า (PS)
                 $table->string('ccuf')->nullable();//ccuf
                 $table->string('adjrw2')->nullable();//AdjRW2
-                $table->double('pay_money', 12, 4)->nullable();//อัตราจ่าย
-                $table->double('pay_slip', 12, 4)->nullable();//เงินเดือน
-                $table->double('pay_after', 12, 4)->nullable();//จ่ายชดเชยหลังหัก พรบ.และเงินเดือน
-                $table->double('op', 12, 4)->nullable();//OP
+                $table->string('pay_money', 255)->nullable();//อัตราจ่าย
+                $table->string('pay_slip', 255)->nullable();//เงินเดือน
+                $table->string('pay_after', 255)->nullable();//จ่ายชดเชยหลังหัก พรบ.และเงินเดือน
+                $table->string('op', 255)->nullable();//OP
 
-                $table->double('ip_pay1', 12, 4)->nullable();//
-                $table->double('ip_paytrue', 12, 4)->nullable();//
-                $table->double('hc', 12, 4)->nullable();//
-                $table->double('hc_drug', 12, 4)->nullable();//
-                $table->double('ae', 12, 4)->nullable();//
-                $table->double('ae_drug', 12, 4)->nullable();//
-                $table->double('inst', 12, 4)->nullable();//
-                $table->double('dmis_money1', 12, 4)->nullable();//
-                $table->double('dmis_money2', 12, 4)->nullable();//
-                $table->double('dmis_drug', 12, 4)->nullable();//
-                $table->double('palliative_care', 12, 4)->nullable();//Palliative care
-                $table->double('dmishd', 12, 4)->nullable();//DMISHD
-                $table->double('pp', 12, 4)->nullable();//PP
-                $table->double('fs', 12, 4)->nullable();//FS
-                $table->double('opbkk', 12, 4)->nullable();//OPBKK
-                $table->double('total_approve', 12, 4)->nullable();//ยอดชดเชยทั้งสิ้น
-                $table->double('va', 12, 4)->nullable();//va
-                $table->double('covid', 12, 4)->nullable();//covid
+                $table->string('ip_pay1',255)->nullable();//
+                $table->string('ip_paytrue', 255)->nullable();//
+                $table->string('hc', 255)->nullable();//
+                $table->string('hc_drug', 255)->nullable();//
+                $table->string('ae', 255)->nullable();//
+                $table->string('ae_drug', 255)->nullable();//
+                $table->string('inst', 255)->nullable();//
+                $table->string('dmis_money1', 255)->nullable();//
+                $table->string('dmis_money2', 255)->nullable();//
+                $table->string('dmis_drug', 255)->nullable();//
+                $table->string('palliative_care', 255)->nullable();//Palliative care
+                $table->string('dmishd', 255)->nullable();//DMISHD
+                $table->string('pp', 255)->nullable();//PP
+                $table->string('fs', 255)->nullable();//FS
+                $table->string('opbkk', 255)->nullable();//OPBKK
+                $table->string('total_approve', 255)->nullable();//ยอดชดเชยทั้งสิ้น
+                $table->string('va',255)->nullable();//va
+                $table->string('covid')->nullable();//covid
                 $table->date('date_save')->nullable();//
                 $table->string('STMdoc')->nullable();//
 
