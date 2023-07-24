@@ -98,7 +98,7 @@
                                 <div class="col"></div>
                                 <div class="col-md-6">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL =>> วิธีใช้ -->>> ตัดหัว Excel -->>> เพิ่ม Columnสุดท้าย ใส่ชื่อไฟล์  -->>> แปลงวันที่เป็น United kingdom ->>> Coppy วันที่จากExcel ลง table Acc_stm_ofcexcel</label>
+                                        <label for="formFileLg" class="form-label">UP STM EXCEL =>> วิธีใช้ -->>> เพิ่ม Columnสุดท้าย ใส่ชื่อไฟล์ ==>> ส่งข้อมูล</label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

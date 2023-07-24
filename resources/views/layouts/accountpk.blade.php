@@ -366,13 +366,14 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
-                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)</a></li>
-                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)</a></li>
-                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel-ไต)</a></li>
-                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml)</a></li>
+                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)</a></li>                              
+                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)</a></li>                                
                                 <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li>
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)</a></li>
                                 <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li>
+                                
+                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)</a></li>
+                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)</a></li>
                             </ul>
                         </li>
                         <li>

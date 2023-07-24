@@ -6974,9 +6974,84 @@ class AccountPKController extends Controller
     }
     public function upstm_ofcexcel_save(Request $request)
     {
-            Excel::import(new ImportAcc_stm_ofcexcel_import, $request->file('file')->store('files'));
+            // Excel::import(new ImportAcc_stm_ofcexcel_import, $request->file('file')->store('files'));
+            //  return response()->json([
+            //     'status'    => '200',
+            // ]);
 
-             return response()->json([
+            $this->validate($request, [
+                'file' => 'required|file|mimes:xls,xlsx'
+            ]);
+            $the_file = $request->file('file'); 
+            try{
+                $spreadsheet = IOFactory::load($the_file->getRealPath());
+                // $sheet        = $spreadsheet->getActiveSheet();
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 12, $row_limit );
+                $column_range = range( 'AO', $column_limit );
+                $startcount = 12;
+                // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
+                $data = array();
+                foreach ($row_range as $row ) { 
+                    
+                    $vst = $sheet->getCell( 'G' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,7,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $reg = $sheet->getCell( 'H' . $row )->getValue();
+                    // $starttime = substr($reg, 0, 5);
+                    $regday = substr($reg, 0, 2);
+                    $regmo = substr($reg, 3, 2);
+                    $regyear = substr($reg, 7, 4);
+                    $dchdate = $regyear.'-'.$regmo.'-'.$regday;
+
+                    $data[] = [
+                        'repno'                   =>$sheet->getCell( 'A' . $row )->getValue(),
+                        'no'                      =>$sheet->getCell( 'B' . $row )->getValue(),
+                        'hn'                      =>$sheet->getCell( 'C' . $row )->getValue(),
+                        'an'                      =>$sheet->getCell( 'D' . $row )->getValue(),
+                        'cid'                     =>$sheet->getCell( 'E' . $row )->getValue(),
+                        'fullname'                =>$sheet->getCell( 'F' . $row )->getValue(),
+
+                        'vstdate'               =>$vstdate,
+                        'dchdate'               =>$dchdate,
+                        // 'vstdate'                 =>$sheet->getCell( 'G' . $row )->getValue(), 
+                        // 'dchdate'                 =>$sheet->getCell( 'H' . $row )->getValue(),
+
+                        'PROJCODE'                =>$sheet->getCell( 'I' . $row )->getValue(), 
+                        'AdjRW'                   =>$sheet->getCell( 'J' . $row )->getValue(),
+                        'price_req'               =>$sheet->getCell( 'K' . $row )->getValue(),
+                        'prb'                     =>$sheet->getCell( 'L' . $row )->getValue(),
+                        'room'                    =>$sheet->getCell( 'M' . $row )->getValue(),
+                        'inst'                    =>$sheet->getCell( 'N' . $row )->getValue(),
+                        'drug'                    =>$sheet->getCell( 'O' . $row )->getValue(),
+                        'income'                  =>$sheet->getCell( 'P' . $row )->getValue(),
+                        'refer'                   =>$sheet->getCell( 'Q' . $row )->getValue(),
+                        'waitdch'                 =>$sheet->getCell( 'R' . $row )->getValue(),
+                        'service'                 =>$sheet->getCell( 'S' . $row )->getValue(),
+                        'pricereq_all'            =>$sheet->getCell( 'T' . $row )->getValue(),
+                        'STMdoc'                  =>$sheet->getCell( 'U' . $row )->getValue(), 
+                    ];                      
+                    // if ($sheet->getCell( 'B' . $row )->getValue() == '') {
+                    //    $no_ = 0;
+                    // } else {
+                    //     $no_ = $sheet->getCell( 'B' . $row )->getValue();
+                    // } 
+                    $startcount++;                                
+                } 
+                
+                DB::table('acc_stm_ofcexcel')->insert($data);
+                        
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            } 
+               return response()->json([
                 'status'    => '200',
             ]);
     }
@@ -6988,6 +7063,7 @@ class AccountPKController extends Controller
         ');
         // GROUP BY cid,vstdate
         foreach ($data_ as $key => $value) {
+            if ($value->no != '' && $value->repno != 'REP' && $value->cid != '') {
                 Acc_stm_ofc::create([
                     'repno'             => $value->repno,
                     'no'                => $value->no,
@@ -7012,10 +7088,15 @@ class AccountPKController extends Controller
                     'STMdoc'            => $value->STMdoc,
                     'HDflag'            => 'OFC'
                 ]);
-                acc_1102050101_4022::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                ->update([
-                    'status'   => 'Y'
-                ]);
+            } else {
+                # code...
+            }
+            
+               
+                // acc_1102050101_4022::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                // ->update([
+                //     'status'   => 'Y'
+                // ]);
         }
         Acc_stm_ofcexcel::truncate();
         // return response()->json([
@@ -7147,9 +7228,9 @@ class AccountPKController extends Controller
             'countc'        =>     $countc
         ]);
     }
-    function upstm_ucs_excel(Request $request){
+    function upstm_ucs_excel(Request $request)
+    {
         // Acc_stm_ucs_excel::truncate();
-
         $this->validate($request, [
             'file' => 'required|file|mimes:xls,xlsx'
         ]);
@@ -7229,13 +7310,11 @@ class AccountPKController extends Controller
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
-            }
-           
+            }           
             // return back()->withSuccess('Great! Data has been successfully uploaded.');
             return response()->json([
             'status'    => '200',
         ]);
-
     }
 
     public function upstm_ucs_sendexcel(Request $request)
@@ -7298,6 +7377,7 @@ class AccountPKController extends Controller
             if ($check_ > 0) {
                 # code...
             } else {
+                
                 DB::table('acc_stm_ucs')->insert($data);
             }
             // DB::table('acc_stm_ucs')->insert($data);
@@ -7482,7 +7562,7 @@ class AccountPKController extends Controller
         $the_file = $request->file('file');
         try{
             $spreadsheet = IOFactory::load($the_file->getRealPath());
-            $sheet        = $spreadsheet->getActiveSheet();
+            $sheet        = $spreadsheet->getActiveSheet(2);
             $row_limit    = $sheet->getHighestDataRow();
             $column_limit = $sheet->getHighestDataColumn();
             $row_range    = range( 9, $row_limit );
