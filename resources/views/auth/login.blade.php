@@ -53,7 +53,7 @@
         background:
             url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%;
         background-size: cover;
-        display: flex;  
+        display: flex;
         justify-content: center;
     }
 
@@ -107,7 +107,7 @@
     ?>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="height: 100px;">
         <div class="container">
-            @foreach ($datadetail as $item) 
+            @foreach ($datadetail as $item)
                 <img src="{{ asset('images/logo150.png') }}" class="bi me-2" width="45" height="45"
                     alt="">
                 <a class="navbar-brand" href="#" style="font-size: 22px">{{ $item->orginfo_name }}</a>
@@ -124,7 +124,7 @@
                             Systems</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('report_authen') }}" target="_blank">Report</a>
+                        <a class="nav-link" href="{{ url('check_dashboard') }}" target="_blank">Report</a>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
