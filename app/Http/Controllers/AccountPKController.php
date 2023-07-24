@@ -7055,11 +7055,12 @@ class AccountPKController extends Controller
                 $data_ = DB::connection('mysql')->select('
                     SELECT *
                     FROM acc_stm_ofcexcel
+                    GROUP BY no
                 ');
                 // GROUP BY cid,vstdate
                 foreach ($data_ as $key => $value) {
                     // $value->no != '' && $value->repno != 'REP' &&
-                    // if ($value->cid != 'PID' || $value->cid != '') {
+                    if ($value->cid != 'PID' || $value->cid != '') {
                         $check = Acc_stm_ofc::where('repno','=',$value->repno)->count();
                         if ($check > 0) {
                             # code...
@@ -7112,9 +7113,9 @@ class AccountPKController extends Controller
                             // ]);
                         }
 
-                    // } else {
+                    } else {
                         # code...
-                    // }
+                    }
                         // acc_1102050101_4022::where('cid',$value->cid)->where('vstdate',$value->vstdate)
                         // ->update([
                         //     'status'   => 'Y'
