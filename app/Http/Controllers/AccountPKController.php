@@ -7064,54 +7064,54 @@ class AccountPKController extends Controller
                         if ($check > 0) {
                             # code...
                         } else {
-                            $add = new Acc_stm_ofc();
-                            $add->repno          = $value->repno;
-                            $add->no             = $value->no;
-                            $add->hn             = $value->hn;
-                            $add->an             = $value->an;
-                            $add->cid            = $value->cid;
-                            $add->fullname       = $value->fullname;
-                            $add->vstdate        = $value->vstdate;
-                            $add->dchdate        = $value->dchdate;
-                            $add->PROJCODE       = $value->PROJCODE;
-                            $add->AdjRW          = $value->AdjRW;
-                            $add->price_req      = $value->price_req;
-                            $add->prb            = $value->prb;
-                            $add->room           = $value->room;
-                            $add->inst           = $value->inst;
-                            $add->drug           = $value->drug;
-                            $add->income         = $value->income;
-                            $add->refer          = $value->refer;
-                            $add->waitdch        = $value->waitdch;
-                            $add->service        = $value->service;
-                            $add->pricereq_all   = $value->pricereq_all;
-                            $add->STMdoc         = $value->STMdoc;
-                            $add->save();
+                            // $add = new Acc_stm_ofc();
+                            // $add->repno          = $value->repno;
+                            // $add->no             = $value->no;
+                            // $add->hn             = $value->hn;
+                            // $add->an             = $value->an;
+                            // $add->cid            = $value->cid;
+                            // $add->fullname       = $value->fullname;
+                            // $add->vstdate        = $value->vstdate;
+                            // $add->dchdate        = $value->dchdate;
+                            // $add->PROJCODE       = $value->PROJCODE;
+                            // $add->AdjRW          = $value->AdjRW;
+                            // $add->price_req      = $value->price_req;
+                            // $add->prb            = $value->prb;
+                            // $add->room           = $value->room;
+                            // $add->inst           = $value->inst;
+                            // $add->drug           = $value->drug;
+                            // $add->income         = $value->income;
+                            // $add->refer          = $value->refer;
+                            // $add->waitdch        = $value->waitdch;
+                            // $add->service        = $value->service;
+                            // $add->pricereq_all   = $value->pricereq_all;
+                            // $add->STMdoc         = $value->STMdoc;
+                            // $add->save();
+                             Acc_stm_ofc::create([
+                                'repno'             => $value->repno,
+                                'no'                => $value->no,
+                                'hn'                => $value->hn,
+                                'an'                => $value->an,
+                                'cid'               => $value->cid,
+                                'fullname'          => $value->fullname,
+                                'vstdate'           => $value->vstdate,
+                                'dchdate'           => $value->dchdate,
+                                'PROJCODE'          => $value->PROJCODE,
+                                'AdjRW'             => $value->AdjRW,
+                                'price_req'         => $value->price_req,
+                                'prb'               => $value->prb,
+                                'room'              => $value->room,
+                                'inst'              => $value->inst,
+                                'drug'              => $value->drug,
+                                'income'            => $value->income,
+                                'refer'             => $value->refer,
+                                'waitdch'           => $value->waitdch,
+                                'service'           => $value->service,
+                                'pricereq_all'      => $value->pricereq_all,
+                                'STMdoc'            => $value->STMdoc 
+                            ]);
                         }
-                            // Acc_stm_ofc::create([
-                            //     'repno'             => $value->repno,
-                            //     'no'                => $value->no,
-                            //     'hn'                => $value->hn,
-                            //     'an'                => $value->an,
-                            //     'cid'               => $value->cid,
-                            //     'fullname'          => $value->fullname,
-                            //     'vstdate'           => $value->vstdate,
-                            //     'dchdate'           => $value->dchdate,
-                            //     'PROJCODE'          => $value->PROJCODE,
-                            //     'AdjRW'             => $value->AdjRW,
-                            //     'price_req'         => $value->price_req,
-                            //     'prb'               => $value->prb,
-                            //     'room'              => $value->room,
-                            //     'inst'              => $value->inst,
-                            //     'drug'              => $value->drug,
-                            //     'income'            => $value->income,
-                            //     'refer'             => $value->refer,
-                            //     'waitdch'           => $value->waitdch,
-                            //     'service'           => $value->service,
-                            //     'pricereq_all'      => $value->pricereq_all,
-                            //     'STMdoc'            => $value->STMdoc,
-                            //     'HDflag'            => 'OFC'
-                            // ]);
+
                     } else {
                         # code...
                     }
