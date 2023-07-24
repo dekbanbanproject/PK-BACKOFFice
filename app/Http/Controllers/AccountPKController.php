@@ -7060,7 +7060,7 @@ class AccountPKController extends Controller
                 // GROUP BY cid,vstdate
                 foreach ($data_ as $key => $value) {
                     // $value->no != '' && $value->repno != 'REP' &&
-                    if ($value->cid != 'PID' || $value->cid != '') {
+                    if ($value->repno != 'REP' && $value->cid != '') {
                         $check = Acc_stm_ofc::where('no','=',$value->no)->count();
                         if ($check > 0) {
                             # code...
