@@ -7255,14 +7255,14 @@ class AccountPKController extends Controller
                     // $starttime = substr($vst, 0, 5);
                     $day = substr($vst,0,2);
                     $mo = substr($vst,3,2);
-                    $year = substr($vst,7,4);
+                    $year = substr($vst,6,4);
                     $vstdate = $year.'-'.$mo.'-'.$day;
 
                     $reg = $sheet->getCell( 'I' . $row )->getValue();
                     // $starttime = substr($reg, 0, 5);
                     $regday = substr($reg, 0, 2);
                     $regmo = substr($reg, 3, 2);
-                    $regyear = substr($reg, 7, 4);
+                    $regyear = substr($reg, 6, 4);
                     $dchdate = $regyear.'-'.$regmo.'-'.$regday;
 
                     $data[] = [
