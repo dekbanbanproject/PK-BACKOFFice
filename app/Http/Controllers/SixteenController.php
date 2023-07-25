@@ -288,6 +288,37 @@ class SixteenController extends Controller
                 'UUC'                 => $va3->UUC            
             ]);
         }
+
+        $data_orf = DB::connection('mysql3')->select(' 
+                SELECT 
+                "" d_orf_id
+                ,v.hn HN
+                ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                ,v.spclty CLINIC
+                ,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
+                ,"0100" REFERTYPE
+                ,v.vn SEQ
+                ,"" created_at
+                ,"" updated_at
+                from vn_stat v
+                LEFT JOIN ovst o on o.vn = v.vn
+                LEFT JOIN referin r1 on r1.vn = v.vn 
+                LEFT JOIN referout r2 on r2.vn = v.vn
+                left join claim.d_export_ucep x on x.vn = v.vn
+                where x.active="N"
+                and (r1.vn is not null or r2.vn is not null);
+        '); 
+        D_orf::truncate();       
+        foreach ($data_orf as $va4) { 
+            D_orf::insert([ 
+                'HN'                => $va4->HN,
+                'DATEOPD'           => $va4->DATEOPD,
+                'CLINIC'            => $va4->CLINIC,
+                'REFER'             => $va4->REFER, 
+                'REFERTYPE'         => $va4->REFERTYPE,
+                'SEQ'               => $va4->SEQ            
+            ]);
+        }
         
         
         return redirect()->back();
