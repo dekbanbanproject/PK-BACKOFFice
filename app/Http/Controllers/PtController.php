@@ -231,7 +231,57 @@ class PtController extends Controller
             'total'                  =>  $total,
         ]);
     }
+    public function kayapap_jitvs_mian(Request $request)
+    {   
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $kayapap_jitvs = DB::connection('mysql3')->select('
+                select year(v.vstdate) as year
+                ,month(v.vstdate) as months
+                ,count(distinct v.cid,v.vstdate,n.detail) as VN
+                ,count(distinct s.cid,s.registdate,s.equipment_code) as spsch
+                ,count(distinct v.cid,v.vstdate,n.detail)-count(distinct s.cid,s.registdate,s.equipment_code) as nokey
+                ,format(sum(o.sum_price),2) as incomhos
+                ,format(sum(s.pay_price),2) as chod
+                ,format(100*count(distinct s.cid,s.registdate,s.equipment_code)/count(distinct v.cid,v.vstdate,n.detail),2) as percen
+                from hos.vn_stat v
+                LEFT JOIN hos.opitemrece o on o.vn =v.vn
+                LEFT JOIN hos.visit_pttype ip on ip.vn=v.vn
+                left join hos.nondrugitems_ptxxx n on n.icode = o.icode
+                left join hos.pttype pt on pt.pttype = v.pttype
+                left join hshooterdb.m_physical s on s.cid = v.cid and s.registdate = v.vstdate and s.equipment_code = n.detail
+                where v.vstdate between "'.$startdate.'" AND "'.$enddate.'"
+                and pt.hipdata_code="UCS"
+                and n.detail in("H9433.1","H9449.1")
+                GROUP BY month(v.vstdate) 
+        '); 
 
+        $total = DB::connection('mysql3')->select('
+                select " "," ","รวมทั้งหมด" 
+                ,count(distinct v.cid,v.vstdate,n.detail) as VNN
+                ,count(distinct s.cid,s.registdate,s.equipment_code) as spschh
+                ,count(distinct v.cid,v.vstdate,n.detail)-count(distinct s.cid,s.registdate,s.equipment_code) as nokeyy
+                ,format(sum(o.sum_price),2) as incomhoss
+                ,format(sum(s.pay_price),2) as chodd
+                ,format(100*count(distinct s.cid,s.registdate,s.equipment_code)/count(distinct v.cid,v.vstdate,n.detail),2) as percenn
+                from hos.vn_stat v
+                LEFT JOIN hos.opitemrece o on o.vn =v.vn
+                LEFT JOIN hos.visit_pttype ip on ip.vn=v.vn
+                left join hos.nondrugitems_ptxxx n on n.icode = o.icode
+                left join hos.pttype pt on pt.pttype = v.pttype
+                left join hshooterdb.m_physical s on s.cid = v.cid and s.registdate = v.vstdate and s.equipment_code = n.detail
+                where v.vstdate between "'.$startdate.'" AND "'.$enddate.'"
+                and pt.hipdata_code="UCS"
+                and n.detail in("H9433.1","H9449.1") 
+        ');
+
+        return view('pt.kayapap_jitvs',[
+            'kayapap_jitvs'             =>  $kayapap_jitvs,
+            'startdate'              =>  $startdate,
+            'enddate'                =>  $enddate,
+            'total'                  =>  $total,
+        ]);
+    }
     public function kayapap_jitvs(Request $request,$startdate,$enddate)
     {   
         $kayapap_jitvs = DB::connection('mysql3')->select('

@@ -15,21 +15,16 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_iop'))
         {
-            Schema::connection('mysql7')->create('d_iop', function (Blueprint $table) {
-                $table->bigIncrements('d_iop_id');
-
-                $table->string('HN')->nullable();// 
+            Schema::connection('mysql')->create('d_iop', function (Blueprint $table) {
+                $table->bigIncrements('d_iop_id'); 
                 $table->string('AN')->nullable();// 
-
+                $table->string('OPER')->nullable();// 
+                $table->string('OPTYPE')->nullable(); // 
+                $table->string('DROPID')->nullable(); //  
                 $table->date('DATEIN')->nullable();// 
                 $table->string('TIMEIN')->nullable();//  
                 $table->date('DATEOUT')->nullable();// 
-                $table->string('TIMEOUT')->nullable();//  
-
-                $table->string('OPER')->nullable();//  
-                $table->string('OPTYPE')->nullable(); //   
-                $table->string('DROPID')->nullable(); //  
- 
+                $table->string('TIMEOUT')->nullable();//   
                 $table->timestamps();
             });
         }

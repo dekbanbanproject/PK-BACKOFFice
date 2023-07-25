@@ -1,53 +1,11 @@
 @extends('layouts.pkclaim')
-@section('title', 'PK-BACKOFFice || AIPN')
+@section('title', 'PK-BACKOFFice || ส่งออก 16 แฟ้ม')
  
 @section('content')
     <script>
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
-        }
-        // function aipn_billitems_destroy(aipn_billitems_id) { 
-        //     Swal.fire({
-        //         title: 'ต้องการลบข้อมูลใช่ไหม?',
-        //         text: "ข้อมูลนี้จะถูกลบ",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'ใช่ ',
-        //         cancelButtonText: 'ไม่'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) { 
-        //             $.ajax({
-        //                 url: "{{ url('aipn_billitems_destroy')}}"+'/'+aipn_billitems_id,
-        //                 type: "GET",
-        //                 data: {
-        //                     _token: $("input[name=_token]").val()
-        //                 },
-        //                 success: function(response) {
-        //                     if (response == 200) {
-        //                         Swal.fire({
-        //                             title: 'ลบข้อมูลสำเร็จ !!',
-        //                             text: "Delete Data Success",
-        //                             icon: 'success',
-        //                             showCancelButton: false,
-        //                             confirmButtonColor: '#06D177', 
-        //                             confirmButtonText: 'เรียบร้อย'
-        //                         }).then((result) => {
-        //                             if (result.isConfirmed) {
-        //                                 $("#sidb" + aipn_billitems_id).remove();
-        //                                 window.location.reload();
-        //                                 // window.location="{{url('aipn')}}"; 
-        //                             }
-        //                         })
-        //                     } else {                                
-        //                     }                            
-        //                 }
-        //             })
-        //         }
-        //     })
-        // }
-        
+        } 
     </script>
     <?php
     if (Auth::check()) {
@@ -114,31 +72,29 @@
             </div>
         </div>
         
-                    <form action="{{ route('data.sixteendata_pull') }}" method="POST">
-                    @csrf
+        <form action="{{ route('data.six') }}" method="POST">
+            @csrf
 
-                    <div class="row">  
-                        <div class="col-md-2 text-end">วันที่</div>
-                        <div class="col-md-6 text-center">
-                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
-                                 data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $datestart }}"/>
-                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
-                                data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $dateend }}"/>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                    ดึงข้อมูล 
-                                </button>
-                                <a href="{{url('aipn_send_all')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>  
-                                <a href="{{url('aipn_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
-                            </div>
-                          
-                        </div>
-                       
-                        
-                        <div class="col"></div>
-                    </div> 
-                </form>
+            <div class="row">  
+                <div class="col-md-2 text-end">วันที่</div>
+                <div class="col-md-5 text-center">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
+                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
+                        data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            ค้นหา 
+                        </button>
+                        <a href="{{url('six_pull')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ดึงข้อมูล</a>  
+                        <a href="{{url('aipn_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
+                    </div>                          
+                </div>   
+                <div class="col"></div>
+            </div> 
+            
+        </form>
                  
         <div class="row mt-3">
             <div class="col-xl-12">
@@ -146,13 +102,12 @@
                     <div class="card-body"> 
                         <div class="row">
                             <div class="col-md-4">
-                                <h4 class="card-title">Detail AIPN</h4>
-                                <p class="card-title-desc">รายละเอียดประกันสังคมผู้ป่วยใน</p>
+                                <h4 class="card-title">Detail ส่งออก 16 แฟ้ม</h4>
+                                <p class="card-title-desc">รายละเอียดส่งออก 16 แฟ้ม</p>
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                {{-- <button class="btn btn-secondary" id="Changbillitems"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>ปรับ bilitems</button>  --}}
-                                
+                                {{-- <button class="btn btn-secondary" id="Changbillitems"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>ปรับ bilitems</button>  --}}                                
                             </div>
                         </div>
 
@@ -160,22 +115,101 @@
                         <ul class="nav nav-tabs" role="tablist">
                            
                             <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#IPADT" role="tab">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#DATA" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                    <span class="d-none d-sm-block">IPADT</span>    
+                                    <span class="d-none d-sm-block">DATA</span>    
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#INS" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                    <span class="d-none d-sm-block">INS</span>    
                                 </a>
                             </li>
                              
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#IPDx" role="tab">
+                                <a class="nav-link" data-bs-toggle="tab" href="#PAT" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
-                                    <span class="d-none d-sm-block">IPDx</span>    
+                                    <span class="d-none d-sm-block">PAT</span>    
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#IPOp" role="tab">
+                                <a class="nav-link" data-bs-toggle="tab" href="#OPD" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
-                                    <span class="d-none d-sm-block">IPOp</span>    
+                                    <span class="d-none d-sm-block">OPD</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#ORF" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">ORF</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#ODX" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">ODX</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#OOP" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">OOP</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#CHT" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">CHT</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#CHA" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">CHA</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#ADP" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">ADP</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#DRU" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">DRU</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#IDX" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">IDX</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#IOP" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">IOP</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#IPD" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">IPD</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#IRF" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">IRF</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#AER" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                                    <span class="d-none d-sm-block">AER</span>    
                                 </a>
                             </li>
                            
@@ -252,38 +286,80 @@
                                     </div>
                                 </p>
                             </div> --}}
-                            <div class="tab-pane active" id="IPADT" role="tabpanel">
+                            <div class="tab-pane active" id="DATA" role="tabpanel">
                                 <p class="mb-0">
                                     <div class="table-responsive">
                                         <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
                                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                             <thead>
-                                                <tr>
+                                                <tr style="font-family: sans-serif;font-size:12px">
+                                                    <th width="5%" class="text-center">ลำดับ</th> 
+                                                    <th class="text-center" width="5%">VN</th> 
+                                                    <th class="text-center">AN</th>
+                                                    <th class="text-center" >HN</th>
+                                                    <th class="text-center" >CID</th>
+                                                    <th class="text-center">VSTDATE</th>
+                                                    <th class="text-center">PTTYPE</th> 
+                                                    <th class="text-center">PTNAME</th>
+                                                    <th class="text-center" width="5%">PDX</th>
+                                                    <th class="text-center">SCREEN</th>
+                                                    <th class="text-center">LEVEL NAME</th>
+                                                   
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i = 1; ?>
+                                                @foreach ($data_show as $item) 
+                                                    <tr style="font-size: 13px;">   
+                                                        <td class="text-center">{{ $i++ }}</td>   
+                                                        <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                                        <td class="text-center">{{ $item->an }}</td> 
+                                                        <td class="text-center">{{ $item->hn }}</td>  
+                                                        <td class="text-center">{{ $item->cid }}</td>  
+                                                        <td class="text-center">{{ $item->vstdate }}</td> 
+                                                        <td class="text-center">{{ $item->pttype }}</td>  
+                                                        <td class="p-2">{{ $item->fullname }}</td> 
+                                                        <td class="text-center">{{ $item->pdx }}</td> 
+                                                        <td class="text-center">{{ $item->er_screen }}</td> 
+                                                        <td class="p-2">{{ $item->er_emergency_level_name }}</td>  
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </p>
+                            </div>
+                             <div class="tab-pane" id="INS" role="tabpanel">
+                                 <p class="mb-0">
+                                    <div class="table-responsive">
+                                        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            
+                                            <thead>
+                                                <tr style="font-family: sans-serif;font-size:12px">
                                                     <th width="5%" class="text-center">ลำดับ</th> 
                                                     <th class="text-center" width="5%">AN</th> 
                                                     <th class="text-center">HN</th>
-                                                    <th class="text-center" >IDTYPE</th>
-                                                    <th class="text-center" >PIDPAT</th>
-                                                    <th class="text-center">TITLE</th>
-                                                    <th class="text-center">NAMEPAT</th> 
-                                                    <th class="text-center">DOB</th>
-                                                    <th class="text-center" width="7%">SEX</th>
-                                                    <th class="text-center">MARRIAGE</th>
-                                                    <th class="text-center">CHANGWAT</th>
-                                                    <th class="text-center" width="8%">AMPHUR</th>
-                                                    <th class="text-center" width="8%">NATION</th> 
-                                                    <th class="text-center" width="10%">AdmType</th> 
-                                                    <th class="text-center">AdmSource</th>
-                                                    <th class="text-center">DTAdm_d</th>
-                                                    <th class="text-center">DTDisch_d</th>
-                                                    <th class="text-center">LeaveDay</th> 
-                                                    <th class="text-center">DischStat</th>
-                                                    <th class="text-center">DishType</th>
-                                                    <th class="text-center">AdmWt</th>
-                                                    <th class="text-center">DishWard</th>
-                                                    <th class="text-center">Dept</th>
-                                                    <th class="text-center">HMAIN</th>
-                                                    <th class="text-center">ServiceType</th>
+                                                    <th class="text-center" >INSCL</th>
+                                                    <th class="text-center" >SUBTYPE</th>
+                                                    <th class="text-center">CID</th>
+                                                    <th class="text-center">DATEIN</th> 
+                                                    <th class="text-center">DATEEXP</th>
+                                                    <th class="text-center" width="5%">HOSPMAIN</th>
+                                                    <th class="text-center">HOSPSUB</th>
+                                                    <th class="text-center">GOVCODE</th>
+                                                    <th class="text-center" width="5%">GOVNAME</th>
+                                                    <th class="text-center" width="5%">PERMITNO</th> 
+                                                    <th class="text-center" width="5%">DOCNO</th> 
+                                                    <th class="text-center">OWNRPID</th>
+                                                    <th class="text-center">OWNRNAME</th>
+                                                    <th class="text-center">AN</th>
+                                                    <th class="text-center">SEQ</th> 
+                                                    <th class="text-center">SUBINSCL</th>
+                                                    <th class="text-center">RELINSCL</th>
+                                                    <th class="text-center">HTYPE</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -308,7 +384,6 @@
                                                         <td class="text-center">{{ $item->DTAdm_d }}</td> 
                                                         <td class="text-center">{{ $item->DTDisch_d }}</td> 
                                                         <td class="text-center">{{ $item->LeaveDay }}</td> 
-
                                                         <td class="text-center">{{ $item->DischStat }}</td>
                                                         <td class="text-center">{{ $item->DishType }}</td>
                                                         <td class="text-center">{{ $item->AdmWt }}</td>
@@ -322,97 +397,20 @@
                                         </table>
                                     </div>
                                 </p>
-                            </div>
-                            {{-- <div class="tab-pane" id="IPDx" role="tabpanel">
-                                <p class="mb-0">
-                                    <div class="table-responsive">
-                                        <table id="key-datatable" class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th width="5%" class="text-center">ลำดับ</th>  
-                                                    <th class="text-center">an</th>
-                                                    <th class="text-center">sequence</th>
-                                                    <th class="text-center">DxType</th>
-                                                    <th class="text-center">CodeSys</th>
-                                                    <th class="text-center">Dcode</th>   
-                                                    <th class="text-center">DiagTerm</th> 
-                                                    <th class="text-center">DR</th> 
-                                                    <th class="text-center">datediag</th>  
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $i = 1; ?>
-                                                @foreach ($aipn_ipdx as $item3) 
-                                                    <tr style="font-size: 12px;">   
-                                                        <td class="text-center">{{ $i++ }}</td>   
-                                                        <td class="text-center">{{ $item3->an }} </td>
-                                                        <td class="text-center">{{ $item3->sequence }}</td>
-                                                        <td class="text-center" >{{ $item3->DxType }} </td>
-                                                        <td class="text-center" >{{ $item3->CodeSys }} </td>
-                                                        <td class="text-center" >{{ $item3->Dcode }} </td>
-                                                        <td class="p-2" >{{ $item3->DiagTerm }}</td>   
-                                                        <td class="text-center" >{{ $item3->DR }}</td> 
-                                                        <td class="text-center" >{{ $item3->datediag }}</td>  
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </p>
-                            </div> --}}
+                            </div>  
 
-                            {{-- <div class="tab-pane" id="IPOp" role="tabpanel">
-                                <p class="mb-0">
-                                    <div class="table-responsive">
-                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                            <thead>
-                                                <tr>
-                                                    <th width="5%" class="text-center">ลำดับ</th>  
-                                                    <th class="text-center">an</th>
-                                                    <th class="text-center">sequence</th>
-                                                    <th class="text-center">CodeSys</th>
-                                                    <th class="text-center">Code</th>   
-                                                    <th class="text-center">Procterm</th> 
-                                                    <th class="text-center">DR</th> 
-                                                    <th class="text-center">DateIn</th> 
-                                                    <th class="text-center">DateOut</th> 
-                                                    <th class="text-center">Location</th>  
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $i = 1; ?>
-                                                @foreach ($aipn_ipop as $item4) 
-                                                    <tr style="font-size: 12px;">   
-                                                        <td class="text-center">{{ $i++ }}</td>    
-                                                        <td class="text-center">{{ $item4->an }}</td>
-                                                        <td class="text-center" >{{ $item4->sequence }} </td>
-                                                        <td class="text-center" >{{ $item4->CodeSys }} </td>
-                                                        <td class="text-center" >{{ $item4->Code }} </td>
-                                                        <td class="p-2" >{{ $item4->Procterm }}</td>   
-                                                        <td class="p-2" >{{ $item4->DR }}</td> 
-                                                        <td class="text-center" >{{ $item4->DateIn }}</td> 
-                                                        <td class="p-2" width="15%">{{ $item4->DateOut }}</td> 
-                                                        <td class="text-center" >{{ $item4->Location }}</td> 
-                                                          
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </p>
-                            </div> --}}
+                           
                              
                         </div>
  
                     </div>
                 </div>
             </div>
-        </div>
- 
+        </div> 
                
     </div>
+
+ 
    
  
  

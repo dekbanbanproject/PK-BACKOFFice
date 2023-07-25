@@ -154,14 +154,16 @@
                                                 }
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.ip_paytrue) as ip_paytrue
+                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(s.ip_paytrue) as ip_paytrue
                                                             FROM acc_1102050101_217 a
-                                                            LEFT JOIN acc_stm_ucs au ON au.an = a.an 
+                                                            LEFT JOIN acc_stm_ucs s ON s.an = a.an 
                                                             WHERE year(a.dchdate) = "'.$item->year.'"
                                                             AND month(a.dchdate) = "'.$item->months.'"
-                                                            AND au.ip_paytrue IS NOT NULL
+                                                            AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0)
+                                                           
 
                                                     ');
+                                                    // AND au.ip_paytrue IS NOT NULL
                                                     foreach ($sumapprove_ as $key => $value3) {
                                                         $amountpay = $value3->ip_paytrue;
                                                         $stm_count = $value3->Apvit;
@@ -361,14 +363,16 @@
                                             }
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select('
-                                                    SELECT count(DISTINCT a.an) as Apvit ,sum(au.ip_paytrue) as ip_paytrue
+                                                    SELECT count(DISTINCT a.an) as Apvit ,sum(s.ip_paytrue) as ip_paytrue
                                                         FROM acc_1102050101_217 a
-                                                        LEFT JOIN acc_stm_ucs au ON au.an = a.an 
+                                                        LEFT JOIN acc_stm_ucs s ON s.an = a.an 
                                                         WHERE year(a.dchdate) = "'.$item->year.'"
                                                         AND month(a.dchdate) = "'.$item->months.'"
-                                                        AND au.ip_paytrue IS NOT NULL
+                                                        AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0)
+                                                       
 
                                                 ');
+                                                // AND au.ip_paytrue IS NOT NULL
                                                 foreach ($sumapprove_ as $key => $value3) {
                                                     $amountpay = $value3->ip_paytrue;
                                                     $stm_count = $value3->Apvit;

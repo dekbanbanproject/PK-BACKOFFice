@@ -15,16 +15,13 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_pat'))
         {
-            Schema::connection('mysql7')->create('d_pat', function (Blueprint $table) {
+            Schema::connection('mysql')->create('d_pat', function (Blueprint $table) {
                 $table->bigIncrements('d_pat_id');
-
                 $table->string('HCODE')->nullable();//
                 $table->string('HN')->nullable();//
                 $table->string('CHANGWAT')->nullable();//
                 $table->string('AMPHUR')->nullable();//
-
-                $table->string('DOB')->nullable();// 
-                 
+                $table->string('DOB')->nullable();//                  
                 $table->string('SEX')->nullable();//  
                 $table->string('MARRIAGE')->nullable(); //             
                 $table->string('OCCUPA')->nullable(); //  

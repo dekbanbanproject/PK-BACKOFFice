@@ -1,11 +1,11 @@
-@extends('layouts.user')
+@extends('layouts.report_font')
 @section('title', 'PK-BACKOFFice || งานจิตเวชและยาเสพติด')
 @section('content')
-    <script>
+    {{-- <script>
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
-    </script>
+    </script> --}}
     {{-- <style>
         .table thead tr th {
             font-family: sans-serif;
@@ -41,21 +41,23 @@
             }
     </style> --}}
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    ?>
+    // if (Auth::check()) {
+    //     $type = Auth::user()->type;
+    //     $iduser = Auth::user()->id;
+    // } else {
+    //     echo "<body onload=\"TypeAdmin()\"></body>";
+    //     exit();
+    // }
+    // $url = Request::url();
+    // $pos = strrpos($url, '/') + 1;
+    ?> 
     <div class="container-fluid">
 
         <div class="row">
             <div class="col-xl-12">
-                <form action="{{ route('pt.restore') }}" method="POST">
+                {{-- <form action="{{ route('pt.restore') }}" method="POST"> --}}
+                    <form action="{{ route('pt.kayapap_jitvs_mian') }}" method="POST">
+                 
                     @csrf
                     <div class="row">
                         <div class="col-md-1 text-end">  </div> 

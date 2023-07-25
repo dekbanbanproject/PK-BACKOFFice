@@ -15,16 +15,15 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_lvd'))
         {
-            Schema::connection('mysql7')->create('d_lvd', function (Blueprint $table) {
+            Schema::connection('mysql')->create('d_lvd', function (Blueprint $table) {
                 $table->bigIncrements('d_lvd_id');
                 $table->string('SEQLVD')->nullable();//  
                 $table->string('AN')->nullable();//  
-
                 $table->date('DATEOUT')->nullable();// 
-                $table->Text('TIMEOUT')->nullable();// 
+                $table->string('TIMEOUT')->nullable();// 
                 $table->date('DATEIN')->nullable();//  
-                $table->Text('TIMEIN')->nullable();//  
-                $table->Text('QTYDAY')->nullable();//  
+                $table->string('TIMEIN')->nullable();//  
+                $table->string('QTYDAY')->nullable();//  
  
                 $table->timestamps();
             });

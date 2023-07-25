@@ -15,12 +15,11 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_oop'))
         {
-            Schema::connection('mysql7')->create('d_oop', function (Blueprint $table) {
+            Schema::connection('mysql')->create('d_oop', function (Blueprint $table) {
                 $table->bigIncrements('d_oop_id');
 
                 $table->string('HN')->nullable();// 
-                $table->date('DATEOPD')->nullable();// 
-                 
+                $table->date('DATEOPD')->nullable();//                  
                 $table->string('CLINIC')->nullable();//  
                 $table->string('OPER')->nullable(); //             
                 $table->string('DROPID')->nullable(); //   

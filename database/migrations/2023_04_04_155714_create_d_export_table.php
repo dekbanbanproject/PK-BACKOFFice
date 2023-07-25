@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_export'))
         {
-            Schema::connection('mysql7')->create('d_export', function (Blueprint $table) {
+            Schema::connection('mysql')->create('d_export', function (Blueprint $table) {
                 $table->bigIncrements('d_export_id');  
                 $table->string('session_no',255)->nullable(); 
                 $table->string('session_date',255)->nullable();   

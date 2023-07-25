@@ -15,27 +15,24 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_adp'))
         {
-            Schema::connection('mysql7')->create('d_adp', function (Blueprint $table) {
-                $table->bigIncrements('d_adp_id');
-
+            Schema::connection('mysql')->create('d_adp', function (Blueprint $table) {
+                $table->bigIncrements('d_adp_id'); 
                 $table->string('HN')->nullable();// 
-                $table->string('AN')->nullable();// 
-
-                $table->string('DATEOPD')->nullable();// 
-                 
+                $table->string('AN')->nullable();//  
+                $table->date('DATEOPD')->nullable();//  
                 $table->string('TYPE')->nullable();//  
                 $table->string('CODE')->nullable(); //   
                 $table->string('QTY')->nullable(); // 
                 $table->string('RATE')->nullable(); // 
-                $table->string('SEQ')->nullable(); //
-
-                $table->string('a1')->nullable(); //
-                $table->string('a2')->nullable(); //
-                $table->string('a3')->nullable(); //
-                $table->string('a4')->nullable(); //
-                $table->string('a5')->nullable(); //
-                $table->string('a6')->nullable(); //
-                $table->string('a7')->nullable(); //
+                $table->string('SEQ')->nullable(); // 
+                $table->string('CAGCODE')->nullable(); //
+                $table->string('DOSE')->nullable(); //
+                $table->string('CA_TYPE')->nullable(); //
+                $table->string('SERIALNO')->nullable(); //
+                $table->string('TOTCOPAY')->nullable(); //
+                $table->string('USE_STATUS')->nullable(); //
+                $table->string('TOTAL')->nullable(); //
+                $table->string('QTYDAY')->nullable(); //
                 $table->string('TMLTCODE')->nullable(); //
                 $table->string('STATUS1')->nullable(); //
                 $table->string('BI')->nullable(); //
@@ -46,7 +43,7 @@ return new class extends Migration
                 $table->string('GA_WEEK')->nullable(); //
                 $table->string('DCIP')->nullable(); //
                 $table->string('LMP')->nullable(); // 
-
+                $table->string('SP_ITEM')->nullable(); // 
                 $table->timestamps();
             });
         }

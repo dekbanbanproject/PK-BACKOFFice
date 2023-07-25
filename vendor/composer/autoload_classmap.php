@@ -110,6 +110,7 @@ return array(
     'App\\Http\\Controllers\\SendreportController' => $baseDir . '/app/Http/Controllers/SendreportController.php',
     'App\\Http\\Controllers\\ServeController' => $baseDir . '/app/Http/Controllers/ServeController.php',
     'App\\Http\\Controllers\\SettingController' => $baseDir . '/app/Http/Controllers/SettingController.php',
+    'App\\Http\\Controllers\\SixteenController' => $baseDir . '/app/Http/Controllers/SixteenController.php',
     'App\\Http\\Controllers\\SssController' => $baseDir . '/app/Http/Controllers/SssController.php',
     'App\\Http\\Controllers\\StaticController' => $baseDir . '/app/Http/Controllers/StaticController.php',
     'App\\Http\\Controllers\\SuppliesController' => $baseDir . '/app/Http/Controllers/SuppliesController.php',

@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_irf'))
         {
-            Schema::connection('mysql7')->create('d_irf', function (Blueprint $table) {
+            Schema::connection('mysql')->create('d_irf', function (Blueprint $table) {
                 $table->bigIncrements('d_irf_id');
  
                 $table->string('AN')->nullable();//  

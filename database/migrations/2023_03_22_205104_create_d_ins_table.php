@@ -15,17 +15,15 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_ins'))
         {
-            Schema::connection('mysql7')->create('d_ins', function (Blueprint $table) {
+            Schema::connection('mysql')->create('d_ins', function (Blueprint $table) {
                 $table->bigIncrements('d_ins_id');
 
                 $table->string('HN')->nullable();//
                 $table->string('INSCL')->nullable();//
                 $table->string('SUBTYPE')->nullable();//
                 $table->string('CID')->nullable();//
-
                 $table->date('DATEIN')->nullable();// 
-                $table->string('DATEEXP')->nullable();// 
-
+                $table->date('DATEEXP')->nullable();// 
                 $table->string('HOSPMAIN')->nullable();//  
                 $table->string('HOSPSUB')->nullable(); //             
                 $table->string('GOVCODE')->nullable(); //  

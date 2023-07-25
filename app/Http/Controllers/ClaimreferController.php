@@ -94,50 +94,50 @@ class ClaimreferController extends Controller
         $datestart = $request->startdate;
         $dateend = $request->enddate; 
         $aipn_data = DB::connection('mysql3')->select('   
-        SELECT
-            i.an,  
-            i.an as AN,i.hn as HN
-            ,showcid(if(pt.nationality=99,pt.cid,pc.cardno)) as PIDPAT
-            ,pt.pname as TITLE
-            ,concat(pt.fname," ",pt.lname) as NAMEPAT 
-            ,pt.birthday as DOB
-            ,a.sex as SEX
-            ,pt.marrystatus as MARRIAGE
-            ,pt.chwpart as CHANGWAT
-            ,pt.amppart as AMPHUR
-            ,pt.citizenship as NATION
-            ,"C" as AdmType
-            ,"O" as AdmSource
-            ,i.regdate as DTAdm_d
-            ,i.regtime as DTAdm_t
-            ,i.dchdate as DTDisch_d
-            ,i.dchtime as DTDisch_t 
-            ,"0" AS LeaveDay                
-            ,i.dchstts as DischStat
-            ,i.dchtype as DishType
-            ,"" as AdmWt
-            ,i.ward as DishWard
-            ,sp.nhso_code as Dept
-            ,seekhipdata(ptt.hipdata_code,0) maininscl
-            ,i.pttype
-            ,concat(i.pttype,":",ptt.name) pttypename 
-            ,hospmain(i.an) HMAIN
-            ,"IP" as ServiceType
-            from ipt i
-            left join patient pt on pt.hn=i.hn
-            left join ptcardno pc on pc.hn=pt.hn and pc.cardtype="02"
-            left join an_stat a on a.an=i.an
-            left join spclty sp on sp.spclty=i.spclty
-            left join pttype ptt on ptt.pttype=i.pttype
-            left join pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id 
-            left join opitemrece oo on oo.an=i.an
-            left join income inc on inc.income=oo.income
-            left join s_drugitems d on d.icode=oo.icode 
-            WHERE a.dchdate ="'.$an .'"                     
-            AND ptt.pttype IN("A7","s7","14")
-            group by i.an
-            order by hn
-    ');
+                    SELECT
+                        i.an,  
+                        i.an as AN,i.hn as HN
+                        ,showcid(if(pt.nationality=99,pt.cid,pc.cardno)) as PIDPAT
+                        ,pt.pname as TITLE
+                        ,concat(pt.fname," ",pt.lname) as NAMEPAT 
+                        ,pt.birthday as DOB
+                        ,a.sex as SEX
+                        ,pt.marrystatus as MARRIAGE
+                        ,pt.chwpart as CHANGWAT
+                        ,pt.amppart as AMPHUR
+                        ,pt.citizenship as NATION
+                        ,"C" as AdmType
+                        ,"O" as AdmSource
+                        ,i.regdate as DTAdm_d
+                        ,i.regtime as DTAdm_t
+                        ,i.dchdate as DTDisch_d
+                        ,i.dchtime as DTDisch_t 
+                        ,"0" AS LeaveDay                
+                        ,i.dchstts as DischStat
+                        ,i.dchtype as DishType
+                        ,"" as AdmWt
+                        ,i.ward as DishWard
+                        ,sp.nhso_code as Dept
+                        ,seekhipdata(ptt.hipdata_code,0) maininscl
+                        ,i.pttype
+                        ,concat(i.pttype,":",ptt.name) pttypename 
+                        ,hospmain(i.an) HMAIN
+                        ,"IP" as ServiceType
+                        from ipt i
+                        left join patient pt on pt.hn=i.hn
+                        left join ptcardno pc on pc.hn=pt.hn and pc.cardtype="02"
+                        left join an_stat a on a.an=i.an
+                        left join spclty sp on sp.spclty=i.spclty
+                        left join pttype ptt on ptt.pttype=i.pttype
+                        left join pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id 
+                        left join opitemrece oo on oo.an=i.an
+                        left join income inc on inc.income=oo.income
+                        left join s_drugitems d on d.icode=oo.icode 
+                        WHERE a.dchdate ="'.$an .'"                     
+                        AND ptt.pttype IN("A7","s7","14")
+                        group by i.an
+                        order by hn
+            ');
              
         return view('claim.sixteendata',[
             'datestart'                => $datestart,

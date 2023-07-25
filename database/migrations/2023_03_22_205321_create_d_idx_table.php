@@ -15,14 +15,12 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_idx'))
         {
-            Schema::connection('mysql7')->create('d_idx', function (Blueprint $table) {
-                $table->bigIncrements('d_idx_id');
- 
+            Schema::connection('mysql')->create('d_idx', function (Blueprint $table) {
+                $table->bigIncrements('d_idx_id'); 
                 $table->string('AN')->nullable();// 
                 $table->string('DIAG')->nullable();// 
                 $table->string('DXTYPE')->nullable();//                   
                 $table->string('DRDX')->nullable();//   
-   
                 $table->timestamps();
             });
         }

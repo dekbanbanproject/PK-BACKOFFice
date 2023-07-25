@@ -1,33 +1,7 @@
-@extends('layouts.user')
+@extends('layouts.report_font')
 @section('title', 'PK-BACKOFFice || งานจิตเวชและยาเสพติด')
 @section('content')
-    <script>
-        function TypeAdmin() {
-            window.location.href = '{{ route('index') }}';
-        }
-    </script>
-    {{-- <style>
-        .table th {
-            font-family: sans-serif;
-            font-size: 12px;
-        }
-
-        .table td {
-            font-family: sans-serif;
-            font-size: 12px;
-        }
-    </style> --}}
-    <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    ?>
+    
     <div class="container-fluid">
 
         <div class="row">

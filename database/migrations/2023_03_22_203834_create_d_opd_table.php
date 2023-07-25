@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_opd'))
         {
-            Schema::connection('mysql7')->create('d_opd', function (Blueprint $table) {
+            Schema::connection('mysql')->create('d_opd', function (Blueprint $table) {
                 $table->bigIncrements('d_opd_id');
 
                 $table->string('HN')->nullable();//
@@ -24,15 +24,15 @@ return new class extends Migration
                 $table->string('TIMEOPD')->nullable();//  
                 $table->string('SEQ')->nullable(); //             
                 $table->string('UUC')->nullable(); // 
-                $table->string('DETAIL')->nullable(); //  
-                $table->string('BTEMP')->nullable(); // 
-                $table->string('SBP')->nullable(); //  
-                $table->string('DBP')->nullable(); //  
-                $table->string('PR')->nullable(); // 
-                $table->string('RR')->nullable(); //   
-                $table->string('OPTYPE')->nullable(); // 
-                $table->string('TYPEIN')->nullable(); // 
-                $table->string('TYPEOUT')->nullable(); //        
+                // $table->string('DETAIL')->nullable(); //  
+                // $table->string('BTEMP')->nullable(); // 
+                // $table->string('SBP')->nullable(); //  
+                // $table->string('DBP')->nullable(); //  
+                // $table->string('PR')->nullable(); // 
+                // $table->string('RR')->nullable(); //   
+                // $table->string('OPTYPE')->nullable(); // 
+                // $table->string('TYPEIN')->nullable(); // 
+                // $table->string('TYPEOUT')->nullable(); //        
                 $table->timestamps();
             });
         }
