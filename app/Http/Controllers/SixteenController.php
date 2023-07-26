@@ -61,8 +61,8 @@ use App\Models\D_idx;
 use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
+use App\Models\D_irf;
 
-use App\Models\Claim_sixteen_ins;
 use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
 use Auth;
