@@ -655,7 +655,7 @@ class SixteenController extends Controller
         D_iop::truncate();
         D_pat::truncate();
         D_cha::truncate();
-        D_cht::truncate();
+
         $data_aer = DB::connection('mysql3')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
                 ,v.vstdate DATEOPD,vv.claim_code AUTHAE
@@ -832,6 +832,12 @@ class SixteenController extends Controller
             ]);
         }
 
+
+        return redirect()->back();
+    }
+    public function six_pull_d(Request $request)
+    {
+        D_cht::truncate();
         $data_cht = DB::connection('mysql3')->select('
                 SELECT "" d_cht_id
                 ,v.hn HN

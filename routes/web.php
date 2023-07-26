@@ -1932,8 +1932,7 @@ Route::match(['get','post'],'six',[App\Http\Controllers\SixteenController::class
 Route::match(['get','post'],'six_pull_a',[App\Http\Controllers\SixteenController::class, 'six_pull_a'])->name('data.six_pull_a');//
 Route::match(['get','post'],'six_pull_b',[App\Http\Controllers\SixteenController::class, 'six_pull_b'])->name('data.six_pull_b');//
 Route::match(['get','post'],'six_pull_c',[App\Http\Controllers\SixteenController::class, 'six_pull_c'])->name('data.six_pull_c');//
-
-
+Route::match(['get','post'],'six_pull_d',[App\Http\Controllers\SixteenController::class, 'six_pull_d'])->name('data.six_pull_d');//
 
 
 
