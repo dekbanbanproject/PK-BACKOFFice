@@ -889,17 +889,21 @@ class SixteenController extends Controller
         $pattern_time = '/:/i';
         $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
         #ตัดขีด, ตัด : ออก
-        #delete file in folder ทั้งหมด
+
+
+         //Move Uploaded File to public folder
+         $url = "http://192.168.0.217/pkbackoffice/public/Export_Claim";
+         $part_ = pathinfo($url);
+
+         #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export_Claim');
         $folder='10978_UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
-         //Move Uploaded File to public folder
-         $url = "http://192.168.0.217/pkbackoffice/public";
-         $part_ = pathinfo($url);
-
          $desPath = 'Export_Claim';
-         $testfolder = $desPath.'/'.$folder;
+         $testfolder = $part_.'/'.$folder;
+
+
 
         // mkdir ('C:/export/'.$folder, 0777, true);
 
