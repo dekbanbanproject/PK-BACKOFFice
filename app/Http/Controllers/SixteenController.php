@@ -901,10 +901,11 @@ class SixteenController extends Controller
         header('Content-Disposition: attachment; filename="content.txt"');
         $file_name = "/BillTran".$sss_time_now_preg.".txt";
 
-        $file_pat = "$folder/ins.txt";
+        $file_pat = "Export/".$folder."/ins.txt";
+        // $file_pat = "C:/export/".$folder/ins.txt";
         $objFopen_opd = fopen($file_pat, 'w');
 
-        $file_d_iop = "$folder/iop.txt";
+        $file_d_iop = "Export/".$folder."/iop.txt";
         $objFopen_opd2 = fopen($file_d_iop, 'w');
 
         $opd_head = '<?xml version="1.0" encoding="windows-874"?>';
