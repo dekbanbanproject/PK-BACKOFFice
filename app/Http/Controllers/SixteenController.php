@@ -892,7 +892,7 @@ class SixteenController extends Controller
 
 
          //Move Uploaded File to public folder
-         $url = "http://192.168.0.217/pkbackoffice/public/Export_Claim";
+         $url = "http://192.168.0.217/pkbackoffice/public";
          $part_ = pathinfo($url);
 
          #delete file in folder ทั้งหมด
@@ -901,7 +901,7 @@ class SixteenController extends Controller
         $folder='10978_UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          $desPath = 'Export_Claim';
-         $testfolder = $part_.'/'.$folder;
+         $testfolder = $desPath.'/'.$folder;
 
 
 
