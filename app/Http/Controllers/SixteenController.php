@@ -902,6 +902,9 @@ class SixteenController extends Controller
 
         $file_pat = "$folder/ins".".txt";
         $objFopen_opd = fopen($file_pat, 'w');
+
+        $file_d_iop = "$folder/iop".".txt";
+        $objFopen_opd = fopen($file_d_iop, 'w');
         // SELECT COUNT(*) from claim_ssop
         // $ssop_count = DB::connection('mysql7')->select('
         //     SELECT COUNT(*) as Invno
