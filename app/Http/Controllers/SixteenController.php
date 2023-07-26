@@ -337,57 +337,11 @@ class SixteenController extends Controller
     }
     public function six_pull_a(Request $request)
     {
-            D_pat::truncate();
+
             D_opd::truncate();
             D_oop::truncate();
             D_orf::truncate();
 
-            // D_pat
-            $data_pat = DB::connection('mysql3')->select('
-                    SELECT "" d_pat_id
-                    ,v.hcode HCODE
-                    ,v.hn HN
-                    ,pt.chwpart CHANGWAT
-                    ,pt.amppart AMPHUR
-                    ,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
-                    ,pt.sex SEX
-                    ,pt.marrystatus MARRIAGE
-                    ,pt.occupation OCCUPA
-                    ,lpad(pt.nationality,3,0) NATION
-                    ,pt.cid PERSON_ID
-                    ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
-                    ,pt.pname TITLE
-                    ,pt.fname FNAME
-                    ,pt.lname LNAME
-                    ,"1" IDTYPE
-                    ,"" created_at
-                    ,"" updated_at
-                    from vn_stat v
-                    LEFT JOIN pttype p on p.pttype = v.pttype
-                    LEFT JOIN ipt i on i.vn = v.vn
-                    LEFT JOIN patient pt on pt.hn = v.hn
-                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
-                    where x.active="N";
-            ');
-            foreach ($data_pat as $va2) {
-                D_pat::insert([
-                    'HCODE'               => $va2->HCODE,
-                    'HN'                  => $va2->HN,
-                    'CHANGWAT'            => $va2->CHANGWAT,
-                    'AMPHUR'              => $va2->AMPHUR,
-                    'DOB'                 => $va2->DOB,
-                    'SEX'                 => $va2->SEX,
-                    'MARRIAGE'            => $va2->MARRIAGE,
-                    'OCCUPA'              => $va2->OCCUPA,
-                    'NATION'              => $va2->NATION,
-                    'PERSON_ID'           => $va2->PERSON_ID,
-                    'NAMEPAT'             => $va2->NAMEPAT,
-                    'TITLE'               => $va2->TITLE,
-                    'FNAME'               => $va2->FNAME,
-                    'LNAME'               => $va2->LNAME,
-                    'IDTYPE'              => $va2->IDTYPE
-                ]);
-            }
             //D_opd
             $data_opd = DB::connection('mysql3')->select('
                     SELECT "" d_opd_id
@@ -781,6 +735,7 @@ class SixteenController extends Controller
     {
         D_aer::truncate();
         D_iop::truncate();
+        D_pat::truncate();
         $data_aer = DB::connection('mysql3')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
                 ,v.vstdate DATEOPD,vv.claim_code AUTHAE
@@ -858,6 +813,53 @@ class SixteenController extends Controller
                 'TIMEIN'            => $va7->TIMEIN,
                 'DATEOUT'           => $va7->DATEOUT,
                 'TIMEOUT'           => $va7->TIMEOUT
+            ]);
+        }
+
+        // D_pat
+        $data_pat = DB::connection('mysql3')->select('
+                SELECT "" d_pat_id
+                ,v.hcode HCODE
+                ,v.hn HN
+                ,pt.chwpart CHANGWAT
+                ,pt.amppart AMPHUR
+                ,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
+                ,pt.sex SEX
+                ,pt.marrystatus MARRIAGE
+                ,pt.occupation OCCUPA
+                ,lpad(pt.nationality,3,0) NATION
+                ,pt.cid PERSON_ID
+                ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
+                ,pt.pname TITLE
+                ,pt.fname FNAME
+                ,pt.lname LNAME
+                ,"1" IDTYPE
+                ,"" created_at
+                ,"" updated_at
+                from vn_stat v
+                LEFT JOIN pttype p on p.pttype = v.pttype
+                LEFT JOIN ipt i on i.vn = v.vn
+                LEFT JOIN patient pt on pt.hn = v.hn
+                INNER JOIN claim.d_export_ucep x on x.vn = v.vn
+                where x.active="N";
+        ');
+        foreach ($data_pat as $va2) {
+            D_pat::insert([
+                'HCODE'               => $va2->HCODE,
+                'HN'                  => $va2->HN,
+                'CHANGWAT'            => $va2->CHANGWAT,
+                'AMPHUR'              => $va2->AMPHUR,
+                'DOB'                 => $va2->DOB,
+                'SEX'                 => $va2->SEX,
+                'MARRIAGE'            => $va2->MARRIAGE,
+                'OCCUPA'              => $va2->OCCUPA,
+                'NATION'              => $va2->NATION,
+                'PERSON_ID'           => $va2->PERSON_ID,
+                'NAMEPAT'             => $va2->NAMEPAT,
+                'TITLE'               => $va2->TITLE,
+                'FNAME'               => $va2->FNAME,
+                'LNAME'               => $va2->LNAME,
+                'IDTYPE'              => $va2->IDTYPE
             ]);
         }
         return redirect()->back();
