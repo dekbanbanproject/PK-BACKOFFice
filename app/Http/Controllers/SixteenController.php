@@ -900,7 +900,7 @@ class SixteenController extends Controller
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt"');
 
-        $file_pat = "$folder/UCEP_24".$sss_time_now_preg.".txt";
+        $file_pat = "$folder/ins".".txt";
         $objFopen_opd = fopen($file_pat, 'w');
         // SELECT COUNT(*) from claim_ssop
         // $ssop_count = DB::connection('mysql7')->select('
