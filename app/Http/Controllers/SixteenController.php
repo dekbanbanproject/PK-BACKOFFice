@@ -906,6 +906,9 @@ class SixteenController extends Controller
 
         $file_d_iop = "$folder/iop.txt";
         $objFopen_opd2 = fopen($file_d_iop, 'w');
+
+        $opd_head = '<?xml version="1.0" encoding="windows-874"?>';
+        fwrite($objFopen_opd, $opd_head);
         // SELECT COUNT(*) from claim_ssop
         // $ssop_count = DB::connection('mysql7')->select('
         //     SELECT COUNT(*) as Invno
