@@ -899,10 +899,40 @@ class SixteenController extends Controller
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt"');
-        $file_name = "/BillTran".$sss_time_now_preg.".txt";
 
         $file_pat = "Export/".$folder."/ins.txt";
         $objFopen_opd1 = fopen($file_pat, 'w');
+
+        $ins = DB::connection('mysql7')->select('
+            SELECT * from d_ins
+        ');
+
+        foreach ($ins as $key => $value1) {
+            $a1 = $value1->HN;
+            $a2 = $value1->INSCL;
+            $a3 = $value1->SUBTYPE;
+            $a4 = $value1->CID;
+            $a5 = $value1->DATEIN;
+            $a6 = $value1->DATEEXP;
+            $a7 = $value1->HOSPMAIN;
+            $a8 = $value1->HOSPSUB;
+            $a9 = $value1->GOVCODE;
+            $a10 = $value1->GOVNAME;
+            $a11 = $value1->PERMITNO;
+            $a12 = $value1->DOCNO;
+            $a13 = $value1->OWNRPID;
+            $a14= $value1->OWNRNAME;
+            $a15 = $value1->AN;
+            $a16= $value1->SEQ;
+            $a17= $value1->SUBINSCL;
+            $a18 = $value1->RELINSCL;
+            $a19 = $value1->HTYPE;
+            $strText1="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
+            $ansitxt_pat1 = iconv('UTF-8', 'TIS-620', $strText1);
+            fwrite($objFopen_opd1, $ansitxt_pat1);
+        }
+
+        fclose($objFopen_opd1);
 
         $file_d_iop = "Export/".$folder."/iop.txt";
         $objFopen_opd2 = fopen($file_d_iop, 'w');
@@ -948,65 +978,6 @@ class SixteenController extends Controller
 
         $file_d_orf = "Export/".$folder."/orf.txt";
         $objFopen_opd16 = fopen($file_d_orf, 'w');
-
-        $opd_head = '<?xml version="1.0" encoding="windows-874"?>';
-        fwrite($objFopen_opd1, $opd_head);
-        // SELECT COUNT(*) from claim_ssop
-        // $ssop_count = DB::connection('mysql7')->select('
-        //     SELECT COUNT(*) as Invno
-        //     FROM ssop_billtran
-        // ');
-        // foreach ($ssop_count as $key => $valuecount) {
-        //     $count = $valuecount->Invno;
-        // }
-
-        // $file_pat = "C:/export/".$folder."/ins".".txt";
-        // $objFopen_opd = fopen($file_pat, 'w');
-
-        // $file_pat2 = "C:/export/".$folder."/BillDisp".$sss_date_now_preg.".txt";
-        // $objFopen_opd2 = fopen($file_pat2, 'w');
-
-        // $file_pat3 = "C:/export/".$folder."/OPServices".$sss_date_now_preg.".txt";
-        // $objFopen_opd3 = fopen($file_pat3, 'w');
-
-
-        // $opd_head = 'gg';
-        // fwrite($objFopen_opd, $opd_head);
-
-        // $opd_head = "\n".'<ClaimRec System="OP" PayPlan="SS" Version="0.93" Prgs="HS">';
-        // fwrite($objFopen_opd, $opd_head);
-
-
-        // $ins = DB::connection('mysql7')->select('
-        //     SELECT * from d_ins
-        // ');
-
-        // foreach ($ins as $key => $value1) {
-        //     $a1 = $value1->HN;
-        //     $a2 = $value1->INSCL;
-        //     $a3 = $value1->SUBTYPE;
-        //     $a4 = $value1->CID;
-        //     $a5 = $value1->DATEIN;
-        //     $a6 = $value1->DATEEXP;
-        //     $a7 = $value1->HOSPMAIN;
-        //     $a8 = $value1->HOSPSUB;
-        //     $a9 = $value1->GOVCODE;
-        //     $a10 = $value1->GOVNAME;
-        //     $a11 = $value1->PERMITNO;
-        //     $a12 = $value1->DOCNO;
-        //     $a13 = $value1->OWNRPID;
-        //     $a14= $value1->OWNRNAME;
-        //     $a15 = $value1->AN;
-        //     $a16= $value1->SEQ;
-        //     $a17= $value1->SUBINSCL;
-        //     $a18 = $value1->RELINSCL;
-        //     $a19 = $value1->HTYPE;
-        //     $strText1="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-        //     $ansitxt_pat1 = iconv('UTF-8', 'TIS-620', $strText1);
-        //     fwrite($objFopen_opd, $ansitxt_pat1);
-        // }
-
-        fclose($objFopen_opd);
 
 
             return redirect()->route('data.six');
