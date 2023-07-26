@@ -471,7 +471,7 @@ class SixteenController extends Controller
         //     ]);
         // }
 
-        D_cht::truncate();
+
         D_cha::truncate();
         D_dru::truncate();
         D_idx::truncate();
@@ -495,7 +495,7 @@ class SixteenController extends Controller
                 LEFT JOIN patient pp on pp.hn = v.hn
                 LEFT JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
                 LEFT JOIN pttype p on p.pttype = a.pttype
-                left join claim.d_export_ucep x on x.vn = v.vn
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
                 where x.active="N";
         ');
         foreach ($data_cht as $va7) {
@@ -511,54 +511,7 @@ class SixteenController extends Controller
             ]);
         }
 
-        $data_cha = DB::connection('mysql3')->select('
-                SELECT "" d_cha_id,v.hn HN
-                ,if(v1.an is null,"",v1.an) AN
-                ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-                ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-                ,round(sum(v.sum_price),2) AMOUNT
-                ,p.cid PERSON_ID
-                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
-                from opitemrece v
-                LEFT JOIN vn_stat vv on vv.vn = v.vn
-                LEFT JOIN patient p on p.hn = v.hn
-                LEFT JOIN ipt v1 on v1.an = v.an
-                LEFT JOIN income i on v.income=i.income
-                LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-                LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-                left join claim.d_export_ucep x on x.vn = v.vn
-                where x.active="N"
-                group by v.vn,CHRGITEM
-                union all
-                SELECT "" d_cha_id,v.hn HN
-                ,v1.an AN
-                ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-                ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-                ,round(sum(v.sum_price),2) AMOUNT
-                ,p.cid PERSON_ID
-                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
-                from opitemrece v
-                LEFT JOIN vn_stat vv on vv.vn = v.vn
-                LEFT JOIN patient p on p.hn = v.hn
-                LEFT JOIN ipt v1 on v1.an = v.an
-                LEFT JOIN income i on v.income=i.income
-                LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-                LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-                left join claim.d_export_ucep x on x.vn = v1.vn
-                where x.active="N"
-                group by v.an,CHRGITEM;
-        ');
-        foreach ($data_cha as $va8) {
-            D_cha::insert([
-                'HN'                => $va8->HN,
-                'AN'                => $va8->AN,
-                'DATE'              => $va8->DATE,
-                'CHRGITEM'          => $va8->CHRGITEM,
-                'AMOUNT'            => $va8->AMOUNT,
-                'PERSON_ID'         => $va8->PERSON_ID,
-                'SEQ'               => $va8->SEQ,
-            ]);
-        }
+
 
         $data_dru = DB::connection('mysql3')->select('
                 SELECT "" d_dru_id,vv.hcode HCODE
@@ -736,6 +689,7 @@ class SixteenController extends Controller
         D_aer::truncate();
         D_iop::truncate();
         D_pat::truncate();
+        D_cht::truncate();
         $data_aer = DB::connection('mysql3')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
                 ,v.vstdate DATEOPD,vv.claim_code AUTHAE
@@ -860,6 +814,55 @@ class SixteenController extends Controller
                 'FNAME'               => $va2->FNAME,
                 'LNAME'               => $va2->LNAME,
                 'IDTYPE'              => $va2->IDTYPE
+            ]);
+        }
+
+        $data_cha = DB::connection('mysql3')->select('
+                SELECT "" d_cha_id,v.hn HN
+                ,if(v1.an is null,"",v1.an) AN
+                ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
+                ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
+                ,round(sum(v.sum_price),2) AMOUNT
+                ,p.cid PERSON_ID
+                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
+                from opitemrece v
+                LEFT JOIN vn_stat vv on vv.vn = v.vn
+                LEFT JOIN patient p on p.hn = v.hn
+                LEFT JOIN ipt v1 on v1.an = v.an
+                LEFT JOIN income i on v.income=i.income
+                LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
+                LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
+                left join claim.d_export_ucep x on x.vn = v.vn
+                where x.active="N"
+                group by v.vn,CHRGITEM
+                union all
+                SELECT "" d_cha_id,v.hn HN
+                ,v1.an AN
+                ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
+                ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
+                ,round(sum(v.sum_price),2) AMOUNT
+                ,p.cid PERSON_ID
+                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
+                from opitemrece v
+                LEFT JOIN vn_stat vv on vv.vn = v.vn
+                LEFT JOIN patient p on p.hn = v.hn
+                LEFT JOIN ipt v1 on v1.an = v.an
+                LEFT JOIN income i on v.income=i.income
+                LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
+                LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
+                left join claim.d_export_ucep x on x.vn = v1.vn
+                where x.active="N"
+                group by v.an,CHRGITEM;
+        ');
+        foreach ($data_cha as $va8) {
+            D_cha::insert([
+                'HN'                => $va8->HN,
+                'AN'                => $va8->AN,
+                'DATE'              => $va8->DATE,
+                'CHRGITEM'          => $va8->CHRGITEM,
+                'AMOUNT'            => $va8->AMOUNT,
+                'PERSON_ID'         => $va8->PERSON_ID,
+                'SEQ'               => $va8->SEQ,
             ]);
         }
         return redirect()->back();
