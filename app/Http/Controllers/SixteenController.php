@@ -881,7 +881,6 @@ class SixteenController extends Controller
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");
-        $sesid_status = 'new'; #ส่งค่าสำหรับเงื่อนไขการบันทึกsession
 
         #ตัดขีด, ตัด : ออก
         $pattern_date = '/-/i';
@@ -928,115 +927,42 @@ class SixteenController extends Controller
         // $opd_head = "\n".'<ClaimRec System="OP" PayPlan="SS" Version="0.93" Prgs="HS">';
         // fwrite($objFopen_opd, $opd_head);
 
-        // $opd_head = "\n".'<Header>';
-        // fwrite($objFopen_opd, $opd_head);
 
-        // $opd_head = "\n".'<HCODE>10978</HCODE>';
-        // fwrite($objFopen_opd, $opd_head);
+        // $ins = DB::connection('mysql7')->select('
+        //     SELECT * from d_ins
+        // ');
 
-        // $opd_head = "\n".'<HNAME>โรงพยาบาลภูเขียวเฉลิมพระเกีรติ</HNAME>';
-        // $opd_head_ansi = iconv('UTF-8', 'TIS-620', $opd_head);
-        // fwrite($objFopen_opd, $opd_head_ansi);
+        // foreach ($ins as $key => $value1) {
+        //     $a1 = $value1->HN;
+        //     $a2 = $value1->INSCL;
+        //     $a3 = $value1->SUBTYPE;
+        //     $a4 = $value1->CID;
+        //     $a5 = $value1->DATEIN;
+        //     $a6 = $value1->DATEEXP;
+        //     $a7 = $value1->HOSPMAIN;
+        //     $a8 = $value1->HOSPSUB;
+        //     $a9 = $value1->GOVCODE;
+        //     $a10 = $value1->GOVNAME;
+        //     $a11 = $value1->PERMITNO;
+        //     $a12 = $value1->DOCNO;
+        //     $a13 = $value1->OWNRPID;
+        //     $a14= $value1->OWNRNAME;
+        //     $a15 = $value1->AN;
+        //     $a16= $value1->SEQ;
+        //     $a17= $value1->SUBINSCL;
+        //     $a18 = $value1->RELINSCL;
+        //     $a19 = $value1->HTYPE;
+        //     $strText1="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
+        //     $ansitxt_pat1 = iconv('UTF-8', 'TIS-620', $strText1);
+        //     fwrite($objFopen_opd, $ansitxt_pat1);
+        // }
 
-        // $opd_head = "\n".'<DATETIME>'.$sss_date_now.'T'.$sss_time_now.'</DATETIME>';
-        // fwrite($objFopen_opd, $opd_head);
-
-        // $opd_head = "\n".'<SESSNO>'.$ssop_session_no.'</SESSNO>';
-        // fwrite($objFopen_opd, $opd_head);
-
-        // $opd_head = "\n".'<RECCOUNT>'.$count.'</RECCOUNT>';
-        // fwrite($objFopen_opd, $opd_head);
-
-        // $opd_head = "\n".'</Header>';
-        // fwrite($objFopen_opd, $opd_head);
-
-        // $opd_head = "\n".'<BILLTRAN>';
-        // fwrite($objFopen_opd, $opd_head);
-
-        $ins = DB::connection('mysql7')->select('
-            SELECT * from d_ins
-        ');
-
-        foreach ($ins as $key => $value1) {
-            $a1 = $value1->HN;
-            $a2 = $value1->INSCL;
-            $a3 = $value1->SUBTYPE;
-            $a4 = $value1->CID;
-            $a5 = $value1->DATEIN;
-            $a6 = $value1->DATEEXP;
-            $a7 = $value1->HOSPMAIN;
-            $a8 = $value1->HOSPSUB;
-            $a9 = $value1->GOVCODE;
-            $a10 = $value1->GOVNAME;
-            $a11 = $value1->PERMITNO;
-            $a12 = $value1->DOCNO;
-            $a13 = $value1->OWNRPID;
-            $a14= $value1->OWNRNAME;
-            $a15 = $value1->AN;
-            $a16= $value1->SEQ;
-            $a17= $value1->SUBINSCL;
-            $a18 = $value1->RELINSCL;
-            $a19 = $value1->HTYPE;
-            $strText1="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-            $ansitxt_pat1 = iconv('UTF-8', 'TIS-620', $strText1);
-            fwrite($objFopen_opd, $ansitxt_pat1);
+        if($objFopen_opd){
+            echo "File BillTran writed."."<BR>";
+        }else{
+            echo "File BillTran can not write";
         }
-
-        // $opd_head = "\n".'</BILLTRAN>';
-        // fwrite($objFopen_opd, $opd_head);
-
-        // $opd_head = "\n".'<BillItems>';
-        // fwrite($objFopen_opd, $opd_head);
-
-        // $ssop_items = DB::connection('mysql7')->select('
-        //     SELECT * FROM ssop_billitems
-        //     ');
-        // foreach ($ssop_items as $key => $value) {
-        //     $s1 = $value->Invno;
-        //     $s2 = $value->SvDate;
-        //     $s3 = $value->BillMuad;
-        //     $s4 = $value->LCCode;
-        //     $s5 = $value->STDCode;
-        //     $s6 = $value->Desc;
-        //     $s7 = $value->QTY;
-        //     $s8 = $value->UnitPrice;
-        //     $s9 = $value->ChargeAmt;
-        //     $s10 = $value->ClaimUP;
-        //     $s11 = $value->ClaimAmount;
-        //     $s12 = $value->SvRefID;
-        //     $s13 = $value->ClaimCat;
-
-        //     $strText="\n".$s1."|".$s2."|".$s3."|".$s4."|".$s5."|".$s6."|".$s7."|".$s8."|".$s9."|".$s10."|".$s11."|".$s12."|".$s13;
-        //     $ansitxt_pat = iconv('UTF-8', 'TIS-620', $strText);
-        //     fwrite($objFopen_opd, $ansitxt_pat);
-        // }
-        // $opd_head = "\n".'</BillItems>';
-        // fwrite($objFopen_opd, $opd_head);
-        // $opd_head = "\n".'</ClaimRec>';
-        // fwrite($objFopen_opd, $opd_head);
-        // $opd_head = "\n";
-        // fwrite($objFopen_opd, $opd_head);
-        // if($objFopen_opd){
-        //     echo "File BillTran writed."."<BR>";
-        // }else{
-        //     echo "File BillTran can not write";
-        // }
         fclose($objFopen_opd);
-
-
-
-        // fwrite($objFopen_opd, $opd_head);
-        // $opd_head = "\n";
-        // fwrite($objFopen_opd, $opd_head);
-        // if($objFopen_opd){
-        //     echo "File BillDisp MD5 writed."."<BR>";
-        // }else{
-        //     echo "File BillDisp MD5 can not write";
-        // }
-        // fclose($objFopen_opd);
-
-
-
 
 
             return redirect()->route('data.six');
