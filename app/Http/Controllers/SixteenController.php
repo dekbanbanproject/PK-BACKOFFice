@@ -895,7 +895,7 @@ class SixteenController extends Controller
         $file->cleanDirectory('Export_Claim');
         $folder='10978_UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
-         mkdir ('C:/Export/'.$folder, 0777, true);
+         mkdir ('Export/'.$folder, 0777, true);
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
