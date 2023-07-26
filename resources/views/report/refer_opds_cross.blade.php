@@ -135,12 +135,12 @@
                                     <th class="text-center">CT</th>
                                     <th class="text-center">คงเหลือ</th>
                                     <th class="text-center">ยอดเรียกเก็บ</th>
-                                    <th class="text-center">Total</th>
+                                    {{-- <th class="text-center">Total</th> --}}
                                     <th class="text-center">Level</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0; ?>
+                                <?php $number = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0; ?>
                                 @foreach ($datashow_ as $item)
                                     <?php  
                                     $data_ = DB::connection('mysql3')->select('
@@ -182,9 +182,15 @@
                                         <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#b00ec5">&nbsp; {{ number_format($item->income,2) }} </td>
                                         <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#36a9f7">&nbsp; {{ number_format($inst_income,2) }} </td>
                                         <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#6187f0">&nbsp; {{ number_format($ct_income,2) }} </td>
-                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f50d79">&nbsp; {{ number_format($item->income-$item->sum_inst,2) }} </td>
-                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">&nbsp;{{ number_format($item->refer,2) }} </td>
-                                        <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#0bc597">&nbsp;{{ number_format(($item->total),2) }} </td>
+                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f50d79">&nbsp; {{ number_format($item->income-$item->sum_inst-$ct_income,2) }} </td>
+                                       
+                                        @if ($item->income-$item->sum_inst-$ct_income < 700)
+                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">&nbsp;{{ number_format($item->income-$item->sum_inst-$ct_income,2) }} </td>
+                                        @elseif($item->income-$item->sum_inst-$ct_income > 1000)
+                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">1,000.00 </td>
+                                        @endif
+                                        {{-- <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">&nbsp;{{ number_format($item->total,2) }} </td> --}}
+                                        {{-- <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#0bc597">&nbsp;{{ number_format(($item->total),2) }} </td> --}}
                                         <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->er_emergency_level_id }} </td>
                                     </tr>
                                         <?php
@@ -192,8 +198,16 @@
                                             $total2 = $total2 + $item->refer;
                                             $total3 = $total3 + $item->total;
                                             $total4 = $total4 + $inst_income;
-                                            $total5 = $total5 + ($item->income-$item->sum_inst);
-                                            $total6 = $total6 + $ct_income;
+                                            $total5 = $total5 + ($item->income-$item->sum_inst-$ct_income);
+                                            $total6 = $total6 + $ct_income;                                          
+
+                                            if ($item->income-$item->sum_inst-$ct_income > 1000) {
+                                                $itemtotal = 1000;
+                                            } else {
+                                                $itemtotal = $item->income-$item->sum_inst-$ct_income;
+                                            }
+                                            $total7 = $total7 + $itemtotal;
+                                            
                                         ?>
                                 @endforeach
 
@@ -204,9 +218,13 @@
                                 <td class="text-end" style="background-color: #36a9f7">{{ number_format($total4,2)}}</td>
                                 <td class="text-end" style="background-color: #6187f0">{{ number_format($total6,2)}}</td>
                                 <td class="text-end" style="background-color: #fd7fba">{{ number_format($total5,2)}}</td>
-                            
-                                <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td>                               
-                                <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>
+                                {{-- @if ($total5 < 700) --}}
+                                <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,2)}}</td> 
+                                {{-- @else
+                                <td class="text-end" style="background-color: #f5a382"></td> 
+                                @endif --}}
+                                                              
+                                {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td> --}}
                                 <td class="text-end" style="background-color: #ff9d9d"></td>
                             </tr>
                         </table>

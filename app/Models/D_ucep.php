@@ -8,19 +8,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Tempexport extends Authenticatable
+class D_ucep extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $connection = 'mysql7';
-    protected $table = 'tempexport';
-    public $timestamps = false; 
- 
-    protected $fillable = [  
-        'active',
-        'vn',  
-        'hn',  
-        'an',
-        'cid'  
+    protected $table = 'd_ucep';
+    protected $primaryKey = 'd_ucep_id';
+    protected $fillable = [ 
+        'HN', 
+        'AN',  
+        'DATEOPD',  
+        'TYPE' 
     ];
 
   

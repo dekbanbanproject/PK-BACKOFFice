@@ -77,7 +77,7 @@
 
             <div class="row">  
                 <div class="col-md-2 text-end">วันที่</div>
-                <div class="col-md-7 text-center">
+                <div class="col-md-5 text-center">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
@@ -87,10 +87,8 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                             ค้นหา 
                         </button>
-                        <a href="{{url('six_pull_a')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 1</a>  
-                        <a href="{{url('six_pull_b')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 2</a>  
-                        <a href="{{url('six_pull_c')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 3</a>
-                        <a href="{{url('aipn_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>Export</a>   
+                        <a href="{{url('six_pull')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ดึงข้อมูล</a>  
+                        <a href="{{url('aipn_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
                     </div>                          
                 </div>   
                 <div class="col"></div>
@@ -113,48 +111,6 @@
                             </div>
                         </div>
 
-                        {{-- <div id="accordion" class="custom-accordion">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="card mb-1 shadow-none">
-                                        <a href="#collapseOne" class="text-dark" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapseOne">
-                                            <div class="card-header" id="headingOne">
-                                                <h6 class="m-0">                                                   
-                                                    การทดสอบการตั้งครรภ์ (Pregnancy test)***B17=>30014,31101=>Z321,Z320
-                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                                </h6>
-                                            </div>
-                                        </a>
-                                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
-                                            <div class="card-body">
-                                                <a href="{{url('six_pull')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ดึงข้อมูล</a>  
-                                                 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card mb-1 shadow-none">
-                                        <a href="#collapseTwo" class="text-dark collapsed" data-bs-toggle="collapse"
-                                                        aria-expanded="false"
-                                                        aria-controls="collapseTwo">
-                                            <div class="card-header" id="headingTwo">
-                                                <h6 class="m-0">
-                                                    ค่าตรวจทางห้องปฏิบัติการ (ตรวจ VDRL และ HIV) ***B55
-                                                    <i class="mdi mdi-minus float-end accor-plus-icon"></i>
-                                                </h6>
-                                            </div>
-                                        </a>
-                                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                                data-bs-parent="#accordion">
-                                            <div class="card-body">
-                                                <a href="{{url('six_pull')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ดึงข้อมูล</a>  
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                            
