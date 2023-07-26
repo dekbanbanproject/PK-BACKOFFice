@@ -654,7 +654,7 @@ class SixteenController extends Controller
         D_aer::truncate();
         D_iop::truncate();
         D_pat::truncate();
-        D_cha::truncate();
+        D_cht::truncate();
 
         $data_aer = DB::connection('mysql3')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
@@ -783,6 +783,49 @@ class SixteenController extends Controller
             ]);
         }
 
+        $data_cht = DB::connection('mysql3')->select('
+                SELECT "" d_cht_id
+                ,v.hn HN
+                ,v.an AN
+                ,DATE_FORMAT(if(a.an is null,v.vstdate,a.dchdate),"%Y%m%d") DATE
+                ,round(if(a.an is null,vv.income,a.income),2) TOTAL
+                ,round(if(a.an is null,vv.paid_money,a.paid_money),2) PAID
+                ,if(vv.paid_money >"0" or a.paid_money >"0","10",pt.pcode) PTTYPE
+                ,pp.cid PERSON_ID
+                ,v.vn SEQ
+                ,"" created_at
+                ,"" updated_at
+                from ovst v
+                LEFT JOIN vn_stat vv on vv.vn = v.vn
+                LEFT JOIN an_stat a on a.an = v.an
+                LEFT JOIN patient pp on pp.hn = v.hn
+                LEFT JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
+                LEFT JOIN pttype p on p.pttype = a.pttype
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                where x.active="N";
+        ');
+        foreach ($data_cht as $va7) {
+            D_cht::insert([
+                'HN'                => $va7->HN,
+                'AN'                => $va7->AN,
+                'DATE'              => $va7->DATE,
+                'TOTAL'             => $va7->TOTAL,
+                'PAID'              => $va7->PAID,
+                'PTTYPE'            => $va7->PTTYPE,
+                'PERSON_ID'         => $va7->PERSON_ID,
+                'SEQ'               => $va7->SEQ,
+            ]);
+        }
+
+
+
+        return redirect()->back();
+    }
+    public function six_pull_d(Request $request)
+    {
+
+        D_cha::truncate();
+
         $data_cha = DB::connection('mysql3')->select('
                 SELECT "" d_cha_id,v.hn HN
                 ,if(v1.an is null,"",v1.an) AN
@@ -829,46 +872,6 @@ class SixteenController extends Controller
                 'AMOUNT'            => $va8->AMOUNT,
                 'PERSON_ID'         => $va8->PERSON_ID,
                 'SEQ'               => $va8->SEQ,
-            ]);
-        }
-
-
-        return redirect()->back();
-    }
-    public function six_pull_d(Request $request)
-    {
-        D_cht::truncate();
-        $data_cht = DB::connection('mysql3')->select('
-                SELECT "" d_cht_id
-                ,v.hn HN
-                ,v.an AN
-                ,DATE_FORMAT(if(a.an is null,v.vstdate,a.dchdate),"%Y%m%d") DATE
-                ,round(if(a.an is null,vv.income,a.income),2) TOTAL
-                ,round(if(a.an is null,vv.paid_money,a.paid_money),2) PAID
-                ,if(vv.paid_money >"0" or a.paid_money >"0","10",pt.pcode) PTTYPE
-                ,pp.cid PERSON_ID
-                ,v.vn SEQ
-                ,"" created_at
-                ,"" updated_at
-                from ovst v
-                LEFT JOIN vn_stat vv on vv.vn = v.vn
-                LEFT JOIN an_stat a on a.an = v.an
-                LEFT JOIN patient pp on pp.hn = v.hn
-                LEFT JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
-                LEFT JOIN pttype p on p.pttype = a.pttype
-                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-                where x.active="N";
-        ');
-        foreach ($data_cht as $va7) {
-            D_cht::insert([
-                'HN'                => $va7->HN,
-                'AN'                => $va7->AN,
-                'DATE'              => $va7->DATE,
-                'TOTAL'             => $va7->TOTAL,
-                'PAID'              => $va7->PAID,
-                'PTTYPE'            => $va7->PTTYPE,
-                'PERSON_ID'         => $va7->PERSON_ID,
-                'SEQ'               => $va7->SEQ,
             ]);
         }
         return redirect()->back();
