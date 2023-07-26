@@ -366,7 +366,7 @@ class SixteenController extends Controller
                     LEFT JOIN pttype p on p.pttype = v.pttype
                     LEFT JOIN ipt i on i.vn = v.vn
                     LEFT JOIN patient pt on pt.hn = v.hn
-                    left join claim.d_export_ucep x on x.vn = v.vn
+                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
             ');
             foreach ($data_pat as $va2) {
@@ -404,7 +404,7 @@ class SixteenController extends Controller
                     LEFT JOIN pttype p on p.pttype = v.pttype
                     LEFT JOIN ipt i on i.vn = v.vn
                     LEFT JOIN patient pt on pt.hn = v.hn
-                    left join claim.d_export_ucep x on x.vn = v.vn
+                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
             ');
             foreach ($data_opd as $va3) {
@@ -433,7 +433,7 @@ class SixteenController extends Controller
                     LEFT JOIN ovst o on o.vn = v.vn
                     LEFT JOIN referin r1 on r1.vn = v.vn
                     LEFT JOIN referout r2 on r2.vn = v.vn
-                    left join claim.d_export_ucep x on x.vn = v.vn
+                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N"
                     and (r1.vn is not null or r2.vn is not null);
             ');
@@ -464,7 +464,7 @@ class SixteenController extends Controller
                     LEFT JOIN patient pt on v.hn=pt.hn
                     LEFT JOIN doctor d on d.`code` = o.doctor
                     inner JOIN icd9cm1 i on i.code = o.icd10
-                    left join claim.d_export_ucep x on x.vn = v.vn
+                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
             ');
             foreach ($data_oop as $va6) {
