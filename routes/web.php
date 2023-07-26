@@ -193,7 +193,7 @@ Route::match(['get','post'],'kayapap_tavs/{startdate}/{enddate}',[App\Http\Contr
 Route::match(['get','post'],'kayapap_tavs_subvn/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_tavs_subvn'])->name('pt.kayapap_tavs_subvn');//
 Route::match(['get','post'],'kayapap_tavs_subspsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_tavs_subspsch'])->name('pt.kayapap_tavs_subspsch');//
 Route::match(['get','post'],'kayapap_tavs_subnokey/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_tavs_subnokey'])->name('pt.kayapap_tavs_subnokey');//
- 
+
 Route::match(['get','post'],'kayapap_kratoonvs/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_kratoonvs'])->name('pt.kayapap_kratoonvs');//
 Route::match(['get','post'],'kayapap_kratoonvs_sub/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_kratoonvs_sub'])->name('pt.kayapap_kratoonvs_sub');//
 Route::match(['get','post'],'kayapap_kratoonvs_spsch/{months}/{startdate}/{enddate}',[App\Http\Controllers\PtController::class, 'kayapap_kratoonvs_spsch'])->name('pt.kayapap_kratoonvs_spsch');//
@@ -1381,9 +1381,9 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_hn',[App\Http\Controllers\AccountPKController::class, 'upstm_hn'])->name('acc.upstm_hn');// ไต
     Route::match(['get','post'],'upstm_ti_importexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_importexcel'])->name('acc.upstm_ti_importexcel');// ไต
 
-    Route::match(['get','post'],'upstm_ucs',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs');// 
-    Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');// 
-    Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');// 
+    Route::match(['get','post'],'upstm_ucs',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs');//
+    Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
+    Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//
 
     Route::match(['get','post'],'upstm_tixml',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml'])->name('acc.upstm_tixml');// ไต
     Route::match(['get','post'],'upstm_tixml_import',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml_import'])->name('acc.upstm_tixml_import');// ไต
@@ -1435,10 +1435,10 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkucs217_stmnull/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217_stmnull'])->name('acc.account_pkucs217_stmnull');//
     Route::match(['get','post'],'account_pkucs217_stam',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217_stam'])->name('acc.account_pkucs217_stam');//  stamp IPD
     Route::match(['get','post'],'account_pkucs217_stmnull_all/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_pkucs217_stmnull_all'])->name('acc.account_pkucs217_stmnull_all');//
-    
+
     Route::match(['get','post'],'account_301_dash',[App\Http\Controllers\Account301Controller::class, 'account_301_dash'])->name('acc.account_301_dash');//
     Route::match(['get','post'],'account_301_pull',[App\Http\Controllers\Account301Controller::class, 'account_301_pull'])->name('acc.account_301_pull');//
-    Route::match(['get','post'],'account_301_pulldata',[App\Http\Controllers\Account301Controller::class, 'account_301_pulldata'])->name('acc.account_301_pulldata');// 
+    Route::match(['get','post'],'account_301_pulldata',[App\Http\Controllers\Account301Controller::class, 'account_301_pulldata'])->name('acc.account_301_pulldata');//
     Route::match(['get','post'],'account_301/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301'])->name('acc.account_301');//
     Route::match(['get','post'],'account_301_detail/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301_detail'])->name('acc.account_301_detail');//
     Route::match(['get','post'],'account_301_stm/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301_stm'])->name('acc.account_301_stm');//
@@ -1448,7 +1448,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_302_dash',[App\Http\Controllers\Account302Controller::class, 'account_302_dash'])->name('acc.account_302_dash');//
     Route::match(['get','post'],'account_302_pull',[App\Http\Controllers\Account302Controller::class, 'account_302_pull'])->name('acc.account_302_pull');//
-    Route::match(['get','post'],'account_302_pulldata',[App\Http\Controllers\Account302Controller::class, 'account_302_pulldata'])->name('acc.account_302_pulldata');// 
+    Route::match(['get','post'],'account_302_pulldata',[App\Http\Controllers\Account302Controller::class, 'account_302_pulldata'])->name('acc.account_302_pulldata');//
     Route::match(['get','post'],'account_302/{months}/{year}',[App\Http\Controllers\Account302Controller::class, 'account_302'])->name('acc.account_302');//
     Route::match(['get','post'],'account_302_detail/{months}/{year}',[App\Http\Controllers\Account302Controller::class, 'account_302_detail'])->name('acc.account_302_detail');//
     Route::match(['get','post'],'account_302_stm/{months}/{year}',[App\Http\Controllers\Account302Controller::class, 'account_302_stm'])->name('acc.account_302_stm');//
@@ -1931,7 +1931,7 @@ Route::match(['get','post'],'medicine_salt_subhn/{hn}',[App\Http\Controllers\Med
 Route::match(['get','post'],'six',[App\Http\Controllers\SixteenController::class, 'six'])->name('data.six');//
 Route::match(['get','post'],'six_pull_a',[App\Http\Controllers\SixteenController::class, 'six_pull_a'])->name('data.six_pull_a');//
 Route::match(['get','post'],'six_pull_b',[App\Http\Controllers\SixteenController::class, 'six_pull_b'])->name('data.six_pull_b');//
-
+Route::match(['get','post'],'six_pull_c',[App\Http\Controllers\SixteenController::class, 'six_pull_c'])->name('data.six_pull_c');//
 
 
 
