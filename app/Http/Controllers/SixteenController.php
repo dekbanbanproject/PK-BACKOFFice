@@ -437,39 +437,39 @@ class SixteenController extends Controller
     }
     public function six_pull_b(Request $request)
     {
-        // $data_odx = DB::connection('mysql3')->select('
-        //     SELECT
-        //         "" d_odx_id
-        //         ,v.hn HN
-        //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
-        //         ,v.spclty CLINIC
-        //         ,o.icd10 DIAG
-        //         ,o.diagtype DXTYPE
-        //         ,if(d.licenseno="","-99999",d.licenseno) DRDX
-        //         ,v.cid PERSON_ID
-        //         ,v.vn SEQ
-        //         ,"" created_at
-        //         ,"" updated_at
-        //         from vn_stat v
-        //         LEFT JOIN ovstdiag o on o.vn = v.vn
-        //         LEFT JOIN doctor d on d.`code` = o.doctor
-        //         inner JOIN icd101 i on i.code = o.icd10
-        //         left join claim.d_export_ucep x on x.vn = v.vn
-        //         where x.active="N";
-        // ');
-        // D_odx::truncate();
-        // foreach ($data_odx as $va5) {
-        //     D_odx::insert([
-        //         'HN'                => $va5->HN,
-        //         'DATEDX'            => $va5->DATEDX,
-        //         'CLINIC'            => $va5->CLINIC,
-        //         'DIAG'              => $va5->DIAG,
-        //         'DXTYPE'            => $va5->DXTYPE,
-        //         'DRDX'              => $va5->DRDX,
-        //         'PERSON_ID'         => $va5->PERSON_ID,
-        //         'SEQ'               => $va5->SEQ,
-        //     ]);
-        // }
+        $data_odx = DB::connection('mysql3')->select('
+            SELECT
+                "" d_odx_id
+                ,v.hn HN
+                ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
+                ,v.spclty CLINIC
+                ,o.icd10 DIAG
+                ,o.diagtype DXTYPE
+                ,if(d.licenseno="","-99999",d.licenseno) DRDX
+                ,v.cid PERSON_ID
+                ,v.vn SEQ
+                ,"" created_at
+                ,"" updated_at
+                from vn_stat v
+                LEFT JOIN ovstdiag o on o.vn = v.vn
+                LEFT JOIN doctor d on d.`code` = o.doctor
+                LEFT JOIN icd101 i on i.code = o.icd10
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                where x.active="N";
+        ');
+        D_odx::truncate();
+        foreach ($data_odx as $va5) {
+            D_odx::insert([
+                'HN'                => $va5->HN,
+                'DATEDX'            => $va5->DATEDX,
+                'CLINIC'            => $va5->CLINIC,
+                'DIAG'              => $va5->DIAG,
+                'DXTYPE'            => $va5->DXTYPE,
+                'DRDX'              => $va5->DRDX,
+                'PERSON_ID'         => $va5->PERSON_ID,
+                'SEQ'               => $va5->SEQ,
+            ]);
+        }
 
 
 
