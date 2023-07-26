@@ -902,14 +902,55 @@ class SixteenController extends Controller
         $file_name = "/BillTran".$sss_time_now_preg.".txt";
 
         $file_pat = "Export/".$folder."/ins.txt";
-        // $file_pat = "C:/export/".$folder/ins.txt";
-        $objFopen_opd = fopen($file_pat, 'w');
+        $objFopen_opd1 = fopen($file_pat, 'w');
 
         $file_d_iop = "Export/".$folder."/iop.txt";
         $objFopen_opd2 = fopen($file_d_iop, 'w');
 
+        $file_d_adp = "Export/".$folder."/adp.txt";
+        $objFopen_opd3 = fopen($file_d_adp, 'w');
+
+        $file_d_aer = "Export/".$folder."/aer.txt";
+        $objFopen_opd4 = fopen($file_d_aer, 'w');
+
+        $file_d_cha = "Export/".$folder."/cha.txt";
+        $objFopen_opd5 = fopen($file_d_cha, 'w');
+
+        $file_d_cht = "Export/".$folder."/cht.txt";
+        $objFopen_opd6 = fopen($file_d_cht, 'w');
+
+        $file_d_dru = "Export/".$folder."/dru.txt";
+        $objFopen_opd7 = fopen($file_d_dru, 'w');
+
+        $file_d_idx = "Export/".$folder."/idx.txt";
+        $objFopen_opd8 = fopen($file_d_idx, 'w');
+
+        $file_d_ins = "Export/".$folder."/ins.txt";
+        $objFopen_opd9 = fopen($file_d_ins, 'w');
+
+        $file_d_ipd = "Export/".$folder."/ipd.txt";
+        $objFopen_opd10 = fopen($file_d_ipd, 'w');
+
+        $file_d_irf = "Export/".$folder."/irf.txt";
+        $objFopen_opd11 = fopen($file_d_irf, 'w');
+
+        $file_d_lvd = "Export/".$folder."/lvd.txt";
+        $objFopen_opd12 = fopen($file_d_lvd, 'w');
+
+        $file_d_odx = "Export/".$folder."/odx.txt";
+        $objFopen_opd13 = fopen($file_d_odx, 'w');
+
+        $file_d_oop = "Export/".$folder."/oop.txt";
+        $objFopen_opd14 = fopen($file_d_oop, 'w');
+
+        $file_d_opd = "Export/".$folder."/opd.txt";
+        $objFopen_opd15 = fopen($file_d_opd, 'w');
+
+        $file_d_orf = "Export/".$folder."/orf.txt";
+        $objFopen_opd16 = fopen($file_d_orf, 'w');
+
         $opd_head = '<?xml version="1.0" encoding="windows-874"?>';
-        fwrite($objFopen_opd, $opd_head);
+        fwrite($objFopen_opd1, $opd_head);
         // SELECT COUNT(*) from claim_ssop
         // $ssop_count = DB::connection('mysql7')->select('
         //     SELECT COUNT(*) as Invno
