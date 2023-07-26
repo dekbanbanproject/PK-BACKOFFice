@@ -892,19 +892,20 @@ class SixteenController extends Controller
          #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export_Claim');
-        $folder='10978_UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt"');
+        $file_name = "/BillTran".$sss_time_now_preg.".txt";
 
-        $file_pat = "$folder/ins".".txt";
+        $file_pat = "$folder/ins.txt";
         $objFopen_opd = fopen($file_pat, 'w');
 
-        $file_d_iop = "$folder/iop".".txt";
-        $objFopen_opd = fopen($file_d_iop, 'w');
+        $file_d_iop = "$folder/iop.txt";
+        $objFopen_opd2 = fopen($file_d_iop, 'w');
         // SELECT COUNT(*) from claim_ssop
         // $ssop_count = DB::connection('mysql7')->select('
         //     SELECT COUNT(*) as Invno
@@ -960,11 +961,6 @@ class SixteenController extends Controller
         //     fwrite($objFopen_opd, $ansitxt_pat1);
         // }
 
-        if($objFopen_opd){
-            echo "File BillTran writed."."<BR>";
-        }else{
-            echo "File BillTran can not write";
-        }
         fclose($objFopen_opd);
 
 
