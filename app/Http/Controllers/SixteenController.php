@@ -890,28 +890,19 @@ class SixteenController extends Controller
         $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
         #ตัดขีด, ตัด : ออก
 
-
-         //Move Uploaded File to public folder
-         $url = "http://192.168.0.217/pkbackoffice/public";
-         $part_ = pathinfo($url);
-
          #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export_Claim');
         $folder='10978_UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
-         $desPath = 'Export_Claim';
-         $testfolder = $desPath.'/'.$folder;
-
-
-
-        // mkdir ('C:/export/'.$folder, 0777, true);
+         mkdir ('C:/Export/'.$folder, 0777, true);
 
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt"');
 
-        $file_name = "$testfolder/UCEP_24".$sss_time_now_preg.".txt";
+        $file_pat = "$folder/UCEP_24".$sss_time_now_preg.".txt";
+        $objFopen_opd = fopen($file_pat, 'w');
         // SELECT COUNT(*) from claim_ssop
         // $ssop_count = DB::connection('mysql7')->select('
         //     SELECT COUNT(*) as Invno
@@ -921,8 +912,8 @@ class SixteenController extends Controller
         //     $count = $valuecount->Invno;
         // }
 
-        $file_pat = "C:/export/".$folder."/ins".".txt";
-        $objFopen_opd = fopen($file_pat, 'w');
+        // $file_pat = "C:/export/".$folder."/ins".".txt";
+        // $objFopen_opd = fopen($file_pat, 'w');
 
         // $file_pat2 = "C:/export/".$folder."/BillDisp".$sss_date_now_preg.".txt";
         // $objFopen_opd2 = fopen($file_pat2, 'w');
