@@ -52,16 +52,16 @@ use App\Models\D_opd;
 use App\Models\D_orf;
 use App\Models\D_odx;
 use App\Models\D_cht;
-use App\Models\D_cha; 
+use App\Models\D_cha;
 use App\Models\D_oop;
-use App\Models\Tempexport; 
-use App\Models\D_adp; 
+use App\Models\Tempexport;
+use App\Models\D_adp;
 use App\Models\D_dru;
+use App\Models\D_idx;
+use App\Models\D_iop;
+use App\Models\D_ipd;
+use App\Models\D_aer;
 
-use App\Models\Claim_sixteen_oop;
-use App\Models\Claim_sixteen_odx;
-use App\Models\Claim_sixteen_orf;
-use App\Models\Claim_sixteen_pat;
 use App\Models\Claim_sixteen_ins;
 use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
@@ -103,11 +103,11 @@ class SixteenController extends Controller
                         left outer join er_regist g on g.vn=o.vn
                         left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left outer join pttype pt on pt.pttype = a.pttype
-                        
+
                         where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND g.er_emergency_level_id IN("1","2")
                         AND o.an <>"" and pt.hipdata_code ="UCS"
-                        
+
                         group by o.vn;
             ');
             // inner join claim.dtemp_hosucep zz on zz.an = o.an
@@ -130,14 +130,14 @@ class SixteenController extends Controller
                     'hn'                       => $va2->hn,
                     'an'                       => $va2->an,
                     'vn'                       => $va2->vn,
-                    'cid'                      => $va2->cid, 
-                    'sent_date'                => $date, 
+                    'cid'                      => $va2->cid,
+                    'sent_date'                => $date,
                 ]);
             }
             // UCEP
             $data_opitemrece = DB::connection('mysql3')->select('
                 SELECT "" dtemp_hosucep_id,o.an,o.hn,o.icode,o.rxdate,o.rxtime,a.vstdate,a.vsttime,DATEDIFF(o.rxdate,a.vstdate)<="1" as date_x,TIMEDIFF(o.rxtime,a.vsttime)<="24" time_x
-                ,"" created_at,"" updated_at 
+                ,"" created_at,"" updated_at
                 from opitemrece o
                 LEFT JOIN ipt i on i.an = o.an
                 LEFT JOIN ovst a on a.an = o.an
@@ -148,12 +148,12 @@ class SixteenController extends Controller
                 and o.an is not null
                 and p.hipdata_code ="ucs"
                 and DATEDIFF(o.rxdate,a.vstdate)<="1"
-                and TIMEDIFF(o.rxtime,a.vsttime)<="24" 
+                and TIMEDIFF(o.rxtime,a.vsttime)<="24"
                 AND e.er_emergency_level_id IN("1","2")
-                
+
                 ORDER BY icode;
             ');
-            foreach ($data_opitemrece as $va3) { 
+            foreach ($data_opitemrece as $va3) {
                 Dtemp_hosucep::insert([
                     'an'                => $va3->an,
                     'hn'                => $va3->hn,
@@ -162,8 +162,8 @@ class SixteenController extends Controller
                     'vstdate'           => $va3->vstdate,
                     'rxtime'            => $va3->rxtime,
                     'vsttime'           => $va3->vsttime,
-                    'date_x'            => $va3->date_x, 
-                    'time_x'            => $va3->time_x, 
+                    'date_x'            => $va3->date_x,
+                    'time_x'            => $va3->time_x,
                 ]);
             }
             //INS
@@ -201,7 +201,7 @@ class SixteenController extends Controller
                         left join patient px on px.hn = v.hn
                         left join claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
-            ');            
+            ');
             foreach ($data as $va1) {
                 $date = date('Y-m-d');
                 D_ins::insert([
@@ -234,7 +234,7 @@ class SixteenController extends Controller
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
                     ,n.nhso_adp_type_id TYPE
-                    ,n.nhso_adp_code CODE 
+                    ,n.nhso_adp_code CODE
                     ,sum(v.QTY) QTY
                     ,round(v.unitprice,2) RATE
                     ,if(v.an is null,v.vn,"") SEQ
@@ -249,7 +249,7 @@ class SixteenController extends Controller
                     left join claim.tempexport x on x.vn = i.vn
                     where x.active="N"
                     AND n.icode <> "XXXXXX"
-                    GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                    GROUP BY i.vn,n.nhso_adp_code,rate) a
                     GROUP BY an,CODE,rate
                     UNION
                     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
@@ -259,7 +259,7 @@ class SixteenController extends Controller
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                     ,n.nhso_adp_type_id TYPE
-                    ,n.nhso_adp_code CODE 
+                    ,n.nhso_adp_code CODE
                     ,sum(v.QTY) QTY
                     ,round(v.unitprice,2) RATE
                     ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
@@ -269,12 +269,12 @@ class SixteenController extends Controller
                     left join ipt i on i.an = v.an
                     left join claim.tempexport x on x.vn = v.vn
                     where x.active="N"
-                    AND n.icode <> "XXXXXX" 
+                    AND n.icode <> "XXXXXX"
                     AND i.an is NULL
-                    GROUP BY v.vn,n.nhso_adp_code,rate) b 
+                    GROUP BY v.vn,n.nhso_adp_code,rate) b
                     GROUP BY seq,CODE,rate;
             ');
-            foreach ($data_adp as $va4) { 
+            foreach ($data_adp as $va4) {
                 d_adp::insert([
                     'HN'                   => $va4->HN,
                     'AN'                   => $va4->AN,
@@ -306,43 +306,6 @@ class SixteenController extends Controller
                 ]);
             }
             d_adp::where('CODE','=','XXXXXX')->delete();
-            
-          
-            //D_odx
-            // $data_odx = DB::connection('mysql3')->select('
-            //     SELECT
-            //         "" d_odx_id
-            //         ,v.hn HN
-            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
-            //         ,v.spclty CLINIC
-            //         ,o.icd10 DIAG
-            //         ,o.diagtype DXTYPE
-            //         ,if(d.licenseno="","-99999",d.licenseno) DRDX
-            //         ,v.cid PERSON_ID
-            //         ,v.vn SEQ
-            //         ,"" created_at
-            //         ,"" updated_at
-            //         from vn_stat v
-            //         LEFT JOIN ovstdiag o on o.vn = v.vn
-            //         LEFT JOIN doctor d on d.`code` = o.doctor
-            //         inner JOIN icd101 i on i.code = o.icd10
-            //         left join claim.d_export_ucep x on x.vn = v.vn
-            //         where x.active="N";
-            // ');
-            // D_odx::truncate();
-            // foreach ($data_odx as $va5) {
-            //     D_odx::insert([
-            //         'HN'                => $va5->HN,
-            //         'DATEDX'            => $va5->DATEDX,
-            //         'CLINIC'            => $va5->CLINIC,
-            //         'DIAG'              => $va5->DIAG,
-            //         'DXTYPE'            => $va5->DXTYPE,
-            //         'DRDX'              => $va5->DRDX,
-            //         'PERSON_ID'         => $va5->PERSON_ID,
-            //         'SEQ'               => $va5->SEQ,
-            //     ]);
-            // }
-
 
         } else {
             $data = DB::connection('mysql3')->select('
@@ -378,6 +341,7 @@ class SixteenController extends Controller
             D_opd::truncate();
             D_oop::truncate();
             D_orf::truncate();
+            D_iop::truncate();
             // D_pat
             $data_pat = DB::connection('mysql3')->select('
                     SELECT "" d_pat_id
@@ -404,7 +368,7 @@ class SixteenController extends Controller
                     LEFT JOIN patient pt on pt.hn = v.hn
                     left join claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
-            ');            
+            ');
             foreach ($data_pat as $va2) {
                 D_pat::insert([
                     'HCODE'               => $va2->HCODE,
@@ -442,7 +406,7 @@ class SixteenController extends Controller
                     LEFT JOIN patient pt on pt.hn = v.hn
                     left join claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
-            ');           
+            ');
             foreach ($data_opd as $va3) {
                 D_opd::insert([
                     'HN'                  => $va3->HN,
@@ -472,7 +436,7 @@ class SixteenController extends Controller
                     left join claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N"
                     and (r1.vn is not null or r2.vn is not null);
-            ');            
+            ');
             foreach ($data_orf as $va4) {
                 D_orf::insert([
                     'HN'                => $va4->HN,
@@ -483,7 +447,7 @@ class SixteenController extends Controller
                     'SEQ'               => $va4->SEQ
                 ]);
             }
-             //D_oop
+            //D_oop
             $data_oop = DB::connection('mysql3')->select('
                     SELECT "" d_oop_id
                     ,v.hn HN
@@ -502,7 +466,7 @@ class SixteenController extends Controller
                     inner JOIN icd9cm1 i on i.code = o.icd10
                     left join claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
-            ');            
+            ');
             foreach ($data_oop as $va6) {
                 D_oop::insert([
                     'HN'                => $va6->HN,
@@ -514,10 +478,40 @@ class SixteenController extends Controller
                     'SEQ'               => $va6->SEQ,
                 ]);
             }
+            //D_iop
+            $data_iop = DB::connection('mysql3')->select('
+                    SELECT "" d_iop_id,v.an AN
+                    ,o.icd9 OPER
+                    ,o.oper_type as OPTYPE
+                    ,if(d.licenseno="","-99999",d.licenseno) DROPID
+                    ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
+                    ,Time_format(o.optime,"%H%i") TIMEIN
+                    ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
+                    ,Time_format(o.endtime,"%H%i") TIMEOUT,"" created_at,"" updated_at
+                    FROM an_stat v
+                    LEFT JOIN iptoprt o on o.an = v.an
+                    LEFT JOIN doctor d on d.`code` = o.doctor
+                    INNER JOIN icd9cm1 i on i.code = o.icd9
+                    LEFT JOIN ipt ip on ip.an = v.an
+                    LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                    WHERE x.active="N";
+            ');
+            foreach ($data_iop as $va7) {
+                D_iop::insert([
+                    'AN'                => $va7->AN,
+                    'OPER'              => $va7->OPER,
+                    'OPTYPE'            => $va7->OPTYPE,
+                    'DROPID'            => $va7->DROPID,
+                    'DATEIN'            => $va7->DATEIN,
+                    'TIMEIN'            => $va7->TIMEIN,
+                    'DATEOUT'           => $va7->DATEOUT,
+                    'TIMEOUT'           => $va7->TIMEOUT
+                ]);
+            }
         return redirect()->back();
     }
     public function six_pull_b(Request $request)
-    { 
+    {
         // $data_odx = DB::connection('mysql3')->select('
         //     SELECT
         //         "" d_odx_id
@@ -551,10 +545,13 @@ class SixteenController extends Controller
         //         'SEQ'               => $va5->SEQ,
         //     ]);
         // }
-       
+
         D_cht::truncate();
         D_cha::truncate();
         D_dru::truncate();
+        D_idx::truncate();
+        D_ipd::truncate();
+        D_irf::truncate();
         $data_cht = DB::connection('mysql3')->select('
                 SELECT "" d_cht_id
                 ,v.hn HN
@@ -575,7 +572,7 @@ class SixteenController extends Controller
                 LEFT JOIN pttype p on p.pttype = a.pttype
                 left join claim.d_export_ucep x on x.vn = v.vn
                 where x.active="N";
-        ');        
+        ');
         foreach ($data_cht as $va7) {
             D_cht::insert([
                 'HN'                => $va7->HN,
@@ -588,6 +585,7 @@ class SixteenController extends Controller
                 'SEQ'               => $va7->SEQ,
             ]);
         }
+
         $data_cha = DB::connection('mysql3')->select('
                 SELECT "" d_cha_id,v.hn HN
                 ,if(v1.an is null,"",v1.an) AN
@@ -595,7 +593,7 @@ class SixteenController extends Controller
                 ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
                 ,round(sum(v.sum_price),2) AMOUNT
                 ,p.cid PERSON_ID
-                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at 
+                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
                 from opitemrece v
                 LEFT JOIN vn_stat vv on vv.vn = v.vn
                 LEFT JOIN patient p on p.hn = v.hn
@@ -613,7 +611,7 @@ class SixteenController extends Controller
                 ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
                 ,round(sum(v.sum_price),2) AMOUNT
                 ,p.cid PERSON_ID
-                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at 
+                ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
                 from opitemrece v
                 LEFT JOIN vn_stat vv on vv.vn = v.vn
                 LEFT JOIN patient p on p.hn = v.hn
@@ -624,7 +622,7 @@ class SixteenController extends Controller
                 left join claim.d_export_ucep x on x.vn = v1.vn
                 where x.active="N"
                 group by v.an,CHRGITEM;
-        ');        
+        ');
         foreach ($data_cha as $va8) {
             D_cha::insert([
                 'HN'                => $va8->HN,
@@ -636,6 +634,7 @@ class SixteenController extends Controller
                 'SEQ'               => $va8->SEQ,
             ]);
         }
+
         $data_dru = DB::connection('mysql3')->select('
                 SELECT "" d_dru_id,vv.hcode HCODE
                 ,v.hn HN
@@ -656,18 +655,18 @@ class SixteenController extends Controller
                 ,"" PA_NO
                 ,"" TOTCOPAY
                 ,if(v.item_type="H","2","1") USE_STATUS
-                ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at 
+                ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
                 from opitemrece v
                 LEFT JOIN drugitems d on d.icode = v.icode
                 LEFT JOIN vn_stat vv on vv.vn = v.vn
-                LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
+                LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
                 LEFT JOIN claim.tempexport x on x.vn = v.vn
                 where x.active="N"
-                and d.did is not null 
+                and d.did is not null
                 GROUP BY v.vn,did
-                
+
                 UNION all
-                
+
                 SELECT "" d_dru_id,pt.hcode HCODE
                 ,v.hn HN
                 ,v.an AN
@@ -687,17 +686,17 @@ class SixteenController extends Controller
                 ,"" PA_NO
                 ,"" TOTCOPAY
                 ,if(v.item_type="H","2","1") USE_STATUS
-                ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at 
+                ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
                 from opitemrece v
                 LEFT JOIN drugitems d on d.icode = v.icode
                 LEFT JOIN patient pt  on v.hn = pt.hn
                 inner JOIN ipt v1 on v1.an = v.an
-                LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
+                LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
                 LEFT JOIN claim.tempexport x on x.vn = v1.vn
                 where x.active="N"
                 and d.did is not null AND v.qty<>"0"
                 GROUP BY v.an,d.icode,USE_STATUS;
-        ');        
+        ');
         foreach ($data_dru as $va9) {
             D_dru::insert([
                 'HCODE'               => $va9->HCODE,
@@ -723,65 +722,142 @@ class SixteenController extends Controller
                 'SIGCODE'             => $va9->a1,
                 'SIGTEXT'             => $va9->a2,
                 'created_at'          => $va9->created_at,
-                'updated_at'          => $va9->updated_at 
+                'updated_at'          => $va9->updated_at
             ]);
         }
 
-       
+        $data_idx = DB::connection('mysql3')->select('
+             SELECT "" d_idx_id,v.an AN,o.icd10 DIAG
+                    ,o.diagtype DXTYPE
+                    ,if(d.licenseno="","-99999",d.licenseno) DRDX,"" created_at ,"" updated_at
+                    FROM an_stat v
+                    LEFT JOIN iptdiag o on o.an = v.an
+                    LEFT JOIN doctor d on d.`code` = o.doctor
+                    LEFT JOIN ipt ip on ip.an = v.an
+                    INNER JOIN icd101 i on i.code = o.icd10
+                    LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                    WHERE x.active="N";
+        ');
+        foreach ($data_idx as $va6) {
+            D_idx::insert([
+                'AN'                => $va6->AN,
+                'DIAG'              => $va6->DIAG,
+                'DXTYPE'            => $va6->DXTYPE,
+                'DRDX'              => $va6->DRDX
+            ]);
+        }
+
+        $data_ipd = DB::connection('mysql3')->select('
+            SELECT "" d_ipd_id,v.hn HN,v.an AN
+                ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
+                ,Time_format(o.regtime,"%H%i") TIMEADM
+                ,DATE_FORMAT(o.dchdate,"%Y%m%d") DATEDSC
+                ,Time_format(o.dchtime,"%H%i")  TIMEDSC
+                ,right(o.dchstts,1) DISCHS
+                ,right(o.dchtype,1) DISCHT
+                ,o.ward WARDDSC,o.spclty DEPT
+                ,format(o.bw/1000,3) ADM_W
+                ,"1" UUC ,"I" SVCTYPE,"" created_at,"" updated_at
+                FROM an_stat v
+                LEFT JOIN ipt o on o.an = v.an
+                LEFT JOIN pttype p on p.pttype = v.pttype
+                LEFT JOIN patient pt on pt.hn = v.hn
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                WHERE x.active="N";
+        ');
+        foreach ($data_ipd as $va10) {
+            D_ipd::insert([
+                'HN'                 => $va10->HN,
+                'AN'                 => $va10->AN,
+                'DATEADM'            => $va10->DATEADM,
+                'TIMEADM'            => $va10->TIMEADM,
+                'DATEDSC'            => $va10->DATEDSC,
+                'TIMEDSC'            => $va10->TIMEDSC,
+                'DISCHS'             => $va10->DISCHS,
+                'DISCHT'             => $va10->DISCHT,
+                'DEPT'               => $va10->DEPT,
+                'ADM_W'              => $va10->ADM_W,
+                'UUC'                => $va10->UUC,
+                'SVCTYPE'            => $va10->SVCTYPE
+            ]);
+        }
+
+        $data_irf = DB::connection('mysql3')->select('
+                SELECT ""d_irf_id,v.an AN
+                ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
+                ,"0100" REFERTYPE,"" created_at,"" updated_at
+                FROM an_stat v
+                LEFT JOIN referout o on o.vn =v.an
+                LEFT JOIN referin oo on oo.vn =v.an
+                LEFT JOIN ipt ip on ip.an = v.an
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                WHERE x.active="N"
+                and (v.an in(select vn from referin where vn = oo.vn) or v.an in(select vn from referout where vn = o.vn));
+        ');
+        foreach ($data_irf as $va11) {
+            D_irf::insert([
+                'AN'                 => $va11->AN,
+                'REFER'              => $va11->REFER,
+                'REFERTYPE'          => $va11->REFERTYPE
+            ]);
+        }
+
+
 
         return redirect()->back();
     }
     public function six_pull_c(Request $request)
-    { 
-        // $data_adp = DB::connection('mysql3')->select('
-        //         SELECT "" d_cha_id,v.hn HN
-        //         ,if(v1.an is null,"",v1.an) AN
-        //         ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-        //         ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-        //         ,round(sum(v.sum_price),2) AMOUNT
-        //         ,p.cid PERSON_ID
-        //         ,ifnull(v.vn,v.an) SEQ
-        //         from opitemrece v
-        //         LEFT JOIN vn_stat vv on vv.vn = v.vn
-        //         LEFT JOIN patient p on p.hn = v.hn
-        //         LEFT JOIN ipt v1 on v1.an = v.an
-        //         LEFT JOIN income i on v.income=i.income
-        //         LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-        //         LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-        //         left join claim.d_export_ucep x on x.vn = v.vn
-        //         where x.active="N"
-        //         group by v.vn,CHRGITEM
-        //         union all
-        //         SELECT v.hn HN
-        //         ,v1.an AN
-        //         ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-        //         ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-        //         ,round(sum(v.sum_price),2) AMOUNT
-        //         ,p.cid PERSON_ID
-        //         ,ifnull(v.vn,v.an) SEQ
-        //         from opitemrece v
-        //         LEFT JOIN vn_stat vv on vv.vn = v.vn
-        //         LEFT JOIN patient p on p.hn = v.hn
-        //         LEFT JOIN ipt v1 on v1.an = v.an
-        //         LEFT JOIN income i on v.income=i.income
-        //         LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-        //         LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-        //         left join claim.d_export_ucep x on x.vn = v1.vn
-        //         where x.active="N";
-        //         group by v.an,CHRGITEM;
-        // ');
-        // D_cha::truncate();
-        // foreach ($data_adp as $va9) {
-        //     D_cha::insert([
-        //         'HN'                => $va9->HN,
-        //         'AN'                => $va9->AN,
-        //         'DATE'              => $va9->DATE,
-        //         'CHRGITEM'          => $va9->CHRGITEM,
-        //         'AMOUNT'            => $va9->AMOUNT,
-        //         'PERSON_ID'         => $va9->PERSON_ID,
-        //         'SEQ'               => $va9->SEQ,
-        //     ]);
-        // }
+    {
+        D_aer::truncate();
+        $data_aer = DB::connection('mysql3')->select('
+                SELECT ""d_aer_id,v.hn HN,i.an AN
+                ,v.vstdate DATEOPD,vv.claim_code AUTHAE
+                ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+                ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ
+                ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
+                from vn_stat v
+                LEFT JOIN ipt i on i.vn = v.vn
+                LEFT JOIN visit_pttype vv on vv.vn = v.vn
+                LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                WHERE x.active="N"
+                and i.an is null
+                GROUP BY v.vn
+                union all
+                SELECT ""d_aer_id,v.hn HN
+                ,v.an AN,v.dchdate DATEOPD,vv.claim_code AUTHAE
+                ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+                ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE
+                ,"" SEQ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
+                from an_stat v
+                LEFT JOIN ipt_pttype vv on vv.an = v.an
+                LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                WHERE x.active="N"
+                group by v.an;
+        ');
+
+        foreach ($data_aer as $va12) {
+            D_aer::insert([
+                'HN'                => $va12->HN,
+                'AN'                => $va12->AN,
+                'DATEOPD'           => $va12->DATEOPD,
+                'AUTHAE'            => $va12->AUTHAE,
+                'AEDATE'            => $va12->AEDATE,
+                'AETIME'            => $va12->AETIME,
+                'AETYPE'            => $va12->AETYPE,
+                'REFER_NO'          => $va12->REFER_NO,
+                'REFMAINI'          => $va12->REFMAINI,
+                'IREFTYPE'          => $va12->IREFTYPE,
+                'REFMAINO'          => $va12->REFMAINO,
+                'OREFTYPE'          => $va12->OREFTYPE,
+                'UCAE'              => $va12->UCAE,
+                'SEQ'               => $va12->SEQ,
+                'AESTATUS'          => $va12->AESTATUS,
+                'DALERT'            => $va12->DALERT,
+                'TALERT'            => $va12->TALERT,
+            ]);
+        }
         return redirect()->back();
     }
 
