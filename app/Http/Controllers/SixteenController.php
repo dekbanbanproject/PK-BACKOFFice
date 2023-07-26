@@ -341,7 +341,7 @@ class SixteenController extends Controller
             D_opd::truncate();
             D_oop::truncate();
             D_orf::truncate();
-            D_iop::truncate();
+
             // D_pat
             $data_pat = DB::connection('mysql3')->select('
                     SELECT "" d_pat_id
@@ -478,36 +478,7 @@ class SixteenController extends Controller
                     'SEQ'               => $va6->SEQ,
                 ]);
             }
-            //D_iop
-            $data_iop = DB::connection('mysql3')->select('
-                    SELECT "" d_iop_id,v.an AN
-                    ,o.icd9 OPER
-                    ,o.oper_type as OPTYPE
-                    ,if(d.licenseno="","-99999",d.licenseno) DROPID
-                    ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
-                    ,Time_format(o.optime,"%H%i") TIMEIN
-                    ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
-                    ,Time_format(o.endtime,"%H%i") TIMEOUT,"" created_at,"" updated_at
-                    FROM an_stat v
-                    LEFT JOIN iptoprt o on o.an = v.an
-                    LEFT JOIN doctor d on d.`code` = o.doctor
-                    INNER JOIN icd9cm1 i on i.code = o.icd9
-                    LEFT JOIN ipt ip on ip.an = v.an
-                    LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-                    WHERE x.active="N";
-            ');
-            foreach ($data_iop as $va7) {
-                D_iop::insert([
-                    'AN'                => $va7->AN,
-                    'OPER'              => $va7->OPER,
-                    'OPTYPE'            => $va7->OPTYPE,
-                    'DROPID'            => $va7->DROPID,
-                    'DATEIN'            => $va7->DATEIN,
-                    'TIMEIN'            => $va7->TIMEIN,
-                    'DATEOUT'           => $va7->DATEOUT,
-                    'TIMEOUT'           => $va7->TIMEOUT
-                ]);
-            }
+
         return redirect()->back();
     }
     public function six_pull_b(Request $request)
@@ -809,6 +780,7 @@ class SixteenController extends Controller
     public function six_pull_c(Request $request)
     {
         D_aer::truncate();
+        D_iop::truncate();
         $data_aer = DB::connection('mysql3')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
                 ,v.vstdate DATEOPD,vv.claim_code AUTHAE
@@ -856,6 +828,36 @@ class SixteenController extends Controller
                 'AESTATUS'          => $va12->AESTATUS,
                 'DALERT'            => $va12->DALERT,
                 'TALERT'            => $va12->TALERT,
+            ]);
+        }
+         //D_iop
+         $data_iop = DB::connection('mysql3')->select('
+                SELECT "" d_iop_id,v.an AN
+                ,o.icd9 OPER
+                ,o.oper_type as OPTYPE
+                ,if(d.licenseno="","-99999",d.licenseno) DROPID
+                ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
+                ,Time_format(o.optime,"%H%i") TIMEIN
+                ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
+                ,Time_format(o.endtime,"%H%i") TIMEOUT,"" created_at,"" updated_at
+                FROM an_stat v
+                LEFT JOIN iptoprt o on o.an = v.an
+                LEFT JOIN doctor d on d.`code` = o.doctor
+                INNER JOIN icd9cm1 i on i.code = o.icd9
+                LEFT JOIN ipt ip on ip.an = v.an
+                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                WHERE x.active="N";
+        ');
+        foreach ($data_iop as $va7) {
+            D_iop::insert([
+                'AN'                => $va7->AN,
+                'OPER'              => $va7->OPER,
+                'OPTYPE'            => $va7->OPTYPE,
+                'DROPID'            => $va7->DROPID,
+                'DATEIN'            => $va7->DATEIN,
+                'TIMEIN'            => $va7->TIMEIN,
+                'DATEOUT'           => $va7->DATEOUT,
+                'TIMEOUT'           => $va7->TIMEOUT
             ]);
         }
         return redirect()->back();
