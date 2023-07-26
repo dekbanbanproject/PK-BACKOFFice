@@ -900,8 +900,8 @@ class SixteenController extends Controller
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt"');
 
-        $file_pat = "Export/".$folder."/pat.txt";
-        $objFopen_opd1 = fopen($file_pat, 'w');
+        $file_d_ins = "Export/".$folder."/ins.txt";
+        $objFopen_opd1 = fopen($file_d_ins, 'w');
 
         $ins = DB::connection('mysql7')->select('
             SELECT * from d_ins
@@ -955,8 +955,8 @@ class SixteenController extends Controller
         $file_d_idx = "Export/".$folder."/idx.txt";
         $objFopen_opd8 = fopen($file_d_idx, 'w');
 
-        $file_d_ins = "Export/".$folder."/ins.txt";
-        $objFopen_opd9 = fopen($file_d_ins, 'w');
+        $file_pat = "Export/".$folder."/pat.txt";
+        $objFopen_opd9 = fopen($file_pat, 'w');
 
         $file_d_ipd = "Export/".$folder."/ipd.txt";
         $objFopen_opd10 = fopen($file_d_ipd, 'w');
