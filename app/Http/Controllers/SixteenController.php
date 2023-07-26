@@ -417,7 +417,7 @@ class SixteenController extends Controller
                     LEFT JOIN ovstdiag o on o.vn = v.vn
                     LEFT JOIN patient pt on v.hn=pt.hn
                     LEFT JOIN doctor d on d.`code` = o.doctor
-                    inner JOIN icd9cm1 i on i.code = o.icd10
+                    LEFT JOIN icd9cm1 i on i.code = o.icd10
                     INNER JOIN claim.d_export_ucep x on x.vn = v.vn
                     where x.active="N";
             ');
