@@ -19,9 +19,9 @@ return new class extends Migration
                 $table->bigIncrements('d_aer_id');
                 $table->string('HN')->nullable();//  
                 $table->string('AN')->nullable();//  
-                $table->date('DATEOPD')->nullable();// 
+                $table->string('DATEOPD')->nullable();// 
                 $table->string('AUTHAE')->nullable();//  
-                $table->date('AEDATE')->nullable();// 
+                $table->string('AEDATE')->nullable();// 
                 $table->string('AETIME')->nullable();//  
                 $table->string('AETYPE')->nullable(); //  
                 $table->string('REFER_NO')->nullable(); // 

@@ -21,9 +21,9 @@ return new class extends Migration
                 $table->string('OPER')->nullable();// 
                 $table->string('OPTYPE')->nullable(); // 
                 $table->string('DROPID')->nullable(); //  
-                $table->date('DATEIN')->nullable();// 
+                $table->string('DATEIN')->nullable();// 
                 $table->string('TIMEIN')->nullable();//  
-                $table->date('DATEOUT')->nullable();// 
+                $table->string('DATEOUT')->nullable();// 
                 $table->string('TIMEOUT')->nullable();//   
                 $table->timestamps();
             });

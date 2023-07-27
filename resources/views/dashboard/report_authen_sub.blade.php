@@ -111,10 +111,10 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">ชื่อ-นามสกุลเจ้าหน้าที่</th>
-                                    <th class="text-center">เปิด Visit(คน)</th>
-                                    <th class="text-center">authen(คน)</th>
-                                    <th class="text-center">ไม่ authen(คน)</th>
+                                    <th class="text-center">vn</th>
+                                    <th class="text-center">hn</th>
+                                    <th class="text-center">cid</th>
+                                    <th class="text-center">ชื่อ-นามสกุล</th>
                                     <th class="text-center">ค่าใช้จ่าย Hosxp ที่ไม่ Authen Code</th>
                                 </tr>
                             </thead>
@@ -124,14 +124,14 @@
                                     <?php $number++; ?>
                                     <tr height="20">
                                         <td class="text-font" style="text-align: center;width: 5%;">{{ $number }}</td>
-                                        <td class="text-font text-pedding" style="text-align: left;"> {{ $item->fullstaff }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->countvn }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->authenOPD }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;">
-                                            <a href="{{url('report_authen_subsub/'.$item->month.'/'.$item->year.'/'.$item->staff)}}" class="text-danger" target="_blank">{{ $item->noAuthen }}</a>
+                                        <td class="text-font text-pedding" style="text-align: left;">{{ $item->vn }}</td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;">{{ $item->hn }}</td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;">{{ $item->cid }}</td>
+                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;">{{ $item->ptname }} 
+                                            {{-- <a href="{{url('report_authen_subsub/'.$month.'/'.$year.'/'.$item->staff)}}" class="text-danger" target="_blank">000</a> --}}
                                             {{-- <a href="{{url('report_authen_subsub/'.$item->month.'/'.$item->year.'/'.$item->staff)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger btn-sm" target="_blank">{{ $item->noAuthen }}</a> --}}
-                                        </td>
-                                        <td class="text-font text-pedding" style="text-align: right;width: 20%;color:#f02e0b"> &nbsp;&nbsp;{{ number_format(($item->sumdebit),2) }} </td>
+                                        {{-- </td> --}}
+                                        <td class="text-font text-pedding" style="text-align: right;width: 20%;color:#f02e0b"> &nbsp;&nbsp;{{ number_format(($item->debit),2) }} </td>
                                     </tr>
 
                                 @endforeach

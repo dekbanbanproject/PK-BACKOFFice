@@ -120,6 +120,7 @@ Route::match(['get','post'],'sit_pullacc_auto',[App\Http\Controllers\AutoControl
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//
 Route::match(['get','post'],'depauthen_auto',[App\Http\Controllers\AutoController::class, 'depauthen_auto'])->name('db.depauthen_auto');//
 Route::match(['get','post'],'authen_auto_year',[App\Http\Controllers\AutoController::class, 'authen_auto_year'])->name('db.authen_auto_year');//
+Route::match(['get','post'],'db_authen_detail',[App\Http\Controllers\AutoController::class, 'db_authen_detail'])->name('db.db_authen_detail');//
 
 Route::match(['get','post'],'check_authen',[App\Http\Controllers\ChecksitController::class, 'check_authen'])->name('claim.check_authen');//
 Route::match(['get','post'],'check_authen_excel',[App\Http\Controllers\ChecksitController::class, 'check_authen_excel'])->name('claim.check_authen_excel');//
@@ -1935,7 +1936,12 @@ Route::match(['get','post'],'six_pull_c',[App\Http\Controllers\SixteenController
 Route::match(['get','post'],'six_pull_d',[App\Http\Controllers\SixteenController::class, 'six_pull_d'])->name('data.six_pull_d');//
 Route::match(['get','post'],'six_send',[App\Http\Controllers\SixteenController::class, 'six_send'])->name('data.six_send');//
 
-
+Route::match(['get','post'],'ofc',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc'])->name('data.ofc');//
+Route::match(['get','post'],'ofc_pull_a',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc_pull_a'])->name('data.ofc_pull_a');//
+Route::match(['get','post'],'ofc_pull_b',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc_pull_b'])->name('data.ofc_pull_b');//
+Route::match(['get','post'],'ofc_pull_c',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc_pull_c'])->name('data.ofc_pull_c');//
+Route::match(['get','post'],'ofc_pull_d',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc_pull_d'])->name('data.ofc_pull_d');//
+Route::match(['get','post'],'ofc_send',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc_send'])->name('data.ofc_send');//
 
 
 

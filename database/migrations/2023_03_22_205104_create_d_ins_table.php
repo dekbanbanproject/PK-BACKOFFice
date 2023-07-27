@@ -22,8 +22,8 @@ return new class extends Migration
                 $table->string('INSCL')->nullable();//
                 $table->string('SUBTYPE')->nullable();//
                 $table->string('CID')->nullable();//
-                $table->date('DATEIN')->nullable();// 
-                $table->date('DATEEXP')->nullable();// 
+                $table->string('DATEIN')->nullable();// 
+                $table->string('DATEEXP')->nullable();// 
                 $table->string('HOSPMAIN')->nullable();//  
                 $table->string('HOSPSUB')->nullable(); //             
                 $table->string('GOVCODE')->nullable(); //  

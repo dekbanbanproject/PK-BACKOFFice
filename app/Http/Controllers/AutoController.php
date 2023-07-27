@@ -61,6 +61,7 @@ use App\Models\Acc_debtor;
 use App\Models\Check_sit_auto_claim;
 use App\Models\Db_year;
 use App\Models\Db_authen;
+use App\Models\Db_authen_detail;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -179,33 +180,44 @@ class AutoController extends Controller
     public function sit_pull_auto(Request $request)
     {
             $data_sits = DB::connection('mysql3')->select('
-                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep
                 FROM ovst o
                 join patient p on p.hn=o.hn
                 JOIN pttype pt on pt.pttype=o.pttype
                 JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE()
+                WHERE o.vstdate =CURDATE()
                 group by p.cid
                 limit 1500
             ');
             // CURDATE()
             foreach ($data_sits as $key => $value) {
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
-                if ($check == 0) {
+            
+                if ($check > 0) {
+                    Check_sit_auto::where('vn', $value->vn)
+                            ->update([ 
+                                'an'       => $value->an, 
+                                'pttype'   => $value->pttype, 
+                                'main_dep' => $value->main_dep, 
+                            ]);
+                } else {
                     Check_sit_auto::insert([
-                        'vn' => $value->vn,
-                        'an' => $value->an,
-                        'hn' => $value->hn,
-                        'cid' => $value->cid,
-                        'vstdate' => $value->vstdate,
-                        'vsttime' => $value->vsttime,
-                        'fullname' => $value->fullname,
-                        'pttype' => $value->pttype,
-                        'hospmain' => $value->hospmain,
-                        'hospsub' => $value->hospsub,
-                        'staff' => $value->staff
+                        'vn'         => $value->vn,
+                        'an'         => $value->an,
+                        'hn'         => $value->hn,
+                        'cid'        => $value->cid,
+                        'vstdate'    => $value->vstdate,
+                        'vsttime'    => $value->vsttime,
+                        'fullname'   => $value->fullname,
+                        'pttype'     => $value->pttype,
+                        'hospmain'   => $value->hospmain,
+                        'hospsub'    => $value->hospsub,
+                        'main_dep'   => $value->main_dep,
+                        'staff'      => $value->staff
                     ]);
+                   
                 }
+                
             }
             $data_sits_ipd = DB::connection('mysql3')->select('
                     SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
@@ -1000,6 +1012,45 @@ class AutoController extends Controller
             } 
 
             return view('auto.authen_auto_year');
+    }
+    public function db_authen_detail(Request $request)
+    { 
+        // Db_authen_detail
+        $detail_auto = DB::connection('mysql3')->select('
+                SELECT "" db_authen_detail_id  
+                ,o.vn,o.an,o.hn,showcid(p.cid) as cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,o.staff,v.income-v.discount_money-v.rcpt_money debit 
+                ,"" created_at,"" updated_at
+                FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
+                LEFT JOIN patient p on p.hn = o.hn
+                
+                WHERE o.vstdate = CURDATE()
+                AND o.main_dep NOT IN("011","036","107")
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
+                AND o.an is null
+                GROUP BY o.vn
+            ');
+
+            foreach ($detail_auto as $key => $value) {
+                $check = Db_authen_detail::where('vn','=',$value->vn)->count();
+                if ($check > 0) {
+                    # code...
+                } else {
+                    Db_authen_detail::insert([
+                        'vn'           => $value->vn,
+                        'an'           => $value->an,
+                        'hn'           => $value->hn,
+                        'cid'          => $value->cid,
+                        'vstdate'      => $value->vstdate,
+                        'ptname'       => $value->ptname,
+                        'staff'        => $value->staff,
+                        'debit'        => $value->debit,
+                    ]);
+                }
+                
+                
+            }
+        return view('auto.db_authen_detail');
     }
 
 

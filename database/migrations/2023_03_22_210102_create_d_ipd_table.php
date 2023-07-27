@@ -20,9 +20,9 @@ return new class extends Migration
 
                 $table->string('HN')->nullable();// 
                 $table->string('AN')->nullable();// 
-                $table->date('DATEADM')->nullable();// 
+                $table->string('DATEADM')->nullable();// 
                 $table->string('TIMEADM')->nullable();//  
-                $table->date('DATEDSC')->nullable();// 
+                $table->string('DATEDSC')->nullable();// 
                 $table->string('TIMEDSC')->nullable();//  
                 $table->string('DISCHS')->nullable();//  
                 $table->string('DISCHT')->nullable(); //   

@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('AN')->nullable();// 
                 $table->string('CLINIC')->nullable();// 
                 $table->string('PERSON_ID')->nullable();// 
-                $table->date('DATE_SERV')->nullable();//                  
+                $table->string('DATE_SERV')->nullable();//                  
                 $table->string('DID')->nullable();//  
                 $table->string('DIDNAME')->nullable(); //   
                 $table->string('AMOUNT')->nullable(); // 

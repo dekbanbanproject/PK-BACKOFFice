@@ -62,9 +62,9 @@ use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
 use App\Models\D_irf;
+use App\Models\Tempexport_ofc401;
+use App\Models\D_export_ofc401;
 
-use App\Models\Claim_temp_ssop;
-use App\Models\Claim_sixteen_opd;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -79,92 +79,100 @@ use File;
 use Illuminate\Filesystem\Filesystem;
 
 
-class SixteenController extends Controller
+class Ofcopd401Controller extends Controller
 {
-    public function six(Request $request)
+    public function ofc(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
 
         if ($startdate != '') {
-            D_export_ucep::truncate();
-            Dtemp_hosucep::truncate();
+            D_export_ofc401::truncate();
+            // Dtemp_hosucep::truncate();
             D_ins::truncate();
-            Tempexport::truncate();
+            Tempexport_ofc401::truncate();
             D_adp::truncate();
             $data = DB::connection('mysql3')->select('
-                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
-                        ,concat(p.pname," ",p.fname," ", p.lname) as ptname
-                        ,a.pdx ,g.er_screen,ee.er_emergency_level_name
-                        from ovst o
-                        left outer join an_stat a on a.an = o.an
-                        left outer join spclty s on s.spclty=o.spclty
-                        left outer join patient p on o.hn=p.hn
-                        left outer join er_regist g on g.vn=o.vn
-                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
-                        left outer join pttype pt on pt.pttype = a.pttype
+                    SELECT v.vn,o.an,v.cid,v.hn,
+                    concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,v.vstdate,ptt.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray,
+                    rd.amount AS pricehos 
+                    ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
+                    ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10 
+                    FROM vn_stat v
+                    LEFT JOIN patient pt ON v.hn=pt.hn
+                    LEFT JOIN ovstdiag ov ON v.vn=ov.vn
+                    LEFT JOIN ovst o ON v.vn=o.vn
+                    LEFT JOIN opdscreen op ON v.vn = op.vn
+                    LEFT JOIN pttype ptt ON v.pttype=ptt.pttype 
+                    LEFT JOIN rcpt_debt rd ON v.vn=rd.vn
+                    left join hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                    LEFT JOIN ipt ii on ii.vn = v.vn
 
-                        where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND g.er_emergency_level_id IN("1","2")
-                        AND o.an <>"" and pt.hipdata_code ="UCS"
-                        group by o.vn;
+                        where v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND v.pttype in ("o1","o2","o3","o4","o5")
+                        AND v.pttype not in ("of","fo") 
+                        and v.uc_money >"0"
+                        AND ii.an is null
+                        AND v.pdx <> ""
+                        GROUP BY v.vn;
             ');
             // inner join claim.dtemp_hosucep zz on zz.an = o.an
             foreach ($data as $va2) {
                 $date = date('Y-m-d');
-                D_export_ucep::insert([
+                D_export_ofc401::insert([
                     'hn'                       => $va2->hn,
                     'an'                       => $va2->an,
                     'vn'                       => $va2->vn,
                     'cid'                      => $va2->cid,
-                    'fullname'                 => $va2->ptname,
-                    'send_date'                => $date,
+                    'fullname'                 => $va2->ptname, 
                     'vstdate'                  => $va2->vstdate,
-                    'pdx'                      => $va2->pdx,
+                    'icd10'                    => $va2->icd10,
                     'pttype'                   => $va2->pttype,
-                    'er_screen'                => $va2->er_screen,
-                    'er_emergency_level_name'  => $va2->er_emergency_level_name,
+                    'Apphos'                   => $va2->Apphos,
+                    'Appktb'                   => $va2->AppKTB,
+                    'pricehos'                 => $va2->pricehos,
                 ]);
-                Tempexport::insert([
+                Tempexport_ofc401::insert([
                     'hn'                       => $va2->hn,
                     'an'                       => $va2->an,
                     'vn'                       => $va2->vn,
                     'cid'                      => $va2->cid,
-                    'sent_date'                => $date,
+                    'send_date'                => $date,
                 ]);
             }
             // UCEP
-            $data_opitemrece = DB::connection('mysql3')->select('
-                SELECT "" dtemp_hosucep_id,o.an,o.hn,o.icode,o.rxdate,o.rxtime,a.vstdate,a.vsttime,DATEDIFF(o.rxdate,a.vstdate)<="1" as date_x,TIMEDIFF(o.rxtime,a.vsttime)<="24" time_x
-                ,"" created_at,"" updated_at
-                from opitemrece o
-                LEFT JOIN ipt i on i.an = o.an
-                LEFT JOIN ovst a on a.an = o.an
-                left JOIN er_regist e on e.vn = i.vn
-                LEFT JOIN ipt_pttype ii on ii.an = i.an
-                LEFT JOIN pttype p on p.pttype = ii.pttype
-                where i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                and o.an is not null
-                and p.hipdata_code ="ucs"
-                and DATEDIFF(o.rxdate,a.vstdate)<="1"
-                and TIMEDIFF(o.rxtime,a.vsttime)<="24"
-                AND e.er_emergency_level_id IN("1","2")
+            // $data_opitemrece = DB::connection('mysql3')->select('
+            //     SELECT "" dtemp_hosucep_id,o.an,o.hn,o.icode,o.rxdate,o.rxtime,a.vstdate,a.vsttime,DATEDIFF(o.rxdate,a.vstdate)<="1" as date_x,TIMEDIFF(o.rxtime,a.vsttime)<="24" time_x
+            //     ,"" created_at,"" updated_at
+            //     from opitemrece o
+            //     LEFT JOIN ipt i on i.an = o.an
+            //     LEFT JOIN ovst a on a.an = o.an
+            //     left JOIN er_regist e on e.vn = i.vn
+            //     LEFT JOIN ipt_pttype ii on ii.an = i.an
+            //     LEFT JOIN pttype p on p.pttype = ii.pttype
+            //     where i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //     and o.an is not null
+            //     and p.hipdata_code ="ucs"
+            //     and DATEDIFF(o.rxdate,a.vstdate)<="1"
+            //     and TIMEDIFF(o.rxtime,a.vsttime)<="24"
+            //     AND e.er_emergency_level_id IN("1","2")
 
-                ORDER BY icode;
-            ');
-            foreach ($data_opitemrece as $va3) {
-                Dtemp_hosucep::insert([
-                    'an'                => $va3->an,
-                    'hn'                => $va3->hn,
-                    'icode'             => $va3->icode,
-                    'rxdate'            => $va3->rxdate,
-                    'vstdate'           => $va3->vstdate,
-                    'rxtime'            => $va3->rxtime,
-                    'vsttime'           => $va3->vsttime,
-                    'date_x'            => $va3->date_x,
-                    'time_x'            => $va3->time_x,
-                ]);
-            }
+            //     ORDER BY icode;
+            // ');
+            // foreach ($data_opitemrece as $va3) {
+            //     Dtemp_hosucep::insert([
+            //         'an'                => $va3->an,
+            //         'hn'                => $va3->hn,
+            //         'icode'             => $va3->icode,
+            //         'rxdate'            => $va3->rxdate,
+            //         'vstdate'           => $va3->vstdate,
+            //         'rxtime'            => $va3->rxtime,
+            //         'vsttime'           => $va3->vsttime,
+            //         'date_x'            => $va3->date_x,
+            //         'time_x'            => $va3->time_x,
+            //     ]);
+            // }
             //INS
             $data = DB::connection('mysql3')->select('
                     SELECT
@@ -198,7 +206,7 @@ class SixteenController extends Controller
                         left join visit_pttype vp on vp.vn = v.vn
                         LEFT JOIN rcpt_debt r on r.vn = v.vn
                         left join patient px on px.hn = v.hn
-                        left join claim.d_export_ucep x on x.vn = v.vn
+                        left join claim.d_export_ofc401 x on x.vn = v.vn
                     where x.active="N";
             ');
             foreach ($data as $va1) {
@@ -245,7 +253,7 @@ class SixteenController extends Controller
                     inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
                     left join ipt i on i.an = v.an
                     AND i.an is not NULL
-                    left join claim.tempexport x on x.vn = i.vn
+                    left join claim.tempexport_ofc401 x on x.vn = i.vn
                     where x.active="N"
                     AND n.icode <> "XXXXXX"
                     GROUP BY i.vn,n.nhso_adp_code,rate) a
@@ -266,7 +274,7 @@ class SixteenController extends Controller
                     from opitemrece v
                     inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
                     left join ipt i on i.an = v.an
-                    left join claim.tempexport x on x.vn = v.vn
+                    left join claim.tempexport_ofc401 x on x.vn = v.vn
                     where x.active="N"
                     AND n.icode <> "XXXXXX"
                     AND i.an is NULL
@@ -307,68 +315,77 @@ class SixteenController extends Controller
             d_adp::where('CODE','=','XXXXXX')->delete();
 
             // $ucep = D_export_ucep::get();
-            $ucep = DB::connection('mysql3')->select('
-                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
-                ,DATE_FORMAT(o.vstdate,"%Y%m%d") DATEOPD                     
-                        from ovst o
-                        left outer join an_stat a on a.an = o.an 
-                        left outer join patient p on o.hn=p.hn
-                        left outer join er_regist g on g.vn=o.vn  
-                        left outer join pttype pt on pt.pttype = a.pttype
+            // $ucep = DB::connection('mysql3')->select('
+            //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
+            //     ,DATE_FORMAT(o.vstdate,"%Y%m%d") DATEOPD                     
+            //             from ovst o
+            //             left outer join an_stat a on a.an = o.an 
+            //             left outer join patient p on o.hn=p.hn
+            //             left outer join er_regist g on g.vn=o.vn  
+            //             left outer join pttype pt on pt.pttype = a.pttype
 
-                        where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND g.er_emergency_level_id IN("1","2")
-                        AND o.an <>"" and pt.hipdata_code ="UCS"
-                        group by o.vn;
-            ');
-            foreach ($ucep as $key => $v) {
-                d_adp::insert([
-                    'HN'                   => $v->hn,
-                    'AN'                   => $v->an,
-                    'DATEOPD'              => $v->DATEOPD,
-                    'TYPE'                 => '5',
-                    'CODE'                 => 'UCEP24',
-                    'QTY'                  => '1',
-                    'RATE'                 => '0',
-                    'SEQ'                  => $v->vn,
-                    'CAGCODE'              => "",
-                    'DOSE'                 => "",
-                    'CA_TYPE'              => "",
-                    'SERIALNO'             => "",
-                    'TOTCOPAY'             => '0',
-                    'USE_STATUS'           => "",
-                    'TOTAL'                => '0',
-                    'QTYDAY'               => "",
-                    'TMLTCODE'             => "",
-                    'STATUS1'              => "",
-                    'BI'                   => "",
-                    'CLINIC'               => "",
-                    'ITEMSRC'              => "",
-                    'PROVIDER'             => "",
-                    'GLAVIDA'              => "",
-                    'GA_WEEK'              => "",
-                    'DCIP'                 => "",
-                    'LMP'                  => "",
-                    'SP_ITEM'              => "",
-                ]);
-            }
+            //             where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //             AND g.er_emergency_level_id IN("1","2")
+            //             AND o.an <>"" and pt.hipdata_code ="UCS"
+            //             group by o.vn;
+            // ');
+            // foreach ($ucep as $key => $v) {
+            //     d_adp::insert([
+            //         'HN'                   => $v->hn,
+            //         'AN'                   => $v->an,
+            //         'DATEOPD'              => $v->DATEOPD,
+            //         'TYPE'                 => '5',
+            //         'CODE'                 => 'UCEP24',
+            //         'QTY'                  => '1',
+            //         'RATE'                 => '0',
+            //         'SEQ'                  => $v->vn,
+            //         'CAGCODE'              => "",
+            //         'DOSE'                 => "",
+            //         'CA_TYPE'              => "",
+            //         'SERIALNO'             => "",
+            //         'TOTCOPAY'             => '0',
+            //         'USE_STATUS'           => "",
+            //         'TOTAL'                => '0',
+            //         'QTYDAY'               => "",
+            //         'TMLTCODE'             => "",
+            //         'STATUS1'              => "",
+            //         'BI'                   => "",
+            //         'CLINIC'               => "",
+            //         'ITEMSRC'              => "",
+            //         'PROVIDER'             => "",
+            //         'GLAVIDA'              => "",
+            //         'GA_WEEK'              => "",
+            //         'DCIP'                 => "",
+            //         'LMP'                  => "",
+            //         'SP_ITEM'              => "",
+            //     ]);
+            // }
 
         } else {
             $data = DB::connection('mysql3')->select('
-                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
-                        ,concat(p.pname," ",p.fname," ", p.lname) as ptname
-                        ,a.pdx ,g.er_screen,ee.er_emergency_level_name
-                        from ovst o
-                        left outer join an_stat a on a.an = o.an
-                        left outer join spclty s on s.spclty=o.spclty
-                        left outer join patient p on o.hn=p.hn
-                        left outer join er_regist g on g.vn=o.vn
-                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
-                        left outer join pttype pt on pt.pttype = a.pttype
-                        where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND g.er_emergency_level_id IN("1","2")
-                        AND o.an <>"" and pt.hipdata_code ="UCS"
-                        group by o.vn;
+                    SELECT v.vn,o.an,v.cid,v.hn,
+                    concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,v.vstdate,ptt.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray,
+                    rd.amount AS pricehos 
+                    ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
+                    ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10 
+                    FROM vn_stat v
+                    LEFT JOIN patient pt ON v.hn=pt.hn
+                    LEFT JOIN ovstdiag ov ON v.vn=ov.vn
+                    LEFT JOIN ovst o ON v.vn=o.vn
+                    LEFT JOIN opdscreen op ON v.vn = op.vn
+                    LEFT JOIN pttype ptt ON v.pttype=ptt.pttype 
+                    LEFT JOIN rcpt_debt rd ON v.vn=rd.vn
+                    left join hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                    LEFT JOIN ipt ii on ii.vn = v.vn
+
+                        where v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND v.pttype in ("o1","o2","o3","o4","o5")
+                        AND v.pttype not in ("of","fo") 
+                        and v.uc_money >"0"
+                        AND ii.an is null
+                        AND v.pdx <> ""
+                        GROUP BY v.vn;
             ');
         }
         // DB::table('acc_stm_ucs_excel')->insert($data);
@@ -376,12 +393,12 @@ class SixteenController extends Controller
         $data['data_ins']      = D_ins::get();
         $data['data_pat']      = D_pat::get();
         $data['data_opd']      = D_opd::get();
-        return view('claim.six',$data,[
+        return view('claim.ofc',$data,[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
         ]);
     }
-    public function six_pull_a(Request $request)
+    public function ofc_pull_a(Request $request)
     {
             D_opd::truncate();
             D_oop::truncate();
@@ -479,7 +496,7 @@ class SixteenController extends Controller
 
         return redirect()->back();
     }
-    public function six_pull_b(Request $request)
+    public function ofc_pull_b(Request $request)
     {
         D_odx::truncate();
         D_dru::truncate();
@@ -692,7 +709,7 @@ class SixteenController extends Controller
 
         return redirect()->back();
     }
-    public function six_pull_c(Request $request)
+    public function ofc_pull_c(Request $request)
     {
         D_aer::truncate();
         D_iop::truncate();
@@ -864,7 +881,7 @@ class SixteenController extends Controller
 
         return redirect()->back();
     }
-    public function six_pull_d(Request $request)
+    public function ofc_pull_d(Request $request)
     {
 
         D_cha::truncate();
@@ -920,7 +937,7 @@ class SixteenController extends Controller
         return redirect()->back();
     }
 
-    public function six_send(Request $request)
+    public function ofc_send(Request $request)
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");

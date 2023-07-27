@@ -20,7 +20,7 @@ return new class extends Migration
 
                 $table->string('HN')->nullable();// 
                 $table->string('AN')->nullable();// 
-                $table->date('DATE')->nullable();//                  
+                $table->string('DATE')->nullable();//                  
                 $table->string('TOTAL')->nullable();//  
                 $table->string('PAID')->nullable(); //             
                 $table->string('PTTYPE')->nullable(); //   

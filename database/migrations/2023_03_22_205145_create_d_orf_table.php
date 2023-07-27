@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->bigIncrements('d_orf_id');
 
                 $table->string('HN')->nullable();// 
-                $table->date('DATEOPD')->nullable();//
+                $table->string('DATEOPD')->nullable();//
                 $table->string('CLINIC')->nullable();//  
                 $table->string('REFER')->nullable(); //             
                 $table->string('REFERTYPE')->nullable(); //  

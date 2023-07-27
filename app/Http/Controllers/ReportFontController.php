@@ -300,26 +300,23 @@ class ReportFontController extends Controller
     {
         $date = date('Y-m-d');
         $y = date('Y');
-        $data_year = DB::connection('mysql3')->select('
-                SELECT COUNT(DISTINCT o.vn) as countvn,COUNT(DISTINCT o.an) as countan,COUNT(DISTINCT ra.VN) as authenOPD
-                ,COUNT(DISTINCT o.vn)-COUNT(DISTINCT ra.VN) as noAuthen
-                ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year,o.staff,ou.name as fullstaff
-
-                ,SUM(op.sum_price) as sumdebit
-                FROM ovst o
-                LEFT JOIN vn_stat v on v.vn = o.vn
-                LEFT JOIN visit_pttype vs on vs.vn = o.vn
-                LEFT JOIN patient p on p.hn = o.hn
-                LEFT JOIN opduser ou ON ou.loginname = o.staff
-                LEFT JOIN opitemrece op ON op.vn = o.vn
-                LEFT JOIN rcmdb.authencode ra ON ra.VN = o.vn
-                WHERE YEAR(o.vstdate) = "'.$year.'" AND MONTH(o.vstdate) = "'.$month.'" AND o.staff <> "" AND o.an is null
-                GROUP BY o.staff
-		        ORDER BY noAuthen DESC
+        $data_year = DB::connection('mysql')->select(' 
+                SELECT d.vn,d.hn,d.cid,d.vstdate,d.ptname,d.staff,d.debit,ca.claimcode,ca.claimtype 
+                FROM db_authen_detail d
+                LEFT JOIN check_sit_auto cs ON cs.vn = d.vn
+                LEFT JOIN check_authen ca ON ca.cid = d.cid and d.vstdate = ca.vstdate 
+                WHERE YEAR(d.vstdate) = "'.$year.'" AND MONTH(d.vstdate) = "'.$month.'" 
+                AND cs.main_dep NOT IN("011","036","107")
+                AND cs.pttype NOT IN("M1","M2","M3","M4","M5","M6")
+                AND ca.claimcode IS NULL
+                GROUP BY d.vn
+              
         ');
         // ,SUM(v.income)-SUM(v.discount_money)-SUM(v.rcpt_money) sumdebit
         return view('dashboard.report_authen_sub',[
             'data_year'               => $data_year,
+            'month'                   => $month,
+            'year'                    => $year,
         ] );
     }
     public function report_authen_subsub(Request $request,$month,$year,$staff)

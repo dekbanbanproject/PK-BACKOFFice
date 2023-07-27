@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <form action="{{ route('data.six') }}" method="POST">
+        <form action="{{ route('data.ofc') }}" method="POST">
             @csrf
 
             <div class="row">
@@ -87,11 +87,11 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                             ค้นหา
                         </button>
-                        <a href="{{url('six_pull_a')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 1</a>
-                        <a href="{{url('six_pull_b')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 2</a>
-                        <a href="{{url('six_pull_c')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 3</a>
-                        <a href="{{url('six_pull_d')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 4</a>
-                        <a href="{{url('six_send')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>Export</a>
+                        <a href="{{url('ofc_pull_a')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 1</a>
+                        <a href="{{url('ofc_pull_b')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 2</a>
+                        <a href="{{url('ofc_pull_c')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 3</a>
+                        <a href="{{url('ofc_pull_d')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 4</a>
+                        <a href="{{url('ofc_send')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>Export</a>
                     </div>
                 </div>
                 <div class="col"></div>
@@ -105,8 +105,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <h4 class="card-title">Detail ส่งออก 16 แฟ้ม</h4>
-                                <p class="card-title-desc">รายละเอียดส่งออก 16 แฟ้ม</p>
+                                <h4 class="card-title">Detail ส่งออก 16 แฟ้ม OFC 401</h4>
+                                <p class="card-title-desc">รายละเอียดส่งออก 16 แฟ้ม OFC 401</p>
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
@@ -348,9 +348,9 @@
                                                     <th class="text-center">VSTDATE</th>
                                                     <th class="text-center">PTTYPE</th>
                                                     <th class="text-center">PTNAME</th>
-                                                    <th class="text-center" width="5%">PDX</th>
-                                                    <th class="text-center">SCREEN</th>
-                                                    <th class="text-center">LEVEL NAME</th>
+                                                    <th class="text-center" width="5%">icd10</th>
+                                                    <th class="text-center">Apphos</th>
+                                                    <th class="text-center">Appktb</th>
 
                                                 </tr>
                                             </thead>
@@ -366,9 +366,9 @@
                                                         <td class="text-center">{{ $item->vstdate }}</td>
                                                         <td class="text-center">{{ $item->pttype }}</td>
                                                         <td class="p-2">{{ $item->fullname }}</td>
-                                                        <td class="text-center">{{ $item->pdx }}</td>
-                                                        <td class="text-center">{{ $item->er_screen }}</td>
-                                                        <td class="p-2">{{ $item->er_emergency_level_name }}</td>
+                                                        <td class="text-center">{{ $item->icd10 }}</td>
+                                                        <td class="text-center">{{ $item->Apphos }}</td>
+                                                        <td class="p-2">{{ $item->Appktb }}</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

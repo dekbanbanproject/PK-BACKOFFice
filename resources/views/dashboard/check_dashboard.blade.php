@@ -153,17 +153,17 @@
                                                                     <label for="" style="font-size: 12px"> {{$item->authen_opd}}</label>
                                                                 </span>
                                                                 /
-                                                                {{-- <a href="{{url('report_authen_sub/'.$item->month.'/'.$item->year)}}" target="_blank"> --}}
+                                                                <a href="{{url('report_authen_sub/'.$item->month.'/'.$item->year)}}" target="_blank">
                                                             {{-- <a href="" target="_blank"> --}}
                                                                 <span class="text-danger ps-2">
                                                                     <label for="" style="font-size: 12px"> {{($item->countvn - $item->authen_opd)}} คน</label>
 
-                                                                    <span class="pe-1">
+                                                                    <span class="pe-1"> Detail =
                                                                         <i class="fa fa-angle-right"></i>
                                                                     </span>
 
                                                                 </span>
-                                                            {{-- </a> --}}
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>

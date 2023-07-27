@@ -206,6 +206,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="{{ url('six') }}">UCEP 24</a></li>
+                                <li><a href="{{ url('ofc') }}">OFC 401</a></li>
                                 {{-- <li><a href="{{ url('six') }}">ส่งออก 16 แฟ้ม</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
                                     <ul class="sub-menu" aria-expanded="true">

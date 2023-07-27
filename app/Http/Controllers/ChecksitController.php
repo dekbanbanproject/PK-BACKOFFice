@@ -373,7 +373,7 @@ class ChecksitController extends Controller
                  join patient p on p.hn=o.hn
                  JOIN pttype pt on pt.pttype=o.pttype
                  JOIN opduser od on od.loginname = o.staff
-                 WHERE o.vstdate = CURDATE()
+                 WHERE o.vstdate BETWEEN "2023-06-15" AND "2023-06-20"
                  AND o.main_dep NOT IN("011","036","107")
                  AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                  group by o.vn
