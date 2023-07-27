@@ -900,13 +900,12 @@ class SixteenController extends Controller
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt"');
 
+        //ins.txt
         $file_d_ins = "Export/".$folder."/ins.txt";
         $objFopen_opd1 = fopen($file_d_ins, 'w');
-
         $ins = DB::connection('mysql7')->select('
             SELECT * from d_ins
         ');
-
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
             $a2 = $value1->INSCL;
@@ -931,51 +930,65 @@ class SixteenController extends Controller
             $ansitxt_pat1 = iconv('UTF-8', 'TIS-620', $strText1);
             fwrite($objFopen_opd1, $ansitxt_pat1);
         }
-
         fclose($objFopen_opd1);
 
+        //iop.txt
         $file_d_iop = "Export/".$folder."/iop.txt";
         $objFopen_opd2 = fopen($file_d_iop, 'w');
 
+         //adp.txt
         $file_d_adp = "Export/".$folder."/adp.txt";
         $objFopen_opd3 = fopen($file_d_adp, 'w');
 
+        //aer.txt
         $file_d_aer = "Export/".$folder."/aer.txt";
         $objFopen_opd4 = fopen($file_d_aer, 'w');
 
+        //cha.txt
         $file_d_cha = "Export/".$folder."/cha.txt";
         $objFopen_opd5 = fopen($file_d_cha, 'w');
 
+        //cht.txt
         $file_d_cht = "Export/".$folder."/cht.txt";
         $objFopen_opd6 = fopen($file_d_cht, 'w');
 
+        //dru.txt
         $file_d_dru = "Export/".$folder."/dru.txt";
         $objFopen_opd7 = fopen($file_d_dru, 'w');
 
+        //idx.txt
         $file_d_idx = "Export/".$folder."/idx.txt";
         $objFopen_opd8 = fopen($file_d_idx, 'w');
 
+        //pat.txt
         $file_pat = "Export/".$folder."/pat.txt";
         $objFopen_opd9 = fopen($file_pat, 'w');
 
+        //ipd.txt
         $file_d_ipd = "Export/".$folder."/ipd.txt";
         $objFopen_opd10 = fopen($file_d_ipd, 'w');
 
+        //irf.txt
         $file_d_irf = "Export/".$folder."/irf.txt";
         $objFopen_opd11 = fopen($file_d_irf, 'w');
 
+        //lvd.txt
         $file_d_lvd = "Export/".$folder."/lvd.txt";
         $objFopen_opd12 = fopen($file_d_lvd, 'w');
 
+        //odx.txt
         $file_d_odx = "Export/".$folder."/odx.txt";
         $objFopen_opd13 = fopen($file_d_odx, 'w');
 
+        //oop.txt
         $file_d_oop = "Export/".$folder."/oop.txt";
         $objFopen_opd14 = fopen($file_d_oop, 'w');
 
+        //opd.txt
         $file_d_opd = "Export/".$folder."/opd.txt";
         $objFopen_opd15 = fopen($file_d_opd, 'w');
 
+        //orf.txt
         $file_d_orf = "Export/".$folder."/orf.txt";
         $objFopen_opd16 = fopen($file_d_orf, 'w');
 
