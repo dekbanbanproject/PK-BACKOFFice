@@ -1929,6 +1929,23 @@ Route::match(['get','post'],'medicine_salt_subhn/{hn}',[App\Http\Controllers\Med
 // Route::match(['get','post'],'sixteendata_pull',[App\Http\Controllers\ClaimreferController::class, 'sixteendata_pull'])->name('data.sixteendata_pull');//
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::match(['get','post'],'six',[App\Http\Controllers\SixteenController::class, 'six'])->name('data.six');//
 Route::match(['get','post'],'six_pull_a',[App\Http\Controllers\SixteenController::class, 'six_pull_a'])->name('data.six_pull_a');//
 Route::match(['get','post'],'six_pull_b',[App\Http\Controllers\SixteenController::class, 'six_pull_b'])->name('data.six_pull_b');//
