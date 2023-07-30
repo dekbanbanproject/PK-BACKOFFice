@@ -32,7 +32,7 @@ return new class extends Migration
                 $table->string('FNAME')->nullable(); // 
                 $table->string('LNAME')->nullable(); // 
                 $table->string('IDTYPE')->nullable(); // 
-                 
+                $table->string('query_id')->nullable(); //  
                 $table->timestamps();
             });
         }

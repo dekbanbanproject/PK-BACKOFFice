@@ -35,7 +35,7 @@ return new class extends Migration
                 $table->string('AESTATUS')->nullable(); // 
                 $table->string('DALERT')->nullable(); // 
                 $table->string('TALERT')->nullable(); //  
-  
+                $table->string('query_id')->nullable(); //  
                 $table->timestamps();
             });
         }

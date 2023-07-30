@@ -24,7 +24,8 @@ return new class extends Migration
                 $table->string('DATEIN')->nullable();// 
                 $table->string('TIMEIN')->nullable();//  
                 $table->string('DATEOUT')->nullable();// 
-                $table->string('TIMEOUT')->nullable();//   
+                $table->string('TIMEOUT')->nullable();// 
+                $table->string('query_id')->nullable(); //    
                 $table->timestamps();
             });
         }

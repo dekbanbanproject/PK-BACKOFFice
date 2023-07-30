@@ -26,7 +26,7 @@ return new class extends Migration
                 $table->string('PTTYPE')->nullable(); //   
                 $table->string('PERSON_ID')->nullable(); // 
                 $table->string('SEQ')->nullable(); // 
-                 
+                $table->string('query_id')->nullable(); //  
                 $table->timestamps();
             });
         }
