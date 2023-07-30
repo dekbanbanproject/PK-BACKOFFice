@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class D_pat extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql7';
+    // protected $connection = 'mysql7';
     protected $table = 'd_pat';
     protected $primaryKey = 'd_pat_id';
     protected $fillable = [ 

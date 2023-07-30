@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Tempexport_ofc401 extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql7';
+    // protected $connection = 'mysql7';
     protected $table = 'tempexport_ofc401';
     public $timestamps = false; 
  

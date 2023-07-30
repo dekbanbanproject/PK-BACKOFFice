@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class D_ucep extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql7';
+    // protected $connection = 'mysql7';
     protected $table = 'd_ucep';
     protected $primaryKey = 'd_ucep_id';
     protected $fillable = [ 

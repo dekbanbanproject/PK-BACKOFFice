@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class D_export_ofc401 extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql7';
+    // protected $connection = 'mysql7';
     protected $table = 'd_export_ofc401';
     protected $primaryKey = 'd_export_ofc401_id';
     protected $fillable = [
