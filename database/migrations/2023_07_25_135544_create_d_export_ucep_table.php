@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('d_export_ucep'))
         {
-            Schema::connection('mysql7')->create('d_export_ucep', function (Blueprint $table) { 
+            Schema::connection('mysql')->create('d_export_ucep', function (Blueprint $table) { 
                 $table->bigIncrements('d_export_ucep_id');//  
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
@@ -28,6 +28,7 @@ return new class extends Migration
                 $table->string('pdx')->nullable();// 
                 $table->string('er_screen')->nullable();// 
                 $table->string('er_emergency_level_name')->nullable();// 
+                $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             }); 
         }

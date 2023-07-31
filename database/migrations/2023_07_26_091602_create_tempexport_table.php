@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     { 
-        if (!Schema::connection('mysql7')->hasTable('tempexport'))
+        if (!Schema::connection('mysql')->hasTable('tempexport'))
         {
-            Schema::connection('mysql7')->create('tempexport', function (Blueprint $table) { 
+            Schema::connection('mysql')->create('tempexport', function (Blueprint $table) { 
                 // $table->bigIncrements('tempexport_id');//  
                 $table->enum('active', ['Y','N'])->default('N')->nullable(); 
                 $table->string('vn')->nullable();//   
