@@ -93,6 +93,8 @@ class SixteenController extends Controller
             Tempexport::truncate();
             D_adp::truncate();
             $query_ = DB::connection('mysql11')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
+
+            
             D_opd::truncate();
             D_oop::truncate();
             D_orf::truncate();
@@ -108,8 +110,13 @@ class SixteenController extends Controller
             // D_pat::truncate();
             // D_cht::truncate();
             // D_cha::truncate();
+            // dd($query_);
             $iduser = Auth::user()->id;
-            $query = DB::connection('mysql11')->select($query_);
+            foreach ($query_ as $key => $value) {
+                $query = DB::connection('mysql11')->select($value->d_query_name);
+            }
+            
+            // dd($query);
             // $query = DB::connection('mysql11')->select('
             //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
             //             ,concat(p.pname," ",p.fname," ", p.lname) as ptname
