@@ -1014,8 +1014,6 @@ class SixteenController extends Controller
             ]);
         }
 
-
-
         return redirect()->back();
     }
     // public function six_pull_d(Request $request)
