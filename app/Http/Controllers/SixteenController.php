@@ -183,7 +183,7 @@ class SixteenController extends Controller
                     'user_id'           => $iduser,
                 ]);
             }
-             // ********************* a
+             // -----------------------a
              //D_opd
              $data_opd = DB::connection('mysql11')->select('
                     SELECT "" d_opd_id
@@ -278,7 +278,7 @@ class SixteenController extends Controller
                 ]);
             }
 
-            // ********************* b
+            // ------------------- b
             $data_odx = DB::connection('mysql11')->select('
                 SELECT
                     "" d_odx_id
@@ -481,7 +481,7 @@ class SixteenController extends Controller
             }
 
              //ADP
-             $data_adp = DB::connection('mysql3')->select('
+             $data_adp = DB::connection('mysql11')->select('
                     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
                     ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
                     from (SELECT v.hn HN
@@ -561,7 +561,7 @@ class SixteenController extends Controller
                 ]);
             }
             d_adp::where('CODE','=','XXXXXX')->delete();
-            // ********************* C
+            // ---------------------- C
             // $data_aer = DB::connection('mysql11')->select('
             //         SELECT ""d_aer_id,v.hn HN,i.an AN
             //         ,v.vstdate DATEOPD,vv.claim_code AUTHAE
