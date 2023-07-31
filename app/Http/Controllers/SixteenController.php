@@ -92,7 +92,7 @@ class SixteenController extends Controller
             D_ins::truncate();
             Tempexport::truncate();
             D_adp::truncate();
-            // $query = DB::connection('mysql11')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
+            $query = DB::connection('mysql11')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
             D_opd::truncate();
             D_oop::truncate();
             D_orf::truncate();
@@ -109,22 +109,22 @@ class SixteenController extends Controller
             // D_cht::truncate();
             // D_cha::truncate();
             $iduser = Auth::user()->id;
-            $query = DB::connection('mysql11')->select('
-                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
-                        ,concat(p.pname," ",p.fname," ", p.lname) as ptname
-                        ,a.pdx ,g.er_screen,ee.er_emergency_level_name
-                        from ovst o
-                        left outer join an_stat a on a.an = o.an
-                        left outer join spclty s on s.spclty=o.spclty
-                        left outer join patient p on o.hn=p.hn
-                        left outer join er_regist g on g.vn=o.vn
-                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
-                        left outer join pttype pt on pt.pttype = a.pttype
-                        where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND g.er_emergency_level_id IN("1","2")
-                        AND o.an <>"" and pt.hipdata_code ="UCS"
-                        group by o.vn;
-            ');
+            // $query = DB::connection('mysql11')->select('
+            //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
+            //             ,concat(p.pname," ",p.fname," ", p.lname) as ptname
+            //             ,a.pdx ,g.er_screen,ee.er_emergency_level_name
+            //             from ovst o
+            //             left outer join an_stat a on a.an = o.an
+            //             left outer join spclty s on s.spclty=o.spclty
+            //             left outer join patient p on o.hn=p.hn
+            //             left outer join er_regist g on g.vn=o.vn
+            //             left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
+            //             left outer join pttype pt on pt.pttype = a.pttype
+            //             where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //             AND g.er_emergency_level_id IN("1","2")
+            //             AND o.an <>"" and pt.hipdata_code ="UCS"
+            //             group by o.vn;
+            // ');
             // inner join claim.dtemp_hosucep zz on zz.an = o.an
             foreach ($query as $va2) {
                 $date = date('Y-m-d');
