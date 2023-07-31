@@ -479,6 +479,88 @@ class SixteenController extends Controller
                     'user_id'            => $iduser,
                 ]);
             }
+
+             //ADP
+             $data_adp = DB::connection('mysql3')->select('
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
+                    from (SELECT v.hn HN
+                    ,if(v.an is null,"",v.an) AN
+                    ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE
+                    ,sum(v.QTY) QTY
+                    ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ
+                    ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC
+                    ,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP
+                    ,(SELECT "01" from claim.dtemp_hosucep where an = v.an and icode = v.icode and rxdate = v.rxdate and rxtime = v.rxtime  limit 1) SP_ITEM
+                    from opitemrece v
+                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    left join ipt i on i.an = v.an
+                    AND i.an is not NULL
+                    left join claim.tempexport_ofc401 x on x.vn = i.vn
+                    where x.active="N"
+                    AND n.icode <> "XXXXXX"
+                    GROUP BY i.vn,n.nhso_adp_code,rate) a
+                    GROUP BY an,CODE,rate
+                    UNION
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+                    from
+                    (SELECT v.hn HN
+                    ,if(v.an is null,"",v.an) AN
+                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE
+                    ,sum(v.QTY) QTY
+                    ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+                    from opitemrece v
+                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    left join ipt i on i.an = v.an
+                    left join claim.tempexport_ofc401 x on x.vn = v.vn
+                    where x.active="N"
+                    AND n.icode <> "XXXXXX"
+                    AND i.an is NULL
+                    GROUP BY v.vn,n.nhso_adp_code,rate) b
+                    GROUP BY seq,CODE,rate;
+            ');
+            foreach ($data_adp as $va4) {
+                d_adp::insert([
+                    'HN'                   => $va4->HN,
+                    'AN'                   => $va4->AN,
+                    'DATEOPD'              => $va4->DATEOPD,
+                    'TYPE'                 => $va4->TYPE,
+                    'CODE'                 => $va4->CODE,
+                    'QTY'                  => $va4->QTY,
+                    'RATE'                 => $va4->RATE,
+                    'SEQ'                  => $va4->SEQ,
+                    'CAGCODE'              => $va4->a1,
+                    'DOSE'                 => $va4->a2,
+                    'CA_TYPE'              => $va4->a3,
+                    'SERIALNO'             => $va4->a4,
+                    'TOTCOPAY'             => $va4->a5,
+                    'USE_STATUS'           => $va4->a6,
+                    'TOTAL'                => $va4->a7,
+                    'QTYDAY'               => $va4->a8,
+                    'TMLTCODE'             => $va4->TMLTCODE,
+                    'STATUS1'              => $va4->STATUS1,
+                    'BI'                   => $va4->BI,
+                    'CLINIC'               => $va4->CLINIC,
+                    'ITEMSRC'              => $va4->ITEMSRC,
+                    'PROVIDER'             => $va4->PROVIDER,
+                    'GLAVIDA'              => $va4->GLAVIDA,
+                    'GA_WEEK'              => $va4->GA_WEEK,
+                    'DCIP'                 => $va4->DCIP,
+                    'LMP'                  => $va4->LMP,
+                    'SP_ITEM'              => $va4->SP_ITEM,
+                    'user_id'              => $iduser,
+                ]);
+            }
+            d_adp::where('CODE','=','XXXXXX')->delete();
             // ********************* C
             // $data_aer = DB::connection('mysql11')->select('
             //         SELECT ""d_aer_id,v.hn HN,i.an AN
