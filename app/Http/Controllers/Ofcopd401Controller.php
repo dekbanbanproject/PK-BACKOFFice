@@ -22,7 +22,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Department;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
-use App\Models\Position;
+
 use App\Models\Product_spyprice;
 use App\Models\Products;
 use App\Models\Products_type;
@@ -64,6 +64,7 @@ use App\Models\D_aer;
 use App\Models\D_irf;
 use App\Models\Tempexport_ofc401;
 use App\Models\D_export_ofc401;
+use App\Models\D_query;
 
 use Auth;
 use ZipArchive;

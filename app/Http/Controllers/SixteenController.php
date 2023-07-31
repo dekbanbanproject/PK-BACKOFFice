@@ -62,8 +62,8 @@ use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
 use App\Models\D_irf;
+use App\Models\D_query;
 
-use App\Models\Claim_temp_ssop;
 use App\Models\Claim_sixteen_opd;
 use Auth;
 use ZipArchive;
@@ -92,7 +92,24 @@ class SixteenController extends Controller
             D_ins::truncate();
             Tempexport::truncate();
             D_adp::truncate();
-            $data = DB::connection('mysql3')->select('
+            // $query = DB::connection('mysql')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
+            // $data = DB::connection('mysql3')->select('
+            //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
+            //             ,concat(p.pname," ",p.fname," ", p.lname) as ptname
+            //             ,a.pdx ,g.er_screen,ee.er_emergency_level_name
+            //             from ovst o
+            //             left outer join an_stat a on a.an = o.an
+            //             left outer join spclty s on s.spclty=o.spclty
+            //             left outer join patient p on o.hn=p.hn
+            //             left outer join er_regist g on g.vn=o.vn
+            //             left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
+            //             left outer join pttype pt on pt.pttype = a.pttype
+            //             where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //             AND g.er_emergency_level_id IN("1","2")
+            //             AND o.an <>"" and pt.hipdata_code ="UCS"
+            //             group by o.vn;
+            // ');
+            $query = DB::connection('mysql11')->select('
                 SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
                         ,concat(p.pname," ",p.fname," ", p.lname) as ptname
                         ,a.pdx ,g.er_screen,ee.er_emergency_level_name
@@ -103,14 +120,13 @@ class SixteenController extends Controller
                         left outer join er_regist g on g.vn=o.vn
                         left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left outer join pttype pt on pt.pttype = a.pttype
-
                         where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND g.er_emergency_level_id IN("1","2")
                         AND o.an <>"" and pt.hipdata_code ="UCS"
                         group by o.vn;
             ');
             // inner join claim.dtemp_hosucep zz on zz.an = o.an
-            foreach ($data as $va2) {
+            foreach ($query as $va2) {
                 $date = date('Y-m-d');
                 D_export_ucep::insert([
                     'hn'                       => $va2->hn,
@@ -134,7 +150,7 @@ class SixteenController extends Controller
                 ]);
             }
             // UCEP
-            $data_opitemrece = DB::connection('mysql3')->select('
+            $data_opitemrece = DB::connection('mysql11')->select('
                 SELECT "" dtemp_hosucep_id,o.an,o.hn,o.icode,o.rxdate,o.rxtime,a.vstdate,a.vsttime,DATEDIFF(o.rxdate,a.vstdate)<="1" as date_x,TIMEDIFF(o.rxtime,a.vsttime)<="24" time_x
                 ,"" created_at,"" updated_at
                 from opitemrece o
@@ -149,7 +165,6 @@ class SixteenController extends Controller
                 and DATEDIFF(o.rxdate,a.vstdate)<="1"
                 and TIMEDIFF(o.rxtime,a.vsttime)<="24"
                 AND e.er_emergency_level_id IN("1","2")
-
                 ORDER BY icode;
             ');
             foreach ($data_opitemrece as $va3) {
@@ -166,192 +181,192 @@ class SixteenController extends Controller
                 ]);
             }
             //INS
-            $data = DB::connection('mysql3')->select('
-                    SELECT
-                        "" d_ins_id
-                        ,v.hn HN
-                        ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL
-                        ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE
-                        ,v.cid CID
-                        ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d")  DATEIN
-                        ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d")   DATEEXP
-                        ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN
-                        ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
-                        ,"" GOVCODE
-                        ,"" GOVNAME
-                        ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
-                        ,"" DOCNO
-                        ,"" OWNRPID
-                        ,"" OWNRNAME
-                        ,i.an AN
-                        ,v.vn SEQ
-                        ,"" SUBINSCL
-                        ,"" RELINSCL
-                        ,"" HTYPE
-                        ,"" created_at
-                        ,"" updated_at
-                        from vn_stat v
-                        LEFT JOIN pttype p on p.pttype = v.pttype
-                        LEFT JOIN ipt i on i.vn = v.vn
-                        LEFT JOIN pttype pp on pp.pttype = i.pttype
-                        left join ipt_pttype ap on ap.an = i.an
-                        left join visit_pttype vp on vp.vn = v.vn
-                        LEFT JOIN rcpt_debt r on r.vn = v.vn
-                        left join patient px on px.hn = v.hn
-                        left join claim.d_export_ucep x on x.vn = v.vn
-                    where x.active="N";
-            ');
-            foreach ($data as $va1) {
-                $date = date('Y-m-d');
-                D_ins::insert([
-                    'HN'                     => $va1->HN,
-                    'INSCL'                  => $va1->INSCL,
-                    'SUBTYPE'                => $va1->SUBTYPE,
-                    'CID'                    => $va1->CID,
-                    'DATEIN'                 => $va1->DATEIN,
-                    'DATEEXP'                => $va1->DATEEXP,
-                    'HOSPMAIN'               => $va1->HOSPMAIN,
-                    'HOSPSUB'                => $va1->HOSPSUB,
-                    'GOVCODE'                => $va1->GOVCODE,
-                    'GOVNAME'                => $va1->GOVNAME,
-                    'PERMITNO'               => $va1->PERMITNO,
-                    'DOCNO'                  => $va1->DOCNO,
-                    'OWNRPID'                => $va1->OWNRPID,
-                    'OWNRNAME'               => $va1->OWNRNAME,
-                    'AN'                     => $va1->AN,
-                    'SEQ'                    => $va1->SEQ,
-                    'SUBINSCL'               => $va1->SUBINSCL,
-                    'RELINSCL'               => $va1->RELINSCL,
-                    'HTYPE'                  => $va1->HTYPE
-                ]);
-            }
+            // $data = DB::connection('mysql3')->select('
+            //         SELECT
+            //             "" d_ins_id
+            //             ,v.hn HN
+            //             ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL
+            //             ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE
+            //             ,v.cid CID
+            //             ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d")  DATEIN
+            //             ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d")   DATEEXP
+            //             ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN
+            //             ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
+            //             ,"" GOVCODE
+            //             ,"" GOVNAME
+            //             ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
+            //             ,"" DOCNO
+            //             ,"" OWNRPID
+            //             ,"" OWNRNAME
+            //             ,i.an AN
+            //             ,v.vn SEQ
+            //             ,"" SUBINSCL
+            //             ,"" RELINSCL
+            //             ,"" HTYPE
+            //             ,"" created_at
+            //             ,"" updated_at
+            //             from vn_stat v
+            //             LEFT JOIN pttype p on p.pttype = v.pttype
+            //             LEFT JOIN ipt i on i.vn = v.vn
+            //             LEFT JOIN pttype pp on pp.pttype = i.pttype
+            //             left join ipt_pttype ap on ap.an = i.an
+            //             left join visit_pttype vp on vp.vn = v.vn
+            //             LEFT JOIN rcpt_debt r on r.vn = v.vn
+            //             left join patient px on px.hn = v.hn
+            //             left join claim.d_export_ucep x on x.vn = v.vn
+            //         where x.active="N";
+            // ');
+            // foreach ($data as $va1) {
+            //     $date = date('Y-m-d');
+            //     D_ins::insert([
+            //         'HN'                     => $va1->HN,
+            //         'INSCL'                  => $va1->INSCL,
+            //         'SUBTYPE'                => $va1->SUBTYPE,
+            //         'CID'                    => $va1->CID,
+            //         'DATEIN'                 => $va1->DATEIN,
+            //         'DATEEXP'                => $va1->DATEEXP,
+            //         'HOSPMAIN'               => $va1->HOSPMAIN,
+            //         'HOSPSUB'                => $va1->HOSPSUB,
+            //         'GOVCODE'                => $va1->GOVCODE,
+            //         'GOVNAME'                => $va1->GOVNAME,
+            //         'PERMITNO'               => $va1->PERMITNO,
+            //         'DOCNO'                  => $va1->DOCNO,
+            //         'OWNRPID'                => $va1->OWNRPID,
+            //         'OWNRNAME'               => $va1->OWNRNAME,
+            //         'AN'                     => $va1->AN,
+            //         'SEQ'                    => $va1->SEQ,
+            //         'SUBINSCL'               => $va1->SUBINSCL,
+            //         'RELINSCL'               => $va1->RELINSCL,
+            //         'HTYPE'                  => $va1->HTYPE
+            //     ]);
+            // }
             //ADP
-            $data_adp = DB::connection('mysql3')->select('
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
-                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
-                    from (SELECT v.hn HN
-                    ,if(v.an is null,"",v.an) AN
-                    ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                    ,n.nhso_adp_type_id TYPE
-                    ,n.nhso_adp_code CODE
-                    ,sum(v.QTY) QTY
-                    ,round(v.unitprice,2) RATE
-                    ,if(v.an is null,v.vn,"") SEQ
-                    ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
-                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC
-                    ,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP
-                    ,(SELECT "01" from claim.dtemp_hosucep where an = v.an and icode = v.icode and rxdate = v.rxdate and rxtime = v.rxtime  limit 1) SP_ITEM
-                    from opitemrece v
-                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                    left join ipt i on i.an = v.an
-                    AND i.an is not NULL
-                    left join claim.tempexport x on x.vn = i.vn
-                    where x.active="N"
-                    AND n.icode <> "XXXXXX"
-                    GROUP BY i.vn,n.nhso_adp_code,rate) a
-                    GROUP BY an,CODE,rate
-                    UNION
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
-                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
-                    from
-                    (SELECT v.hn HN
-                    ,if(v.an is null,"",v.an) AN
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,n.nhso_adp_type_id TYPE
-                    ,n.nhso_adp_code CODE
-                    ,sum(v.QTY) QTY
-                    ,round(v.unitprice,2) RATE
-                    ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
-                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
-                    from opitemrece v
-                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                    left join ipt i on i.an = v.an
-                    left join claim.tempexport x on x.vn = v.vn
-                    where x.active="N"
-                    AND n.icode <> "XXXXXX"
-                    AND i.an is NULL
-                    GROUP BY v.vn,n.nhso_adp_code,rate) b
-                    GROUP BY seq,CODE,rate;
-            ');
-            foreach ($data_adp as $va4) {
-                d_adp::insert([
-                    'HN'                   => $va4->HN,
-                    'AN'                   => $va4->AN,
-                    'DATEOPD'              => $va4->DATEOPD,
-                    'TYPE'                 => $va4->TYPE,
-                    'CODE'                 => $va4->CODE,
-                    'QTY'                  => $va4->QTY,
-                    'RATE'                 => $va4->RATE,
-                    'SEQ'                  => $va4->SEQ,
-                    'CAGCODE'              => $va4->a1,
-                    'DOSE'                 => $va4->a2,
-                    'CA_TYPE'              => $va4->a3,
-                    'SERIALNO'             => $va4->a4,
-                    'TOTCOPAY'             => $va4->a5,
-                    'USE_STATUS'           => $va4->a6,
-                    'TOTAL'                => $va4->a7,
-                    'QTYDAY'               => $va4->a8,
-                    'TMLTCODE'             => $va4->TMLTCODE,
-                    'STATUS1'              => $va4->STATUS1,
-                    'BI'                   => $va4->BI,
-                    'CLINIC'               => $va4->CLINIC,
-                    'ITEMSRC'              => $va4->ITEMSRC,
-                    'PROVIDER'             => $va4->PROVIDER,
-                    'GLAVIDA'              => $va4->GLAVIDA,
-                    'GA_WEEK'              => $va4->GA_WEEK,
-                    'DCIP'                 => $va4->DCIP,
-                    'LMP'                  => $va4->LMP,
-                    'SP_ITEM'              => $va4->SP_ITEM,
-                ]);
-            }
-            d_adp::where('CODE','=','XXXXXX')->delete();
+            // $data_adp = DB::connection('mysql3')->select('
+            //         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+            //         ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
+            //         from (SELECT v.hn HN
+            //         ,if(v.an is null,"",v.an) AN
+            //         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+            //         ,n.nhso_adp_type_id TYPE
+            //         ,n.nhso_adp_code CODE
+            //         ,sum(v.QTY) QTY
+            //         ,round(v.unitprice,2) RATE
+            //         ,if(v.an is null,v.vn,"") SEQ
+            //         ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+            //         ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC
+            //         ,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP
+            //         ,(SELECT "01" from claim.dtemp_hosucep where an = v.an and icode = v.icode and rxdate = v.rxdate and rxtime = v.rxtime  limit 1) SP_ITEM
+            //         from opitemrece v
+            //         inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            //         left join ipt i on i.an = v.an
+            //         AND i.an is not NULL
+            //         left join claim.tempexport x on x.vn = i.vn
+            //         where x.active="N"
+            //         AND n.icode <> "XXXXXX"
+            //         GROUP BY i.vn,n.nhso_adp_code,rate) a
+            //         GROUP BY an,CODE,rate
+            //         UNION
+            //         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+            //         ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+            //         from
+            //         (SELECT v.hn HN
+            //         ,if(v.an is null,"",v.an) AN
+            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+            //         ,n.nhso_adp_type_id TYPE
+            //         ,n.nhso_adp_code CODE
+            //         ,sum(v.QTY) QTY
+            //         ,round(v.unitprice,2) RATE
+            //         ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+            //         ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+            //         from opitemrece v
+            //         inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            //         left join ipt i on i.an = v.an
+            //         left join claim.tempexport x on x.vn = v.vn
+            //         where x.active="N"
+            //         AND n.icode <> "XXXXXX"
+            //         AND i.an is NULL
+            //         GROUP BY v.vn,n.nhso_adp_code,rate) b
+            //         GROUP BY seq,CODE,rate;
+            // ');
+            // foreach ($data_adp as $va4) {
+            //     d_adp::insert([
+            //         'HN'                   => $va4->HN,
+            //         'AN'                   => $va4->AN,
+            //         'DATEOPD'              => $va4->DATEOPD,
+            //         'TYPE'                 => $va4->TYPE,
+            //         'CODE'                 => $va4->CODE,
+            //         'QTY'                  => $va4->QTY,
+            //         'RATE'                 => $va4->RATE,
+            //         'SEQ'                  => $va4->SEQ,
+            //         'CAGCODE'              => $va4->a1,
+            //         'DOSE'                 => $va4->a2,
+            //         'CA_TYPE'              => $va4->a3,
+            //         'SERIALNO'             => $va4->a4,
+            //         'TOTCOPAY'             => $va4->a5,
+            //         'USE_STATUS'           => $va4->a6,
+            //         'TOTAL'                => $va4->a7,
+            //         'QTYDAY'               => $va4->a8,
+            //         'TMLTCODE'             => $va4->TMLTCODE,
+            //         'STATUS1'              => $va4->STATUS1,
+            //         'BI'                   => $va4->BI,
+            //         'CLINIC'               => $va4->CLINIC,
+            //         'ITEMSRC'              => $va4->ITEMSRC,
+            //         'PROVIDER'             => $va4->PROVIDER,
+            //         'GLAVIDA'              => $va4->GLAVIDA,
+            //         'GA_WEEK'              => $va4->GA_WEEK,
+            //         'DCIP'                 => $va4->DCIP,
+            //         'LMP'                  => $va4->LMP,
+            //         'SP_ITEM'              => $va4->SP_ITEM,
+            //     ]);
+            // }
+            // d_adp::where('CODE','=','XXXXXX')->delete();
 
             // $ucep = D_export_ucep::get();
-            $ucep = DB::connection('mysql3')->select('
-                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
-                ,DATE_FORMAT(o.vstdate,"%Y%m%d") DATEOPD                     
-                        from ovst o
-                        left outer join an_stat a on a.an = o.an 
-                        left outer join patient p on o.hn=p.hn
-                        left outer join er_regist g on g.vn=o.vn  
-                        left outer join pttype pt on pt.pttype = a.pttype
+            // $ucep = DB::connection('mysql3')->select('
+            //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
+            //     ,DATE_FORMAT(o.vstdate,"%Y%m%d") DATEOPD                     
+            //             from ovst o
+            //             left outer join an_stat a on a.an = o.an 
+            //             left outer join patient p on o.hn=p.hn
+            //             left outer join er_regist g on g.vn=o.vn  
+            //             left outer join pttype pt on pt.pttype = a.pttype
 
-                        where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND g.er_emergency_level_id IN("1","2")
-                        AND o.an <>"" and pt.hipdata_code ="UCS"
-                        group by o.vn;
-            ');
-            foreach ($ucep as $key => $v) {
-                d_adp::insert([
-                    'HN'                   => $v->hn,
-                    'AN'                   => $v->an,
-                    'DATEOPD'              => $v->DATEOPD,
-                    'TYPE'                 => '5',
-                    'CODE'                 => 'UCEP24',
-                    'QTY'                  => '1',
-                    'RATE'                 => '0',
-                    'SEQ'                  => $v->vn,
-                    'CAGCODE'              => "",
-                    'DOSE'                 => "",
-                    'CA_TYPE'              => "",
-                    'SERIALNO'             => "",
-                    'TOTCOPAY'             => '0',
-                    'USE_STATUS'           => "",
-                    'TOTAL'                => '0',
-                    'QTYDAY'               => "",
-                    'TMLTCODE'             => "",
-                    'STATUS1'              => "",
-                    'BI'                   => "",
-                    'CLINIC'               => "",
-                    'ITEMSRC'              => "",
-                    'PROVIDER'             => "",
-                    'GLAVIDA'              => "",
-                    'GA_WEEK'              => "",
-                    'DCIP'                 => "",
-                    'LMP'                  => "",
-                    'SP_ITEM'              => "",
-                ]);
-            }
+            //             where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //             AND g.er_emergency_level_id IN("1","2")
+            //             AND o.an <>"" and pt.hipdata_code ="UCS"
+            //             group by o.vn;
+            // ');
+            // foreach ($ucep as $key => $v) {
+            //     d_adp::insert([
+            //         'HN'                   => $v->hn,
+            //         'AN'                   => $v->an,
+            //         'DATEOPD'              => $v->DATEOPD,
+            //         'TYPE'                 => '5',
+            //         'CODE'                 => 'UCEP24',
+            //         'QTY'                  => '1',
+            //         'RATE'                 => '0',
+            //         'SEQ'                  => $v->vn,
+            //         'CAGCODE'              => "",
+            //         'DOSE'                 => "",
+            //         'CA_TYPE'              => "",
+            //         'SERIALNO'             => "",
+            //         'TOTCOPAY'             => '0',
+            //         'USE_STATUS'           => "",
+            //         'TOTAL'                => '0',
+            //         'QTYDAY'               => "",
+            //         'TMLTCODE'             => "",
+            //         'STATUS1'              => "",
+            //         'BI'                   => "",
+            //         'CLINIC'               => "",
+            //         'ITEMSRC'              => "",
+            //         'PROVIDER'             => "",
+            //         'GLAVIDA'              => "",
+            //         'GA_WEEK'              => "",
+            //         'DCIP'                 => "",
+            //         'LMP'                  => "",
+            //         'SP_ITEM'              => "",
+            //     ]);
+            // }
 
         } else {
             $data = DB::connection('mysql3')->select('
