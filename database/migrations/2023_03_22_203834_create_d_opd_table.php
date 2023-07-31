@@ -32,7 +32,7 @@ return new class extends Migration
                 // $table->string('RR')->nullable(); //   
                 // $table->string('OPTYPE')->nullable(); // 
                 // $table->string('TYPEIN')->nullable(); // 
-                $table->string('query_id')->nullable(); //        
+                $table->string('user_id')->nullable(); //        
                 $table->timestamps();
             });
         }

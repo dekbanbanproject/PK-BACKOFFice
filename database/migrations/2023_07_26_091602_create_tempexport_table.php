@@ -24,7 +24,9 @@ return new class extends Migration
                 $table->string('cid')->nullable();// 
                 $table->string('sn')->nullable();//    
                 $table->date('send_date')->nullable();//   
-                $table->date('status')->nullable();//   
+                $table->string('status')->nullable();//   
+                $table->string('status')->nullable();// 
+                $table->string('user_id')->nullable(); //  
             }); 
         }
     }

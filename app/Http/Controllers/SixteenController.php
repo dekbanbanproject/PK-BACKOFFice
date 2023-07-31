@@ -108,7 +108,7 @@ class SixteenController extends Controller
             // D_pat::truncate();
             // D_cht::truncate();
             // D_cha::truncate();
-
+            $iduser = Auth::user()->id;
             $query = DB::connection('mysql11')->select('
                 SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
                         ,concat(p.pname," ",p.fname," ", p.lname) as ptname
@@ -140,6 +140,7 @@ class SixteenController extends Controller
                     'pttype'                   => $va2->pttype,
                     'er_screen'                => $va2->er_screen,
                     'er_emergency_level_name'  => $va2->er_emergency_level_name,
+                    'user_id'                  => $iduser,
                 ]);
                 Tempexport::insert([
                     'hn'                       => $va2->hn,
@@ -147,6 +148,7 @@ class SixteenController extends Controller
                     'vn'                       => $va2->vn,
                     'cid'                      => $va2->cid,
                     'sent_date'                => $date,
+                    'user_id'                  => $iduser,
                 ]);
             }
             // UCEP
@@ -207,7 +209,8 @@ class SixteenController extends Controller
                     'DATEOPD'             => $va3->DATEOPD,
                     'TIMEOPD'             => $va3->TIMEOPD,
                     'SEQ'                 => $va3->SEQ,
-                    'UUC'                 => $va3->UUC
+                    'UUC'                 => $va3->UUC,
+                    'user_id'             => $iduser,
                 ]);
             }
             //D_orf
@@ -237,7 +240,8 @@ class SixteenController extends Controller
                     'CLINIC'            => $va4->CLINIC,
                     'REFER'             => $va4->REFER,
                     'REFERTYPE'         => $va4->REFERTYPE,
-                    'SEQ'               => $va4->SEQ
+                    'SEQ'               => $va4->SEQ,
+                    'user_id'           => $iduser,
                 ]);
             }
             //D_oop
@@ -269,6 +273,7 @@ class SixteenController extends Controller
                     'DROPID'            => $va6->DROPID,
                     'PERSON_ID'         => $va6->PERSON_ID,
                     'SEQ'               => $va6->SEQ,
+                    'user_id'           => $iduser,
                 ]);
             }
 
@@ -303,6 +308,7 @@ class SixteenController extends Controller
                     'DRDX'              => $va5->DRDX,
                     'PERSON_ID'         => $va5->PERSON_ID,
                     'SEQ'               => $va5->SEQ,
+                    'user_id'           => $iduser,
                 ]);
             }
             $data_dru = DB::connection('mysql11')->select('
@@ -392,7 +398,8 @@ class SixteenController extends Controller
                     'SIGCODE'             => $va9->a1,
                     'SIGTEXT'             => $va9->a2,
                     'created_at'          => $va9->created_at,
-                    'updated_at'          => $va9->updated_at
+                    'updated_at'          => $va9->updated_at,
+                    'user_id'             => $iduser,
                 ]);
             }
             $data_idx = DB::connection('mysql11')->select('
@@ -412,7 +419,8 @@ class SixteenController extends Controller
                     'AN'                => $va6->AN,
                     'DIAG'              => $va6->DIAG,
                     'DXTYPE'            => $va6->DXTYPE,
-                    'DRDX'              => $va6->DRDX
+                    'DRDX'              => $va6->DRDX,
+                    'user_id'           => $iduser,
                 ]);
             }
             $data_ipd = DB::connection('mysql11')->select('
@@ -446,7 +454,8 @@ class SixteenController extends Controller
                     'DEPT'               => $va10->DEPT,
                     'ADM_W'              => $va10->ADM_W,
                     'UUC'                => $va10->UUC,
-                    'SVCTYPE'            => $va10->SVCTYPE
+                    'SVCTYPE'            => $va10->SVCTYPE,
+                    'user_id'            => $iduser,
                 ]);
             }
             $data_irf = DB::connection('mysql11')->select('
@@ -465,7 +474,8 @@ class SixteenController extends Controller
                 D_irf::insert([
                     'AN'                 => $va11->AN,
                     'REFER'              => $va11->REFER,
-                    'REFERTYPE'          => $va11->REFERTYPE
+                    'REFERTYPE'          => $va11->REFERTYPE,
+                    'user_id'            => $iduser,
                 ]);
             }
             // ********************* C
@@ -1023,7 +1033,7 @@ class SixteenController extends Controller
         D_pat::truncate();
         D_cht::truncate();
         D_cha::truncate();
-
+        $iduser = Auth::user()->id;
         $data_aer = DB::connection('mysql11')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
                 ,v.vstdate DATEOPD,vv.claim_code AUTHAE
@@ -1071,6 +1081,7 @@ class SixteenController extends Controller
                 'AESTATUS'          => $va12->AESTATUS,
                 'DALERT'            => $va12->DALERT,
                 'TALERT'            => $va12->TALERT,
+                'user_id'           => $iduser,
             ]);
         }
          //D_iop
@@ -1100,7 +1111,8 @@ class SixteenController extends Controller
                 'DATEIN'            => $va7->DATEIN,
                 'TIMEIN'            => $va7->TIMEIN,
                 'DATEOUT'           => $va7->DATEOUT,
-                'TIMEOUT'           => $va7->TIMEOUT
+                'TIMEOUT'           => $va7->TIMEOUT,
+                'user_id'           => $iduser,
             ]);
         }
 
@@ -1147,7 +1159,8 @@ class SixteenController extends Controller
                 'TITLE'               => $va2->TITLE,
                 'FNAME'               => $va2->FNAME,
                 'LNAME'               => $va2->LNAME,
-                'IDTYPE'              => $va2->IDTYPE
+                'IDTYPE'              => $va2->IDTYPE,
+                'user_id'             => $iduser,
             ]);
         }
 
@@ -1182,6 +1195,7 @@ class SixteenController extends Controller
                 'PTTYPE'            => $va7->PTTYPE,
                 'PERSON_ID'         => $va7->PERSON_ID,
                 'SEQ'               => $va7->SEQ,
+                'user_id'           => $iduser,
             ]);
         }
         $data_cha = DB::connection('mysql11')->select('
@@ -1230,6 +1244,7 @@ class SixteenController extends Controller
                 'AMOUNT'            => $va8->AMOUNT,
                 'PERSON_ID'         => $va8->PERSON_ID,
                 'SEQ'               => $va8->SEQ,
+                'user_id'           => $iduser,
             ]);
         }
 
