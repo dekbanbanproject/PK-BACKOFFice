@@ -109,7 +109,7 @@ class SixteenController extends Controller
             // D_cht::truncate();
             // D_cha::truncate();
             $iduser = Auth::user()->id;
-            $query = DB::connection('mysql11')->select('"'.$query_.'"');
+            $query = DB::connection('mysql11')->select($query_);
             // $query = DB::connection('mysql11')->select('
             //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
             //             ,concat(p.pname," ",p.fname," ", p.lname) as ptname
