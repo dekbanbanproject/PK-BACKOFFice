@@ -87,7 +87,7 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                             ค้นหา
                         </button>
-                        <a href="{{url('six_pull_a')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 1</a>
+                        {{-- <a href="{{url('six_pull_a')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 1</a> --}}
                         <a href="{{url('six_pull_b')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 2</a>
                         <a href="{{url('six_pull_c')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 3</a>
                         <a href="{{url('six_pull_d')}}" class="btn btn-info"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ประมวลผล 4</a>
