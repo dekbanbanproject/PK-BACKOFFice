@@ -182,7 +182,7 @@ class SixteenController extends Controller
             // }
              // ********************* a
              //D_opd
-             $data_opd = DB::connection('mysql3')->select('
+             $data_opd = DB::connection('mysql11')->select('
                     SELECT "" d_opd_id
                     ,v.hn HN
                     ,v.spclty CLINIC
@@ -211,7 +211,7 @@ class SixteenController extends Controller
                 ]);
             }
             //D_orf
-            $data_orf = DB::connection('mysql3')->select('
+            $data_orf = DB::connection('mysql11')->select('
                     SELECT
                     "" d_orf_id
                     ,v.hn HN
@@ -241,7 +241,7 @@ class SixteenController extends Controller
                 ]);
             }
             //D_oop
-            $data_oop = DB::connection('mysql3')->select('
+            $data_oop = DB::connection('mysql11')->select('
                     SELECT "" d_oop_id
                     ,v.hn HN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
@@ -273,7 +273,7 @@ class SixteenController extends Controller
             }
 
             // ********************* b
-            $data_odx = DB::connection('mysql3')->select('
+            $data_odx = DB::connection('mysql11')->select('
                 SELECT
                     "" d_odx_id
                     ,v.hn HN
@@ -305,7 +305,7 @@ class SixteenController extends Controller
                     'SEQ'               => $va5->SEQ,
                 ]);
             }
-            $data_dru = DB::connection('mysql3')->select('
+            $data_dru = DB::connection('mysql11')->select('
                     SELECT "" d_dru_id,vv.hcode HCODE
                     ,v.hn HN
                     ,v.an AN
@@ -395,7 +395,7 @@ class SixteenController extends Controller
                     'updated_at'          => $va9->updated_at
                 ]);
             }
-            $data_idx = DB::connection('mysql3')->select('
+            $data_idx = DB::connection('mysql11')->select('
                 SELECT "" d_idx_id,v.an AN,o.icd10 DIAG
                         ,o.diagtype DXTYPE
                         ,if(d.licenseno="","-99999",d.licenseno) DRDX,"" created_at ,"" updated_at
@@ -415,7 +415,7 @@ class SixteenController extends Controller
                     'DRDX'              => $va6->DRDX
                 ]);
             }
-            $data_ipd = DB::connection('mysql3')->select('
+            $data_ipd = DB::connection('mysql11')->select('
                 SELECT "" d_ipd_id,v.hn HN,v.an AN
                     ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
                     ,Time_format(o.regtime,"%H%i") TIMEADM
@@ -449,7 +449,7 @@ class SixteenController extends Controller
                     'SVCTYPE'            => $va10->SVCTYPE
                 ]);
             }
-            $data_irf = DB::connection('mysql3')->select('
+            $data_irf = DB::connection('mysql11')->select('
                     SELECT ""d_irf_id,v.an AN
                     ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
                     ,"0100" REFERTYPE,"" created_at,"" updated_at
@@ -469,7 +469,7 @@ class SixteenController extends Controller
                 ]);
             }
             // ********************* C
-            $data_aer = DB::connection('mysql3')->select('
+            $data_aer = DB::connection('mysql11')->select('
                     SELECT ""d_aer_id,v.hn HN,i.an AN
                     ,v.vstdate DATEOPD,vv.claim_code AUTHAE
                     ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
@@ -519,7 +519,7 @@ class SixteenController extends Controller
                 ]);
             }
             //D_iop
-            $data_iop = DB::connection('mysql3')->select('
+            $data_iop = DB::connection('mysql11')->select('
                     SELECT "" d_iop_id,v.an AN
                     ,o.icd9 OPER
                     ,o.oper_type as OPTYPE
@@ -550,7 +550,7 @@ class SixteenController extends Controller
             }
 
             // D_pat
-            $data_pat = DB::connection('mysql3')->select('
+            $data_pat = DB::connection('mysql11')->select('
                     SELECT "" d_pat_id
                     ,v.hcode HCODE
                     ,v.hn HN
@@ -596,7 +596,7 @@ class SixteenController extends Controller
                 ]);
             }
 
-            $data_cht = DB::connection('mysql3')->select('
+            $data_cht = DB::connection('mysql11')->select('
                     SELECT "" d_cht_id
                     ,v.hn HN
                     ,v.an AN
@@ -629,7 +629,7 @@ class SixteenController extends Controller
                     'SEQ'               => $va7->SEQ,
                 ]);
             }
-            $data_cha = DB::connection('mysql3')->select('
+            $data_cha = DB::connection('mysql11')->select('
                     SELECT "" d_cha_id,v.hn HN
                     ,if(v1.an is null,"",v1.an) AN
                     ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
@@ -680,7 +680,7 @@ class SixteenController extends Controller
 
 
         } else {
-            $data = DB::connection('mysql3')->select('
+            $data = DB::connection('mysql11')->select('
                 SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
                         ,concat(p.pname," ",p.fname," ", p.lname) as ptname
                         ,a.pdx ,g.er_screen,ee.er_emergency_level_name
