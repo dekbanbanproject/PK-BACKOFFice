@@ -500,7 +500,7 @@ class SixteenController extends Controller
                     inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
                     left join ipt i on i.an = v.an
                     AND i.an is not NULL
-                    left join claim.tempexport_ofc401 x on x.vn = i.vn
+                    left join claim.tempexport x on x.vn = i.vn
                     where x.active="N"
                     AND n.icode <> "XXXXXX"
                     GROUP BY i.vn,n.nhso_adp_code,rate) a
@@ -521,7 +521,7 @@ class SixteenController extends Controller
                     from opitemrece v
                     inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
                     left join ipt i on i.an = v.an
-                    left join claim.tempexport_ofc401 x on x.vn = v.vn
+                    left join claim.tempexport x on x.vn = v.vn
                     where x.active="N"
                     AND n.icode <> "XXXXXX"
                     AND i.an is NULL
