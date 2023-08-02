@@ -87,23 +87,25 @@ class SixteenController extends Controller
         $enddate = $request->enddate;
 
         if ($startdate != '') {
+
+            $iduser = Auth::user()->id;
             D_export_ucep::truncate();
             Dtemp_hosucep::truncate();
-            D_ins::truncate();
-            Tempexport::truncate();
-            D_adp::truncate();
+            D_ins::where('user_id','=',$iduser)->delete();
+            Tempexport::where('user_id','=',$iduser)->delete();
+            D_adp::where('user_id','=',$iduser)->delete();
             $query_ = DB::connection('mysql11')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
 
             
-            D_opd::truncate();
-            D_oop::truncate();
-            D_orf::truncate();
+            D_opd::where('user_id','=',$iduser)->delete();
+            D_oop::where('user_id','=',$iduser)->delete();
+            D_orf::where('user_id','=',$iduser)->delete();
 
-            D_odx::truncate();
-            D_dru::truncate();
-            D_idx::truncate();
-            D_ipd::truncate();
-            D_irf::truncate();
+            D_odx::where('user_id','=',$iduser)->delete();
+            D_dru::where('user_id','=',$iduser)->delete();
+            D_idx::where('user_id','=',$iduser)->delete();
+            D_ipd::where('user_id','=',$iduser)->delete();
+            D_irf::where('user_id','=',$iduser)->delete();
 
             // D_aer::truncate();
             // D_iop::truncate();
@@ -111,7 +113,7 @@ class SixteenController extends Controller
             // D_cht::truncate();
             // D_cha::truncate();
             // dd($query_);
-            $iduser = Auth::user()->id;
+           
             foreach ($query_ as $key => $value) {
                 $query = DB::connection('mysql11')->select($value->d_query_name);
             }
@@ -1119,12 +1121,13 @@ class SixteenController extends Controller
 
     public function six_pull_c(Request $request)
     {
-        D_aer::truncate();
-        D_iop::truncate();
-        D_pat::truncate();
-        D_cht::truncate();
-        D_cha::truncate();
         $iduser = Auth::user()->id;
+        D_aer::where('user_id','=',$iduser)->delete();
+        D_iop::where('user_id','=',$iduser)->delete();
+        D_pat::where('user_id','=',$iduser)->delete();
+        D_cht::where('user_id','=',$iduser)->delete();
+        D_cha::where('user_id','=',$iduser)->delete();
+        
         $data_aer = DB::connection('mysql11')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
                 ,v.vstdate DATEOPD,vv.claim_code AUTHAE
