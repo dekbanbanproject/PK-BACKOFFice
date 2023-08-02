@@ -17,7 +17,8 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('d_query', function (Blueprint $table) {
                 $table->bigIncrements('d_query_id'); 
-                $table->text('d_query_name',1000)->nullable();// 
+                $table->string('d_query_name',255)->nullable();// 
+                $table->text('d_query_detail',1000)->nullable();//  
                 $table->string('d_query_type')->nullable();//  
                 $table->timestamps();
             });

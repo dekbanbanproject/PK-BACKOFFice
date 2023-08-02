@@ -85,7 +85,11 @@ class SixteenController extends Controller
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+        $d_query_id = $request->d_query_id;
+        
 
+
+        $query_date = DB::table('d_query')->get();
         if ($startdate != '') {
 
             $iduser = Auth::user()->id;
@@ -94,8 +98,9 @@ class SixteenController extends Controller
             D_ins::where('user_id','=',$iduser)->delete();
             Tempexport::where('user_id','=',$iduser)->delete();
             D_adp::where('user_id','=',$iduser)->delete();
-            $query_ = DB::connection('mysql11')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
-
+            // $query_ = DB::connection('mysql')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
+            $query_ = DB::table('d_query')->where('d_query_id','=',$d_query_id)->first();
+            $query_2 = $query_->d_query_detail;
             
             D_opd::where('user_id','=',$iduser)->delete();
             D_oop::where('user_id','=',$iduser)->delete();
@@ -112,13 +117,20 @@ class SixteenController extends Controller
             // D_pat::truncate();
             // D_cht::truncate();
             // D_cha::truncate();
-            // dd($query_);
-           
-            foreach ($query_ as $key => $value) {
-                $query = DB::connection('mysql11')->select($value->d_query_name);
-            }
+            // dd($query_2); 
+            // $query_2 = file('D:\UCAuthenticationMX\nhso_token.txt', FILE_SKIP_EMPTY_LINES|FILE_IGNORE_NEW_LINES);
+            // foreach($query_2 as $line) {  
+            // }
+            // $chars = preg_split('//', $query_2, -1, PREG_SPLIT_NO_EMPTY);
+          
+            // dd($chars); 
+            // foreach ($query_ as $key => $value) {
+            //     $query_2 = $value->d_query_name;
+                // $query = DB::connection('mysql11')->select($value->d_query_name);
+                $query = DB::connection('mysql11')->select($query_2);
+            // }
             
-            // dd($query);
+            dd($query);
             // $query = DB::connection('mysql11')->select('
             //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
             //             ,concat(p.pname," ",p.fname," ", p.lname) as ptname
@@ -808,6 +820,7 @@ class SixteenController extends Controller
         return view('claim.six',$data,[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
+            'query_date'       => $query_date,
         ]);
     }
     // public function six_pull_a(Request $request)

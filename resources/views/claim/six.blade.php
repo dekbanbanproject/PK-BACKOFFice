@@ -76,8 +76,17 @@
             @csrf
 
             <div class="row">
-                <div class="col-md-2 text-end">วันที่</div>
-                <div class="col-md-7 text-center">
+                <div class="col"></div>
+                <div class="col-md-3">
+                    <select name="d_query_id" id="d_query_id" class="form-control">
+                        <option value="">==เลือก==</option>
+                        @foreach ($query_date as $item)
+                            <option value="{{$item->d_query_id}}">{{$item->d_query_name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-1 text-end">วันที่</div>
+                <div class="col-md-6 text-center">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
