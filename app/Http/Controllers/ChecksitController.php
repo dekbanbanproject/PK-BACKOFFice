@@ -1346,6 +1346,24 @@ class ChecksitController extends Controller
             // 'data_year3'       => $data_year3,
         ] );
     }
+    public function check_dashboard_noauthen(Request $request,$day,$month,$year)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $m = date('m');
+
+        $data_sit = DB::connection('mysql')->select('
+            SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
+            from check_sit_auto c
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode is null
+        ');
+
+        return view('dashboard.check_dashboard_noauthen',[
+            'data_sit'       => $data_sit,
+            // 'data_year3'       => $data_year3,
+        ] );
+    }
     public function check_dashboard_bar(Request $request)
     {
         $y = date('Y');

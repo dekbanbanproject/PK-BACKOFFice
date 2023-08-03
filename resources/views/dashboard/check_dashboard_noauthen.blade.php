@@ -108,7 +108,7 @@
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->subinscl }}</td>
                                             <td>{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
-                                            <td style="background-color: rgb(111, 247, 224)">{{ $item->claimtype }}</td>
+                                            <td style="background-color: rgb(253, 150, 185)">{{ $item->claimtype }}</td>
                                             <td>{{ $item->staff }}</td>
                                             <td>{{ $item->department }}</td>
                                         </tr>
