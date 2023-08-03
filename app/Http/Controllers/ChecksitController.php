@@ -104,7 +104,7 @@ class ChecksitController extends Controller
             'dateend'        => $dateend,
         ]);
     }
-    
+
 
     function check_authen_excel(Request $request){
         $this->validate($request, [
@@ -217,7 +217,7 @@ class ChecksitController extends Controller
             //     ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,c.staff,c.fokliad,k.department
             //     FROM check_sit_auto c
             //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            //     LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate 
+            //     LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
 
             //     WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
             //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6")
@@ -245,7 +245,7 @@ class ChecksitController extends Controller
     // {
     //     $datestart = $request->datestart;
     //     $dateend = $request->dateend;
-  
+
 
     //     if ($datestart == '') {
     //         $data_sits = DB::connection('mysql3')->select('
@@ -256,8 +256,8 @@ class ChecksitController extends Controller
     //             JOIN opduser op on op.loginname = o.staff
     //             WHERE o.vstdate = CURDATE()
     //             group by p.cid
-    //         '); 
-    //         foreach ($data_sits as $key => $value) { 
+    //         ');
+    //         foreach ($data_sits as $key => $value) {
     //             $check = Check_sit_auto::where('vn', $value->vn)->count();
     //             if ($check > 0) {
     //                 Check_sit_auto::where('vn', $value->vn)
@@ -304,7 +304,7 @@ class ChecksitController extends Controller
     //             WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
     //             group by p.cid
     //         ');
-    //             foreach ($data_sits as $key => $value) { 
+    //             foreach ($data_sits as $key => $value) {
     //                 $check = Check_sit_auto::where('vn', $value->vn)->count();
     //                 if ($check > 0) {
     //                     Check_sit_auto::where('vn', $value->vn)
@@ -341,14 +341,14 @@ class ChecksitController extends Controller
     //         ');
 
     //     }
-      
+
     //     return response()->json([
     //         'status'     => '200',
     //          'data_sit'    => $data_sit,
     //         'start'     => $datestart,
     //         'end'        => $dateend,
     //     ]);
-        
+
     // }
      // ดึงข้อมูลมาไว้เช็คสิทธิ์
     //  public function check_sit_daypullauto(Request $request)
@@ -361,14 +361,14 @@ class ChecksitController extends Controller
     //              join patient p on p.hn=o.hn
     //              JOIN pttype pt on pt.pttype=o.pttype
     //              JOIN opduser od on od.loginname = o.staff
-    //              WHERE o.vstdate = CURDATE() 
+    //              WHERE o.vstdate = CURDATE()
     //              AND o.main_dep NOT IN("011","036","107")
     //              AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
     //              group by o.vn
     //              limit 1500
-    //          '); 
+    //          ');
     //          foreach ($data_sits as $key => $value) {
-    //              $check = Check_sit_auto::where('vn', $value->vn)->count(); 
+    //              $check = Check_sit_auto::where('vn', $value->vn)->count();
     //                 if ($check > 0) {
     //                     Check_sit_auto::where('vn', $value->vn)
     //                     ->update([
@@ -384,7 +384,7 @@ class ChecksitController extends Controller
     //                         'hospmain' => $value->hospmain,
     //                         'hospsub' => $value->hospsub,
     //                         'staff' => $value->staff,
-    //                         'main_dep' => $value->main_dep, 
+    //                         'main_dep' => $value->main_dep,
     //                         'fokliad' => $value->fokliad
     //                     ]);
     //                 } else {
@@ -401,13 +401,13 @@ class ChecksitController extends Controller
     //                         'hospmain' => $value->hospmain,
     //                         'hospsub' => $value->hospsub,
     //                         'staff' => $value->staff,
-    //                         'main_dep' => $value->main_dep, 
+    //                         'main_dep' => $value->main_dep,
     //                         'fokliad' => $value->fokliad
     //                     ]);
     //                 }
 
     //          }
-          
+
     //          return view('authen.check_sit_daypullauto');
     //  }
      public function check_sit_daysitauto(Request $request)
@@ -630,7 +630,7 @@ class ChecksitController extends Controller
             //     WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
             //     group by p.cid
             // ');
-            //     foreach ($data_sits as $key => $value) { 
+            //     foreach ($data_sits as $key => $value) {
             //         $check = Check_sit_auto::where('vn', $value->vn)->count();
             //         if ($check > 0) {
             //             Check_sit_auto::where('vn', $value->vn)
@@ -1124,19 +1124,19 @@ class ChecksitController extends Controller
             $checkdate = $claimDate[0];
             $checktime = $claimDate[1];
             // dd($transId);
-                $datenow = date("Y-m-d");        
-                   
+                $datenow = date("Y-m-d");
+
                                 if ($claimType == 'PG0130001') {
-                                   
-                                } else {  
-                                    $checkcs = Check_authen::where('claimCode','=',$claimCode)->count();  
+
+                                } else {
+                                    $checkcs = Check_authen::where('claimCode','=',$claimCode)->count();
                                     if ($checkcs > 0) {
                                         // Check_sit_auto::where('claimcode', $claimCode)
-                                        // ->update([ 
-                                        //     'claimcode'       => $claimCode, 
-                                        //     'claimtype'       => $claimType,  
+                                        // ->update([
+                                        //     'claimcode'       => $claimCode,
+                                        //     'claimtype'       => $claimType,
                                         // ]);
-                                       
+
                                     } else {
                                         Check_authen::create([
                                             'cid'                        => $personalId,
@@ -1161,18 +1161,18 @@ class ChecksitController extends Controller
                                         ]);
                                     }
 
-                                    // $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count();  
+                                    // $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count();
                                     // if ($check_detail > 0) {
                                     //     Db_authen_detail::where('claimcode', $claimCode)->update([
-                                    //         'claimcode'       => $claimCode, 
-                                    //         'claimtype'       => $claimType, 
+                                    //         'claimcode'       => $claimCode,
+                                    //         'claimtype'       => $claimType,
                                     //     ]);
                                     // } else {
                                     //     # code...
-                                    // } 
-                                } 
+                                    // }
+                                }
                     }
-  
+
         return view('authen.check_spsch',[
             'response'  => $response,
             'result'  => $result,
@@ -1186,7 +1186,7 @@ class ChecksitController extends Controller
         $date_start = "2023-08-01";
         $date_end = "2023-08-02";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
-       
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             // CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-01-05&page=0&size=1000',
@@ -1256,65 +1256,65 @@ class ChecksitController extends Controller
             $checkdate = $claimDate[0];
             $checktime = $claimDate[1];
             // dd($transId);
-                $datenow = date("Y-m-d"); 
-           
+                $datenow = date("Y-m-d");
+
                         if ($claimType == 'PG0130001') {
-            
-                        } else {   
-                            // $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count(); 
-                            // $check_detail = Db_authen_detail::where('claimcode','=',$claimCode)->count();  
-                            $check_detail = Check_sit_auto::where('claimcode','=',$claimCode)->count();  
+
+                        } else {
+                            // $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count();
+                            // $check_detail = Db_authen_detail::where('claimcode','=',$claimCode)->count();
+                            $check_detail = Check_sit_auto::where('claimcode','=',$claimCode)->where('claimtype','=',$claimType)->count();
                             if ($check_detail > 0) {
                                 Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                    'claimcode'       => $claimCode, 
-                                    'claimtype'       => $claimType, 
+                                    'claimcode'       => $claimCode,
+                                    'claimtype'       => $claimType,
                                 ]);
                                 Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                    'claimcode'       => $claimCode, 
-                                    'claimtype'       => $claimType, 
+                                    'claimcode'       => $claimCode,
+                                    'claimtype'       => $claimType,
                                 ]);
                             } else {
                                 Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                    'claimcode'       => $claimCode, 
-                                    'claimtype'       => $claimType, 
+                                    'claimcode'       => $claimCode,
+                                    'claimtype'       => $claimType,
                                 ]);
                                 Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                    'claimcode'       => $claimCode, 
-                                    'claimtype'       => $claimType, 
+                                    'claimcode'       => $claimCode,
+                                    'claimtype'       => $claimType,
                                 ]);
                             }
-                                
+
                         }
-                       
+
                     }
- 
+
         return view('authen.check_spsch',[
             'response'  => $response,
             'result'  => $result,
         ]);
 
     }
-    
+
 
     public function check_dashboard(Request $request)
     {
         $date = date('Y-m-d');
         $y = date('Y');
-      
+
         $data_year2 = DB::connection('mysql')->select('
-            SELECT month,year,countvn,authen_opd 
-            FROM db_authen 
+            SELECT month,year,countvn,authen_opd
+            FROM db_authen
             WHERE year = "'.$y.'" and authen_opd <> 0
             and month > 7
         ');
         $data_year3 = DB::connection('mysql')->select('
-            SELECT month,year,countvn,authen_opd 
-            FROM db_authen 
+            SELECT month,year,countvn,authen_opd
+            FROM db_authen
             WHERE year = "'.$y.'" and authen_opd <> 0
         ');
-       
-        return view('dashboard.check_dashboard',[ 
-            'data_year2'              => $data_year2, 
+
+        return view('dashboard.check_dashboard',[
+            'data_year2'              => $data_year2,
         ] );
     }
     public function check_dashboard_bar(Request $request)
@@ -1364,7 +1364,7 @@ class ChecksitController extends Controller
                     'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
-                    'data'            =>  array_values($countvn) 
+                    'data'            =>  array_values($countvn)
                 ],
                 [
                     'label'           =>  'Authen Code',
