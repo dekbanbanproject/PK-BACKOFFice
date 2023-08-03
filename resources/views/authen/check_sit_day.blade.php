@@ -167,7 +167,7 @@
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->vn }}</td>
                                             <td>{{ $item->hn }}</td>
-                                            <td>{{ $item->cid }}</td>.
+                                            <td>{{ $item->cid }}</td>
                                             <td>{{ $item->hometel }}</td>
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->fullname }}</td>

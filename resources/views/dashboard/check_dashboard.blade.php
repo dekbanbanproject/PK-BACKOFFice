@@ -69,139 +69,25 @@
 
             <div class="col-xl-7 col-md-3">
                 <div class="main-card card">
-                    <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{ $ynow }}</h5>
+                    <h5 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h5>
                     <div style="height:auto;" class="p-2">
                         <canvas id="Mychart"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-xl-5 col-md-3">
-                <div class="main-card mb-3 card p-2">
-                    <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{ $ynow }}</h5>
+                <div class="main-card mb-1 card p-1">
+                    <h5 class="card-title mt-1 ms-2">Authen Report Day ปี พ.ศ.{{ $ynow }}</h5>
                     <div class="row">
-                        @foreach ($data_year2 as $item)
+                        @foreach ($data_year3 as $item)
                             <div class="col-sm-12 col-md-6">
                                 @if ($item->month == '1')
                                     <div
-                                        class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-primary card shadow-lg">
-                                    @elseif ($item->month == '2')
+                                        class="widget-chart widget-chart2 text-start mb-1 card-btm-border card-shadow-primary border-primary card shadow-lg">
+                                @elseif ($item->month == '2')
                                         <div
-                                            class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-info card shadow-lg">
-                                        @elseif ($item->month == '3')
-                                            <div
-                                                class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-warning card shadow-lg">
-                                            @elseif ($item->month == '4')
-                                                <div
-                                                    class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-danger card shadow-lg">
-                                                @elseif ($item->month == '5')
-                                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                        style="border-block-color: rgb(209, 116, 252)">
-                                                    @elseif ($item->month == '6')
-                                                        <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                            style="border-block-color: pink">
-                                                        @elseif ($item->month == '7')
-                                                            <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                                style="border-block-color: rgb(161, 84, 206)">
-                                                            @elseif ($item->month == '8')
-                                                                <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                                    style="border-block-color: rgb(240, 84, 110)">
-                                                                @elseif ($item->month == '9')
-                                                                    <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                                        style="border-block-color: rgb(119, 109, 247)">
-                                                                    @elseif ($item->month == '10')
-                                                                        <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                                            style="border-block-color: rgb(70, 235, 133)">
-                                                                        @elseif ($item->month == '11')
-                                                                            <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                                                style="border-block-color: rgb(185, 221, 53)">
-                                                                            @else
-                                                                                <div class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary card shadow-lg"
-                                                                                    style="border-block-color: rgb(248, 149, 68)">
-                                @endif
-                                <div class="widget-chat-wrapper-outer">
-                                    <div class="widget-chart-content"> 
-                                        @if ($item->month == '1')
-                                            <h5 class="widget-subheading">มกราคม</h5>
-                                        @elseif ($item->month == '2')
-                                            <h5 class="widget-subheading">กุมภาพันธ์</h5>
-                                        @elseif ($item->month == '3')
-                                            <h5 class="widget-subheading">มีนาคม</h5>
-                                        @elseif ($item->month == '4')
-                                            <h5 class="widget-subheading">เมษายน</h5>
-                                        @elseif ($item->month == '5')
-                                            <h5 class="widget-subheading">พฤษภาคม</h5>
-                                        @elseif ($item->month == '6')
-                                            <h5 class="widget-subheading">มิถุนายน</h5>
-                                        @elseif ($item->month == '7')
-                                            <h5 class="widget-subheading">กรกฎาคม</h5>
-                                        @elseif ($item->month == '8')
-                                            <h5 class="widget-subheading">สิงหาคม</h5>
-                                        @elseif ($item->month == '9')
-                                            <h5 class="widget-subheading">กันยายน</h5>
-                                        @elseif ($item->month == '10')
-                                            <h5 class="widget-subheading">ตุลาคม</h5>
-                                        @elseif ($item->month == '11')
-                                            <h5 class="widget-subheading">พฤษจิกายน</h5>
-                                        @else
-                                            <div class="widget-title opacity-5 text-uppercase">ธันวาคม</div>
-                                        @endif
-                                        <div class="widget-chart-flex">
-                                            <div class="widget-numbers mb-0 w-100">
-                                                <div class="widget-chart-flex">
-                                                    <div class="fsize-2 text-warning">
-                                                        <small class="opacity-5 text-muted"><i
-                                                                class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
-                                                        <label for="" style="font-size: 13px"> {{ $item->countvn }}
-                                                            คน</label> 
-                                                    </div>
-                                                    <div class="ms-auto"> 
-                                                        <div class="widget-title ms-auto font-size-lg fw-normal text-muted"> 
-                                                            <span class="text-success ps-2 me-2">
-                                                                <span class="pe-1">
-                                                                    <i class="fa fa-angle-left"></i>
-                                                                </span>
-                                                                <label for="" style="font-size: 12px">
-                                                                    {{ $item->authen_opd }}</label>
-                                                            </span>
-                                                            /
-                                                            <a href=""> 
-                                                                <span class="text-danger ps-2">
-                                                                    <label for="" style="font-size: 12px">
-                                                                        {{ $item->countvn - $item->authen_opd }}
-                                                                        คน</label> 
-                                                                </span>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            
-
-        </div>
-
-        <div class="row">
-
-            {{-- <div class="col-xl-12 col-md-3">
-                <div class="main-card mb-3 card p-2">
-                    <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{ $ynow }}</h5>
-                    <div class="row">
-                        @foreach ($data_year2 as $item)
-                            <div class="col-sm-12 col-md-4">
-                                @if ($item->month == '1')
-                                    <div
-                                        class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-primary card shadow-lg">
-                                    @elseif ($item->month == '2')
-                                        <div
-                                            class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-info card shadow-lg">
-                                        @elseif ($item->month == '3')
+                                            class="widget-chart widget-chart2 text-start mb-1 card-btm-border card-shadow-primary border-info card shadow-lg">
+                                @elseif ($item->month == '3')
                                             <div
                                                 class="widget-chart widget-chart2 text-start mb-3 card-btm-border card-shadow-primary border-warning card shadow-lg">
                                             @elseif ($item->month == '4')
@@ -234,66 +120,61 @@
                                 @endif
                                 <div class="widget-chat-wrapper-outer">
                                     <div class="widget-chart-content">
-
                                         @if ($item->month == '1')
-                                            <h5 class="widget-subheading">มกราคม</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} มกราคม</h5>
                                         @elseif ($item->month == '2')
-                                            <h5 class="widget-subheading">กุมภาพันธ์</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} กุมภาพันธ์</h5>
                                         @elseif ($item->month == '3')
-                                            <h5 class="widget-subheading">มีนาคม</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} มีนาคม</h5>
                                         @elseif ($item->month == '4')
-                                            <h5 class="widget-subheading">เมษายน</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} เมษายน</h5>
                                         @elseif ($item->month == '5')
-                                            <h5 class="widget-subheading">พฤษภาคม</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} พฤษภาคม</h5>
                                         @elseif ($item->month == '6')
-                                            <h5 class="widget-subheading">มิถุนายน</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} มิถุนายน</h5>
                                         @elseif ($item->month == '7')
-                                            <h5 class="widget-subheading">กรกฎาคม</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} กรกฎาคม</h5>
                                         @elseif ($item->month == '8')
-                                            <h5 class="widget-subheading">สิงหาคม</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} สิงหาคม</h5>
                                         @elseif ($item->month == '9')
-                                            <h5 class="widget-subheading">กันยายน</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} กันยายน</h5>
                                         @elseif ($item->month == '10')
-                                            <h5 class="widget-subheading">ตุลาคม</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} ตุลาคม</h5>
                                         @elseif ($item->month == '11')
-                                            <h5 class="widget-subheading">พฤษจิกายน</h5>
+                                            <h5 class="widget-subheading">วันที่ {{ $item->day }} พฤษจิกายน</h5>
                                         @else
-                                            <div class="widget-title opacity-5 text-uppercase">ธันวาคม</div>
+                                            <div class="widget-title opacity-5 text-uppercase">วันที่{{ $item->day }}ธันวาคม</div>
                                         @endif
+                                        {{-- <div class="widget-title opacity-5 text-uppercase">ธันวาคม</div> --}}
                                         <div class="widget-chart-flex">
                                             <div class="widget-numbers mb-0 w-100">
                                                 <div class="widget-chart-flex">
                                                     <div class="fsize-2 text-warning">
-                                                        <small class="opacity-5 text-muted"><i
-                                                                class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
-                                                        <label for="" style="font-size: 13px"> {{ $item->countvn }}
-                                                            คน</label>
-
+                                                        {{-- <a href="{{ url('report_authen_sub/' . $item->day) }}"  target="_blank"> --}}
+                                                            <small class="opacity-5 text-warning">
+                                                                <i class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
+                                                            <label for="" style="font-size: 13px" class="me-4"> {{ $item->VN }} คน</label>
+                                                        {{-- </a> --}}
+                                                    </div>
+                                                    <div class="fsize-2 text-success ms-4">
+                                                        <a href="{{ url('check_dashboard_authen/' . $item->day.'/'. $item->month.'/'. $item->year) }}"  target="_blank">
+                                                            <small class="opacity-5 text-success">
+                                                                <i class="fa-solid fa-circle-up me-2"></i>
+                                                            </small>
+                                                            <label for="" style="font-size: 13px"> {{ $item->Authen }} คน</label>
+                                                        </a>
                                                     </div>
                                                     <div class="ms-auto">
-
                                                         <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
 
-                                                            <span class="text-success ps-2 me-2">
-                                                                <span class="pe-1">
-                                                                    <i class="fa fa-angle-left"></i>
-                                                                </span>
-                                                                <label for="" style="font-size: 12px">
-                                                                    {{ $item->authen_opd }}</label>
-                                                            </span>
-                                                            /
-                                                            <a href="{{ url('report_authen_sub/' . $item->month . '/' . $item->year) }}"
-                                                                target="_blank">
-
+                                                            <a href="{{ url('check_dashboard_noauthen/' . $item->day.'/'. $item->month.'/'. $item->year) }}"  target="_blank">
                                                                 <span class="text-danger ps-2">
+                                                                    <small class="opacity-5 text-danger">
+                                                                        <i class="fa-solid fa-circle-down me-2"></i>
+                                                                    </small>
                                                                     <label for="" style="font-size: 12px">
-                                                                        {{ $item->countvn - $item->authen_opd }}
+                                                                        {{$item->Noauthen }}
                                                                         คน</label>
-
-                                                                    <span class="pe-1"> Detail =
-                                                                        <i class="fa fa-angle-right"></i>
-                                                                    </span>
-
                                                                 </span>
                                                             </a>
                                                         </div>
@@ -307,11 +188,24 @@
                     </div>
                     @endforeach
                 </div>
-            </div> --}}
+            </div>
 
-            <div class="col-xl-12 col-md-3">
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-xl-6 col-md-3">
                 <div class="main-card card">
-                    <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{ $ynow }}</h5>
+                    <h5 class="card-title mt-2 ms-2">Authen Report แผนก ปี พ.ศ.{{ $ynow }}</h5>
+                    {{-- <div style="height:auto;" class="p-2">
+                        <canvas id="Mychart"></canvas>
+                    </div> --}}
+                </div>
+            </div>
+            <div class="col-xl-6 col-md-3">
+                <div class="main-card card">
+                    <h5 class="card-title mt-2 ms-2">Authen Report เจ้าหน้าที่ ปี พ.ศ.{{ $ynow }}</h5>
                     {{-- <div style="height:auto;" class="p-2">
                         <canvas id="Mychart"></canvas>
                     </div> --}}

@@ -1301,6 +1301,7 @@ class ChecksitController extends Controller
     {
         $date = date('Y-m-d');
         $y = date('Y');
+        $m = date('m');
 
         $data_year2 = DB::connection('mysql')->select('
             SELECT month,year,countvn,authen_opd
@@ -1309,13 +1310,40 @@ class ChecksitController extends Controller
             and month > 7
         ');
         $data_year3 = DB::connection('mysql')->select('
-            SELECT month,year,countvn,authen_opd
-            FROM db_authen
-            WHERE year = "'.$y.'" and authen_opd <> 0
+                SELECT
+                MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,COUNT(DISTINCT c.vn) as VN
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE month(c.vstdate) = "'.$m.'"
+                GROUP BY day
         ');
 
         return view('dashboard.check_dashboard',[
-            'data_year2'              => $data_year2,
+            'data_year2'       => $data_year2,
+            'data_year3'       => $data_year3,
+        ] );
+    }
+    public function check_dashboard_authen(Request $request,$day,$month,$year)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $m = date('m');
+
+        $data_sit = DB::connection('mysql')->select('
+            SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
+            from check_sit_auto c
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            WHERE DAY(vstdate) = "'.$day.'" AND MONTH(vstdate) = "'.$month.'" AND YEAR(vstdate) = "'.$year.'" AND c.claimcode  <> ""
+        ');
+
+        return view('dashboard.check_dashboard_authen',[
+            'data_sit'       => $data_sit,
+            // 'data_year3'       => $data_year3,
         ] );
     }
     public function check_dashboard_bar(Request $request)

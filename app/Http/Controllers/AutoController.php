@@ -116,12 +116,12 @@ class AutoController extends Controller
         // dd($content);
 
         foreach ($content as $key => $value) {
-            $transId = $value['transId']; 
+            $transId = $value['transId'];
             isset( $value['patientName'] ) ? $patientName = $value['patientName'] : $patientName = "";
-         
+
             $claimDate = explode("T",$value['claimDate']);
             $checkdate = $claimDate[0];
-            $checktime = $claimDate[1]; 
+            $checktime = $claimDate[1];
         }
         return view('auto.checkauthen_autospsch',[
             'response'  => $response,
@@ -180,30 +180,31 @@ class AutoController extends Controller
     public function sit_pull_auto(Request $request)
     {
             $data_sits = DB::connection('mysql3')->select('
-                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
                 ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
                 FROM ovst o
                 LEFT JOIN vn_stat v on v.vn = o.vn
                 join patient p on p.hn=o.hn
                 JOIN pttype pt on pt.pttype=o.pttype
                 JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE()
-                AND o.main_dep NOT IN("011","036","107") 
+                WHERE o.vstdate = "2023-08-01"
+                AND o.main_dep NOT IN("011","036","107")
                 AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                 group by o.vn
                 limit 1500
             ');
-            // CURDATE()
+            // CURDATE() "2023-08-01"
             foreach ($data_sits as $key => $value) {
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
-            
+
                 if ($check > 0) {
                     Check_sit_auto::where('vn', $value->vn)
-                        ->update([ 
-                            'an'       => $value->an, 
+                        ->update([
+                            'an'       => $value->an,
                             'hn'         => $value->hn,
                             'cid'        => $value->cid,
                             'vstdate'    => $value->vstdate,
+                            'hometel'    => $value->hometel,
                             'vsttime'    => $value->vsttime,
                             'fullname'   => $value->fullname,
                             'pttype'     => $value->pttype,
@@ -220,6 +221,7 @@ class AutoController extends Controller
                         'hn'         => $value->hn,
                         'cid'        => $value->cid,
                         'vstdate'    => $value->vstdate,
+                        'hometel'    => $value->hometel,
                         'vsttime'    => $value->vsttime,
                         'fullname'   => $value->fullname,
                         'pttype'     => $value->pttype,
@@ -229,9 +231,9 @@ class AutoController extends Controller
                         'staff'      => $value->staff,
                         'debit'      => $value->debit
                     ]);
-                   
+
                 }
-                
+
             }
             // $data_sits_ipd = DB::connection('mysql3')->select('
             //         SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
@@ -982,16 +984,16 @@ class AutoController extends Controller
     }
 
     public function authen_auto_year(Request $request)
-    { 
+    {
         Db_authen::truncate();
             $date = date('Y-m-d');
             $y = date('Y');
             $db_year_ = DB::connection('mysql3')->select('
-            SELECT  COUNT(DISTINCT o.vn) as countvn ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year 
+            SELECT  COUNT(DISTINCT o.vn) as countvn ,MONTH(o.vstdate) as month,YEAR(o.vstdate) as year
                         FROM ovst o
                         LEFT JOIN vn_stat v on v.vn = o.vn
                         LEFT JOIN patient p on p.hn = o.hn
-                   
+
                         WHERE YEAR(o.vstdate) = "'.$y.'"
                         AND o.main_dep NOT IN("011","036","107")
                         AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
@@ -1010,44 +1012,44 @@ class AutoController extends Controller
                 ]);
             }
 
-            $db_year_update = DB::connection('mysql')->select(' 
-                        SELECT COUNT(*) as count_authen,MONTH(vstdate) as months,YEAR(vstdate) as years 
+            $db_year_update = DB::connection('mysql')->select('
+                        SELECT COUNT(*) as count_authen,MONTH(vstdate) as months,YEAR(vstdate) as years
                         FROM check_authen
                         WHERE YEAR(vstdate) = "'.$y.'" AND claimtype ="PG0060001"
                         GROUP BY months
                         ORDER BY months ASC
-            '); 
+            ');
             foreach ($db_year_update as $key => $value4) {
                 $yearnew = $value4->years;
                 Db_authen::where('month', $value4->months)->where('year', $yearnew)
                 ->update([
-                    'authen_opd'      => $value4->count_authen, 
+                    'authen_opd'      => $value4->count_authen,
                 ]);
-            } 
+            }
 
             return view('auto.authen_auto_year');
     }
     public function db_authen_detail(Request $request)
-    { 
+    {
         // Db_authen_detail
         $detail_auto = DB::connection('mysql3')->select('
-                SELECT "" db_authen_detail_id  
-                ,o.vn,o.an,o.hn,showcid(p.cid) as cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,o.staff,v.income-v.discount_money-v.rcpt_money debit 
+                SELECT "" db_authen_detail_id
+                ,o.vn,o.an,o.hn,showcid(p.cid) as cid,v.vstdate,concat(p.pname,p.fname," ",p.lname) as ptname,o.staff,v.income-v.discount_money-v.rcpt_money debit
                 ,"" created_at,"" updated_at
                 FROM ovst o
                 LEFT JOIN vn_stat v on v.vn = o.vn
                 LEFT JOIN patient p on p.hn = o.hn
-                
+
                 WHERE o.vstdate = CURDATE()
                 AND o.main_dep NOT IN("011","036","107")
-                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6") 
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                 GROUP BY o.vn
             ');
 
             foreach ($detail_auto as $key => $value) {
                 $check = Db_authen_detail::where('vn','=',$value->vn)->count();
                 if ($check > 0) {
-                    Db_authen_detail::where('vn', $value->vn)->update([ 
+                    Db_authen_detail::where('vn', $value->vn)->update([
                         'an'           => $value->an,
                         'hn'           => $value->hn,
                         'cid'          => $value->cid,
@@ -1068,8 +1070,8 @@ class AutoController extends Controller
                         'debit'        => $value->debit,
                     ]);
                 }
-                
-                
+
+
             }
         return view('auto.db_authen_detail');
     }
