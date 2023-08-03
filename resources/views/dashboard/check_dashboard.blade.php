@@ -67,7 +67,7 @@
 
         <div class="row">
 
-            <div class="col-xl-7 col-md-3">
+            <div class="col-xl-6 col-md-3">
                 <div class="main-card card">
                     <h5 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h5>
                     <div style="height:auto;" class="p-2">
@@ -75,12 +75,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-5 col-md-3">
+            <div class="col-xl-6 col-md-3">
                 <div class="main-card mb-1 card p-1">
                     <h5 class="card-title mt-1 ms-2">Authen Report Day ปี พ.ศ.{{ $ynow }}</h5>
                     <div class="row">
                         @foreach ($data_year3 as $item)
-                            <div class="col-sm-12 col-md-6">
+                            <div class="col-sm-12 col-md-4">
                                 @if ($item->month == '1')
                                     <div
                                         class="widget-chart widget-chart2 text-start mb-1 card-btm-border card-shadow-primary border-primary card shadow-lg">
@@ -152,14 +152,14 @@
                                                     <div class="fsize-2 text-warning">
                                                         {{-- <a href="{{ url('report_authen_sub/' . $item->day) }}"  target="_blank"> --}}
                                                             <small class="opacity-5 text-warning">
-                                                                <i class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
-                                                            <label for="" style="font-size: 13px" class="me-4"> {{ $item->VN }} คน</label>
+                                                                <i class="fa-solid fa-person-walking-arrow-right me-1"></i></small>
+                                                            <label for="" style="font-size: 13px" class="me-1"> {{ $item->VN }} คน</label>
                                                         {{-- </a> --}}
                                                     </div>
-                                                    <div class="fsize-2 text-success ms-4">
+                                                    <div class="fsize-2 text-success ms-2">
                                                         <a href="{{ url('check_dashboard_authen/' . $item->day.'/'. $item->month.'/'. $item->year) }}"  target="_blank">
                                                             <small class="opacity-5 text-success">
-                                                                <i class="fa-solid fa-circle-up me-2"></i>
+                                                                <i class="fa-solid fa-circle-up me-1"></i>
                                                             </small>
                                                             <label for="" style="font-size: 13px"> {{ $item->Authen }} คน</label>
                                                         </a>
@@ -170,7 +170,7 @@
                                                             <a href="{{ url('check_dashboard_noauthen/' . $item->day.'/'. $item->month.'/'. $item->year) }}"  target="_blank">
                                                                 <span class="text-danger ps-2">
                                                                     <small class="opacity-5 text-danger">
-                                                                        <i class="fa-solid fa-circle-down me-2"></i>
+                                                                        <i class="fa-solid fa-circle-down me-1"></i>
                                                                     </small>
                                                                     <label for="" style="font-size: 12px">
                                                                         {{$item->Noauthen }}
