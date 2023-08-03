@@ -67,7 +67,7 @@
 
         <div class="row">
 
-            <div class="col-xl-7 col-md-3">
+            <div class="col-xl-8 col-md-3">
                 <div class="main-card card">
                     <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{ $ynow }}</h5>
                     <div style="height:auto;" class="p-2">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-5 col-md-3">
+            <div class="col-xl-4 col-md-3">
                 <div class="main-card mb-3 card p-2">
                     <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{ $ynow }}</h5>
                     <div class="row">
@@ -119,7 +119,8 @@
                                                                                     style="border-block-color: rgb(248, 149, 68)">
                                 @endif
                                 <div class="widget-chat-wrapper-outer">
-                                    <div class="widget-chart-content"> 
+                                    <div class="widget-chart-content">
+
                                         @if ($item->month == '1')
                                             <h5 class="widget-subheading">มกราคม</h5>
                                         @elseif ($item->month == '2')
@@ -152,10 +153,13 @@
                                                         <small class="opacity-5 text-muted"><i
                                                                 class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
                                                         <label for="" style="font-size: 13px"> {{ $item->countvn }}
-                                                            คน</label> 
+                                                            คน</label>
+
                                                     </div>
-                                                    <div class="ms-auto"> 
-                                                        <div class="widget-title ms-auto font-size-lg fw-normal text-muted"> 
+                                                    <div class="ms-auto">
+
+                                                        <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+
                                                             <span class="text-success ps-2 me-2">
                                                                 <span class="pe-1">
                                                                     <i class="fa fa-angle-left"></i>
@@ -164,11 +168,17 @@
                                                                     {{ $item->authen_opd }}</label>
                                                             </span>
                                                             /
-                                                            <a href=""> 
+                                                            <a href="">
+                                                            {{-- <a href="{{ url('report_authen_sub/' . $item->month . '/' . $item->year) }}" target="_blank"> --}}
                                                                 <span class="text-danger ps-2">
                                                                     <label for="" style="font-size: 12px">
                                                                         {{ $item->countvn - $item->authen_opd }}
-                                                                        คน</label> 
+                                                                        คน</label>
+
+                                                                    {{-- <span class="pe-1"> Detail =
+                                                                        <i class="fa fa-angle-right"></i>
+                                                                    </span> --}}
+
                                                                 </span>
                                                             </a>
                                                         </div>
@@ -308,16 +318,6 @@
                     @endforeach
                 </div>
             </div> --}}
-
-            <div class="col-xl-12 col-md-3">
-                <div class="main-card card">
-                    <h5 class="card-title mt-2 ms-2">Authen Report Month OPD ปี พ.ศ.{{ $ynow }}</h5>
-                    {{-- <div style="height:auto;" class="p-2">
-                        <canvas id="Mychart"></canvas>
-                    </div> --}}
-                </div>
-            </div>
-
         </div>
 
     </div>

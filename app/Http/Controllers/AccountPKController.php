@@ -7653,7 +7653,7 @@ class AccountPKController extends Controller
             @$TBills = $result['TBills']['TBill'];
             // @$TBills = $result['TBills']['HDBills']['TBill']; //sss
             $bills_       = @$TBills;
-            // dd($bills_ );
+            dd($bills_ );
             $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
             if ($checkchead > 0) {
                 # code...

@@ -1405,4 +1405,45 @@ class ReportFontController extends Controller
         return Excel::download(new RefercrossExport,'Refer_export.xlsx');
     }
 
+
+    // Check_sit_auto::where('claimcode', $claimCode)
+    // ->update([ 
+    //     'claimcode'       => $value->claimcode, 
+    //     'claimtype'       => $value->claimtype,  
+    // ]);
+    // Check_sit_auto::create([
+    //     'cid'                        => $personalId,
+    //     'fullname'                   => $patientName,
+    //     'hosname'                    => $hname,
+    //     'hcode'                      => $hmain,
+    //     'vstdate'                    => $checkdate,
+    //     'regdate'                    => $checkdate,
+    //     'claimcode'                  => $claimCode,
+    //     'claimtype'                  => $claimType,
+    //     'birthday'                   => $birthdate,
+    //     'homtel'                     => $tel,
+    //     'repcode'                    => $claimStatus,
+    //     'hncode'                     => $hnCode,
+    //     'servicerep'                 => $patientType,
+    //     'servicename'                => $claimTypeName,
+    //     'mainpttype'                 => $mainInsclWithName,
+    //     'subpttype'                  => $subInsclName,
+    //     'requestauthen'              => $sourceChannel,
+    //     'authentication'             => $claimAuthen,
+
+    // ]);
+    // Db_authen_detail::where('claimcode', $claimCode)->update([
+    //     'claimcode'       => $claimCode, 
+    //     'claimtype'       => $claimType, 
+    // ]);
+
+    // Db_authen_detail::where('vn', $value->vn)->update([ 
+    //     'an'           => $value->an,
+    //     'hn'           => $value->hn,
+    //     'cid'          => $value->cid,
+    //     'vstdate'      => $value->vstdate,
+    //     'ptname'       => $value->ptname,
+    //     'staff'        => $value->staff,
+    //     'debit'        => $value->debit,
+    // ]);
 }

@@ -134,6 +134,7 @@ Route::match(['get','post'],'check_dashboard_bar',[App\Http\Controllers\Checksit
 
 Route::match(['get','post'],'check_web',[App\Http\Controllers\ChecksitController::class, 'check_web'])->name('claim.check_web');//
 Route::match(['get','post'],'check_spsch',[App\Http\Controllers\ChecksitController::class, 'check_spsch'])->name('claim.check_spsch');//
+Route::match(['get','post'],'check_spsch_detail',[App\Http\Controllers\ChecksitController::class, 'check_spsch_detail'])->name('claim.check_spsch_detail');//
 Route::match(['get','post'],'check_sit_daysitauto',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysitauto'])->name('claim.check_sit_daysitauto');//
 Route::match(['get','post'],'check_sit_daypullauto',[App\Http\Controllers\ChecksitController::class, 'check_sit_daypullauto'])->name('claim.check_sit_daypullauto');//
 

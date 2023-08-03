@@ -180,7 +180,8 @@
 
                                             @if ($item->claimcode == '')
                                                 {{-- <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td> --}}
-                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
+                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
+                                                {{-- {{ $item->servicerep }} --}}
                                             @else
                                                 {{-- <td>{{ $item->claimcode }}</td> --}}
                                                 <td>{{ $item->claimtype }}</td>
@@ -218,7 +219,7 @@
                                             <td>{{ $item->hsub }}</td>
                                             @if ($item->claimcode == '')
                                                 {{-- <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td> --}}
-                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
+                                                <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
                                             @else
                                                 {{-- <td>{{ $item->claimcode }}</td> --}}
                                                 <td>{{ $item->claimtype }}</td>
@@ -245,7 +246,7 @@
                                             <td>{{ $item->hsub }}</td>
                                             @if ($item->claimcode == '')
                                             {{-- <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td> --}}
-                                            <td style="background-color: rgb(250, 139, 139)">{{ $item->servicerep }}</td>
+                                            <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
                                             @else
                                                 {{-- <td>{{ $item->claimcode }}</td> --}}
                                                 <td>{{ $item->claimtype }}</td>

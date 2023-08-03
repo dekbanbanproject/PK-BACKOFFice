@@ -180,13 +180,17 @@ class AutoController extends Controller
     public function sit_pull_auto(Request $request)
     {
             $data_sits = DB::connection('mysql3')->select('
-                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff
+                ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
                 FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
                 join patient p on p.hn=o.hn
                 JOIN pttype pt on pt.pttype=o.pttype
                 JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate =CURDATE()
-                group by p.cid
+                WHERE o.vstdate = CURDATE()
+                AND o.main_dep NOT IN("011","036","107") 
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
+                group by o.vn
                 limit 1500
             ');
             // CURDATE()
@@ -195,11 +199,20 @@ class AutoController extends Controller
             
                 if ($check > 0) {
                     Check_sit_auto::where('vn', $value->vn)
-                            ->update([ 
-                                'an'       => $value->an, 
-                                'pttype'   => $value->pttype, 
-                                'main_dep' => $value->main_dep, 
-                            ]);
+                        ->update([ 
+                            'an'       => $value->an, 
+                            'hn'         => $value->hn,
+                            'cid'        => $value->cid,
+                            'vstdate'    => $value->vstdate,
+                            'vsttime'    => $value->vsttime,
+                            'fullname'   => $value->fullname,
+                            'pttype'     => $value->pttype,
+                            'hospmain'   => $value->hospmain,
+                            'hospsub'    => $value->hospsub,
+                            'main_dep'   => $value->main_dep,
+                            'staff'      => $value->staff,
+                            'debit'      => $value->debit
+                        ]);
                 } else {
                     Check_sit_auto::insert([
                         'vn'         => $value->vn,
@@ -213,38 +226,39 @@ class AutoController extends Controller
                         'hospmain'   => $value->hospmain,
                         'hospsub'    => $value->hospsub,
                         'main_dep'   => $value->main_dep,
-                        'staff'      => $value->staff
+                        'staff'      => $value->staff,
+                        'debit'      => $value->debit
                     ]);
                    
                 }
                 
             }
-            $data_sits_ipd = DB::connection('mysql3')->select('
-                    SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
-                    from hos.opitemrece op
-                    LEFT JOIN hos.ipt ip ON ip.an = op.an
-                    LEFT JOIN hos.an_stat a ON ip.an = a.an
-                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
-                    LEFT JOIN patient p on p.hn=a.hn
-                    WHERE a.dchdate = CURDATE()
-                    group by p.cid
-                    limit 1500
+            // $data_sits_ipd = DB::connection('mysql3')->select('
+            //         SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
+            //         from hos.opitemrece op
+            //         LEFT JOIN hos.ipt ip ON ip.an = op.an
+            //         LEFT JOIN hos.an_stat a ON ip.an = a.an
+            //         LEFT JOIN hos.vn_stat v on v.vn = a.vn
+            //         LEFT JOIN patient p on p.hn=a.hn
+            //         WHERE a.dchdate = CURDATE()
+            //         group by p.cid
+            //         limit 1500
 
-            ');
+            // ');
             // CURDATE()
-            foreach ($data_sits_ipd as $key => $value2) {
-                $check = Check_sit_auto::where('an', $value2->an)->count();
-                if ($check == 0) {
-                    Check_sit_auto::insert([
-                        'vn' => $value2->vn,
-                        'an' => $value2->an,
-                        'hn' => $value2->hn,
-                        'cid' => $value2->cid,
-                        'pttype' => $value2->pttype,
-                        'dchdate' => $value2->dchdate
-                    ]);
-                }
-            }
+            // foreach ($data_sits_ipd as $key => $value2) {
+            //     $check = Check_sit_auto::where('an', $value2->an)->count();
+            //     if ($check == 0) {
+            //         Check_sit_auto::insert([
+            //             'vn' => $value2->vn,
+            //             'an' => $value2->an,
+            //             'hn' => $value2->hn,
+            //             'cid' => $value2->cid,
+            //             'pttype' => $value2->pttype,
+            //             'dchdate' => $value2->dchdate
+            //         ]);
+            //     }
+            // }
             return view('authen.sit_pull_auto');
     }
 
@@ -275,7 +289,7 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an
             FROM check_sit_auto
-            WHERE vstdate = "2023-07-03"
+            WHERE vstdate = CURDATE()
             AND subinscl IS NULL
             LIMIT 30
         ');
@@ -1026,15 +1040,22 @@ class AutoController extends Controller
                 
                 WHERE o.vstdate = CURDATE()
                 AND o.main_dep NOT IN("011","036","107")
-                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
-                AND o.an is null
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6") 
                 GROUP BY o.vn
             ');
 
             foreach ($detail_auto as $key => $value) {
                 $check = Db_authen_detail::where('vn','=',$value->vn)->count();
                 if ($check > 0) {
-                    # code...
+                    Db_authen_detail::where('vn', $value->vn)->update([ 
+                        'an'           => $value->an,
+                        'hn'           => $value->hn,
+                        'cid'          => $value->cid,
+                        'vstdate'      => $value->vstdate,
+                        'ptname'       => $value->ptname,
+                        'staff'        => $value->staff,
+                        'debit'        => $value->debit,
+                    ]);
                 } else {
                     Db_authen_detail::insert([
                         'vn'           => $value->vn,

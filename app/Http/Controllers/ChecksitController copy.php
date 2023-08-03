@@ -211,22 +211,13 @@ class ChecksitController extends Controller
         $datestart = $request->startdate;
         $dateend = $request->enddate;
 
-            // $data_sit = DB::connection('mysql')->select('
-            //     SELECT
-            //     c.vn,c.hn,c.an,c.cid,c.hometel,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl,c.main_dep
-            //     ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,c.staff,c.fokliad,k.department
-            //     FROM check_sit_auto c
-            //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            //     LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate 
-
-            //     WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
-            //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6")
-            //     GROUP BY c.vn
-            // ');
             $data_sit = DB::connection('mysql')->select('
-                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
+                SELECT
+                c.vn,c.hn,c.an,c.cid,c.hometel,c.vstdate,c.fullname,c.hospmain,c.hospsub,c.pttype,c.subinscl,c.main_dep
+                ,c.hmain,c.hsub,c.subinscl_name,c.`status`,ca.claimcode,ca.servicerep,ca.claimtype,c.staff,c.fokliad,k.department
                 FROM check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                LEFT JOIN check_authen ca ON ca.cid = c.cid and c.vstdate = ca.vstdate 
 
                 WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6")
@@ -241,175 +232,226 @@ class ChecksitController extends Controller
             'end'        => $dateend,
         ]);
     }
-    // public function check_sit_daysearch(Request $request)
-    // {
-    //     $datestart = $request->datestart;
-    //     $dateend = $request->dateend;
-  
+    public function check_sit_daysearch(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        // dd($dateend);
 
-    //     if ($datestart == '') {
-    //         $data_sits = DB::connection('mysql3')->select('
-    //             SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
-    //             FROM ovst o
-    //             join patient p on p.hn=o.hn
-    //             JOIN pttype pt on pt.pttype=o.pttype
-    //             JOIN opduser op on op.loginname = o.staff
-    //             WHERE o.vstdate = CURDATE()
-    //             group by p.cid
-    //         '); 
-    //         foreach ($data_sits as $key => $value) { 
-    //             $check = Check_sit_auto::where('vn', $value->vn)->count();
-    //             if ($check > 0) {
-    //                 Check_sit_auto::where('vn', $value->vn)
-    //                     ->update([
-    //                         'hn' => $value->hn,
-    //                         'cid' => $value->cid,
-    //                         'vstdate' => $value->vstdate,
-    //                         'vsttime' => $value->vsttime,
-    //                         'fullname' => $value->fullname,
-    //                         'hospmain' => $value->hospmain,
-    //                         'hospsub' => $value->hospsub,
-    //                         'pttype' => $value->pttype,
-    //                         'staff' => $value->staff
-    //                     ]);
-    //             } else {
-    //                 Check_sit_auto::insert([
-    //                     'vn' => $value->vn,
-    //                     'hn' => $value->hn,
-    //                     'cid' => $value->cid,
-    //                     'vstdate' => $value->vstdate,
-    //                     'vsttime' => $value->vsttime,
-    //                     'fullname' => $value->fullname,
-    //                     'pttype' => $value->pttype,
-    //                     'hospmain' => $value->hospmain,
-    //                     'hospsub' => $value->hospsub,
-    //                     'staff' => $value->staff
-    //                 ]);
-    //             }
-    //         }
+        if ($datestart == '') {
+            $data_sits = DB::connection('mysql3')->select('
+                SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                FROM ovst o
+                join patient p on p.hn=o.hn
+                JOIN pttype pt on pt.pttype=o.pttype
+                JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate = CURDATE()
+                group by p.cid
+            ');
+            // AND pt.pttype_eclaim_id not in("06","27","28","36")
+            foreach ($data_sits as $key => $value) {
+                // Check_sit_auto::truncate();
+                $check = Check_sit_auto::where('vn', $value->vn)->count();
+                if ($check > 0) {
+                    Check_sit_auto::where('vn', $value->vn)
+                        ->update([
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'pttype' => $value->pttype,
+                            'staff' => $value->staff
+                        ]);
+                } else {
+                    Check_sit_auto::insert([
+                        'vn' => $value->vn,
+                        'hn' => $value->hn,
+                        'cid' => $value->cid,
+                        'vstdate' => $value->vstdate,
+                        'vsttime' => $value->vsttime,
+                        'fullname' => $value->fullname,
+                        'pttype' => $value->pttype,
+                        'hospmain' => $value->hospmain,
+                        'hospsub' => $value->hospsub,
+                        'staff' => $value->staff
+                    ]);
+                }
+            }
 
-    //         $data_sit = DB::connection('mysql7')->select('
-    //             SELECT *
-    //             FROM check_sit_auto
-    //             WHERE vstdate = CURDATE()
-    //         ');
+            $data_sit = DB::connection('mysql7')->select('
+                SELECT *
+                FROM check_sit_auto
+                WHERE vstdate = CURDATE()
+            ');
 
-    //     } else {
-    //         $data_sits = DB::connection('mysql3')->select('
-    //             SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
-    //             FROM ovst o
-    //             join patient p on p.hn=o.hn
-    //             JOIN pttype pt on pt.pttype=o.pttype
-    //             JOIN opduser op on op.loginname = o.staff
-    //             WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
-    //             group by p.cid
-    //         ');
-    //             foreach ($data_sits as $key => $value) { 
-    //                 $check = Check_sit_auto::where('vn', $value->vn)->count();
-    //                 if ($check > 0) {
-    //                     Check_sit_auto::where('vn', $value->vn)
-    //                         ->update([
-    //                             'hn' => $value->hn,
-    //                             'cid' => $value->cid,
-    //                             'vstdate' => $value->vstdate,
-    //                             'vsttime' => $value->vsttime,
-    //                             'fullname' => $value->fullname,
-    //                             'hospmain' => $value->hospmain,
-    //                             'hospsub' => $value->hospsub,
-    //                             'pttype' => $value->pttype,
-    //                             'staff' => $value->staff
-    //                         ]);
-    //                 } else {
-    //                     Check_sit_auto::insert([
-    //                         'vn' => $value->vn,
-    //                         'hn' => $value->hn,
-    //                         'cid' => $value->cid,
-    //                         'vstdate' => $value->vstdate,
-    //                         'vsttime' => $value->vsttime,
-    //                         'fullname' => $value->fullname,
-    //                         'pttype' => $value->pttype,
-    //                         'hospmain' => $value->hospmain,
-    //                         'hospsub' => $value->hospsub,
-    //                         'staff' => $value->staff
-    //                     ]);
-    //                 }
-    //             }
-    //         $data_sit = DB::connection('mysql7')->select('
-    //             SELECT *
-    //             FROM check_sit_auto
-    //             WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
-    //         ');
+        } else {
+            $data_sits = DB::connection('mysql3')->select('
+                SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                FROM ovst o
+                join patient p on p.hn=o.hn
+                JOIN pttype pt on pt.pttype=o.pttype
+                JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+                group by p.cid
+            ');
+                foreach ($data_sits as $key => $value) {
+                    // Check_sit_auto::truncate();
+                    $check = Check_sit_auto::where('vn', $value->vn)->count();
+                    if ($check > 0) {
+                        Check_sit_auto::where('vn', $value->vn)
+                            ->update([
+                                'hn' => $value->hn,
+                                'cid' => $value->cid,
+                                'vstdate' => $value->vstdate,
+                                'vsttime' => $value->vsttime,
+                                'fullname' => $value->fullname,
+                                'hospmain' => $value->hospmain,
+                                'hospsub' => $value->hospsub,
+                                'pttype' => $value->pttype,
+                                'staff' => $value->staff
+                            ]);
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn' => $value->vn,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff
+                        ]);
+                    }
+                }
+            $data_sit = DB::connection('mysql7')->select('
+                SELECT *
+                FROM check_sit_auto
+                WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+            ');
 
-    //     }
-      
-    //     return response()->json([
-    //         'status'     => '200',
-    //          'data_sit'    => $data_sit,
-    //         'start'     => $datestart,
-    //         'end'        => $dateend,
-    //     ]);
-        
-    // }
+        }
+        // AND pt.pttype_eclaim_id not in("06","27","28","36")
+
+
+        // if ($datestart == '') {
+        //     $data_sit = DB::connection('mysql7')->select('
+        //         SELECT *
+        //         FROM check_sit_auto
+        //         WHERE vstdate = CURDATE()
+        //     ');
+        // } else {
+        //     $data_sit = DB::connection('mysql7')->select('
+        //         SELECT *
+        //         FROM check_sit_auto
+        //         WHERE vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+        //     ');
+        // }
+        return response()->json([
+            'status'     => '200',
+             'data_sit'    => $data_sit,
+            'start'     => $datestart,
+            'end'        => $dateend,
+        ]);
+        // return view('authen.check_sit_day ',[
+        //     'data_sit'    => $data_sit,
+        //     'start'     => $datestart,
+        //     'end'        => $dateend,
+        // ]);
+    }
      // ดึงข้อมูลมาไว้เช็คสิทธิ์
-    //  public function check_sit_daypullauto(Request $request)
-    //  {
-    //          $data_sits = DB::connection('mysql3')->select('
-    //              SELECT o.an,o.vn,p.hn,p.cid,p.hometel,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.main_dep,o.staff,pt.nhso_code,o.hospmain,o.hospsub
-    //              ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-    //              FROM ovst o
-    //              LEFT JOIN opitemrece op ON op.vn = o.vn
-    //              join patient p on p.hn=o.hn
-    //              JOIN pttype pt on pt.pttype=o.pttype
-    //              JOIN opduser od on od.loginname = o.staff
-    //              WHERE o.vstdate = CURDATE() 
-    //              AND o.main_dep NOT IN("011","036","107")
-    //              AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
-    //              group by o.vn
-    //              limit 1500
-    //          '); 
-    //          foreach ($data_sits as $key => $value) {
-    //              $check = Check_sit_auto::where('vn', $value->vn)->count(); 
-    //                 if ($check > 0) {
-    //                     Check_sit_auto::where('vn', $value->vn)
-    //                     ->update([
-    //                         'vn' => $value->vn,
-    //                         'an' => $value->an,
-    //                         'hn' => $value->hn,
-    //                         'cid' => $value->cid,
-    //                         'hometel' => $value->hometel,
-    //                         'vstdate' => $value->vstdate,
-    //                         'vsttime' => $value->vsttime,
-    //                         'fullname' => $value->fullname,
-    //                         'pttype' => $value->pttype,
-    //                         'hospmain' => $value->hospmain,
-    //                         'hospsub' => $value->hospsub,
-    //                         'staff' => $value->staff,
-    //                         'main_dep' => $value->main_dep, 
-    //                         'fokliad' => $value->fokliad
-    //                     ]);
-    //                 } else {
-    //                     Check_sit_auto::insert([
-    //                         'vn' => $value->vn,
-    //                         'an' => $value->an,
-    //                         'hn' => $value->hn,
-    //                         'cid' => $value->cid,
-    //                         'hometel' => $value->hometel,
-    //                         'vstdate' => $value->vstdate,
-    //                         'vsttime' => $value->vsttime,
-    //                         'fullname' => $value->fullname,
-    //                         'pttype' => $value->pttype,
-    //                         'hospmain' => $value->hospmain,
-    //                         'hospsub' => $value->hospsub,
-    //                         'staff' => $value->staff,
-    //                         'main_dep' => $value->main_dep, 
-    //                         'fokliad' => $value->fokliad
-    //                     ]);
-    //                 }
+     public function check_sit_daypullauto(Request $request)
+     {
+             $data_sits = DB::connection('mysql3')->select('
+                 SELECT o.an,o.vn,p.hn,p.cid,p.hometel,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.main_dep,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                 ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                 FROM ovst o
+                 LEFT JOIN opitemrece op ON op.vn = o.vn
+                 join patient p on p.hn=o.hn
+                 JOIN pttype pt on pt.pttype=o.pttype
+                 JOIN opduser od on od.loginname = o.staff
+                 WHERE o.vstdate = CURDATE() 
+                 AND o.main_dep NOT IN("011","036","107")
+                 AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
+                 group by o.vn
+                 limit 1500
+             ');
+             // CURDATE() "2023-07-10"
+             foreach ($data_sits as $key => $value) {
+                 $check = Check_sit_auto::where('vn', $value->vn)->count();
+                //  $check = Check_sit_auto::where('vn', $value->vn)->where('fokliad', '>', 0)->count();
+                    if ($check > 0) {
+                        Check_sit_auto::where('vn', $value->vn)
+                        ->update([
+                            'vn' => $value->vn,
+                            'an' => $value->an,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'hometel' => $value->hometel,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff,
+                            'main_dep' => $value->main_dep,
+                            // 'fokliad' => 'PG0130001'
+                            'fokliad' => $value->fokliad
+                        ]);
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn' => $value->vn,
+                            'an' => $value->an,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'hometel' => $value->hometel,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff,
+                            'main_dep' => $value->main_dep,
+                            // 'fokliad' => 'PG0060001'
+                            'fokliad' => $value->fokliad
+                        ]);
+                    }
 
-    //          }
-          
-    //          return view('authen.check_sit_daypullauto');
-    //  }
+             }
+             $data_sits_ipd = DB::connection('mysql3')->select('
+                SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
+                from ovst o
+                LEFT JOIN hos.ipt ip ON ip.an = o.an
+                LEFT JOIN hos.an_stat a ON ip.an = a.an
+                LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                LEFT JOIN patient p on p.hn=a.hn
+                WHERE a.dchdate = CURDATE()
+                group by p.cid
+                limit 1500
+
+             ');
+             // CURDATE()
+             foreach ($data_sits_ipd as $key => $value2) {
+                 $check = Check_sit_auto::where('an', $value2->an)->count();
+                 if ($check == 0) {
+                     Check_sit_auto::insert([
+                         'vn' => $value2->vn,
+                         'an' => $value2->an,
+                         'hn' => $value2->hn,
+                         'cid' => $value2->cid,
+                         'pttype' => $value2->pttype,
+                         'dchdate' => $value2->dchdate
+                     ]);
+                 }
+             }
+             return view('authen.check_sit_daypullauto');
+     }
      public function check_sit_daysitauto(Request $request)
      {
          $datestart = $request->datestart;
@@ -574,8 +616,8 @@ class ChecksitController extends Controller
 
     public function check_sit_pull(Request $request)
     {
-        // $datestart = $request->datestart;
-        // $dateend = $request->dateend;
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
         // dd($datestart);
 
         // if ($datestart == '') {
@@ -621,45 +663,46 @@ class ChecksitController extends Controller
         //     }
 
         // } else {
-            // $data_sits = DB::connection('mysql3')->select('
-            //     SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
-            //     FROM ovst o
-            //     join patient p on p.hn=o.hn
-            //     JOIN pttype pt on pt.pttype=o.pttype
-            //     JOIN opduser op on op.loginname = o.staff
-            //     WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
-            //     group by p.cid
-            // ');
-            //     foreach ($data_sits as $key => $value) { 
-            //         $check = Check_sit_auto::where('vn', $value->vn)->count();
-            //         if ($check > 0) {
-            //             Check_sit_auto::where('vn', $value->vn)
-            //                 ->update([
-            //                     'hn' => $value->hn,
-            //                     'cid' => $value->cid,
-            //                     'vstdate' => $value->vstdate,
-            //                     'vsttime' => $value->vsttime,
-            //                     'fullname' => $value->fullname,
-            //                     'hospmain' => $value->hospmain,
-            //                     'hospsub' => $value->hospsub,
-            //                     'pttype' => $value->pttype,
-            //                     'staff' => $value->staff
-            //                 ]);
-            //         } else {
-            //             Check_sit_auto::insert([
-            //                 'vn' => $value->vn,
-            //                 'hn' => $value->hn,
-            //                 'cid' => $value->cid,
-            //                 'vstdate' => $value->vstdate,
-            //                 'vsttime' => $value->vsttime,
-            //                 'fullname' => $value->fullname,
-            //                 'pttype' => $value->pttype,
-            //                 'hospmain' => $value->hospmain,
-            //                 'hospsub' => $value->hospsub,
-            //                 'staff' => $value->staff
-            //             ]);
-            //         }
-            //     }
+            $data_sits = DB::connection('mysql3')->select('
+                SELECT o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,pt.nhso_code,o.hospmain,o.hospsub
+                FROM ovst o
+                join patient p on p.hn=o.hn
+                JOIN pttype pt on pt.pttype=o.pttype
+                JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+                group by p.cid
+            ');
+                foreach ($data_sits as $key => $value) {
+                    // Check_sit_auto::truncate();
+                    $check = Check_sit_auto::where('vn', $value->vn)->count();
+                    if ($check > 0) {
+                        Check_sit_auto::where('vn', $value->vn)
+                            ->update([
+                                'hn' => $value->hn,
+                                'cid' => $value->cid,
+                                'vstdate' => $value->vstdate,
+                                'vsttime' => $value->vsttime,
+                                'fullname' => $value->fullname,
+                                'hospmain' => $value->hospmain,
+                                'hospsub' => $value->hospsub,
+                                'pttype' => $value->pttype,
+                                'staff' => $value->staff
+                            ]);
+                    } else {
+                        Check_sit_auto::insert([
+                            'vn' => $value->vn,
+                            'hn' => $value->hn,
+                            'cid' => $value->cid,
+                            'vstdate' => $value->vstdate,
+                            'vsttime' => $value->vsttime,
+                            'fullname' => $value->fullname,
+                            'pttype' => $value->pttype,
+                            'hospmain' => $value->hospmain,
+                            'hospsub' => $value->hospsub,
+                            'staff' => $value->staff
+                        ]);
+                    }
+                }
             // $data_sit = DB::connection('mysql7')->select('
             //     SELECT *
             //     FROM check_sit_auto
@@ -671,8 +714,8 @@ class ChecksitController extends Controller
         return response()->json([
             'status'     => '200',
             //  'data_sit'    => $data_sit,
-            // 'start'     => $datestart,
-            // 'end'        => $dateend,
+            'start'     => $datestart,
+            'end'        => $dateend,
         ]);
         // return view('authen.check_sit_day ',[
         //     'data_sit'    => $data_sit,
@@ -1049,8 +1092,8 @@ class ChecksitController extends Controller
     public function check_spsch(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-08-01";
-        $date_end = "2023-08-02";
+        $date_start = "2023-04-26";
+        $date_end = "2023-04-26";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
@@ -1125,17 +1168,67 @@ class ChecksitController extends Controller
             $checktime = $claimDate[1];
             // dd($transId);
                 $datenow = date("Y-m-d");        
-                   
+                            //   Visit_pttype_authen_report::where('transId', $transId)
+                            //     ->update([
+                            //         'personalId'                        => $personalId,
+                            //         'patientName'                       => $patientName,
+                            //         'addrNo'                            => $addrNo,
+                            //         'moo'                               => $moo,
+                            //         'moonanName'                        => $moonanName,
+                            //         'tumbonName'                        => $tumbonName,
+                            //         'amphurName'                        => $amphurName,
+                            //         'changwatName'                      => $changwatName,
+                            //         'birthdate'                         => $birthdate,
+                            //         'tel'                               => $tel,
+                            //         'mainInscl'                         => $mainInscl,
+                            //         'mainInsclName'                     => $mainInsclName,
+                            //         'subInscl'                          => $subInscl,
+                            //         'subInsclName'                      => $subInsclName,
+                            //         'claimCode'                         => $claimCode,
+                            //         'claimType'                         => $claimType,
+                            //         'claimTypeName'                     => $claimTypeName,
+                            //         'hnCode'                            => $hnCode,
+                            //         'createBy'                          => $createBy,
+                            //         'mainInsclWithName'                 => $mainInsclWithName,
+                            //         'claimAuthen'                        => $claimAuthen,
+                            //         'date_data'                          => $datenow
+                            //     ]);
+                    // } else {
+                        // $checkcCode = Check_sit_auto::where('vstdate','=',$checkdate)->where('cid','=',$personalId)->where('fokliad','>','0')->count();
+                       
+                        // if ($claimType > 0) {
+                                // $checkc = Check_authen_temp::where('claimtype','=','PG0130001')->count();
                                 if ($claimType == 'PG0130001') {
-                                   
+                                    // Check_authen_temp::where('claimCode', $claimCode)
+                                    //     ->update([
+                                    //         'cid'                        => $personalId,
+                                    //         'fullname'                   => $patientName,
+                                    //         'hosname'                    => $hname,
+                                    //         'hcode'                      => $hmain,
+                                    //         'vstdate'                    => $checkdate,
+                                    //         'regdate'                    => $checkdate,
+                                    //         'claimcode'                  => $claimCode,
+                                    //         'claimtype'                  => $claimType,
+                                    //         'birthday'                   => $birthdate,
+                                    //         'homtel'                     => $tel,
+                                    //         'repcode'                    => $claimStatus,
+                                    //         'hncode'                     => $hnCode,
+                                    //         'servicerep'                 => $patientType,
+                                    //         'servicename'                => $claimTypeName,
+                                    //         'mainpttype'                 => $mainInsclWithName,
+                                    //         'subpttype'                  => $subInsclName,
+                                    //         'requestauthen'              => $sourceChannel,
+                                    //         'authentication'             => $claimAuthen,
+                                    //         // 'PG0130001',
+                                    //     ]);
                                 } else {  
                                     $checkcs = Check_authen::where('claimCode','=',$claimCode)->count();  
                                     if ($checkcs > 0) {
-                                        // Check_sit_auto::where('claimcode', $claimCode)
-                                        // ->update([ 
-                                        //     'claimcode'       => $claimCode, 
-                                        //     'claimtype'       => $claimType,  
-                                        // ]);
+                                        Check_sit_auto::where('claimcode', $claimCode)
+                                        ->update([ 
+                                            'claimcode'       => $claimCode, 
+                                            'claimtype'       => $claimType,  
+                                        ]);
                                        
                                     } else {
                                         Check_authen::create([
@@ -1161,18 +1254,114 @@ class ChecksitController extends Controller
                                         ]);
                                     }
 
-                                    // $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count();  
-                                    // if ($check_detail > 0) {
-                                    //     Db_authen_detail::where('claimcode', $claimCode)->update([
-                                    //         'claimcode'       => $claimCode, 
-                                    //         'claimtype'       => $claimType, 
-                                    //     ]);
-                                    // } else {
-                                    //     # code...
-                                    // } 
-                                } 
+                                    $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count();  
+                                    if ($check_detail > 0) {
+                                        Db_authen_detail::where('claimcode', $claimCode)->update([
+                                            'claimcode'       => $claimCode, 
+                                            'claimtype'       => $claimType, 
+                                        ]);
+                                    } else {
+                                        # code...
+                                    }
+                                    
+
+                                    
+                                    
+                                       
+                                }
+                        // } else {
+                        //     // $checkc_ = Check_authen::where('claimtype','=','PG0130001')->count();
+                        //    if ($claimType == 'PG0130001') {
+                        //     # code...
+                        //    } else {
+                        //         Check_authen::create([
+                        //             'cid'                        => $personalId,
+                        //             'fullname'                   => $patientName,
+                        //             'hosname'                    => $hname,
+                        //             'hcode'                      => $hmain,
+                        //             'vstdate'                    => $checkdate,
+                        //             'regdate'                    => $checkdate,
+                        //             'claimcode'                  => $claimCode,
+                        //             'claimtype'                  => $claimType,
+                        //             'birthday'                   => $birthdate,
+                        //             'homtel'                     => $tel,
+                        //             'repcode'                    => $claimStatus,
+                        //             'hncode'                     => $hnCode,
+                        //             'servicerep'                 => $patientType,
+                        //             'servicename'                => $claimTypeName,
+                        //             'mainpttype'                 => $mainInsclWithName,
+                        //             'subpttype'                  => $subInsclName,
+                        //             'requestauthen'              => $sourceChannel,
+                        //             'authentication'             => $claimAuthen,
+
+                        //         ]);
+                        //    }
+                           
+                           
+                        // }
                     }
-  
+
+                    // }
+        // }
+        // $update_ = DB::connection('mysql')->select('
+        //         SELECT *  
+        //         FROM check_authen  
+        //         WHERE vstdate = CURDATE()
+        //         AND claimtype <> "PG0130001"
+        //         GROUP BY vn
+        // ');
+        // foreach ($update_ as $key => $value) {
+        //     $checkcss = Check_authen::where('claimCode','=',$claimCode)->count();
+        //     if ($checkcss > 0) {
+        //         Check_authen::where('claimCode', $claimCode)->update([
+        //             'cid'                        => $value->personalId,
+        //             'fullname'                   => $value->patientName,
+        //             'hosname'                    => $value->hname,
+        //             'hcode'                      => $value->hmain,
+        //             'vstdate'                    => $value->checkdate,
+        //             'regdate'                    => $value->checkdate,
+        //             'claimcode'                  => $value->claimCode,
+        //             'claimtype'                  => $value->claimType,
+        //             'birthday'                   => $value->birthdate,
+        //             'homtel'                     => $value->tel,
+        //             'repcode'                    => $value->claimStatus,
+        //             'hncode'                     => $value->hnCode,
+        //             'servicerep'                 => $value->patientType,
+        //             'servicename'                => $value->claimTypeName,
+        //             'mainpttype'                 => $value->mainInsclWithName,
+        //             'subpttype'                  => $value->subInsclName,
+        //             'requestauthen'              => $value->sourceChannel,
+        //             'authentication'             => $value->claimAuthen,
+    
+        //         ]);
+        //     } else {
+        //         Check_authen::create([
+        //             'cid'                        => $value->personalId,
+        //             'fullname'                   => $value->patientName,
+        //             'hosname'                    => $value->hname,
+        //             'hcode'                      => $value->hmain,
+        //             'vstdate'                    => $value->checkdate,
+        //             'regdate'                    => $value->checkdate,
+        //             'claimcode'                  => $value->claimCode,
+        //             'claimtype'                  => $value->claimType,
+        //             'birthday'                   => $value->birthdate,
+        //             'homtel'                     => $value->tel,
+        //             'repcode'                    => $value->claimStatus,
+        //             'hncode'                     => $value->hnCode,
+        //             'servicerep'                 => $value->patientType,
+        //             'servicename'                => $value->claimTypeName,
+        //             'mainpttype'                 => $value->mainInsclWithName,
+        //             'subpttype'                  => $value->subInsclName,
+        //             'requestauthen'              => $value->sourceChannel,
+        //             'authentication'             => $value->claimAuthen,
+    
+        //         ]);
+        //     }
+            
+           
+        // }
+
+
         return view('authen.check_spsch',[
             'response'  => $response,
             'result'  => $result,
@@ -1183,8 +1372,8 @@ class ChecksitController extends Controller
     public function check_spsch_detail(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-08-01";
-        $date_end = "2023-08-02";
+        $date_start = "2023-04-26";
+        $date_end = "2023-04-26";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
        
         $curl = curl_init();
@@ -1262,14 +1451,9 @@ class ChecksitController extends Controller
             
                         } else {   
                             // $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count(); 
-                            // $check_detail = Db_authen_detail::where('claimcode','=',$claimCode)->count();  
-                            $check_detail = Check_sit_auto::where('claimcode','=',$claimCode)->count();  
+                            $check_detail = Db_authen_detail::where('claimcode','=',$claimCode)->count();  
                             if ($check_detail > 0) {
                                 Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                    'claimcode'       => $claimCode, 
-                                    'claimtype'       => $claimType, 
-                                ]);
-                                Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
                                     'claimcode'       => $claimCode, 
                                     'claimtype'       => $claimType, 
                                 ]);
@@ -1278,10 +1462,6 @@ class ChecksitController extends Controller
                                     'claimcode'       => $claimCode, 
                                     'claimtype'       => $claimType, 
                                 ]);
-                                // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                //     'claimcode'       => $claimCode, 
-                                //     'claimtype'       => $claimType, 
-                                // ]);
                             }
                                 
                         }
@@ -1302,12 +1482,6 @@ class ChecksitController extends Controller
         $y = date('Y');
       
         $data_year2 = DB::connection('mysql')->select('
-            SELECT month,year,countvn,authen_opd 
-            FROM db_authen 
-            WHERE year = "'.$y.'" and authen_opd <> 0
-            and month > 7
-        ');
-        $data_year3 = DB::connection('mysql')->select('
             SELECT month,year,countvn,authen_opd 
             FROM db_authen 
             WHERE year = "'.$y.'" and authen_opd <> 0
