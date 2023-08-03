@@ -1266,23 +1266,23 @@ class ChecksitController extends Controller
 
                             // $check_detail = Check_sit_auto::where('claimcode','=',$claimCode)->where('claimtype','=',$claimType)->count();
                             // if ($check_detail > 0) {
-                            //     Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                            //         'claimcode'       => $claimCode,
-                            //         'claimtype'       => $claimType,
-                            //     ]);
-                            //     Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                            //         'claimcode'       => $claimCode,
-                            //         'claimtype'       => $claimType,
-                            //     ]);
+                                Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                    'claimcode'       => $claimCode,
+                                    'claimtype'       => $claimType,
+                                ]);
+                                Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                    'claimcode'       => $claimCode,
+                                    'claimtype'       => $claimType,
+                                ]);
                             // } else {
-                                Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',$claimCode)->update([
-                                    'claimcode'       => $claimCode,
-                                    'claimtype'       => $claimType,
-                                ]);
-                                Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',$claimCode)->update([
-                                    'claimcode'       => $claimCode,
-                                    'claimtype'       => $claimType,
-                                ]);
+                            //     Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',$claimCode)->update([
+                            //         'claimcode'       => $claimCode,
+                            //         'claimtype'       => $claimType,
+                            //     ]);
+                            //     Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',$claimCode)->update([
+                            //         'claimcode'       => $claimCode,
+                            //         'claimtype'       => $claimType,
+                            //     ]);
                             // }
 
                         }
