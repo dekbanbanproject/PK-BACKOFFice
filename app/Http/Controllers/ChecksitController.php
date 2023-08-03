@@ -1278,10 +1278,10 @@ class ChecksitController extends Controller
                                     'claimcode'       => $claimCode, 
                                     'claimtype'       => $claimType, 
                                 ]);
-                                // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
-                                //     'claimcode'       => $claimCode, 
-                                //     'claimtype'       => $claimType, 
-                                // ]);
+                                Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                    'claimcode'       => $claimCode, 
+                                    'claimtype'       => $claimType, 
+                                ]);
                             }
                                 
                         }
