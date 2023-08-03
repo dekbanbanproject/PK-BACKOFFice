@@ -187,7 +187,7 @@ class AutoController extends Controller
                 join patient p on p.hn=o.hn
                 JOIN pttype pt on pt.pttype=o.pttype
                 JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = "2023-08-02"
+                WHERE o.vstdate = CURDATE()
                 AND o.main_dep NOT IN("011","036","107")
                 AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                 group by o.vn
