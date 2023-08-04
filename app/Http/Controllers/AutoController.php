@@ -179,6 +179,14 @@ class AutoController extends Controller
     // ดึงข้อมูลมาไว้เช็คสิทธิ์
     public function sit_pull_auto(Request $request)
     {
+        // $data_check = DB::connection('mysql')->select('
+        //         SELECT vn
+        //         FROM check_sit_auto 
+        // ');
+        // foreach ($data_check as $key => $val) {
+        //     $check_hos = Check_sit_auto::where('vn', $val->vn)->count();
+        // }       
+
             $data_sits = DB::connection('mysql3')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
                 ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
@@ -235,32 +243,7 @@ class AutoController extends Controller
                 }
 
             }
-            // $data_sits_ipd = DB::connection('mysql3')->select('
-            //         SELECT a.an,a.vn,p.hn,p.cid,a.dchdate,a.pttype
-            //         from hos.opitemrece op
-            //         LEFT JOIN hos.ipt ip ON ip.an = op.an
-            //         LEFT JOIN hos.an_stat a ON ip.an = a.an
-            //         LEFT JOIN hos.vn_stat v on v.vn = a.vn
-            //         LEFT JOIN patient p on p.hn=a.hn
-            //         WHERE a.dchdate = CURDATE()
-            //         group by p.cid
-            //         limit 1500
-
-            // ');
-            // CURDATE()
-            // foreach ($data_sits_ipd as $key => $value2) {
-            //     $check = Check_sit_auto::where('an', $value2->an)->count();
-            //     if ($check == 0) {
-            //         Check_sit_auto::insert([
-            //             'vn' => $value2->vn,
-            //             'an' => $value2->an,
-            //             'hn' => $value2->hn,
-            //             'cid' => $value2->cid,
-            //             'pttype' => $value2->pttype,
-            //             'dchdate' => $value2->dchdate
-            //         ]);
-            //     }
-            // }
+           
             return view('authen.sit_pull_auto');
     }
 

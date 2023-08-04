@@ -1289,7 +1289,7 @@ class ChecksitController extends Controller
 
                     }
 
-        return view('authen.check_spsch',[
+        return view('authen.check_spsch_detail',[
             'response'  => $response,
             'result'  => $result,
         ]);
@@ -1302,6 +1302,7 @@ class ChecksitController extends Controller
         $date = date('Y-m-d');
         $y = date('Y');
         $m = date('m');
+        $d = date('m');
 
         $data_year2 = DB::connection('mysql')->select('
             SELECT month,year,countvn,authen_opd
@@ -1322,10 +1323,58 @@ class ChecksitController extends Controller
                 WHERE month(c.vstdate) = "'.$m.'"
                 GROUP BY day
         ');
+        $data_staff = DB::connection('mysql')->select('
+                SELECT 
+                 MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+				,c.staff
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE month(c.vstdate) = "'.$m.'"
+                GROUP BY c.staff
+			    ORDER BY Noauthen DESC 
+        ');
+        $data_dep = DB::connection('mysql')->select('
+                SELECT 
+                 MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,c.main_dep,k.department
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE month(c.vstdate) = "'.$m.'"
+                GROUP BY c.main_dep
+			    ORDER BY Noauthen DESC 
+        ');
+        $data_staff_max = DB::connection('mysql')->select('
+                SELECT 
+                MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,c.staff
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE c.vstdate = CURDATE() 
+                GROUP BY c.staff
+                ORDER BY Noauthen DESC LIMIT 5 
+        ');
 
         return view('dashboard.check_dashboard',[
             'data_year2'       => $data_year2,
             'data_year3'       => $data_year3,
+            'data_staff'       => $data_staff,
+            'data_dep'         => $data_dep,
+            'data_staff_max'   => $data_staff_max,
         ] );
     }
     public function check_dashboard_authen(Request $request,$day,$month,$year)
@@ -1342,8 +1391,7 @@ class ChecksitController extends Controller
         ');
 
         return view('dashboard.check_dashboard_authen',[
-            'data_sit'       => $data_sit,
-            // 'data_year3'       => $data_year3,
+            'data_sit'       => $data_sit, 
         ] );
     }
     public function check_dashboard_noauthen(Request $request,$day,$month,$year)
@@ -1376,32 +1424,45 @@ class ChecksitController extends Controller
             $enddate = $value->date_end;
         }
         $chart = DB::connection('mysql')->select('
-            SELECT * FROM db_authen WHERE year = "'.$y.'"
+            
+            SELECT
+            MONTH(c.vstdate) as month
+            ,YEAR(c.vstdate) as year
+            ,DAY(c.vstdate) as day
+            ,COUNT(DISTINCT c.vn) as countvn
+            ,COUNT(c.claimcode) as Authen
+            ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+            from check_sit_auto c
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            WHERE year(c.vstdate) = "'.$y.'" AND MONTH(c.vstdate) > 7            
+            GROUP BY month
         ');
+       
+        // SELECT * FROM db_authen WHERE year = "'.$y.'"
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
         ];
-         $countvn = $countan = $authen_opd = $noauthen_opd = $authen_ipd = [];
+         $countvn = $countan = $Authen = $Noauthen = $authen_ipd = [];
 
         foreach ($chart as $key => $chartitems) {
             $countvn[$chartitems->month] = $chartitems->countvn;
-            $authen_opd[$chartitems->month] = $chartitems->authen_opd;
-            $noauthen_opd[$chartitems->month] = $chartitems->countvn - $chartitems->authen_opd;
+            $Authen[$chartitems->month] = $chartitems->Authen;
+            $Noauthen[$chartitems->month] = $chartitems->countvn - $chartitems->Authen;
         }
         foreach ($labels as $month => $name) {
            if (!array_key_exists($month,$countvn)) {
             $countvn[$month] = 0;
            }
-           if (!array_key_exists($month,$authen_opd)) {
-            $authen_opd[$month] = 0;
+           if (!array_key_exists($month,$Authen)) {
+            $Authen[$month] = 0;
            }
-           if (!array_key_exists($month,$noauthen_opd)) {
-            $noauthen_opd[$month] = 0;
+           if (!array_key_exists($month,$Noauthen)) {
+            $Noauthen[$month] = 0;
            }
         }
         ksort($countvn);
-        ksort($authen_opd);
-        ksort($noauthen_opd);
+        ksort($Authen);
+        ksort($Noauthen);
         return [
             'labels'          =>  array_values($labels),
             'datasets'     =>  [
@@ -1419,7 +1480,7 @@ class ChecksitController extends Controller
                     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
-                    'data'            => array_values($authen_opd)
+                    'data'            => array_values($Authen)
                 ],
                 [
                     'label'           =>  'ไม่ Authen',
@@ -1427,7 +1488,7 @@ class ChecksitController extends Controller
                     'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
                     'borderWidth'     => '1',
                     'barPercentage'   => '0.9',
-                    'data'            => array_values($noauthen_opd)
+                    'data'            => array_values($Noauthen)
                 ],
             ],
         ];
@@ -1435,5 +1496,4 @@ class ChecksitController extends Controller
         // 255, 205, 86
     }
 }
-// AND o.main_dep NOT IN("011","036","107")
-// AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
+ 
