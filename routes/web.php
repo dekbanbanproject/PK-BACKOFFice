@@ -134,6 +134,10 @@ Route::match(['get','post'],'check_dashboard_authen/{day}/{month}/{year}',[App\H
 Route::match(['get','post'],'check_dashboard_noauthen/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_noauthen'])->name('claim.check_dashboard_noauthen');//
 Route::match(['get','post'],'check_dashboard_bar',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_bar'])->name('claim.check_dashboard_bar');
 
+Route::match(['get','post'],'check_dashboard_mob',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_mob'])->name('claim.check_dashboard_mob');//
+Route::match(['get','post'],'check_dashboard_authen_mob/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_authen_mob'])->name('claim.check_dashboard_authen_mob');//
+Route::match(['get','post'],'check_dashboard_noauthen_mob/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_noauthen_mob'])->name('claim.check_dashboard_noauthen_mob');//
+
 Route::match(['get','post'],'check_web',[App\Http\Controllers\ChecksitController::class, 'check_web'])->name('claim.check_web');//
 Route::match(['get','post'],'check_spsch',[App\Http\Controllers\ChecksitController::class, 'check_spsch'])->name('claim.check_spsch');//
 Route::match(['get','post'],'check_spsch_detail',[App\Http\Controllers\ChecksitController::class, 'check_spsch_detail'])->name('claim.check_spsch_detail');//

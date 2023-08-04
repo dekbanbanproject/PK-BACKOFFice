@@ -175,7 +175,8 @@
                                 <span>Check Sit</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('check_dashboard') }}" target="_blank">Dashboard Authen</a></li>
+                                <li><a href="{{ url('check_dashboard') }}" target="_blank">DB Authen</a></li>
+                                <li><a href="{{ url('check_dashboard_mob') }}" target="_blank">DB Authen Mobile</a></li>
                                 <li><a href="{{ url('check_sit_day') }}" target="_blank">เช็คสิทธิ์+Authen</a></li>
                                 {{-- <li><a href="{{ url('check_authen') }}" target="_blank">Import Excel Authen</a></li> --}}
                                 <li><a href="{{ url('check_sit_money') }}" target="_blank"> เช็คสิทธิ์ Money PK</a></li>

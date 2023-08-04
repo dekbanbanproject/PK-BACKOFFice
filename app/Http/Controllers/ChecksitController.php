@@ -1412,6 +1412,87 @@ class ChecksitController extends Controller
             // 'data_year3'       => $data_year3,
         ] );
     }
+
+    public function check_dashboard_mob(Request $request)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $m = date('m');
+        $d = date('m');
+
+        $data_year2 = DB::connection('mysql')->select('
+            SELECT month,year,countvn,authen_opd
+            FROM db_authen
+            WHERE year = "'.$y.'" and authen_opd <> 0
+            and month > 7
+        ');
+        $data_year3 = DB::connection('mysql')->select('
+                SELECT
+                MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,COUNT(DISTINCT c.vn) as VN
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE month(c.vstdate) = "'.$m.'"
+                GROUP BY day
+        ');
+        $data_staff = DB::connection('mysql')->select('
+                SELECT 
+                 MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+				,c.staff
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE month(c.vstdate) = "'.$m.'"
+                GROUP BY c.staff
+			    ORDER BY Noauthen DESC 
+        ');
+        $data_dep = DB::connection('mysql')->select('
+                SELECT 
+                 MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,c.main_dep,k.department
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE month(c.vstdate) = "'.$m.'"
+                GROUP BY c.main_dep
+			    ORDER BY Noauthen DESC 
+        ');
+        $data_staff_max = DB::connection('mysql')->select('
+                SELECT 
+                MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,c.staff
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE c.vstdate = CURDATE() 
+                GROUP BY c.staff
+                ORDER BY Noauthen DESC LIMIT 5 
+        ');
+
+        return view('dashboard.check_dashboard_mob',[
+            'data_year2'       => $data_year2,
+            'data_year3'       => $data_year3,
+            'data_staff'       => $data_staff,
+            'data_dep'         => $data_dep,
+            'data_staff_max'   => $data_staff_max,
+        ] );
+    }
     public function check_dashboard_bar(Request $request)
     {
         $y = date('Y');
