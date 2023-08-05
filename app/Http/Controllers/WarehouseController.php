@@ -946,6 +946,7 @@ class WarehouseController extends Controller
                     $add2->product_price_total = $total;
                     $add2->save(); 
 
+                     // เก็บไปไว้เป็นประวัติการรับเข้า
                     Warehouse_recieve_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->delete();
                     Warehouse_recieve_sub::insert([ 
                         'warehouse_recieve_code'             => $maxcode,
@@ -1004,60 +1005,7 @@ class WarehouseController extends Controller
 
                 $update->save();
             }
-           
-            // เก็บไปไว้เป็นประวัติการรับเข้า
-            // Warehouse_recieve::where('warehouse_rep_id','=',$warehouse_rep_id)->delete();
-            // $datashow_ = DB::connection('mysql')->select('
-            //         SELECT * from warehouse_rep WHERE warehouse_rep_id = "'.$warehouse_rep_id.'"
-            // ');
-            // foreach ($datashow_ as $key => $value1) {
-            //     Warehouse_recieve::insert([
-            //         'warehouse_recieve_code'          => $value1->warehouse_rep_code,
-            //         'warehouse_recieve_no_bill'       => $value1->warehouse_rep_no_bill,
-            //         'warehouse_recieve_po'            => $value1->warehouse_rep_po,
-            //         'warehouse_recieve_year'          => $value1->warehouse_rep_year,
-            //         'warehouse_recieve_type'          => $value1->warehouse_rep_type,
-            //         'warehouse_recieve_user_id'       => $value1->warehouse_rep_user_id,
-            //         'warehouse_recieve_inven_id'      => $value1->warehouse_rep_inven_id,
-            //         'warehouse_recieve_vendor_id'     => $value1->warehouse_rep_vendor_id,
-            //         'warehouse_recieve_date'          => $value1->warehouse_rep_date,
-            //         'warehouse_recieve_status'        => '2',
-            //         'warehouse_recieve_send'          => 'FINISH',
-            //         'warehouse_recieve_total'         => $value1->warehouse_rep_total,
-            //         'store_id'                        => $value1->store_id,
-            //     ]);
-            // }
-            Warehouse_recieve_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->delete();
-            $datashowsub_ = DB::connection('mysql')->select('
-                SELECT * from warehouse_rep_sub WHERE warehouse_rep_id = "'.$warehouse_rep_id.'"
-            ');
-            // $maxid = DB::table('warehouse_recieve')->max('warehouse_recieve_id');
-            $maxcode = DB::table('warehouse_recieve')->max('warehouse_recieve_code');
-
-            foreach ($datashowsub_ as $key => $value2) {
-                Warehouse_recieve_sub::insert([ 
-                    'warehouse_recieve_code'             => $maxcode,
-                    'product_id'                         => $value2->product_id,
-                    'product_code'                       => $value2->product_code,
-                    'product_name'                       => $value2->product_name,
-                    'product_type_id'                    => $value2->product_type_id,
-                    'product_unit_bigid'                 => $value2->product_unit_bigid,
-                    'product_unit_subid'                 => $value2->product_unit_subid,
-                    'product_unit_total'                 => $value2->product_unit_total,
-                    'product_qty'                        => $value2->product_qty,
-                    'product_price'                      => $value2->product_price,
-                    'product_price_total'                => $value2->product_price_total,
-                    'product_lot'                        => $value2->product_lot,
-                    'warehouse_recieve_sub_exedate'      => $value2->warehouse_rep_sub_exedate,
-                    'warehouse_recieve_sub_expdate'      => $value2->warehouse_rep_sub_expdate,
-                    'warehouse_recieve_sub_status'       => '2',
-                    'warehouse_recieve_sub_total'        => $value2->warehouse_rep_sub_total,
-                ]);
-            }
-
-
-
-
+            
 
             return response()->json([
                 'status'     => '200'
