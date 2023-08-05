@@ -901,7 +901,7 @@ class WarehouseController extends Controller
         $store_id            = $request->store_id;
         $warehouse_inven_id  = $request->warehouse_inven_id;
         // $proid = $request->product_id;
-
+        Warehouse_recieve_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->delete();
             if ($request->product_id != '' || $request->product_id != null) {
                 $product_id = $request->product_id;
                 $product_type_id = $request->product_type_id;
@@ -947,25 +947,24 @@ class WarehouseController extends Controller
                     $add2->save(); 
 
                      // เก็บไปไว้เป็นประวัติการรับเข้า
-                    Warehouse_recieve_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->delete();
-                    Warehouse_recieve_sub::insert([ 
-                        'warehouse_recieve_code'             => $maxcode,
-                        'product_id'                         => $idpro->product_id,
-                        'product_code'                       => $idpro->product_code,
-                        'product_name'                       => $idpro->product_name,
-                        'product_type_id'                    => $idtype->products_typefree_id,                   
-                        'product_unit_subid'                 => $idunit->unit_id,                        
-                        'product_qty'                        => $product_qty[$count],
-                        'product_price'                      => $product_price[$count],
-                        'product_price_total'                => $total,
-                        'product_lot'                        => $product_lot[$count],
-                        'warehouse_recieve_sub_exedate'      => $warehouse_rep_sub_exedate[$count],
-                        'warehouse_recieve_sub_expdate'      => $warehouse_rep_sub_expdate[$count],
-                        'warehouse_recieve_sub_status'       => '2',
-                        'warehouse_rep_id'                   => $warehouse_rep_id
-                        
-                    ]);
-
+                    $add4 = new Warehouse_recieve_sub();
+                    $add4->warehouse_recieve_code = $maxcode; 
+                    $add4->product_id = $idpro->product_id;
+                    $add4->product_code = $idpro->product_code;
+                    $add4->product_name = $idpro->product_name;
+                    $add4->product_type_id = $idtype->products_typefree_id; 
+                    $add4->product_unit_subid = $idunit->unit_id; 
+                    $add4->product_lot = $product_lot[$count];
+                    $add4->product_qty = $product_qty[$count];
+                    $add4->product_price = $product_price[$count];
+                    $add4->warehouse_recieve_sub_exedate = $warehouse_rep_sub_exedate[$count];
+                    $add4->warehouse_recieve_sub_expdate = $warehouse_rep_sub_expdate[$count];
+                    $add4->warehouse_recieve_sub_status = '2';
+                    $total4 = $product_qty[$count] * $product_price[$count];
+                    $add4->product_price_total = $total4;
+                    $add4->warehouse_rep_id = $warehouse_rep_id;
+                    $add4->save(); 
+                    
                     $check_stock = Warehouse_stock::where('product_id','=',$idpro->product_id)->count();
                     if ($check_stock > 0) {
                         $pro = DB::table('warehouse_stock')->where('product_id', '=', $product_id[$count])->first();
