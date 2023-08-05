@@ -924,6 +924,8 @@ class WarehouseController extends Controller
                     $idtype = DB::table('products_typefree')->where('products_typefree_id','=', $product_type_id[$count])->first();
                     $idunit = DB::table('product_unit')->where('unit_id','=', $product_unit_subid[$count])->first();
 
+                    Warehouse_rep_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->where('product_id','=',$idpro->product_id)->delete();
+
                     $add2 = new Warehouse_rep_sub();
                     $add2->warehouse_rep_id = $warehouse_rep_id;
                     $add2->warehouse_rep_code = $maxcode;
@@ -944,10 +946,30 @@ class WarehouseController extends Controller
                     $add2->product_price_total = $total;
                     $add2->save(); 
 
-
-
-
-                    
+                    $check_stock = Warehouse_stock::where('product_id','=',$idpro->product_id)->count();
+                    if ($check_stock > 0) {
+                        $pro = DB::table('warehouse_stock')->where('product_id', '=', $product_id[$count])->first();
+                                Warehouse_stock::where('product_id', $idpro->product_id)->where('warehouse_inven_id', $warehouse_inven_id)->update([
+                                    'product_qty_recieve'         => $pro->product_qty_recieve + $product_qty[$count],
+                                    'product_qty_total'           => $pro->product_qty_total + $product_qty[$count],
+                                    'product_price_total'         => $pro->product_price_total + ($product_qty[$count] * $product_price[$count]), 
+                                ]);
+                    } else {      
+                        $add3 = new Warehouse_stock();
+                        $add3->warehouse_inven_id     = $warehouse_inven_id;
+                        $add3->product_id             = $idpro->product_id;
+                        $add3->product_code           = $idpro->product_code;
+                        $add3->product_name           = $idpro->product_name;
+                        $add3->product_type_id        = $idtype->products_typefree_id;
+                        $add3->product_unit_subid     = $idunit->unit_id;
+                        $add3->product_qty            = $product_qty[$count];
+                        $add3->product_price          = $product_price[$count];
+                        $add3->product_qty_recieve    = $product_qty[$count]; 
+                        $add3->product_qty_total      = $product_qty[$count];
+                        $add3->product_price_total      = $product_qty[$count] * $product_price[$count];
+                        $add3->save(); 
+                    }
+                     
                 }
                 $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->sum('product_price_total');
                 $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$warehouse_rep_id)->where('warehouse_rep_sub_status', '=','2')->count();
@@ -961,8 +983,63 @@ class WarehouseController extends Controller
                 }
 
                 $update->save();
-
             }
+           
+            // เก็บไปไว้เป็นประวัติการรับเข้า
+            Warehouse_recieve::where('warehouse_rep_id','=',$warehouse_rep_id)->delete();
+            $datashow_ = DB::connection('mysql')->select('
+                    SELECT * from warehouse_rep WHERE warehouse_rep_id = "'.$warehouse_rep_id.'"
+            ');
+            foreach ($datashow_ as $key => $value1) {
+                Warehouse_recieve::insert([
+                    'warehouse_recieve_code'          => $value1->warehouse_rep_code,
+                    'warehouse_recieve_no_bill'       => $value1->warehouse_rep_no_bill,
+                    'warehouse_recieve_po'            => $value1->warehouse_rep_po,
+                    'warehouse_recieve_year'          => $value1->warehouse_rep_year,
+                    'warehouse_recieve_type'          => $value1->warehouse_rep_type,
+                    'warehouse_recieve_user_id'       => $value1->warehouse_rep_user_id,
+                    'warehouse_recieve_inven_id'      => $value1->warehouse_rep_inven_id,
+                    'warehouse_recieve_vendor_id'     => $value1->warehouse_rep_vendor_id,
+                    'warehouse_recieve_date'          => $value1->warehouse_rep_date,
+                    'warehouse_recieve_status'        => '2',
+                    'warehouse_recieve_send'          => 'FINISH',
+                    'warehouse_recieve_total'         => $value1->warehouse_rep_total,
+                    'store_id'                        => $value1->store_id,
+                ]);
+            }
+            Warehouse_recieve_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->delete();
+            $datashowsub_ = DB::connection('mysql')->select('
+                SELECT * from warehouse_rep_sub WHERE warehouse_rep_id = "'.$warehouse_rep_id.'"
+            ');
+            $maxid = DB::table('warehouse_recieve')->max('warehouse_recieve_id');
+            $maxcode = DB::table('warehouse_recieve')->max('warehouse_recieve_code');
+
+            foreach ($datashowsub_ as $key => $value2) {
+                Warehouse_recieve_sub::insert([
+                    'warehouse_recieve_id'               => $maxid,
+                    'warehouse_recieve_code'             => $maxcode,
+                    'product_id'                         => $value2->product_id,
+                    'product_code'                       => $value2->product_code,
+                    'product_name'                       => $value2->product_name,
+                    'product_type_id'                    => $value2->product_type_id,
+                    'product_unit_bigid'                 => $value2->product_unit_bigid,
+                    'product_unit_subid'                 => $value2->product_unit_subid,
+                    'product_unit_total'                 => $value2->product_unit_total,
+                    'product_qty'                        => $value2->product_qty,
+                    'product_price'                      => $value2->product_price,
+                    'product_price_total'                => $value2->product_price_total,
+                    'product_lot'                        => $value2->product_lot,
+                    'warehouse_recieve_sub_exedate'      => $value2->warehouse_rep_sub_exedate,
+                    'warehouse_recieve_sub_expdate'      => $value2->warehouse_rep_sub_expdate,
+                    'warehouse_recieve_sub_status'       => '2',
+                    'warehouse_recieve_sub_total'        => $value2->warehouse_rep_sub_total,
+                ]);
+            }
+
+
+
+
+
             return response()->json([
                 'status'     => '200'
             ]);

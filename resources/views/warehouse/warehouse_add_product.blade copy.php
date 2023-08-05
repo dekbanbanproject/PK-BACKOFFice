@@ -161,9 +161,13 @@
                                                     onchange="checkunitref(0);" required>
                                                     <option value="" selected>--รายการวัสดุ--</option>
                                                     @foreach ($product_data as $list)
-                                                    
-                                                        <option value="{{ $list->product_id }}">{{ $list->product_code }}{{ $list->product_name }}</option>
-                                                    
+                                                        <?php $countcheck = Warehouse_rep_sub::where('product_code', '=', $list->product_code)
+                                                            ->where('warehouse_rep_sub_status', '=', 1)
+                                                            ->count(); ?>
+                                                        @if ($countcheck == 0)
+                                                            <option value="{{ $list->product_id }}">
+                                                                {{ $list->product_code }}{{ $list->product_name }}</option>
+                                                        @endif
                                                     @endforeach
 
 
