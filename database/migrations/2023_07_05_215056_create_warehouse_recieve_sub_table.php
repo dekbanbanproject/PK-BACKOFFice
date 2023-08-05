@@ -39,7 +39,7 @@ return new class extends Migration
 
                 $table->string('warehouse_recieve_sub_status')->nullable();  //สถานะ
                 $table->string('warehouse_recieve_sub_total')->nullable();  //Totl
-
+                $table->string('warehouse_rep_id')->nullable();
                 $table->timestamps();
             });
         }
