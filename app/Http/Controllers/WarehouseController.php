@@ -942,12 +942,16 @@ class WarehouseController extends Controller
                     $add2->warehouse_rep_sub_status = $warehouse_rep_sub_status[$count];
                     $total = $product_qty[$count] * $product_price[$count];
                     $add2->product_price_total = $total;
-                    $add2->save();
+                    $add2->save(); 
 
 
+
+
+                    
                 }
                 $sumrecieve  =  Warehouse_rep_sub::where('warehouse_rep_id','=',$warehouse_rep_id)->sum('product_price_total');
                 $countsttus = DB::table('warehouse_rep_sub')->where('warehouse_rep_id', '=',$warehouse_rep_id)->where('warehouse_rep_sub_status', '=','2')->count();
+               
                 $update = Warehouse_rep::find($warehouse_rep_id);
                 $update->warehouse_rep_total = $sumrecieve;
                 if ($countsttus == '0') {

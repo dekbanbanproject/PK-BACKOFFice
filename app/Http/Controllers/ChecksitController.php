@@ -1334,7 +1334,7 @@ class ChecksitController extends Controller
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE month(c.vstdate) = "'.$m.'"
+                WHERE c.vstdate = CURDATE() 
                 GROUP BY c.staff
 			    ORDER BY Noauthen DESC 
         ');
@@ -1349,10 +1349,11 @@ class ChecksitController extends Controller
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE month(c.vstdate) = "'.$m.'"
+                WHERE c.vstdate = CURDATE() 
                 GROUP BY c.main_dep
 			    ORDER BY Noauthen DESC 
         ');
+        // WHERE month(c.vstdate) = "'.$m.'"
         $data_staff_max = DB::connection('mysql')->select('
                 SELECT 
                 MONTH(c.vstdate) as month
