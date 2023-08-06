@@ -827,19 +827,29 @@ class WarehouseController extends Controller
         $data['product_data'] = Products::where('product_groupid', '=', 1)->orwhere('product_groupid', '=', 2)->orderBy('product_id', 'DESC')->get();
         $data['countsttus'] = DB::table('warehouse_rep_sub')->where('warehouse_rep_sub_status', '=','2')->count();
 
-        $data['warehouse_stock'] = DB::connection('mysql')->select('
-            SELECT wr.warehouse_recieve_id,wr.warehouse_recieve_inven_id,wi.warehouse_inven_name,pc.category_name
-                    ,wrs.product_id,wrs.product_code,pd.product_name,pu.unit_name,wr.warehouse_recieve_date,wrs.product_lot,wrs.product_price
-                    ,SUM(wrs.product_qty) as qty_recieve,SUM(wrs.product_price_total) as totalprice_recieve,wrs.warehouse_recieve_sub_status
-                    from warehouse_recieve wr
-                    left outer join warehouse_recieve_sub wrs on wrs.warehouse_recieve_id=wr.warehouse_recieve_id
-                    left outer join product_data pd on pd.product_id=wrs.product_id
-                    left outer join product_category pc on pc.category_id=pd.product_categoryid
-                    left outer join warehouse_inven wi on wi.warehouse_inven_id=wr.warehouse_recieve_inven_id
-                    left outer join product_unit pu on pu.unit_id=wrs.product_unit_subid
-                    where wr.warehouse_recieve_inven_id = "'.$id.'"
-					GROUP BY wrs.product_code
-            ');
+        // $data['warehouse_stock'] = DB::connection('mysql')->select('
+        //     SELECT wr.warehouse_recieve_id,wr.warehouse_recieve_inven_id,wi.warehouse_inven_name,pc.category_name
+        //             ,wrs.product_id,wrs.product_code,pd.product_name,pu.unit_name,wr.warehouse_recieve_date,wrs.product_lot,wrs.product_price
+        //             ,SUM(wrs.product_qty) as qty_recieve,SUM(wrs.product_price_total) as totalprice_recieve,wrs.warehouse_recieve_sub_status
+        //             from warehouse_recieve wr
+        //             left outer join warehouse_recieve_sub wrs on wrs.warehouse_recieve_id=wr.warehouse_recieve_id
+        //             left outer join product_data pd on pd.product_id=wrs.product_id
+        //             left outer join product_category pc on pc.category_id=pd.product_categoryid
+        //             left outer join warehouse_inven wi on wi.warehouse_inven_id=wr.warehouse_recieve_inven_id
+        //             left outer join product_unit pu on pu.unit_id=wrs.product_unit_subid
+        //             where wr.warehouse_recieve_inven_id = "'.$id.'"
+		// 			GROUP BY wrs.product_code
+        //     ');
+            $data['warehouse_stock'] = DB::connection('mysql')->select('
+                        SELECT ws.warehouse_stock_id,ws.product_id,ws.product_code,pd.product_name,wi.warehouse_inven_name,pc.category_name,pu.unit_name
+                        ,ws.product_price,ws.product_qty_recieve,ws.product_qty_pay,ws.product_qty_total,ws.product_price_total
+                        FROM warehouse_stock ws
+                        left outer join product_data pd on pd.product_id = ws.product_id
+                        left outer join product_category pc on pc.category_id = pd.product_categoryid
+                        left outer join warehouse_inven wi on wi.warehouse_inven_id = ws.warehouse_inven_id
+                        left outer join product_unit pu on pu.unit_id = ws.product_unit_subid
+                        where ws.warehouse_inven_id = "'.$id.'" 
+                ');
 
             $data['data_invent'] = DB::table('warehouse_inven')
             ->leftjoin('warehouse_recieve','warehouse_recieve.warehouse_recieve_inven_id','=','warehouse_inven.warehouse_inven_id')

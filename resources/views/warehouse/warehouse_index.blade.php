@@ -425,7 +425,14 @@
                                                         @if ($item->warehouse_rep_send == 'STALE' || $item->warehouse_rep_send == '')
                                                             
                                                         @elseif ($item->warehouse_rep_send == 'FINISH' && $item->warehouse_rep_status == 'recieve')
-                                                            {{-- <div class="dropdown-divider"></div> --}}
+                                                        <a class="dropdown-item text-info"
+                                                        href="{{ url('warehouse_edit_product/' . $item->warehouse_rep_id) }}"
+                                                        style="font-size:13px" target="blank">
+                                                        <i class="fa-solid fa-clipboard-check me-2 text-info"
+                                                            style="font-size:13px"></i>
+                                                        <span>เพิ่ม/แก้ไขรายการวัสดุ</span>
+                                                    </a>
+                                                        <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item text-primary"
                                                                 href="javascript:void(0)"
                                                                 onclick="warehouse_confirm_recieve({{ $item->warehouse_rep_id }})"

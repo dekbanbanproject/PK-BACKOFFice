@@ -155,33 +155,33 @@
                                     <?php $i = 1; $date = date('Y'); ?>
                                     @foreach ($warehouse_stock as $item)
                                     <?php
-                                        // $paydetail_ = DB::connection('mysql')->select(                                                            '
-                                        //     SELECT w.warehouse_pay_id,w.payout_inven_id,wi.warehouse_inven_name,pc.category_name
-                                        //         ,ws.product_id,ws.product_code,pd.product_name,pu.unit_name,w.pay_date,ws.product_lot
-                                        //         ,SUM(ws.product_qty) as qty_pay,ws.product_price,SUM(ws.product_price_total) as totalprice_pay
+                                        $paydetail_ = DB::connection('mysql')->select(                                                            '
+                                            SELECT w.warehouse_pay_id,w.payout_inven_id,wi.warehouse_inven_name,pc.category_name
+                                                ,ws.product_id,ws.product_code,pd.product_name,pu.unit_name,w.pay_date,ws.product_lot
+                                                ,SUM(ws.product_qty) as qty_pay,ws.product_price,SUM(ws.product_price_total) as totalprice_pay
 
-                                        //         from warehouse_pay w
-                                        //         left outer join warehouse_pay_sub ws on ws.warehouse_pay_id = w.warehouse_pay_id
-                                        //         left outer join product_data pd on pd.product_id=ws.product_id
-                                        //         left outer join product_category pc on pc.category_id=pd.product_categoryid
-                                        //         left outer join warehouse_inven wi on wi.warehouse_inven_id=w.payout_inven_id
-                                        //         left outer join product_unit pu on pu.unit_id=ws.product_unit_subid
-                                        //         where w.payout_inven_id ="'.$item->warehouse_recieve_inven_id .'"
-                                        //         AND ws.product_code ="'.$item->product_code .'"                                                                                                        ',
-                                        // );
-                                        // foreach ($paydetail_ as $key => $value) {
-                                        //    $qty_pay =  $value->qty_pay;
-                                        //    $price_pay =  $value->totalprice_pay;
-                                        // } 
+                                                from warehouse_pay w
+                                                left outer join warehouse_pay_sub ws on ws.warehouse_pay_id = w.warehouse_pay_id
+                                                left outer join product_data pd on pd.product_id=ws.product_id
+                                                left outer join product_category pc on pc.category_id=pd.product_categoryid
+                                                left outer join warehouse_inven wi on wi.warehouse_inven_id=w.payout_inven_id
+                                                left outer join product_unit pu on pu.unit_id=ws.product_unit_subid
+                                                where w.payout_inven_id ="'.$item->warehouse_recieve_inven_id .'"
+                                                AND ws.product_code ="'.$item->product_code .'"                                                                                                        ',
+                                        );
+                                        foreach ($paydetail_ as $key => $value) {
+                                           $qty_pay =  $value->qty_pay;
+                                           $price_pay =  $value->totalprice_pay;
+                                        } 
                                     ?> 
-                                        <tr id="sid{{ $item->warehouse_stock_id }}" height="15" style="font-family: sans-serif;font-size: 13px;">
+                                        <tr id="sid{{ $item->warehouse_recieve_id }}" height="15" style="font-family: sans-serif;font-size: 13px;">
                                             <td class="text-center" width="3%">{{ $i++ }}</td> 
                                             <td class="p-2" width="20%">{{ $item->product_code }}</td> 
                                             <td class="p-2">{{ $item->product_name }}</td> 
-                                            <td class="text-center" width="8%">{{ $item->product_qty_recieve }} </td>
-                                            <td class="text-center" width="9%">{{ $item->product_qty_pay }} </td>
-                                            <td class="text-center" width="8%">{{ $item->product_qty_total   }} </td>
-                                            <td class="text-end" width="10%">{{ number_format($item->product_price_total,4) }}</td> 
+                                            <td class="text-center" width="8%">{{ $item->qty_recieve }} </td>
+                                            <td class="text-center" width="9%">{{ $qty_pay }} </td>
+                                            <td class="text-center" width="8%">{{ $item->qty_recieve - $qty_pay  }} </td>
+                                            <td class="text-end" width="10%">{{ number_format($item->totalprice_recieve - $price_pay, 4) }}</td> 
                                             <td class="text-center" width="10%">
                                                 <a class="text-primary" href=""  style="font-size:13px"
                                                     data-bs-toggle="modal"
