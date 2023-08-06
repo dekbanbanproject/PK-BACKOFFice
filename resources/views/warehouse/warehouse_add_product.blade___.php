@@ -140,8 +140,8 @@
                                             <td style="text-align: center;" width="8%">ประเภท</td>
                                             <td style="text-align: center;" width="6%">หน่วย</td>
                                             <td style="text-align: center;" width="6%">จำนวน</td>
-                                            <td style="text-align: center;" width="8%">ราคาต่อหน่วย</td>
-                                            <td style="text-align: center;" width="12%">มูลค่า</td>
+                                            <td style="text-align: center;" width="8%">ราคา</td>
+                                            <td style="text-align: center;" width="12%">รวม</td>
                                             <td style="text-align: center;" width="12%">Lot</td>
                                             <td style="text-align: center;" width="6%">วันผลิต</td>
                                             <td style="text-align: center;" width="6%">วันหมดอายุ</td>
@@ -153,7 +153,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="tbody1">
-                                        @if ( $count > 0)
+                                        @if ( $count == 0)
                                                 @foreach ($data_sub as $item) 
                                                     <tr height="30" style="font-size:13px">
                                                         <td style="text-align: center;"> 1 </td>
@@ -232,8 +232,177 @@
                                                         </td>
 
                                                     </tr>
+                                                    {{-- <tr height="30" style="font-size:13px">
+                                                        <td style="text-align: center;"> 1 </td>
+                                                        <td>
+                                                            <select name="product_id[]" id="product_id0" class="form-control form-control-sm " style="width: 100%;" onchange="checkunitref(0);" required>
+                                                                <option value="" selected>--รายการวัสดุ--</option>
+                                                                @foreach ($product_data as $list)
+                                                                @if ($item->product_id == $list->product_id)
+                                                                <option value="{{ $list->product_id }}" selected> {{ $list->product_name }}</option>
+                                                                @else
+                                                                <option value="{{ $list->product_id }}"> {{ $list->product_name }}</option>
+                                                                @endif
+
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select name="product_type_id[]" id="product_type_id0" class="form-control form-control-sm" style="width: 100%;" >
+
+                                                                        @foreach ($products_typefree as $free)
+                                                                        @if ($item->product_type_id == $free->products_typefree_id)
+                                                                        <option value="{{ $free -> products_typefree_id }}" selected>{{ $free->products_typefree_name}}</option>
+                                                                        @else
+                                                                        <option value="{{ $free -> products_typefree_id }}">{{ $free->products_typefree_name}}</option>
+                                                                        @endif
+
+                                                                        @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td><div class="showunit0">
+                                                            <select name="product_unit_subid[]" id="product_unit_subid[]"  class="form-control form-control-sm" style="width: 100%;">
+                                                                <option value="" selected>--หน่วย--</option>
+
+                                                                        @foreach ($product_unit as $uni)
+                                                                        @if ($item->product_unit_subid == $uni->unit_id)
+                                                                        <option value="{{ $uni -> unit_id }}" selected>{{ $uni->unit_name}}</option>
+                                                                        @else
+                                                                        <option value="{{ $uni -> unit_id }}">{{ $uni->unit_name}}</option>
+                                                                        @endif
+
+                                                                        @endforeach
+                                                            </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <input name="product_qty[]" id="product_qty0" type="number" class="form-control form-control-sm" onkeyup="checksummoney(0)" >
+                                                        </td>
+
+                                                        <td>
+                                                            @if ($item->product_price == '')
+                                                            <input name="product_price[]" id="product_price0" type="text" class="form-control form-control-sm" onkeyup="checksummoney(0)">
+                                                            @else
+                                                            <input name="product_price[]" id="product_price0" type="text" class="form-control form-control-sm" onkeyup="checksummoney(0)" >
+                                                            @endif
+
+
+                                                        <td>
+                                                                <div class="summoney0"></div>
+                                                        </td>
+                                                        <td>
+                                                            <?php  $detallot = 'L'.substr(date("Ymd"),2).''.date("His"); ?>
+                                                            <?php if($item->product_lot <> '' && $item->product_lot <> null){$detallot = $item->product_lot; }else{ $detallot = 'L'.substr(date("Ymd"),2).'-'.date("His"); } ?>
+
+                                                            <input name="product_lot[]" id="product_lot[]"
+                                                                class="form-control form-control-sm" value="{{$detallot}}" >
+                                                        </td>
+                                                        <td>
+                                                            <input name="warehouse_rep_sub_exedate[]"
+                                                                id="warehouse_rep_sub_exedate[]"
+                                                                class="form-control form-control-sm" type="date" value="{{$item->warehouse_rep_sub_exedate}}">
+                                                        </td>
+                                                        <td>
+                                                            <input name="warehouse_rep_sub_expdate[]"
+                                                                id="warehouse_rep_sub_expdate[]"
+                                                                class="form-control form-control-sm" type="date" value="{{$item->warehouse_rep_sub_expdate}}">
+                                                        </td>
+                                                        <td>
+                                                            <select name="warehouse_rep_sub_status[]" id="warehouse_rep_sub_status{{$count}}" class="form-control form-control-sm" style="width: 100%;" >
+                                                                @if ($item->warehouse_rep_sub_status == '1')
+                                                                <option value="1" selected>ครบ</option>
+                                                                <option value="2">ไม่ครบ</option>
+                                                                @else
+                                                                <option value="1">ครบ</option>
+                                                                <option value="2" selected>ไม่ครบ</option>
+                                                                @endif
+                                                            </select>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <a class="btn btn-sm btn-danger fa fa-trash-alt remove1"
+                                                                style="color:#FFFFFF;">
+                                                            </a>
+                                                        </td>
+
+                                                    </tr> --}}
                                                 @endforeach
                                         @else
+                                            <?php $count = 1; ?>
+                                            @if ($counproduct > 0)
+                                                @foreach ($data_sub as $item)
+                                                    <tr height="30" style="font-size:13px" >
+                                                        <td style="text-align: center;">  {{$count}}</td>
+
+                                                        <input name="warehouse_rep_sub_id[]" id="warehouse_rep_sub_id{{$count}}" type="hidden" class="form-control form-control-sm" value="{{$item->warehouse_rep_sub_id}}" onkeyup="checksummoney(<?php echo $count;?>)">
+                                                        
+                                                        <td width="20%"> 
+                                                                @foreach ($product_data as $list)
+                                                                    @if ($item->product_id == $list->product_id) 
+                                                                    <input name="" id="" type="text" class="form-control form-control-sm" value="{{$list->product_name}}" readonly>
+                                                                    @else 
+                                                                    @endif 
+                                                                @endforeach 
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @foreach ($products_typefree as $free)
+                                                                    @if ($item->product_type_id == $free->products_typefree_id) 
+                                                                    <input name="" id="" type="text" class="form-control form-control-sm" value="{{$free->products_typefree_name}}" readonly>
+                                                                    @else 
+                                                                    @endif 
+                                                                @endforeach  
+                                                        </td>
+                                                        <td><div class="showunit0">
+                                                                @foreach ($product_unit as $uni)
+                                                                    @if ($item->product_unit_subid == $uni-> unit_id) 
+                                                                    <input name="" id="" type="text" class="form-control form-control-sm" value="{{$uni->unit_name}}" readonly>
+                                                                    @else 
+                                                                    @endif 
+                                                                @endforeach  
+                                                            
+                                                        </td>
+                                                        <td >
+                                                            <input name="" id="" type="number" class="form-control form-control-sm text-center" value="{{$item->product_qty}}" readonly onkeyup="checksummoney(<?php echo $count;?>)">
+                                                        </td>
+                                                        <td style="text-align: right">
+                                                            <input name="" id="" type="number" class="form-control form-control-sm text-end" value="{{$item->product_price}}" readonly onkeyup="checksummoney(<?php echo $count;?>)">
+                                                        <td style="text-align: right"> 
+                                                            <input name="" id="" type="number" class="form-control form-control-sm text-end" value="{{$item->product_price_total}}" readonly onkeyup="checksummoney(<?php echo $count;?>)">
+                                                        </td>
+                                                        <td>
+                                                            <?php  $detallot = 'L'.substr(date("Ymd"),2).''.date("His"); ?>
+                                                            <?php if($item->product_lot <> '' && $item->product_lot <> null){$detallot = $item->product_lot; }else{ $detallot = 'L'.substr(date("Ymd"),2).'-'.date("His"); } ?>
+                                                            <input name="" id="" class="form-control form-control-sm text-center" value="{{$detallot}}" readonly>
+                                                        </td>
+                                                        <td width="5%">
+                                                            <input name="" id="" class="form-control form-control-sm text-center" type="date" value="{{$item->warehouse_rep_sub_exedate}}" readonly>
+                                                        </td>
+                                                        <td width="5%">
+                                                            <input name="" id="" class="form-control form-control-sm text-center" type="date" value="{{$item->warehouse_rep_sub_expdate}}" readonly>
+                                                        </td>
+                                                        <td>
+                                                             
+                                                            <select name="" id="" class="form-control form-control-sm" style="width: 100%;" >
+                                                                @if ($item->warehouse_rep_sub_status == '1')
+                                                                <option value="1" selected>ครบ</option>
+                                                                <option value="2">ไม่ครบ</option>
+                                                                @else
+                                                                <option value="1">ครบ</option>
+                                                                <option value="2" selected>ไม่ครบ</option>
+                                                                @endif
+                                                            </select>
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <a class="btn btn-sm btn-danger fa fa-trash-alt remove1"
+                                                                style="color:#FFFFFF;">
+                                                            </a>
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <?php  $count++;?>
+                                                @endforeach
+                                            @else
+                                            @endif
                                         @endif
                                     </tbody>
                                 </table>
@@ -344,7 +513,7 @@
                         '<td style="text-align: center;">' +
                         number +
                         '</td>' +
-                        '<td>' +
+                        '<td width="20%">' +
                         '<select name="product_id[]" id="product_id' + number +
                         '" class="form-control form-control-sm js-example-basic-single" style="width: 100%;" onchange="checkunitref(' +
                         number + ')">' +
@@ -373,7 +542,7 @@
                         '</td>' +
                         '<td>' +
                         '<input name="product_qty[]" id="product_qty' + number +
-                        '" type="number" class="form-control form-control-sm" onkeyup="checksummoney(' + number +
+                        '" type="text" class="form-control form-control-sm" onkeyup="checksummoney(' + number +
                         ');">' +
                         '</td>' +
                         '<td>' +

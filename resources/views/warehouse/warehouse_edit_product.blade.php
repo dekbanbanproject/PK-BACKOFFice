@@ -114,8 +114,8 @@ $loter = $date.''.$time
                                             <td style="text-align: center;" width="8%">ประเภท</td>
                                             <td style="text-align: center;" width="6%">หน่วย</td>
                                             <td style="text-align: center;" width="6%">จำนวน</td>
-                                            <td style="text-align: center;" width="8%">ราคาต่อหน่วย</td>
-                                            <td style="text-align: center;" width="12%">มูลค่า</td>
+                                            <td style="text-align: center;" width="8%">ราคา</td>
+                                            <td style="text-align: center;" width="12%">รวม</td>
                                             <td style="text-align: center;" width="12%">Lot</td>
                                             <td style="text-align: center;" width="6%">วันผลิต</td>
                                             <td style="text-align: center;" width="6%">วันหมดอายุ</td>
@@ -138,7 +138,7 @@ $loter = $date.''.$time
                                                                 @if ($item->product_id == $list->product_id)
                                                                 <option value="{{ $list->product_id }}" selected> {{ $list->product_name }}</option>
                                                                 @else
-                                                                <option value="{{ $list->product_id }}"> {{ $list->product_name }}</option>
+                                                                <option value="{{ $list->product_id }}">{{ $list->product_code }} {{ $list->product_name }}</option>
                                                                 @endif
 
                                                                 @endforeach
@@ -173,7 +173,7 @@ $loter = $date.''.$time
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <input name="product_qty[]" id="product_qty0" type="number" class="form-control form-control-sm" onkeyup="checksummoney(0)" >
+                                                            <input name="product_qty[]" id="product_qty0" type="text" class="form-control form-control-sm" onkeyup="checksummoney(0)" >
                                                         </td>
 
                                                         <td>
@@ -234,20 +234,20 @@ $loter = $date.''.$time
 
                                                                 <input name="warehouse_rep_sub_id[]" id="warehouse_rep_sub_id{{$count}}" type="hidden" class="form-control form-control-sm" value="{{$item->warehouse_rep_sub_id}}" onkeyup="checksummoney(<?php echo $count;?>)">
                                                                 {{-- <input name="warehouse_rep_code[]" id="warehouse_rep_code{{$count}}" type="text" class="form-control form-control-sm" value="{{$item->warehouse_rep_code}}" onkeyup="checksummoney(<?php echo $count;?>)"> --}}
-                                                                <td>
+                                                                <td width="20%">
                                                                     <select name="product_id[]" id="product_id{{$count}}" class="form-control form-control-sm " style="width: 100%;" onchange="checkunitref(0);">
                                                                         <option value="" selected>--รายการวัสดุ--</option>
                                                                         @foreach ($product_data as $list)
                                                                         @if ($item->product_id == $list->product_id)
-                                                                        <option value="{{ $list->product_id }}" selected> {{ $list->product_name }}</option>
+                                                                        <option value="{{ $list->product_id }}" selected> {{ $list->product_code }}{{ $list->product_name }}</option>
                                                                         @else
-                                                                        <option value="{{ $list->product_id }}"> {{ $list->product_name }}</option>
+                                                                        <option value="{{ $list->product_id }}"> {{ $list->product_code }}{{ $list->product_name }}</option>
                                                                         @endif
 
                                                                         @endforeach
                                                                     </select>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <select name="product_type_id[]" id="product_type_id{{$count}}" class="form-control form-control-sm" style="width: 100%;" >
 
                                                                         @foreach ($products_typefree as $free)
@@ -272,29 +272,29 @@ $loter = $date.''.$time
                                                                         @endforeach
                                                                     </select>
                                                                 </td>
-                                                                <td>
-                                                                    <input name="product_qty[]" id="product_qty{{$count}}" type="number" class="form-control form-control-sm" value="{{$item->product_qty}}" onkeyup="checksummoney(<?php echo $count;?>)">
+                                                                <td >
+                                                                    <input name="product_qty[]" id="product_qty{{$count}}" type="text" class="form-control form-control-sm text-center" value="{{$item->product_qty}}" onkeyup="checksummoney(<?php echo $count;?>)">
                                                                 </td>
-                                                                <td>
-                                                                    <input name="product_price[]" id="product_price{{$count}}" type="number" class="form-control form-control-sm" value="{{$item->product_price}}" onkeyup="checksummoney(<?php echo $count;?>)">
+                                                                <td style="text-align: right">
+                                                                    <input name="product_price[]" id="product_price{{$count}}" type="text" class="form-control form-control-sm text-end" value="{{$item->product_price}}" onkeyup="checksummoney(<?php echo $count;?>)">
                                                                 <td>
                                                                 <div class="summoney{{$count}}"></div>
                                                                 </td>
-                                                                <td>
+                                                                <td >
                                                                     <?php  $detallot = 'L'.substr(date("Ymd"),2).''.date("His"); ?>
                                                                     <?php if($item->product_lot <> '' && $item->product_lot <> null){$detallot = $item->product_lot; }else{ $detallot = 'L'.substr(date("Ymd"),2).'-'.date("His"); } ?>
                                                                     <input name="product_lot[]" id="product_lot[]"
-                                                                        class="form-control form-control-sm" value="{{$detallot}}">
+                                                                        class="form-control form-control-sm text-center" value="{{$detallot}}">
                                                                 </td>
-                                                                <td>
+                                                                <td width="5%">
                                                                     <input name="warehouse_rep_sub_exedate[]"
                                                                         id="warehouse_rep_sub_exedate[]"
-                                                                        class="form-control form-control-sm" type="date" value="{{$item->warehouse_rep_sub_exedate}}">
+                                                                        class="form-control form-control-sm text-center" type="date" value="{{$item->warehouse_rep_sub_exedate}}">
                                                                 </td>
-                                                                <td>
+                                                                <td width="5%" >
                                                                     <input name="warehouse_rep_sub_expdate[]"
                                                                         id="warehouse_rep_sub_expdate[]"
-                                                                        class="form-control form-control-sm" type="date" value="{{$item->warehouse_rep_sub_expdate}}">
+                                                                        class="form-control form-control-sm text-center" type="date" value="{{$item->warehouse_rep_sub_expdate}}">
                                                                 </td>
                                                                 <td>
                                                                     <select name="warehouse_rep_sub_status[]" id="warehouse_rep_sub_status{{$count}}" class="form-control form-control-sm" style="width: 100%;" >
@@ -327,7 +327,7 @@ $loter = $date.''.$time
                                 <div class="row">
                                     <div class="col-md-7"> </div>
                                         <div class="col-md-2 text-end">
-                                            <label for="" style="color: red">รวมมูลค่า</label>
+                                            <label for="" style="color: red">ราคาทั้งหมด</label>
                                         </div>
                                         <div class="col-md-2">
                                             <input class="form-control form-control-sm" style="text-align: right;background-color:#fffec5 ;font-size: 16px;color:red" type="text" name="total" id="total" readonly>
@@ -421,11 +421,11 @@ $loter = $date.''.$time
                         '<td style="text-align: center;">'+
                         number+
                         '</td>'+
-                        '<td>'+
+                        '<td width="20%">'+
                         '<select name="product_id[]" id="product_id'+number+'" class="form-control form-control-sm js-example-basic-single" style="width: 100%;" onchange="checkunitref('+number+')">'+
                         '<option value="" selected>--รายการวัสดุ--</option>'+
                         '@foreach ($product_data as $list)'+
-                        '<option value="{{ $list->product_id }}">{{$list->product_name}}</option>'+
+                        '<option value="{{ $list->product_id }}">{{ $list->product_code }}{{$list->product_name}}</option>'+
                         '@endforeach'+
                         '</select> '+
                         '</td>'+
@@ -445,7 +445,7 @@ $loter = $date.''.$time
                         '</select> '+
                         '</td>'+
                         '<td>'+
-                        '<input name="product_qty[]" id="product_qty'+number+'" type="number" class="form-control form-control-sm" onkeyup="checksummoney('+number+');">'+
+                        '<input name="product_qty[]" id="product_qty'+number+'" type="text" class="form-control form-control-sm" onkeyup="checksummoney('+number+');">'+
                         '</td>'+
                         '<td>'+
                         '<input name="product_price[]" id="product_price'+number+'" type="text" class="form-control form-control-sm" onkeyup="checksummoney('+number+');">'+

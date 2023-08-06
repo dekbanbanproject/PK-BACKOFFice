@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('product_unit_bigid')->nullable(); //หน่วยบรรจุ            
             $table->string('product_unit_subid')->nullable(); //หน่วยย่อย 
             $table->string('product_unit_total')->nullable(); //ยอดรวมหน่วย
-            // $table->string('product_qty')->nullable();  //จำนวน 
+            $table->string('product_qty_insert')->nullable();  //จำนวน 
+            $table->string('product_qty_update')->nullable();  //จำนวน 
             $table->string('product_qty_recieve')->nullable();  //จำนวน 
             $table->string('product_qty_pay')->nullable();  //จำนวน             
             $table->double('product_price', 10, 2)->nullable();//ราคา

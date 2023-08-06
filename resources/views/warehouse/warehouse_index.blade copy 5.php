@@ -358,44 +358,76 @@
                                                     </button>
                                                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
 
-                                                        @if ($item->warehouse_rep_status == 'recieve'  && $item->warehouse_rep_send == '')
-                                                        
-                                                            <button class="dropdown-item text-warning" style="font-size:13px" data-bs-toggle="modal" data-bs-target=".editModal{{ $item->warehouse_rep_id }}">
-                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
-                                                                <span>แก้ไขบิล</span>
-                                                            </button>
-                                                            <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item text-success"
+                                                        @if ($item->warehouse_rep_status == 'recieve')
+                                                            {{-- <a class="dropdown-item text-info" href=""
+                                                                style="font-size:13px" data-bs-toggle="modal"
+                                                                data-bs-target=".detail{{ $item->warehouse_rep_id }}">
+                                                                <i class="fa-solid fa-circle-info me-2 text-info"
+                                                                    style="font-size:13px"></i>
+                                                                <span>รายละเอียด</span></a> --}}
+                                                                {{-- <div class="dropdown-divider"></div> --}}
+                                                                {{-- <a class="dropdown-item text-success"
                                                                     href="{{ url('warehouse_add_product/' . $item->warehouse_rep_id) }}"
                                                                     style="font-size:13px" target="blank">
                                                                     <i class="fa-solid fa-clipboard-check me-2 text-success"
                                                                         style="font-size:13px"></i>
                                                                     <span>เพิ่มรายการ</span>
                                                                 </a>
-
-                                                                    {{-- <a class="dropdown-item text-info"
-                                                                    href="{{ url('warehouse_edit_product/' . $item->warehouse_rep_id) }}"
-                                                                    style="font-size:13px" target="blank">
-                                                                    <i class="fa-solid fa-clipboard-check me-2 text-info"
-                                                                        style="font-size:13px"></i>
-                                                                    <span>เพิ่ม/แก้ไขรายการวัสดุ</span>
-                                                                </a> --}}
+                                                            <div class="dropdown-divider"></div> --}}
+                                                            {{-- <a class="dropdown-item text-warning"
+                                                                href="{{ url('warehouse/warehouse_edit/' . $item->warehouse_rep_id) }}"
+                                                                style="font-size:13px">
+                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                                <span>แก้ไข</span>
+                                                            </a> --}}
+                                                            {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning"
+                                                                data-bs-toggle="modal" data-bs-target="#editModal">
+                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                                <span>แก้ไข</span>
+                                                            </button> --}}
+                                                          
+                                                                
+                                                            <button class="dropdown-item text-warning" style="font-size:13px" data-bs-toggle="modal" data-bs-target=".editModal{{ $item->warehouse_rep_id }}">
+                                                                <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
+                                                                <span>แก้ไขบิล</span>
+                                                            </button>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item text-info"
+                                                            href="{{ url('warehouse_edit_product/' . $item->warehouse_rep_id) }}"
+                                                            style="font-size:13px" target="blank">
+                                                            <i class="fa-solid fa-clipboard-check me-2 text-info"
+                                                                style="font-size:13px"></i>
+                                                            <span>เพิ่ม/แก้ไขรายการวัสดุ</span>
+                                                        </a>
                                                         @else
                                                         @endif
 
-                                                        @if ($item->warehouse_rep_status == 'beforallow') 
-                                                            {{-- <a class="dropdown-item"
+                                                        @if ($item->warehouse_rep_status == 'beforallow')
+                                                            {{-- <a class="dropdown-item text-info" href=""
+                                                                style="font-size:13px" data-bs-toggle="modal"
+                                                                data-bs-target=".detail{{ $item->warehouse_rep_id }}">
+                                                                <i class="fa-solid fa-circle-info me-2 text-info"
+                                                                    style="font-size:13px"></i>
+                                                                <span>รายละเอียด</span></a> --}}
+                                                            {{-- <div class="dropdown-divider"></div> --}}
+                                                            <a class="dropdown-item"
                                                                 href="{{ url('warehouse/warehouse_addsub/' . $item->warehouse_rep_id) }}"
                                                                 style="color: rgb(5, 173, 134);font-size:13px">
                                                                 <i class="fa-solid fa-square-check me-2"
                                                                     style="color: rgb(5, 173, 134);font-size:14px"></i>
                                                                 <span>เพิ่มรายการที่ส่งไม่ครบ</span>
-                                                            </a> --}}
-                                                            
+                                                            </a>
+                                                            <div class="dropdown-divider"></div>
+                                                            {{-- <a class="dropdown-item text-primary" href=""
+                                                                style="font-size:12px">
+                                                                <i class="fa-solid fa-print me-2 text-primary"
+                                                                    style="font-size:12px"></i>
+                                                                <span>Print</span></a> --}}
                                                         @else
                                                         @endif
 
-                                                        @if ($item->warehouse_rep_status == 'recieve' && $item->warehouse_rep_send == 'WAIT') 
+                                                        @if ($item->warehouse_rep_status == 'recieve' && $item->warehouse_rep_send == 'WAIT')
+                                                            {{-- <div class="dropdown-divider"></div> --}}
                                                             <a class="dropdown-item text-success"
                                                                 href="{{ url('warehouse_add_product/' . $item->warehouse_rep_id) }}"
                                                                 style="font-size:13px" target="blank">
@@ -403,13 +435,18 @@
                                                                     style="font-size:13px"></i>
                                                                 <span>เพิ่มรายการ</span>
                                                             </a>
-                                                            
+                                                            {{-- <div class="dropdown-divider"></div> --}}
+                                                            {{-- <a class="dropdown-item text-primary" href=""
+                                                                style="font-size:12px">
+                                                                <i class="fa-solid fa-print me-2 text-primary"
+                                                                    style="font-size:12px"></i>
+                                                                <span>Print</span></a> --}}
                                                         @else
                                                         @endif
 
                                                         @if ($item->warehouse_rep_status == 'recieve' && $item->warehouse_rep_send == 'STALE')
                                                             {{-- <div class="dropdown-divider"></div> --}}
-                                                            {{-- <a class="dropdown-item text-success"
+                                                            <a class="dropdown-item text-success"
                                                                 href="javascript:void(0)"
                                                                 onclick="warehouse_confirmbefor({{ $item->warehouse_rep_id }})"
                                                                 style="font-size:13px">
@@ -417,15 +454,26 @@
                                                                     style="font-size:13px"></i>
                                                                 <span>ยืนยันรับเข้าคลังกรณีไม่ครบ</span>
                                                             </a>
-                                                            <div class="dropdown-divider"></div> --}}
-                                                            
+                                                            <div class="dropdown-divider"></div>
+                                                            {{-- <a class="dropdown-item text-primary" href=""
+                                                                style="font-size:12px">
+                                                                <i class="fa-solid fa-print me-2 text-primary"
+                                                                    style="font-size:12px"></i>
+                                                                <span>Print</span></a> --}}
                                                         @else
                                                         @endif
 
                                                         @if ($item->warehouse_rep_send == 'STALE' || $item->warehouse_rep_send == '')
-                                                            
+                                                            {{-- <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item text-danger" href="javascript:void(0)"
+                                                                onclick="warehouse_destroy({{ $item->warehouse_rep_id }})"
+                                                                style="font-size:13px">
+                                                                <i class="fa-solid fa-trash-can me-2 text-danger"
+                                                                    style="font-size:13px"></i>
+                                                                <span>ลบ</span>
+                                                            </a> --}}
                                                         @elseif ($item->warehouse_rep_send == 'FINISH' && $item->warehouse_rep_status == 'recieve')
-                                                            {{-- <div class="dropdown-divider"></div> --}}
+                                                            <div class="dropdown-divider"></div>
                                                             <a class="dropdown-item text-primary"
                                                                 href="javascript:void(0)"
                                                                 onclick="warehouse_confirm_recieve({{ $item->warehouse_rep_id }})"
@@ -434,8 +482,21 @@
                                                                     style="font-size:13px"></i>
                                                                 <span>ยืนยันรับเข้าคลัง</span>
                                                             </a>
-                                                            
-                                                        @else 
+                                                            {{-- <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item text-info"
+                                                                    href="{{ url('warehouse_edit_product/' . $item->warehouse_rep_id) }}"
+                                                                    style="font-size:13px" target="blank">
+                                                                    <i class="fa-solid fa-clipboard-check me-2 text-info"
+                                                                        style="font-size:13px"></i>
+                                                                    <span>เพิ่ม/แก้ไขรายการวัสดุ</span>
+                                                                </a> --}}
+                                                            {{-- <a class="dropdown-item text-primary" href=""
+                                                                style="font-size:12px">
+                                                                <i class="fa-solid fa-print me-2 text-primary"
+                                                                    style="font-size:12px"></i>
+                                                                <span>Print</span></a> --}}
+                                                        @else
+                                                            <!-- Extra Large modal -->
                                                             <a class="dropdown-item text-info" href=""
                                                                 style="font-size:13px" data-bs-toggle="modal"
                                                                 data-bs-target=".detail{{ $item->warehouse_rep_id }}">
