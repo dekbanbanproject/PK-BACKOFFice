@@ -108,20 +108,20 @@ class WarehousePayController extends Controller
         $data['department_sub_sub'] = Department_sub_sub::get();
 
         $data['warehouse_pay'] = DB::connection('mysql')->select('
-        select  ds.DEPARTMENT_SUB_SUB_NAME,w.warehouse_pay_id,w.pay_code,w.payout_inven_id
-            ,w.pay_type,w.pay_user_id,w.pay_date
-            ,w.payin_inven_id,w.pay_status,
-            w.pay_send,w.pay_total,w.store_id,w.pay_year,u.fname,u.lname,w.pay_payuser_id
+            select  ds.DEPARTMENT_SUB_SUB_NAME,w.warehouse_pay_id,w.pay_code,w.payout_inven_id
+                ,w.pay_type,w.pay_user_id,w.pay_date
+                ,w.payin_inven_id,w.pay_status,
+                w.pay_send,w.pay_total,w.store_id,w.pay_year,u.fname,u.lname,w.pay_payuser_id
 
-            from warehouse_pay w
-            LEFT JOIN warehouse_inven wi on wi.warehouse_inven_id = w.payin_inven_id
-            LEFT JOIN department_sub_sub ds on ds.DEPARTMENT_SUB_SUB_ID = w.payin_inven_id
-            LEFT JOIN users u on u.id = w.pay_user_id
-            LEFT JOIN warehouse_pay_status wp on wp.warehouse_pay_status_code = w.pay_status
-            ORDER BY w.warehouse_pay_id DESC
+                from warehouse_pay w
+                LEFT JOIN warehouse_inven wi on wi.warehouse_inven_id = w.payin_inven_id
+                LEFT JOIN department_sub_sub ds on ds.DEPARTMENT_SUB_SUB_ID = w.payin_inven_id
+                LEFT JOIN users u on u.id = w.pay_user_id
+                LEFT JOIN warehouse_pay_status wp on wp.warehouse_pay_status_code = w.pay_status
+                ORDER BY w.warehouse_pay_id DESC
         ');
 
-    
+
 
         // ,wp.pay_status_name
         // select m.medical_borrow_id,m.medical_borrow_active,m.medical_borrow_date,m.medical_borrow_backdate
@@ -169,6 +169,49 @@ class WarehousePayController extends Controller
 
         return response()->json([
             'status'     => '200',
+        ]);
+    }
+    public function warehouse_paymodal_edit(Request $request,$id)
+    {
+        $warehouse_pays = Warehouse_pay::find($id);
+        // $warehouse_pay = DB::connection('mysql')->select('
+        //     select  w.warehouse_pay_id,ds.DEPARTMENT_SUB_SUB_NAME,w.warehouse_pay_id,w.pay_code,w.payout_inven_id
+        //         ,w.pay_type,w.pay_user_id,w.pay_date
+        //         ,w.payin_inven_id,w.pay_status,
+        //         w.pay_send,w.pay_total,w.store_id,w.pay_year,u.fname,u.lname,w.pay_payuser_id
+
+        //         from warehouse_pay w
+        //         LEFT JOIN warehouse_inven wi on wi.warehouse_inven_id = w.payin_inven_id
+        //         LEFT JOIN department_sub_sub ds on ds.DEPARTMENT_SUB_SUB_ID = w.payin_inven_id
+        //         LEFT JOIN users u on u.id = w.pay_user_id
+        //         LEFT JOIN warehouse_pay_status wp on wp.warehouse_pay_status_code = w.pay_status
+        //         WHERE w.warehouse_pay_id ="'.$id.'"
+        // ');
+        $warehouse_pay = Warehouse_pay::where('warehouse_pay_id',$id)->get();
+        $budget_year = DB::table('budget_year')->where('leave_year_id',$warehouse_pay[0]['leave_year_id'])->get();
+        $users = User::where('id',$warehouse_pay[0]['id'])->get();
+
+        $products_vendor = Products_vendor::all();
+        $warehouse_inven = DB::table('warehouse_inven')->get();
+        $department_sub_sub = Department_sub_sub::get();
+
+        return response()->json([
+            'status'               => '200',
+            'warehouse_pay'        =>  $warehouse_pay,
+            'warehouse_pays'        =>  $warehouse_pays,
+            'budget_year'          =>  $budget_year,
+            'users'                =>  $users,
+        ]);
+    }
+    public function get_year(Request $request,$id)
+    {
+        $budgetyear = DB::table('budget_year')->where('leave_year_id',$id)->get();
+
+
+        return response()->json([
+            'status'               => '200',
+            'budgetyear'        =>  $budgetyear,
+
         ]);
     }
 
