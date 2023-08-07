@@ -104,7 +104,7 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_302_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                    <a href="{{url('account_301_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
                     </a>
@@ -113,7 +113,7 @@
         {{-- </form>   --}}
         <div class="row "> 
             @foreach ($datashow as $item)   
-            <div class="col-xl-6 col-md-6">
+            <div class="col-xl-4 col-md-6">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
 
                     @if ($startdate == '')

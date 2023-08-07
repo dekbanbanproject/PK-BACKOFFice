@@ -115,7 +115,7 @@ Route::match(['get','post'],'sit_auto',[App\Http\Controllers\AutoController::cla
 Route::match(['get','post'],'repage',[App\Http\Controllers\AutoController::class, 'repage'])->name('sit.repage');//
 Route::match(['get','post'],'sit_pullacc_auto',[App\Http\Controllers\AutoController::class, 'sit_pullacc_auto'])->name('auto.sit_pullacc_auto');//
 
-
+Route::match(['get','post'],'sss_check_claimcode',[App\Http\Controllers\AutoController::class, 'sss_check_claimcode'])->name('check.sss_check_claimcode');//
 
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//
 Route::match(['get','post'],'depauthen_auto',[App\Http\Controllers\AutoController::class, 'depauthen_auto'])->name('db.depauthen_auto');//
@@ -137,6 +137,9 @@ Route::match(['get','post'],'check_dashboard_bar',[App\Http\Controllers\Checksit
 Route::match(['get','post'],'check_dashboard_mob',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_mob'])->name('claim.check_dashboard_mob');//
 Route::match(['get','post'],'check_dashboard_authen_mob/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_authen_mob'])->name('claim.check_dashboard_authen_mob');//
 Route::match(['get','post'],'check_dashboard_noauthen_mob/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_noauthen_mob'])->name('claim.check_dashboard_noauthen_mob');//
+
+Route::match(['get','post'],'check_dashboard_staff/{staff}/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_staff'])->name('claim.check_dashboard_staff');//
+Route::match(['get','post'],'check_dashboard_staffno/{staff}/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_staffno'])->name('claim.check_dashboard_staffno');//
 
 Route::match(['get','post'],'check_web',[App\Http\Controllers\ChecksitController::class, 'check_web'])->name('claim.check_web');//
 Route::match(['get','post'],'check_spsch',[App\Http\Controllers\ChecksitController::class, 'check_spsch'])->name('claim.check_spsch');//
@@ -1904,7 +1907,7 @@ Route::match(['get','post'],'p4p_work_position',[App\Http\Controllers\P4pControl
 Route::match(['get','post'],'p4p_work_position_save',[App\Http\Controllers\P4pController::class, 'p4p_work_position_save'])->name('p4.p4p_work_position_save');//
 Route::match(['get','post'],'p4p_work_position_edit/{id}',[App\Http\Controllers\P4pController::class, 'p4p_work_position_edit'])->name('p4.p4p_work_position_edit');//
 Route::match(['get','post'],'p4p_work_position_update',[App\Http\Controllers\P4pController::class, 'p4p_work_position_update'])->name('p4.p4p_work_position_update');//
-Route::match(['get','post'],'p4p_work_position_switchactive',[App\Http\Controllers\P4pController::class, 'p4p_work_position_switchactive'])->name('p4.p4p_work_position_switchactive');//
+Route::match(['get','post'],'p4p_work_position_switchactive',[App\Http\Controllers\P4pController::class, 'p4p_work_position_switchactive'])->name('p4.p4p_work_position_switchactive');// switchactive
 
 Route::match(['get','post'],'p4p_work_position_sub/{id}',[App\Http\Controllers\P4pController::class, 'p4p_work_position_sub'])->name('p4.p4p_work_position_sub');//
 

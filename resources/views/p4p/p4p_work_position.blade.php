@@ -151,6 +151,7 @@
                                                         <td class="text-center" width="5%">{{ $i++ }}</td>    
                                                         <td class="text-center" width="10%" style="font-size: 13px">{{ $item->p4p_work_position_code }}</td> 
                                                         <td class="p-2" style="font-size: 13px">{{ $item->p4p_work_position_name }}</td>
+                                                        
                                                         <td width="10%">
                                                             @if($item-> p4p_work_position_active == 'TRUE' )
                                                             <input type="checkbox" id="{{ $item-> p4p_work_position_id }}" name="{{ $item-> p4p_work_position_id }}" switch="none" onchange="switchactive({{ $item-> p4p_work_position_id }});" checked />
@@ -160,6 +161,7 @@
                                                             <label for="{{ $item-> p4p_work_position_id }}" data-on-label="On" data-off-label="Off"></label>
  
                                                         </td>
+
                                                         <td class="text-center" width="5%">
                                                             <div class="dropdown">
                                                                 <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"

@@ -1043,6 +1043,7 @@ class P4pController extends Controller
             'status'     => '200' 
         ]);
     }
+    
     function p4p_work_position_switchactive(Request $request)
     {  
         $id = $request->idfunc; 
@@ -1050,6 +1051,7 @@ class P4pController extends Controller
         $active->p4p_work_position_active = $request->onoff;
         $active->save();
     }
+
     public function p4p_work_position_sub (Request $request,$id)
     {  
         $data['leave_month'] = DB::table('leave_month')->get(); 

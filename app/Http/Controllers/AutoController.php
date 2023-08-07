@@ -1059,5 +1059,98 @@ class AutoController extends Controller
         return view('auto.db_authen_detail');
     }
 
+    public function sss_check_claimcode(Request $request)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $date = date('Y-m-d');
+        // $newday = date('Y-m-d', strtotime($date . ' -30 day')); //ย้อนหลัง 30 วัน 
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
+        $newdate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน 
+        $treedate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 3 เดือน 
+        // dd($newdate);
+        // Db_authen_detail
+        $detail_auto = DB::connection('mysql3')->select('
+                select v1.vn,pa.cid,concat(pa.pname,pa.fname," ",pa.lname) as ptname,v1.pttype,p.name as pttype_name,o.vstdate,v1.debt_amount
+                ,v1.hospmain,v1.hospsub,v1.pttypeno,v1.pttype_number
+                ,concat(h1.hosptype," ",h1.name) as hospmain_name
+                ,concat(h2.hosptype," ",h2.name) as hospsub_name
+                ,v1.claim_code,  u.name as pttype_staff_name 
+                ,vv.income-vv.discount_money-vv.rcpt_money as debit 
+                from ovst o  
+                left outer join vn_stat vv on vv.vn = o.vn 
+                left outer join visit_pttype v1 on v1.vn = o.vn  
+                left outer join opduser u on u.loginname=v1.staff  
+                left outer join pttype p on p.pttype = v1.pttype  
+                left outer join hospcode h1 on h1.hospcode = v1.hospmain  
+                left outer join hospcode h2 on h2.hospcode = v1.hospsub  
+                left outer join patient pa on pa.hn = o.hn
+                
+                where o.vstdate between "'.$treedate.'" AND "'.$newdate.'"
+                AND v1.pttype IN("14","06","45","35")
+                AND v1.claim_code is null order by v1.vn,v1.pttype_number
+            ');
+
+            // where o.vstdate between "'.$newweek.'" AND "'.$newdate.'"
+            // where o.vstdate = CURDATE()
+            foreach ($detail_auto as $key => $value) {
+                  if ($value->claim_code <> '1') {
+                     
+                        $linetoken = "5VL5yl3CELeiLqk4cPZpdONlO25lQ1bMgSZntXrzzbD";
+                        
+                        $datesend = date('Y-m-d'); 
+                        $header = "ClaimCode";
+                        $message = $header.
+                            "\n"."vn : "            . $value->vn.
+                            "\n"."cid : "           . $value->cid.
+                            "\n"."ptname : "        . $value->ptname.
+                            "\n"."vstdate : "       . $value->vstdate.
+                            "\n"."pttype : "        . $value->pttype.
+                            "\n"."pttype_name : "   . $value->pttype_name.
+                            "\n"."hospmain : "      . $value->hospmain.
+                            "\n"."hospmain_name : " . $value->hospmain_name.
+                            "\n"."hospmain : "      . $value->hospmain. 
+                            "\n"."debit : "         . $value->debit.              
+                            "\n"."วันที่แจ้ง : "        . $datesend.    
+                            "\n"."เวลาแจ้ง : "        . date('H:i:s');  
+                                    
+                            if($linetoken == null){
+                                $send_line ='';
+                            }else{
+                                $send_line = $linetoken;
+                            }
+
+                        if($send_line !== '' && $send_line !== null){  
+                                $chOne = curl_init();
+                                curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                                curl_setopt( $chOne, CURLOPT_POST, 1);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                                curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                                $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$send_line.'', );
+                                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                                curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                                $result = curl_exec( $chOne );
+                                //  if(curl_error($chOne)) { echo 'error:' . curl_error($chOne); }
+                                //     else { 
+                                //         $result_ = json_decode($result, true);
+                                //         echo "status : ".$result_['status']; echo "message : ". $result_['message'];
+                                //         //  return response()->json([
+                                //         //      'status'     => 200 , 
+                                //         //      ]);
+                                
+                                // }
+                                curl_close( $chOne );
+                                
+                        }
+                        } else {
+                            # code...
+                        }
+                  
+            }
+        return view('auto.sss_check_claimcode');
+    }
+
 
 }

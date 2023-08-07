@@ -97,7 +97,7 @@
 
         <div class="row">
 
-            <div class="col-xl-8 col-md-8">
+            <div class="col-xl-9 col-md-8">
                 <div class="main-card card">
                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6>
                     <div style="height:auto;" class="p-2">
@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-md-4">
+            <div class="col-xl-3 col-md-4">
                 <div class="main-card card p-2">
                     <h6 class="card-title ms-2">Report TOP 5 วันที่ {{ $dd  }}</h6>
                     @foreach ($data_staff_max as $itemmax)
@@ -116,10 +116,10 @@
                                         <div class="widget-numbers mb-0 w-100">
                                             <div class="widget-chart-flex">
                                                 <div class="fsize-2 text-warning">
-                                                    <small class="opacity-5 text-muted"><i
-                                                            class="fa-solid fa-person-walking-arrow-right me-2"></i></small>
-                                                    <label for="" style="font-size: 13px"> {{ $itemmax->countvn }}
-                                                        คน</label>
+                                                    {{-- <small class="opacity-5 text-muted"> --}}
+                                                        <i class="fa-solid fa-person-walking-arrow-right me-2"></i>
+                                                    {{-- </small> --}}
+                                                    <label for="" style="font-size: 13px"> {{ $itemmax->countvn }} คน</label>
 
                                                 </div>
                                                 <div class="ms-auto">
@@ -127,9 +127,7 @@
                                                     <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
 
                                                         <span class="text-success ps-2 me-2">
-                                                            <span class="pe-1">
-                                                                <i class="fa fa-angle-left"></i>
-                                                            </span>
+                                                            <i class="fa-regular fa-face-smile me-2"></i>
                                                             <label for="" style="font-size: 12px">
                                                                 {{ $itemmax->Authen }}</label>
                                                         </span>
@@ -137,6 +135,7 @@
                                                         <a href="">
                                                         {{-- <a href="{{ url('report_authen_sub/' . $item->month . '/' . $item->year) }}" target="_blank"> --}}
                                                             <span class="text-danger ps-2">
+                                                                <i class="fa-regular fa-face-frown me-2"></i>
                                                                 <label for="" style="font-size: 12px">
                                                                     {{ $itemmax->Noauthen }}
                                                                     คน</label> 
@@ -323,13 +322,28 @@
                             <tbody>
                                 <?php $j = 1; ?>
                                 @foreach ($data_staff as $item2)
+                                <?php 
+                                    $Authenper_s = 100 * $item2->Authen / $item2->countvn;
+                                    $noAuthenper_s = 100 * $item2->Noauthen / $item2->countvn;
+                                
+                                ?>
                                     <tr >
                                         <td class="text-center" style="width: 5%">{{ $j++ }}</td>
                                         {{-- <td class="text-center">{{ $item2->day }}</td> --}}
                                         <td class="p-2">{{ $item2->staff }}</td>
                                         <td class="text-center">{{ $item2->countvn }}</td>
-                                        <td class="text-center">{{ $item2->Authen }}</td> 
-                                        <td class="text-center">{{ $item2->Noauthen }}</td> 
+                                        <td class="text-center text-success"> 
+                                            <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success" href="{{ url('check_dashboard_staff/' . $item2->staff.'/'. $item2->day.'/'. $item2->month.'/'. $item2->year) }}"  target="_blank">
+                                                {{ $item2->Authen }} Visit
+                                            </a>
+                                            => {{ number_format($Authenper_s, 2) }}%
+                                        </td> 
+                                        <td class="text-center text-danger">
+                                            <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('check_dashboard_staffno/' . $item2->staff.'/'. $item2->day.'/'. $item2->month.'/'. $item2->year) }}"  target="_blank">
+                                                {{ $item2->Noauthen }} Visit
+                                            </a>   
+                                            => {{ number_format($noAuthenper_s, 2) }}%
+                                        </td> 
                                     </tr>
                                 @endforeach
     

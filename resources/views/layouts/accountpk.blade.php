@@ -305,9 +305,9 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('account_301_dash') }}">ผัง-301</a></li>
-                                <li><a href="{{ url('account_302_dash') }}">ผัง-302</a></li>
-                                <li><a href="{{ url('account_304_dash') }}">ผัง-304</a></li>
-                                <li><a href="{{ url('account_308_dash') }}">ผัง-308</a></li>
+                                {{-- <li><a href="{{ url('account_302_dash') }}">ผัง-302</a></li> --}}
+                                {{-- <li><a href="{{ url('account_304_dash') }}">ผัง-304</a></li> --}}
+                                {{-- <li><a href="{{ url('account_308_dash') }}">ผัง-308</a></li> --}}
                             </ul>
                         </li>
                         <li>
@@ -327,10 +327,10 @@
                                 <span>LGO</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_801_dash') }}">ผัง-801</a></li>
-                                <li><a href="{{ url('account_802_dash') }}">ผัง-802</a></li>
-                                <li><a href="{{ url('account_803_dash') }}">ผัง-803</a></li>
-                                <li><a href="{{ url('account_804_dash') }}">ผัง-804</a></li>
+                                {{-- <li><a href="{{ url('account_801_dash') }}">ผัง-801</a></li> --}}
+                                {{-- <li><a href="{{ url('account_802_dash') }}">ผัง-802</a></li> --}}
+                                {{-- <li><a href="{{ url('account_803_dash') }}">ผัง-803</a></li> --}}
+                                {{-- <li><a href="{{ url('account_804_dash') }}">ผัง-804</a></li> --}}
                             </ul>
                         </li>
                         <li>
@@ -366,14 +366,14 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
-                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)</a></li>                              
-                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)</a></li>                                
+                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>                              
+                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li>                                
                                 <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li>
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)</a></li>
                                 <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li>
                                 
                                 <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)</a></li>
-                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)</a></li>
+                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
                             </ul>
                         </li>
                         <li>
