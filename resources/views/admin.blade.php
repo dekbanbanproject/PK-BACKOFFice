@@ -843,8 +843,8 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            {{-- <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card">
+            <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(243, 212, 155)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
@@ -852,17 +852,17 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <h5 class="text-start mb-2">P4P</h5>
+                                                <h5 class="text-start mb-2">DENTAL</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
-                                                <a href="{{ url('p4p') }}" target="_blank">
+                                                <a href="{{ url('dental') }}" target="_blank">
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
-                                                                <i class="fa-solid fa-3x fa-person-booth font-size-25 mt-3" style="color: rgb(155, 50, 50)"></i>
+                                                                <i class="fa-solid fa-3x fa-tooth font-size-25 mt-3" style="color: rgb(241, 188, 90)"></i>
                                                             </button>
                                                         </p>
-                                                    </span>
+                                                    </span> 
                                                 </a>
                                             </div>
                                         </div>
@@ -871,7 +871,7 @@ $pos = strrpos($url, '/') + 1;
                         </div>
                     </div>
                 </div>
-            </div>  --}}
+            </div> 
             {{-- <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">

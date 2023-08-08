@@ -1066,7 +1066,7 @@ class AutoController extends Controller
         // $newday = date('Y-m-d', strtotime($date . ' -30 day')); //ย้อนหลัง 30 วัน 
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
         $newdate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน 
-        $treedate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 3 เดือน 
+        $treedate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 3 เดือน 
         // dd($newdate);
         // Db_authen_detail
         $detail_auto = DB::connection('mysql3')->select('
@@ -1085,7 +1085,7 @@ class AutoController extends Controller
                 left outer join hospcode h2 on h2.hospcode = v1.hospsub  
                 left outer join patient pa on pa.hn = o.hn
                 
-                where o.vstdate between "'.$treedate.'" AND "'.$newdate.'"
+                where o.vstdate between "'.$newdate.'" AND "'.$date.'"
                 AND v1.pttype IN("14","06","45","35")
                 AND v1.claim_code is null order by v1.vn,v1.pttype_number
             ');

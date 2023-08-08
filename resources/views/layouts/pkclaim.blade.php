@@ -421,6 +421,16 @@
                             </ul>
                         </li>
 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-user-tie text-danger"></i>
+                                <span>ค่ารักษาที่ไม่โอนไป IPD</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('opdtoipd') }}">ตรวจสอบ</a></li> 
+                            </ul>
+                        </li>
+
 
                       
                     </ul>

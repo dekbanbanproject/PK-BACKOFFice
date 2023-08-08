@@ -2079,8 +2079,22 @@ Route::match(['get','post'],'ktb_spawn',[App\Http\Controllers\KTBController::cla
 Route::match(['get','post'],'timein',[App\Http\Controllers\TimeINController::class, 'timein'])->name('TT.timein');//ลงเวลา
 Route::match(['get','post'],'timein_save',[App\Http\Controllers\TimeINController::class, 'timein_save'])->name('TT.timein_save');//ลงเวลา
 
-//********************* */ ENV  ***********************************
 
+//********************* */ DENTAL  ***********************************
+Route::match(['get','post'],'dental',[App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental');//
+Route::match(['get','post'],'dental_save',[App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save');//
+Route::match(['get','post'],'dental_edit/{id}',[App\Http\Controllers\DentalController::class, 'dental_edit'])->name('den.dental_edit');//
+Route::match(['get','post'],'dental_update',[App\Http\Controllers\DentalController::class, 'dental_update'])->name('den.dental_update');//
+Route::match(['get','post'],'dental_switchactive',[App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive');// switchactive
+
+
+//********************* */ OPD IPD  ***********************************
+Route::match(['get','post'],'opdtoipd',[App\Http\Controllers\OpipController::class, 'opdtoipd'])->name('op.opdtoipd');//
+Route::match(['get','post'],'opdtoipd_sub/{vn}',[App\Http\Controllers\OpipController::class, 'opdtoipd_sub'])->name('op.opdtoipd_sub');//
+Route::match(['get','post'],'opdtoipd_subsubclaim/{vn}/{income}',[App\Http\Controllers\OpipController::class, 'opdtoipd_subsubclaim'])->name('op.opdtoipd_subsubclaim');//
+Route::match(['get','post'],'opdtoipd_subsub/{vn}/{income}',[App\Http\Controllers\OpipController::class, 'opdtoipd_subsub'])->name('op.opdtoipd_subsub');//
+// Route::match(['get','post'],'opdtoipd_sub/{month}/{year}',[App\Http\Controllers\OpipController::class, 'opdtoipd_sub'])->name('op.opdtoipd_sub');//
+//********************* */ ENV  ***********************************
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 
 //บ่อบำบัด//////////////////////////////////////////////////////////////

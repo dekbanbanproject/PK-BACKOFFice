@@ -125,22 +125,19 @@
                                     <th class="text-center">ชื่อ-นามสกุล</th>
                                     <th class="text-center">โรงพยาบาล</th>
                                     <th class="text-center">สิทธิ์</th>
-                                    <th class="text-center">vstdate</th>
-                                    {{-- <th class="text-center">เวลารับบริการ</th>--}}
+                                    <th class="text-center">vstdate</th> 
                                     <th class="text-center">pdx</th>
-                                    <th class="text-center">dx0</th>
-                                    {{-- <th class="text-center">dx1</th> --}}
+                                    <th class="text-center">dx0</th> 
                                     <th class="text-center">income</th>
                                     <th class="text-center">inst</th>
                                     <th class="text-center">CT</th>
                                     <th class="text-center">คงเหลือ</th>
-                                    <th class="text-center">ยอดเรียกเก็บ</th>
-                                    {{-- <th class="text-center">Total</th> --}}
+                                    <th class="text-center">ยอดเรียกเก็บ</th> 
                                     <th class="text-center">Level</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0; ?>
+                                <?php $number = 1;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0; ?>
                                 @foreach ($datashow_ as $item)
                                     <?php  
                                     $data_ = DB::connection('mysql3')->select('
@@ -174,11 +171,9 @@
                                         <td class="text-font text-pedding" style="text-align: left;width: 10%;"> {{ $item->ptname }} </td>
                                         <td class="text-font text-pedding" style="text-align: left;width: 12%;"> {{ $item->hospmain }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pttype }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->vstdate }}</td>
-                                        {{-- <td class="text-font text-pedding" style="text-align: center;"> {{ $item->vsttime }} </td>  --}}
+                                        <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->vstdate }}</td> 
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pdx }} </td>
-                                        <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->dx0 }} </td>
-                                        {{-- <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->dx1 }} </td> --}}
+                                        <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->dx0 }} </td> 
                                         <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#b00ec5">&nbsp; {{ number_format($item->income,2) }} </td>
                                         <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#36a9f7">&nbsp; {{ number_format($inst_income,2) }} </td>
                                         <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#6187f0">&nbsp; {{ number_format($ct_income,2) }} </td>
@@ -188,9 +183,10 @@
                                         <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">&nbsp;{{ number_format($item->income-$item->sum_inst-$ct_income,2) }} </td>
                                         @elseif($item->income-$item->sum_inst-$ct_income > 1000)
                                         <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">1,000.00 </td>
+                                        @else 
+                                        <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">0.00 </td>
                                         @endif
-                                        {{-- <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">&nbsp;{{ number_format($item->total,2) }} </td> --}}
-                                        {{-- <td class="text-font text-pedding" style="text-align: right;width: 5%;color:#0bc597">&nbsp;{{ number_format(($item->total),2) }} </td> --}}
+                                   
                                         <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->er_emergency_level_id }} </td>
                                     </tr>
                                         <?php

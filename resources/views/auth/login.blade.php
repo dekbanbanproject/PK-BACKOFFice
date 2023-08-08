@@ -108,9 +108,9 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="height: 100px;">
         <div class="container">
             @foreach ($datadetail as $item)
-                <img src="{{ asset('images/logo150.png') }}" class="bi me-2" width="45" height="45"
+                <img src="{{ asset('images/logo150.png') }}" class="bi me-2" width="70" height="70"
                     alt="">
-                <a class="navbar-brand" href="#" style="font-size: 22px">{{ $item->orginfo_name }}</a>
+                <a class="navbar-brand" href="{{ url('/') }}" style="font-size: 26px">{{ $item->orginfo_name }}</a>
             @endforeach
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -119,15 +119,21 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ url('sit_auto') }}" target="_blank">Auto
                             Systems</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('check_dashboard') }}" target="_blank">Report</a>
-                    </li>
+                    </li> --}}
+                    {{-- <li class="nav-item">
+                        <a class="nav-link active" href="{{ url('check_dashboard') }}" target="_blank">Report</a>
+                    </li> --}}
                 </ul>
                 <form class="d-flex" role="search">
+                 
+                        <a class="btn btn-outline-info btn-sm me-3" href="{{ url('check_dashboard') }}" target="_blank">
+                            <i class="fa-solid fa-chart-line text-info"></i>
+                            Report
+                        </a>
+            
                     {{-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> --}}
                     <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
