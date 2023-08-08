@@ -101,38 +101,23 @@ class DentalController extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-        if ($startdate == '') {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                    and account_code="1102050101.301"
-                    and income <> 0
-                    group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
-            ');
+        
+        $datashow = DB::select('
+            SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                ,count(distinct a.hn) as hn
+                ,count(distinct a.vn) as vn
+                ,sum(a.paid_money) as paid_money
+                ,sum(a.income) as income
+                ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                FROM acc_debtor a
+                left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
+                and account_code="1102050101.301"
+                and income <> 0
+                group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
+        ');
 
-        } else {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.301"
-                    and income <>0
-                    group by month(a.vstdate) order by month(a.vstdate) desc;
-            ');
-        }
+        
 
         $data_doctor = DB::connection('mysql3')->select('
             SELECT code,CONCAT(pname,fname," ",lname) dentname

@@ -1089,7 +1089,7 @@ class ReportFontController extends Controller
                         and i.an is null
                         AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain = "'.$hospcode.'"
-                        and v.pttype not in("W1","33","36")
+                        and v.pttype not in("W1","33","36","50")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
@@ -1122,7 +1122,7 @@ class ReportFontController extends Controller
                         and i.an is null
                         AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain = "'.$hospcode.'"
-                        and v.pttype not in("W1","33","36")
+                        and v.pttype not in("W1","33","36","50")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
                         and pt.hipdata_code ="ucs"
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
@@ -1135,8 +1135,7 @@ class ReportFontController extends Controller
                         group by v.vn
                     ) As Refer
             ');
-            // and v.pttype in("98","99")
-            // and v.hospmain in("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","04007","10702","14425")
+           
            
            foreach ($datashow_ as $key => $va2) {
                 Refer_cross::insert([
@@ -1188,7 +1187,7 @@ class ReportFontController extends Controller
                         and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
                         and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
-                        and pt.hipdata_code ="ucs"
+                      
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
                         group by v.vn
 
@@ -1220,7 +1219,7 @@ class ReportFontController extends Controller
                         and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
                         and v.pttype in("98","99")
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
-                        and pt.hipdata_code ="ucs"
+                       
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
                         AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
                         AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"
@@ -1231,6 +1230,7 @@ class ReportFontController extends Controller
                         group by v.vn
                     ) As Refer
             ');
+           
             foreach ($datashow_ as $key => $va2) {
                 Refer_cross::insert([
                     'hn'                 => $va2->hn,

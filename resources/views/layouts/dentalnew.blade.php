@@ -242,7 +242,8 @@
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-car-side text-danger"></i>
+                                {{-- <i class="fa-solid fa-car-side text-danger"></i> --}}
+                                <i class="fa-regular fa-calendar-days "></i>
                                 <span>ตารางนัดทำฟัน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
