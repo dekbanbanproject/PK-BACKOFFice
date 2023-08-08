@@ -2086,6 +2086,7 @@ Route::match(['get','post'],'timein_save',[App\Http\Controllers\TimeINController
 
 //********************* */ DENTAL  ***********************************
 Route::match(['get','post'],'dental',[App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental');//
+Route::match(['get','post'],'dental_detail/{id}',[App\Http\Controllers\DentalController::class, 'dental_detail'])->name('den.dental_detail');//
 Route::match(['get','post'],'dental_save',[App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save');//
 Route::match(['get','post'],'dental_edit/{id}',[App\Http\Controllers\DentalController::class, 'dental_edit'])->name('den.dental_edit');//
 Route::match(['get','post'],'dental_update',[App\Http\Controllers\DentalController::class, 'dental_update'])->name('den.dental_update');//

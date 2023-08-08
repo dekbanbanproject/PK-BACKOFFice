@@ -47,6 +47,7 @@ use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
 use App\Models\Car_service;
+use App\Models\Oapp;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -88,7 +89,7 @@ date_default_timezone_set("Asia/Bangkok");
 class DentalController extends Controller
  {
     // ***************** 301********************************
-     
+
     public function dental (Request $request)
     {
         $startdate = $request->startdate;
@@ -101,82 +102,94 @@ class DentalController extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-        
-        $datashow = DB::select('
-            SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                ,count(distinct a.hn) as hn
-                ,count(distinct a.vn) as vn
-                ,sum(a.paid_money) as paid_money
-                ,sum(a.income) as income
-                ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                FROM acc_debtor a
-                left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                and account_code="1102050101.301"
-                and income <> 0
-                group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
-        ');
-
-        
 
         $data_doctor = DB::connection('mysql3')->select('
             SELECT code,CONCAT(pname,fname," ",lname) dentname
-            FROM doctor 
+            FROM doctor
             WHERE position_id = "2"
             AND active = "Y"
         ');
+        $event = array();
+        $data_nad = DB::connection('mysql3')->select('
+            SELECT oa.oapp_id,oa.vn,concat(p.fname," ",p.lname) as ptname,showcid(p.cid) as cid,oa.hn,oa.nextdate as doctor_nad,d.shortname as doctor
+            FROM oapp oa
+            LEFT OUTER JOIN patient p on p.hn=oa.hn
+            LEFT OUTER JOIN doctor d on d.code=oa.doctor
+            WHERE oa.nextdate BETWEEN "2023-07-01" AND "2023-08-31"
+            AND oa.clinic ="018"
+            AND d.position_id = "2"
+            AND d.active = "Y"
+        ');
+        // $carservicess = Car_service::all();
+        foreach ($data_nad as $item) {
 
-        $event = array();       
-        $carservicess = Car_service::all();  
-        foreach ($carservicess as $carservice) {
-       
-            if ($carservice->car_service_status == 'request') {
-                $color = '#F48506';
-            }elseif ($carservice->car_service_status == 'allocate') {
-                $color = '#592DF7'; 
-            }elseif ($carservice->car_service_status == 'allocateall') {
-                $color = '#07D79E';   
-            }elseif ($carservice->car_service_status == 'cancel') {
-                $color = '#ff0606';  
-            }elseif ($carservice->car_service_status == 'confirmcancel') {
-                $color = '#ab9e9e';  
-            }elseif ($carservice->car_service_status == 'noallow') {
-                $color = '#E80DEF';                   
-            } else {
-                $color = '#3CDF44';
-            }
-    
-            $dateend = $carservice->car_service_date;
-            // $dateend = $carservice->car_service_length_backdate;
+            // if ($carservice->car_service_status == 'request') {
+            //     $color = '#F48506';
+            // }elseif ($carservice->car_service_status == 'allocate') {
+            //     $color = '#592DF7';
+            // }elseif ($carservice->car_service_status == 'allocateall') {
+            //     $color = '#07D79E';
+            // }elseif ($carservice->car_service_status == 'cancel') {
+            //     $color = '#ff0606';
+            // }elseif ($carservice->car_service_status == 'confirmcancel') {
+            //     $color = '#ab9e9e';
+            // }elseif ($carservice->car_service_status == 'noallow') {
+            //     $color = '#E80DEF';
+            // } else {
+            //     $color = '#3CDF44';
+            // }
+
+            $dateend = $item->doctor_nad;
             $NewendDate = date ("Y-m-d", strtotime("1 day", strtotime($dateend)));
-    
+
             // $datestart=date('H:m');
-            $timestart = $carservice->car_service_length_gotime;  
-            $timeend = $carservice->car_service_length_backtime; 
-            $starttime = substr($timestart, 0, 5);  
-            $endtime = substr($timeend, 0, 5); 
-    
-            $showtitle = $carservice->car_service_register.'=>'.$starttime.'-'.$endtime;
-            
+            // $timestart = $item->car_service_length_gotime;
+            // $timeend = $item->car_service_length_backtime;
+            // $starttime = substr($timestart, 0, 5);
+            // $endtime = substr($timeend, 0, 5);
+
+            $showtitle = $item->ptname;
+
             $event[] = [
-                'id' => $carservice->car_service_id, 
-                'title' => $showtitle, 
-                'start' => $dateend,
-                'end' => $dateend,
-                'color' => $color
+                'id'        => $item->oapp_id,
+                'title'     => $showtitle,
+                'start'     => $dateend,
+                'end'       => $dateend,
+                // 'doctor'    => $item->doctor,
+                // 'color' => $color
             ];
-        } 
+        }
 
         return view('dent.dental',[
             'startdate'        => $startdate,
-            'enddate'          => $enddate, 
-            'datashow'         => $datashow, 
+            'enddate'          => $enddate,
             'data_doctor'      => $data_doctor,
-            'events'     =>  $event, 
+            'events'           =>  $event,
         ]);
     }
 
-   
- 
+    public function dental_detail(Request $request,$id)
+    {
+        // $id = $request->vn;
+        $datanad = Oapp::find($id);
+        // $data_nad = Oapp::leftjoin('patient','patient.hn','=','oapp.hn')->find($id);
+        // $data_nad = DB::connection('mysql3')->select('
+        //     SELECT oa.oapp_id,oa.vn,concat(p.fname," ",p.lname) as ptname,showcid(p.cid) as cid,oa.hn,oa.nextdate as doctor_nad,d.shortname as doctor
+        //     FROM oapp oa
+        //     LEFT OUTER JOIN patient p on p.hn=oa.hn
+        //     LEFT OUTER JOIN doctor d on d.code=oa.doctor
+        //     WHERE oa.oapp_id ="'.$id.'"
+        // ');
+        // WHERE oa.vn ="660725102434"
+        // WHERE oa.vn ="'.$vn.'"
+        // 660725102434
+        return response()->json([
+            'status'        => '200',
+            'datanad'       =>  $datanad,
+            ]);
+    }
+
+
+
 
  }

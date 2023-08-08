@@ -157,9 +157,9 @@
                             </div>
                     </div>
 
-                    <input id="vn" type="text" class="form-control form-control-sm" name="vn" >
-                    <input id="oapp_id" type="text" class="form-control form-control-sm" name="oapp_id" >
-                    <br><br><br>
+                    <input id="vn" type="hidden" class="form-control form-control-sm" name="vn" >
+                    <input id="oapp_id" type="hidden" class="form-control form-control-sm" name="oapp_id" >
+
                 </div>
             </div>
         </div>
@@ -183,81 +183,51 @@
 
         var calendar = $('#calendar').fullCalendar({
             // editable:true,
-            header: {
-                left: 'prev,next today', //  prevYear nextYea
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay',
-            },
+            // events:SITEURL + "dental",
             events:data_nad,
+            displayEventTime:false,
+            // editable:true,
+            eventRender:function (event,element,view){
+                if (event.allDay === 'true') {
+                    event.allDay = true;
+                } else {
+                    event.allDay = false;
+                }
+            },
             selectable: true,
             selectHelper: true,
             select: function(start, end, allDays) {
-                    var title = prompt('Event Title');
+                console.log(start)
+                // $('#DatanadModal').modal('toggle');
+                // $('#closebtn').click(function() {
+                //     $('#DatanadModal').modal('hide');
+                // });
+                var title = prompt('Event Title');
                     if (title) {
                         var start = $.fullCalendar.formatDate(start,"Y-MM-DD");
                         var end = $.fullCalendar.formatDate(end,"Y-MM-DD");
                     }
             },
-            // editable:true,
-            // eventResize:function(event,data)
-            // {
-            //     var start = $.fullCalendar.formatDate(start,"Y-MM-DD");
-            //     var end = $.fullCalendar.formatDate(end,"Y-MM-DD");
-            //     var title = event.title;
-            //     var id = event.id;
-            // },
             eventClick: function(event){
-                var id = event.id;
-                alert(id);
-                $('#DatanadModal').modal('toggle');
-                $.ajax({
-                    url:"{{url('dental_detail')}}" +'/'+ id,
-                    type: "GET",
-                    success: function(response) {
-                        console.log(response.datanad.vn);
-                        $('#vn').val(response.datanad.vn)
-                        // $('#ptname').val(response.data_nad.ptname)
-                        // $('#cid').val(response.data_nad.cid)
-                        // $('#hn').val(response.data_nad.hn)
-                        // $('#doctor_nad').val(response.data_nad.doctor_nad)
-                        // $('#doctor').val(response.data_nad.doctor)
-                        $('#oapp_id').val(response.datanad.oapp_id)
-                    },
-                });
-            }
+                    var oapp_id = event.oapp_id;
+                    alert(oapp_id);
+                    $('#DatanadModal').modal('toggle');
+                    $.ajax({
+                        type: "GET",
+                        url:"{{url('dental_detail')}}" +'/'+ oapp_id,
+                        success: function(data) {
+                            console.log(data.data_nad.vn);
+                            $('#vn').val(data.data_nad.vn)
+                            $('#ptname').val(data.data_nad.ptname)
+                            $('#cid').val(data.data_nad.cid)
+                            $('#hn').val(data.data_nad.hn)
+                            $('#doctor_nad').val(data.data_nad.doctor_nad)
+                            $('#doctor').val(data.data_nad.doctor)
+                            $('#oapp_id').val(data.data_nad.oapp_id)
+                        },
+                    });
+                }
         });
-            // select: function(start, end, allDays) {
-            //     console.log(start)
-            //     // $('#DatanadModal').modal('toggle');
-            //     // $('#closebtn').click(function() {
-            //     //     $('#DatanadModal').modal('hide');
-            //     // });
-            //     var title = prompt('Event Title');
-            //         if (title) {
-            //             var start = $.fullCalendar.formatDate(start,"Y-MM-DD");
-            //             var end = $.fullCalendar.formatDate(end,"Y-MM-DD");
-            //         }
-            // },
-            // eventClick: function(event){
-            //         var oapp_id = event.oapp_id;
-            //         alert(oapp_id);
-            //         $('#DatanadModal').modal('toggle');
-            //         $.ajax({
-            //             type: "GET",
-            //             url:"{{url('dental_detail')}}" +'/'+ oapp_id,
-            //             success: function(data) {
-            //                 console.log(data.data_nad.vn);
-            //                 $('#vn').val(data.data_nad.vn)
-            //                 $('#ptname').val(data.data_nad.ptname)
-            //                 $('#cid').val(data.data_nad.cid)
-            //                 $('#hn').val(data.data_nad.hn)
-            //                 $('#doctor_nad').val(data.data_nad.doctor_nad)
-            //                 $('#doctor').val(data.data_nad.doctor)
-            //                 $('#oapp_id').val(data.data_nad.oapp_id)
-            //             },
-            //         });
-            //     }
-            // });
 
                 // $(function() {
                 //     var data_nad = @json($events);
@@ -277,26 +247,26 @@
                 //                 $('#DatanadModal').modal('hide');
                 //             });
                 //         },
-                        // eventClick: function(event){
-                        //     var id = event.id;
-                        //     alert(id);
-                        //     $('#DatanadModal').modal('toggle');
-                        //     $.ajax({
-                        //         type: "GET",
-                        //         url:"{{url('dental_detail')}}" +'/'+ id,
-                        //         success: function(data) {
-                        //             console.log(data.data_nad.vn);
-                        //             $('#vn').val(data.data_nad.vn)
-                        //             $('#ptname').val(data.data_nad.ptname)
-                        //             $('#cid').val(data.data_nad.cid)
-                        //             $('#hn').val(data.data_nad.hn)
-                        //             $('#doctor_nad').val(data.data_nad.doctor_nad)
-                        //             $('#doctor').val(data.data_nad.doctor)
-                        //             $('#oapp_id').val(data.data_nad.oapp_id)
-                        //         },
-                        //     });
-                        // }
-                    // });
+                //         eventClick: function(event){
+                //             var oapp_id = event.oapp_id;
+                //             alert(oapp_id);
+                //             $('#DatanadModal').modal('toggle');
+                //             $.ajax({
+                //                 type: "GET",
+                //                 url:"{{url('dental_detail')}}" +'/'+ oapp_id,
+                //                 success: function(data) {
+                //                     console.log(data.data_nad.vn);
+                //                     $('#vn').val(data.data_nad.vn)
+                //                     $('#ptname').val(data.data_nad.ptname)
+                //                     $('#cid').val(data.data_nad.cid)
+                //                     $('#hn').val(data.data_nad.hn)
+                //                     $('#doctor_nad').val(data.data_nad.doctor_nad)
+                //                     $('#doctor').val(data.data_nad.doctor)
+                //                     $('#oapp_id').val(data.data_nad.oapp_id)
+                //                 },
+                //             });
+                //         }
+                //     });
                 // });
 
     });
