@@ -1324,7 +1324,7 @@ class ChecksitController extends Controller
                 GROUP BY day
         ');
         $data_staff = DB::connection('mysql')->select('
-                SELECT 
+                SELECT
                  MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
@@ -1334,12 +1334,12 @@ class ChecksitController extends Controller
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate = CURDATE() 
+                WHERE c.vstdate = CURDATE()
                 GROUP BY c.staff
-			    ORDER BY Noauthen DESC 
+			    ORDER BY Noauthen DESC
         ');
         $data_dep = DB::connection('mysql')->select('
-                SELECT 
+                SELECT
                  MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
@@ -1349,13 +1349,13 @@ class ChecksitController extends Controller
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate = CURDATE() 
+                WHERE c.vstdate = CURDATE()
                 GROUP BY c.main_dep
-			    ORDER BY Noauthen DESC 
+			    ORDER BY Noauthen DESC
         ');
         // WHERE month(c.vstdate) = "'.$m.'"
         $data_staff_max = DB::connection('mysql')->select('
-                SELECT 
+                SELECT
                 MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
@@ -1365,9 +1365,9 @@ class ChecksitController extends Controller
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate = CURDATE() 
+                WHERE c.vstdate = CURDATE()
                 GROUP BY c.staff
-                ORDER BY Noauthen DESC LIMIT 5 
+                ORDER BY Noauthen DESC LIMIT 5
         ');
 
         return view('dashboard.check_dashboard',[
@@ -1392,7 +1392,7 @@ class ChecksitController extends Controller
         ');
 
         return view('dashboard.check_dashboard_authen',[
-            'data_sit'       => $data_sit, 
+            'data_sit'       => $data_sit,
         ] );
     }
     public function check_dashboard_noauthen(Request $request,$day,$month,$year)
@@ -1477,7 +1477,7 @@ class ChecksitController extends Controller
                 GROUP BY day
         ');
         $data_staff = DB::connection('mysql')->select('
-                SELECT 
+                SELECT
                  MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
@@ -1489,10 +1489,10 @@ class ChecksitController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE month(c.vstdate) = "'.$m.'"
                 GROUP BY c.staff
-			    ORDER BY Noauthen DESC 
+			    ORDER BY Noauthen DESC
         ');
         $data_dep = DB::connection('mysql')->select('
-                SELECT 
+                SELECT
                  MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
@@ -1504,10 +1504,10 @@ class ChecksitController extends Controller
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
                 WHERE month(c.vstdate) = "'.$m.'"
                 GROUP BY c.main_dep
-			    ORDER BY Noauthen DESC 
+			    ORDER BY Noauthen DESC
         ');
         $data_staff_max = DB::connection('mysql')->select('
-                SELECT 
+                SELECT
                 MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
@@ -1517,9 +1517,9 @@ class ChecksitController extends Controller
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
                 from check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate = CURDATE() 
+                WHERE c.vstdate = CURDATE()
                 GROUP BY c.staff
-                ORDER BY Noauthen DESC LIMIT 5 
+                ORDER BY Noauthen DESC LIMIT 5
         ');
 
         return view('dashboard.check_dashboard_mob',[
@@ -1542,7 +1542,7 @@ class ChecksitController extends Controller
             $enddate = $value->date_end;
         }
         $chart = DB::connection('mysql')->select('
-            
+
             SELECT
             MONTH(c.vstdate) as month
             ,YEAR(c.vstdate) as year
@@ -1552,10 +1552,10 @@ class ChecksitController extends Controller
             ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
             from check_sit_auto c
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE year(c.vstdate) = "'.$y.'" AND MONTH(c.vstdate) > 7            
+            WHERE year(c.vstdate) = "'.$y.'" AND MONTH(c.vstdate) > 7
             GROUP BY month
         ');
-       
+
         // SELECT * FROM db_authen WHERE year = "'.$y.'"
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
@@ -1622,34 +1622,51 @@ class ChecksitController extends Controller
         // $password        = $request->password;
         $username        = '6508634296688';
         $password        = 'a12345';
-        $ch = curl_init();
-        $headers  = [
-                    'User-Agent:<platform>/<version> <10978>',
-                    'Content-Type: application/json'
-                ];
-        $postData = [ 
+        // $ch = curl_init();
+        // $headers  = [
+        //             'User-Agent:<platform>/<version> <10978>',
+        //             'Content-Type: application/json'
+        //         ];
+        // $postData = [
+        //     'username' => $username,
+        //     'password' => $password
+        // ];
+        // curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");
+        // curl_setopt($ch, CURLOPT_POST, 1);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        // $response     = curl_exec ($ch);
+        // $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // $contents = $response;
+        // $result = json_decode($contents, true);
+        // @$status = $result['status'];
+        // @$message = $result['message'];
+        // @$token = $result['token'];
+        // dd($response);
+
+        $authen = Http::post("https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth",
+        [
             'username' => $username,
             'password' => $password
-        ];
-        curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");                                    
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));           
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $response     = curl_exec ($ch);
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $contents = $response;
-        $result = json_decode($contents, true); 
+        ]);
 
-        // @$content = $result['content']; 
-        #echo "<BR>";
-        @$status = $result['status'];
-        #echo "<BR>";
-        @$message = $result['message'];
-        #echo "<BR>";
-        @$token = $result['token'];
-
-        dd($response);        
+        dd($authen);
+        // $curl = curl_init();
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => "https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth/$username/$password",
+        //     CURLOPT_RETURNTRANSFER => 1,
+        //     CURLOPT_SSL_VERIFYHOST => 0,
+        //     CURLOPT_SSL_VERIFYPEER => 0,
+        //     CURLOPT_CUSTOMREQUEST => 'GET',
+        // ));
+        // // dd($curl);
+        // $response = curl_exec($curl);
+        // curl_close($curl);
+        // $content = $response;
+        // $result = json_decode($content, true);
+        // //  dd($result);
+        // @$hcode = $result['hcode'];
 
         return view('authen.check_api',[
             'response'  => $response,
@@ -1658,4 +1675,4 @@ class ChecksitController extends Controller
 
     }
 }
- 
+
