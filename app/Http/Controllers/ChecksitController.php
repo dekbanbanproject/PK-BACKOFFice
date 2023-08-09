@@ -1621,7 +1621,7 @@ class ChecksitController extends Controller
         $date_now = date('Y-m-d');
         $date_start = "2023-07-02";
         $date_end = "2023-07-02";
-        $url = "https://authenservice.nhso.go.th/authencode/api/person-claim/mobile/3451000002897";
+        $url = "https://authenservice.nhso.go.th/authencode/api/nch-personal-fund/search-by-pid?pid=3451000002897";
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
