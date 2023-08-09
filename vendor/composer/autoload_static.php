@@ -656,6 +656,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\DbBackup' => __DIR__ . '/../..' . '/app/Console/Commands/DbBackup.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports\\Checkinexport' => __DIR__ . '/../..' . '/app/Exports/Checkinexport.php',
@@ -684,6 +685,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\AuthenautoController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthenautoController.php',
         'App\\Http\\Controllers\\AuthenmobileController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthenmobileController.php',
         'App\\Http\\Controllers\\AutoController' => __DIR__ . '/../..' . '/app/Http/Controllers/AutoController.php',
+        'App\\Http\\Controllers\\BackupController' => __DIR__ . '/../..' . '/app/Http/Controllers/BackupController.php',
         'App\\Http\\Controllers\\BookController' => __DIR__ . '/../..' . '/app/Http/Controllers/BookController.php',
         'App\\Http\\Controllers\\BuildingController' => __DIR__ . '/../..' . '/app/Http/Controllers/BuildingController.php',
         'App\\Http\\Controllers\\CalenderController' => __DIR__ . '/../..' . '/app/Http/Controllers/CalenderController.php',
@@ -1041,6 +1043,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\P4p_workset' => __DIR__ . '/../..' . '/app/Models/P4p_workset.php',
         'App\\Models\\Pang_stamp_temp' => __DIR__ . '/../..' . '/app/Models/Pang_stamp_temp.php',
         'App\\Models\\Patient' => __DIR__ . '/../..' . '/app/Models/Patient.php',
+        'App\\Models\\Permiss_setting' => __DIR__ . '/../..' . '/app/Models/Permiss_setting.php',
         'App\\Models\\Plan_kpi' => __DIR__ . '/../..' . '/app/Models/Plan_kpi.php',
         'App\\Models\\Plan_mission' => __DIR__ . '/../..' . '/app/Models/Plan_mission.php',
         'App\\Models\\Plan_strategic' => __DIR__ . '/../..' . '/app/Models/Plan_strategic.php',

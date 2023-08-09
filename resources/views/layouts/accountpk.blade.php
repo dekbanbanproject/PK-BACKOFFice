@@ -247,16 +247,27 @@
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
                         <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-invoice-dollar text-success"></i>
+                                <span>New-Eclaim</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('check_auth') }}" target="_blank">Check User Api</a></li>
+
+                            </ul>
+
+                        </li>
+                        {{-- <li>
                             <a href="{{url('sit_acc_debtorauto')}}" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-success"></i>
                                 <span>ตรวจสอบสิทธิ์</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('sit_accpull_auto') }}" target="_blank">ดึงข้อมูล Auto</a></li> 
-                                <li><a href="{{ url('sit_acc_debtorauto') }}" target="_blank">ตรวจสอบสิทธิ์ Auto</a></li> 
+                                <li><a href="{{ url('sit_accpull_auto') }}" target="_blank">ดึงข้อมูล Auto</a></li>
+                                <li><a href="{{ url('sit_acc_debtorauto') }}" target="_blank">ตรวจสอบสิทธิ์ Auto</a></li>
                             </ul>
-                           
-                        </li> 
+
+                        </li> --}}
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-success"></i>
@@ -366,12 +377,12 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
-                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>                              
-                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li>                                
+                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
+                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li>
                                 <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li>
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)</a></li>
                                 <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li>
-                                
+
                                 <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)</a></li>
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
                             </ul>

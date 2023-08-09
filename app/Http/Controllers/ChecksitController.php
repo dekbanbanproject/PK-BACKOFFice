@@ -59,6 +59,7 @@ use App\Models\Check_authen;
 use App\Models\Check_authen_temp;
 use App\Models\Visit_pttype_authen_report;
 use App\Models\Db_authen_detail;
+use App\Models\Api_neweclaim;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -1614,65 +1615,93 @@ class ChecksitController extends Controller
         // 255, 205, 86
     }
 
+    // public function check_api(Request $request)
+    // {
+    //     // $username        = $request->username;
+    //     // $password        = $request->password;
+    //     $username        = '6508634296688';
+    //     $password        = 'a12345';
+    //     $ch = curl_init();
+    //     $headers  = [
+    //                 'User-Agent:<platform>/<version> <10978>',
+    //                 'Content-Type: application/json'
+    //             ];
+    //     $postData = [
+    //         'username' => $username,
+    //         'password' => $password
+    //     ];
+    //     curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");
+    //     curl_setopt($ch, CURLOPT_POST, 1);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    //     $response     = curl_exec ($ch);
+    //     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200
+    //     $contents = $response;
+
+    //     $result = json_decode($contents, true);
+    //     @$content = $result['content'];
+    //     // dd($content);
+
+    //     @$status = $result['status'];
+    //     @$message = $result['message'];
+    //     $token = $result['token'];
+
+    //     // dd($contents);
+    //     // dd($statusCode);
+    //     // dd($token);
+    //     // dd($result);
+    //     $check = Api_neweclaim::where('api_neweclaim_user',$username)->where('api_neweclaim_pass',$password)->count();
+    //     if ($check > 0) {
+    //         return response()->json([
+    //             'status'       => '100',
+    //              'response'    => $response,
+    //              'result'      => $result,
+    //         ]);
+    //     } else {
+    //         Api_neweclaim::insert([
+    //             'api_neweclaim_user'        => $username,
+    //             'api_neweclaim_pass'        => $password,
+    //             'api_neweclaim_token'       => $token,
+    //         ]);
+    //         return response()->json([
+    //             'status'       => '200',
+    //              'response'    => $response,
+    //              'result'      => $result,
+    //         ]);
+    //     }
 
 
-    public function check_api(Request $request)
-    {
-        // $username        = $request->username;
-        // $password        = $request->password;
-        $username        = '6508634296688';
-        $password        = 'a12345';
-        // $ch = curl_init();
-        // $headers  = [
-        //             'User-Agent:<platform>/<version> <10978>',
-        //             'Content-Type: application/json'
-        //         ];
-        // $postData = [
-        //     'username' => $username,
-        //     'password' => $password
-        // ];
-        // curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");
-        // curl_setopt($ch, CURLOPT_POST, 1);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        // $response     = curl_exec ($ch);
-        // $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        // $contents = $response;
-        // $result = json_decode($contents, true);
-        // @$status = $result['status'];
-        // @$message = $result['message'];
-        // @$token = $result['token'];
-        // dd($response);
+    //     // $authen = Http::post("https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth",
+    //     // [
+    //     //     'username' => $username,
+    //     //     'password' => $password
+    //     // ]);
+    //     // dd($authen);
 
-        $authen = Http::post("https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth",
-        [
-            'username' => $username,
-            'password' => $password
-        ]);
+    //     // $curl = curl_init();
+    //     // curl_setopt_array($curl, array(
+    //     //     CURLOPT_URL => "https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth/$username/$password",
+    //     //     CURLOPT_RETURNTRANSFER => 1,
+    //     //     CURLOPT_SSL_VERIFYHOST => 0,
+    //     //     CURLOPT_SSL_VERIFYPEER => 0,
+    //     //     CURLOPT_CUSTOMREQUEST => 'GET',
+    //     // ));
+    //     // // dd($curl);
+    //     // $response = curl_exec($curl);
+    //     // curl_close($curl);
+    //     // $content = $response;
+    //     // $result = json_decode($content, true);
+    //     // //  dd($result);
+    //     // @$hcode = $result['hcode'];
 
-        dd($authen);
-        // $curl = curl_init();
-        // curl_setopt_array($curl, array(
-        //     CURLOPT_URL => "https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth/$username/$password",
-        //     CURLOPT_RETURNTRANSFER => 1,
-        //     CURLOPT_SSL_VERIFYHOST => 0,
-        //     CURLOPT_SSL_VERIFYPEER => 0,
-        //     CURLOPT_CUSTOMREQUEST => 'GET',
-        // ));
-        // // dd($curl);
-        // $response = curl_exec($curl);
-        // curl_close($curl);
-        // $content = $response;
-        // $result = json_decode($content, true);
-        // //  dd($result);
-        // @$hcode = $result['hcode'];
+    //     // return view('authen.check_api',[
+    //     //     'response'  => $response,
+    //     //     'result'  => $result,
+    //     // ]);
 
-        return view('authen.check_api',[
-            'response'  => $response,
-            'result'  => $result,
-        ]);
+    // }
 
-    }
+
 }
 

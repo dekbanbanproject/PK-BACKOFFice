@@ -1626,6 +1626,9 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_804_stmnull_all/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_804_stmnull_all'])->name('acc.account_804_stmnull_all');//
     Route::match(['get','post'],'account_804_stam',[App\Http\Controllers\AccountPKController::class, 'account_804_stam'])->name('acc.account_804_stam');//
 
+    Route::match(['get','post'],'check_auth',[App\Http\Controllers\NeweclaimController::class, 'check_auth'])->name('api.check_auth');//
+    Route::match(['get','post'],'check_authapi',[App\Http\Controllers\NeweclaimController::class, 'check_authapi'])->name('api.check_authapi');//
+
     Route::match(['get','post'],'acc_stm',[App\Http\Controllers\AccountPKController::class, 'acc_stm'])->name('acc.acc_stm');//
     Route::match(['get','post'],'acc_repstm',[App\Http\Controllers\AccountPKController::class, 'acc_repstm'])->name('acc.acc_repstm');//
 

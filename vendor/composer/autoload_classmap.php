@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\DbBackup' => $baseDir . '/app/Console/Commands/DbBackup.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Exports\\Checkinexport' => $baseDir . '/app/Exports/Checkinexport.php',
@@ -34,6 +35,7 @@ return array(
     'App\\Http\\Controllers\\AuthenautoController' => $baseDir . '/app/Http/Controllers/AuthenautoController.php',
     'App\\Http\\Controllers\\AuthenmobileController' => $baseDir . '/app/Http/Controllers/AuthenmobileController.php',
     'App\\Http\\Controllers\\AutoController' => $baseDir . '/app/Http/Controllers/AutoController.php',
+    'App\\Http\\Controllers\\BackupController' => $baseDir . '/app/Http/Controllers/BackupController.php',
     'App\\Http\\Controllers\\BookController' => $baseDir . '/app/Http/Controllers/BookController.php',
     'App\\Http\\Controllers\\BuildingController' => $baseDir . '/app/Http/Controllers/BuildingController.php',
     'App\\Http\\Controllers\\CalenderController' => $baseDir . '/app/Http/Controllers/CalenderController.php',
@@ -391,6 +393,7 @@ return array(
     'App\\Models\\P4p_workset' => $baseDir . '/app/Models/P4p_workset.php',
     'App\\Models\\Pang_stamp_temp' => $baseDir . '/app/Models/Pang_stamp_temp.php',
     'App\\Models\\Patient' => $baseDir . '/app/Models/Patient.php',
+    'App\\Models\\Permiss_setting' => $baseDir . '/app/Models/Permiss_setting.php',
     'App\\Models\\Plan_kpi' => $baseDir . '/app/Models/Plan_kpi.php',
     'App\\Models\\Plan_mission' => $baseDir . '/app/Models/Plan_mission.php',
     'App\\Models\\Plan_strategic' => $baseDir . '/app/Models/Plan_strategic.php',
