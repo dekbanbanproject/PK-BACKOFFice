@@ -35,5 +35,14 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 
- 
+
+    // protected function schedule(Schedule $schedule)
+    // {
+    //     $schedule->command('db:backup')->daily();
+    // }
+    // protected function commands()
+    // {
+    //     $this->load(__DIR__.'/Commands');
+    //     require base_path('routes/console.php');
+    // }
 }

@@ -51,50 +51,10 @@
    <link rel="stylesheet"
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
-<link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/loginheader.css') }}" rel="stylesheet" />
+
 </head>
- <style>
-    body{
-        background:
-            /* url(/pkbackoffice/public/images/bg2.jpg); */
-            /* -webkit-background-size: cover; */
-        background-repeat: no-repeat;
-		background-attachment: fixed;
-		/* background-size: cover; */
-        background-size: 100% 100%;
-        }
- </style>
 
 
-<style>
-
-    *{
-        margin: 0;
-        padding: 0;
-    }
-    .headerZ{
-        z-index: 1;
-        background:linear-gradient(-45deg,red,rgb(201, 241, 154),rgb(184, 230, 226),rgb(238, 238, 107));
-        background-size: 400% 400%;
-        width: 100%;
-        height: 100vh;
-        animation: animate 5s ease infinite;
-    }
-    @keyframes animate{
-        0%{
-            background-position: 0 50%;
-        }
-        50%{
-            background-position: 100% 50%;
-        }
-        0%{
-            background-position: 0 50%;
-        }
-    }
-
-
-</style>
 
  <body data-topbar="dark">
 
@@ -249,11 +209,13 @@
             </div>
         </div>
 
-         <div class="mt-5">
-            {{-- <div class="mt-5 headerZ"> --}}
-            @yield('content')
-         </div>
+        <div class="main-content">
+            <div class="page-content">
 
+                    @yield('content')
+
+            </div>
+        </div>
 
 
         {{-- <footer class="footer">

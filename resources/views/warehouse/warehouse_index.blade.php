@@ -359,7 +359,7 @@
                                                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">
 
                                                         @if ($item->warehouse_rep_status == 'recieve'  && $item->warehouse_rep_send == '')
-                                                        
+
                                                             <button class="dropdown-item text-warning" style="font-size:13px" data-bs-toggle="modal" data-bs-target=".editModal{{ $item->warehouse_rep_id }}">
                                                                 <i class="fa-solid fa-pen-to-square me-2 text-warning" style="font-size:13px"></i>
                                                                 <span>แก้ไขบิล</span>
@@ -383,7 +383,7 @@
                                                         @else
                                                         @endif
 
-                                                        @if ($item->warehouse_rep_status == 'beforallow') 
+                                                        @if ($item->warehouse_rep_status == 'beforallow')
                                                             {{-- <a class="dropdown-item"
                                                                 href="{{ url('warehouse/warehouse_addsub/' . $item->warehouse_rep_id) }}"
                                                                 style="color: rgb(5, 173, 134);font-size:13px">
@@ -391,11 +391,11 @@
                                                                     style="color: rgb(5, 173, 134);font-size:14px"></i>
                                                                 <span>เพิ่มรายการที่ส่งไม่ครบ</span>
                                                             </a> --}}
-                                                            
+
                                                         @else
                                                         @endif
 
-                                                        @if ($item->warehouse_rep_status == 'recieve' && $item->warehouse_rep_send == 'WAIT') 
+                                                        @if ($item->warehouse_rep_status == 'recieve' && $item->warehouse_rep_send == 'WAIT')
                                                             <a class="dropdown-item text-success"
                                                                 href="{{ url('warehouse_add_product/' . $item->warehouse_rep_id) }}"
                                                                 style="font-size:13px" target="blank">
@@ -403,7 +403,7 @@
                                                                     style="font-size:13px"></i>
                                                                 <span>เพิ่มรายการ</span>
                                                             </a>
-                                                            
+
                                                         @else
                                                         @endif
 
@@ -418,12 +418,12 @@
                                                                 <span>ยืนยันรับเข้าคลังกรณีไม่ครบ</span>
                                                             </a>
                                                             <div class="dropdown-divider"></div> --}}
-                                                            
+
                                                         @else
                                                         @endif
 
                                                         @if ($item->warehouse_rep_send == 'STALE' || $item->warehouse_rep_send == '')
-                                                            
+
                                                         @elseif ($item->warehouse_rep_send == 'FINISH' && $item->warehouse_rep_status == 'recieve')
                                                         <a class="dropdown-item text-info"
                                                         href="{{ url('warehouse_edit_product/' . $item->warehouse_rep_id) }}"
@@ -441,8 +441,8 @@
                                                                     style="font-size:13px"></i>
                                                                 <span>ยืนยันรับเข้าคลัง</span>
                                                             </a>
-                                                            
-                                                        @else 
+
+                                                        @else
                                                             <a class="dropdown-item text-info" href=""
                                                                 style="font-size:13px" data-bs-toggle="modal"
                                                                 data-bs-target=".detail{{ $item->warehouse_rep_id }}">

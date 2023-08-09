@@ -232,9 +232,18 @@ Route::get('/', function () {
 })->name('index');
 
 
+
 Auth::routes();
 
 
+// ฺbackup Database
+
+Route::get('backups', [App\Http\Controllers\BackupController::class, 'index']);
+Route::get('backupnow', [App\Http\Controllers\BackupController::class, 'backupnow'])->name('backupnow');
+Route::get('backups/getbody', [App\Http\Controllers\BackupController::class, 'listbody'])->name('listbody');
+Route::get('backups/total-unit', [App\Http\Controllers\BackupController::class, 'totalUnit'])->name('totalUnit');
+Route::get('backup/download/{name}', [App\Http\Controllers\BackupController::class, 'download'])->name('backup.download');
+Route::delete('backup/delete', [App\Http\Controllers\BackupController::class, 'delete'])->name('backup.delete');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('type');
