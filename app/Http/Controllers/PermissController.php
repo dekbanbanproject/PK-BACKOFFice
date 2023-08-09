@@ -25,6 +25,7 @@ use App\Models\Products_category;
 use App\Models\Leave_leader;
 use App\Models\Leave_leader_sub;
 use App\Models\Line_token;
+use App\Models\Permiss_setting;
 use DataTables;
 
 class PermissController extends Controller
@@ -38,11 +39,12 @@ public function permiss(Request $request)
 public function permiss_liss(Request $request,$id)
 {    
     $data['users'] = User::get();
-    $dataedit = User::join('users_prefix','users_prefix.prefix_code','=','users.pname')
+    $dataedit = User::leftjoin('users_prefix','users_prefix.prefix_code','=','users.pname')->leftjoin('permiss_setting','permiss_setting.permiss_setting_userid','=','users.id')
     ->where('users.id','=',$id)->first();
 
     return view('setting.permiss_liss',$data,[
-       'dataedits'    =>   $dataedit 
+       'dataedits'    =>   $dataedit ,
+    //    'ids'    =>   $id 
     ]);
 }
 public function permiss_save(Request $request)
@@ -71,11 +73,47 @@ public function permiss_save(Request $request)
         $update->permiss_medicine = $request->input('permiss_medicine'); 
         $update->permiss_ot = $request->input('permiss_ot'); 
         $update->permiss_p4p = $request->input('permiss_p4p'); 
-        $update->permiss_time = $request->input('permiss_time'); 
-
+        $update->permiss_time = $request->input('permiss_time');  
         $update->permiss_env = $request->input('permiss_env'); 
-        $update->permiss_account = $request->input('permiss_account'); 
-        $update->save();    
+        $update->permiss_account = $request->input('permiss_account');  
+        $update->permiss_setting_account = $request->input('permiss_setting_account');  
+        $update->permiss_setting_upstm = $request->input('permiss_setting_upstm');  
+        $update->permiss_setting_env = $request->input('permiss_setting_env');   
+        $update->save(); 
+
+        // dd($request->id);
+        // dd($request->permiss_setting_name);
+        // Permiss_setting
+        // $countper = Permiss_setting::where('permiss_setting_userid','=',$request->iduser)->where('permiss_setting_name','=',$request->permiss_setting_name)->count();
+        // // dd($countper);
+        // if ($countper > 0) {
+        //     # code...
+        // } else {
+            // Permiss_setting::where('permiss_setting_userid')->update([
+            //     'permiss_setting_userid' => $request->iduser,
+            //     'permiss_setting_name' => $request->permiss_setting_name, 
+            // ]);
+            // if ($request->permiss_setting_name != '' || $request->permiss_setting_name != null) {                
+            //     $permiss_setting_name = $request->permiss_setting_name; 
+            //     $iduser = $request->iduser;
+
+            //     $number = count($permiss_setting_name);
+            //     $count = 0;
+            //     for ($count = 0; $count < $number; $count++) {
+     
+            //         $add2 = new Permiss_setting();
+            //         $add2->permiss_setting_userid = $iduser[$count]; 
+            //         $add2->permiss_setting_name = $permiss_setting_name[$count]; 
+            //         $add2->save(); 
+            //     }
+               
+            // }
+        // }
+        
+        
+       
+ 
+
         return response()->json([
             'status'     => '200'
     ]);

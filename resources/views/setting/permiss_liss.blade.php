@@ -136,6 +136,12 @@ if (Auth::check()) {
 }
 $url = Request::url();
 $pos = strrpos($url, '/') + 1;
+
+use App\Http\Controllers\StaticController;
+use App\Models\Products_request_sub;
+$permiss_upstm = StaticController::permiss_upstm($iduser); 
+$permiss_account = StaticController::permiss_account($iduser); 
+
 ?>
 @section('menu')
     <style>
@@ -238,8 +244,11 @@ $pos = strrpos($url, '/') + 1;
                     <form action="{{ route('setting.permiss_save') }}" id="insert_permissForm" method="POST">
                         @csrf
 
+                    {{-- <form action="{{ route('setting.permiss_save') }}" method="POST">
+                        @csrf --}}
                         <input type="hidden" id="id" name="id" value="{{$dataedits->id}}"> 
-                       
+                        {{-- <input type="hidden" id="ids" name="ids" value="{{$dataedits->ids}}">  --}}
+                        <input type="hidden" id="iduser" name="iduser" value="{{$iduser}}"> 
                       <div class="row me-1 mb-1 ms-1">
 
                           <div class="col-4 col-md-3 col-xl-3">
@@ -611,15 +620,24 @@ $pos = strrpos($url, '/') + 1;
                             <div class="card">
                                 <div class="card-body shadow-lg"> 
                                     <div class="form-check mt-2"> 
-                                        <i class="fa-solid fa-hand-holding-droplet" style="color: rgb(9, 169, 197)"></i>  
-                                        
-                                            @if ($dataedits->permiss_env == 'on') 
+                                        <i class="fa-solid fa-hand-holding-droplet" style="color: rgb(9, 169, 197)"></i>   
+                                        @if ($dataedits->permiss_env == 'on') 
                                             <input class="form-check-input" type="checkbox" id="permiss_env" name="permiss_env" checked/>
                                         @else
-                                        <input class="form-check-input" type="checkbox" id="permiss_env" name="permiss_env"/>
+                                            <input class="form-check-input" type="checkbox" id="permiss_env" name="permiss_env"/>
                                         @endif
-                                        <label class="form-check-label" for="permiss_env">ระบบ ENV</label> 
-                                    </div>
+                                            <label class="form-check-label" for="permiss_env">ระบบ ENV</label> 
+                                    </div> 
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>  
+                                        @if ($dataedits->permiss_setting_env == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_setting_env" name="permiss_setting_env" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="permiss_setting_env" name="permiss_setting_env" />
+                                        @endif
+                                            <label class="form-check-label" for="permiss_setting_env">ตั้งค่า ENV</label> 
+                                    </div> 
                                 </div>
                             </div>
                         </div>
@@ -636,6 +654,26 @@ $pos = strrpos($url, '/') + 1;
                                         @endif
                                         <label class="form-check-label" for="permiss_account">การบัญชี</label> 
                                     </div>
+                                    
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>   
+                                        @if ($dataedits->permiss_setting_account == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_setting_account" name="permiss_setting_account" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="permiss_setting_account" name="permiss_setting_account"/>
+                                        @endif
+                                            <label class="form-check-label" for="permiss_setting_name">ตั้งค่า Account</label> 
+                                    </div> 
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>   
+                                        @if ($dataedits->permiss_setting_upstm == 'on') 
+                                            <input class="form-check-input" type="checkbox" id="permiss_setting_upstm" name="permiss_setting_upstm" checked/>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" id="permiss_setting_upstm" name="permiss_setting_upstm" />
+                                        @endif
+                                            <label class="form-check-label" for="permiss_setting_upstm">UP STM</label> 
+                                    </div> 
                                 </div>
                             </div>
                         </div>

@@ -42,6 +42,7 @@
            display:none;
            }
 </style>
+
 <script>
     function TypeAdmin() {
         window.location.href = '{{ route('index') }}';
@@ -64,7 +65,7 @@ if (Auth::check()) {
     $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
     $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน 
 ?>
-  
+
 <div class="tabs-animation">
     
         <div class="row text-center">  
@@ -77,14 +78,14 @@ if (Auth::check()) {
         </div> 
 
        
-
+    
         <div class="main-card mb-3 card">
             <div class="card-header">
-                รายการพารามิเตอร์
+                รายการประเภทขยะติดเชื้อ
                 
                 <div class="btn-actions-pane-right">
                     <div class="nav">
-                        <a href="{{ url('env_water_parameter_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูล</a>
+                        <a href="{{ url('env_trash_parameter_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูล</a>
                         {{-- <a href="{{ url('time_nurs_depsub') }}" class="btn-pill btn-wide me-1 ms-1  btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
                         <a href="{{ url('time_nurs_depsubsub') }}" class="btn-pill btn-wide  btn btn-outline-alternate btn-sm">หน่วยงาน</a> --}}
                     </div>
@@ -102,36 +103,21 @@ if (Auth::check()) {
                                 <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example2">
                                     <thead>
                                         <tr>
-                                            <th>ลำดับ</th> 
-                                            <th>ชื่อพารามิเตอร์</th>
-                                            <th>หน่วย</th>
-                                            <th>วิธีวิเคราะห์</th>
-                                            <th>เกณฑ์มาตรฐาน</th> 
-                                            <th>ค่ามาตรฐาน</th>
-                                            <th>สถานะ</th>
-                                            <th>ตั้งค่า</th> 
+                                            <th class="text-center">ลำดับ</th> 
+                                            <th class="text-center">ประเภทขยะติดเชื้อ</th>
+                                            <th class="text-center">หน่วย</th>
+                                            <th class="text-center">ตั้งค่า</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1;
                                         $date = date('Y');
                                         ?>
-                                        @foreach ($data_water_parameter as $item)
-                                            <tr id="sid{{ $item->water_parameter_id }}">
-                                                <td class="text-center" width="3%">{{ $i++ }}</td>
-                                                <td class="p-2" width="18%">{{ $item->water_parameter_name }} </td>
-                                                <td class="p-2" width="5%">{{ $item->water_parameter_unit }}</td>
-                                                <td class="p-2" width="13%">{{ $item->water_parameter_results }}</td>
-                                                <td class="p-2" width="5%">{{ $item->water_parameter_icon }}</td>
-                                                <td class="p-2" width="5%">{{ $item->water_parameter_normal }}</td>
-                                                <td class="p-2" width="5%">
-                                                    @if($item-> water_parameter_active == 'TRUE' )
-                                                        <input type="checkbox" id="{{ $item-> water_parameter_id }}" name="{{ $item-> water_parameter_id }}" switch="none" onchange="switchactive({{ $item-> water_parameter_id }});" checked />
-                                                        @else
-                                                        <input type="checkbox" id="{{ $item-> water_parameter_id }}" name="{{ $item-> water_parameter_id }}" switch="none" onchange="switchactive({{ $item-> water_parameter_id }});" />
-                                                        @endif
-                                                        <label for="{{ $item-> water_parameter_id }}" data-on-label="On" data-off-label="Off"></label>
-                                                </td>
+                                        @foreach ($dataparameterlist as $item)
+                                            <tr id="sid{{ $item->trash_parameter_id }}">
+                                                <td class="text-center" width="4%">{{ $i++ }}</td>
+                                                <td class="p-2" width="18%">{{ $item->trash_parameter_name }} </td>
+                                                <td class="text-center" width="5%">{{ $item->trash_parameter_unit }}</td>
                                                 <td class="text-center" width="7%">
     
                                                     {{-- <div class="dropdown">
@@ -162,7 +148,7 @@ if (Auth::check()) {
                                                         </button>
                                                         <div class="dropdown-menu">
                                                             <a class="dropdown-item text-warning"
-                                                                href="{{ url('env_water_parameter_edit/' . $item->water_parameter_id) }}"
+                                                                href="{{ url('env_trash_parameter_edit/' . $item->trash_parameter_id) }}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 data-bs-custom-class="custom-tooltip" title="แก้ไข">
                                                                 <i class="fa-solid fa-pen-to-square me-2"></i>
@@ -171,14 +157,12 @@ if (Auth::check()) {
                                                             </a>
     
                                                             <div class="dropdown-divider"></div>
-                                                            <a class="dropdown-item text-danger" href="{{url('env_water_parameter_delete/'.$item->water_parameter_id)}}"
-                                                             
+                                                            <a class="dropdown-item text-danger" href="{{url('env_trash_parameter_delete/'.$item->trash_parameter_id)}}"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left"
                                                                 data-bs-custom-class="custom-tooltip" title="ลบ">
                                                                 <i class="fa-solid fa-trash-can me-2 mb-1"></i>
                                                                 <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
-                                                            </a>
-                                                           
+                                                            </a>                                                           
                                                         </div>
                                                     </div>
                                                 </td>
@@ -200,26 +184,7 @@ if (Auth::check()) {
       
 @endsection
 @section('footer')
-<script>
-    function switchactive(idfunc){
-            // var nameVar = document.getElementById("name").value;
-            var checkBox = document.getElementById(idfunc);
-            var onoff;
-            
-            if (checkBox.checked == true){
-                onoff = "TRUE";
-            } else {
-                onoff = "FALSE";
-            }
- 
-            var _token=$('input[name="_token"]').val();
-                $.ajax({
-                        url:"{{route('env.env_water_parameter_switchactive')}}",
-                        method:"GET",
-                        data:{onoff:onoff,idfunc:idfunc,_token:_token}
-                })
-       }
-</script>
+
 <script>
     
     $(document).ready(function() {

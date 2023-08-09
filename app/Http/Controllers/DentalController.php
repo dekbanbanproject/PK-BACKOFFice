@@ -111,7 +111,7 @@ class DentalController extends Controller
         ');
         $event = array();
         $data_nad = DB::connection('mysql3')->select('
-            SELECT oa.oapp_id,oa.vn,concat(p.fname," ",p.lname) as ptname,showcid(p.cid) as cid,oa.hn,oa.nextdate as doctor_nad,d.shortname as doctor
+            SELECT oa.oapp_id,oa.vn,concat(p.fname," ",p.lname) as ptname,showcid(p.cid) as cid,oa.hn,oa.nextdate as doctor_nad,oa.nexttime,d.shortname as doctor
             FROM oapp oa
             LEFT OUTER JOIN patient p on p.hn=oa.hn
             LEFT OUTER JOIN doctor d on d.code=oa.doctor
@@ -145,17 +145,17 @@ class DentalController extends Controller
             // $datestart=date('H:m');
             // $timestart = $item->car_service_length_gotime;
             // $timeend = $item->car_service_length_backtime;
-            // $starttime = substr($timestart, 0, 5);
+            $starttime = substr($item->nexttime, 0, 5);
             // $endtime = substr($timeend, 0, 5);
-
-            $showtitle = $item->ptname;
+          
+            $showtitle = $item->hn.'-'.$item->ptname.'-'.$starttime;
 
             $event[] = [
-                'id'        => $item->oapp_id,
-                'title'     => $showtitle,
-                'start'     => $dateend,
-                'end'       => $dateend,
-                // 'doctor'    => $item->doctor,
+                'id'            => $item->oapp_id,
+                'title'         => $showtitle,
+                'start'         => $dateend,
+                'end'           => $dateend,
+                // 'doctor'        => $item->doctor,
                 // 'color' => $color
             ];
         }
@@ -171,9 +171,12 @@ class DentalController extends Controller
     public function dental_detail(Request $request,$id)
     {
         // $id = $request->vn;
-        $datanad = Oapp::find($id);
-        // $data_nad = Oapp::leftjoin('patient','patient.hn','=','oapp.hn')->find($id);
-        // $data_nad = DB::connection('mysql3')->select('
+        // $datanad = Oapp::find($id);
+        $datanad = Oapp::leftjoin('patient','patient.hn','=','oapp.hn')
+        // ->leftjoin('ovst','ovst.vn','=','oapp.vn')
+        ->leftjoin('doctor','doctor.code','=','oapp.doctor')
+        ->find($id);
+        // $datanad = DB::connection('mysql3')->select('
         //     SELECT oa.oapp_id,oa.vn,concat(p.fname," ",p.lname) as ptname,showcid(p.cid) as cid,oa.hn,oa.nextdate as doctor_nad,d.shortname as doctor
         //     FROM oapp oa
         //     LEFT OUTER JOIN patient p on p.hn=oa.hn

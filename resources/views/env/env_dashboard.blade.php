@@ -74,9 +74,6 @@
      //********************* */ แสดงผล  ***********************************
  ?>
     <div class="container-fluid">
-     
-
-
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
@@ -84,21 +81,31 @@
                 </div>
             </div>
         </div>
-      
-        <div class="row mt-3">
-            
+
+        <div class="row">
+            <div class="col-12">
+                <div class="block-header block-header-default">
+                    <h4 class="text-center mb-sm-0">ข้อมูลสิ่งแวดล้อมและความปลอดภัย</h4>                        
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">            
                 <div class="col-xl-6 col-md-3">
                     <div class="main-card card" style="height: 150px">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12" style="background-color: rgb(165, 226, 255)">
                                     <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start mb-2" style="font-size: 17px">ระบบบ่อบำบัดน้ำเสีย</p>
-                                                <h3 class="text-start mb-2 text-primary">1 / 1 คน</h3>
+                                        <div class="d-flex" style="background-color: rgb(165, 226, 255)">
+                                            <div class="flex-grow-1" >
+                                                <p class="text-white mb-2"> ระบบบำบัดน้ำเสีย <br><span>(จำนวนนับรวมเช็ค 1 วัน)</span></p>
+                                                <p class="text-white mb-0" style="font-size: 2.25rem;">
+                                                        {{-- {{$param_haveworkinday}} <span class="fs-20">{{number_format($param_perworkyear,2)}}%</span> --}}
+                                                </p>                                                
                                             </div>
-                                            <div class="avatar-sm me-2" style="height: 120px">
+                                            
+                                            {{-- <div class="avatar-sm me-2" style="height: 120px">
                                                 <a href="1"
                                                     target="_blank">
                                                     <span class="avatar-title bg-light rounded-3 mt-3" style="height: 70px">
@@ -112,8 +119,9 @@
                                                         </p>
                                                     </span>
                                                 </a>
-                                            </div>
+                                            </div> --}}
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -124,14 +132,14 @@
                     <div class="main-card card" style="height: 150px">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-12" style="background-color: rgb(145, 228, 163)">
                                     <div class="widget-chart widget-chart-hover">
-                                        <div class="d-flex">
+                                        <div class="d-flex" style="background-color: rgb(145, 228, 163)">
                                             <div class="flex-grow-1">
                                                 <p class="text-start mb-2" style="font-size: 17px">ระบบบริหารจัดการขยะ</p>
-                                                <h3 class="text-start mb-2 text-primary">1 / 1 คน</h3>
+                                                {{-- <h3 class="text-start mb-2 text-primary">1 / 1 คน</h3> --}}
                                             </div>
-                                            <div class="avatar-sm me-2" style="height: 120px">
+                                            {{-- <div class="avatar-sm me-2" style="height: 120px">
                                                 <a href="1"
                                                     target="_blank">
                                                     <span class="avatar-title bg-light rounded-3 mt-3" style="height: 70px">
@@ -145,7 +153,7 @@
                                                         </p>
                                                     </span>
                                                 </a>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -161,8 +169,8 @@
                 <div class="main-card card" style="height: 150px">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
+                            <div class="col-sm-12" style="background-color: rgb(165, 226, 255)">
+                                <div class="widget-chart widget-chart-hover" style="background-color: rgb(165, 226, 255)">
                                     <div class="d-flex">
                                     อัตราส่วนน้ำบ่อบำบัด
                                     </div>
@@ -176,8 +184,8 @@
                 <div class="main-card card" style="height: 150px">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover">
+                            <div class="col-sm-12" style="background-color: rgb(145, 228, 163)">
+                                <div class="widget-chart widget-chart-hover" style="background-color: rgb(145, 228, 163)">
                                     <div class="d-flex">
                                      อัตราส่วนประเภทขยะ           
                                     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.dentalnew')
+@extends('layouts.dentalnews')
 @section('title', 'PK-BACKOFFice || ทันตกรรม')
 @section('content')
     <script>
@@ -34,7 +34,7 @@
         <div class="row justify-content-center">
             <div class="row invoice-card-row">
                 <div class="col-md-2 mt-2">
-                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(247, 229, 195)">
+                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(241, 195, 247)">
                         <div class="panel-header px-3 py-2 text-white">
                             ทันตแพทย์
                         </div>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="col-md-10 mt-2">
-                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(247, 229, 195)">
+                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(241, 195, 247)">
                         <div class="panel-header text-left px-3 py-2 text-white">
                             ปฎิทินข้อมูลการนัดทำฟัน<span class="fw-3 fs-18 text-primary bg-sl-r2 px-2 radius-5">
                             </span>
@@ -84,8 +84,8 @@
 
                         </div>
                         <div class="panel-footer text-end pr-5 py-2 bg-white ">
-                            <p class="m-0 fa fa-circle me-2" style="color:#3CDF44;"></p> อนุมัติ<label class="me-3"></label>
-                            <p class="m-0 fa fa-circle me-2" style="color:#814ef7;"></p> จัดสรร<label class="me-3"></label>
+                            {{-- <p class="m-0 fa fa-circle me-2" style="color:#3CDF44;"></p> อนุมัติ<label class="me-3"></label> --}}
+                            {{-- <p class="m-0 fa fa-circle me-2" style="color:#814ef7;"></p> จัดสรร<label class="me-3"></label> --}}
                             {{-- <p class="m-0 fa fa-circle me-2" style="color:#07D79E;"></p> จัดสรรร่วม<label class="me-3"></label> --}}
                             {{-- <p class="m-0 fa fa-circle me-2" style="color:#E80DEF;"></p> ไม่อนุมัติ<label
                                 class="me-3"></label>
@@ -108,34 +108,14 @@
                         <h5 class="modal-title" id="exampleModalLabel">
                             รายการนัดทำฟัน
                         </h5>
-                        <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        {{-- <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                             <i class="fa-solid fa-circle-info text-white"></i>
                             รายละเอียด
-                          </button>
+                          </button> --}}
                     </div>
                     <div class="modal-body">
-                            <div class="collapse mt-1 mb-2" id="collapseExample">
-
-                                <div class="row">
-                                    <div class="col-md-2 mt-2">
-                                        <label for="ptname">ptname </label>
-                                    </div>
-                                    <div class="col-md-4 mt-2">
-                                        <div class="form-group">
-                                            <input id="ptname" type="text" class="form-control form-control-sm input-rounded" name="ptname">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 mt-2">
-                                        <label for="cid">cid </label>
-                                    </div>
-
-                                    <div class="col-md-4 mt-2">
-                                        <div class="form-group">
-                                            <input id="cid" type="text" class="form-control form-control-sm input-rounded" name="cid" >
-                                        </div>
-                                    </div>
-                                </div>
-
+                            {{-- <div class="collapse mt-1 mb-2" id="collapseExample"> --}}
+ 
                                 <div class="row">
                                     <div class="col-md-2 mt-2">
                                         <label for="hn">hn </label>
@@ -146,20 +126,82 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 mt-2">
-                                        <label for="doctor_nad">นัดวันที่ </label>
+                                        <label for="vn">vn </label>
                                     </div>
                                     <div class="col-md-4 mt-2">
                                         <div class="form-group">
-                                            <input id="doctor_nad" type="text" class="form-control form-control-sm input-rounded" name="doctor_nad" >
+                                            <input id="vn" type="text" class="form-control form-control-sm input-rounded" name="vn" >
+                                          
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                    </div>
+                                <div class="row">                                  
+                                    <div class="col-md-2 mt-2">
+                                        <label for="cid">cid </label>
+                                    </div>
 
-                    <input id="vn" type="text" class="form-control form-control-sm" name="vn" >
-                    <input id="oapp_id" type="text" class="form-control form-control-sm" name="oapp_id" >
-                    <br><br><br>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group">
+                                            <input id="cid" type="text" class="form-control form-control-sm input-rounded" name="cid" >
+                                        </div>
+                                    </div>
+                                      <div class="col-md-2 mt-2">
+                                        <label for="an">an </label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group">
+                                            <input id="an" type="text" class="form-control form-control-sm input-rounded" name="an">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 mt-2">
+                                        <label for="nextdate" style="font-size:13px;">นัดวันที่ </label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group">
+                                            <input id="nextdate" type="text" class="form-control form-control-sm input-rounded" name="nextdate" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mt-2">
+                                        <label for="nexttime" style="font-size:13px;">เวลา </label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group">
+                                            <input id="nexttime" type="text" class="form-control form-control-sm input-rounded" name="nexttime" >
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 mt-2">
+                                        <label for="doctor" style="font-size:13px;">แพทย์ผู้นัด </label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group">
+                                            <input id="doctor" type="text" class="form-control form-control-sm input-rounded" name="doctor">
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-2 mt-2">
+                                        <label for="app_cause" style="font-size:13px;">app_cause </label>
+                                    </div>
+                                    <div class="col-md-4 mt-2">
+                                        <div class="form-group">
+                                            <input id="app_cause" type="text" class="form-control form-control-sm input-rounded" name="app_cause">
+                                        </div>
+                                    </div> 
+                                </div>
+
+                            {{-- </div>  --}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark me-2"></i>Close</button>
+                    </div>
+                    {{-- <input id="shortname" type="text" class="form-control form-control-sm input-rounded" name="shortname" > --}}
+                    {{-- <input id="doctor" type="text" class="form-control form-control-sm input-rounded" name="doctor" > --}}
+                    {{-- <input id="oapp_id" type="text" class="form-control form-control-sm" name="oapp_id" > --}}
+                  
                 </div>
             </div>
         </div>
@@ -191,36 +233,42 @@
             events:data_nad,
             selectable: true,
             selectHelper: true,
-            select: function(start, end, allDays) {
-                    var title = prompt('Event Title');
-                    if (title) {
-                        var start = $.fullCalendar.formatDate(start,"Y-MM-DD");
-                        var end = $.fullCalendar.formatDate(end,"Y-MM-DD");
-                    }
-            },
-            // editable:true,
-            // eventResize:function(event,data)
-            // {
-            //     var start = $.fullCalendar.formatDate(start,"Y-MM-DD");
-            //     var end = $.fullCalendar.formatDate(end,"Y-MM-DD");
-            //     var title = event.title;
-            //     var id = event.id;
+            // select: function(start, end, allDays) {
+            //         var title = prompt('Event Title');
+            //         if (title) {
+            //             var start = $.fullCalendar.formatDate(start,"Y-MM-DD");
+            //             var end = $.fullCalendar.formatDate(end,"Y-MM-DD");
+            //         }
             // },
+            // editable:true,
+            eventResize:function(event,data)
+            {
+                var start = $.fullCalendar.formatDate(start,"Y-MM-DD");
+                var end = $.fullCalendar.formatDate(end,"Y-MM-DD");
+                var title = event.title;
+                var id = event.id;
+            },
             eventClick: function(event){
                 var id = event.id;
-                alert(id);
+                // alert(id);
                 $('#DatanadModal').modal('toggle');
                 $.ajax({
                     url:"{{url('dental_detail')}}" +'/'+ id,
                     type: "GET",
                     success: function(response) {
-                        console.log(response.datanad.vn);
+                        // console.log(response.datanad.vn);
                         $('#vn').val(response.datanad.vn)
-                        // $('#ptname').val(response.data_nad.ptname)
-                        // $('#cid').val(response.data_nad.cid)
-                        // $('#hn').val(response.data_nad.hn)
-                        // $('#doctor_nad').val(response.data_nad.doctor_nad)
-                        // $('#doctor').val(response.data_nad.doctor)
+                        // $('#ptname').val(response.datanad.fname + response.datanad.lname)
+                        $('#cid').val(response.datanad.cid)
+                        $('#hn').val(response.datanad.hn)
+                        $('#an').val(response.datanad.an)
+                        $('#doctor_nad').val(response.datanad.doctor_nad)
+                        $('#shortname').val(response.datanad.shortname)
+                        $('#doctor').val(response.datanad.name)
+                        $('#nextdate').val(response.datanad.nextdate)
+                        $('#nexttime').val(response.datanad.nexttime)
+                        $('#app_user').val(response.datanad.app_user)
+                        $('#app_cause').val(response.datanad.app_cause)
                         $('#oapp_id').val(response.datanad.oapp_id)
                     },
                 });

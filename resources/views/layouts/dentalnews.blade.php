@@ -7,57 +7,58 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
-    <!-- Font Awesome -->
-    <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-   
+        <!-- Font Awesome -->
+        <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
-    <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
 
-    <!-- jquery.vectormap css -->
-    <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
-        rel="stylesheet" type="text/css" />
 
-    <!-- DataTables -->
-    <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
-        type="text/css" />
+        {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+        <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
 
-    <!-- Responsive datatable examples -->
-    <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
-        rel="stylesheet" type="text/css" />
+        <!-- jquery.vectormap css -->
+        <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
+            rel="stylesheet" type="text/css" />
 
-    <!-- Bootstrap Css -->
-    <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <!-- DataTables -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
 
-    <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
-   <!-- select2 -->
-    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
-   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <link rel="stylesheet"
-   href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-<!-- Plugins css -->
-{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+        <!-- Responsive datatable examples -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
+            rel="stylesheet" type="text/css" />
+
+        <!-- Bootstrap Css -->
+        <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+
+        <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+       <!-- select2 -->
+        <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       {{-- <link rel="stylesheet"
+       href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}"> --}}
+
+
+   {{-- <link href="{{ asset('css/tablewarehouse.css') }}" rel="stylesheet"> --}}
 </head>
-  <style>
-        body{   
+
+<style>
+     body{
         background:
-            url(/pkbackoffice/public/images/bg5.jpg);
-            /* url(/pkbackoffice/public/images/bg5.jpg); */
+            /* url(/pkbackoffice/public/images/bg7.png);  */
             /* -webkit-background-size: cover; */
         background-repeat: no-repeat;
 		background-attachment: fixed;
@@ -67,55 +68,44 @@
         /* align-items: center; */
         /* justify-content: center; */
         /* width: 100vw;   ให้เต็มพอดี */
-        /* height: 100vh; ให้เต็มพอดี  */ 
+        /* height: 100vh; ให้เต็มพอดี  */
         }
     .Bgsidebar {
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
 		background-repeat: no-repeat;
 	}
-  </style>
-    <?php
-        if (Auth::check()) {
-            $type = Auth::user()->type;
-            $iduser = Auth::user()->id;
-        } else {
-            echo "<body onload=\"TypeAdmin()\"></body>";
-            exit();
-        }
-        $url = Request::url();
-        $pos = strrpos($url, '/') + 1;
-         
-        use App\Http\Controllers\StaticController;
-        use App\Models\Products_request_sub;
-        $permiss_setting = StaticController::permiss_setting($iduser); 
-   ?>
+    .Bgheader {
+  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+		background-repeat: no-repeat;
+	}
+</style>
 <body data-topbar="dark">
-    {{-- <body style="background-image: url('my_bg.jpg');"> --}}
+
     <!-- Begin page -->
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> 
-              
+            <div class="navbar-header" style="background-color: rgb(252, 252, 252)">
+
 
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
+                                <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20">
+                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
                             </span>
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
+                            <span class="logo-sm">
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
+                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
@@ -123,28 +113,56 @@
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
+                    <?php
+                        $org = DB::connection('mysql')->select(                                                            '
+                                select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                        );
                     ?>
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
-                            
+
                         </div>
-                    </form>                                         
+                    </form>
                 </div>
- 
+
+
+
+                {{-- <div class="d-flex">
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-inline-block user-dropdown">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                            <img src="{{ asset('assets/images/default-image.jpg') }}" height="22px"
+                                    width="22px" alt="Header Avatar" class="rounded-circle header-profile-user">
+
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item" href=""><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+
+                        </div>
+                    </div>
+
+
+
+                </div> --}}
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
-                    </div> 
+                    </div>
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -162,7 +180,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}" style="font-size: 12px"><i
+                            <a class="dropdown-item" href="{{ url('admin_profile_edit/' . Auth::user()->id) }}" style="font-size: 12px"><i
                                     class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
@@ -179,79 +197,30 @@
                 </div>
             </div>
         </header>
-        {{-- <style>
-            .nom6{ 
-                background: linear-gradient(to right,#ffafbd);
-              
-            }
-        </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
-        {{-- <div class="vertical-menu "> --}}
-            <div class="vertical-menu Bgsidebar">
-        {{-- <div class="vertical-menu" style="background-color: rgb(4, 83, 39)"> --}}
-            <div data-simplebar class="h-100">
-                {{-- <div data-simplebar class="h-100 nom6"> --}}
+        <div class="vertical-menu Bgsidebar">
+
+            <div data-simplebar class="h-100" >
+
                 <!--- Sidemenu -->
-                <div id="sidebar-menu"> 
-                        <ul class="metismenu list-unstyled" id="side-menu" >
-                    
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
                         <li>
-                            <a href="{{ url('env_dashboard') }}">  
-                                <i class="fa-solid fa-gauge-high text-white"></i>
-                                <span>Dashboard</span>
-                                {{-- <span style="color: white">Dashboard</span> --}}
-                            </a> 
-                        </li> 
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
-                                <span>ระบบบ่อบำบัดน้ำเสีย</span>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-calendar-days text-danger"></i>
+                                <span>ตารางนัดทำฟัน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('env_water') }}">บึกทักผลวิเคราะห์คุณภาพน้ำ</a></li>
+                                <li ><a href="{{ url('dental') }}" style="color: rgb(5, 5, 5)">ปฎิทินนัด</a></li> 
                             </ul>
                         </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
-                                <span>ระบบบริหารจัดการขยะ</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('env_trash') }}">บันทึกข้อมูลขยะ</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
-                                <span>รายงาน</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">                                
-                                <li><a href="{{ url('') }}">รายงานระบบบ่อบำบัดน้ำเสีย</a></li>
-                                <li><a href="{{ url('') }}">รายงานระบบบริหารจัดการขยะ</a></li>
-                            </ul>
-                        </li>
-
-                        @if ($permiss_setting !=0)
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
-                                <span>ตั้งค่า</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('env_water_parameter') }}">ตั้งค่า Parameter น้ำ</a></li>
-                                <li><a href="{{ url('env_trash_parameter') }}">ตั้งค่าประเภทขยะ</a></li>
-                                <li><a href="{{ url('env_vendor') }}">ตั้งค่าบริษัท</a></li>
-                            </ul>
-                        </li>
-                        @endif
-
                         
-                      
+
                     </ul>
+                    
                 </div>
                 <!-- Sidebar -->
             </div>
@@ -264,8 +233,8 @@
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
-            {{-- background:url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%; --}}
-            <div class="page-content Backgroupbody">
+
+            <div class="page-content">
 
                 @yield('content')
 
@@ -302,7 +271,7 @@
     <div class="rightbar-overlay"></div>
 
     <!-- JAVASCRIPT -->
-    {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> --}}
+    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
 
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
@@ -362,19 +331,16 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
-    
+    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
     @yield('footer')
 
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-            $('#example4').DataTable();
-            $('#example5').DataTable();
-           
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -383,11 +349,8 @@
 
         });
 
-        $(document).ready(function() {
-            
-        });
 
-       
+
     </script>
 
 </body>

@@ -188,7 +188,7 @@ class AutoController extends Controller
         // }       
 
             $data_sits = DB::connection('mysql3')->select('
-                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
+            SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
                 ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
                 FROM ovst o
                 LEFT JOIN vn_stat v on v.vn = o.vn
@@ -201,6 +201,11 @@ class AutoController extends Controller
                 group by o.vn
                 limit 1500
             ');
+            // SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
+            //     ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+
+            // SELECT o.vn,p.hn,p.cid,o.pttype,o.staff,p.hometel
+            // ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
             // CURDATE() "2023-08-01"
             foreach ($data_sits as $key => $value) {
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
@@ -208,37 +213,37 @@ class AutoController extends Controller
                 if ($check > 0) {
                     Check_sit_auto::where('vn', $value->vn)
                         ->update([
-                            'an'       => $value->an,
-                            'hn'         => $value->hn,
-                            'cid'        => $value->cid,
-                            'vstdate'    => $value->vstdate,
+                            // 'an'       => $value->an,
+                            // 'hn'         => $value->hn,
+                            // 'cid'        => $value->cid,
+                            // 'vstdate'    => $value->vstdate,
                             'hometel'    => $value->hometel,
-                            'vsttime'    => $value->vsttime,
-                            'fullname'   => $value->fullname,
-                            'pttype'     => $value->pttype,
-                            'hospmain'   => $value->hospmain,
-                            'hospsub'    => $value->hospsub,
+                            // 'vsttime'    => $value->vsttime,
+                            // 'fullname'   => $value->fullname,
+                            // 'pttype'     => $value->pttype,
+                            // 'hospmain'   => $value->hospmain,
+                            // 'hospsub'    => $value->hospsub,
                             'main_dep'   => $value->main_dep,
                             'staff'      => $value->staff,
                             'debit'      => $value->debit
                         ]);
                 } else {
-                    Check_sit_auto::insert([
-                        'vn'         => $value->vn,
-                        'an'         => $value->an,
-                        'hn'         => $value->hn,
-                        'cid'        => $value->cid,
-                        'vstdate'    => $value->vstdate,
-                        'hometel'    => $value->hometel,
-                        'vsttime'    => $value->vsttime,
-                        'fullname'   => $value->fullname,
-                        'pttype'     => $value->pttype,
-                        'hospmain'   => $value->hospmain,
-                        'hospsub'    => $value->hospsub,
-                        'main_dep'   => $value->main_dep,
-                        'staff'      => $value->staff,
-                        'debit'      => $value->debit
-                    ]);
+                    // Check_sit_auto::insert([
+                    //     'vn'         => $value->vn,
+                    //     'an'         => $value->an,
+                    //     'hn'         => $value->hn,
+                    //     'cid'        => $value->cid,
+                    //     'vstdate'    => $value->vstdate,
+                    //     'hometel'    => $value->hometel,
+                    //     'vsttime'    => $value->vsttime,
+                    //     'fullname'   => $value->fullname,
+                    //     'pttype'     => $value->pttype,
+                    //     'hospmain'   => $value->hospmain,
+                    //     'hospsub'    => $value->hospsub,
+                    //     'main_dep'   => $value->main_dep,
+                    //     'staff'      => $value->staff,
+                    //     'debit'      => $value->debit
+                    // ]);
 
                 }
 

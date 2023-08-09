@@ -71,7 +71,18 @@ return new class extends Migration
             $table->string('permiss_timeer')->nullable();
             $table->string('permiss_env')->nullable();
             $table->string('permiss_account')->nullable();
-            // $table->string('permiss_')->nullable();
+            $table->string('permiss_dental')->nullable();
+
+            $table->string('permiss_setting_account')->nullable();
+            $table->string('permiss_setting_upstm')->nullable();
+            $table->string('permiss_setting_env')->nullable();
+            $table->string('permiss_setting_ucs')->nullable();
+            $table->string('permiss_setting_sss')->nullable();
+            $table->string('permiss_setting_ofc')->nullable();
+            $table->string('permiss_setting_lgo')->nullable();
+            $table->string('permiss_setting_prb')->nullable();
+            $table->string('permiss_setting_ti')->nullable();
+            $table->string('permiss_setting_warehouse')->nullable();
 
             $table->string('store_id')->nullable();
             $table->string('member_id')->nullable();
