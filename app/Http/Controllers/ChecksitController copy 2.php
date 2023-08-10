@@ -1260,14 +1260,23 @@ class ChecksitController extends Controller
                 $datenow = date("Y-m-d");
 
                         if ($claimType == 'PG0130001') {
-                                Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->whereIn('pttype',['M1','M2','M3','M4','M5','M6'])->update([
+                                Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->whereIn('pttype','=',['M1', 'M2', 'M3', 'M4', 'M5', 'M6'])->update([
                                     'claimcode'       => $claimCode,
-                                    'claimtype'       => 'PG0130001',
+                                    'claimtype'       => $claimType,
                                     'servicerep'      => $patientType,
-                                    'servicename'     => 'บริการฟอกเลือดด้วยเครื่องไตเทียม (HD)',
+                                    'servicename'     => $claimTypeName,
                                     'authentication'  => $claimAuthen,
                                 ]);
-                        } else {                            
+                        } else {
+                            // $check_detail = Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->count();
+                            // $check_detail = Db_authen_detail::where('claimcode','=',$claimCode)->count();
+
+                            // $check_detail = Check_sit_auto::where('claimcode','=',$claimCode)->where('claimtype','=',$claimType)->count();
+                            // if ($check_detail > 0) {
+                                // Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                //     'claimcode'       => $claimCode,
+                                //     'claimtype'       => $claimType,
+                                // ]);
                                 Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
                                     'claimcode'       => $claimCode,
                                     'claimtype'       => $claimType,
@@ -1275,7 +1284,17 @@ class ChecksitController extends Controller
                                     'servicename'     => $claimTypeName,
                                     'authentication'  => $claimAuthen,
                                 ]);
-                            
+                            // } else {
+                            //     Db_authen_detail::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',$claimCode)->update([
+                            //         'claimcode'       => $claimCode,
+                            //         'claimtype'       => $claimType,
+                            //     ]);
+                            //     Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->where('claimcode','=',$claimCode)->update([
+                            //         'claimcode'       => $claimCode,
+                            //         'claimtype'       => $claimType,
+                            //     ]);
+                            // }
+
                         }
 
                     }

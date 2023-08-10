@@ -188,19 +188,19 @@ class AutoController extends Controller
         // }       
 
             $data_sits = DB::connection('mysql3')->select('
-            SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
-                ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-                FROM ovst o
-                LEFT JOIN vn_stat v on v.vn = o.vn
-                join patient p on p.hn=o.hn
-                JOIN pttype pt on pt.pttype=o.pttype
-                JOIN opduser op on op.loginname = o.staff
-                WHERE o.vstdate = CURDATE()
-                AND o.main_dep NOT IN("011","036","107")
-                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
-                group by o.vn
-                limit 1500
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,op.name as staffname,p.hometel
+                    ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                    FROM ovst o
+                    LEFT JOIN vn_stat v on v.vn = o.vn
+                    join patient p on p.hn=o.hn
+                    JOIN pttype pt on pt.pttype=o.pttype
+                    JOIN opduser op on op.loginname = o.staff
+                    WHERE o.vstdate = CURDATE() 
+                    group by o.vn
+                    limit 1500
             ');
+            // AND o.main_dep NOT IN("011","036","107")
+            // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
             // SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
             //     ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
 
@@ -212,20 +212,16 @@ class AutoController extends Controller
 
                 if ($check > 0) {
                     Check_sit_auto::where('vn', $value->vn)
-                        ->update([
-                            // 'an'       => $value->an,
-                            // 'hn'         => $value->hn,
-                            // 'cid'        => $value->cid,
-                            // 'vstdate'    => $value->vstdate,
-                            'hometel'    => $value->hometel,
+                        ->update([ 
+                            'hometel'       => $value->hometel,
                             // 'vsttime'    => $value->vsttime,
                             // 'fullname'   => $value->fullname,
                             // 'pttype'     => $value->pttype,
                             // 'hospmain'   => $value->hospmain,
-                            // 'hospsub'    => $value->hospsub,
-                            'main_dep'   => $value->main_dep,
-                            'staff'      => $value->staff,
-                            'debit'      => $value->debit
+                            'staff_name'    => $value->staffname,
+                            'main_dep'      => $value->main_dep,
+                            'staff'         => $value->staff,
+                            'debit'         => $value->debit
                         ]);
                 } else {
                     Check_sit_auto::insert([
@@ -242,6 +238,7 @@ class AutoController extends Controller
                         'hospsub'    => $value->hospsub,
                         'main_dep'   => $value->main_dep,
                         'staff'      => $value->staff,
+                        'staff_name' => $value->staffname,
                         'debit'      => $value->debit
                     ]);
 

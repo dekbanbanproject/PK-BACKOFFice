@@ -32,6 +32,7 @@ return new class extends Migration
                 $table->string('pttype')->nullable();// 
                 $table->string('fullname')->nullable();// 
                 $table->string('staff')->nullable();// 
+                $table->string('staff_name')->nullable();// 
                 $table->string('fokliad')->nullable();// 
                 $table->string('main_dep')->nullable();// 
                 $table->string('maininscl')->nullable();// 
@@ -42,11 +43,18 @@ return new class extends Migration
                 $table->string('subinscl_name')->nullable();// 
                 $table->string('subinscl')->nullable();// 
                 $table->string('person_id_nhso')->nullable();//  
-
                 $table->string('hmain_op')->nullable();// 
                 $table->string('hmain_op_name')->nullable();// 
                 $table->string('status')->nullable();// 
+
                 $table->date('upsit_date')->nullable();//  
+                $table->string('claimcode')->nullable();//  
+                $table->string('claimtype')->nullable();//  
+                $table->string('servicerep')->nullable();// ชื่อบริการ 
+                $table->string('servicename')->nullable();// ชื่อบริการ
+                $table->string('authentication')->nullable();//วิธีการพิสูจน์ตัวตน
+                $table->string('debit')->nullable();//  
+
                 $table->timestamps();
             });
         }
