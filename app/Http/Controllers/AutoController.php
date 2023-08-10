@@ -228,22 +228,22 @@ class AutoController extends Controller
                             'debit'      => $value->debit
                         ]);
                 } else {
-                    // Check_sit_auto::insert([
-                    //     'vn'         => $value->vn,
-                    //     'an'         => $value->an,
-                    //     'hn'         => $value->hn,
-                    //     'cid'        => $value->cid,
-                    //     'vstdate'    => $value->vstdate,
-                    //     'hometel'    => $value->hometel,
-                    //     'vsttime'    => $value->vsttime,
-                    //     'fullname'   => $value->fullname,
-                    //     'pttype'     => $value->pttype,
-                    //     'hospmain'   => $value->hospmain,
-                    //     'hospsub'    => $value->hospsub,
-                    //     'main_dep'   => $value->main_dep,
-                    //     'staff'      => $value->staff,
-                    //     'debit'      => $value->debit
-                    // ]);
+                    Check_sit_auto::insert([
+                        'vn'         => $value->vn,
+                        'an'         => $value->an,
+                        'hn'         => $value->hn,
+                        'cid'        => $value->cid,
+                        'vstdate'    => $value->vstdate,
+                        'hometel'    => $value->hometel,
+                        'vsttime'    => $value->vsttime,
+                        'fullname'   => $value->fullname,
+                        'pttype'     => $value->pttype,
+                        'hospmain'   => $value->hospmain,
+                        'hospsub'    => $value->hospsub,
+                        'main_dep'   => $value->main_dep,
+                        'staff'      => $value->staff,
+                        'debit'      => $value->debit
+                    ]);
 
                 }
 
