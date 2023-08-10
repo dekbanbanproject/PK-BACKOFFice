@@ -90,72 +90,109 @@
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
-
                 </div>
             </div>
         </div>
 
         <div class="row">
+            <div class="main-card card p-2">
+                <div class="row">
+                    <div class="col-xl-4 col-md-4">                        
 
-            <div class="col-xl-9 col-md-8">
-                <div class="main-card card">
-                    <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6>
-                    <div style="height:auto;" class="p-2">
-                        <canvas id="Mychart"></canvas>
+                        <div class="main-card card p-2">
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">บริการ</h4>  
+                            <table class="table table-striped table-bordered " style="width: 100%;">
+                                <tbody>
+                                    @foreach ($data_type as $type)
+                                    <tr height="10px;">
+                                        <td>
+                                            <h6>
+                                                <a href="">{{$type->checkauthen_type_name}}</a> 
+                                            </h6>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>                      
+                                
+                        </div>
+                       
+                        <div class="main-card card p-2">
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">สิทธิ์หลัก</h4>  
+                            <table class="table table-striped table-bordered " style="width: 100%;">
+                                <tbody>                      
+                                    @foreach ($data_pttypegroup as $typegroup) 
+                                        <tr height="10px;">
+                                            <td>
+                                                <h6 >
+                                                    <a href="">({{$typegroup->hipdata_code}}) - {{$typegroup->typename}}</a> 
+                                                </h6>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table> 
+                        </div>
+                    </div>  
+
+                    <div class="col-xl-8 col-md-8">
+                        <div class="main-card card">
+                            <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
+                                <div style="height:auto;" class="p-2">
+                                <canvas id="Mychart" style="height:400px;" class="p-2"></canvas>
+                                <br>
+                                <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และสิทธิ์ M1-M6</h6>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-4">
-                <div class="main-card card p-2">
-                    <h6 class="card-title ms-2">Report TOP 5 วันที่ {{ $dd  }}</h6>
-                    @foreach ($data_staff_max as $itemmax)
-                        <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow" style="border-block-color: rgb(240, 84, 110)">
-                            <div class="widget-chat-wrapper-outer">
-                                <div class="widget-chart-content">
-                                    <div class="widget-chart-flex">
-                                        <div class="widget-numbers mb-0 w-100">
+                    {{-- <div class="col-xl-3 col-md-4">
+                        <div class="main-card card p-2">
+                            <h6 class="card-title ms-2">Report TOP 5 วันที่ {{ $dd  }}</h6>
+                            @foreach ($data_staff_max as $itemmax)
+                                <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow" style="border-block-color: rgb(240, 84, 110)">
+                                    <div class="widget-chat-wrapper-outer">
+                                        <div class="widget-chart-content">
                                             <div class="widget-chart-flex">
-                                                <div class="fsize-2 text-warning">
-                                                    {{-- <small class="opacity-5 text-muted"> --}}
-                                                        <i class="fa-solid fa-person-walking-arrow-right me-2"></i>
-                                                    {{-- </small> --}}
-                                                    <label for="" style="font-size: 13px"> {{ $itemmax->countvn }} คน</label>
+                                                <div class="widget-numbers mb-0 w-100">
+                                                    <div class="widget-chart-flex">
+                                                        <div class="fsize-2 text-warning"> 
+                                                                <i class="fa-solid fa-person-walking-arrow-right me-2"></i>  
+                                                            <label for="" style="font-size: 13px"> {{ $itemmax->countvn }} คน</label>
 
-                                                </div>
-                                                <div class="ms-auto">
+                                                        </div>
+                                                        <div class="ms-auto">
 
-                                                    <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
 
-                                                        <span class="text-success ps-2 me-2">
-                                                            <i class="fa-regular fa-face-smile me-2"></i>
-                                                            <label for="" style="font-size: 12px">
-                                                                {{ $itemmax->Authen }}</label>
-                                                        </span>
-                                                        /
-                                                        <a href="">
-                                                        {{-- <a href="{{ url('report_authen_sub/' . $item->month . '/' . $item->year) }}" target="_blank"> --}}
-                                                            <span class="text-danger ps-2">
-                                                                <i class="fa-regular fa-face-frown me-2"></i>
-                                                                <label for="" style="font-size: 12px">
-                                                                    {{ $itemmax->Noauthen }}
-                                                                    คน</label> 
+                                                                <span class="text-success ps-2 me-2">
+                                                                    <i class="fa-regular fa-face-smile me-2"></i>
+                                                                    <label for="" style="font-size: 12px">
+                                                                        {{ $itemmax->Authen }}</label>
+                                                                </span>
+                                                                /
+                                                                <a href=""> 
+                                                                    <span class="text-danger ps-2">
+                                                                        <i class="fa-regular fa-face-frown me-2"></i>
+                                                                        <label for="" style="font-size: 12px">
+                                                                            {{ $itemmax->Noauthen }}
+                                                                            คน</label> 
 
-                                                            </span>
-                                                        </a>
+                                                                    </span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                         </div>
-                    @endforeach
-                           
+                            @endforeach
+                                
+                        </div>
+                    </div> --}}
                 </div>
             </div>
-
-
         </div>
 
         <div class="row">

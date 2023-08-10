@@ -87,7 +87,7 @@
          
         use App\Http\Controllers\StaticController;
         use App\Models\Products_request_sub;
-        $permiss_setting = StaticController::permiss_setting($iduser); 
+        $countpermiss_env = StaticController::countpermiss_env($iduser); 
    ?>
 <body data-topbar="dark">
     {{-- <body style="background-image: url('my_bg.jpg');"> --}}
@@ -235,7 +235,7 @@
                             </ul>
                         </li>
 
-                        @if ($permiss_setting !=0)
+                        @if ($countpermiss_env !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>

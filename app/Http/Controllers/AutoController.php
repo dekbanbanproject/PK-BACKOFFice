@@ -195,10 +195,13 @@ class AutoController extends Controller
                     join patient p on p.hn=o.hn
                     JOIN pttype pt on pt.pttype=o.pttype
                     JOIN opduser op on op.loginname = o.staff
-                    WHERE o.vstdate = CURDATE() 
+                    WHERE o.vstdate = "2023-07-03"
+                    AND o.main_dep NOT IN("011","036","107")
+                    AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23")
                     group by o.vn
                     limit 1500
             ');
+            // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23")
             // AND o.main_dep NOT IN("011","036","107")
             // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
             // SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
@@ -206,7 +209,7 @@ class AutoController extends Controller
 
             // SELECT o.vn,p.hn,p.cid,o.pttype,o.staff,p.hometel
             // ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-            // CURDATE() "2023-08-01"
+            // CURDATE() "2023-07-01"
             foreach ($data_sits as $key => $value) {
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
 

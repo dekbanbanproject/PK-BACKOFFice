@@ -79,8 +79,8 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg Bgheader">
-
+            <div class="navbar-header shadow-lg bg-white">
+                {{-- <div class="navbar-header shadow-lg Bgheader"> --}}
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -144,7 +144,8 @@
         </style>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu Bgsidebar">
+        {{-- <div class="vertical-menu Bgsidebar"> --}}
+            <div class="vertical-menu">
             <div data-simplebar class="h-100">
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">

@@ -1184,9 +1184,9 @@ class ChecksitController extends Controller
     public function check_spsch_detail(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-07-02";
-        $date_end = "2023-07-02";
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
+        $date_start = "2023-07-09";
+        $date_end = "2023-07-15";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_end&page=0&size=1000&sort=transId,desc";
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -1260,13 +1260,20 @@ class ChecksitController extends Controller
                 $datenow = date("Y-m-d");
 
                         if ($claimType == 'PG0130001') {
-                                Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->whereIn('pttype',['M1','M2','M3','M4','M5','M6'])->update([
-                                    'claimcode'       => $claimCode,
-                                    'claimtype'       => 'PG0130001',
-                                    'servicerep'      => $patientType,
-                                    'servicename'     => 'บริการฟอกเลือดด้วยเครื่องไตเทียม (HD)',
-                                    'authentication'  => $claimAuthen,
-                                ]);
+                                // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->whereIn('pttype',['M1','M2','M3','M4','M5','M6'])->update([
+                                //     'claimcode'       => $claimCode,
+                                //     'claimtype'       => 'PG0130001',
+                                //     'servicerep'      => $patientType,
+                                //     'servicename'     => 'บริการฟอกเลือดด้วยเครื่องไตเทียม (HD)',
+                                //     'authentication'  => $claimAuthen,
+                                // ]);
+                                // Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                //     'claimcode'       => $claimCode,
+                                //     'claimtype'       => $claimType,
+                                //     'servicerep'      => $patientType,
+                                //     'servicename'     => $claimTypeName,
+                                //     'authentication'  => $claimAuthen,
+                                // ]);    
                         } else {                            
                                 Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
                                     'claimcode'       => $claimCode,
@@ -1274,8 +1281,7 @@ class ChecksitController extends Controller
                                     'servicerep'      => $patientType,
                                     'servicename'     => $claimTypeName,
                                     'authentication'  => $claimAuthen,
-                                ]);
-                            
+                                ]);                            
                         }
 
                     }
@@ -1360,6 +1366,16 @@ class ChecksitController extends Controller
                 GROUP BY c.staff
                 ORDER BY Noauthen DESC LIMIT 5
         ');
+        $data_type = DB::connection('mysql')->select('
+            SELECT *
+            FROM checkauthen_type 
+        ');
+        $data_pttypegroup = DB::connection('mysql')->select('
+            SELECT pttype,name as typename,hipdata_code 
+            FROM pttype
+            where hipdata_code <> ""
+            GROUP BY hipdata_code 
+        ');
 
         return view('dashboard.check_dashboard',[
             'data_year2'       => $data_year2,
@@ -1367,6 +1383,8 @@ class ChecksitController extends Controller
             'data_staff'       => $data_staff,
             'data_dep'         => $data_dep,
             'data_staff_max'   => $data_staff_max,
+            'data_type'        => $data_type,
+            'data_pttypegroup' => $data_pttypegroup,
         ] );
     }
     public function check_dashboard_authen(Request $request,$day,$month,$year)
@@ -1543,10 +1561,10 @@ class ChecksitController extends Controller
             ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
             from check_sit_auto c
             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE year(c.vstdate) = "'.$y.'" AND MONTH(c.vstdate) > 7
+            WHERE year(c.vstdate) = "'.$y.'" 
             GROUP BY month
         ');
-
+        // AND MONTH(c.vstdate) > 7
         // SELECT * FROM db_authen WHERE year = "'.$y.'"
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
@@ -1576,7 +1594,7 @@ class ChecksitController extends Controller
             'labels'          =>  array_values($labels),
             'datasets'     =>  [
                 [
-                    'label'           =>  'คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และสิทธิ์ M1-M6',
+                    'label'           =>  'คนไข้ที่มารับบริการ OPD',
                     'borderColor'     => 'rgba(255, 205, 86 , 1)',
                     'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
                     'borderWidth'     => '1',
@@ -1601,6 +1619,7 @@ class ChecksitController extends Controller
                 ],
             ],
         ];
+        // คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และสิทธิ์ M1-M6
         // 255, 26, 104 ชมพู
         // 255, 205, 86
     }
