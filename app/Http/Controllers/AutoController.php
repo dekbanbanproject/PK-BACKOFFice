@@ -189,7 +189,6 @@ class AutoController extends Controller
 
             $data_sits = DB::connection('mysql3')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
-                    
                     ,pt.nhso_code,o.hospmain,o.hospsub
                     ,o.staff 
                     ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
@@ -198,7 +197,7 @@ class AutoController extends Controller
                     join patient p on p.hn=o.hn
                     JOIN pttype pt on pt.pttype=o.pttype
                     JOIN opduser op on op.loginname = o.staff
-                    WHERE o.vstdate = "2023-07-20" 
+                    WHERE o.vstdate = "2023-07-22" 
                     AND o.main_dep NOT IN("011","036","107")
                     AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91")
                     group by o.vn
