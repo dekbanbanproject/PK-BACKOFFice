@@ -259,7 +259,7 @@ class Auto_authenController extends Controller
         $date_now = date('Y-m-d');
         $date_start = "2023-08-12";
         $date_end = "2023-08-13";
-        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_start&claimDateTo=$date_end&page=0&size=1000&sort=transId,desc";
+        $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
 
         // dd($url);https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-05-09&claimDateTo=2023-05-09
@@ -385,7 +385,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
             FROM check_authen   
-            WHERE vstdate BETWEEN "2023-02-16" AND "2023-02-28"  
+            WHERE vstdate BETWEEN "2023-04-01" AND "2023-04-15"  
             AND claimtype <> "PG0130001"      
         ');
         // AND claimtype = "PG0130001"
