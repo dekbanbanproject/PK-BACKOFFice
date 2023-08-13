@@ -199,12 +199,12 @@ class AutoController extends Controller
                     JOIN opduser op on op.loginname = o.staff
                     WHERE o.vstdate = "2023-07-22" 
                   
-                    AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91")
+                    AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
                     group by o.vn
                     
             ');
             // AND o.main_dep NOT IN("011","036","107")
-            // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23")
+            // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91")
 
 
             // ,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname

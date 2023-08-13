@@ -216,6 +216,7 @@ class AipnController extends Controller
                     ,case 
                     when oo.item_type="H" then "04"
                     else zero(inc.income) end BillGr 
+                    
 					,inc.income as BillGrCS 
                    				                   
                     ,ifnull(case  

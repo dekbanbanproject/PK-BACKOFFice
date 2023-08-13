@@ -382,50 +382,44 @@
                                     <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                                 </a>
                                 <ul class="mm-show">
-                                    {{-- <li>
-                                        <a href="{{ url('authen_dashboard') }}">
-                                            <i class="metismenu-icon"></i>
-                                            Dashboard
-                                        </a>
-                                    </li> --}}
+                                
                                     <li>
-                                        <a href="{{ url('check_sit_daypullauto') }}" target="_blank">
+                                        <a href="{{ url('pull_hosauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
-                                             Pull Data Auto
-                                             {{-- check_sit_daypullauto --}}
-                                             {{-- sit_pull_auto --}}
+                                             Pull Data Auto 
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('check_sit_daysitauto') }}" target="_blank">
+                                        <a href="{{ url('checksit_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Checksit Auto
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('check_spsch') }}" target="_blank">
+                                        <a href="{{ url('pullauthen_spsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Authen Spsch Auto
                                         </a>
                                     </li>
-                                    {{-- <li>
-                                        <a href="{{ url('repage') }}" target="_blank">
-                                            <i class="metismenu-icon"></i>
-                                            Repage Auto
-                                        </a>
-                                    </li> --}}
                                     <li>
+                                        <a href="{{ url('updaet_authen_to_checksitauto') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            Update Spsch To Checksit Auto
+                                        </a>
+                                    </li>
+                                  
+                                    {{-- <li>
                                         <a href="{{ url('dbday_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Dashboard Auto
                                         </a>
-                                    </li>
-                                    <li>
+                                    </li> --}}
+                                    {{-- <li>
                                         <a href="{{ url('depauthen_auto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
                                             Department Authen Auto
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     {{-- <li>
                                         <a href="{{ url('checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
