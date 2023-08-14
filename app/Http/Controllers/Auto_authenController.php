@@ -91,16 +91,16 @@ class Auto_authenController extends Controller
                     join patient p on p.hn=o.hn
                     JOIN pttype pt on pt.pttype=o.pttype
                     JOIN opduser op on op.loginname = o.staff
-                    WHERE o.vstdate BETWEEN "2023-08-12" AND "2023-08-13"
+                    WHERE o.vstdate = CURDATE()
                   
-                    AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
+                    AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
                     group by o.vn
                     
             ');
             // AND o.main_dep NOT IN("011","036","107")
             // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91")
 
-
+            // BETWEEN "2023-08-12" AND "2023-08-13"
             // ,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname
             // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23")
             // AND o.main_dep NOT IN("011","036","107")
@@ -385,9 +385,10 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
             FROM check_authen   
-            WHERE vstdate BETWEEN "2023-04-01" AND "2023-04-15"  
+            WHERE vstdate BETWEEN "2023-06-16" AND "2023-06-30"
             AND claimtype <> "PG0130001"      
         ');
+        // BETWEEN "2023-01-01" AND "2023-01-15"  
         // AND claimtype = "PG0130001"
         foreach ($data_ as $key => $value) { 
            $count = Check_sit_auto::where('claimcode','=',$value->claimcode)->count();

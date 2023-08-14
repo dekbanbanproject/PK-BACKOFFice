@@ -104,12 +104,28 @@
                             <table class="table table-striped table-bordered " style="width: 100%;">
                                 <tbody>
                                     @foreach ($data_type as $type)
+                                    <?php
+                                            $datas = DB::select('
+                                                SELECT count(claimcode) as claimcode 
+                                                    from check_sit_auto
+                                                    WHERE claimtype="'.$type->checkauthen_type_code.'" 
+                                                    AND claimcode <> ""
+                                                    AND vstdate = CURDATE()
+
+                                            ');
+                                            foreach ($datas as $key => $val) {
+                                                $count_type = $val->claimcode;
+                                            }
+                                           
+                                    ?>
                                     <tr height="10px;">
                                         <td>
                                             <h6>
                                                 <a href="">{{$type->checkauthen_type_name}}</a> 
                                             </h6>
                                         </td>
+                                        
+                                        <td >{{$count_type}} </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -122,12 +138,28 @@
                             <table class="table table-striped table-bordered " style="width: 100%;">
                                 <tbody>                      
                                     @foreach ($data_pttypegroup as $typegroup) 
+                                    <?php
+                                   
+                                            $datas2 = DB::select('
+                                                SELECT count(c.claimcode) as claimcode 
+                                                    from check_sit_auto c
+                                                    left join pttype p ON c.pttype = p.pttype
+                                                    WHERE p.hipdata_code="'.$typegroup->hipdata_code.'" 
+                                                    AND claimcode <> ""
+                                                    AND vstdate = CURDATE()
+
+                                            ');
+                                            foreach ($datas2 as $key => $val2) {
+                                                $count_type2 = $val2->claimcode;
+                                            }
+                                    ?>
                                         <tr height="10px;">
                                             <td>
                                                 <h6 >
                                                     <a href="">({{$typegroup->hipdata_code}}) - {{$typegroup->typename}}</a> 
                                                 </h6>
                                             </td>
+                                            <td >{{$count_type2}} </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -141,7 +173,7 @@
                                 <div style="height:auto;" class="p-2">
                                 <canvas id="Mychart" style="height:400px;" class="p-2"></canvas>
                                 <br>
-                                <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และสิทธิ์ M1-M6</h6>
+                                <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
                             </div>
                         </div>
                     </div>
