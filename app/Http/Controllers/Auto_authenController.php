@@ -275,7 +275,7 @@ class Auto_authenController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=ZDQ2MDk5MGMtZGRjZi00OWY2LWIyMDEtNDhkZTk3MThkZmRl; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Cookie: SESSION=NTExYjk3YTQtMDU2MS00NDE3LTlmMjItYzc4Y2JhZThiMjNj; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',
@@ -385,7 +385,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
             FROM check_authen   
-            WHERE vstdate BETWEEN "2023-07-01" AND "2023-07-31"
+            WHERE vstdate BETWEEN "2023-07-01" AND "2023-07-15"
             AND claimtype <> "PG0130001"      
         ');
         // BETWEEN "2023-01-01" AND "2023-01-15"  
