@@ -375,11 +375,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
             FROM check_authen   
-<<<<<<< HEAD
             WHERE vstdate = CURDATE()
-=======
-            WHERE vstdate BETWEEN "2023-07-10" AND "2023-07-12"
->>>>>>> 972b6af660419f6cfeccf7b60fad797f3491d02d
             AND claimtype <> "PG0130001"      
         '); 
         foreach ($data_ as $key => $value) {   
