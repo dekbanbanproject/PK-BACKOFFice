@@ -122,6 +122,8 @@ Route::match(['get','post'],'checksit_auto',[App\Http\Controllers\Auto_authenCon
 Route::match(['get','post'],'pullauthen_spsch',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spsch'])->name('auto.pullauthen_spsch');//
 Route::match(['get','post'],'updaet_authen_to_checksitauto',[App\Http\Controllers\Auto_authenController::class, 'updaet_authen_to_checksitauto'])->name('auto.updaet_authen_to_checksitauto');//
 Route::match(['get','post'],'checksithos_auto',[App\Http\Controllers\Auto_authenController::class, 'checksithos_auto'])->name('auto.checksithos_auto');//
+Route::match(['get','post'],'pullauthen_tispsch',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_tispsch'])->name('auto.pullauthen_tispsch');//
+Route::match(['get','post'],'updaet_authen_to_checksittiauto',[App\Http\Controllers\Auto_authenController::class, 'updaet_authen_to_checksittiauto'])->name('auto.updaet_authen_to_checksittiauto');//
 
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//
 Route::match(['get','post'],'depauthen_auto',[App\Http\Controllers\AutoController::class, 'depauthen_auto'])->name('db.depauthen_auto');//

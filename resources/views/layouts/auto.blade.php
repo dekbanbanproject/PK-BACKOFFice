@@ -408,18 +408,18 @@
                                         </a>
                                     </li>
                                   
-                                    {{-- <li>
-                                        <a href="{{ url('dbday_auto') }}" target="_blank">
+                                    <li>
+                                        <a href="{{ url('pullauthen_tispsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
-                                            Dashboard Auto
+                                            Authen Spsch Ti Auto
                                         </a>
-                                    </li> --}}
-                                    {{-- <li>
-                                        <a href="{{ url('depauthen_auto') }}" target="_blank">
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('updaet_authen_to_checksittiauto') }}" target="_blank">
                                             <i class="metismenu-icon"></i>
-                                            Department Authen Auto
+                                            Update Spsch To Checksit Ti Auto
                                         </a>
-                                    </li> --}}
+                                    </li>
                                     {{-- <li>
                                         <a href="{{ url('checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>

@@ -1297,6 +1297,8 @@ class ChecksitController extends Controller
 
     public function check_dashboard(Request $request)
     {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
         $date = date('Y-m-d');
         $y = date('Y');
         $m = date('m');
@@ -1322,6 +1324,7 @@ class ChecksitController extends Controller
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
                 AND c.main_dep NOT IN("011","036","107")
                 GROUP BY day
+                ORDER BY c.vstdate DESC
         ');
         $data_staff = DB::connection('mysql')->select('
                 SELECT
@@ -1411,6 +1414,8 @@ class ChecksitController extends Controller
             'data_type'        => $data_type,
             'data_pttypegroup' => $data_pttypegroup,
             'chart'            => $chart,
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
         ] );
     }
     public function check_dashboard_authen(Request $request,$day,$month,$year)
@@ -1752,8 +1757,10 @@ class ChecksitController extends Controller
         foreach ($chart as $key => $value) {
             if ($value->countvn > 0) {
                 $dataset[] = [
-                    'label' => $labels,
-                    'count' => $value->countvn
+                    'label'     => $labels,
+                    'count'     => $value->countvn,
+                    'Authen'    => $value->Authen,
+                    'Noauthen'  => $value->Noauthen
                 ];
             }
         }

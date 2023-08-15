@@ -99,15 +99,8 @@
                 <div class="row">
                     <div class="col-xl-5 col-md-4">                        
 
-                        <div class="main-card card p-2"> 
-                            <div class="card-header">
-                                <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">บริการ</h4>  
-                                <div class="btn-actions-pane-right">
-                                    <div role="group" class="btn-group-sm btn-group">
-                                        <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">ขอ Authen</h4>  
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="main-card card p-2">
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">บริการ</h4>  
                             <table class="table table-striped table-bordered " style="width: 100%;">
                                 <tbody>
                                     @foreach ($data_type as $type)
@@ -138,15 +131,8 @@
                                 
                         </div>
                        
-                        <div class="main-card card p-2"> 
-                            <div class="card-header">
-                                <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">สิทธิ์หลัก</h4>  
-                                <div class="btn-actions-pane-right">
-                                    <div role="group" class="btn-group-sm btn-group">
-                                        <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">ขอ Authen</h4>  
-                                    </div>
-                                </div>
-                            </div> 
+                        <div class="main-card card p-2">
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">สิทธิ์หลัก</h4>  
                             <table class="table table-striped table-bordered " style="width: 100%;">
                                 <tbody>                      
                                     @foreach ($data_pttypegroup as $typegroup) 
@@ -176,77 +162,11 @@
                                 </tbody>
                             </table> 
                         </div>
-
-                        <div class="main-card card p-2">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">Report Group By Staff</h4>  
-                            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">ลำดับ</th> 
-                                        <th class="text-center">Staff</th>
-                                        <th class="text-center">Visit</th>
-                                        <th class="text-center">Authen</th>
-                                        <th class="text-center">No Authen</th> 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $jj = 1; ?>
-                                    @foreach ($data_staff as $item2)
-                                    <?php 
-                                        $Authenper_s = 100 * $item2->Authen / $item2->countvn;
-                                        $noAuthenper_s = 100 * $item2->Noauthen / $item2->countvn;
-                                    
-                                    ?>
-                                        <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                            <td class="p-2">{{ $item2->staff }}</td>
-                                            <td class="text-center">{{ $item2->countvn }}</td>
-                                            <td class="text-center text-success"> 
-                                                <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success" href="{{ url('check_dashboard_staff/' . $item2->staff.'/'. $item2->day.'/'. $item2->month.'/'. $item2->year) }}"  target="_blank">
-                                                    {{ $item2->Authen }} Visit
-                                                </a>
-                                                => {{ number_format($Authenper_s, 2) }}%
-                                            </td> 
-                                            <td class="text-center text-danger">
-                                                <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('check_dashboard_staffno/' . $item2->staff.'/'. $item2->day.'/'. $item2->month.'/'. $item2->year) }}"  target="_blank">
-                                                    {{ $item2->Noauthen }} Visit
-                                                </a>   
-                                                => {{ number_format($noAuthenper_s, 2) }}%
-                                            </td> 
-                                        </tr>
-                                    @endforeach
-        
-                                </tbody>
-                            </table>
-                        </div>
-
-
                     </div>  
 
-                    <div class="col-xl-7 col-md-6">
+                    <div class="col-xl-7 col-md-8">
                         <div class="row">
-
-                            <div class="col"></div>
-                            <div class="col-md-1 text-end">วันที่</div>
-                            <div class="col-md-6 text-center">
-                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                    data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                        data-date-language="th-th" value="{{ $startdate }}" />
-                                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                                        data-date-language="th-th" value="{{ $enddate }}" />
-                                </div>
-                            </div>                            
-                            <div class="col-md-2">
-                                <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                    <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                                </button> 
-                            </div>
-                            
-                        </div>
-                        <div class="row mt-5">
-                            <div class="col-md-12"> 
+                            <div class="col-md-12">
                                 <div class="main-card card">
                                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
                                         <div style="height:auto;width: auto;" class="p-2">
@@ -327,43 +247,100 @@
                                 </tbody>
                             </table>
                         </div> 
-                </div> 
+                </div>
+
             </div>
-             
-    
             <div class="col-xl-6 col-md-6">
                 <div class="main-card card p-2">
-                    <h6 class="card-title mt-2 ms-2">Report Group By Department เดือน {{ $mo_ }} ปี พ.ศ.{{ $ynow }}</h6>
-                    <div class="table-responsive mt-3">
-                        <table id="example2" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <h6 class="card-title mt-2 ms-2">Report Group By Staff เดือน {{ $mo_ }} ปี พ.ศ.{{ $ynow }}</h6>
+                    <div class="table-responsive p-2">
+                        <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
-                                <tr> 
-                                    <th class="text-center">department</th>
+                                <tr>
+                                    <th class="text-center">ลำดับ</th>
+                                    {{-- <th class="text-center">วันที่</th> --}}
+                                    <th class="text-center">Staff</th>
                                     <th class="text-center">Visit</th>
                                     <th class="text-center">Authen</th>
                                     <th class="text-center">No Authen</th> 
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $s = 1; ?>
-                                @foreach ($data_dep as $item3)
-                                    <tr> 
-                                        <td class="p-2">{{ $item3->department }}</td>
-                                        <td class="text-center">{{ $item3->countvn }}</td>
-                                        <td class="text-center">{{ $item3->Authen }}</td> 
-                                        <td class="text-center">{{ $item3->Noauthen }}</td> 
+                                <?php $j = 1; ?>
+                                @foreach ($data_staff as $item2)
+                                <?php 
+                                    $Authenper_s = 100 * $item2->Authen / $item2->countvn;
+                                    $noAuthenper_s = 100 * $item2->Noauthen / $item2->countvn;
+                                
+                                ?>
+                                    <tr >
+                                        <td class="text-center" style="width: 5%">{{ $j++ }}</td>
+                                        {{-- <td class="text-center">{{ $item2->day }}</td> --}}
+                                        <td class="p-2">{{ $item2->staff }}</td>
+                                        <td class="text-center">{{ $item2->countvn }}</td>
+                                        <td class="text-center text-success"> 
+                                            <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success" href="{{ url('check_dashboard_staff/' . $item2->staff.'/'. $item2->day.'/'. $item2->month.'/'. $item2->year) }}"  target="_blank">
+                                                {{ $item2->Authen }} Visit
+                                            </a>
+                                            => {{ number_format($Authenper_s, 2) }}%
+                                        </td> 
+                                        <td class="text-center text-danger">
+                                            <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('check_dashboard_staffno/' . $item2->staff.'/'. $item2->day.'/'. $item2->month.'/'. $item2->year) }}"  target="_blank">
+                                                {{ $item2->Noauthen }} Visit
+                                            </a>   
+                                            => {{ number_format($noAuthenper_s, 2) }}%
+                                        </td> 
                                     </tr>
                                 @endforeach
-
+    
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div> 
-        
-  
+            </div>
+           
+             
+        </div>
 
+    <div class="row">
+        <div class="col-xl-6 col-md-6">
+            <div class="main-card card p-2">
+                <h6 class="card-title mt-2 ms-2">Report Group By Department เดือน {{ $mo_ }} ปี พ.ศ.{{ $ynow }}</h6>
+                <div class="table-responsive mt-3">
+                    <table id="example2" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">ลำดับ</th>
+                                <th class="text-center">department</th>
+                                <th class="text-center">Visit</th>
+                                <th class="text-center">Authen</th>
+                                <th class="text-center">No Authen</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $s = 1; ?>
+                            @foreach ($data_dep as $item3)
+                                <tr>
+                                    <td class="text-center" style="width: 5%">{{ $s++ }}</td>
+                                    <td class="p-2">{{ $item3->department }}</td>
+                                    <td class="text-center">{{ $item3->countvn }}</td>
+                                    <td class="text-center">{{ $item3->Authen }}</td> 
+                                    <td class="text-center">{{ $item3->Noauthen }}</td> 
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> 
+        <div class="col-xl-6 col-md-6">
+            {{-- <div class="main-card card p-2">
+            </div> --}}
+        </div>
     </div>
+
+
 
     </div>
 
@@ -398,7 +375,7 @@
 </script> --}}
 {{-- <script src="{{ asset('js/chart.min.js') }}"></script> --}}
  {{-- <script src="{{ asset('js/dist-chart.min.js') }}"></script> --}}
- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script type="text/lavascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script>
         var Linechart;
@@ -467,12 +444,30 @@
                     const config = {
                         type: 'line',
                         data,
-                        options: { 
-                            scales: { 
+                        options: {
+                            // indexAxis: 'y',
+                            scales: {
                                 y: {
-                                    beginAtZero: true 
+                                    beginAtZero: true,
+                                    stacked:true
                                 }
-                            } 
+                            }
+
+                            // animations: {
+                            //     tension: {
+                            //         duration: 100,
+                            //         easing: 'linear',
+                            //         from: 1,
+                            //         to: 0,
+                            //         loop: true
+                            //         }
+                            //     },
+                            //     scales: {
+                            //         y: { // defining min and max so hiding the dataset does not change scale range
+                            //             min: 0,
+                            //             max: 100
+                            //         }
+                                }   
                         },
                         plugins:[ChartDataLabels],
                         
@@ -564,8 +559,7 @@
                                 beginAtZero: true
                             }
                         }
-                    },
-                    plugins:[ChartDataLabels],
+                    }
                 })
             });
             
