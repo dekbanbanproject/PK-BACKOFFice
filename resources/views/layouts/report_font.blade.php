@@ -54,6 +54,9 @@
    <link rel="stylesheet" href="{{ asset('global.css') }}" />
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/github.min.css" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script>
+
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ 
 </head>
 <style>
     body{
@@ -362,8 +365,8 @@
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 
-    <script src="{{ asset('presentation.js') }}"></script>
-    <script src="{{ asset('circularProgressBar.min.js') }}"></script>
+    {{-- <script src="{{ asset('presentation.js') }}"></script> --}}
+    {{-- <script src="{{ asset('circularProgressBar.min.js') }}"></script> --}}
     @yield('footer')
 
 

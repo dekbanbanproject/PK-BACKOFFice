@@ -187,7 +187,20 @@
                                         <td class="text-font text-pedding" style="text-align: right;width: 7%;color:#f1632b">0.00 </td>
                                         @endif
                                    
-                                        <td class="text-font text-pedding" style="text-align: center;width: 15%;"> {{ $item->er_emergency_level_id }} </td>
+                                        <td class="text-font text-pedding" style="text-left: center;width: 15%;">
+                                             {{ $item->er_emergency_level_id }}
+                                             @if ($item->er_emergency_level_id == '1')
+                                                แดง Resuscitate (กู้ชีพทันที)
+                                            @elseif ($item->er_emergency_level_id == '2')
+                                                ชมพู Emergency (ฉุกเฉินเร่งด่วน)
+                                            @elseif ($item->er_emergency_level_id == '3')
+                                            เหลือง Urgency (ด่วนมาก)
+                                            @elseif ($item->er_emergency_level_id == '4')
+                                            เขียว Semi Urgency (ด่วน)
+                                             @else
+                                             ขาว Non Urgency (รอได้) 
+                                             @endif
+                                             </td>
                                     </tr>
                                         <?php
                                             $total1 = $total1 + ($item->income);

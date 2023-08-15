@@ -144,8 +144,9 @@
                                                             from acc_1102050101_202
                                                             WHERE month(dchdate) = "'.$item->months.'"
                                                             and year(dchdate) = "'.$item->year.'"
-                                                            AND status = "N"
+                                                          
                                                 ');
+                                                // AND status = "N"
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
                                                     $sum_Y = $value2->debit_total;
@@ -351,8 +352,8 @@
                                                         from acc_1102050101_202
                                                         WHERE month(dchdate) = "'.$item->months.'"
                                                         and year(dchdate) = "'.$item->year.'"
-                                                        AND status = "N"
-                                            ');
+                                                        
+                                            '); 
                                             // AND status = "N"
                                             foreach ($datasum_ as $key => $value2) {
                                                 $sum_Y = $value2->debit_total;

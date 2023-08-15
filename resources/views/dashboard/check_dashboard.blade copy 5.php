@@ -169,8 +169,8 @@
                             <div class="col-md-12">
                                 <div class="main-card card">
                                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
-                                        <div style="height:auto;width: auto;" class="p-2">
-                                        <canvas id="Mychart"  class="p-2"></canvas>
+                                        <div style="height:auto;" class="p-2">
+                                        <canvas id="Mychart" class="p-2"></canvas>
                                         <br>
                                         <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
                                     </div>
@@ -182,8 +182,7 @@
                                 <div class="main-card card">
                                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
                                         <div style="height:auto;" class="p-2">
-                                            {{-- <div id="Mychartsline"></div> --}}
-                                            <canvas id="myChartNew"></canvas>
+                                            <div id="curve_chart"></div>
                                         <br>
                                         <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
                                     </div>
@@ -192,7 +191,16 @@
                         </div>
                         
                     </div>
-                    
+                    {{-- <div class="col-xl-5 col-md-9">
+                        <div class="main-card card">
+                            <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
+                                <div style="height:auto;" class="p-2"> 
+                                <div id="curve_chart"></div>
+                                <br>
+                                <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
+                            </div>
+                        </div>
+                    </div> --}}
                   
                 </div>
             </div>
@@ -347,20 +355,18 @@
 
 @endsection
 @section('footer')
-{{-- <script type="text/javascript">
+<script type="text/javascript">
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
-        
-        ['Year', 'Authen Code', 'ไม่ Authen'],
+        ['Year', 'Sales', 'Expenses'],
         ['2004',  1000,      400],
         ['2005',  1170,      460],
         ['2006',  660,       1120],
         ['2007',  1030,      540]
       ]);
-        
 
       var options = {
         title: 'Company Performance',
@@ -372,11 +378,9 @@
 
       chart.draw(data, options);
     }
-</script> --}}
-{{-- <script src="{{ asset('js/chart.min.js') }}"></script> --}}
- {{-- <script src="{{ asset('js/dist-chart.min.js') }}"></script> --}}
+  </script>
+
     <script>
-        var Linechart;
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
@@ -386,119 +390,6 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-
-            var xmlhttp = new XMLHttpRequest();
-            var url = "{{ route('claim.check_line') }}";
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var datas = JSON.parse(this.responseText);
-                    console.log(datas);
-                    label = datas.Dataset1.map(function(e) {
-                        return e.label;
-                    });
-                    // console.log(label);
-                    count = datas.Dataset1.map(function(e) {
-                        return e.count;
-                    });
-                     // setup 
-                    const data = {
-                        labels: label ,
-                        datasets: [                        
-                            {
-                                label: ['จำนวนคนที่มาย้อนหลัง 1 สัปดาห์'],
-                                data: count,
-                                backgroundColor: [
-                                    'rgba(255, 26, 104, 0.2)' 
-                                ],
-                                borderColor: [
-                                    'rgba(255, 26, 104, 1)' 
-                                ],
-                                borderWidth: 1,
-                                barPercentage: 0.9 // ตัวนี้จะเป็นขนาดความกว้างของ bar =.ถ้าปิดตัวนี้ bar จะใหญ่ขึ้น 
-                            },
-                            
-                        ]
-                    };
-                     // config 
-                    const config = {
-                        type: 'line',
-                        data,
-                        options: {
-                            indexAxis: 'y',
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    };
-
-                    // render init block
-                    const myChart = new Chart(
-                        document.getElementById('myChartNew'),
-                        config
-                    );
-                }
-             }
-            // const ctx2 = document.getElementById('myChartNew');
-
-            // new Chart(ctx2, {
-            //     type: 'line',
-            //     data: {
-            //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            //         datasets: [{
-            //             label: '# of Votes',
-            //             data: [65, 59, 80, 81, 56, 55, 40],
-            //             fill: false,
-            //             borderColor: 'rgb(75, 192, 192)',
-            //             tension: 0.1
-            //         }]
-            //     }
-                
-            // });
-            //  fetch("{{ route('claim.check_line') }}")
-            //     .then(response => response.json())
-            //     .then(json => {
-            //         const myChartNew = new Chart(ctx2, { 
-            //                 type: 'line',
-            //                 data: {
-            //                     labels: json.labels,
-            //                     datasets: json.datasets,
-
-            //                 },
-            //                 options:{
-            //                     scales:{
-            //                         y:{ 
-            //                             stacked: true
-            //                         }
-            //                     }
-            //                 }
-                             
-            //             })
-            // });
-
-            // fetch("{{ route('claim.check_dashboard_line') }}")
-            //     .then(response => response.json())
-            //     .then(json => {
-            //         const myChartNew = new Chart(ctx2, { 
-            //                 type: 'line',
-            //                 data: {
-            //                     labels: json.labels,
-            //                     datasets: json.datasets,
-
-            //                 },
-            //                 options:{
-            //                     scales:{
-            //                         y:{ 
-            //                             stacked: true
-            //                         }
-            //                     }
-            //                 }
-                             
-            //             })
-            // }); 
 
         });
     </script>
@@ -526,15 +417,15 @@
             });
             
     </script>
- 
     {{-- <script>
-        var ctx2 = document.getElementById("Mychartsline").getContext("2d");
+        var ctx2 = document.getElementById("Mychartipd").getContext("2d");
 
-            fetch("{{ route('claim.check_dashboard_line') }}")
+            fetch("{{ route('rep.reportauthen_getbaripd') }}")
                 .then(response => response.json())
                 .then(json => {
-                    const Mychart = new Chart(ctx2, { 
-                            type: 'line',
+                    const Mychart = new Chart(ctx2, {
+                            type: 'bar',
+                            // type: 'line',
                             data: {
                                 labels: json.labels,
                                 datasets: json.datasets,
@@ -553,5 +444,93 @@
 
     </script> --}}
 
-    
+    {{-- <script>
+        window.addEventListener("DOMContentLoaded", () => {
+        // update circle when range change
+        const pie = document.querySelectorAll("#pie");
+        const range = document.querySelector('[type="range"]');
+
+        range.addEventListener("input", (e) => {
+            pie.forEach((el, index) => {
+            const options = {
+                index: index + 1,
+                percent: e.target.value,
+            };
+            circle.animationTo(options);
+            });
+        });
+
+        // start the animation when the element is in the page view
+        const elements = [].slice.call(document.querySelectorAll("#pie"));
+        const circle = new CircularProgressBar("pie");
+
+        // circle.initial();
+
+        if ("IntersectionObserver" in window) {
+            const config = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.75,
+            };
+
+            const ovserver = new IntersectionObserver((entries, observer) => {
+            entries.map((entry) => {
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
+                circle.initial(entry.target);
+                observer.unobserve(entry.target);
+                }
+            });
+            }, config);
+
+            elements.map((item) => {
+            ovserver.observe(item);
+            });
+        } else {
+            elements.map((element) => {
+            circle.initial(element);
+            });
+        }
+
+        setInterval(() => {
+            const typeFont = [100, 200, 300, 400, 500, 600, 700];
+            const colorHex = `#${Math.floor(
+            (Math.random() * 0xffffff) << 0
+            ).toString(16)}`;
+            const options = {
+            index: 17,
+            percent: Math.floor(Math.random() * 100 + 1),
+            colorSlice: colorHex,
+            fontColor: colorHex,
+            fontSize: `${Math.floor(Math.random() * (1.4 - 1 + 1) + 1)}rem`,
+            fontWeight: typeFont[Math.floor(Math.random() * typeFont.length)],
+            };
+            circle.animationTo(options);
+        }, 3000);
+
+        // global configuration
+        const globalConfig = {
+            index: 58,
+            speed: 30,
+            animationSmooth: "1s ease-out",
+            strokeBottom: 5,
+            colorSlice: "#FF6D00",
+            colorCircle: "#f1f1f1",
+            round: true,
+        };
+
+        const global = new CircularProgressBar("global", globalConfig);
+        global.initial();
+
+        // --------------------------------------------------
+        // update global example when change range
+        range.addEventListener("input", (e) => {
+            const options = {
+            index: 58,
+            percent: e.target.value,
+            };
+            global.animationTo(options);
+        });
+        });
+  </script> --}}
+
 @endsection

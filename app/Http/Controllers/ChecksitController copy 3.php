@@ -1650,91 +1650,34 @@ class ChecksitController extends Controller
             ],
         ];      
     }
-    public function check_dashboard_line(Request $request)
+    public function bk_getbar(Request $request)
     {
-        $date = date("Y-m-d"); 
-        $y = date('Y'); 
-        $chart = DB::connection('mysql')->select(' 
-            SELECT
-            MONTH(c.vstdate) as month
-            ,YEAR(c.vstdate) as year
-            ,DAY(c.vstdate) as day
-            ,COUNT(DISTINCT c.vn) as countvn
-            ,COUNT(c.claimcode) as Authen
-            ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-            from check_sit_auto c
-            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE year(c.vstdate) = "'.$y.'" 
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-            AND c.main_dep NOT IN("011","036","107")
-            GROUP BY month
-        ');
-
-        $labels = [
-        1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
-        ];
-        $countvn = $countan = $Authen = $Noauthen = $authen_ipd = [];
-
-        foreach ($chart as $key => $chartitems) {
-            $countvn[$chartitems->month] = $chartitems->countvn;
-            $Authen[$chartitems->month] = $chartitems->Authen;
-            $Noauthen[$chartitems->month] = $chartitems->countvn - $chartitems->Authen;
-        }
-        foreach ($labels as $month => $name) {
-        if (!array_key_exists($month,$countvn)) {
-            $countvn[$month] = 0;
-        }
-        if (!array_key_exists($month,$Authen)) {
-            $Authen[$month] = 0;
-        }
-        if (!array_key_exists($month,$Noauthen)) {
-            $Noauthen[$month] = 0;
-        }
-        }
-        ksort($countvn);
-        ksort($Authen);
-        ksort($Noauthen);
-        return [
-            'labels'          =>  array_values($labels),
-            'datasets'     =>  [
-                [
-                    'label'           =>  'คนไข้ที่มารับบริการ OPD',
-                    'borderColor'     => 'rgba(255, 205, 86 , 1)',
-                    'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
-                    'borderWidth'     => '1',
-                    'barPercentage'   => '0.9',
-                    'data'            =>  array_values($countvn)
-                ],
-                [
-                    'label'           =>  'Authen Code',
-                    'borderColor'     => 'rgba(75, 192, 192, 1)',
-                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
-                    'borderWidth'     => '1',
-                    'barPercentage'   => '0.9',
-                    'data'            => array_values($Authen)
-                ],
-                [
-                    'label'           =>  'ไม่ Authen',
-                    'borderColor'     => 'rgba(255, 99, 132, 1)',
-                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-                    'borderWidth'     => '1',
-                    'barPercentage'   => '0.9',
-                    'data'            => array_values($Noauthen)
-                ],
-            ],
-        ];      
-        
-    }
-
-    public function check_line(Request $request)
-    {
-        $date = date("Y-m-d"); 
+        $date = date("Y-m-d");
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน  
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์  
         $y = date('Y');
-        
-        $labels = [
-            1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
-          ];
-        $chart = DB::connection('mysql')->select(' 
+
+        $type_chart5 = DB::connection('mysql3')->table('pttype')->select('pttype', 'name', 'pcode')->get(); 
+        foreach ($type_chart5 as $item) {
+            $data_count = DB::connection('mysql3')->table('ovst')->where('pttype', '=', $item->pttype)->WhereBetween('vstdate', [$newDate, $date])->count(); //ย้อนหลัง 1 เดือน  
+            $data_count_week = DB::connection('mysql3')->table('ovst')->where('pttype', '=', $item->pttype)->WhereBetween('vstdate', [$newweek, $date])->count();  //ย้อนหลัง 1 สัปดาห์
+            // if ($data_count > 0) {
+            //     $dataset[] = [
+            //         'label' => $item->name,
+            //         'count' => $data_count
+            //     ];
+            // }
+            // if ($data_count_week > 0) {
+            //     $dataset_2[] = [
+            //         'label_week' => $item->name,
+            //         'count_week' => $data_count_week
+            //     ];
+            // }
+        } 
+        // $chartData_dataset = $dataset;
+        // $chartData_dataset_week = $dataset_2; 
+
+        $chart_ = DB::connection('mysql')->select(' 
             SELECT
             MONTH(c.vstdate) as month
             ,YEAR(c.vstdate) as year
@@ -1749,21 +1692,25 @@ class ChecksitController extends Controller
             AND c.main_dep NOT IN("011","036","107")
             GROUP BY month
         ');
-        foreach ($chart as $key => $value) {
-            if ($value->countvn > 0) {
+        foreach ($chart_ as $key => $value) {
+             if ($value->countvn > 0) {
                 $dataset[] = [
-                    'label' => $labels,
-                    'count' => $value->countvn
+                    'label' => 'คนไข้ที่มารับบริการ',
+                    'countvn' => $value->countvn,
+                    'Authen' => $value->Authen,
+                    'Noauthen' => $value->Noauthen
                 ];
             }
         }
- 
-        $Dataset1 = $dataset;
-        // $Dataset2 = $dataset_2; 
+        $chart_countvn = $dataset;
+        // $chartData_dataset_week = $dataset_2; 
+
+
+
         return response()->json([
             'status'                    => '200', 
-            'Dataset1'                  => $Dataset1,
-            // 'Dataset2'                  => $Dataset2
+            'chart_countvn'             => $chart_countvn,
+            // 'chartData_dataset'         => $chartData_dataset
         ]);
     }
 

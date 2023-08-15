@@ -97,7 +97,7 @@
         <div class="row">
             <div class="main-card card p-2">
                 <div class="row">
-                    <div class="col-xl-5 col-md-4">                        
+                    <div class="col-xl-4 col-md-4">                        
 
                         <div class="main-card card p-2">
                             <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">บริการ</h4>  
@@ -164,43 +164,163 @@
                         </div>
                     </div>  
 
-                    <div class="col-xl-7 col-md-8">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="main-card card">
-                                    <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
-                                        <div style="height:auto;width: auto;" class="p-2">
-                                        <canvas id="Mychart"  class="p-2"></canvas>
-                                        <br>
-                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
-                                    </div>
-                                </div>
+                    <div class="col-xl-8 col-md-8">
+                        <div class="main-card card">
+                            <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
+                                <div style="height:auto;" class="p-2">
+                                <canvas id="Mychart" style="height:400px;" class="p-2"></canvas>
+                                <br>
+                                <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="main-card card">
-                                    <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
-                                        <div style="height:auto;" class="p-2">
-                                            {{-- <div id="Mychartsline"></div> --}}
-                                            <canvas id="myChartNew"></canvas>
-                                        <br>
-                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
                     </div>
-                    
-                  
+                    {{-- <div class="col-xl-3 col-md-4">
+                        <div class="main-card card p-2">
+                            <h6 class="card-title ms-2">Report TOP 5 วันที่ {{ $dd  }}</h6>
+                            @foreach ($data_staff_max as $itemmax)
+                                <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow" style="border-block-color: rgb(240, 84, 110)">
+                                    <div class="widget-chat-wrapper-outer">
+                                        <div class="widget-chart-content">
+                                            <div class="widget-chart-flex">
+                                                <div class="widget-numbers mb-0 w-100">
+                                                    <div class="widget-chart-flex">
+                                                        <div class="fsize-2 text-warning"> 
+                                                                <i class="fa-solid fa-person-walking-arrow-right me-2"></i>  
+                                                            <label for="" style="font-size: 13px"> {{ $itemmax->countvn }} คน</label>
+
+                                                        </div>
+                                                        <div class="ms-auto">
+
+                                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+
+                                                                <span class="text-success ps-2 me-2">
+                                                                    <i class="fa-regular fa-face-smile me-2"></i>
+                                                                    <label for="" style="font-size: 12px">
+                                                                        {{ $itemmax->Authen }}</label>
+                                                                </span>
+                                                                /
+                                                                <a href=""> 
+                                                                    <span class="text-danger ps-2">
+                                                                        <i class="fa-regular fa-face-frown me-2"></i>
+                                                                        <label for="" style="font-size: 12px">
+                                                                            {{ $itemmax->Noauthen }}
+                                                                            คน</label> 
+
+                                                                    </span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                                
+                        </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
 
         <div class="row">
 
-          
+            {{-- <div class="col-xl-4 col-md-3">
+                <div class="main-card card p-2">
+                    <h6 class="card-title ms-2">Authen Report Day ปี พ.ศ.{{ $ynow }}</h6>
+                    <div class="row">
+                        @foreach ($data_year3 as $item)
+                            <div class="col-md-12">
+                                @if ($item->month == '1')
+                                       <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary border-primary card shadow-lg">
+                                @elseif ($item->month == '2')
+                                        <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary border-info card shadow-lg">
+                                @elseif ($item->month == '3')
+                                        <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary border-warning card shadow-lg">
+                                @elseif ($item->month == '4')
+                                        <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary border-danger card shadow-lg">
+                                @elseif ($item->month == '5')
+                                     <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: rgb(209, 116, 252)">
+                                @elseif ($item->month == '6')
+                                        <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: pink">
+                                @elseif ($item->month == '7')
+                                      <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: rgb(161, 84, 206)">
+                                @elseif ($item->month == '8')
+                                        <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: rgb(240, 84, 110)">
+                                @elseif ($item->month == '9')
+                                       <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: rgb(119, 109, 247)">
+                                @elseif ($item->month == '10')
+                                     <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: rgb(70, 235, 133)">
+                                @elseif ($item->month == '11')
+                                        <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: rgb(185, 221, 53)">
+                                @else
+                                       <div class="widget-chart widget-chart2 text-start card-btm-border card-shadow-primary card shadow-lg" style="border-block-color: rgb(248, 149, 68)">
+                                @endif
+                                <div class="widget-chat-wrapper-outer">
+                                    <div class="widget-chart-content" >
+                                    
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                @if ($item->month == '1')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} มกราคม</h6>
+                                                @elseif ($item->month == '2')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} กุมภาพันธ์</h6>
+                                                @elseif ($item->month == '3')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} มีนาคม</h6>
+                                                @elseif ($item->month == '4')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} เมษายน</h6>
+                                                @elseif ($item->month == '5')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} พฤษภาคม</h6>
+                                                @elseif ($item->month == '6')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} มิถุนายน</h6>
+                                                @elseif ($item->month == '7')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} กรกฎาคม</h6>
+                                                @elseif ($item->month == '8')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} สิงหาคม</h6>
+                                                @elseif ($item->month == '9')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} กันยายน</h6>
+                                                @elseif ($item->month == '10')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} ตุลาคม</h6>
+                                                @elseif ($item->month == '11')
+                                                    <h6 class="widget-subheading">วันที่ {{ $item->day }} พฤษจิกายน</h6>
+                                                @else
+                                                <div class="widget-title opacity-5 text-uppercase">วันที่{{ $item->day }}ธันวาคม</div>
+                                            @endif
+                                            </div>
+                                            <div class="col-md-3"> 
+                                                    <span class="text-warning">
+                                                        <i class="fa-solid fa-person-walking-arrow-right me-2" style="font-size: 13px"></i> 
+                                                        <label for="" style="font-size: 13px" > {{ $item->VN }} คน</label> 
+                                                    </span>  
+                                            </div>
+                                            <div class="col-md-3"> 
+                                                    <a href="{{ url('check_dashboard_authen/' . $item->day.'/'. $item->month.'/'. $item->year) }}"  target="_blank">
+                                                        <span class="text-success">
+                                                            <i class="fa-solid fa-circle-up me-2" style="font-size: 13px"></i> 
+                                                            <label for="" style="font-size: 13px"> {{ $item->Authen }} คน</label>
+                                                        </span> 
+                                                    </a> 
+                                            </div>
+                                            <div class="col-md-3"> 
+                                                    <a  href="{{ url('check_dashboard_noauthen/' . $item->day.'/'. $item->month.'/'. $item->year) }}"  target="_blank"> 
+                                                            <span class="text-danger">
+                                                                <i class="fa-solid fa-circle-down me-2" style="font-size: 13px"></i> 
+                                                                <label for="" style="font-size: 13px"> {{ $item->Noauthen }} คน</label>
+                                                            </span> 
+                                                    </a> 
+                                            </div>
+                                        </div>
+ 
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                   
+                </div>
+            </div>
+        </div> --}}
 
             <div class="col-xl-6 col-md-6">
                 <div class="main-card card p-2">
@@ -347,36 +467,8 @@
 
 @endsection
 @section('footer')
-{{-- <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        
-        ['Year', 'Authen Code', 'ไม่ Authen'],
-        ['2004',  1000,      400],
-        ['2005',  1170,      460],
-        ['2006',  660,       1120],
-        ['2007',  1030,      540]
-      ]);
-        
-
-      var options = {
-        title: 'Company Performance',
-        curveType: 'function',
-        legend: { position: 'bottom' }
-      };
-
-      var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-      chart.draw(data, options);
-    }
-</script> --}}
-{{-- <script src="{{ asset('js/chart.min.js') }}"></script> --}}
- {{-- <script src="{{ asset('js/dist-chart.min.js') }}"></script> --}}
     <script>
-        var Linechart;
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
@@ -386,119 +478,6 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-
-            var xmlhttp = new XMLHttpRequest();
-            var url = "{{ route('claim.check_line') }}";
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var datas = JSON.parse(this.responseText);
-                    console.log(datas);
-                    label = datas.Dataset1.map(function(e) {
-                        return e.label;
-                    });
-                    // console.log(label);
-                    count = datas.Dataset1.map(function(e) {
-                        return e.count;
-                    });
-                     // setup 
-                    const data = {
-                        labels: label ,
-                        datasets: [                        
-                            {
-                                label: ['จำนวนคนที่มาย้อนหลัง 1 สัปดาห์'],
-                                data: count,
-                                backgroundColor: [
-                                    'rgba(255, 26, 104, 0.2)' 
-                                ],
-                                borderColor: [
-                                    'rgba(255, 26, 104, 1)' 
-                                ],
-                                borderWidth: 1,
-                                barPercentage: 0.9 // ตัวนี้จะเป็นขนาดความกว้างของ bar =.ถ้าปิดตัวนี้ bar จะใหญ่ขึ้น 
-                            },
-                            
-                        ]
-                    };
-                     // config 
-                    const config = {
-                        type: 'line',
-                        data,
-                        options: {
-                            indexAxis: 'y',
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    };
-
-                    // render init block
-                    const myChart = new Chart(
-                        document.getElementById('myChartNew'),
-                        config
-                    );
-                }
-             }
-            // const ctx2 = document.getElementById('myChartNew');
-
-            // new Chart(ctx2, {
-            //     type: 'line',
-            //     data: {
-            //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            //         datasets: [{
-            //             label: '# of Votes',
-            //             data: [65, 59, 80, 81, 56, 55, 40],
-            //             fill: false,
-            //             borderColor: 'rgb(75, 192, 192)',
-            //             tension: 0.1
-            //         }]
-            //     }
-                
-            // });
-            //  fetch("{{ route('claim.check_line') }}")
-            //     .then(response => response.json())
-            //     .then(json => {
-            //         const myChartNew = new Chart(ctx2, { 
-            //                 type: 'line',
-            //                 data: {
-            //                     labels: json.labels,
-            //                     datasets: json.datasets,
-
-            //                 },
-            //                 options:{
-            //                     scales:{
-            //                         y:{ 
-            //                             stacked: true
-            //                         }
-            //                     }
-            //                 }
-                             
-            //             })
-            // });
-
-            // fetch("{{ route('claim.check_dashboard_line') }}")
-            //     .then(response => response.json())
-            //     .then(json => {
-            //         const myChartNew = new Chart(ctx2, { 
-            //                 type: 'line',
-            //                 data: {
-            //                     labels: json.labels,
-            //                     datasets: json.datasets,
-
-            //                 },
-            //                 options:{
-            //                     scales:{
-            //                         y:{ 
-            //                             stacked: true
-            //                         }
-            //                     }
-            //                 }
-                             
-            //             })
-            // }); 
 
         });
     </script>
@@ -524,17 +503,16 @@
                     }
                 })
             });
-            
     </script>
- 
     {{-- <script>
-        var ctx2 = document.getElementById("Mychartsline").getContext("2d");
+        var ctx2 = document.getElementById("Mychartipd").getContext("2d");
 
-            fetch("{{ route('claim.check_dashboard_line') }}")
+            fetch("{{ route('rep.reportauthen_getbaripd') }}")
                 .then(response => response.json())
                 .then(json => {
-                    const Mychart = new Chart(ctx2, { 
-                            type: 'line',
+                    const Mychart = new Chart(ctx2, {
+                            type: 'bar',
+                            // type: 'line',
                             data: {
                                 labels: json.labels,
                                 datasets: json.datasets,
@@ -553,5 +531,92 @@
 
     </script> --}}
 
-    
+    {{-- <script>
+        window.addEventListener("DOMContentLoaded", () => {
+        // update circle when range change
+        const pie = document.querySelectorAll("#pie");
+        const range = document.querySelector('[type="range"]');
+
+        range.addEventListener("input", (e) => {
+            pie.forEach((el, index) => {
+            const options = {
+                index: index + 1,
+                percent: e.target.value,
+            };
+            circle.animationTo(options);
+            });
+        });
+
+        // start the animation when the element is in the page view
+        const elements = [].slice.call(document.querySelectorAll("#pie"));
+        const circle = new CircularProgressBar("pie");
+
+        // circle.initial();
+
+        if ("IntersectionObserver" in window) {
+            const config = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.75,
+            };
+
+            const ovserver = new IntersectionObserver((entries, observer) => {
+            entries.map((entry) => {
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
+                circle.initial(entry.target);
+                observer.unobserve(entry.target);
+                }
+            });
+            }, config);
+
+            elements.map((item) => {
+            ovserver.observe(item);
+            });
+        } else {
+            elements.map((element) => {
+            circle.initial(element);
+            });
+        }
+
+        setInterval(() => {
+            const typeFont = [100, 200, 300, 400, 500, 600, 700];
+            const colorHex = `#${Math.floor(
+            (Math.random() * 0xffffff) << 0
+            ).toString(16)}`;
+            const options = {
+            index: 17,
+            percent: Math.floor(Math.random() * 100 + 1),
+            colorSlice: colorHex,
+            fontColor: colorHex,
+            fontSize: `${Math.floor(Math.random() * (1.4 - 1 + 1) + 1)}rem`,
+            fontWeight: typeFont[Math.floor(Math.random() * typeFont.length)],
+            };
+            circle.animationTo(options);
+        }, 3000);
+
+        // global configuration
+        const globalConfig = {
+            index: 58,
+            speed: 30,
+            animationSmooth: "1s ease-out",
+            strokeBottom: 5,
+            colorSlice: "#FF6D00",
+            colorCircle: "#f1f1f1",
+            round: true,
+        };
+
+        const global = new CircularProgressBar("global", globalConfig);
+        global.initial();
+
+        // --------------------------------------------------
+        // update global example when change range
+        range.addEventListener("input", (e) => {
+            const options = {
+            index: 58,
+            percent: e.target.value,
+            };
+            global.animationTo(options);
+        });
+        });
+  </script> --}}
 @endsection

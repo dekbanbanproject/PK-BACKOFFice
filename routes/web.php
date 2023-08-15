@@ -121,6 +121,7 @@ Route::match(['get','post'],'pull_hosauto',[App\Http\Controllers\Auto_authenCont
 Route::match(['get','post'],'checksit_auto',[App\Http\Controllers\Auto_authenController::class, 'checksit_auto'])->name('auto.checksit_auto');//
 Route::match(['get','post'],'pullauthen_spsch',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spsch'])->name('auto.pullauthen_spsch');//
 Route::match(['get','post'],'updaet_authen_to_checksitauto',[App\Http\Controllers\Auto_authenController::class, 'updaet_authen_to_checksitauto'])->name('auto.updaet_authen_to_checksitauto');//
+Route::match(['get','post'],'checksithos_auto',[App\Http\Controllers\Auto_authenController::class, 'checksithos_auto'])->name('auto.checksithos_auto');//
 
 Route::match(['get','post'],'dbday_auto',[App\Http\Controllers\AutoController::class, 'dbday_auto'])->name('db.dbday_auto');//
 Route::match(['get','post'],'depauthen_auto',[App\Http\Controllers\AutoController::class, 'depauthen_auto'])->name('db.depauthen_auto');//
@@ -138,6 +139,8 @@ Route::match(['get','post'],'check_dashboard',[App\Http\Controllers\ChecksitCont
 Route::match(['get','post'],'check_dashboard_authen/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_authen'])->name('claim.check_dashboard_authen');//
 Route::match(['get','post'],'check_dashboard_noauthen/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_noauthen'])->name('claim.check_dashboard_noauthen');//
 Route::match(['get','post'],'check_dashboard_bar',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_bar'])->name('claim.check_dashboard_bar');
+Route::match(['get','post'],'check_dashboard_line',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_line'])->name('claim.check_dashboard_line');
+Route::match(['get','post'],'check_line',[App\Http\Controllers\ChecksitController::class, 'check_line'])->name('claim.check_line');
 
 Route::match(['get','post'],'check_dashboard_mob',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_mob'])->name('claim.check_dashboard_mob');//
 Route::match(['get','post'],'check_dashboard_authen_mob/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_authen_mob'])->name('claim.check_dashboard_authen_mob');//

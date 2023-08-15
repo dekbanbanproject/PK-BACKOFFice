@@ -63,6 +63,7 @@ use App\Models\Db_year;
 use App\Models\Db_authen;
 use App\Models\Db_authen_detail;
 use App\Models\Check_authen;
+use App\Models\Check_sithos_auto;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -92,7 +93,7 @@ class Auto_authenController extends Controller
                     JOIN pttype pt on pt.pttype=o.pttype
                     JOIN opduser op on op.loginname = o.staff
                     WHERE o.vstdate = CURDATE()
-                  
+                    AND o.main_dep NOT IN("011","036","107")
                     AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
                     group by o.vn
                     
@@ -100,33 +101,19 @@ class Auto_authenController extends Controller
             // AND o.main_dep NOT IN("011","036","107")
             // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91")
 
-            // BETWEEN "2023-08-12" AND "2023-08-13"
-            // ,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname
-            // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23")
-            // AND o.main_dep NOT IN("011","036","107")
-            // AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6")
-            // SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,o.staff,p.hometel
-            //     ,pt.nhso_code,o.hospmain,o.hospsub,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-
-            // SELECT o.vn,p.hn,p.cid,o.pttype,o.staff,p.hometel
-            // ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-            // CURDATE() "2023-07-01"
+        
             foreach ($data_sits as $key => $value) {
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
 
                 if ($check > 0) {
-                    Check_sit_auto::where('vn', $value->vn)
-                        ->update([ 
-                            'hometel'       => $value->hometel,
-                            // 'vsttime'    => $value->vsttime,
-                            // 'fullname'   => $value->fullname,
-                            // 'pttype'     => $value->pttype,
-                            // 'hospmain'   => $value->hospmain,
-                            'staff_name'    => $value->staffname,
-                            'main_dep'      => $value->main_dep,
-                            'staff'         => $value->staff,
-                            'debit'         => $value->debit
-                        ]);
+                    // Check_sit_auto::where('vn', $value->vn)
+                    //     ->update([ 
+                    //         'hometel'       => $value->hometel, 
+                    //         'staff_name'    => $value->staffname,
+                    //         'main_dep'      => $value->main_dep,
+                    //         'staff'         => $value->staff,
+                    //         'debit'         => $value->debit
+                    //     ]);
                 } else {
                     Check_sit_auto::insert([
                         'vn'         => $value->vn,
@@ -257,7 +244,7 @@ class Auto_authenController extends Controller
     public function pullauthen_spsch(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-08-12";
+        $date_start = "2023-08-14";
         $date_end = "2023-08-13";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
@@ -275,7 +262,7 @@ class Auto_authenController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=NTExYjk3YTQtMDU2MS00NDE3LTlmMjItYzc4Y2JhZThiMjNj; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Cookie: SESSION=MTUxYjZjYTUtMTFkYi00NzdhLWExYjctYzNjZmIzYmYwNWVm; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',
@@ -378,37 +365,93 @@ class Auto_authenController extends Controller
     public function updaet_authen_to_checksitauto(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2566-01-01";
+        $date_start = "2023-08-14";
         $date_end = "2566-07-22";
         
         // $data_ = Check_authen
+
+        // $count = Check_sit_auto::where('vn','<>','')->count(); 
+
         $data_ = DB::connection('mysql')->select('
             SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
             FROM check_authen   
-            WHERE vstdate BETWEEN "2023-07-01" AND "2023-07-15"
+            WHERE vstdate = CURDATE()
             AND claimtype <> "PG0130001"      
-        ');
-        // BETWEEN "2023-01-01" AND "2023-01-15"  
-        // AND claimtype = "PG0130001"
-        foreach ($data_ as $key => $value) { 
-           $count = Check_sit_auto::where('claimcode','=',$value->claimcode)->count();
-            // dd($y);
-            // if ($value->claimtype == 'PG0130001') {
-            if ($count > 0) {    
-
-            } else {                            
-                    Check_sit_auto::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->update([
-                        'claimcode'       => $value->claimcode,
-                        'claimtype'       => $value->claimtype,
-                        'servicerep'      => $value->servicerep,
-                        'servicename'     => $value->servicename,
-                        'authentication'  => $value->authentication,
-                    ]);                            
-            }
-
+        '); 
+        foreach ($data_ as $key => $value) {   
+             $count = Check_sit_auto::where('claimcode','=',$value->claimcode)->count(); 
+             if ($count>0) {
+                # code...
+             } else {
+                Check_sit_auto::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->update([
+                    'claimcode'       => $value->claimcode,
+                    'claimtype'       => $value->claimtype,
+                    'servicerep'      => $value->servicerep,
+                    'servicename'     => $value->servicename,
+                    'authentication'  => $value->authentication,
+                ]);   
+             }
+             
+             
         }
 
         return view('auto.updaet_authen_to_checksitauto');
+
+    }
+
+
+    public function checksithos_auto(Request $request)
+    {
+        $date_now = date('Y-m-d');
+        $date_start = "2023-08-14";
+        $date_end = "2566-07-22";
+        
+        $data_ = DB::connection('mysql')->select('
+            SELECT vn,an,hn,cid,vstdate,hometel,vsttime,fullname,pttype,hospmain,hospsub,main_dep,staff,staff_name,claimcode,claimtype,servicerep,servicename,authentication,debit 
+            FROM check_sit_auto   
+            WHERE vstdate = CURDATE()      
+        '); 
+        foreach ($data_ as $key => $value) {   
+             $count = Check_sithos_auto::where('vn','=',$value->vn)->count(); 
+             if ($count>0) {
+                # code...
+             } else {
+                // Check_sithos_auto::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->update([
+                //     'claimcode'       => $value->claimcode,
+                //     'claimtype'       => $value->claimtype,
+                //     'servicerep'      => $value->servicerep,
+                //     'servicename'     => $value->servicename,
+                //     'authentication'  => $value->authentication,
+                // ]);  
+                Check_sithos_auto::insert([
+                    'vn'                => $value->vn,
+                    'an'                => $value->an,
+                    'hn'                => $value->hn,
+                    'cid'               => $value->cid,
+                    'vstdate'           => $value->vstdate,
+                    'hometel'           => $value->hometel,
+                    'vsttime'           => $value->vsttime,
+                    'fullname'          => $value->fullname,
+                    'pttype'            => $value->pttype,
+                    'hospmain'          => $value->hospmain,
+                    'hospsub'           => $value->hospsub,
+                    'main_dep'          => $value->main_dep,
+                    'staff'             => $value->staff,
+                    'staff_name'        => $value->staffname,
+                    'claimcode'         => $value->claimcode,
+                    'claimtype'         => $value->claimtype,
+                    'servicerep'        => $value->servicerep,
+                    'servicename'       => $value->servicename,
+                    'authentication'    => $value->authentication,
+                    'debit'             => $value->debit
+                ]); 
+
+             }
+             
+             
+        }
+
+        return view('auto.checksithos_auto');
 
     }
 
