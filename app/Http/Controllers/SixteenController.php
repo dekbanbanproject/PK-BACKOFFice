@@ -178,8 +178,8 @@ class SixteenController extends Controller
             }
             // UCEP
             $data_opitemrece = DB::connection('mysql11')->select('
-                SELECT "" dtemp_hosucep_id,o.an,o.hn,o.icode,o.rxdate,o.rxtime,a.vstdate,a.vsttime,DATEDIFF(o.rxdate,a.vstdate)<="1" as date_x,TIMEDIFF(o.rxtime,a.vsttime)<="24" time_x
-                ,"" created_at,"" updated_at
+                SELECT o.an,o.hn,o.icode,o.rxdate,o.rxtime,a.vstdate,a.vsttime,DATEDIFF(o.rxdate,a.vstdate)<="1" as date_x,TIMEDIFF(o.rxtime,a.vsttime)<="24" time_x
+                
                 from opitemrece o
                 LEFT JOIN ipt i on i.an = o.an
                 LEFT JOIN ovst a on a.an = o.an
