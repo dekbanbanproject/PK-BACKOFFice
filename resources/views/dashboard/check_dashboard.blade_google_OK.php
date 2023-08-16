@@ -268,13 +268,44 @@
                     </div>  
 
                     <div class="col-xl-7 col-md-6">
+                        {{-- <div class="row">
+                            <div class="col-md-2"> ปีงบประมาณ :  </div>
+                            <div class="col-md-2">
+                                <select name="yearbudget_select" id="STATUS_CODE" class="form-control input-lg" style=" font-family: 'Kanit', sans-serif;">
+                                    @foreach($year_ as $year)
+                                    @if($year == $yearbudget_select )
+                                        <option value="{{$year}}" selected>พ.ศ. {{$year}}</option>
+                                    @else
+                                        <option value="{{$year}}">พ.ศ. {{$year}}</option>
+                                    @endif
+                                    @endforeach
+                                </select> 
+                            </div>
+                            <div class="col-md-1">
+                                    <span>
+                                        <button type="submit" class="btn btn-hero-sm btn-hero-info" >แสดง</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div> --}}
+
                         {{-- <form action="{{ route('claim.check_dashboard') }}" method="GET">
-                            @csrf
+                            @csrf --}}
                             <div class="row"> 
                                 <div class="col"></div>
-                                <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-6 text-center">
-                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                <div class="col-md-2 text-end">ปีงบประมาณ</div>
+                                <div class="col-md-2 text-center">
+                                    <select name="yearbudget_select" id="yearbudget" class="form-control input-lg" style=" font-family: 'Kanit', sans-serif;">
+                                        @foreach($year_ as $year)
+                                        @if($year == $yearbudget_select )
+                                            <option value="{{$year}}" selected>พ.ศ. {{$year}}</option>
+                                        @else
+                                            <option value="{{$year}}">พ.ศ. {{$year}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select> 
+                                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
@@ -282,7 +313,7 @@
                                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                                             data-date-language="th-th" value="{{ $enddate }}" />
-                                    </div>
+                                    </div> --}}
                                 </div>                            
                                 <div class="col-md-2">
                                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -290,16 +321,19 @@
                                     </button> 
                                 </div> 
                             </div>
-                        </form> --}}
-                        <div class="row mt-5">
+                        {{-- </form> --}}
+                        <div class="row mt-2">
                             <div class="col-md-12"> 
                                 <div class="main-card card">
                                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
-                                        <div style="height:auto;width: auto;" class="p-2">
+                                    {{-- <div id="chart_div" style="height:500px;width: auto;"></div> --}}
+                                    <div id="chart_div" ></div>
+                                    {{-- style="width: 800px; height: 500px;" --}}
+                                        {{-- <div style="height:auto;width: auto;" class="p-2">
                                         <canvas id="Mychart"  class="p-2"></canvas>
                                         <br>
-                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
-                                    </div>
+                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6> --}}
+                                    {{-- </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -307,10 +341,11 @@
                             <div class="col-md-12">
                                 <div class="main-card card">
                                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
-                                        <div style="height:auto;" class="p-2"> 
+                                    <div id="donutchart" ></div>
+                                        {{-- <div style="height:auto;" class="p-2"> 
                                             <canvas id="myChartNew"></canvas>
                                         <br>
-                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
+                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6> --}}
                                     </div>
                                 </div>
                             </div>
@@ -568,312 +603,90 @@
       chart.draw(data, options);
     }
 </script> --}}
-{{-- <script src="{{ asset('js/chart.min.js') }}"></script> --}}
- {{-- <script src="{{ asset('js/dist-chart.min.js') }}"></script> --}}
+ 
  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
-    <script>
-        var Linechart;
-        $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
-            $('#datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-
-            var xmlhttp = new XMLHttpRequest();
-            var url = "{{ route('claim.check_line') }}";
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var datas = JSON.parse(this.responseText);
-                    console.log(datas);
-                    Authen = datas.Dataset1.map(function(e) {
-                        return e.Authen;
-                    });
-                    
-                    count = datas.Dataset1.map(function(e) {
-                        return e.count;
-                    });
-                    Noauthen = datas.Dataset1.map(function(e) {
-                        return e.Noauthen;
-                    });
-                     // setup 
-                    const data = {
-                        labels: ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"] ,
-                        datasets: [                        
-                            {
-                                label: ['คนไข้ที่มารับบริการ OPD'],
-                                data: count,
-                                fill: false,
-                                borderColor: 'rgba(255, 205, 86)',
-                                tension: 0.4
-                               
-                            },
-                            {
-                                label: ['ขอ Authen Code'],
-                                data: Authen,
-                                fill: false,
-                                borderColor: 'rgba(75, 192, 192)',
-                                tension: 0.4
-                               
-                            },
-                            {
-                                label: ['ไม่ Authen Code'],
-                                data: Noauthen,
-                                fill: false,
-                                borderColor: 'rgba(255, 99, 132)',
-                                tension: 0.4
-                                
-                            },
-                            
-
-                            
-                        ]
-                    };
-             
-                    const config = {
-                        type: 'line',
-                        data,
-                        options: { 
-                            scales: { 
-                                y: {
-                                    beginAtZero: true 
-                                }
-                            } 
-                        },
-                        
-                        plugins:[ChartDataLabels],
-                        
-                    };
-                    
-                    // render init block
-                    const myChart = new Chart(
-                        document.getElementById('myChartNew'),
-                        config
-                    );
-                }
-             }
-
-
-            // const ctx2 = document.getElementById('myChartTuaton'); 
-            
-            // new Chart(ctx2, {
-            //     type: 'doughnut',
-            //     data: {
-            //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            //         datasets: [{
-            //             label: '# of Votes',
-            //             data: [65, 59, 80 ],
-            //             backgroundColor: [
-            //             'rgb(255, 99, 132)',
-            //             'rgb(54, 162, 235)',
-            //             'rgb(255, 205, 86)'
-            //             ], 
-            //         }]
-            //     },
-            //     options: {
-            //         responsive: true,
-            //         plugins: {
-            //         legend: {
-            //             position: 'top',
-            //         },
-            //         title: {
-            //             display: true,
-            //             text: 'Chart.js Doughnut Chart'
-            //         }
-            //         }
-            //     },
-            //     plugins:[ChartDataLabels],
-            // });
-        
-
-            // var ctxbuble = document.getElementById("myChartTuaton").getContext("2d");
-
-            // fetch("{{ route('claim.check_buble') }}")
-            //     .then(response => response.json())
-            //     .then(json => {
-            //         const myChartTuaton = new Chart(ctxbuble, {
-            //             type: 'doughnut',
-            //             data: {
-            //                 labels: json.label,
-            //                 datasets: json.Dataset3,
-
-            //             },
-            //             options: {
-            //                 responsive: true,
-            //                 plugins: {
-            //                 legend: {
-            //                     position: 'top',
-            //                 },
-            //                 title: {
-            //                     display: true,
-            //                     text: 'Chart.js Bubble Chart'
-            //                 }
-            //                 }
-            //             },
-            //             plugins:[ChartDataLabels],
-            //         })
-            //     });
-
+ {{-- <script src="https://www.gstatic.com/charts/loader.js"></script> --}}
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script>
+    // google.charts.load('current', {'packages':['bar']});
+    //   google.charts.setOnLoadCallback(drawChart);
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+    
+       var data = google.visualization.arrayToDataTable([
+            ['เดือน', 'Visit ALL',{ role: 'style' }, 'ขอ Authen',{ role: 'style' }, 'ไม่ขอ Authen',{ role: 'style' }],
+            ['ต.ค.',  <?php echo $count_all[10] ; ?>, "#f2b90e",  <?php echo $count_authen[10] ; ?>,"#13c898",  <?php echo $count_authen_null[10] ; ?>,"color: #26deb3"],
+            ['พ.ย.',  <?php echo $count_all[11] ; ?>, "#f2b90e",  <?php echo $count_authen[11] ; ?>,"#13c898",  <?php echo $count_authen_null[11] ; ?>,"color: #26deb3"],
+            ['ธ.ค.',  <?php echo $count_all[12] ; ?>, "#f2b90e",  <?php echo $count_authen[12] ; ?>,"#13c898",  <?php echo $count_authen_null[12] ; ?>,"color: #26deb3"],
+            ['ม.ค.',  <?php echo $count_all[1] ; ?>, "#f2b90e",  <?php echo $count_authen[1] ; ?>,"#13c898", <?php echo $count_authen_null[1] ; ?>,"color: #26deb3"],
+            ['ก.พ.',  <?php echo $count_all[2] ; ?>, "#f2b90e",  <?php echo $count_authen[2] ; ?>,"#13c898",  <?php echo $count_authen_null[2] ; ?>,"color: #26deb3"],
+            ['มี.ค.',  <?php echo $count_all[3] ; ?>, "#f2b90e", <?php echo $count_authen[3] ; ?>,"#13c898",  <?php echo $count_authen_null[3] ; ?>,"color: #26deb3"],
+            ['เม.ย.', <?php echo $count_all[4] ; ?>, "#f2b90e", <?php echo $count_authen[4] ; ?>,"#13c898",  <?php echo $count_authen_null[4] ; ?>,"color: #26deb3"],
+            ['พ.ค.', <?php echo $count_all[5] ; ?>, "#f2b90e", <?php echo $count_authen[5] ; ?>,"#13c898",  <?php echo $count_authen_null[5] ; ?>,"color: #26deb3"],
+            ['มิ.ย.', <?php echo $count_all[6] ; ?>, "#f2b90e", <?php echo $count_authen[6] ; ?>,"#13c898",  <?php echo $count_authen_null[6] ; ?>,"color: #26deb3"],
+            ['ก.ค.', <?php echo $count_all[7] ; ?>, "#f2b90e", <?php echo $count_authen[7] ; ?>,"#13c898",  <?php echo $count_authen_null[7] ; ?>,"color: #26deb3"],
+            ['ส.ค.', <?php echo $count_all[8] ; ?>, "#f2b90e", <?php echo $count_authen[8] ; ?>,"#13c898",  <?php echo $count_authen_null[8] ; ?>,"color: #26deb3"],
+            ['ก.ย.', <?php echo $count_all[9] ; ?>, "#f2b90e", <?php echo $count_authen[9] ; ?>,"#13c898",  <?php echo $count_authen_null[9] ; ?>,"color: #26deb3"]
+        ]);
+   
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       3,
+                       { calc: "stringify",
+                         sourceColumn: 3,
+                         type: "string",
+                         role: "annotation" },
+                      5,
+                         { calc: "stringify",
+                         sourceColumn: 5,
+                         type: "string",
+                         role: "annotation" },
+                    ]);
+        var options = {
+            title: "คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7",
+            width: 1000,
+            height: 500,
+            bar: {groupWidth: "100%"},
+            legend: { position: 2 },
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
+        chart.draw(view, options);
+         
+    }
+  
+ </script>
+ <script type="text/javascript">
+    google.load("visualization", "1", {
+            packages: ["corechart"]
         });
+        google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
     </script>
-    <script>
-        var xmlshttp = new XMLHttpRequest();
-            var url = "{{ route('claim.check_buble') }}";
-            xmlshttp.open("GET", url, true);
-            xmlshttp.send();
-            xmlshttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var datas = JSON.parse(this.responseText);
-                    console.log(datas);
-                    count = datas.Dataset3.map(function(e) {
-                        return e.count;
-                    });
-
-                    label = datas.Dataset3.map(function(e) {
-                        return e.label;
-                    });
-                   // setup 
-                   const data = {
-                        labels: label ,
-                        datasets: [                        
-                            { 
-                                data: count,
-                                backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(54, 162, 235)',
-                                'rgb(247, 161, 195)',
-                                'rgb(198, 227, 52)',
-                                'rgb(52, 227, 198)',
-                                'rgb(63, 87, 209)',
-                                'rgb(102, 94, 242)',
-                                'rgb(143, 94, 242)',
-                                'rgb(250, 101, 90)',
-                                'rgb(209, 207, 63)'
-                                ], 
-                     
-                            } 
-                            
-                        ]
-                    };
-             
-                    const config = {
-                        type: 'doughnut',
-                        data,
-                        options: {
-                            responsive: true,
-                            plugins: {
-                            legend: {
-                                position: 'top',
-                            },
-                            // title: {
-                            //     display: true,
-                            //     text: 'แยกตามวิธีการพิสูจน์ตัวตน'
-                            // }
-                            }
-                        },
-                        
-                        plugins:[ChartDataLabels],
-                        
-                    };
-                    
-                    // render init block
-                    const myChart = new Chart(
-                        document.getElementById('myChartTuaton'),
-                        config
-                    );
-                }
-             }
-    </script>
-    <script>
-        var ctx = document.getElementById("Mychart").getContext("2d");
-
-        fetch("{{ route('claim.check_dashboard_bar') }}")
-            .then(response => response.json())
-            .then(json => {
-                const Mychart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: json.labels,
-                        datasets: json.datasets,
-
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    },
-                    plugins:[ChartDataLabels],
-                })
-            });
-            
-    </script>
-     {{-- <script>
-        var ctx2 = document.getElementById("myChartTuaton").getContext("2d");
-
-        fetch("{{ route('claim.check_buble') }}")
-            .then(response => response.json())
-            .then(json => {
-                const myChartTuaton = new Chart(ctx2, {
-                    type: 'doughnut',
-                    data: {
-                        labels: json.label,
-                        datasets: json.datasets,
-
-                    },
-                    
-                    options: {
-                        responsive: true,
-                        plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Chart.js Doughnut Chart'
-                        }
-                        }
-                    },
-                    plugins:[ChartDataLabels],
-                })
-            });
-            
-    </script> --}}
  
-    {{-- <script>
-        var ctx2 = document.getElementById("Mychartsline").getContext("2d");
-
-            fetch("{{ route('claim.check_dashboard_line') }}")
-                .then(response => response.json())
-                .then(json => {
-                    const Mychart = new Chart(ctx2, { 
-                            type: 'line',
-                            data: {
-                                labels: json.labels,
-                                datasets: json.datasets,
-
-                            },
-                            options:{
-                                scales:{
-                                    y:{
-                                        beginAtZero:true
-                                        // stacked: true
-                                    }
-                                }
-                            }
-                        })
-                });
-
-    </script> --}}
-
     
 @endsection

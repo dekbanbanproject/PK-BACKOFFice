@@ -143,6 +143,8 @@ Route::match(['get','post'],'check_dashboard_noauthen/{day}/{month}/{year}',[App
 Route::match(['get','post'],'check_dashboard_bar',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_bar'])->name('claim.check_dashboard_bar');
 Route::match(['get','post'],'check_dashboard_line',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_line'])->name('claim.check_dashboard_line');
 Route::match(['get','post'],'check_line',[App\Http\Controllers\ChecksitController::class, 'check_line'])->name('claim.check_line');
+Route::match(['get','post'],'check_buble',[App\Http\Controllers\ChecksitController::class, 'check_buble'])->name('claim.check_buble');
+Route::match(['get','post'],'check_type_bar',[App\Http\Controllers\ChecksitController::class, 'check_type_bar'])->name('claim.check_type_bar');
 
 Route::match(['get','post'],'check_dashboard_mob',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_mob'])->name('claim.check_dashboard_mob');//
 Route::match(['get','post'],'check_dashboard_authen_mob/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_authen_mob'])->name('claim.check_dashboard_authen_mob');//

@@ -82,7 +82,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
+use App\Http\Controllers\Checksit_reportController;
 
 
 class ChecksitController extends Controller
@@ -1304,6 +1304,31 @@ class ChecksitController extends Controller
         $m = date('m');
         $d = date('m');
 
+        $m_budget = date("m");
+        if((int)$m_budget > 9){
+        $yearbudget = date("Y")+544;
+        }else{
+        $yearbudget = date("Y")+543;
+        }
+        
+        $year_ = array();
+        for ($i = $yearbudget; $i >= $yearbudget - 9; $i--) {
+            $year_[$i] = $i;
+        }
+        $data['year_'] = $year_;
+
+        $data['yearbudget_select'] = $yearbudget;
+        $year = $data['yearbudget_select']-543;
+        if (isset($_GET['yearbudget_select'])) {
+            $data['yearbudget_select'] = $_GET['yearbudget_select'];
+        }
+
+        $report = new Checksit_reportController();
+
+        $data['count_all'] = $report->Count_CheckAuthen_all($year); //ข้อมูลแยกรายเดือน
+        $data['count_authen'] = $report->Count_CheckAuthen($year); // Authen
+        $data['count_authen_null'] = $report->Count_CheckAuthen_Null($year); // ไม่ Authen
+
         $data_year2 = DB::connection('mysql')->select('
             SELECT month,year,countvn,authen_opd
             FROM db_authen
@@ -1405,7 +1430,7 @@ class ChecksitController extends Controller
             GROUP BY month
         ');
 
-        return view('dashboard.check_dashboard',[
+        return view('dashboard.check_dashboard',$data,[
             'data_year2'       => $data_year2,
             'data_year3'       => $data_year3,
             'data_staff'       => $data_staff,
@@ -1494,86 +1519,86 @@ class ChecksitController extends Controller
         ] );
     }
 
-    public function check_dashboard_mob(Request $request)
-    {
-        $date = date('Y-m-d');
-        $y = date('Y');
-        $m = date('m');
-        $d = date('m');
+    // public function check_dashboard_mob(Request $request)
+    // {
+    //     $date = date('Y-m-d');
+    //     $y = date('Y');
+    //     $m = date('m');
+    //     $d = date('m');
 
-        $data_year2 = DB::connection('mysql')->select('
-            SELECT month,year,countvn,authen_opd
-            FROM db_authen
-            WHERE year = "'.$y.'" and authen_opd <> 0
-            and month > 7
-        ');
-        $data_year3 = DB::connection('mysql')->select('
-                SELECT
-                MONTH(c.vstdate) as month
-                ,YEAR(c.vstdate) as year
-                ,DAY(c.vstdate) as day
-                ,COUNT(DISTINCT c.vn) as VN
-                ,COUNT(c.claimcode) as Authen
-                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-                from check_sit_auto c
-                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE month(c.vstdate) = "'.$m.'"
-                GROUP BY day
-        ');
-        $data_staff = DB::connection('mysql')->select('
-                SELECT
-                MONTH(c.vstdate) as month
-            ,YEAR(c.vstdate) as year
-            ,DAY(c.vstdate) as day
-            ,c.staff
-            ,COUNT(DISTINCT c.vn) as countvn
-            ,COUNT(c.claimcode) as Authen
-            ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-            from check_sit_auto c
-            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE c.vstdate = CURDATE()
-            GROUP BY c.staff
-            ORDER BY Noauthen DESC
-        ');
-        $data_dep = DB::connection('mysql')->select('
-                SELECT
-                 MONTH(c.vstdate) as month
-                ,YEAR(c.vstdate) as year
-                ,DAY(c.vstdate) as day
-                ,c.main_dep,k.department
-                ,COUNT(DISTINCT c.vn) as countvn
-                ,COUNT(c.claimcode) as Authen
-                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-                from check_sit_auto c
-                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE month(c.vstdate) = "'.$m.'"
-                GROUP BY c.main_dep
-			    ORDER BY Noauthen DESC
-        ');
-        $data_staff_max = DB::connection('mysql')->select('
-                SELECT
-                MONTH(c.vstdate) as month
-                ,YEAR(c.vstdate) as year
-                ,DAY(c.vstdate) as day
-                ,c.staff
-                ,COUNT(DISTINCT c.vn) as countvn
-                ,COUNT(c.claimcode) as Authen
-                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-                from check_sit_auto c
-                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate = CURDATE()
-                GROUP BY c.staff
-                ORDER BY Noauthen DESC LIMIT 5
-        ');
+    //     $data_year2 = DB::connection('mysql')->select('
+    //         SELECT month,year,countvn,authen_opd
+    //         FROM db_authen
+    //         WHERE year = "'.$y.'" and authen_opd <> 0
+    //         and month > 7
+    //     ');
+    //     $data_year3 = DB::connection('mysql')->select('
+    //             SELECT
+    //             MONTH(c.vstdate) as month
+    //             ,YEAR(c.vstdate) as year
+    //             ,DAY(c.vstdate) as day
+    //             ,COUNT(DISTINCT c.vn) as VN
+    //             ,COUNT(c.claimcode) as Authen
+    //             ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+    //             from check_sit_auto c
+    //             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //             WHERE month(c.vstdate) = "'.$m.'"
+    //             GROUP BY day
+    //     ');
+    //     $data_staff = DB::connection('mysql')->select('
+    //             SELECT
+    //             MONTH(c.vstdate) as month
+    //         ,YEAR(c.vstdate) as year
+    //         ,DAY(c.vstdate) as day
+    //         ,c.staff
+    //         ,COUNT(DISTINCT c.vn) as countvn
+    //         ,COUNT(c.claimcode) as Authen
+    //         ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+    //         from check_sit_auto c
+    //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //         WHERE c.vstdate = CURDATE()
+    //         GROUP BY c.staff
+    //         ORDER BY Noauthen DESC
+    //     ');
+    //     $data_dep = DB::connection('mysql')->select('
+    //             SELECT
+    //              MONTH(c.vstdate) as month
+    //             ,YEAR(c.vstdate) as year
+    //             ,DAY(c.vstdate) as day
+    //             ,c.main_dep,k.department
+    //             ,COUNT(DISTINCT c.vn) as countvn
+    //             ,COUNT(c.claimcode) as Authen
+    //             ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+    //             from check_sit_auto c
+    //             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //             WHERE month(c.vstdate) = "'.$m.'"
+    //             GROUP BY c.main_dep
+	// 		    ORDER BY Noauthen DESC
+    //     ');
+    //     $data_staff_max = DB::connection('mysql')->select('
+    //             SELECT
+    //             MONTH(c.vstdate) as month
+    //             ,YEAR(c.vstdate) as year
+    //             ,DAY(c.vstdate) as day
+    //             ,c.staff
+    //             ,COUNT(DISTINCT c.vn) as countvn
+    //             ,COUNT(c.claimcode) as Authen
+    //             ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+    //             from check_sit_auto c
+    //             LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //             WHERE c.vstdate = CURDATE()
+    //             GROUP BY c.staff
+    //             ORDER BY Noauthen DESC LIMIT 5
+    //     ');
 
-        return view('dashboard.check_dashboard_mob',[
-            'data_year2'       => $data_year2,
-            'data_year3'       => $data_year3,
-            'data_staff'       => $data_staff,
-            'data_dep'         => $data_dep,
-            'data_staff_max'   => $data_staff_max,
-        ] );
-    }
+    //     return view('dashboard.check_dashboard_mob',[
+    //         'data_year2'       => $data_year2,
+    //         'data_year3'       => $data_year3,
+    //         'data_staff'       => $data_staff,
+    //         'data_dep'         => $data_dep,
+    //         'data_staff_max'   => $data_staff_max,
+    //     ] );
+    // }
     public function check_dashboard_bar(Request $request)
     {
         $y = date('Y');
@@ -1585,21 +1610,43 @@ class ChecksitController extends Controller
             $startdate = $value->date_begin;
             $enddate = $value->date_end;
         }
-        $chart = DB::connection('mysql')->select(' 
-            SELECT
-            MONTH(c.vstdate) as month
-            ,YEAR(c.vstdate) as year
-            ,DAY(c.vstdate) as day
-            ,COUNT(DISTINCT c.vn) as countvn
-            ,COUNT(c.claimcode) as Authen
-            ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-            from check_sit_auto c
-            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE year(c.vstdate) = "'.$y.'" 
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-            AND c.main_dep NOT IN("011","036","107")
-            GROUP BY month
-        ');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+
+        if ($startdate != '') {
+            $chart = DB::connection('mysql')->select(' 
+                SELECT
+                MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND c.main_dep NOT IN("011","036","107")
+                GROUP BY month
+            ');
+        } else {
+            $chart = DB::connection('mysql')->select(' 
+                SELECT
+                MONTH(c.vstdate) as month
+                ,YEAR(c.vstdate) as year
+                ,DAY(c.vstdate) as day
+                ,COUNT(DISTINCT c.vn) as countvn
+                ,COUNT(c.claimcode) as Authen
+                ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE year(c.vstdate) = "'.$y.'" 
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND c.main_dep NOT IN("011","036","107")
+                GROUP BY month
+            ');
+        }
+         
    
         $labels = [
           1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
@@ -1625,6 +1672,7 @@ class ChecksitController extends Controller
         ksort($countvn);
         ksort($Authen);
         ksort($Noauthen);
+
         return [
             'labels'          =>  array_values($labels),
             'datasets'     =>  [
@@ -1637,7 +1685,7 @@ class ChecksitController extends Controller
                     'data'            =>  array_values($countvn)
                 ],
                 [
-                    'label'           =>  'Authen Code',
+                    'label'           =>  'ขอ Authen Code',
                     'borderColor'     => 'rgba(75, 192, 192, 1)',
                     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
                     'borderWidth'     => '1',
@@ -1645,7 +1693,7 @@ class ChecksitController extends Controller
                     'data'            => array_values($Authen)
                 ],
                 [
-                    'label'           =>  'ไม่ Authen',
+                    'label'           =>  'ไม่ขอ Authen',
                     'borderColor'     => 'rgba(255, 99, 132, 1)',
                     'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
                     'borderWidth'     => '1',
@@ -1655,81 +1703,81 @@ class ChecksitController extends Controller
             ],
         ];      
     }
-    public function check_dashboard_line(Request $request)
-    {
-        $date = date("Y-m-d"); 
-        $y = date('Y'); 
-        $chart = DB::connection('mysql')->select(' 
-            SELECT
-            MONTH(c.vstdate) as month
-            ,YEAR(c.vstdate) as year
-            ,DAY(c.vstdate) as day
-            ,COUNT(DISTINCT c.vn) as countvn
-            ,COUNT(c.claimcode) as Authen
-            ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
-            from check_sit_auto c
-            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            WHERE year(c.vstdate) = "'.$y.'" 
-            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-            AND c.main_dep NOT IN("011","036","107")
-            GROUP BY month
-        ');
+    // public function check_dashboard_line(Request $request)
+    // {
+    //     $date = date("Y-m-d"); 
+    //     $y = date('Y'); 
+    //     $chart = DB::connection('mysql')->select(' 
+    //         SELECT
+    //         MONTH(c.vstdate) as month
+    //         ,YEAR(c.vstdate) as year
+    //         ,DAY(c.vstdate) as day
+    //         ,COUNT(DISTINCT c.vn) as countvn
+    //         ,COUNT(c.claimcode) as Authen
+    //         ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
+    //         from check_sit_auto c
+    //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //         WHERE year(c.vstdate) = "'.$y.'" 
+    //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+    //         AND c.main_dep NOT IN("011","036","107")
+    //         GROUP BY month
+    //     ');
 
-        $labels = [
-        1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
-        ];
-        $countvn = $countan = $Authen = $Noauthen = $authen_ipd = [];
+    //     $labels = [
+    //     1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+    //     ];
+    //     $countvn = $countan = $Authen = $Noauthen = $authen_ipd = [];
 
-        foreach ($chart as $key => $chartitems) {
-            $countvn[$chartitems->month] = $chartitems->countvn;
-            $Authen[$chartitems->month] = $chartitems->Authen;
-            $Noauthen[$chartitems->month] = $chartitems->countvn - $chartitems->Authen;
-        }
-        foreach ($labels as $month => $name) {
-        if (!array_key_exists($month,$countvn)) {
-            $countvn[$month] = 0;
-        }
-        if (!array_key_exists($month,$Authen)) {
-            $Authen[$month] = 0;
-        }
-        if (!array_key_exists($month,$Noauthen)) {
-            $Noauthen[$month] = 0;
-        }
-        }
-        ksort($countvn);
-        ksort($Authen);
-        ksort($Noauthen);
-        return [
-            'labels'          =>  array_values($labels),
-            'datasets'     =>  [
-                [
-                    'label'           =>  'คนไข้ที่มารับบริการ OPD',
-                    'borderColor'     => 'rgba(255, 205, 86 , 1)',
-                    'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
-                    'borderWidth'     => '1',
-                    'barPercentage'   => '0.9',
-                    'data'            =>  array_values($countvn)
-                ],
-                [
-                    'label'           =>  'Authen Code',
-                    'borderColor'     => 'rgba(75, 192, 192, 1)',
-                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
-                    'borderWidth'     => '1',
-                    'barPercentage'   => '0.9',
-                    'data'            => array_values($Authen)
-                ],
-                [
-                    'label'           =>  'ไม่ Authen',
-                    'borderColor'     => 'rgba(255, 99, 132, 1)',
-                    'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
-                    'borderWidth'     => '1',
-                    'barPercentage'   => '0.9',
-                    'data'            => array_values($Noauthen)
-                ],
-            ],
-        ];      
+    //     foreach ($chart as $key => $chartitems) {
+    //         $countvn[$chartitems->month] = $chartitems->countvn;
+    //         $Authen[$chartitems->month] = $chartitems->Authen;
+    //         $Noauthen[$chartitems->month] = $chartitems->countvn - $chartitems->Authen;
+    //     }
+    //     foreach ($labels as $month => $name) {
+    //     if (!array_key_exists($month,$countvn)) {
+    //         $countvn[$month] = 0;
+    //     }
+    //     if (!array_key_exists($month,$Authen)) {
+    //         $Authen[$month] = 0;
+    //     }
+    //     if (!array_key_exists($month,$Noauthen)) {
+    //         $Noauthen[$month] = 0;
+    //     }
+    //     }
+    //     ksort($countvn);
+    //     ksort($Authen);
+    //     ksort($Noauthen);
+    //     return [
+    //         'labels'          =>  array_values($labels),
+    //         'datasets'     =>  [
+    //             [
+    //                 'label'           =>  'คนไข้ที่มารับบริการ OPD',
+    //                 'borderColor'     => 'rgba(255, 205, 86 , 1)',
+    //                 'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
+    //                 'borderWidth'     => '1',
+    //                 'barPercentage'   => '0.9',
+    //                 'data'            =>  array_values($countvn)
+    //             ],
+    //             [
+    //                 'label'           =>  'ขอ Authen Code',
+    //                 'borderColor'     => 'rgba(75, 192, 192, 1)',
+    //                 'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+    //                 'borderWidth'     => '1',
+    //                 'barPercentage'   => '0.9',
+    //                 'data'            => array_values($Authen)
+    //             ],
+    //             [
+    //                 'label'           =>  'ไม่ขอ Authen',
+    //                 'borderColor'     => 'rgba(255, 99, 132, 1)',
+    //                 'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+    //                 'borderWidth'     => '1',
+    //                 'barPercentage'   => '0.9',
+    //                 'data'            => array_values($Noauthen)
+    //             ],
+    //         ],
+    //     ];      
         
-    }
+    // }
 
     public function check_line(Request $request)
     {
@@ -1755,6 +1803,7 @@ class ChecksitController extends Controller
             GROUP BY month
         ');
         foreach ($chart as $key => $value) {
+            
             if ($value->countvn > 0) {
                 $dataset[] = [
                     'label'     => $labels,
@@ -1773,6 +1822,199 @@ class ChecksitController extends Controller
             // 'Dataset2'                  => $Dataset2
         ]);
     }
+
+    public function check_buble(Request $request)
+    {
+        $date = date("Y-m-d"); 
+        $y = date('Y');
+         
+          
+        $chart = DB::connection('mysql')->select('  
+            SELECT c.authentication  
+                ,COUNT(DISTINCT c.vn) as countvn 
+                from check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE year(c.vstdate) = "'.$y.'" 
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND c.main_dep NOT IN("011","036","107")
+                AND (c.authentication is not null AND c.authentication <> "") 
+                GROUP BY authentication 
+        ');
+        foreach ($chart as $key => $value) { 
+                $Dataset3[] = [  
+                    'label'           => $value->authentication, 
+                    'count'           => $value->countvn 
+                ];        
+        }
+        
+        $Dataset3 = $Dataset3; 
+        return response()->json([
+            'status'                    => '200', 
+            'Dataset3'                  => $Dataset3, 
+        ]);
+        
+    }
+
+    // public function check_type_bar(Request $request)
+    // {
+    //     $y = date('Y');
+    //     $date = date('Y-m-d');
+    //     $year_ = DB::connection('mysql')->select('
+    //         SELECT * FROM budget_year WHERE active = "True"
+    //     ');
+    //     foreach ($year_ as $key => $value) {
+    //         $startdate = $value->date_begin;
+    //         $enddate = $value->date_end;
+    //     }
+    //     $chart = DB::connection('mysql')->select(' 
+    //         SELECT c.authentication 
+    //         ,COUNT(DISTINCT c.vn) as countvn 
+    //         from check_sit_auto c
+    //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //         WHERE year(c.vstdate) = "'.$y.'" 
+    //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+    //         AND c.main_dep NOT IN("011","036","107")
+    //         AND (c.authentication is not null AND c.authentication <> "") 
+    //         GROUP BY c.authentication 
+    //     ');
+   
+    //     $labels = [
+    //       1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+    //     ];
+    //      $countvn = [];
+
+    //     foreach ($chart as $key => $chartitems) {
+    //         $countvn[$chartitems->month] = $chartitems->countvn; 
+    //     }
+    //     foreach ($labels as $month => $name) {
+    //        if (!array_key_exists($month,$countvn)) {
+    //         $countvn[$month] = 0;
+    //        } 
+    //     }
+
+    //     $chartkios = DB::connection('mysql')->select(' 
+    //         SELECT c.authentication
+    //         ,MONTH(c.vstdate) as month
+    //         ,YEAR(c.vstdate) as year 
+    //         ,COUNT(DISTINCT c.vn) as countvn 
+    //         from check_sit_auto c
+    //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //         WHERE year(c.vstdate) = "'.$y.'" 
+    //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+    //         AND c.main_dep NOT IN("011","036","107")
+    //         AND (c.authentication is not null AND c.authentication <> "")
+    //         AND c.authentication ="KIOSK"
+    //         GROUP BY month,authentication
+    //         ORDER BY month asc
+    //     ');
+ 
+    //     $countkios = [];
+
+    //     foreach ($chartkios as $key => $items) {
+    //         $countkios[$items->month] = $items->countvn; 
+    //     }
+    //     foreach ($labels as $month => $name) {
+    //         if (!array_key_exists($month,$countkios)) {
+    //             $countkios[$month] = 0;
+    //         }        
+    //     }
+
+    //     $chartucm = DB::connection('mysql')->select(' 
+    //         SELECT c.authentication
+    //         ,MONTH(c.vstdate) as month
+    //         ,YEAR(c.vstdate) as year 
+    //         ,COUNT(DISTINCT c.vn) as countvn 
+    //         from check_sit_auto c
+    //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //         WHERE year(c.vstdate) = "'.$y.'" 
+    //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+    //         AND c.main_dep NOT IN("011","036","107")
+    //         AND (c.authentication is not null AND c.authentication <> "")
+    //         AND c.authentication ="UCM"
+    //         GROUP BY month,authentication
+    //         ORDER BY month asc
+    //     ');
+
+    //     $countucm = [];
+
+    //     foreach ($chartucm as $key => $itemucm) {
+    //         $countucm[$itemucm->month] = $itemucm->countvn; 
+    //     }
+    //     foreach ($labels as $month => $name) {
+    //         if (!array_key_exists($month,$countucm)) {
+    //             $countucm[$month] = 0;
+    //         }        
+    //     }
+
+    //     $chartsmart = DB::connection('mysql')->select(' 
+    //         SELECT c.authentication
+    //         ,MONTH(c.vstdate) as month
+    //         ,YEAR(c.vstdate) as year 
+    //         ,COUNT(DISTINCT c.vn) as countvn 
+    //         from check_sit_auto c
+    //         LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+    //         WHERE year(c.vstdate) = "'.$y.'" 
+    //         AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+    //         AND c.main_dep NOT IN("011","036","107")
+    //         AND (c.authentication is not null AND c.authentication <> "")
+    //         AND c.authentication ="ตรวจสอบสิทธิด้วย Smart Card"
+    //         GROUP BY month,authentication
+    //         ORDER BY month asc
+    //     ');
+
+    //     $countsmart = [];
+
+    //     foreach ($chartsmart as $key => $ismart) {
+    //         $countsmart[$ismart->month] = $ismart->countvn; 
+    //     }
+    //     foreach ($labels as $month => $name) {
+    //         if (!array_key_exists($month,$countsmart)) {
+    //             $countsmart[$month] = 0;
+    //         }        
+    //     }
+
+    //     ksort($countvn);
+    //     ksort($countkios);
+    //     ksort($countucm);
+    //     ksort($countsmart);
+    //     return [
+    //         'labels'          =>  array_values($labels),
+    //         'datasets'     =>  [
+    //             [
+    //                 'label'           =>  'INP',
+    //                 'borderColor'     => 'rgba(255, 205, 86 , 1)',
+    //                 'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
+    //                 'borderWidth'     => '1',
+    //                 'barPercentage'   => '0.9',
+    //                 'data'            =>  array_values($countvn)
+    //             ],
+    //             // [
+    //             //     'label'           =>  'KIOSK',
+    //             //     'borderColor'     => 'rgba(75, 192, 192, 1)',
+    //             //     'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+    //             //     'borderWidth'     => '1',
+    //             //     'barPercentage'   => '0.9',
+    //             //     'data'            => array_values($countkios)
+    //             // ],
+    //             // [
+    //             //     'label'           =>  'UCM',
+    //             //     'borderColor'     => 'rgba(255, 99, 132, 1)',
+    //             //     'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+    //             //     'borderWidth'     => '1',
+    //             //     'barPercentage'   => '0.9',
+    //             //     'data'            => array_values($countucm)
+    //             // ],
+    //             // [
+    //             //     'label'           =>  'Smart Card',
+    //             //     'borderColor'     => 'rgba(120, 99, 120, 1)',
+    //             //     'backgroundColor' => 'rgba(120, 99, 120, 0.2)',
+    //             //     'borderWidth'     => '1',
+    //             //     'barPercentage'   => '0.9',
+    //             //     'data'            => array_values($countsmart)
+    //             // ],
+    //         ],
+    //     ];      
+    // }
 
 
 }

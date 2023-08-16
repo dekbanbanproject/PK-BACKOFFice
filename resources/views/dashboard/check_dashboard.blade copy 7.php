@@ -268,13 +268,44 @@
                     </div>  
 
                     <div class="col-xl-7 col-md-6">
+                        {{-- <div class="row">
+                            <div class="col-md-2"> ปีงบประมาณ :  </div>
+                            <div class="col-md-2">
+                                <select name="yearbudget_select" id="STATUS_CODE" class="form-control input-lg" style=" font-family: 'Kanit', sans-serif;">
+                                    @foreach($year_ as $year)
+                                    @if($year == $yearbudget_select )
+                                        <option value="{{$year}}" selected>พ.ศ. {{$year}}</option>
+                                    @else
+                                        <option value="{{$year}}">พ.ศ. {{$year}}</option>
+                                    @endif
+                                    @endforeach
+                                </select> 
+                            </div>
+                            <div class="col-md-1">
+                                    <span>
+                                        <button type="submit" class="btn btn-hero-sm btn-hero-info" >แสดง</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div> --}}
+
                         {{-- <form action="{{ route('claim.check_dashboard') }}" method="GET">
-                            @csrf
+                            @csrf --}}
                             <div class="row"> 
                                 <div class="col"></div>
-                                <div class="col-md-1 text-end">วันที่</div>
-                                <div class="col-md-6 text-center">
-                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                <div class="col-md-2 text-end">ปีงบประมาณ</div>
+                                <div class="col-md-2 text-center">
+                                    <select name="yearbudget_select" id="yearbudget" class="form-control input-lg" style=" font-family: 'Kanit', sans-serif;">
+                                        @foreach($year_ as $year)
+                                        @if($year == $yearbudget_select )
+                                            <option value="{{$year}}" selected>พ.ศ. {{$year}}</option>
+                                        @else
+                                            <option value="{{$year}}">พ.ศ. {{$year}}</option>
+                                        @endif
+                                        @endforeach
+                                    </select> 
+                                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
@@ -282,7 +313,7 @@
                                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                                             data-date-language="th-th" value="{{ $enddate }}" />
-                                    </div>
+                                    </div> --}}
                                 </div>                            
                                 <div class="col-md-2">
                                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -290,15 +321,16 @@
                                     </button> 
                                 </div> 
                             </div>
-                        </form> --}}
+                        {{-- </form> --}}
                         <div class="row mt-5">
                             <div class="col-md-12"> 
                                 <div class="main-card card">
                                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
-                                        <div style="height:auto;width: auto;" class="p-2">
+                                    <div id="chart_div" style="height:auto;width: auto;"></div>
+                                        {{-- <div style="height:auto;width: auto;" class="p-2">
                                         <canvas id="Mychart"  class="p-2"></canvas>
                                         <br>
-                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6>
+                                        <h6 class="text-center" style="color:rgb(241, 137, 155)">คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7</h6> --}}
                                     </div>
                                 </div>
                             </div>
@@ -574,7 +606,59 @@
  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
-    <script>
+ <script src="https://www.gstatic.com/charts/loader.js"></script>
+ <script>
+     google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawVisualization);
+ 
+    //   data.addRows([
+    //     [{'ต.ค.', 1}, .25],
+    //     [{'พ.ย.', 2}, .5],
+    //     [{'ธ.ค.', 3}, 1],
+    //     [{'ม.ค.', 4}, 2.25],
+    //     [{'ก.พ.', 5}, 2.25],
+    //     [{'มี.ค.', 6}, 3],
+    //     [{'เม.ย.', 7}, 4],
+    //     [{'พ.ค.', 8}, 5.25],
+    //     [{'มิ.ย.', 9}, 7.5],
+    //     [{'ก.ค.', 10}, 10],
+    //     [{'ส.ค.', 10}, 10],
+    //     [{'ก.ย.', 10}, 10],
+    //   ]);
+
+    function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+        var data = google.visualization.arrayToDataTable([
+            ['เดือน', 'Visit ALL', 'ขอ Authen', 'Madagascar'],
+            ['ต.ค.',  <?php echo $count_all[10] ; ?>,  <?php echo $count_authen[10] ; ?>,  <?php echo $count_authen_null[10] ; ?>],
+            ['พ.ย.',  <?php echo $count_all[11] ; ?>,  <?php echo $count_authen[11] ; ?>,  <?php echo $count_authen_null[11] ; ?>],
+            ['ธ.ค.',  <?php echo $count_all[12] ; ?>,  <?php echo $count_authen[12] ; ?>,  <?php echo $count_authen_null[12] ; ?>],
+            ['ม.ค.',  <?php echo $count_all[1] ; ?>,  <?php echo $count_authen[1] ; ?>, <?php echo $count_authen_null[1] ; ?>],
+            ['ก.พ.',  <?php echo $count_all[2] ; ?>,  <?php echo $count_authen[2] ; ?>,  <?php echo $count_authen_null[2] ; ?>],
+            ['มี.ค.',  <?php echo $count_all[3] ; ?>, <?php echo $count_authen[3] ; ?>,  <?php echo $count_authen_null[3] ; ?>],
+            ['เม.ย.', <?php echo $count_all[4] ; ?>, <?php echo $count_authen[4] ; ?>,  <?php echo $count_authen_null[4] ; ?>],
+            ['พ.ค.', <?php echo $count_all[5] ; ?>, <?php echo $count_authen[5] ; ?>,  <?php echo $count_authen_null[5] ; ?>],
+            ['มิ.ย.', <?php echo $count_all[6] ; ?>, <?php echo $count_authen[6] ; ?>,  <?php echo $count_authen_null[6] ; ?>],
+            ['ก.ค.', <?php echo $count_all[7] ; ?>, <?php echo $count_authen[7] ; ?>,  <?php echo $count_authen_null[7] ; ?>],
+            ['ส.ค.', <?php echo $count_all[8] ; ?>, <?php echo $count_authen[8] ; ?>,  <?php echo $count_authen_null[8] ; ?>],
+            ['ก.ย.', <?php echo $count_all[9] ; ?>, <?php echo $count_authen[9] ; ?>,  <?php echo $count_authen_null[9] ; ?>]
+        ]);
+        
+        var options = {
+          title : 'คนไข้ที่มารับบริการ OPD ยกเว้นแผนก 011,036,107 และยกเว้นสิทธิ์ M1-M6,13,23,91,X7',
+          vAxis: {title: 'จำนวน Visit'},
+          hAxis: {title: 'เดือน'},
+          seriesType: 'bars',
+          series: {5: {type: 'line'}}
+        };
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+  
+ </script>
+
+
+    {{-- <script>
         var Linechart;
         $(document).ready(function() {
             $('#example').DataTable();
@@ -816,64 +900,7 @@
                 })
             });
             
-    </script>
-     {{-- <script>
-        var ctx2 = document.getElementById("myChartTuaton").getContext("2d");
-
-        fetch("{{ route('claim.check_buble') }}")
-            .then(response => response.json())
-            .then(json => {
-                const myChartTuaton = new Chart(ctx2, {
-                    type: 'doughnut',
-                    data: {
-                        labels: json.label,
-                        datasets: json.datasets,
-
-                    },
-                    
-                    options: {
-                        responsive: true,
-                        plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: 'Chart.js Doughnut Chart'
-                        }
-                        }
-                    },
-                    plugins:[ChartDataLabels],
-                })
-            });
-            
     </script> --}}
- 
-    {{-- <script>
-        var ctx2 = document.getElementById("Mychartsline").getContext("2d");
-
-            fetch("{{ route('claim.check_dashboard_line') }}")
-                .then(response => response.json())
-                .then(json => {
-                    const Mychart = new Chart(ctx2, { 
-                            type: 'line',
-                            data: {
-                                labels: json.labels,
-                                datasets: json.datasets,
-
-                            },
-                            options:{
-                                scales:{
-                                    y:{
-                                        beginAtZero:true
-                                        // stacked: true
-                                    }
-                                }
-                            }
-                        })
-                });
-
-    </script> --}}
-
+     
     
 @endsection
