@@ -99,8 +99,8 @@ class SixteenController extends Controller
             Tempexport::where('user_id','=',$iduser)->delete();
             D_adp::where('user_id','=',$iduser)->delete();
             // $query_ = DB::connection('mysql')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
-            $query_ = DB::table('d_query')->where('d_query_id','=',$d_query_id)->first();
-            $query_2 = $query_->d_query_detail;
+            // $query_ = DB::table('d_query')->where('d_query_id','=',$d_query_id)->first();
+            // $query_2 = $query_->d_query_detail;
             
             D_opd::where('user_id','=',$iduser)->delete();
             D_oop::where('user_id','=',$iduser)->delete();
@@ -111,7 +111,7 @@ class SixteenController extends Controller
             D_idx::where('user_id','=',$iduser)->delete();
             D_ipd::where('user_id','=',$iduser)->delete();
             D_irf::where('user_id','=',$iduser)->delete();
-
+            // dd($query_2);
             // D_aer::truncate();
             // D_iop::truncate();
             // D_pat::truncate();
@@ -127,26 +127,29 @@ class SixteenController extends Controller
             // foreach ($query_ as $key => $value) {
             //     $query_2 = $value->d_query_name;
                 // $query = DB::connection('mysql11')->select($value->d_query_name);
-                $query = DB::connection('mysql11')->select($query_2);
+                // $query = DB::connection('mysql3')->select(
+                //     $query_2
+                // );
             // }
             
-            dd($query);
-            // $query = DB::connection('mysql11')->select('
-            //     SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
-            //             ,concat(p.pname," ",p.fname," ", p.lname) as ptname
-            //             ,a.pdx ,g.er_screen,ee.er_emergency_level_name
-            //             from ovst o
-            //             left outer join an_stat a on a.an = o.an
-            //             left outer join spclty s on s.spclty=o.spclty
-            //             left outer join patient p on o.hn=p.hn
-            //             left outer join er_regist g on g.vn=o.vn
-            //             left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
-            //             left outer join pttype pt on pt.pttype = a.pttype
-            //             where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            //             AND g.er_emergency_level_id IN("1","2")
-            //             AND o.an <>"" and pt.hipdata_code ="UCS"
-            //             group by o.vn;
-            // ');
+            // dd($query);
+            $query = DB::connection('mysql3')->select('
+                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
+                        ,concat(p.pname," ",p.fname," ", p.lname) as ptname
+                        ,a.pdx ,g.er_screen,ee.er_emergency_level_name
+                        from ovst o
+                        left outer join an_stat a on a.an = o.an
+                        left outer join spclty s on s.spclty=o.spclty
+                        left outer join patient p on o.hn=p.hn
+                        left outer join er_regist g on g.vn=o.vn
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
+                        left outer join pttype pt on pt.pttype = a.pttype
+                        where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND g.er_emergency_level_id IN("1","2")
+                        AND o.an <>"" and pt.hipdata_code ="UCS"
+                        group by o.vn;
+            ');
+            // dd($query);
             // inner join claim.dtemp_hosucep zz on zz.an = o.an
             foreach ($query as $va2) {
                 $date = date('Y-m-d');
@@ -164,14 +167,14 @@ class SixteenController extends Controller
                     'er_emergency_level_name'  => $va2->er_emergency_level_name,
                     'user_id'                  => $iduser,
                 ]);
-                Tempexport::insert([
-                    'hn'                       => $va2->hn,
-                    'an'                       => $va2->an,
-                    'vn'                       => $va2->vn,
-                    'cid'                      => $va2->cid,
-                    'sent_date'                => $date,
-                    'user_id'                  => $iduser,
-                ]);
+                // Tempexport::insert([
+                //     'hn'                       => $va2->hn,
+                //     'an'                       => $va2->an,
+                //     'vn'                       => $va2->vn,
+                //     'cid'                      => $va2->cid,
+                //     'sent_date'                => $date,
+                //     'user_id'                  => $iduser,
+                // ]);
             }
             // UCEP
             $data_opitemrece = DB::connection('mysql11')->select('
@@ -207,595 +210,385 @@ class SixteenController extends Controller
             }
              // -----------------------a
              //D_opd
-             $data_opd = DB::connection('mysql11')->select('
-                    SELECT "" d_opd_id
-                    ,v.hn HN
-                    ,v.spclty CLINIC
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
-                    ,v.vn SEQ
-                    ,"1" UUC
-                    ,"" created_at
-                    ,"" updated_at
-                    from vn_stat v
-                    LEFT JOIN ovst o on o.vn = v.vn
-                    LEFT JOIN pttype p on p.pttype = v.pttype
-                    LEFT JOIN ipt i on i.vn = v.vn
-                    LEFT JOIN patient pt on pt.hn = v.hn
-                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
-                    where x.active="N";
-            ');
-            foreach ($data_opd as $va3) {
-                D_opd::insert([
-                    'HN'                  => $va3->HN,
-                    'CLINIC'              => $va3->CLINIC,
-                    'DATEOPD'             => $va3->DATEOPD,
-                    'TIMEOPD'             => $va3->TIMEOPD,
-                    'SEQ'                 => $va3->SEQ,
-                    'UUC'                 => $va3->UUC,
-                    'user_id'             => $iduser,
-                ]);
-            }
-            //D_orf
-            $data_orf = DB::connection('mysql11')->select('
-                    SELECT
-                    "" d_orf_id
-                    ,v.hn HN
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,v.spclty CLINIC
-                    ,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
-                    ,"0100" REFERTYPE
-                    ,v.vn SEQ
-                    ,"" created_at
-                    ,"" updated_at
-                    from vn_stat v
-                    LEFT JOIN ovst o on o.vn = v.vn
-                    LEFT JOIN referin r1 on r1.vn = v.vn
-                    LEFT JOIN referout r2 on r2.vn = v.vn
-                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
-                    where x.active="N"
-                    and (r1.vn is not null or r2.vn is not null);
-            ');
-            foreach ($data_orf as $va4) {
-                D_orf::insert([
-                    'HN'                => $va4->HN,
-                    'DATEOPD'           => $va4->DATEOPD,
-                    'CLINIC'            => $va4->CLINIC,
-                    'REFER'             => $va4->REFER,
-                    'REFERTYPE'         => $va4->REFERTYPE,
-                    'SEQ'               => $va4->SEQ,
-                    'user_id'           => $iduser,
-                ]);
-            }
-            //D_oop
-            $data_oop = DB::connection('mysql11')->select('
-                    SELECT "" d_oop_id
-                    ,v.hn HN
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,v.spclty CLINIC
-                    ,o.icd10 OPER
-                    ,if(d.licenseno="","-99999",d.licenseno) DROPID
-                    ,pt.cid PERSON_ID
-                    ,v.vn SEQ
-                    ,"" created_at
-                    ,"" updated_at
-                    from vn_stat v
-                    LEFT JOIN ovstdiag o on o.vn = v.vn
-                    LEFT JOIN patient pt on v.hn=pt.hn
-                    LEFT JOIN doctor d on d.`code` = o.doctor
-                    LEFT JOIN icd9cm1 i on i.code = o.icd10
-                    INNER JOIN claim.d_export_ucep x on x.vn = v.vn
-                    where x.active="N";
-            ');
-            foreach ($data_oop as $va6) {
-                D_oop::insert([
-                    'HN'                => $va6->HN,
-                    'DATEOPD'           => $va6->DATEOPD,
-                    'CLINIC'            => $va6->CLINIC,
-                    'OPER'              => $va6->OPER,
-                    'DROPID'            => $va6->DROPID,
-                    'PERSON_ID'         => $va6->PERSON_ID,
-                    'SEQ'               => $va6->SEQ,
-                    'user_id'           => $iduser,
-                ]);
-            }
-
-            // ------------------- b
-            $data_odx = DB::connection('mysql11')->select('
-                SELECT
-                    "" d_odx_id
-                    ,v.hn HN
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
-                    ,v.spclty CLINIC
-                    ,o.icd10 DIAG
-                    ,o.diagtype DXTYPE
-                    ,if(d.licenseno="","-99999",d.licenseno) DRDX
-                    ,v.cid PERSON_ID
-                    ,v.vn SEQ
-                    ,"" created_at
-                    ,"" updated_at
-                    from vn_stat v
-                    LEFT JOIN ovstdiag o on o.vn = v.vn
-                    LEFT JOIN doctor d on d.`code` = o.doctor
-                    LEFT JOIN icd101 i on i.code = o.icd10
-                    LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-                    where x.active="N";
-            ');
-            foreach ($data_odx as $va5) {
-                D_odx::insert([
-                    'HN'                => $va5->HN,
-                    'DATEDX'            => $va5->DATEDX,
-                    'CLINIC'            => $va5->CLINIC,
-                    'DIAG'              => $va5->DIAG,
-                    'DXTYPE'            => $va5->DXTYPE,
-                    'DRDX'              => $va5->DRDX,
-                    'PERSON_ID'         => $va5->PERSON_ID,
-                    'SEQ'               => $va5->SEQ,
-                    'user_id'           => $iduser,
-                ]);
-            }
-            $data_dru = DB::connection('mysql11')->select('
-                    SELECT "" d_dru_id,vv.hcode HCODE
-                    ,v.hn HN
-                    ,v.an AN
-                    ,vv.spclty CLINIC
-                    ,vv.cid PERSON_ID
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID
-                    ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-                    ,sum(v.qty) AMOUNT
-                    ,round(v.unitprice,2) DRUGPRIC
-                    ,"0.00" DRUGCOST
-                    ,d.did DIDSTD
-                    ,d.units UNIT
-                    ,concat(d.packqty,"x",d.units) UNIT_PACK
-                    ,v.vn SEQ
-                    ,oo.presc_reason DRUGREMARK
-                    ,"" PA_NO
-                    ,"" TOTCOPAY
-                    ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
-                    from opitemrece v
-                    LEFT JOIN drugitems d on d.icode = v.icode
-                    LEFT JOIN vn_stat vv on vv.vn = v.vn
-                    LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-                    LEFT JOIN claim.tempexport x on x.vn = v.vn
-                    where x.active="N"
-                    and d.did is not null
-                    GROUP BY v.vn,did
-
-                    UNION all
-
-                    SELECT "" d_dru_id,pt.hcode HCODE
-                    ,v.hn HN
-                    ,v.an AN
-                    ,v1.spclty CLINIC
-                    ,pt.cid PERSON_ID
-                    ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                    ,d.icode DID
-                    ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-                    ,sum(v.qty) AMOUNT
-                    ,round(v.unitprice,2) DRUGPRIC
-                    ,"0.00" DRUGCOST
-                    ,d.did DIDSTD
-                    ,d.units UNIT
-                    ,concat(d.packqty,"x",d.units) UNIT_PACK
-                    ,ifnull(v.vn,v.an) SEQ
-                    ,oo.presc_reason DRUGREMARK
-                    ,"" PA_NO
-                    ,"" TOTCOPAY
-                    ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
-                    from opitemrece v
-                    LEFT JOIN drugitems d on d.icode = v.icode
-                    LEFT JOIN patient pt  on v.hn = pt.hn
-                    inner JOIN ipt v1 on v1.an = v.an
-                    LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-                    LEFT JOIN claim.tempexport x on x.vn = v1.vn
-                    where x.active="N"
-                    and d.did is not null AND v.qty<>"0"
-                    GROUP BY v.an,d.icode,USE_STATUS;
-            ');
-            foreach ($data_dru as $va9) {
-                D_dru::insert([
-                    'HCODE'               => $va9->HCODE,
-                    'HN'                  => $va9->HN,
-                    'AN'                  => $va9->AN,
-                    'CLINIC'              => $va9->CLINIC,
-                    'PERSON_ID'           => $va9->PERSON_ID,
-                    'DATE_SERV'           => $va9->DATE_SERV,
-                    'DID'                 => $va9->DID,
-                    'DIDNAME'             => $va9->DIDNAME,
-                    'AMOUNT'              => $va9->AMOUNT,
-                    'DRUGPRIC'            => $va9->DRUGPRIC,
-                    'DRUGCOST'            => $va9->DRUGCOST,
-                    'DIDSTD'              => $va9->DIDSTD,
-                    'UNIT'                => $va9->UNIT,
-                    'UNIT_PACK'           => $va9->UNIT_PACK,
-                    'SEQ'                 => $va9->SEQ,
-                    'DRUGREMARK'          => $va9->DRUGREMARK,
-                    'PA_NO'               => $va9->PA_NO,
-                    'TOTCOPAY'            => $va9->TOTCOPAY,
-                    'USE_STATUS'          => $va9->USE_STATUS,
-                    'TOTAL'               => $va9->TOTAL,
-                    'SIGCODE'             => $va9->a1,
-                    'SIGTEXT'             => $va9->a2,
-                    'created_at'          => $va9->created_at,
-                    'updated_at'          => $va9->updated_at,
-                    'user_id'             => $iduser,
-                ]);
-            }
-            $data_idx = DB::connection('mysql11')->select('
-                SELECT "" d_idx_id,v.an AN,o.icd10 DIAG
-                        ,o.diagtype DXTYPE
-                        ,if(d.licenseno="","-99999",d.licenseno) DRDX,"" created_at ,"" updated_at
-                        FROM an_stat v
-                        LEFT JOIN iptdiag o on o.an = v.an
-                        LEFT JOIN doctor d on d.`code` = o.doctor
-                        LEFT JOIN ipt ip on ip.an = v.an
-                        INNER JOIN icd101 i on i.code = o.icd10
-                        LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-                        WHERE x.active="N";
-            ');
-            foreach ($data_idx as $va6) {
-                D_idx::insert([
-                    'AN'                => $va6->AN,
-                    'DIAG'              => $va6->DIAG,
-                    'DXTYPE'            => $va6->DXTYPE,
-                    'DRDX'              => $va6->DRDX,
-                    'user_id'           => $iduser,
-                ]);
-            }
-            $data_ipd = DB::connection('mysql11')->select('
-                SELECT "" d_ipd_id,v.hn HN,v.an AN
-                    ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
-                    ,Time_format(o.regtime,"%H%i") TIMEADM
-                    ,DATE_FORMAT(o.dchdate,"%Y%m%d") DATEDSC
-                    ,Time_format(o.dchtime,"%H%i")  TIMEDSC
-                    ,right(o.dchstts,1) DISCHS
-                    ,right(o.dchtype,1) DISCHT
-                    ,o.ward WARDDSC,o.spclty DEPT
-                    ,format(o.bw/1000,3) ADM_W
-                    ,"1" UUC ,"I" SVCTYPE,"" created_at,"" updated_at
-                    FROM an_stat v
-                    LEFT JOIN ipt o on o.an = v.an
-                    LEFT JOIN pttype p on p.pttype = v.pttype
-                    LEFT JOIN patient pt on pt.hn = v.hn
-                    LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-                    WHERE x.active="N";
-            ');
-            foreach ($data_ipd as $va10) {
-                D_ipd::insert([
-                    'HN'                 => $va10->HN,
-                    'AN'                 => $va10->AN,
-                    'DATEADM'            => $va10->DATEADM,
-                    'TIMEADM'            => $va10->TIMEADM,
-                    'DATEDSC'            => $va10->DATEDSC,
-                    'TIMEDSC'            => $va10->TIMEDSC,
-                    'DISCHS'             => $va10->DISCHS,
-                    'DISCHT'             => $va10->DISCHT,
-                    'DEPT'               => $va10->DEPT,
-                    'ADM_W'              => $va10->ADM_W,
-                    'UUC'                => $va10->UUC,
-                    'SVCTYPE'            => $va10->SVCTYPE,
-                    'user_id'            => $iduser,
-                ]);
-            }
-            $data_irf = DB::connection('mysql11')->select('
-                    SELECT ""d_irf_id,v.an AN
-                    ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
-                    ,"0100" REFERTYPE,"" created_at,"" updated_at
-                    FROM an_stat v
-                    LEFT JOIN referout o on o.vn =v.an
-                    LEFT JOIN referin oo on oo.vn =v.an
-                    LEFT JOIN ipt ip on ip.an = v.an
-                    LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-                    WHERE x.active="N"
-                    and (v.an in(select vn from referin where vn = oo.vn) or v.an in(select vn from referout where vn = o.vn));
-            ');
-            foreach ($data_irf as $va11) {
-                D_irf::insert([
-                    'AN'                 => $va11->AN,
-                    'REFER'              => $va11->REFER,
-                    'REFERTYPE'          => $va11->REFERTYPE,
-                    'user_id'            => $iduser,
-                ]);
-            }
-
-             //ADP
-             $data_adp = DB::connection('mysql11')->select('
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
-                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
-                    from (SELECT v.hn HN
-                    ,if(v.an is null,"",v.an) AN
-                    ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                    ,n.nhso_adp_type_id TYPE
-                    ,n.nhso_adp_code CODE
-                    ,sum(v.QTY) QTY
-                    ,round(v.unitprice,2) RATE
-                    ,if(v.an is null,v.vn,"") SEQ
-                    ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
-                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC
-                    ,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP
-                    ,(SELECT "01" from claim.dtemp_hosucep where an = v.an and icode = v.icode and rxdate = v.rxdate and rxtime = v.rxtime  limit 1) SP_ITEM
-                    from opitemrece v
-                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                    left join ipt i on i.an = v.an
-                    AND i.an is not NULL
-                    left join claim.tempexport x on x.vn = i.vn
-                    where x.active="N"
-                    AND n.icode <> "XXXXXX"
-                    GROUP BY i.vn,n.nhso_adp_code,rate) a
-                    GROUP BY an,CODE,rate
-                    UNION
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
-                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
-                    from
-                    (SELECT v.hn HN
-                    ,if(v.an is null,"",v.an) AN
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,n.nhso_adp_type_id TYPE
-                    ,n.nhso_adp_code CODE
-                    ,sum(v.QTY) QTY
-                    ,round(v.unitprice,2) RATE
-                    ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
-                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
-                    from opitemrece v
-                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                    left join ipt i on i.an = v.an
-                    left join claim.tempexport x on x.vn = v.vn
-                    where x.active="N"
-                    AND n.icode <> "XXXXXX"
-                    AND i.an is NULL
-                    GROUP BY v.vn,n.nhso_adp_code,rate) b
-                    GROUP BY seq,CODE,rate;
-            ');
-            foreach ($data_adp as $va4) {
-                d_adp::insert([
-                    'HN'                   => $va4->HN,
-                    'AN'                   => $va4->AN,
-                    'DATEOPD'              => $va4->DATEOPD,
-                    'TYPE'                 => $va4->TYPE,
-                    'CODE'                 => $va4->CODE,
-                    'QTY'                  => $va4->QTY,
-                    'RATE'                 => $va4->RATE,
-                    'SEQ'                  => $va4->SEQ,
-                    'CAGCODE'              => $va4->a1,
-                    'DOSE'                 => $va4->a2,
-                    'CA_TYPE'              => $va4->a3,
-                    'SERIALNO'             => $va4->a4,
-                    'TOTCOPAY'             => $va4->a5,
-                    'USE_STATUS'           => $va4->a6,
-                    'TOTAL'                => $va4->a7,
-                    'QTYDAY'               => $va4->a8,
-                    'TMLTCODE'             => $va4->TMLTCODE,
-                    'STATUS1'              => $va4->STATUS1,
-                    'BI'                   => $va4->BI,
-                    'CLINIC'               => $va4->CLINIC,
-                    'ITEMSRC'              => $va4->ITEMSRC,
-                    'PROVIDER'             => $va4->PROVIDER,
-                    'GLAVIDA'              => $va4->GLAVIDA,
-                    'GA_WEEK'              => $va4->GA_WEEK,
-                    'DCIP'                 => $va4->DCIP,
-                    'LMP'                  => $va4->LMP,
-                    'SP_ITEM'              => $va4->SP_ITEM,
-                    'user_id'              => $iduser,
-                ]);
-            }
-            d_adp::where('CODE','=','XXXXXX')->delete();
-            // ---------------------- C
-            // $data_aer = DB::connection('mysql11')->select('
-            //         SELECT ""d_aer_id,v.hn HN,i.an AN
-            //         ,v.vstdate DATEOPD,vv.claim_code AUTHAE
-            //         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
-            //         ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ
-            //         ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
-            //         from vn_stat v
-            //         LEFT JOIN ipt i on i.vn = v.vn
-            //         LEFT JOIN visit_pttype vv on vv.vn = v.vn
-            //         LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
-            //         LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-            //         WHERE x.active="N"
-            //         and i.an is null
-            //         GROUP BY v.vn
-            //         union all
-            //         SELECT ""d_aer_id,v.hn HN
-            //         ,v.an AN,v.dchdate DATEOPD,vv.claim_code AUTHAE
-            //         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
-            //         ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE
-            //         ,"" SEQ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
-            //         from an_stat v
-            //         LEFT JOIN ipt_pttype vv on vv.an = v.an
-            //         LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
-            //         LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-            //         WHERE x.active="N"
-            //         group by v.an;
-            // ');
-
-            // foreach ($data_aer as $va12) {
-            //     D_aer::insert([
-            //         'HN'                => $va12->HN,
-            //         'AN'                => $va12->AN,
-            //         'DATEOPD'           => $va12->DATEOPD,
-            //         'AUTHAE'            => $va12->AUTHAE,
-            //         'AEDATE'            => $va12->AEDATE,
-            //         'AETIME'            => $va12->AETIME,
-            //         'AETYPE'            => $va12->AETYPE,
-            //         'REFER_NO'          => $va12->REFER_NO,
-            //         'REFMAINI'          => $va12->REFMAINI,
-            //         'IREFTYPE'          => $va12->IREFTYPE,
-            //         'REFMAINO'          => $va12->REFMAINO,
-            //         'OREFTYPE'          => $va12->OREFTYPE,
-            //         'UCAE'              => $va12->UCAE,
-            //         'SEQ'               => $va12->SEQ,
-            //         'AESTATUS'          => $va12->AESTATUS,
-            //         'DALERT'            => $va12->DALERT,
-            //         'TALERT'            => $va12->TALERT,
-            //     ]);
-            // }
-            // //D_iop
-            // $data_iop = DB::connection('mysql11')->select('
-            //         SELECT "" d_iop_id,v.an AN
-            //         ,o.icd9 OPER
-            //         ,o.oper_type as OPTYPE
-            //         ,if(d.licenseno="","-99999",d.licenseno) DROPID
-            //         ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
-            //         ,Time_format(o.optime,"%H%i") TIMEIN
-            //         ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
-            //         ,Time_format(o.endtime,"%H%i") TIMEOUT,"" created_at,"" updated_at
-            //         FROM an_stat v
-            //         LEFT JOIN iptoprt o on o.an = v.an
-            //         LEFT JOIN doctor d on d.`code` = o.doctor
-            //         INNER JOIN icd9cm1 i on i.code = o.icd9
-            //         LEFT JOIN ipt ip on ip.an = v.an
-            //         LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-            //         WHERE x.active="N";
-            // ');
-            // foreach ($data_iop as $va7) {
-            //     D_iop::insert([
-            //         'AN'                => $va7->AN,
-            //         'OPER'              => $va7->OPER,
-            //         'OPTYPE'            => $va7->OPTYPE,
-            //         'DROPID'            => $va7->DROPID,
-            //         'DATEIN'            => $va7->DATEIN,
-            //         'TIMEIN'            => $va7->TIMEIN,
-            //         'DATEOUT'           => $va7->DATEOUT,
-            //         'TIMEOUT'           => $va7->TIMEOUT
-            //     ]);
-            // }
-
-            // // D_pat
-            // $data_pat = DB::connection('mysql11')->select('
-            //         SELECT "" d_pat_id
-            //         ,v.hcode HCODE
+            //  $data_opd = DB::connection('mysql3')->select('
+            //         SELECT "" d_opd_id
             //         ,v.hn HN
-            //         ,pt.chwpart CHANGWAT
-            //         ,pt.amppart AMPHUR
-            //         ,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
-            //         ,pt.sex SEX
-            //         ,pt.marrystatus MARRIAGE
-            //         ,pt.occupation OCCUPA
-            //         ,lpad(pt.nationality,3,0) NATION
-            //         ,pt.cid PERSON_ID
-            //         ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
-            //         ,pt.pname TITLE
-            //         ,pt.fname FNAME
-            //         ,pt.lname LNAME
-            //         ,"1" IDTYPE
+            //         ,v.spclty CLINIC
+            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+            //         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
+            //         ,v.vn SEQ
+            //         ,"1" UUC
             //         ,"" created_at
             //         ,"" updated_at
             //         from vn_stat v
+            //         LEFT JOIN ovst o on o.vn = v.vn
             //         LEFT JOIN pttype p on p.pttype = v.pttype
             //         LEFT JOIN ipt i on i.vn = v.vn
             //         LEFT JOIN patient pt on pt.hn = v.hn
-            //         INNER JOIN claim.d_export_ucep x on x.vn = v.vn
+            //         LEFT JOIN d_export_ucep x on x.vn = v.vn
             //         where x.active="N";
             // ');
-            // foreach ($data_pat as $va2) {
-            //     D_pat::insert([
-            //         'HCODE'               => $va2->HCODE,
-            //         'HN'                  => $va2->HN,
-            //         'CHANGWAT'            => $va2->CHANGWAT,
-            //         'AMPHUR'              => $va2->AMPHUR,
-            //         'DOB'                 => $va2->DOB,
-            //         'SEX'                 => $va2->SEX,
-            //         'MARRIAGE'            => $va2->MARRIAGE,
-            //         'OCCUPA'              => $va2->OCCUPA,
-            //         'NATION'              => $va2->NATION,
-            //         'PERSON_ID'           => $va2->PERSON_ID,
-            //         'NAMEPAT'             => $va2->NAMEPAT,
-            //         'TITLE'               => $va2->TITLE,
-            //         'FNAME'               => $va2->FNAME,
-            //         'LNAME'               => $va2->LNAME,
-            //         'IDTYPE'              => $va2->IDTYPE
+            // foreach ($data_opd as $va3) {
+            //     D_opd::insert([
+            //         'HN'                  => $va3->HN,
+            //         'CLINIC'              => $va3->CLINIC,
+            //         'DATEOPD'             => $va3->DATEOPD,
+            //         'TIMEOPD'             => $va3->TIMEOPD,
+            //         'SEQ'                 => $va3->SEQ,
+            //         'UUC'                 => $va3->UUC,
+            //         'user_id'             => $iduser,
             //     ]);
             // }
-
-            // $data_cht = DB::connection('mysql11')->select('
-            //         SELECT "" d_cht_id
+            // //D_orf
+            // $data_orf = DB::connection('mysql3')->select('
+            //         SELECT
+            //         "" d_orf_id
             //         ,v.hn HN
-            //         ,v.an AN
-            //         ,DATE_FORMAT(if(a.an is null,v.vstdate,a.dchdate),"%Y%m%d") DATE
-            //         ,round(if(a.an is null,vv.income,a.income),2) TOTAL
-            //         ,round(if(a.an is null,vv.paid_money,a.paid_money),2) PAID
-            //         ,if(vv.paid_money >"0" or a.paid_money >"0","10",pt.pcode) PTTYPE
-            //         ,pp.cid PERSON_ID
+            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+            //         ,v.spclty CLINIC
+            //         ,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
+            //         ,"0100" REFERTYPE
             //         ,v.vn SEQ
             //         ,"" created_at
             //         ,"" updated_at
-            //         from ovst v
-            //         LEFT JOIN vn_stat vv on vv.vn = v.vn
-            //         LEFT JOIN an_stat a on a.an = v.an
-            //         LEFT JOIN patient pp on pp.hn = v.hn
-            //         LEFT JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
-            //         LEFT JOIN pttype p on p.pttype = a.pttype
-            //         LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+            //         from vn_stat v
+            //         LEFT JOIN ovst o on o.vn = v.vn
+            //         LEFT JOIN referin r1 on r1.vn = v.vn
+            //         LEFT JOIN referout r2 on r2.vn = v.vn
+            //         LEFT JOIN d_export_ucep x on x.vn = v.vn
+            //         where x.active="N"
+            //         and (r1.vn is not null or r2.vn is not null);
+            // ');
+            // foreach ($data_orf as $va4) {
+            //     D_orf::insert([
+            //         'HN'                => $va4->HN,
+            //         'DATEOPD'           => $va4->DATEOPD,
+            //         'CLINIC'            => $va4->CLINIC,
+            //         'REFER'             => $va4->REFER,
+            //         'REFERTYPE'         => $va4->REFERTYPE,
+            //         'SEQ'               => $va4->SEQ,
+            //         'user_id'           => $iduser,
+            //     ]);
+            // }
+            // //D_oop
+            // $data_oop = DB::connection('mysql3')->select('
+            //         SELECT "" d_oop_id
+            //         ,v.hn HN
+            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+            //         ,v.spclty CLINIC
+            //         ,o.icd10 OPER
+            //         ,if(d.licenseno="","-99999",d.licenseno) DROPID
+            //         ,pt.cid PERSON_ID
+            //         ,v.vn SEQ
+            //         ,"" created_at
+            //         ,"" updated_at
+            //         from vn_stat v
+            //         LEFT JOIN ovstdiag o on o.vn = v.vn
+            //         LEFT JOIN patient pt on v.hn=pt.hn
+            //         LEFT JOIN doctor d on d.`code` = o.doctor
+            //         LEFT JOIN icd9cm1 i on i.code = o.icd10
+            //         LEFT JOIN d_export_ucep x on x.vn = v.vn
             //         where x.active="N";
             // ');
-            // foreach ($data_cht as $va7) {
-            //     D_cht::insert([
-            //         'HN'                => $va7->HN,
-            //         'AN'                => $va7->AN,
-            //         'DATE'              => $va7->DATE,
-            //         'TOTAL'             => $va7->TOTAL,
-            //         'PAID'              => $va7->PAID,
-            //         'PTTYPE'            => $va7->PTTYPE,
-            //         'PERSON_ID'         => $va7->PERSON_ID,
-            //         'SEQ'               => $va7->SEQ,
+            // foreach ($data_oop as $va6) {
+            //     D_oop::insert([
+            //         'HN'                => $va6->HN,
+            //         'DATEOPD'           => $va6->DATEOPD,
+            //         'CLINIC'            => $va6->CLINIC,
+            //         'OPER'              => $va6->OPER,
+            //         'DROPID'            => $va6->DROPID,
+            //         'PERSON_ID'         => $va6->PERSON_ID,
+            //         'SEQ'               => $va6->SEQ,
+            //         'user_id'           => $iduser,
             //     ]);
             // }
-            // $data_cha = DB::connection('mysql11')->select('
-            //         SELECT "" d_cha_id,v.hn HN
-            //         ,if(v1.an is null,"",v1.an) AN
-            //         ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-            //         ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-            //         ,round(sum(v.sum_price),2) AMOUNT
-            //         ,p.cid PERSON_ID
-            //         ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
-            //         from opitemrece v
-            //         LEFT JOIN vn_stat vv on vv.vn = v.vn
-            //         LEFT JOIN patient p on p.hn = v.hn
-            //         LEFT JOIN ipt v1 on v1.an = v.an
-            //         LEFT JOIN income i on v.income=i.income
-            //         LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-            //         LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-            //         left join claim.d_export_ucep x on x.vn = v.vn
-            //         where x.active="N"
-            //         group by v.vn,CHRGITEM
-            //         union all
-            //         SELECT "" d_cha_id,v.hn HN
-            //         ,v1.an AN
-            //         ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-            //         ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-            //         ,round(sum(v.sum_price),2) AMOUNT
-            //         ,p.cid PERSON_ID
-            //         ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
-            //         from opitemrece v
-            //         LEFT JOIN vn_stat vv on vv.vn = v.vn
-            //         LEFT JOIN patient p on p.hn = v.hn
-            //         LEFT JOIN ipt v1 on v1.an = v.an
-            //         LEFT JOIN income i on v.income=i.income
-            //         LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-            //         LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-            //         left join claim.d_export_ucep x on x.vn = v1.vn
-            //         where x.active="N"
-            //         group by v.an,CHRGITEM;
+
+            // ------------------- b
+            // $data_odx = DB::connection('mysql3')->select('
+            //     SELECT
+            //         "" d_odx_id
+            //         ,v.hn HN
+            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
+            //         ,v.spclty CLINIC
+            //         ,o.icd10 DIAG
+            //         ,o.diagtype DXTYPE
+            //         ,if(d.licenseno="","-99999",d.licenseno) DRDX
+            //         ,v.cid PERSON_ID
+            //         ,v.vn SEQ
+            //         ,"" created_at
+            //         ,"" updated_at
+            //         from vn_stat v
+            //         LEFT JOIN ovstdiag o on o.vn = v.vn
+            //         LEFT JOIN doctor d on d.`code` = o.doctor
+            //         LEFT JOIN icd101 i on i.code = o.icd10
+            //         LEFT JOIN d_export_ucep x on x.vn = v.vn
+            //         where x.active="N";
             // ');
-            // foreach ($data_cha as $va8) {
-            //     D_cha::insert([
-            //         'HN'                => $va8->HN,
-            //         'AN'                => $va8->AN,
-            //         'DATE'              => $va8->DATE,
-            //         'CHRGITEM'          => $va8->CHRGITEM,
-            //         'AMOUNT'            => $va8->AMOUNT,
-            //         'PERSON_ID'         => $va8->PERSON_ID,
-            //         'SEQ'               => $va8->SEQ,
+            // foreach ($data_odx as $va5) {
+            //     D_odx::insert([
+            //         'HN'                => $va5->HN,
+            //         'DATEDX'            => $va5->DATEDX,
+            //         'CLINIC'            => $va5->CLINIC,
+            //         'DIAG'              => $va5->DIAG,
+            //         'DXTYPE'            => $va5->DXTYPE,
+            //         'DRDX'              => $va5->DRDX,
+            //         'PERSON_ID'         => $va5->PERSON_ID,
+            //         'SEQ'               => $va5->SEQ,
+            //         'user_id'           => $iduser,
+            //     ]);
+            // }
+            // $data_dru = DB::connection('mysql3')->select('
+            //         SELECT "" d_dru_id,vv.hcode HCODE
+            //         ,v.hn HN
+            //         ,v.an AN
+            //         ,vv.spclty CLINIC
+            //         ,vv.cid PERSON_ID
+            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+            //         ,d.icode DID
+            //         ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+            //         ,sum(v.qty) AMOUNT
+            //         ,round(v.unitprice,2) DRUGPRIC
+            //         ,"0.00" DRUGCOST
+            //         ,d.did DIDSTD
+            //         ,d.units UNIT
+            //         ,concat(d.packqty,"x",d.units) UNIT_PACK
+            //         ,v.vn SEQ
+            //         ,oo.presc_reason DRUGREMARK
+            //         ,"" PA_NO
+            //         ,"" TOTCOPAY
+            //         ,if(v.item_type="H","2","1") USE_STATUS
+            //         ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
+            //         from opitemrece v
+            //         LEFT JOIN drugitems d on d.icode = v.icode
+            //         LEFT JOIN vn_stat vv on vv.vn = v.vn
+            //         LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+            //         LEFT JOIN d_export_ucep x on x.vn = v.vn
+            //         where x.active="N"
+            //         and d.did is not null
+            //         GROUP BY v.vn,did
+
+            //         UNION all
+
+            //         SELECT "" d_dru_id,pt.hcode HCODE
+            //         ,v.hn HN
+            //         ,v.an AN
+            //         ,v1.spclty CLINIC
+            //         ,pt.cid PERSON_ID
+            //         ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+            //         ,d.icode DID
+            //         ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+            //         ,sum(v.qty) AMOUNT
+            //         ,round(v.unitprice,2) DRUGPRIC
+            //         ,"0.00" DRUGCOST
+            //         ,d.did DIDSTD
+            //         ,d.units UNIT
+            //         ,concat(d.packqty,"x",d.units) UNIT_PACK
+            //         ,ifnull(v.vn,v.an) SEQ
+            //         ,oo.presc_reason DRUGREMARK
+            //         ,"" PA_NO
+            //         ,"" TOTCOPAY
+            //         ,if(v.item_type="H","2","1") USE_STATUS
+            //         ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
+            //         from opitemrece v
+            //         LEFT JOIN drugitems d on d.icode = v.icode
+            //         LEFT JOIN patient pt  on v.hn = pt.hn
+            //         inner JOIN ipt v1 on v1.an = v.an
+            //         LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+            //         LEFT JOIN d_export_ucep x on x.vn = v1.vn
+            //         where x.active="N"
+            //         and d.did is not null AND v.qty<>"0"
+            //         GROUP BY v.an,d.icode,USE_STATUS;
+            // ');
+            // foreach ($data_dru as $va9) {
+            //     D_dru::insert([
+            //         'HCODE'               => $va9->HCODE,
+            //         'HN'                  => $va9->HN,
+            //         'AN'                  => $va9->AN,
+            //         'CLINIC'              => $va9->CLINIC,
+            //         'PERSON_ID'           => $va9->PERSON_ID,
+            //         'DATE_SERV'           => $va9->DATE_SERV,
+            //         'DID'                 => $va9->DID,
+            //         'DIDNAME'             => $va9->DIDNAME,
+            //         'AMOUNT'              => $va9->AMOUNT,
+            //         'DRUGPRIC'            => $va9->DRUGPRIC,
+            //         'DRUGCOST'            => $va9->DRUGCOST,
+            //         'DIDSTD'              => $va9->DIDSTD,
+            //         'UNIT'                => $va9->UNIT,
+            //         'UNIT_PACK'           => $va9->UNIT_PACK,
+            //         'SEQ'                 => $va9->SEQ,
+            //         'DRUGREMARK'          => $va9->DRUGREMARK,
+            //         'PA_NO'               => $va9->PA_NO,
+            //         'TOTCOPAY'            => $va9->TOTCOPAY,
+            //         'USE_STATUS'          => $va9->USE_STATUS,
+            //         'TOTAL'               => $va9->TOTAL,
+            //         'SIGCODE'             => $va9->a1,
+            //         'SIGTEXT'             => $va9->a2,
+            //         'created_at'          => $va9->created_at,
+            //         'updated_at'          => $va9->updated_at,
+            //         'user_id'             => $iduser,
+            //     ]);
+            // }
+            // $data_idx = DB::connection('mysql3')->select('
+            //     SELECT "" d_idx_id,v.an AN,o.icd10 DIAG
+            //             ,o.diagtype DXTYPE
+            //             ,if(d.licenseno="","-99999",d.licenseno) DRDX,"" created_at ,"" updated_at
+            //             FROM an_stat v
+            //             LEFT JOIN iptdiag o on o.an = v.an
+            //             LEFT JOIN doctor d on d.`code` = o.doctor
+            //             LEFT JOIN ipt ip on ip.an = v.an
+            //             INNER JOIN icd101 i on i.code = o.icd10
+            //             LEFT JOIN d_export_ucep x on x.vn = v.vn
+            //             WHERE x.active="N";
+            // ');
+            // foreach ($data_idx as $va6) {
+            //     D_idx::insert([
+            //         'AN'                => $va6->AN,
+            //         'DIAG'              => $va6->DIAG,
+            //         'DXTYPE'            => $va6->DXTYPE,
+            //         'DRDX'              => $va6->DRDX,
+            //         'user_id'           => $iduser,
+            //     ]);
+            // }
+            // $data_ipd = DB::connection('mysql3')->select('
+            //     SELECT "" d_ipd_id,v.hn HN,v.an AN
+            //         ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
+            //         ,Time_format(o.regtime,"%H%i") TIMEADM
+            //         ,DATE_FORMAT(o.dchdate,"%Y%m%d") DATEDSC
+            //         ,Time_format(o.dchtime,"%H%i")  TIMEDSC
+            //         ,right(o.dchstts,1) DISCHS
+            //         ,right(o.dchtype,1) DISCHT
+            //         ,o.ward WARDDSC,o.spclty DEPT
+            //         ,format(o.bw/1000,3) ADM_W
+            //         ,"1" UUC ,"I" SVCTYPE,"" created_at,"" updated_at
+            //         FROM an_stat v
+            //         LEFT JOIN ipt o on o.an = v.an
+            //         LEFT JOIN pttype p on p.pttype = v.pttype
+            //         LEFT JOIN patient pt on pt.hn = v.hn
+            //         LEFT JOIN d_export_ucep x on x.vn = v.vn
+            //         WHERE x.active="N";
+            // ');
+            // foreach ($data_ipd as $va10) {
+            //     D_ipd::insert([
+            //         'HN'                 => $va10->HN,
+            //         'AN'                 => $va10->AN,
+            //         'DATEADM'            => $va10->DATEADM,
+            //         'TIMEADM'            => $va10->TIMEADM,
+            //         'DATEDSC'            => $va10->DATEDSC,
+            //         'TIMEDSC'            => $va10->TIMEDSC,
+            //         'DISCHS'             => $va10->DISCHS,
+            //         'DISCHT'             => $va10->DISCHT,
+            //         'DEPT'               => $va10->DEPT,
+            //         'ADM_W'              => $va10->ADM_W,
+            //         'UUC'                => $va10->UUC,
+            //         'SVCTYPE'            => $va10->SVCTYPE,
+            //         'user_id'            => $iduser,
+            //     ]);
+            // }
+            // $data_irf = DB::connection('mysql3')->select('
+            //         SELECT ""d_irf_id,v.an AN
+            //         ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
+            //         ,"0100" REFERTYPE,"" created_at,"" updated_at
+            //         FROM an_stat v
+            //         LEFT JOIN referout o on o.vn =v.an
+            //         LEFT JOIN referin oo on oo.vn =v.an
+            //         LEFT JOIN ipt ip on ip.an = v.an
+            //         LEFT JOIN d_export_ucep x on x.vn = v.vn
+            //         WHERE x.active="N"
+            //         and (v.an in(select vn from referin where vn = oo.vn) or v.an in(select vn from referout where vn = o.vn));
+            // ');
+            // foreach ($data_irf as $va11) {
+            //     D_irf::insert([
+            //         'AN'                 => $va11->AN,
+            //         'REFER'              => $va11->REFER,
+            //         'REFERTYPE'          => $va11->REFERTYPE,
+            //         'user_id'            => $iduser,
             //     ]);
             // }
 
-
+            //  //ADP
+            //  $data_adp = DB::connection('mysql3')->select('
+            //         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+            //         ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
+            //         from (SELECT v.hn HN
+            //         ,if(v.an is null,"",v.an) AN
+            //         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+            //         ,n.nhso_adp_type_id TYPE
+            //         ,n.nhso_adp_code CODE
+            //         ,sum(v.QTY) QTY
+            //         ,round(v.unitprice,2) RATE
+            //         ,if(v.an is null,v.vn,"") SEQ
+            //         ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+            //         ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC
+            //         ,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP
+            //         ,(SELECT "01" from dtemp_hosucep where an = v.an and icode = v.icode and rxdate = v.rxdate and rxtime = v.rxtime  limit 1) SP_ITEM
+            //         from opitemrece v
+            //         inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            //         left join ipt i on i.an = v.an
+            //         AND i.an is not NULL
+            //         LEFT JOIN d_export_ucep x on x.vn = i.vn
+            //         where x.active="N"
+            //         AND n.icode <> "XXXXXX"
+            //         GROUP BY i.vn,n.nhso_adp_code,rate) a
+            //         GROUP BY an,CODE,rate
+            //         UNION
+            //         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+            //         ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+            //         from
+            //         (SELECT v.hn HN
+            //         ,if(v.an is null,"",v.an) AN
+            //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+            //         ,n.nhso_adp_type_id TYPE
+            //         ,n.nhso_adp_code CODE
+            //         ,sum(v.QTY) QTY
+            //         ,round(v.unitprice,2) RATE
+            //         ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+            //         ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+            //         from opitemrece v
+            //         inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+            //         left join ipt i on i.an = v.an
+            //         left join d_export_ucep x on x.vn = v.vn
+            //         where x.active="N"
+            //         AND n.icode <> "XXXXXX"
+            //         AND i.an is NULL
+            //         GROUP BY v.vn,n.nhso_adp_code,rate) b
+            //         GROUP BY seq,CODE,rate;
+            // ');
+            // foreach ($data_adp as $va4) {
+            //     d_adp::insert([
+            //         'HN'                   => $va4->HN,
+            //         'AN'                   => $va4->AN,
+            //         'DATEOPD'              => $va4->DATEOPD,
+            //         'TYPE'                 => $va4->TYPE,
+            //         'CODE'                 => $va4->CODE,
+            //         'QTY'                  => $va4->QTY,
+            //         'RATE'                 => $va4->RATE,
+            //         'SEQ'                  => $va4->SEQ,
+            //         'CAGCODE'              => $va4->a1,
+            //         'DOSE'                 => $va4->a2,
+            //         'CA_TYPE'              => $va4->a3,
+            //         'SERIALNO'             => $va4->a4,
+            //         'TOTCOPAY'             => $va4->a5,
+            //         'USE_STATUS'           => $va4->a6,
+            //         'TOTAL'                => $va4->a7,
+            //         'QTYDAY'               => $va4->a8,
+            //         'TMLTCODE'             => $va4->TMLTCODE,
+            //         'STATUS1'              => $va4->STATUS1,
+            //         'BI'                   => $va4->BI,
+            //         'CLINIC'               => $va4->CLINIC,
+            //         'ITEMSRC'              => $va4->ITEMSRC,
+            //         'PROVIDER'             => $va4->PROVIDER,
+            //         'GLAVIDA'              => $va4->GLAVIDA,
+            //         'GA_WEEK'              => $va4->GA_WEEK,
+            //         'DCIP'                 => $va4->DCIP,
+            //         'LMP'                  => $va4->LMP,
+            //         'SP_ITEM'              => $va4->SP_ITEM,
+            //         'user_id'              => $iduser,
+            //     ]);
+            // }
+            // d_adp::where('CODE','=','XXXXXX')->delete();
+             
         } else {
-            $data = DB::connection('mysql11')->select('
+            $data = DB::connection('mysql3')->select('
                 SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
                         ,concat(p.pname," ",p.fname," ", p.lname) as ptname
                         ,a.pdx ,g.er_screen,ee.er_emergency_level_name
@@ -823,313 +616,7 @@ class SixteenController extends Controller
             'query_date'       => $query_date,
         ]);
     }
-    // public function six_pull_a(Request $request)
-    // {
-    //         D_opd::truncate();
-    //         D_oop::truncate();
-    //         D_orf::truncate();
-    //         //D_opd
-    //         $data_opd = DB::connection('mysql3')->select('
-    //                 SELECT "" d_opd_id
-    //                 ,v.hn HN
-    //                 ,v.spclty CLINIC
-    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-    //                 ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
-    //                 ,v.vn SEQ
-    //                 ,"1" UUC
-    //                 ,"" created_at
-    //                 ,"" updated_at
-    //                 from vn_stat v
-    //                 LEFT JOIN ovst o on o.vn = v.vn
-    //                 LEFT JOIN pttype p on p.pttype = v.pttype
-    //                 LEFT JOIN ipt i on i.vn = v.vn
-    //                 LEFT JOIN patient pt on pt.hn = v.hn
-    //                 INNER JOIN claim.d_export_ucep x on x.vn = v.vn
-    //                 where x.active="N";
-    //         ');
-    //         foreach ($data_opd as $va3) {
-    //             D_opd::insert([
-    //                 'HN'                  => $va3->HN,
-    //                 'CLINIC'              => $va3->CLINIC,
-    //                 'DATEOPD'             => $va3->DATEOPD,
-    //                 'TIMEOPD'             => $va3->TIMEOPD,
-    //                 'SEQ'                 => $va3->SEQ,
-    //                 'UUC'                 => $va3->UUC
-    //             ]);
-    //         }
-    //         //D_orf
-    //         $data_orf = DB::connection('mysql3')->select('
-    //                 SELECT
-    //                 "" d_orf_id
-    //                 ,v.hn HN
-    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-    //                 ,v.spclty CLINIC
-    //                 ,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
-    //                 ,"0100" REFERTYPE
-    //                 ,v.vn SEQ
-    //                 ,"" created_at
-    //                 ,"" updated_at
-    //                 from vn_stat v
-    //                 LEFT JOIN ovst o on o.vn = v.vn
-    //                 LEFT JOIN referin r1 on r1.vn = v.vn
-    //                 LEFT JOIN referout r2 on r2.vn = v.vn
-    //                 INNER JOIN claim.d_export_ucep x on x.vn = v.vn
-    //                 where x.active="N"
-    //                 and (r1.vn is not null or r2.vn is not null);
-    //         ');
-    //         foreach ($data_orf as $va4) {
-    //             D_orf::insert([
-    //                 'HN'                => $va4->HN,
-    //                 'DATEOPD'           => $va4->DATEOPD,
-    //                 'CLINIC'            => $va4->CLINIC,
-    //                 'REFER'             => $va4->REFER,
-    //                 'REFERTYPE'         => $va4->REFERTYPE,
-    //                 'SEQ'               => $va4->SEQ
-    //             ]);
-    //         }
-    //         //D_oop
-    //         $data_oop = DB::connection('mysql3')->select('
-    //                 SELECT "" d_oop_id
-    //                 ,v.hn HN
-    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-    //                 ,v.spclty CLINIC
-    //                 ,o.icd10 OPER
-    //                 ,if(d.licenseno="","-99999",d.licenseno) DROPID
-    //                 ,pt.cid PERSON_ID
-    //                 ,v.vn SEQ
-    //                 ,"" created_at
-    //                 ,"" updated_at
-    //                 from vn_stat v
-    //                 LEFT JOIN ovstdiag o on o.vn = v.vn
-    //                 LEFT JOIN patient pt on v.hn=pt.hn
-    //                 LEFT JOIN doctor d on d.`code` = o.doctor
-    //                 LEFT JOIN icd9cm1 i on i.code = o.icd10
-    //                 INNER JOIN claim.d_export_ucep x on x.vn = v.vn
-    //                 where x.active="N";
-    //         ');
-    //         foreach ($data_oop as $va6) {
-    //             D_oop::insert([
-    //                 'HN'                => $va6->HN,
-    //                 'DATEOPD'           => $va6->DATEOPD,
-    //                 'CLINIC'            => $va6->CLINIC,
-    //                 'OPER'              => $va6->OPER,
-    //                 'DROPID'            => $va6->DROPID,
-    //                 'PERSON_ID'         => $va6->PERSON_ID,
-    //                 'SEQ'               => $va6->SEQ,
-    //             ]);
-    //         }
-
-    //     return redirect()->back();
-    // }
-
-    // public function six_pull_b(Request $request)
-    // {
-    //     D_odx::truncate();
-    //     D_dru::truncate();
-    //     D_idx::truncate();
-    //     D_ipd::truncate();
-    //     D_irf::truncate();
-
-    //     $data_odx = DB::connection('mysql3')->select('
-    //         SELECT
-    //             "" d_odx_id
-    //             ,v.hn HN
-    //             ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
-    //             ,v.spclty CLINIC
-    //             ,o.icd10 DIAG
-    //             ,o.diagtype DXTYPE
-    //             ,if(d.licenseno="","-99999",d.licenseno) DRDX
-    //             ,v.cid PERSON_ID
-    //             ,v.vn SEQ
-    //             ,"" created_at
-    //             ,"" updated_at
-    //             from vn_stat v
-    //             LEFT JOIN ovstdiag o on o.vn = v.vn
-    //             LEFT JOIN doctor d on d.`code` = o.doctor
-    //             LEFT JOIN icd101 i on i.code = o.icd10
-    //             LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-    //             where x.active="N";
-    //     ');
-    //     foreach ($data_odx as $va5) {
-    //         D_odx::insert([
-    //             'HN'                => $va5->HN,
-    //             'DATEDX'            => $va5->DATEDX,
-    //             'CLINIC'            => $va5->CLINIC,
-    //             'DIAG'              => $va5->DIAG,
-    //             'DXTYPE'            => $va5->DXTYPE,
-    //             'DRDX'              => $va5->DRDX,
-    //             'PERSON_ID'         => $va5->PERSON_ID,
-    //             'SEQ'               => $va5->SEQ,
-    //         ]);
-    //     }
-    //     $data_dru = DB::connection('mysql3')->select('
-    //             SELECT "" d_dru_id,vv.hcode HCODE
-    //             ,v.hn HN
-    //             ,v.an AN
-    //             ,vv.spclty CLINIC
-    //             ,vv.cid PERSON_ID
-    //             ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-    //             ,d.icode DID
-    //             ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-    //             ,sum(v.qty) AMOUNT
-    //             ,round(v.unitprice,2) DRUGPRIC
-    //             ,"0.00" DRUGCOST
-    //             ,d.did DIDSTD
-    //             ,d.units UNIT
-    //             ,concat(d.packqty,"x",d.units) UNIT_PACK
-    //             ,v.vn SEQ
-    //             ,oo.presc_reason DRUGREMARK
-    //             ,"" PA_NO
-    //             ,"" TOTCOPAY
-    //             ,if(v.item_type="H","2","1") USE_STATUS
-    //             ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
-    //             from opitemrece v
-    //             LEFT JOIN drugitems d on d.icode = v.icode
-    //             LEFT JOIN vn_stat vv on vv.vn = v.vn
-    //             LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-    //             LEFT JOIN claim.tempexport x on x.vn = v.vn
-    //             where x.active="N"
-    //             and d.did is not null
-    //             GROUP BY v.vn,did
-
-    //             UNION all
-
-    //             SELECT "" d_dru_id,pt.hcode HCODE
-    //             ,v.hn HN
-    //             ,v.an AN
-    //             ,v1.spclty CLINIC
-    //             ,pt.cid PERSON_ID
-    //             ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-    //             ,d.icode DID
-    //             ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-    //             ,sum(v.qty) AMOUNT
-    //             ,round(v.unitprice,2) DRUGPRIC
-    //             ,"0.00" DRUGCOST
-    //             ,d.did DIDSTD
-    //             ,d.units UNIT
-    //             ,concat(d.packqty,"x",d.units) UNIT_PACK
-    //             ,ifnull(v.vn,v.an) SEQ
-    //             ,oo.presc_reason DRUGREMARK
-    //             ,"" PA_NO
-    //             ,"" TOTCOPAY
-    //             ,if(v.item_type="H","2","1") USE_STATUS
-    //             ,"" TOTAL,"" a1,""  a2,"" created_at,"" updated_at
-    //             from opitemrece v
-    //             LEFT JOIN drugitems d on d.icode = v.icode
-    //             LEFT JOIN patient pt  on v.hn = pt.hn
-    //             inner JOIN ipt v1 on v1.an = v.an
-    //             LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-    //             LEFT JOIN claim.tempexport x on x.vn = v1.vn
-    //             where x.active="N"
-    //             and d.did is not null AND v.qty<>"0"
-    //             GROUP BY v.an,d.icode,USE_STATUS;
-    //     ');
-    //     foreach ($data_dru as $va9) {
-    //         D_dru::insert([
-    //             'HCODE'               => $va9->HCODE,
-    //             'HN'                  => $va9->HN,
-    //             'AN'                  => $va9->AN,
-    //             'CLINIC'              => $va9->CLINIC,
-    //             'PERSON_ID'           => $va9->PERSON_ID,
-    //             'DATE_SERV'           => $va9->DATE_SERV,
-    //             'DID'                 => $va9->DID,
-    //             'DIDNAME'             => $va9->DIDNAME,
-    //             'AMOUNT'              => $va9->AMOUNT,
-    //             'DRUGPRIC'            => $va9->DRUGPRIC,
-    //             'DRUGCOST'            => $va9->DRUGCOST,
-    //             'DIDSTD'              => $va9->DIDSTD,
-    //             'UNIT'                => $va9->UNIT,
-    //             'UNIT_PACK'           => $va9->UNIT_PACK,
-    //             'SEQ'                 => $va9->SEQ,
-    //             'DRUGREMARK'          => $va9->DRUGREMARK,
-    //             'PA_NO'               => $va9->PA_NO,
-    //             'TOTCOPAY'            => $va9->TOTCOPAY,
-    //             'USE_STATUS'          => $va9->USE_STATUS,
-    //             'TOTAL'               => $va9->TOTAL,
-    //             'SIGCODE'             => $va9->a1,
-    //             'SIGTEXT'             => $va9->a2,
-    //             'created_at'          => $va9->created_at,
-    //             'updated_at'          => $va9->updated_at
-    //         ]);
-    //     }
-    //     $data_idx = DB::connection('mysql3')->select('
-    //          SELECT "" d_idx_id,v.an AN,o.icd10 DIAG
-    //                 ,o.diagtype DXTYPE
-    //                 ,if(d.licenseno="","-99999",d.licenseno) DRDX,"" created_at ,"" updated_at
-    //                 FROM an_stat v
-    //                 LEFT JOIN iptdiag o on o.an = v.an
-    //                 LEFT JOIN doctor d on d.`code` = o.doctor
-    //                 LEFT JOIN ipt ip on ip.an = v.an
-    //                 INNER JOIN icd101 i on i.code = o.icd10
-    //                 LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-    //                 WHERE x.active="N";
-    //     ');
-    //     foreach ($data_idx as $va6) {
-    //         D_idx::insert([
-    //             'AN'                => $va6->AN,
-    //             'DIAG'              => $va6->DIAG,
-    //             'DXTYPE'            => $va6->DXTYPE,
-    //             'DRDX'              => $va6->DRDX
-    //         ]);
-    //     }
-    //     $data_ipd = DB::connection('mysql3')->select('
-    //         SELECT "" d_ipd_id,v.hn HN,v.an AN
-    //             ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
-    //             ,Time_format(o.regtime,"%H%i") TIMEADM
-    //             ,DATE_FORMAT(o.dchdate,"%Y%m%d") DATEDSC
-    //             ,Time_format(o.dchtime,"%H%i")  TIMEDSC
-    //             ,right(o.dchstts,1) DISCHS
-    //             ,right(o.dchtype,1) DISCHT
-    //             ,o.ward WARDDSC,o.spclty DEPT
-    //             ,format(o.bw/1000,3) ADM_W
-    //             ,"1" UUC ,"I" SVCTYPE,"" created_at,"" updated_at
-    //             FROM an_stat v
-    //             LEFT JOIN ipt o on o.an = v.an
-    //             LEFT JOIN pttype p on p.pttype = v.pttype
-    //             LEFT JOIN patient pt on pt.hn = v.hn
-    //             LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-    //             WHERE x.active="N";
-    //     ');
-    //     foreach ($data_ipd as $va10) {
-    //         D_ipd::insert([
-    //             'HN'                 => $va10->HN,
-    //             'AN'                 => $va10->AN,
-    //             'DATEADM'            => $va10->DATEADM,
-    //             'TIMEADM'            => $va10->TIMEADM,
-    //             'DATEDSC'            => $va10->DATEDSC,
-    //             'TIMEDSC'            => $va10->TIMEDSC,
-    //             'DISCHS'             => $va10->DISCHS,
-    //             'DISCHT'             => $va10->DISCHT,
-    //             'DEPT'               => $va10->DEPT,
-    //             'ADM_W'              => $va10->ADM_W,
-    //             'UUC'                => $va10->UUC,
-    //             'SVCTYPE'            => $va10->SVCTYPE
-    //         ]);
-    //     }
-    //     $data_irf = DB::connection('mysql3')->select('
-    //             SELECT ""d_irf_id,v.an AN
-    //             ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
-    //             ,"0100" REFERTYPE,"" created_at,"" updated_at
-    //             FROM an_stat v
-    //             LEFT JOIN referout o on o.vn =v.an
-    //             LEFT JOIN referin oo on oo.vn =v.an
-    //             LEFT JOIN ipt ip on ip.an = v.an
-    //             LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
-    //             WHERE x.active="N"
-    //             and (v.an in(select vn from referin where vn = oo.vn) or v.an in(select vn from referout where vn = o.vn));
-    //     ');
-    //     foreach ($data_irf as $va11) {
-    //         D_irf::insert([
-    //             'AN'                 => $va11->AN,
-    //             'REFER'              => $va11->REFER,
-    //             'REFERTYPE'          => $va11->REFERTYPE
-    //         ]);
-    //     }
-
-
-
-    //     return redirect()->back();
-    // }
+   
 
 
     public function six_pull_c(Request $request)
@@ -1141,7 +628,7 @@ class SixteenController extends Controller
         D_cht::where('user_id','=',$iduser)->delete();
         D_cha::where('user_id','=',$iduser)->delete();
         
-        $data_aer = DB::connection('mysql11')->select('
+        $data_aer = DB::connection('mysql3')->select('
                 SELECT ""d_aer_id,v.hn HN,i.an AN
                 ,v.vstdate DATEOPD,vv.claim_code AUTHAE
                 ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
@@ -1151,7 +638,7 @@ class SixteenController extends Controller
                 LEFT JOIN ipt i on i.vn = v.vn
                 LEFT JOIN visit_pttype vv on vv.vn = v.vn
                 LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
-                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                LEFT JOIN d_export_ucep x on x.vn = v.vn
                 WHERE x.active="N"
                 and i.an is null
                 GROUP BY v.vn
@@ -1164,7 +651,7 @@ class SixteenController extends Controller
                 from an_stat v
                 LEFT JOIN ipt_pttype vv on vv.an = v.an
                 LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
-                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                LEFT JOIN d_export_ucep x on x.vn = v.vn
                 WHERE x.active="N"
                 group by v.an;
         ');
@@ -1192,7 +679,7 @@ class SixteenController extends Controller
             ]);
         }
          //D_iop
-         $data_iop = DB::connection('mysql11')->select('
+         $data_iop = DB::connection('mysql3')->select('
                 SELECT "" d_iop_id,v.an AN
                 ,o.icd9 OPER
                 ,o.oper_type as OPTYPE
@@ -1206,7 +693,7 @@ class SixteenController extends Controller
                 LEFT JOIN doctor d on d.`code` = o.doctor
                 INNER JOIN icd9cm1 i on i.code = o.icd9
                 LEFT JOIN ipt ip on ip.an = v.an
-                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                LEFT JOIN d_export_ucep x on x.vn = v.vn
                 WHERE x.active="N";
         ');
         foreach ($data_iop as $va7) {
@@ -1224,7 +711,7 @@ class SixteenController extends Controller
         }
 
         // D_pat
-        $data_pat = DB::connection('mysql11')->select('
+        $data_pat = DB::connection('mysql3')->select('
                 SELECT "" d_pat_id
                 ,v.hcode HCODE
                 ,v.hn HN
@@ -1247,7 +734,7 @@ class SixteenController extends Controller
                 LEFT JOIN pttype p on p.pttype = v.pttype
                 LEFT JOIN ipt i on i.vn = v.vn
                 LEFT JOIN patient pt on pt.hn = v.hn
-                INNER JOIN claim.d_export_ucep x on x.vn = v.vn
+                INNER JOIN d_export_ucep x on x.vn = v.vn
                 where x.active="N";
         ');
         foreach ($data_pat as $va2) {
@@ -1271,7 +758,7 @@ class SixteenController extends Controller
             ]);
         }
 
-        $data_cht = DB::connection('mysql11')->select('
+        $data_cht = DB::connection('mysql3')->select('
                 SELECT "" d_cht_id
                 ,v.hn HN
                 ,v.an AN
@@ -1289,7 +776,7 @@ class SixteenController extends Controller
                 LEFT JOIN patient pp on pp.hn = v.hn
                 LEFT JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
                 LEFT JOIN pttype p on p.pttype = a.pttype
-                LEFT JOIN claim.d_export_ucep x on x.vn = v.vn
+                LEFT JOIN d_export_ucep x on x.vn = v.vn
                 where x.active="N";
         ');
         foreach ($data_cht as $va7) {
@@ -1305,7 +792,7 @@ class SixteenController extends Controller
                 'user_id'           => $iduser,
             ]);
         }
-        $data_cha = DB::connection('mysql11')->select('
+        $data_cha = DB::connection('mysql3')->select('
                 SELECT "" d_cha_id,v.hn HN
                 ,if(v1.an is null,"",v1.an) AN
                 ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
@@ -1320,7 +807,7 @@ class SixteenController extends Controller
                 LEFT JOIN income i on v.income=i.income
                 LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
                 LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-                left join claim.d_export_ucep x on x.vn = v.vn
+                left join d_export_ucep x on x.vn = v.vn
                 where x.active="N"
                 group by v.vn,CHRGITEM
                 union all
@@ -1338,7 +825,7 @@ class SixteenController extends Controller
                 LEFT JOIN income i on v.income=i.income
                 LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
                 LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-                left join claim.d_export_ucep x on x.vn = v1.vn
+                left join d_export_ucep x on x.vn = v1.vn
                 where x.active="N"
                 group by v.an,CHRGITEM;
         ');
@@ -1358,61 +845,7 @@ class SixteenController extends Controller
         return redirect()->back();
     }
 
-    // public function six_pull_d(Request $request)
-    // {
-
-    //     D_cha::truncate();
-
-    //     $data_cha = DB::connection('mysql3')->select('
-    //             SELECT "" d_cha_id,v.hn HN
-    //             ,if(v1.an is null,"",v1.an) AN
-    //             ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-    //             ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-    //             ,round(sum(v.sum_price),2) AMOUNT
-    //             ,p.cid PERSON_ID
-    //             ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
-    //             from opitemrece v
-    //             LEFT JOIN vn_stat vv on vv.vn = v.vn
-    //             LEFT JOIN patient p on p.hn = v.hn
-    //             LEFT JOIN ipt v1 on v1.an = v.an
-    //             LEFT JOIN income i on v.income=i.income
-    //             LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-    //             LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-    //             left join claim.d_export_ucep x on x.vn = v.vn
-    //             where x.active="N"
-    //             group by v.vn,CHRGITEM
-    //             union all
-    //             SELECT "" d_cha_id,v.hn HN
-    //             ,v1.an AN
-    //             ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
-    //             ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
-    //             ,round(sum(v.sum_price),2) AMOUNT
-    //             ,p.cid PERSON_ID
-    //             ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
-    //             from opitemrece v
-    //             LEFT JOIN vn_stat vv on vv.vn = v.vn
-    //             LEFT JOIN patient p on p.hn = v.hn
-    //             LEFT JOIN ipt v1 on v1.an = v.an
-    //             LEFT JOIN income i on v.income=i.income
-    //             LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
-    //             LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-    //             left join claim.d_export_ucep x on x.vn = v1.vn
-    //             where x.active="N"
-    //             group by v.an,CHRGITEM;
-    //     ');
-    //     foreach ($data_cha as $va8) {
-    //         D_cha::insert([
-    //             'HN'                => $va8->HN,
-    //             'AN'                => $va8->AN,
-    //             'DATE'              => $va8->DATE,
-    //             'CHRGITEM'          => $va8->CHRGITEM,
-    //             'AMOUNT'            => $va8->AMOUNT,
-    //             'PERSON_ID'         => $va8->PERSON_ID,
-    //             'SEQ'               => $va8->SEQ,
-    //         ]);
-    //     }
-    //     return redirect()->back();
-    // }
+ 
 
     public function six_send(Request $request)
     {

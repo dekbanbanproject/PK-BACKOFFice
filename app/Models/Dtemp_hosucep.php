@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Dtemp_hosucep extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    // protected $connection = 'mysql7';
+    protected $connection = 'mysql3';
     protected $table = 'dtemp_hosucep';
     protected $primaryKey = 'dtemp_hosucep_id';
     protected $fillable = [ 
