@@ -291,7 +291,7 @@
                                 </div> 
                             </div>
                         </form> --}}
-                        <div class="row mt-5">
+                        <div class="row mt-2">
                             <div class="col-md-12"> 
                                 <div class="main-card card">
                                     <h6 class="card-title mt-2 ms-2">Authen Report Month ปี พ.ศ.{{ $ynow }}</h6> 
