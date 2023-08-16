@@ -126,7 +126,8 @@
                                     <tr height="10px;">
                                         <td>
                                             <h6>
-                                                <a href="">{{$type->checkauthen_type_name}}</a> 
+                                                {{$type->checkauthen_type_name}}
+                                                {{-- <a href="">{{$type->checkauthen_type_name}}</a>  --}}
                                             </h6>
                                         </td>
                                         
@@ -167,7 +168,8 @@
                                         <tr height="10px;">
                                             <td>
                                                 <h6 >
-                                                    <a href="">({{$typegroup->hipdata_code}}) - {{$typegroup->typename}}</a> 
+                                                    ({{$typegroup->hipdata_code}}) - {{$typegroup->typename}}
+                                                    {{-- <a href="">({{$typegroup->hipdata_code}}) - {{$typegroup->typename}}</a>  --}}
                                                 </h6>
                                             </td>
                                             <td >{{$count_type2}} </td>
