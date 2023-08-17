@@ -432,17 +432,16 @@ class Auto_authenController extends Controller
     {
         $date_now = date('Y-m-d');
         $date_start = "2023-08-14";
-        $date_end = "2566-07-22";
-        
+        $date_end = "2566-07-22";        
         // $data_ = Check_authen
-
         // $count = Check_sit_auto::where('vn','<>','')->count(); 
-
         $data_ = DB::connection('mysql')->select('
-            SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
-            FROM check_authen   
-            WHERE vstdate = CURDATE()
-            AND claimtype <> "PG0130001"      
+                SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication,ca.claimcode as Caclaimcode
+                FROM check_authen c   
+                LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
+                WHERE c.vstdate = CURDATE()
+                AND c.claimtype <> "PG0130001" 
+                AND ca.claimcode IS NULL      
         '); 
         // CURDATE()
         foreach ($data_ as $key => $value) {   
@@ -462,8 +461,7 @@ class Auto_authenController extends Controller
                     'servicename'     => $value->servicename,
                     'authentication'  => $value->authentication,
                 ]);   
-            //  }
-             
+            //  }             
              
         }
 
@@ -674,14 +672,15 @@ class Auto_authenController extends Controller
         $date_end = "2566-07-22";
         
         // $data_ = Check_authen
-
         // $count = Check_sit_auto::where('vn','<>','')->count(); 
 
-        $data_ = DB::connection('mysql')->select('
-            SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
-            FROM check_authen_ti   
-            WHERE vstdate = CURDATE()
-            AND claimtype = "PG0130001"      
+        $data_ = DB::connection('mysql')->select(' 
+            SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication,ca.claimcode as Caclaimcode
+                FROM check_authen c   
+                LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
+                WHERE c.vstdate = CURDATE()
+                AND c.claimtype = "PG0130001"  
+                AND ca.claimcode IS NULL  
         '); 
         foreach ($data_ as $key => $value) {   
             //  $count = Check_sit_tiauto::where('claimcode','=',$value->claimcode)->count(); 

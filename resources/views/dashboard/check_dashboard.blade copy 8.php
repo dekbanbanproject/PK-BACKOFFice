@@ -1,6 +1,7 @@
 @extends('layouts.report_font')
 @section('title', 'PK-BACKOFFice || Dashboard')
 
+
 @section('content')
 
     <?php
@@ -337,7 +338,59 @@
                             </div> 
                         </div>
 
-                       
+                        {{-- <div class="row">
+                            
+                            @foreach ($data_dep as $item3)
+                            <div class="col-md-6 col-xl-6">
+                                
+                                <div class="card-shadow-primary mb-2 widget-chart widget-chart2 text-start card">
+                                    <div class="widget-chat-wrapper-outer">
+                                        <div class="widget-chart-content">
+                                            <h6 class="widget-subheading">แผนก{{ $item3->department }}</h6>
+                                            <div class="widget-chart-flex">
+                                                <div class="widget-numbers mb-0 w-100">
+                                                    <div class="widget-chart-flex">
+                                                        <div class="fsize-3 text-warning">
+                                                            <small class="opacity-3 text-muted">Visit All</small>
+                                                            {{ $item3->countvn }}
+                                                        </div>
+                                                        <div class="ms-auto">
+                                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                                <span class="text-warning ps-2">
+                                                                     
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="widget-chart-flex">
+                                                <div class="widget-numbers mb-0 w-100">
+                                                    <div class="widget-chart-flex">
+                                                        <div class="fsize-3 text-success">
+                                                            <small class="opacity-3 text-muted">ขอAuthen Code</small>
+                                                            {{ $item3->countvn }}
+                                                        </div>
+                                                        <div class="ms-auto">
+                                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                                <span class="text-success ps-2">
+                                                                    <span class="pe-1">
+                                                                        <i class="fa fa-angle-up"></i>
+                                                                    </span>
+                                                                    8%
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                            
+                        </div> --}}
                         {{-- <div class="row"> 
                             <div class="col-xl-12 col-md-12">
                                 <div class="main-card card p-2">
@@ -369,13 +422,89 @@
                                 </div>
                             </div>  
                         </div> --}}
- 
+
+
                         
                     </div>
-                     
+                    
+                  
                 </div>
             </div>
-        </div>        
+        </div>
+
+        {{-- <div class="row">
+                            
+            @foreach ($data_dep as $item3)
+            <div class="col-md-6 col-xl-3">
+                
+                <div class="card-shadow-primary mb-2 widget-chart widget-chart2 text-start card">
+                    <div class="widget-chat-wrapper-outer">
+                        <div class="widget-chart-content">
+                            <h6 class="widget-subheading">แผนก{{ $item3->department }}</h6>
+                            <div class="widget-chart-flex">
+                                <div class="widget-numbers mb-0 w-100">
+                                    <div class="widget-chart-flex">
+                                        <div class="fsize-3 text-warning" >
+                                            <small class="opacity-3 text-muted">คนไข่ที่มารับบริการ</small>
+                                            {{ $item3->countvn }}
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                <span class="text-warning ps-2">
+                                                     
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-chart-flex">
+                                <div class="widget-numbers mb-0 w-100">
+                                    <div class="widget-chart-flex">
+                                        <div class="fsize-3 text-success">
+                                            <small class="opacity-3 text-muted">ขอAuthen Code</small>
+                                            {{ $item3->countvn }}
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                <span class="text-success ps-2">
+                                                    <span class="pe-1">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </span>
+                                                    8%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-chart-flex">
+                                <div class="widget-numbers mb-0 w-100">
+                                    <div class="widget-chart-flex">
+                                        <div class="fsize-3 text-danger">
+                                            <small class="opacity-3 text-muted">ไม่ขอAuthen Code</small>
+                                            {{ $item3->Noauthen }}
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="widget-title ms-auto font-size-lg fw-normal text-muted">
+                                                <span class="text-danger ps-2">
+                                                    <span class="pe-1">
+                                                        <i class="fa fa-angle-up"></i>
+                                                    </span>
+                                                    8%
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            
+        </div> --}}
 
         {{-- <div class="row">
  

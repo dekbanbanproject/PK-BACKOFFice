@@ -23,9 +23,14 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PHPExcel_IOFactory;
 use App\Models\Stm_head;
 use App\Models\Stm_import;
+
+use App\Models\Acc_stm_repmoney;
+use App\Models\Acc_stm_repmoney_file;
+use App\Models\Acc_trimart;
  
 use SplFileObject;
 use Arr;
+ 
 /** PHPExcel */
 // require_once '../upstm/Classes/PHPExcel.php';
 
@@ -34,6 +39,100 @@ use Arr;
 
 class UpstmController extends Controller
 { 
+    public function uprep_money(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('SELECT * FROM acc_stm_repmoney ar LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_stm_repmoney_tri ORDER BY acc_stm_repmoney_id DESC');
+        $countc = DB::table('acc_stm_ucs_excel')->count();
+        $data['trimart'] = DB::table('acc_trimart')->get();
+        // $data['trimart'] = DB::table('acc_stm_repmoney_file')->->get();
+
+        return view('account_pk.uprep_money',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    public function uprep_money_save(Request $request)
+    {
+        $add = new Acc_stm_repmoney();
+        $add->acc_stm_repmoney_tri      = $request->acc_stm_repmoney_tri;
+        $add->acc_stm_repmoney_book     = $request->acc_stm_repmoney_book;
+        $add->acc_stm_repmoney_no       = $request->acc_stm_repmoney_no;
+        $add->acc_stm_repmoney_price    = $request->acc_stm_repmoney_price;
+        $add->acc_stm_repmoney_date     = $request->acc_stm_repmoney_date;
+        $add->user_id                   = $request->user_id;
+        $add->save();
+         
+        return response()->json([
+            'status'    => '200' 
+        ]); 
+    }
+    public function uprep_money_edit(Request $request,$id)
+    {
+        $data_show = Acc_stm_repmoney::find($id);
+        return response()->json([
+            'status'               => '200', 
+            'data_show'            =>  $data_show,
+        ]);
+    }
+    public function uprep_money_update(Request $request)
+    {
+        $id = $request->acc_stm_repmoney_id;
+        $update = Acc_stm_repmoney::find($id);
+        $update->acc_stm_repmoney_tri      = $request->acc_stm_repmoney_tri;
+        $update->acc_stm_repmoney_book     = $request->acc_stm_repmoney_book;
+        $update->acc_stm_repmoney_no       = $request->acc_stm_repmoney_no;
+        $update->acc_stm_repmoney_price    = $request->acc_stm_repmoney_price;
+        $update->acc_stm_repmoney_date     = $request->acc_stm_repmoney_date;
+        $update->user_id                   = $request->user_id;
+        $update->save();
+         
+        return response()->json([
+            'status'    => '200' 
+        ]); 
+    }
+    public function uprep_money_updatefile(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx,pdf,png,jpeg'
+        ]);
+        // $the_file = $request->file('file'); 
+        $file_name = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+        //    dd($file_name);
+ 
+        $add = new Acc_stm_repmoney_file();
+        $add->acc_stm_repmoney_id      = $request->input('acc_stm_repmoney_id');
+        $add->file                     = $request->file('file');
+        if($request->hasFile('file')){               
+            $request->file->storeAs('account',$file_name,'public');
+            $add->filename             = $file_name;
+        }
+        $add->save();
+
+        return response()->json([
+            'status'    => '200' 
+        ]); 
+    }
+    public function uprepdestroy(Request $request,$id)
+    {
+        
+        $file_ = Acc_stm_repmoney_file::find($id);  
+        $file_name = $file_->filename; 
+        $filepath = public_path('storage/account/'.$file_name);
+        $description = File::delete($filepath);
+
+        $del = Acc_stm_repmoney_file::find($id);  
+        $del->delete(); 
+
+        return redirect()->route('acc.uprep_money');
+        // return response()->json(['status' => '200']);
+    }
+
+    // ***************           **************
     public function import_stm(Request $request)
     { 
         $data['users'] = User::get();
@@ -549,5 +648,7 @@ class UpstmController extends Controller
                                                    
         return redirect()->back();
     }
+
+   
 }
 

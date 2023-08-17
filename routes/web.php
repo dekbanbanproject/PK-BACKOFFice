@@ -189,6 +189,16 @@ Route::match(['get','post'],'import_stm_aipnsave',[App\Http\Controllers\UpstmCon
 Route::match(['get','post'],'import_rep_aipn',[App\Http\Controllers\UpstmController::class, 'import_rep_aipn'])->name('s.import_rep_aipn');// ทดสอบ Import
 Route::match(['get','post'],'import_rep_aipn_save',[App\Http\Controllers\UpstmController::class, 'import_rep_aipn_save'])->name('s.import_rep_aipn_save');// ทดสอบ Import
 
+Route::match(['get','post'],'uprep_money',[App\Http\Controllers\UpstmController::class, 'uprep_money'])->name('acc.uprep_money');//
+Route::match(['get','post'],'uprep_money_save',[App\Http\Controllers\UpstmController::class, 'uprep_money_save'])->name('acc.uprep_money_save');//
+Route::match(['get','post'],'uprep_money_edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_money_edit'])->name('acc.uprep_money_edit');//
+Route::match(['get','post'],'uprep_money_update',[App\Http\Controllers\UpstmController::class, 'uprep_money_update'])->name('acc.uprep_money_update');//
+Route::match(['get','post'],'uprepdestroy/{id}',[App\Http\Controllers\UpstmController::class, 'uprepdestroy'])->name('acc.uprepdestroy');//
+// Route::DELETE('uprepdestroy/{id}',[App\Http\Controllers\UpstmController::class, 'uprepdestroy']);//
+Route::match(['get','post'],'uprep_money_updatefile',[App\Http\Controllers\UpstmController::class, 'uprep_money_updatefile'])->name('acc.uprep_money_updatefile');//
+ 
+
+
 // ********************************* นักโทษ  *****************************************
 Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438
 Route::match(['get','post'],'prisoner_opd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail'])->name('prisoner.prisoner_opd_detail');  //นักโทษ 438
@@ -1423,6 +1433,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//
 
+    
+
     Route::match(['get','post'],'upstm_tixml',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml'])->name('acc.upstm_tixml');// ไต
     Route::match(['get','post'],'upstm_tixml_import',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml_import'])->name('acc.upstm_tixml_import');// ไต
     Route::match(['get','post'],'upstm_tixml_sss',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml_sss'])->name('acc.upstm_tixml_sss');// ไต
@@ -1648,6 +1660,11 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_setting_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'acc_setting_edit'])->name('acc.acc_setting_edit');//
     Route::match(['get','post'],'acc_setting_save',[App\Http\Controllers\AccountPKController::class, 'acc_setting_save'])->name('acc.acc_setting_save');//
     Route::match(['get','post'],'acc_setting_update',[App\Http\Controllers\AccountPKController::class, 'acc_setting_update'])->name('acc.acc_setting_update');//
+
+    Route::match(['get','post'],'aset_trimart',[App\Http\Controllers\AccountPKController::class, 'aset_trimart'])->name('acc.aset_trimart');//
+    Route::match(['get','post'],'aset_trimart_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_edit'])->name('acc.aset_trimart_edit');//
+    Route::match(['get','post'],'aset_trimart_save',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_save'])->name('acc.aset_trimart_save');//
+    Route::match(['get','post'],'aset_trimart_update',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_update'])->name('acc.aset_trimart_update');//
      // **************************** PPFS 2566  ***********************
      Route::match(['get','post'],'anc_14001',[App\Http\Controllers\PPFSController::class, 'anc_14001'])->name('claim.anc_14001');//
      Route::match(['get','post'],'anc_14001_pull',[App\Http\Controllers\PPFSController::class, 'anc_14001_pull'])->name('claim.anc_14001_pull');//
@@ -1976,6 +1993,8 @@ Route::match(['get','post'],'six_pull_b',[App\Http\Controllers\SixteenController
 Route::match(['get','post'],'six_pull_c',[App\Http\Controllers\SixteenController::class, 'six_pull_c'])->name('data.six_pull_c');//
 Route::match(['get','post'],'six_pull_d',[App\Http\Controllers\SixteenController::class, 'six_pull_d'])->name('data.six_pull_d');//
 Route::match(['get','post'],'six_send',[App\Http\Controllers\SixteenController::class, 'six_send'])->name('data.six_send');//
+
+Route::match(['get','post'],'sixquery',[App\Http\Controllers\SixqueryController::class, 'sixquery'])->name('data.sixquery');//
 
 Route::match(['get','post'],'ofc',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc'])->name('data.ofc');//
 Route::match(['get','post'],'ofc_pull_a',[App\Http\Controllers\Ofcopd401Controller::class, 'ofc_pull_a'])->name('data.ofc_pull_a');//

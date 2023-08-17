@@ -161,7 +161,164 @@ class ApiController extends Controller
             $data_api 
         ]);
     }
+
+    public function adp(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ($startdate == '') {
+            $adp_api = DB::connection('mysql3')->select('
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
+                    from (SELECT v.hn HN
+                    ,if(v.an is null,"",v.an) AN
+                    ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE
+                    ,sum(v.QTY) QTY
+                    ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ
+                    ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC
+                    ,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP
+                    ,(SELECT "01" from dtemp_hosucep where an = v.an and icode = v.icode and rxdate = v.rxdate and rxtime = v.rxtime  limit 1) SP_ITEM
+                    from opitemrece v
+                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    left join ipt i on i.an = v.an
+                    AND i.an is not NULL
+                
+                    WHERE v.vstdate = CURDATE() 
+                    AND n.icode <> "XXXXXX"
+                    GROUP BY i.vn,n.nhso_adp_code,rate) a
+                    GROUP BY an,CODE,rate
+                    
+                    UNION
+
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+                    from
+                    (SELECT v.hn HN
+                    ,if(v.an is null,"",v.an) AN
+                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE
+                    ,sum(v.QTY) QTY
+                    ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+                    from opitemrece v
+                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    left join ipt i on i.an = v.an
+                    
+                    WHERE v.vstdate = CURDATE()  
+                    AND n.icode <> "XXXXXX"
+                    AND i.an is NULL
+                    GROUP BY v.vn,n.nhso_adp_code,rate) b
+                    GROUP BY seq,CODE,rate;
+            ');
+           
+        } else {
+            $adp_api = DB::connection('mysql3')->select('
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" "" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,SP_ITEM
+                    from (SELECT v.hn HN
+                    ,if(v.an is null,"",v.an) AN
+                    ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE
+                    ,sum(v.QTY) QTY
+                    ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ
+                    ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC
+                    ,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP
+                    ,(SELECT "01" from dtemp_hosucep where an = v.an and icode = v.icode and rxdate = v.rxdate and rxtime = v.rxtime  limit 1) SP_ITEM
+                    from opitemrece v
+                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    left join ipt i on i.an = v.an
+                    AND i.an is not NULL
+                
+                    WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                    AND n.icode <> "XXXXXX"
+                    GROUP BY i.vn,n.nhso_adp_code,rate) a
+                    GROUP BY an,CODE,rate
+                    
+                    UNION
+
+                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8,"" TMLTCODE
+                    ,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+                    from
+                    (SELECT v.hn HN
+                    ,if(v.an is null,"",v.an) AN
+                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE
+                    ,sum(v.QTY) QTY
+                    ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ,"" a1,"" a2,"" a3,"" a4,"0" a5,"" a6,"0" a7 ,"" a8
+                    ,"" TMLTCODE,"" STATUS1,"" BI,"" CLINIC,"" ITEMSRC,"" PROVIDER,"" GLAVIDA,"" GA_WEEK,"" DCIP,"0000-00-00" LMP,"" SP_ITEM
+                    from opitemrece v
+                    inner JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    left join ipt i on i.an = v.an
+                    
+                    WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                    AND n.icode <> "XXXXXX"
+                    AND i.an is NULL
+                    GROUP BY v.vn,n.nhso_adp_code,rate) b
+                    GROUP BY seq,CODE,rate;
+            ');
+           
+        }        
+        
+        return response([$query_ucep,$adp_api]);
+
+    }
+    public function ucep(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ($startdate == '') {
+            $query_ucep = DB::connection('mysql3')->select('
+                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
+                        ,concat(p.pname," ",p.fname," ", p.lname) as ptname
+                        ,a.pdx ,g.er_screen,ee.er_emergency_level_name
+                        from ovst o
+                        left outer join an_stat a on a.an = o.an
+                        left outer join spclty s on s.spclty=o.spclty
+                        left outer join patient p on o.hn=p.hn
+                        left outer join er_regist g on g.vn=o.vn
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
+                        left outer join pttype pt on pt.pttype = a.pttype
+                        where a.dchdate = CURDATE() 
+                        AND g.er_emergency_level_id IN("1","2")
+                        AND o.an <>"" and pt.hipdata_code ="UCS"
+                        group by o.vn;
+            ');
+        } else {
+            $query_ucep = DB::connection('mysql3')->select('
+                SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
+                        ,concat(p.pname," ",p.fname," ", p.lname) as ptname
+                        ,a.pdx ,g.er_screen,ee.er_emergency_level_name
+                        from ovst o
+                        left outer join an_stat a on a.an = o.an
+                        left outer join spclty s on s.spclty=o.spclty
+                        left outer join patient p on o.hn=p.hn
+                        left outer join er_regist g on g.vn=o.vn
+                        left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
+                        left outer join pttype pt on pt.pttype = a.pttype
+                        where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        AND g.er_emergency_level_id IN("1","2")
+                        AND o.an <>"" and pt.hipdata_code ="UCS"
+                        group by o.vn;
+            ');
+        }        
+        
+        return response([$query_ucep]);
+
+    }
 }
+
+
 
 
 

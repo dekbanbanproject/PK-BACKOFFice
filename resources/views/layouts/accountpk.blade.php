@@ -388,6 +388,15 @@
                             </ul>
                         </li>
                         <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
+                                <span>ใบเสร็จรับเงิน</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="{{ url('uprep_money') }}">ลงใบเสร็จรับเงิน</a></li> 
+                            </ul>
+                        </li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-line text-info"></i>
                                 <span>STM report</span>
@@ -403,7 +412,9 @@
                                 <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('aset_trimart') }}">ไตรมาส</a></li> 
                                 <li><a href="{{ url('acc_setting') }}">Mapping Pttype</a></li>
+
                             </ul>
                         </li>
                         {{-- <li>
@@ -532,8 +543,13 @@
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
 
+    <script type="text/javascript" src="{{ asset('acccph/vendors/@chenfengyuan/datepicker/dist/datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/vendors/daterangepicker/daterangepicker.js') }}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/datepicker.js') }}"></script>
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">

@@ -768,6 +768,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\SendreportController' => __DIR__ . '/../..' . '/app/Http/Controllers/SendreportController.php',
         'App\\Http\\Controllers\\ServeController' => __DIR__ . '/../..' . '/app/Http/Controllers/ServeController.php',
         'App\\Http\\Controllers\\SettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/SettingController.php',
+        'App\\Http\\Controllers\\SixqueryController' => __DIR__ . '/../..' . '/app/Http/Controllers/SixqueryController.php',
         'App\\Http\\Controllers\\SixteenController' => __DIR__ . '/../..' . '/app/Http/Controllers/SixteenController.php',
         'App\\Http\\Controllers\\SssController' => __DIR__ . '/../..' . '/app/Http/Controllers/SssController.php',
         'App\\Http\\Controllers\\StaticController' => __DIR__ . '/../..' . '/app/Http/Controllers/StaticController.php',

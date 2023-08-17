@@ -100,16 +100,41 @@ class SixteenController extends Controller
             Dtemp_hosucep::truncate();
             D_ins::where('user_id','=',$iduser)->delete();
             Tempexport::where('user_id','=',$iduser)->delete();
-            D_adp::where('user_id','=',$iduser)->delete(); 
+            D_adp::where('user_id','=',$iduser)->delete();
+            // $query_ = DB::connection('mysql')->select('SELECT d_query_name FROM d_query WHERE d_query_id = 1');
+            // $query_ = DB::table('d_query')->where('d_query_id','=',$d_query_id)->first();
+            // $query_2 = $query_->d_query_detail;
+            
             D_opd::where('user_id','=',$iduser)->delete();
             D_oop::where('user_id','=',$iduser)->delete();
             D_orf::where('user_id','=',$iduser)->delete();
+
             D_odx::where('user_id','=',$iduser)->delete();
             D_dru::where('user_id','=',$iduser)->delete();
             D_idx::where('user_id','=',$iduser)->delete();
             D_ipd::where('user_id','=',$iduser)->delete();
             D_irf::where('user_id','=',$iduser)->delete();
-           
+            // dd($query_2);
+            // D_aer::truncate();
+            // D_iop::truncate();
+            // D_pat::truncate();
+            // D_cht::truncate();
+            // D_cha::truncate();
+            // dd($query_2); 
+            // $query_2 = file('D:\UCAuthenticationMX\nhso_token.txt', FILE_SKIP_EMPTY_LINES|FILE_IGNORE_NEW_LINES);
+            // foreach($query_2 as $line) {  
+            // }
+            // $chars = preg_split('//', $query_2, -1, PREG_SPLIT_NO_EMPTY);
+          
+            // dd($chars); 
+            // foreach ($query_ as $key => $value) {
+            //     $query_2 = $value->d_query_name;
+                // $query = DB::connection('mysql11')->select($value->d_query_name);
+                // $query = DB::connection('mysql3')->select(
+                //     $query_2
+                // );
+            // }
+            
             // dd($query);
             $query = DB::connection('mysql3')->select('
                 SELECT o.vn,o.an,o.hn,p.cid,o.vstdate,o.pttype
@@ -127,7 +152,8 @@ class SixteenController extends Controller
                         AND o.an <>"" and pt.hipdata_code ="UCS"
                         group by o.vn;
             ');
-         
+            // dd($query);
+            // inner join claim.dtemp_hosucep zz on zz.an = o.an
             foreach ($query as $va2) {
                 $date = date('Y-m-d');                
                 $add = new D_export_ucep; 
@@ -192,7 +218,7 @@ class SixteenController extends Controller
                     LEFT JOIN pttype p on p.pttype = v.pttype
                     LEFT JOIN ipt i on i.vn = v.vn
                     LEFT JOIN patient pt on pt.hn = v.hn
-                    WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                    
+                    WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                    
             ');
             // LEFT JOIN d_export_ucep x on x.vn = v.vn
             //         where x.active="N";
@@ -216,11 +242,11 @@ class SixteenController extends Controller
                     ,"0100" REFERTYPE
                     ,v.vn SEQ 
                     from vn_stat v
-                    LEFT JOIN ipt i on i.vn = v.vn
                     LEFT JOIN ovst o on o.vn = v.vn
                     LEFT JOIN referin r1 on r1.vn = v.vn
                     LEFT JOIN referout r2 on r2.vn = v.vn
-                    WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                   
+                    WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                  
                     and (r1.vn is not null or r2.vn is not null);
             ');
             // LEFT JOIN d_export_ucep x on x.vn = v.vn
@@ -246,12 +272,11 @@ class SixteenController extends Controller
                     ,pt.cid PERSON_ID
                     ,v.vn SEQ 
                     from vn_stat v
-                    LEFT JOIN ipt i on i.vn = v.vn
                     LEFT JOIN ovstdiag o on o.vn = v.vn
                     LEFT JOIN patient pt on v.hn=pt.hn
                     LEFT JOIN doctor d on d.`code` = o.doctor
-                    LEFT JOIN icd9cm1 ic on ic.code = o.icd10
-                    WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                    LEFT JOIN icd9cm1 i on i.code = o.icd10
+                    WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
             ');
             foreach ($data_oop as $va6) {
                 $addoop = new D_oop;  
@@ -278,11 +303,10 @@ class SixteenController extends Controller
                     ,v.cid PERSON_ID
                     ,v.vn SEQ 
                     from vn_stat v
-                    LEFT JOIN ipt i on i.vn = v.vn
                     LEFT JOIN ovstdiag o on o.vn = v.vn
                     LEFT JOIN doctor d on d.`code` = o.doctor
-                    LEFT JOIN icd101 ic on ic.code = o.icd10
-                    WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                    LEFT JOIN icd101 i on i.code = o.icd10
+                    WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
             ');
             foreach ($data_odx as $va5) {
                 $adddx = new D_odx;  
@@ -323,7 +347,7 @@ class SixteenController extends Controller
                     LEFT JOIN drugitems d on d.icode = v.icode
                     LEFT JOIN vn_stat vv on vv.vn = v.vn
                     LEFT JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-                    LEFT JOIN ipt i on i.vn = v.vn
+                   
                     where vv.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                     and d.did is not null
                     GROUP BY v.vn,did

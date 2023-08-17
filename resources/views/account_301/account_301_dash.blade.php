@@ -142,7 +142,7 @@
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
                                                 SELECT sum(debit_total) as debit_total,count(vn) as Cvit
-                                                        from acc_1102050101_401
+                                                        from acc_1102050101_301
                                                         WHERE month(vstdate) = "'.$item->months.'"
                                                         and year(vstdate) = "'.$item->year.'"
                                             ');
@@ -155,7 +155,7 @@
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select('
                                                     SELECT count(DISTINCT a.vn) as Apvit ,sum(au.pricereq_all) as pricereq_all
-                                                        FROM acc_1102050101_401 a
+                                                        FROM acc_1102050101_301 a
                                                         LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate
                                                         WHERE year(a.vstdate) = "'.$item->year.'"
                                                         AND month(a.vstdate) = "'.$item->months.'"
@@ -176,7 +176,7 @@
                                                 // สีส้ม ยกยอดไป
                                                 $sumyokma_ = DB::select('
                                                     SELECT count(DISTINCT vn) as anyokma ,sum(debit_total) as debityokma
-                                                            FROM acc_1102050101_401
+                                                            FROM acc_1102050101_301
                                                             WHERE year(vstdate) = "'.$item->year.'"
                                                             AND month(vstdate) = "'.$item->months.'"
                                                             AND status ="N"
@@ -188,7 +188,7 @@
                                                 $mo = $item->months;
                                                 $sumyokma_all_ = DB::select('
                                                     SELECT count(DISTINCT U1.vn) as anyokma ,sum(U1.debit_total) as debityokma
-                                                            FROM acc_1102050101_401 U1
+                                                            FROM acc_1102050101_301 U1
                                                             LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
                                                             WHERE U1.status ="N"
                                                             AND month(U1.vstdate) < "'.$mo.'"
@@ -208,7 +208,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-3 text-end mt-2 me-4">
-                                                <a href="{{url('account_401_pull')}}" target="_blank">
+                                                <a href="{{url('account_301_pull')}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                         <h6 class="text-end">{{$count_N}} Visit</h6>
                                                     </div>
@@ -248,7 +248,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_401_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_301_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
@@ -269,7 +269,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_401_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_301_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
                                                                 {{ number_format($amountpay, 2) }}
@@ -291,7 +291,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_401_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_301_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma}} Visit">
                                                                 {{ number_format($total_yokma, 2) }}
@@ -313,7 +313,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-4">
-                                                <a href="{{url('account_401_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_301_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma_all}} Visit">
                                                                 {{ number_format($total_yokma_all, 2) }}

@@ -45,6 +45,9 @@ use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
+use App\Models\Acc_stm_repmoney;
+use App\Models\Acc_stm_repmoney_file;
+use App\Models\Acc_trimart;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -7968,6 +7971,35 @@ class AccountPKController extends Controller
             'status'     => '200',
         ]);
     }
+
+    public function aset_trimart(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('SELECT * from acc_trimart');
+        $data['trimart'] = DB::table('acc_trimart')->get();
+         return view('account_pk.aset_trimart',$data,[
+            'datashow'      =>     $datashow,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+         ]);
+    }
+    public function aset_trimart_save(Request $request)
+    { 
+        $name_ = Acc_trimart::where('acc_trimart_start',$request->acc_trimart_start)->where('active','=','Y')->first();
+        $add = new Acc_trimart();
+        $add->acc_trimart_code = $name_->acc_trimart_id;
+        $add->acc_trimart_name = $name_->acc_trimart_name;
+        $add->acc_trimart_start_date = $request->input('acc_trimart_start_date');
+        $add->acc_trimart_end_date = $request->input('acc_trimart_end_date');
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+
+   
 
 
 }
