@@ -132,7 +132,7 @@
                 <p class="card-title-desc">รายละเอียดข้อมูล ลงรับใบเสร็จ</p>
             </div>
             <div class="col"></div>
-            <div class="col-md-1 text-end mt-2">วันที่</div>
+            {{-- <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-3 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -142,12 +142,12 @@
                         data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                         data-date-language="th-th" value="{{ $enddate }}" required/>  
                 </div> 
-            </div>
+            </div> --}}
             <div class="col-md-2 text-start">
-                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                     <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                     ค้นหา
-                </button> 
+                </button>  --}}
                 <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   
                     <i class="fa-solid fa-file-invoice-dollar text-primary me-2"></i>
@@ -194,7 +194,7 @@
                                                             <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
                                                             <label for="" style="font-size:12px;color: rgb(255, 185, 34)">แก้ไข</label>
                                                         </button>
-                                                        <div class="dropdown-divider"></div> 
+                                                        {{-- <div class="dropdown-divider"></div>  --}}
                                                         {{-- <button type="button"class="dropdown-item menu addFileModal" value="{{ $item->acc_trimart_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แนบไฟล์">
                                                             <i class="fa-solid fa-clipboard-check ms-2 me-2 text-primary"></i>
                                                             <label for="" style="font-size:12px;color: rgb(40, 87, 241)">แนบไฟล์</label>
@@ -222,7 +222,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">ลงใบเสร็จรับเงิน</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">เพิ่มไตรมาส</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
@@ -234,8 +234,8 @@
                             <div class="input-group input-group-sm"> 
                                 <select name="acc_trimart_start" id="acc_trimart_start" class="form-select form-control" style="width: 100%">
                                     <option value="">เลือก</option>
-                                    @foreach ($trimart as $item)
-                                        <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}}</option>
+                                    @foreach ($acc_trimart_liss as $item)
+                                        <option value="{{$item->acc_trimart_liss_id}}">{{$item->acc_trimart_liss_start}} - {{$item->acc_trimart_liss_end}} </option>
                                     @endforeach
                                 </select> 
                             </div>
@@ -268,61 +268,47 @@
     </div>
 
     <!-- Update Modal -->
-    {{-- <div class="modal fade" id="editModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">แก้ไขใบเสร็จรับเงิน</h5>
+                    <h5 class="modal-title" id="editModalLabel">แก้ไขไตรมาส</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="acc_stm_repmoney_tri" class="form-label">ไตรมาส</label>
+                        <div class="col-md-12">
+                            <label for="acc_trimart_start" class="form-label">ไตรมาส</label>
                             <div class="input-group input-group-sm"> 
-                                <select name="acc_stm_repmoney_tri" id="editacc_stm_repmoney_tri" class="form-control" style="width: 100%">
+                                <select name="acc_trimart_start" id="editacc_trimart_start" class="form-select form-control" style="width: 100%">
                                     <option value="">เลือก</option>
-                                    @foreach ($trimart as $item)
-                                        <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_start}} - {{$item->acc_trimart_end}}</option>
+                                    @foreach ($acc_trimart_liss as $item)
+                                        <option value="{{$item->acc_trimart_liss_id}}">{{$item->acc_trimart_liss_start}} - {{$item->acc_trimart_liss_end}} </option>
                                     @endforeach
                                 </select> 
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="acc_stm_repmoney_book" class="form-label">เล่มใบเสร็จ</label>
-                            <div class="input-group input-group-sm"> 
-                                <input type="text" class="form-control" id="editacc_stm_repmoney_book" name="acc_stm_repmoney_book">
-                            </div>
-                        </div>
+                        </div> 
                     </div>
-
+ 
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="acc_stm_repmoney_no" class="form-label">เลขที่ใบเสร็จ</label>
+                            <label for="acc_trimart_start_date" class="form-label">วันที่เริ่ม</label>
                             <div class="input-group input-group-sm"> 
-                                <input type="text" class="form-control" id="editacc_stm_repmoney_no" name="acc_stm_repmoney_no">
+                                <input type="date" class="form-control" id="editacc_trimart_start_date" name="acc_trimart_start_date">  
                             </div>
-                        </div>
+                        </div> 
                         <div class="col-md-6">
-                            <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย</label>
+                            <label for="acc_trimart_end_date" class="form-label">วันที่เริ่มสิ้นสุด</label>
                             <div class="input-group input-group-sm"> 
-                                <input type="text" class="form-control" id="editacc_stm_repmoney_price" name="acc_stm_repmoney_price">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="acc_stm_repmoney_date" class="form-label">วันที่ลงรับ</label>
-                            <div class="input-group input-group-sm"> 
-                                <input type="date" class="form-control" id="editacc_stm_repmoney_date" name="acc_stm_repmoney_date"> 
+                                <input type="date" class="form-control" id="editacc_trimart_end_date" name="acc_trimart_end_date">  
                             </div>
                         </div> 
                     </div> 
+                    
                     <input type="hidden" name="user_id" id="edituser_id"> 
-                    <input type="hidden" name="acc_stm_repmoney_id" id="editacc_stm_repmoney_id"> 
+                    <input type="hidden" name="acc_trimart_id" id="editacc_trimart_id"> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
@@ -331,7 +317,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
  
 
 @endsection
@@ -400,20 +386,21 @@
                     });
             }); 
             $('#Updatedata').click(function() {
-                    var acc_stm_repmoney_tri = $('#editacc_stm_repmoney_tri').val();
-                    var acc_stm_repmoney_book = $('#editacc_stm_repmoney_book').val();
-                    var acc_stm_repmoney_no = $('#editacc_stm_repmoney_no').val();
-                    var acc_stm_repmoney_price = $('#editacc_stm_repmoney_price').val();
-                    var acc_stm_repmoney_date = $('#editacc_stm_repmoney_date').val();
+                    var acc_trimart_start_date = $('#editacc_trimart_start_date').val();
+                    var acc_trimart_code = $('#editacc_trimart_start').val();
+                    var acc_trimart_end_date = $('#editacc_trimart_end_date').val();
+                    // var acc_stm_repmoney_price = $('#editacc_stm_repmoney_price').val();
+                    // var acc_stm_repmoney_date = $('#editacc_stm_repmoney_date').val();
                     var user_id = $('#edituser_id').val();
-                    var acc_stm_repmoney_id = $('#editacc_stm_repmoney_id').val();
+                    var acc_trimart_id = $('#editacc_trimart_id').val();
 
                     $.ajax({
-                        url: "{{ route('acc.uprep_money_update') }}",
+                        url: "{{ route('acc.aset_trimart_update') }}",
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            acc_stm_repmoney_tri,acc_stm_repmoney_book,acc_stm_repmoney_no,acc_stm_repmoney_price,acc_stm_repmoney_date,user_id,acc_stm_repmoney_id
+                            acc_trimart_start_date,acc_trimart_code,acc_trimart_end_date
+                            ,acc_trimart_id,user_id
                         },
                         success: function(data) {
                             if (data.status == 200) {
@@ -442,140 +429,61 @@
         });
 
         $(document).on('click', '.editModal', function() {
-            var acc_stm_repmoney_id = $(this).val();
-            // alert(acc_stm_repmoney_id);
+            var acc_trimart_id = $(this).val();
+            // alert(acc_trimart_id);
             $('#editModal').modal('show');
             $.ajax({
                 type: "GET",
-                url: "{{ url('uprep_money_edit') }}" + '/' + acc_stm_repmoney_id,
+                url: "{{ url('aset_trimart_edit') }}" + '/' + acc_trimart_id,
                 success: function(data) {
-                    console.log(data.data_show.acc_stm_repmoney_id);
-                    $('#editacc_stm_repmoney_tri').val(data.data_show.acc_stm_repmoney_tri)
-                    $('#editacc_stm_repmoney_book').val(data.data_show.acc_stm_repmoney_book)
-                    $('#editacc_stm_repmoney_no').val(data.data_show.acc_stm_repmoney_no)
-                    $('#editacc_stm_repmoney_price').val(data.data_show.acc_stm_repmoney_price)
-                    $('#editacc_stm_repmoney_date').val(data.data_show.acc_stm_repmoney_date)
+                    console.log(data.data_show.acc_trimart_id);
+                    $('#editacc_trimart_start_date').val(data.data_show.acc_trimart_start_date)
+                    $('#editacc_trimart_start').val(data.data_show.acc_trimart_code)
+                    $('#editacc_trimart_end_date').val(data.data_show.acc_trimart_end_date)
+                    // $('#editacc_stm_repmoney_price').val(data.data_show.acc_stm_repmoney_price)
+                    // $('#editacc_stm_repmoney_date').val(data.data_show.acc_stm_repmoney_date)
                     $('#edituser_id').val(data.data_show.user_id)
-                    $('#editacc_stm_repmoney_id').val(data.data_show.acc_stm_repmoney_id)
+                    $('#editacc_trimart_id').val(data.data_show.acc_trimart_id)
                 },
             });
         });
     
-        $('#SaveFileModal').on('submit', function(e) {
-            e.preventDefault();
-            var form = this;
-            // alert('OJJJJOL');
-            $.ajax({
-                url: $(form).attr('action'),
-                method: $(form).attr('method'),
-                data: new FormData(form),
-                processData: false,
-                dataType: 'json',
-                contentType: false,
-                beforeSend: function() {
-                    $(form).find('span.error-text').text('');
-                },
-                success: function(data) {
-                    if (data.status == 200) {
-                        Swal.fire({
-                            title: 'Up File สำเร็จ',
-                            text: "You Up File data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            // cancelButtonColor: '#d33',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.reload();
-                            }
-                        })
+        // $('#SaveFileModal').on('submit', function(e) {
+        //     e.preventDefault();
+        //     var form = this;
+        //     // alert('OJJJJOL');
+        //     $.ajax({
+        //         url: $(form).attr('action'),
+        //         method: $(form).attr('method'),
+        //         data: new FormData(form),
+        //         processData: false,
+        //         dataType: 'json',
+        //         contentType: false,
+        //         beforeSend: function() {
+        //             $(form).find('span.error-text').text('');
+        //         },
+        //         success: function(data) {
+        //             if (data.status == 200) {
+        //                 Swal.fire({
+        //                     title: 'Up File สำเร็จ',
+        //                     text: "You Up File data success",
+        //                     icon: 'success',
+        //                     showCancelButton: false,
+        //                     confirmButtonColor: '#06D177',
+        //                     // cancelButtonColor: '#d33',
+        //                     confirmButtonText: 'เรียบร้อย'
+        //                 }).then((result) => {
+        //                     if (result.isConfirmed) {
+        //                         window.location.reload();
+        //                     }
+        //                 })
 
-                    } else {
+        //             } else {
                         
-                    }
-                }
-            });
-        });
+        //             }
+        //         }
+        //     });
+        // });
     </script>
-
-<script>
-    
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "{{ asset('pdfupload/pdf_upwork.js') }}";
-
-    document.querySelector("#pdfupload").addEventListener("change", function(e){
-    document.querySelector("#pages").innerHTML = "";
-
-        var file = e.target.files[0]
-        if(file.type != "application/pdf"){
-            alert(file.name + " is not a pdf file.")
-            return
-        }
-        
-	var fileReader = new FileReader();  
-
-	fileReader.onload = function() {
-		var typedarray = new Uint8Array(this.result);
-    
-		pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
-
-			// you can now use *pdf* here
-			console.log("the pdf has", pdf.numPages, "page(s).");
-            
-      for (var i = 0; i < pdf.numPages; i++) {
-        (function(pageNum){
-                pdf.getPage(i+1).then(function(page) {
-                // you can now use *page* here
-                var viewport = page.getViewport(2.0);
-                var pageNumDiv = document.createElement("div");
-                pageNumDiv.className = "pageNumber";
-                pageNumDiv.innerHTML = "Page " + pageNum;
-                var canvas = document.createElement("canvas");
-                canvas.className = "page";
-                canvas.title = "Page " + pageNum;
-                document.querySelector("#pages").appendChild(pageNumDiv);
-                document.querySelector("#pages").appendChild(canvas);
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                page.render({
-                    canvasContext: canvas.getContext('2d'),
-                    viewport: viewport
-                }).promise.then(function(){
-                    console.log('Page rendered');
-                });
-                page.getTextContent().then(function(text){
-                    console.log(text);
-                });
-                });
-                })(i+1);
-            }
-		});
-	};
-    
- 	fileReader.readAsArrayBuffer(file);
-   });
-   var curWidth = 90;
-    function zoomIn(){
-        if (curWidth < 150) {
-            curWidth += 10;
-            document.querySelector("#zoom-percent").innerHTML = curWidth;
-            document.querySelectorAll(".page").forEach(function(page){
-
-                page.style.width = curWidth + "%";
-            });
-        }
-    }
-    function zoomOut(){
-        if (curWidth > 20) {
-            curWidth -= 10;
-            document.querySelector("#zoom-percent").innerHTML = curWidth;
-            document.querySelectorAll(".page").forEach(function(page){
-
-                page.style.width = curWidth + "%";
-            });
-        }
-    }
-     
-
-</script>
+ 
 @endsection

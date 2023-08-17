@@ -7978,6 +7978,7 @@ class AccountPKController extends Controller
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('SELECT * from acc_trimart');
         $data['trimart'] = DB::table('acc_trimart')->get();
+        $data['acc_trimart_liss'] = DB::table('acc_trimart_liss')->get();
          return view('account_pk.aset_trimart',$data,[
             'datashow'      =>     $datashow,
             'startdate'     =>     $startdate,
@@ -7988,11 +7989,37 @@ class AccountPKController extends Controller
     { 
         $name_ = Acc_trimart::where('acc_trimart_code',$request->acc_trimart_start)->where('active','=','Y')->first();
         $add = new Acc_trimart();
-        $add->acc_trimart_code = $name_->acc_trimart_code;
-        $add->acc_trimart_name = $name_->acc_trimart_name;
-        $add->acc_trimart_start_date = $request->input('acc_trimart_start_date');
-        $add->acc_trimart_end_date = $request->input('acc_trimart_end_date');
+        $add->acc_trimart_code        = $name_->acc_trimart_code;
+        $add->acc_trimart_name        = $name_->acc_trimart_name;
+        $add->acc_trimart_start_date  = $request->input('acc_trimart_start_date');
+        $add->acc_trimart_end_date    = $request->input('acc_trimart_end_date');
         $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+
+    public function aset_trimart_edit(Request $request,$id)
+    {
+        $data_show = Acc_trimart::find($id);
+        return response()->json([
+            'status'               => '200', 
+            'data_show'            =>  $data_show,
+        ]);
+    }
+
+    public function aset_trimart_update(Request $request)
+    { 
+        $name_ = Acc_trimart::where('acc_trimart_code',$request->acc_trimart_code)->where('active','=','Y')->first();
+        $id = $request->input('acc_trimart_id');
+        
+        $update = Acc_trimart::find($id);
+        $update->acc_trimart_code       = $name_->acc_trimart_code;
+        $update->acc_trimart_name       = $name_->acc_trimart_name;
+        $update->acc_trimart_start_date = $request->input('acc_trimart_start_date');
+        $update->acc_trimart_end_date   = $request->input('acc_trimart_end_date');
+        $update->save();
 
         return response()->json([
             'status'     => '200',
