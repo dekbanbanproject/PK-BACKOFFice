@@ -100,45 +100,89 @@ class Account301Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $data_trimart = DB::table('acc_trimart')->get();
+        // $data_ = DB::table('acc_trimart')->where('acc_trimart_code','=','1')->first();
+        $data_ = DB::table('acc_trimart')->first();
+        // dd($data_trimart);
+        
+        // foreach ($data_trimart as $value) {
+        //     // dd($value->acc_trimart_start_date);
+        //     // if ($value->acc_trimart_code = 1) {
+        //       $da = $value->acc_trimart_name;
 
-        if ($startdate == '') {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                    and account_code="1102050101.301"
-                    and income <> 0
-                    group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
-            ');
+            //   dd($da);
+                // $datashow = DB::select(' 
+                //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                //         ,count(distinct a.hn) as hn
+                //         ,count(distinct a.vn) as vn
+                //         ,sum(a.paid_money) as paid_money
+                //         ,sum(a.income) as income
+                //         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                //         FROM acc_debtor a
+                //         left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                //         WHERE a.vstdate between "'.$value->acc_trimart_start_date.'" and "'.$value->acc_trimart_end_date.'"
+                //         and account_code="1102050101.301"
+                //         group by month(a.vstdate) 
+                // ');
+                // dd($datashow);
+            // } else {
+            //     # code...
+            // }
+            
+                //   $datashow = DB::select(' 
+                //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                //         ,count(distinct a.hn) as hn
+                //         ,count(distinct a.vn) as vn
+                //         ,sum(a.paid_money) as paid_money
+                //         ,sum(a.income) as income
+                //         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                //         FROM acc_debtor a
+                //         left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                //         WHERE a.vstdate between "2023-01-01" and "2023-06-30"
+                //         and account_code="1102050101.301"
+                //         group by month(a.vstdate) 
+                // ');
+                
+        // }
+        // dd($da);
+        // if ($startdate == '') {
+        //     $datashow = DB::select('
+        //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+        //             ,count(distinct a.hn) as hn
+        //             ,count(distinct a.vn) as vn
+        //             ,sum(a.paid_money) as paid_money
+        //             ,sum(a.income) as income
+        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+        //             FROM acc_debtor a
+        //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+        //             WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
+        //             and account_code="1102050101.301"
+        //             and income <> 0
+        //             group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
+        //     ');
 
-        } else {
-            $datashow = DB::select('
-                SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income) as income
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.301"
-                    and income <>0
-                    group by month(a.vstdate) order by month(a.vstdate) desc;
-            ');
-        }
+        // } else {
+        //     $datashow = DB::select('
+        //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+        //             ,count(distinct a.hn) as hn
+        //             ,count(distinct a.vn) as vn
+        //             ,sum(a.paid_money) as paid_money
+        //             ,sum(a.income) as income
+        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+        //             FROM acc_debtor a
+        //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+        //             WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+        //             and account_code="1102050101.301"
+        //             and income <>0
+        //             group by month(a.vstdate) order by month(a.vstdate) desc;
+        //     ');
+        // }
 
         return view('account_301.account_301_dash',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
             'leave_month_year' => $leave_month_year,
-            'datashow'         => $datashow,
+            'data_trimart'     => $data_trimart,
             'newyear'          => $newyear,
             'date'             => $date,
         ]);
