@@ -7986,7 +7986,7 @@ class AccountPKController extends Controller
     }
     public function aset_trimart_save(Request $request)
     { 
-        $name_ = Acc_trimart::where('acc_trimart_start',$request->acc_trimart_start)->where('active','=','Y')->first();
+        $name_ = Acc_trimart::where('acc_trimart_code',$request->acc_trimart_start)->where('active','=','Y')->first();
         $add = new Acc_trimart();
         $add->acc_trimart_code = $name_->acc_trimart_id;
         $add->acc_trimart_name = $name_->acc_trimart_name;
