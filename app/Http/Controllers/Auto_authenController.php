@@ -441,14 +441,20 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
             FROM check_authen   
-            WHERE vstdate = CURDATE()
+            WHERE vstdate = "2023-08-16"
             AND claimtype <> "PG0130001"      
         '); 
+        // CURDATE()
         foreach ($data_ as $key => $value) {   
-             $count = Check_sit_auto::where('claimcode','=',$value->claimcode)->count(); 
-             if ($count>0) {
-                # code...
-             } else {
+            //  $count = Check_sit_auto::where('claimcode','=',$value->claimcode)->count(); 
+            //  if ($count>0) {
+            //     Check_sit_auto::where('claimcode','=',$value->claimcode)->update([ 
+            //         'claimtype'       => $value->claimtype,
+            //         'servicerep'      => $value->servicerep,
+            //         'servicename'     => $value->servicename,
+            //         'authentication'  => $value->authentication,
+            //     ]);   
+            //  } else {
                 Check_sit_auto::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->update([
                     'claimcode'       => $value->claimcode,
                     'claimtype'       => $value->claimtype,
@@ -456,7 +462,7 @@ class Auto_authenController extends Controller
                     'servicename'     => $value->servicename,
                     'authentication'  => $value->authentication,
                 ]);   
-             }
+            //  }
              
              
         }
@@ -678,10 +684,10 @@ class Auto_authenController extends Controller
             AND claimtype = "PG0130001"      
         '); 
         foreach ($data_ as $key => $value) {   
-             $count = Check_sit_tiauto::where('claimcode','=',$value->claimcode)->count(); 
-             if ($count>0) {
-                # code...
-             } else {
+            //  $count = Check_sit_tiauto::where('claimcode','=',$value->claimcode)->count(); 
+            //  if ($count>0) {
+            //     # code...
+            //  } else {
                 Check_sit_tiauto::where('cid','=',$value->cid)->where('vstdate','=',$value->vstdate)->update([
                     'claimcode'       => $value->claimcode,
                     'claimtype'       => $value->claimtype,
@@ -689,7 +695,7 @@ class Auto_authenController extends Controller
                     'servicename'     => $value->servicename,
                     'authentication'  => $value->authentication,
                 ]);   
-             }
+            //  }
              
              
         }
