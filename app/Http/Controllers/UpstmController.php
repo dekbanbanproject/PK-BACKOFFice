@@ -44,9 +44,9 @@ class UpstmController extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('SELECT * FROM acc_stm_repmoney ar LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_stm_repmoney_tri ORDER BY acc_stm_repmoney_id DESC');
+        $datashow = DB::connection('mysql')->select('SELECT * FROM acc_stm_repmoney ar LEFT JOIN acc_trimart_liss a ON a.acc_trimart_liss_id = ar.acc_stm_repmoney_tri ORDER BY acc_stm_repmoney_id DESC');
         $countc = DB::table('acc_stm_ucs_excel')->count();
-        $data['trimart'] = DB::table('acc_trimart')->get();
+        $data['acc_trimart_liss'] = DB::table('acc_trimart_liss')->get();
         // $data['trimart'] = DB::table('acc_stm_repmoney_file')->->get();
 
         return view('account_pk.uprep_money',$data,[
@@ -112,10 +112,10 @@ class UpstmController extends Controller
             $add->filename             = $file_name;
         }
         $add->save();
-
-        return response()->json([
-            'status'    => '200' 
-        ]); 
+        return redirect()->route('acc.uprep_money');
+        // return response()->json([
+        //     'status'    => '200' 
+        // ]); 
     }
     public function uprepdestroy(Request $request,$id)
     {

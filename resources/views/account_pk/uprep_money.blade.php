@@ -181,7 +181,7 @@
                                     <?php $number++; ?> 
                                     <tr height="20">
                                         <td class="text-center" width="4%">{{ $number }}</td>
-                                        <td class="text-center" width="12%" > {{ $item->acc_trimart_start }} - {{ $item->acc_trimart_end }}</td> 
+                                        <td class="text-center" width="12%" > {{ $item->acc_trimart_liss_start }} - {{ $item->acc_trimart_liss_end }}</td> 
                                         <td class="text-center"> {{ $item->acc_stm_repmoney_book }}</td> 
                                         <td class="text-center"> {{ $item->acc_stm_repmoney_no }}</td> 
                                         <td class="text-center" width="15%" > {{ $item->acc_stm_repmoney_price }}</td> 
@@ -199,14 +199,96 @@
                                                             <label for="" style="font-size:12px;color: rgb(255, 185, 34)">แก้ไข</label>
                                                         </button>
                                                         <div class="dropdown-divider"></div> 
-                                                        <button type="button"class="dropdown-item menu addFileModal" value="{{ $item->acc_stm_repmoney_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แนบไฟล์">
+                                                        <button type="button"class="dropdown-item menu"  
+                                                            data-bs-toggle="modal" data-bs-target="#FileModal{{ $item->acc_stm_repmoney_id }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left" title="แนบไฟล์">
                                                             <i class="fa-solid fa-clipboard-check ms-2 me-2 text-primary"></i>
                                                             <label for="" style="font-size:12px;color: rgb(40, 87, 241)">แนบไฟล์</label>
                                                         </button> 
+                                                        {{-- <button type="button"class="dropdown-item menu addFileModal" value="{{ $item->acc_stm_repmoney_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แนบไฟล์">
+                                                            <i class="fa-solid fa-clipboard-check ms-2 me-2 text-primary"></i>
+                                                            <label for="" style="font-size:12px;color: rgb(40, 87, 241)">แนบไฟล์</label>
+                                                        </button>  --}}
+                                                        {{-- data-bs-toggle="modal" data-bs-target="#exampleModal" --}}
                                                 </div>
                                             </div>
                                         </td>
                                     </tr> 
+
+                                    <div class="modal fade" id="FileModal{{ $item->acc_stm_repmoney_id }}"  tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl" role="document">
+                                            <div class="modal-content ">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="addFileModalLabel">ไฟล์ใบเสร็จรับเงิน</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                
+                                                    <form action="{{ route('acc.uprep_money_updatefile') }}" method="POST" enctype="multipart/form-data"> 
+                                                        {{-- id="SaveFileModal" --}}
+                                                        @csrf
+                                                            <div class="row">
+                                                                <div class="col"></div>
+                                                                <div class="col-md-8">
+                                                                    <div class="mb-3 mt-2">
+                                                                        <label for="formFileLg" class="form-label">ไฟล์ใบเสร็จรับเงิน</label>
+                                                                        <input class="form-control form-control-lg" id="formFileLg" name="file"
+                                                                            type="file" required>
+                                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                <div class="col"></div>
+                                                            </div>
+                                
+                                
+                                                            <div class="row">
+                                                       
+                                                                <div class="col-md-12">
+                                                                    <div class="input-group text-center">  
+                                                                         
+                                                                            
+                                                                                    <?php 
+                                                                                    $data_file_ = DB::table('acc_stm_repmoney_file')->where('acc_stm_repmoney_id',$item->acc_stm_repmoney_id)->get();
+                                                                                    ?> 
+                                                                                        @foreach ($data_file_ as $item3) 
+                                                                                        
+                                                                                            <div id="sid{{ $item3->acc_stm_repmoney_file_id }}">
+                                                                                                <iframe src="{{ asset('storage/account/'.$item3->filename) }}" height="500px;" width="100%" ></iframe>  
+                                                                                                
+                                                                                                <a class="dropdown-item menu btn btn-outline-danger btn-sm"
+                                                                                                        href="javascript:void(0)"
+                                                                                                        onclick="uprepdestroy({{ $item3->acc_stm_repmoney_file_id }})"
+                                                                                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                                                                        data-bs-placement="top" title="ลบ">
+                                                                                                        <i class="fa-solid fa-trash-can text-danger me-2"></i>
+                                                                                                        <label for=""
+                                                                                                            style="color: rgb(212, 10, 3)">ลบ</label>
+                                                                                                    </a>
+                                                                                            </div>
+                                                                                        @endforeach
+                                                                                 
+                                                                             
+                                                                    </div>                            
+                                                                </div> 
+                                                            </div>
+                                 
+                                                    
+                                                    <input type="hidden" name="user_id" id="edituser_id"> 
+                                                    <input type="hidden" name="acc_stm_repmoney_id" id="acc_stm_repmoney_id" value="{{ $item->acc_stm_repmoney_id }}"> 
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                                        <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
+                                                    </button>
+                                                </div>
+                                
+                                            </form>
+                                
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endforeach
 
                             </tbody>
@@ -216,39 +298,7 @@
                 </div>
             </div> 
         </div>
-
-        {{-- <div class="row"> 
-            <div class="col"></div>
-            <div class="col-xl-10 col-md-6">
-                <div class="main-card mb-3 card">
-                    <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_ucs_excel') }}" method="POST" id="Upstm" enctype="multipart/form-data"> 
-                            @csrf
-
-                            <div class="row">
-                                <div class="col"></div>
-                                <div class="col-md-8">
-                                    <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM </label>
-                                        <input class="form-control form-control-lg" id="formFileLg" name="file"
-                                            type="file" required>
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    </div>
-                                   
-                                        <button type="submit"
-                                            class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
-                                            UP STM
-                                        </button> 
-                                </div>
-                                <div class="col"></div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col"></div>
-        </div>  --}}
+ 
 
     </div>
 
@@ -269,8 +319,8 @@
                             <div class="input-group input-group-sm"> 
                                 <select name="acc_stm_repmoney_tri" id="acc_stm_repmoney_tri" class="form-select form-control" style="width: 100%">
                                     <option value="">เลือก</option>
-                                    @foreach ($trimart as $item)
-                                        <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}}</option>
+                                    @foreach ($acc_trimart_liss as $item)
+                                        <option value="{{$item->acc_trimart_liss_id}}">{{$item->acc_trimart_liss_start}} - {{$item->acc_trimart_liss_end}}</option>
                                     @endforeach
                                 </select> 
                             </div>
@@ -335,8 +385,8 @@
                             <div class="input-group input-group-sm"> 
                                 <select name="acc_stm_repmoney_tri" id="editacc_stm_repmoney_tri" class="form-control" style="width: 100%">
                                     <option value="">เลือก</option>
-                                    @foreach ($trimart as $item)
-                                        <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}}</option>
+                                    @foreach ($acc_trimart_liss as $item)
+                                        <option value="{{$item->acc_trimart_liss_id}}">{{$item->acc_trimart_liss_start}} - {{$item->acc_trimart_liss_end}}</option>
                                     @endforeach
                                 </select> 
                             </div>
@@ -385,7 +435,7 @@
     </div>
 
     <!-- ADD File Modal -->
-    <div class="modal fade" id="addFileModal"  tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="addFileModal"  tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
@@ -457,7 +507,7 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
 @endsection
@@ -642,83 +692,5 @@
         });
     </script>
 
-<script>
-    
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "{{ asset('pdfupload/pdf_upwork.js') }}";
 
-    document.querySelector("#pdfupload").addEventListener("change", function(e){
-    document.querySelector("#pages").innerHTML = "";
-
-        var file = e.target.files[0]
-        if(file.type != "application/pdf"){
-            alert(file.name + " is not a pdf file.")
-            return
-        }
-        
-	var fileReader = new FileReader();  
-
-	fileReader.onload = function() {
-		var typedarray = new Uint8Array(this.result);
-    
-		pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
-
-			// you can now use *pdf* here
-			console.log("the pdf has", pdf.numPages, "page(s).");
-            
-      for (var i = 0; i < pdf.numPages; i++) {
-        (function(pageNum){
-                pdf.getPage(i+1).then(function(page) {
-                // you can now use *page* here
-                var viewport = page.getViewport(2.0);
-                var pageNumDiv = document.createElement("div");
-                pageNumDiv.className = "pageNumber";
-                pageNumDiv.innerHTML = "Page " + pageNum;
-                var canvas = document.createElement("canvas");
-                canvas.className = "page";
-                canvas.title = "Page " + pageNum;
-                document.querySelector("#pages").appendChild(pageNumDiv);
-                document.querySelector("#pages").appendChild(canvas);
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                page.render({
-                    canvasContext: canvas.getContext('2d'),
-                    viewport: viewport
-                }).promise.then(function(){
-                    console.log('Page rendered');
-                });
-                page.getTextContent().then(function(text){
-                    console.log(text);
-                });
-                });
-                })(i+1);
-            }
-		});
-	};
-    
- 	fileReader.readAsArrayBuffer(file);
-   });
-   var curWidth = 90;
-    function zoomIn(){
-        if (curWidth < 150) {
-            curWidth += 10;
-            document.querySelector("#zoom-percent").innerHTML = curWidth;
-            document.querySelectorAll(".page").forEach(function(page){
-
-                page.style.width = curWidth + "%";
-            });
-        }
-    }
-    function zoomOut(){
-        if (curWidth > 20) {
-            curWidth -= 10;
-            document.querySelector("#zoom-percent").innerHTML = curWidth;
-            document.querySelectorAll(".page").forEach(function(page){
-
-                page.style.width = curWidth + "%";
-            });
-        }
-    }
-     
-
-</script>
 @endsection
