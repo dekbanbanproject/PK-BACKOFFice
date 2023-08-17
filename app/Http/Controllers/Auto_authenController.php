@@ -441,7 +441,7 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT cid,vstdate,claimcode,claimtype,servicerep,servicename,authentication 
             FROM check_authen   
-            WHERE vstdate = "2023-08-16"
+            WHERE vstdate = CURDATE()
             AND claimtype <> "PG0130001"      
         '); 
         // CURDATE()
