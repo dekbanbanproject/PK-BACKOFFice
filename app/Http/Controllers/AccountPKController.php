@@ -7988,7 +7988,7 @@ class AccountPKController extends Controller
     { 
         $name_ = Acc_trimart::where('acc_trimart_code',$request->acc_trimart_start)->where('active','=','Y')->first();
         $add = new Acc_trimart();
-        $add->acc_trimart_code = $name_->acc_trimart_id;
+        $add->acc_trimart_code = $name_->acc_trimart_code;
         $add->acc_trimart_name = $name_->acc_trimart_name;
         $add->acc_trimart_start_date = $request->input('acc_trimart_start_date');
         $add->acc_trimart_end_date = $request->input('acc_trimart_end_date');
