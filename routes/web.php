@@ -136,6 +136,7 @@ Route::match(['get','post'],'check_authen_send',[App\Http\Controllers\ChecksitCo
 
 Route::match(['get','post'],'check_sit_day',[App\Http\Controllers\ChecksitController::class, 'check_sit_day'])->name('claim.check_sit_day');//
 Route::match(['get','post'],'check_sit_daysearch',[App\Http\Controllers\ChecksitController::class, 'check_sit_daysearch'])->name('claim.check_sit_daysearch');//
+Route::match(['get','post'],'check_authen_day',[App\Http\Controllers\ChecksitController::class, 'check_authen_day'])->name('claim.check_authen_day');//
 
 Route::match(['get','post'],'check_dashboard',[App\Http\Controllers\ChecksitController::class, 'check_dashboard'])->name('claim.check_dashboard');//
 Route::match(['get','post'],'check_dashboard_authen/{day}/{month}/{year}',[App\Http\Controllers\ChecksitController::class, 'check_dashboard_authen'])->name('claim.check_dashboard_authen');//

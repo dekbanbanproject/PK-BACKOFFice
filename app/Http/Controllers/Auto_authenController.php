@@ -87,7 +87,7 @@ class Auto_authenController extends Controller
             $data_sits = DB::connection('mysql3')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
                     ,pt.nhso_code,o.hospmain,o.hospsub
-                    ,o.staff 
+                    ,o.staff,op.name as sname
                     ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
                     FROM ovst o
                     LEFT JOIN vn_stat v on v.vn = o.vn
