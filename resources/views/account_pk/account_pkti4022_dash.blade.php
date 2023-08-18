@@ -153,9 +153,9 @@
                                                 // AND status = "N"
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.pricereq_all) as amountpay
+                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.amount) as amountpay
                                                             FROM acc_1102050101_4022 a
-		                                                    LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate
+		                                                    LEFT JOIN acc_stm_ti_total au ON au.hn = a.hn AND au.vstdate = a.vstdate
                                                             WHERE year(a.dchdate) = "'.$item->year.'"
                                                             AND month(a.dchdate) = "'.$item->months.'"
                                                             AND a.status = "Y"

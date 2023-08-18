@@ -20,7 +20,9 @@ return new class extends Migration
                 $table->string('acc_stm_repmoney_tri')->nullable();//
                 $table->string('acc_stm_repmoney_book')->nullable();//
                 $table->string('acc_stm_repmoney_no')->nullable();//
-                $table->string('acc_stm_repmoney_price')->nullable();//
+                $table->string('acc_stm_repmoney_price301')->nullable();//
+                $table->string('acc_stm_repmoney_price302')->nullable();//
+                $table->string('acc_stm_repmoney_price310')->nullable();//
                 $table->date('acc_stm_repmoney_date')->nullable();//
                 $table->string('user_id')->nullable();//
                 $table->timestamps();

@@ -129,10 +129,10 @@
                                         <th>vstdate</th>
                                         <th>fullname</th>
                                         <th>pttype Hos</th>
-                                        <th>hmain Hos</th>
+                                        {{-- <th>hmain Hos</th> --}}
                                       
                                         <th>pttype สปสช</th>
-                                        <th>hmainสปสช</th>
+                                        {{-- <th>hmainสปสช</th> --}}
                                        
                                         <th>claimcode</th>
                                         <th>staff</th>
@@ -159,9 +159,9 @@
                                             <td>{{ $item->vstdate }}</td>
                                             <td>{{ $item->fullname }}</td>
                                             <td>{{ $item->pttype }}</td>
-                                            <td>{{ $item->hospmain }}</td> 
+                                            {{-- <td>{{ $item->hospmain }}</td>  --}}
                                             <td>{{ $item->subinscl }}</td>
-                                            <td>{{ $item->hmain }}</td>                                          
+                                            {{-- <td>{{ $item->hmain }}</td>                                           --}}
                                                 @if ($item->claimcode == '') 
                                                     <td style="background-color: rgb(250, 139, 139)">{{ $item->claimcode }}</td>
                                                 @else 

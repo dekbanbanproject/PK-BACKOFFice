@@ -44,7 +44,15 @@ class UpstmController extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('SELECT * FROM acc_stm_repmoney ar LEFT JOIN acc_trimart_liss a ON a.acc_trimart_liss_id = ar.acc_stm_repmoney_tri ORDER BY acc_stm_repmoney_id DESC');
+        // $datashow = DB::connection('mysql')->select('SELECT * FROM acc_stm_repmoney ar LEFT JOIN acc_trimart_liss a ON a.acc_trimart_liss_id = ar.acc_stm_repmoney_tri ORDER BY acc_stm_repmoney_id DESC');
+        $datashow = DB::connection('mysql')->select('
+            SELECT YEAR(a.acc_trimart_start_date) as year,ar.acc_stm_repmoney_id,a.acc_trimart_code,a.acc_trimart_name
+            ,ar.acc_stm_repmoney_book,ar.acc_stm_repmoney_no,ar.acc_stm_repmoney_price301,ar.acc_stm_repmoney_price302,ar.acc_stm_repmoney_price310,ar.acc_stm_repmoney_date,concat(u.fname," ",u.lname) as fullname
+            FROM acc_stm_repmoney ar 
+            LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_stm_repmoney_tri 
+            LEFT JOIN users u ON u.id = ar.user_id 
+            ORDER BY acc_stm_repmoney_id DESC
+        ');
         $countc = DB::table('acc_stm_ucs_excel')->count();
         $data['acc_trimart_liss'] = DB::table('acc_trimart_liss')->get();
         // $data['trimart'] = DB::table('acc_stm_repmoney_file')->get();
@@ -59,12 +67,14 @@ class UpstmController extends Controller
     public function uprep_money_save(Request $request)
     {
         $add = new Acc_stm_repmoney();
-        $add->acc_stm_repmoney_tri      = $request->acc_stm_repmoney_tri;
-        $add->acc_stm_repmoney_book     = $request->acc_stm_repmoney_book;
-        $add->acc_stm_repmoney_no       = $request->acc_stm_repmoney_no;
-        $add->acc_stm_repmoney_price    = $request->acc_stm_repmoney_price;
-        $add->acc_stm_repmoney_date     = $request->acc_stm_repmoney_date;
-        $add->user_id                   = $request->user_id;
+        $add->acc_stm_repmoney_tri         = $request->acc_stm_repmoney_tri;
+        $add->acc_stm_repmoney_book        = $request->acc_stm_repmoney_book;
+        $add->acc_stm_repmoney_no          = $request->acc_stm_repmoney_no;
+        $add->acc_stm_repmoney_price301    = $request->acc_stm_repmoney_price301;
+        $add->acc_stm_repmoney_price302    = $request->acc_stm_repmoney_price302;
+        $add->acc_stm_repmoney_price310    = $request->acc_stm_repmoney_price310;
+        $add->acc_stm_repmoney_date        = $request->acc_stm_repmoney_date;
+        $add->user_id                      = $request->user_id;
         $add->save();
          
         return response()->json([
@@ -83,12 +93,14 @@ class UpstmController extends Controller
     {
         $id = $request->acc_stm_repmoney_id;
         $update = Acc_stm_repmoney::find($id);
-        $update->acc_stm_repmoney_tri      = $request->acc_stm_repmoney_tri;
-        $update->acc_stm_repmoney_book     = $request->acc_stm_repmoney_book;
-        $update->acc_stm_repmoney_no       = $request->acc_stm_repmoney_no;
-        $update->acc_stm_repmoney_price    = $request->acc_stm_repmoney_price;
-        $update->acc_stm_repmoney_date     = $request->acc_stm_repmoney_date;
-        $update->user_id                   = $request->user_id;
+        $update->acc_stm_repmoney_tri         = $request->acc_stm_repmoney_tri;
+        $update->acc_stm_repmoney_book        = $request->acc_stm_repmoney_book;
+        $update->acc_stm_repmoney_no          = $request->acc_stm_repmoney_no;
+        $update->acc_stm_repmoney_price301    = $request->acc_stm_repmoney_price301;
+        $update->acc_stm_repmoney_price302    = $request->acc_stm_repmoney_price302;
+        $update->acc_stm_repmoney_price310    = $request->acc_stm_repmoney_price310;
+        $update->acc_stm_repmoney_date        = $request->acc_stm_repmoney_date;
+        $update->user_id                      = $request->user_id;
         $update->save();
          
         return response()->json([

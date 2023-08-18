@@ -142,13 +142,21 @@
                                                 SELECT sum(debit_total) as debit_total,count(vn) as Cvit
                                                 from acc_1102050101_301
                                                 where vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
-                                            ');
-                                           
-                                            // AND status = "N"
+                                            ');   
                                             foreach ($datasum_ as $key => $value2) {
                                                 $sum_Y = $value2->debit_total;
                                                 $count_Y = $value2->Cvit;
                                             }
+                                            $sumapprove_ = DB::select('
+                                                SELECT 
+                                                    SUM(ar.acc_stm_repmoney_price301) as total                                                   
+                                                    FROM acc_stm_repmoney ar 
+                                                    LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_stm_repmoney_tri 
+                                                    WHERE a.acc_trimart_code = "'.$item->acc_trimart_code.'"  
+                                                ');                                           
+                                                foreach ($sumapprove_ as $key => $value3) {
+                                                    $total301 = $value3->total; 
+                                                }
                                             
                                         ?>
                                         <div class="row">
@@ -175,14 +183,14 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="" target="_blank">
+                                                {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{ $count_N}} Visit" >
                                                                 {{ number_format($sum_N, 2) }} 
                                                                 <i class="fa-brands fa-btc text-secondary ms-2"></i>
                                                         </p>
                                                     </div>
-                                                </a>
+                                                {{-- </a> --}}
                                             </div>
                                         </div>
                                         <div class="row">
@@ -196,18 +204,18 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="" target="_blank">
+                                                {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
                                                                 <i class="fa-brands fa-btc text-danger ms-2"></i>
                                                         </p>
                                                     </div>
-                                                </a>
+                                                {{-- </a> --}}
                                             </div>
                                         </div>
 
-                                        {{-- <div class="row">
+                                        <div class="row">
                                             <div class="col-md-1 text-start ms-4">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
                                             </div>
@@ -218,16 +226,16 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_301_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
-                                                                {{ number_format($amountpay, 2) }}
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{number_format($total301, 2) }} บาท">
+                                                                {{ number_format($total301, 2) }} 
                                                                 <i class="fa-brands fa-btc text-success ms-2"></i>
                                                         </p>
                                                     </div>
-                                                </a>
+                                                {{-- </a> --}}
                                             </div>
-                                        </div> --}}
+                                        </div>
 
                                         {{-- <div class="row">
                                             <div class="col-md-1 text-start ms-4">

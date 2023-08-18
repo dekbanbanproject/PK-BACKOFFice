@@ -93,7 +93,7 @@
                                 <?php $number = 0; ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
-                                    @if ($item->debit_total <> $item->pricereq_all)
+                                    @if ($item->debit_total <> $item->Total_amount)
                                         <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
                                             <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
                                             <td class="text-center" width="7%" style="color:rgb(248, 12, 12)">{{ $item->repno }}</td>
@@ -105,7 +105,7 @@
                                             <td class="text-center" width="7%" style="color:rgb(248, 12, 12)">{{ $item->vstdate }}</td>
                                             <td class="text-center" width="7%" style="color:rgb(248, 12, 12)">{{ $item->dchdate }}</td>
                                             <td class="text-end" style="color:rgb(248, 12, 12)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(243, 12, 12)"> {{ number_format($item->pricereq_all,2)}} </td>
+                                            <td class="text-end" width="10%" style="color:rgb(243, 12, 12)"> {{ number_format($item->Total_amount,2)}} </td>
                                             <td class="p-2" width="12%" style="color:rgb(243, 12, 12)">{{ $item->STMdoc }}</td>
                                         </tr>
                                     @else
@@ -120,7 +120,7 @@
                                             <td class="text-center" width="7%">{{ $item->vstdate }}</td>
                                             <td class="text-center" width="7%" >{{ $item->dchdate }}</td>
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->pricereq_all,2)}} </td>
+                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->Total_amount,2)}} </td>
                                             <td class="p-2" width="12%">{{ $item->STMdoc }}</td>
                                         </tr>
 

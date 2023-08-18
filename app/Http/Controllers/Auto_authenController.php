@@ -85,19 +85,21 @@ class Auto_authenController extends Controller
     {
           
             $data_sits = DB::connection('mysql3')->select('
-                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
-                    ,pt.nhso_code,o.hospmain,o.hospsub
-                    ,o.staff,op.name as sname
-                    ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-                    FROM ovst o
-                    LEFT JOIN vn_stat v on v.vn = o.vn
-                    join patient p on p.hn=o.hn
-                    JOIN pttype pt on pt.pttype=o.pttype
-                    JOIN opduser op on op.loginname = o.staff
-                    WHERE o.vstdate = CURDATE()
-                    AND o.main_dep NOT IN("011","036","107")
-                    AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-                    group by o.vn
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
+                ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+                ,o.staff,op.name as sname
+                ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
+                join patient p on p.hn=o.hn
+                JOIN pttype pt on pt.pttype=o.pttype
+                JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate = CURDATE()
+                AND o.main_dep NOT IN("011","036","107")
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND p.nationality = "99"
+                AND p.birthday <> CURDATE()
+                group by o.vn
                     
             ');        
         
@@ -148,6 +150,8 @@ class Auto_authenController extends Controller
                     JOIN opduser op on op.loginname = o.staff
                     WHERE o.vstdate = CURDATE() 
                     AND o.pttype IN("M1","M2","M3","M4","M5","M6")
+                    AND p.nationality = "99"
+                    AND p.birthday <> CURDATE()
                     group by o.vn
                     
             ');
@@ -479,7 +483,8 @@ class Auto_authenController extends Controller
         $data_ = DB::connection('mysql')->select('
             SELECT vn,an,hn,cid,vstdate,hometel,vsttime,fullname,pttype,hospmain,hospsub,main_dep,staff,staff_name,claimcode,claimtype,servicerep,servicename,authentication,debit 
             FROM check_sit_auto   
-            WHERE vstdate = CURDATE()      
+            WHERE vstdate = CURDATE()  
+            LIMIT 100    
         '); 
         foreach ($data_ as $key => $value) {   
              $count = Check_sithos_auto::where('vn','=',$value->vn)->count(); 

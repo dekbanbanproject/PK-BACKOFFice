@@ -5834,9 +5834,9 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U2.repno,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
+        SELECT U2.repno,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.Total_amount,U2.STMdoc
             from acc_1102050101_4022 U1
-            LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate
+            LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
             WHERE month(U1.dchdate) = "'.$months.'" and year(U1.dchdate) = "'.$year.'"
             AND U1.status = "Y";
         ');
@@ -6165,6 +6165,7 @@ class AccountPKController extends Controller
         LEFT JOIN acc_stm_ti_total U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
             WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
             AND U2.amount IS NOT NULL
+            GROUP BY U2.invno
         ');
         return view('account_pk.account_pkti4011_stm', $data, [
             'startdate'         =>     $startdate,
@@ -7656,7 +7657,7 @@ class AccountPKController extends Controller
             @$TBills = $result['TBills']['TBill'];
             // @$TBills = $result['TBills']['HDBills']['TBill']; //sss
             $bills_       = @$TBills;
-            dd($bills_ );
+            // dd($bills_ );
             $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
             if ($checkchead > 0) {
                 # code...

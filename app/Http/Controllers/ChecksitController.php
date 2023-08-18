@@ -238,43 +238,49 @@ class ChecksitController extends Controller
         $datestart = $request->startdate;
         $dateend = $request->enddate;
         
-        // dd($datestart);
-        if ($datestart != '' ) {
+        // dd($authen);
+        if($datestart != '' && $authen != '' && $dateend != '' ) {
             $data_sit = DB::connection('mysql')->select('
                 SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
                 FROM check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-
                 WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-                AND c.main_dep NOT IN("011","036","107") AND c.claimcode IS NULL
+                AND c.main_dep NOT IN("011","036","107")  
                 GROUP BY c.vn
             ');
-        } elseif ($authen = 'ALL' || $datestart != '') {
+      
+        }elseif($authen != '' && $datestart == '') {
             $data_sit = DB::connection('mysql')->select('
                 SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
                 FROM check_sit_auto c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-
-                WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
-                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
-                AND c.main_dep NOT IN("011","036","107") 
-                GROUP BY c.vn
-            ');
-
-        } elseif ($authen != '') {
-            $data_sit = DB::connection('mysql')->select('
-                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
-                FROM check_sit_auto c
-                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-
                 WHERE c.vstdate = CURDATE()
                 AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
                 AND c.main_dep NOT IN("011","036","107") 
                 GROUP BY c.vn
-            ');
-
-        } else {
+            '); 
+        }elseif($datestart != '' && $authen != '') {
+            $data_sit = DB::connection('mysql')->select('
+                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
+                FROM check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND c.main_dep NOT IN("011","036","107")  
+                GROUP BY c.vn
+            ');      
+        }elseif($datestart != '') {
+            $data_sit = DB::connection('mysql')->select('
+                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
+                FROM check_sit_auto c
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND c.main_dep NOT IN("011","036","107") AND c.claimcode IS NULL
+                GROUP BY c.vn
+            ');     
+        }else{
             $data_sit = DB::connection('mysql')->select('
                 SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,c.staff_name,k.department
                 FROM check_sit_auto c

@@ -166,10 +166,13 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
+                                    <th class="text-center">ปี</th>
                                     <th class="text-center">ไตรมาส</th>
                                     <th class="text-center">เล่มใบเสร็จ</th>
                                     <th class="text-center">เลขที่ใบเสร็จ</th> 
-                                    <th class="text-center">ยอดชดเชย</th> 
+                                    <th class="text-center">ยอดชดเชย 301</th> 
+                                    <th class="text-center">ยอดชดเชย 302</th>
+                                    <th class="text-center">ยอดชดเชย 310</th>
                                     <th class="text-center">วันที่ลงรับ</th> 
                                     <th class="text-center">จัดการ</th> 
                                 </tr>
@@ -181,10 +184,13 @@
                                     <?php $number++; ?> 
                                     <tr height="20">
                                         <td class="text-center" width="4%">{{ $number }}</td>
-                                        <td class="text-center" width="12%" > {{ $item->acc_trimart_liss_start }} - {{ $item->acc_trimart_liss_end }}</td> 
+                                        <td class="text-center" width="5%">{{ $item->year }}</td>
+                                        <td class="p-2" width="12%" > {{ $item->acc_trimart_code }} - {{ $item->acc_trimart_name }}</td> 
                                         <td class="text-center"> {{ $item->acc_stm_repmoney_book }}</td> 
                                         <td class="text-center"> {{ $item->acc_stm_repmoney_no }}</td> 
-                                        <td class="text-center" width="15%" > {{ $item->acc_stm_repmoney_price }}</td> 
+                                        <td class="text-end" width="15%" > {{ $item->acc_stm_repmoney_price301 }}</td> 
+                                        <td class="text-end" width="15%" > {{ $item->acc_stm_repmoney_price302 }}</td> 
+                                        <td class="text-end" width="15%" > {{ $item->acc_stm_repmoney_price310 }}</td> 
                                         <td class="text-center" width="10%"> {{ $item->acc_stm_repmoney_date }}</td>
                                         <td class="text-center" width="7%"> 
                                             <div class="dropdown d-inline-block">
@@ -314,7 +320,7 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="acc_stm_repmoney_tri" class="form-label">ไตรมาส</label>
                             <div class="input-group input-group-sm"> 
                                 <select name="acc_stm_repmoney_tri" id="acc_stm_repmoney_tri" class="form-select form-control" style="width: 100%">
@@ -325,35 +331,46 @@
                                 </select> 
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="acc_stm_repmoney_book" class="form-label">เล่มใบเสร็จ</label>
                             <div class="input-group input-group-sm">  
                                 <input type="text" class="form-control" id="acc_stm_repmoney_book" name="acc_stm_repmoney_book">
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_date" class="form-label">วันที่ลงรับ</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="date" class="form-control" id="acc_stm_repmoney_date" name="acc_stm_repmoney_date">  
+                            </div>
+                        </div> 
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="acc_stm_repmoney_no" class="form-label">เลขที่ใบเสร็จ</label>
                             <div class="input-group input-group-sm"> 
                                 <input type="text" class="form-control" id="acc_stm_repmoney_no" name="acc_stm_repmoney_no">
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย</label>
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_price301" class="form-label">ยอดชดเชย 301</label>
                             <div class="input-group input-group-sm"> 
-                                <input type="text" class="form-control" id="acc_stm_repmoney_price" name="acc_stm_repmoney_price">
+                                <input type="text" class="form-control" id="acc_stm_repmoney_price301" name="acc_stm_repmoney_price301">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_price302" class="form-label">ยอดชดเชย 302</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="acc_stm_repmoney_price302" name="acc_stm_repmoney_price302">
                             </div>
                         </div>
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="acc_stm_repmoney_date" class="form-label">วันที่ลงรับ</label>
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_price310" class="form-label">ยอดชดเชย 310</label>
                             <div class="input-group input-group-sm"> 
-                                <input type="date" class="form-control" id="acc_stm_repmoney_date" name="acc_stm_repmoney_date"> 
-                                {{-- <input type="text" class="form-control" id="acc_stm_repmoney_date" name="acc_stm_repmoney_date" data-toggle="datepicker"> --}}
+                                <input type="text" class="form-control" id="acc_stm_repmoney_price310" name="acc_stm_repmoney_price310">
                             </div>
                         </div> 
                     </div> 
@@ -380,7 +397,7 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="acc_stm_repmoney_tri" class="form-label">ไตรมาส</label>
                             <div class="input-group input-group-sm"> 
                                 <select name="acc_stm_repmoney_tri" id="editacc_stm_repmoney_tri" class="form-control" style="width: 100%">
@@ -391,36 +408,48 @@
                                 </select> 
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="acc_stm_repmoney_book" class="form-label">เล่มใบเสร็จ</label>
                             <div class="input-group input-group-sm"> 
                                 <input type="text" class="form-control" id="editacc_stm_repmoney_book" name="acc_stm_repmoney_book">
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="acc_stm_repmoney_no" class="form-label">เลขที่ใบเสร็จ</label>
-                            <div class="input-group input-group-sm"> 
-                                <input type="text" class="form-control" id="editacc_stm_repmoney_no" name="acc_stm_repmoney_no">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย</label>
-                            <div class="input-group input-group-sm"> 
-                                <input type="text" class="form-control" id="editacc_stm_repmoney_price" name="acc_stm_repmoney_price">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="acc_stm_repmoney_date" class="form-label">วันที่ลงรับ</label>
                             <div class="input-group input-group-sm"> 
                                 <input type="date" class="form-control" id="editacc_stm_repmoney_date" name="acc_stm_repmoney_date"> 
                             </div>
                         </div> 
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_no" class="form-label">เลขที่ใบเสร็จ</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="editacc_stm_repmoney_no" name="acc_stm_repmoney_no">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย 301</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="editacc_stm_repmoney_price301" name="acc_stm_repmoney_price301">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย 302</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="editacc_stm_repmoney_price302" name="acc_stm_repmoney_price302">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย 310</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="editacc_stm_repmoney_price310" name="acc_stm_repmoney_price310">
+                            </div>
+                        </div>
                     </div> 
                     <input type="hidden" name="user_id" id="edituser_id"> 
                     <input type="hidden" name="acc_stm_repmoney_id" id="editacc_stm_repmoney_id"> 
@@ -541,7 +570,9 @@
                     var acc_stm_repmoney_tri = $('#acc_stm_repmoney_tri').val();
                     var acc_stm_repmoney_book = $('#acc_stm_repmoney_book').val();
                     var acc_stm_repmoney_no = $('#acc_stm_repmoney_no').val();
-                    var acc_stm_repmoney_price = $('#acc_stm_repmoney_price').val();
+                    var acc_stm_repmoney_price301 = $('#acc_stm_repmoney_price301').val();
+                    var acc_stm_repmoney_price302 = $('#acc_stm_repmoney_price302').val();
+                    var acc_stm_repmoney_price310 = $('#acc_stm_repmoney_price310').val();
                     var acc_stm_repmoney_date = $('#acc_stm_repmoney_date').val();
                     var user_id = $('#user_id').val();
 
@@ -550,7 +581,7 @@
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            acc_stm_repmoney_tri,acc_stm_repmoney_book,acc_stm_repmoney_no,acc_stm_repmoney_price,acc_stm_repmoney_date,user_id
+                            acc_stm_repmoney_tri,acc_stm_repmoney_book,acc_stm_repmoney_no,acc_stm_repmoney_price301,acc_stm_repmoney_price302,acc_stm_repmoney_price310,acc_stm_repmoney_date,user_id
                         },
                         success: function(data) {
                             if (data.status == 200) {
@@ -577,11 +608,35 @@
                         },
                     });
             }); 
+
+            $(document).on('click', '.editModal', function() {
+                var acc_stm_repmoney_id = $(this).val(); 
+                $('#editModal').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('uprep_money_edit') }}" + '/' + acc_stm_repmoney_id,
+                    success: function(data) {
+                        console.log(data.data_show.acc_stm_repmoney_id);
+                        $('#editacc_stm_repmoney_tri').val(data.data_show.acc_stm_repmoney_tri)
+                        $('#editacc_stm_repmoney_book').val(data.data_show.acc_stm_repmoney_book)
+                        $('#editacc_stm_repmoney_no').val(data.data_show.acc_stm_repmoney_no)
+                        $('#editacc_stm_repmoney_price301').val(data.data_show.acc_stm_repmoney_price301)
+                        $('#editacc_stm_repmoney_price302').val(data.data_show.acc_stm_repmoney_price302)
+                        $('#editacc_stm_repmoney_price310').val(data.data_show.acc_stm_repmoney_price310)
+                        $('#editacc_stm_repmoney_date').val(data.data_show.acc_stm_repmoney_date)
+                        $('#edituser_id').val(data.data_show.user_id)
+                        $('#editacc_stm_repmoney_id').val(data.data_show.acc_stm_repmoney_id)
+                    },
+                });
+            });
+            
             $('#Updatedata').click(function() {
                     var acc_stm_repmoney_tri = $('#editacc_stm_repmoney_tri').val();
                     var acc_stm_repmoney_book = $('#editacc_stm_repmoney_book').val();
                     var acc_stm_repmoney_no = $('#editacc_stm_repmoney_no').val();
-                    var acc_stm_repmoney_price = $('#editacc_stm_repmoney_price').val();
+                    var acc_stm_repmoney_price301 = $('#editacc_stm_repmoney_price301').val();
+                    var acc_stm_repmoney_price302 = $('#editacc_stm_repmoney_price302').val();
+                    var acc_stm_repmoney_price310 = $('#editacc_stm_repmoney_price310').val();
                     var acc_stm_repmoney_date = $('#editacc_stm_repmoney_date').val();
                     var user_id = $('#edituser_id').val();
                     var acc_stm_repmoney_id = $('#editacc_stm_repmoney_id').val();
@@ -591,7 +646,7 @@
                         type: "POST",
                         dataType: 'json',
                         data: {
-                            acc_stm_repmoney_tri,acc_stm_repmoney_book,acc_stm_repmoney_no,acc_stm_repmoney_price,acc_stm_repmoney_date,user_id,acc_stm_repmoney_id
+                            acc_stm_repmoney_tri,acc_stm_repmoney_book,acc_stm_repmoney_no,acc_stm_repmoney_price301,acc_stm_repmoney_price302,acc_stm_repmoney_price310,acc_stm_repmoney_date,user_id,acc_stm_repmoney_id
                         },
                         success: function(data) {
                             if (data.status == 200) {
@@ -619,26 +674,7 @@
             }); 
         });
 
-        $(document).on('click', '.editModal', function() {
-            var acc_stm_repmoney_id = $(this).val();
-            // alert(acc_stm_repmoney_id);
-            $('#editModal').modal('show');
-            $.ajax({
-                type: "GET",
-                url: "{{ url('uprep_money_edit') }}" + '/' + acc_stm_repmoney_id,
-                success: function(data) {
-                    console.log(data.data_show.acc_stm_repmoney_id);
-                    $('#editacc_stm_repmoney_tri').val(data.data_show.acc_stm_repmoney_tri)
-                    $('#editacc_stm_repmoney_book').val(data.data_show.acc_stm_repmoney_book)
-                    $('#editacc_stm_repmoney_no').val(data.data_show.acc_stm_repmoney_no)
-                    $('#editacc_stm_repmoney_price').val(data.data_show.acc_stm_repmoney_price)
-                    $('#editacc_stm_repmoney_date').val(data.data_show.acc_stm_repmoney_date)
-                    $('#edituser_id').val(data.data_show.user_id)
-                    $('#editacc_stm_repmoney_id').val(data.data_show.acc_stm_repmoney_id)
-                },
-            });
-        });
-
+       
         $(document).on('click', '.addFileModal', function() {
             var acc_stm_repmoney_id = $(this).val();
             // alert(acc_stm_repmoney_id);
