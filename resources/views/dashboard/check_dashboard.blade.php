@@ -156,6 +156,7 @@
                                                 SELECT count(c.claimcode) as claimcode 
                                                     from check_sit_auto c
                                                     left join pttype p ON c.pttype = p.pttype
+                                                    LEFT JOIN nhso_inscl_code n ON n.inscl_code = p.hipdata_code
                                                     WHERE p.hipdata_code="'.$typegroup->hipdata_code.'" 
                                                     AND claimcode <> ""
                                                     AND vstdate = CURDATE()
@@ -167,7 +168,7 @@
                                         <tr height="10px;">
                                             <td>
                                                 <h6 >
-                                                    ({{$typegroup->hipdata_code}}) - {{$typegroup->typename}}
+                                                    ({{$typegroup->hipdata_code}}) - {{$typegroup->inscl_name}}
                                                     {{-- <a href="">({{$typegroup->hipdata_code}}) - {{$typegroup->typename}}</a>  --}}
                                                 </h6>
                                             </td>

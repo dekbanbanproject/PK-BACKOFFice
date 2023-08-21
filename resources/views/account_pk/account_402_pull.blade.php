@@ -74,9 +74,9 @@
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                    <input type="text" class="form-control" name="startdate" id="startdate" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="enddate" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 </div> 
             </div>
@@ -194,10 +194,10 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
-            $('#datepicker').datepicker({
+            $('#startdate').datepicker({
                 format: 'yyyy-mm-dd'
             });
-            $('#datepicker2').datepicker({
+            $('#enddate').datepicker({
                 format: 'yyyy-mm-dd'
             });
             $('#stamp').on('click', function(e) {
@@ -299,8 +299,8 @@
 
          
             $('#Pulldata').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
+                var datepicker = $('#startdate').val(); 
+                var datepicker2 = $('#enddate').val(); 
                 Swal.fire({
                         title: 'ต้องการดึงข้อมูลใช่ไหม ?',
                         text: "You Warn Pull Data!",

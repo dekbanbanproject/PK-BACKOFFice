@@ -1298,9 +1298,10 @@ class ChecksitController extends Controller
             FROM checkauthen_type 
         ');
         $data_pttypegroup = DB::connection('mysql')->select('
-            SELECT pttype,name as typename,hipdata_code 
-            FROM pttype
-            where hipdata_code <> ""
+            SELECT p.pttype,p.name as typename,p.hipdata_code,n.inscl_name
+            FROM pttype p
+            LEFT JOIN nhso_inscl_code n ON n.inscl_code = p.hipdata_code
+            where hipdata_code <> "" AND n.inscl_name <> ""
             GROUP BY hipdata_code 
         ');
 

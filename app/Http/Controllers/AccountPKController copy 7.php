@@ -3999,30 +3999,16 @@ class AccountPKController extends Controller
          if ($startdate == '') {
              // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
              $acc_debtor = DB::select('
-                 SELECT a.* from acc_debtor a
-                 
-                 WHERE pttype IN("O1","O2","O3","O4","O5") AND an <> ""
-                 AND a.stamp = "N" AND an <> ""
-                 
+                 SELECT a.*,c.subinscl from acc_debtor a
+                 left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
+                 WHERE a.account_code="1102050101.402"
+                 AND a.stamp = "N"
+                 group by a.an
                  order by a.dchdate asc;
 
              ');
-            //  WHERE a.account_code="1102050101.402"
-            //  ,c.subinscl
-            //  left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
-
-            // group by a.an
              // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
          } else {
-            $acc_debtor = DB::select('
-                 SELECT a.* from acc_debtor a
-                 
-                 WHERE pttype IN("O1","O2","O3","O4","O5") AND an <> ""
-                 AND a.stamp = "N"
-                 AND dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                 order by a.dchdate asc;
-
-             ');
              // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
          }
 
@@ -4038,7 +4024,8 @@ class AccountPKController extends Controller
          $startdate = $request->datepicker;
          $enddate = $request->datepicker2;
          // Acc_opitemrece::truncate();
-         $acc_debtor = DB::connection('mysql3')->select(' 
+         $acc_debtor = DB::connection('mysql3')->select('
+               
 
             SELECT o.vn,i.an,pt.hn,showcid(pt.cid) as cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
@@ -4048,7 +4035,9 @@ class AccountPKController extends Controller
                 ,a.dchdate
                 ,ptt.pttype_eclaim_id
                 ,a.pttype,ptt.name as namelist
-              
+                ,e.code as acc_code
+                ,e.ar_ipd as account_code
+                ,e.name as account_name
                 ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                 ,a.rcpno_list as rcpno
                 ,a.income-a.discount_money-a.rcpt_money as debit
@@ -4063,7 +4052,7 @@ class AccountPKController extends Controller
                 left join an_stat a on a.an=i.an
                 left join patient pt on pt.hn=o.hn
                 LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-               
+                LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT JOIN opitemrece op ON op.an = i.an
                 LEFT JOIN drugitems d on d.icode=op.icode
 						WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
@@ -4071,50 +4060,68 @@ class AccountPKController extends Controller
                     
 						GROUP BY i.an
          ');
-
-        //  ,e.code as acc_code
-        //  ,e.ar_ipd as account_code
-        //  ,e.name as account_name
-
-        // LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-
 // dd($acc_debtor);
-         foreach ($acc_debtor as $items) {
+         foreach ($acc_debtor as $value) {
             // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
-                     $check = Acc_debtor::where('an', $items->an)->whereBetween('dchdate', [$startdate, $enddate])->count();
-                //     //  $acc_debtor = DB::connection('mysql3')->select('SELECT COUNT($items->vn)   ');
-                 if ($check > 0) {
-                    # code...
-                 } else {
-                    $add = new Acc_debtor();
-                         $add->hn                 = $items->hn;
-                         $add->an                 = $items->an;
-                         $add->vn                 = $items->vn;
-                         $add->cid                = $items->cid;
-                         $add->ptname             = $items->ptname;
-                         $add->pttype             = $items->pttype;
-                         $add->vstdate            = $items->vstdate;
-                         $add->dchdate            = $items->dchdate;
-                        //  $add->acc_code           = $items->acc_code;
-                        //  $add->account_code       = $items->account_code;
-                        //  $add->account_name       = $items->account_name;
-                         $add->income             = $items->income;
-                         $add->uc_money           = $items->uc_money;
-                         $add->discount_money     = $items->discount_money;
-                         $add->paid_money         = $items->paid_money;
-                         $add->rcpt_money         = $items->rcpt_money;
-                         $add->debit              = $items->debit;
-                         $add->debit_drug         = $items->debit_drug;
-                         $add->debit_instument    = $items->debit_instument;
-                         $add->debit_toa          = $items->debit_toa;
-                         $add->debit_refer        = $items->debit_refer;
-                         $add->debit_total        = $items->debit;
-                         $add->max_debt_amount    = $items->max_debt_money;
+                     $check = Acc_debtor::where('an', $value->an)->whereBetween('dchdate', [$startdate, $enddate])->count();
+                 
+                     if ($check == 0) {
+                        //  Acc_debtor::insert([
+                        //      'hn'                 => $value->hn,
+                        //      'an'                 => $value->an,
+                        //      'vn'                 => $value->vn,
+                        //      'cid'                => $value->cid,
+                        //      'ptname'             => $value->ptname,
+                        //      'pttype'             => $value->pttype,
+                        //      'vstdate'            => $value->vstdate,
+                        //      'dchdate'            => $value->dchdate,
+                        //      'acc_code'           => $value->acc_code,
+                        //      'account_code'       => $value->account_code,
+                        //      'account_name'       => $value->account_name,
+                        //      'income_group'       => $value->income_group,
+                        //      'income'             => $value->income,
+                        //      'uc_money'           => $value->uc_money,
+                        //      'discount_money'     => $value->discount_money,
+                        //      'paid_money'         => $value->paid_money,
+                        //      'rcpt_money'         => $value->rcpt_money,
+                        //      'debit'              => $value->debit,
+                        //      'debit_drug'         => $value->debit_drug,
+                        //      'debit_instument'    => $value->debit_instument,
+                        //      'debit_toa'          => $value->debit_toa,
+                        //      'debit_refer'        => $value->debit_refer,
+                        //      'debit_total'        => $value->debit,
+                        //      'max_debt_amount'    => $value->max_debt_money,
+                        //      'acc_debtor_userid'  => Auth::user()->id
+                        //  ]);
+
+
+                         $add = new Acc_debtor();
+                         $add->hn                 = $value->hn;
+                         $add->an                 = $value->an;
+                         $add->vn                 = $value->vn;
+                         $add->cid                = $value->cid;
+                         $add->ptname             = $value->ptname;
+                         $add->pttype             = $value->pttype;
+                         $add->vstdate            = $value->vstdate;
+                         $add->dchdate            = $value->dchdate;
+                         $add->acc_code           = $value->acc_code;
+                         $add->account_code       = $value->account_code;
+                         $add->account_name       = $value->account_name;
+                         $add->income             = $value->income;
+                         $add->uc_money           = $value->uc_money;
+                         $add->discount_money     = $value->discount_money;
+                         $add->paid_money         = $value->paid_money;
+                         $add->rcpt_money         = $value->rcpt_money;
+                         $add->debit              = $value->debit;
+                         $add->debit_drug         = $value->debit_drug;
+                         $add->debit_instument    = $value->debit_instument;
+                         $add->debit_toa          = $value->debit_toa;
+                         $add->debit_refer        = $value->debit_refer;
+                         $add->debit_total        = $value->debit;
+                         $add->max_debt_amount    = $value->max_debt_money;
                          $add->acc_debtor_userid  = Auth::user()->id;
                          $add->save();
-                 }
-                 
-                      
+                     }
 
          }
 
