@@ -383,7 +383,7 @@
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)</a></li>
                                 <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li>
 
-                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)</a></li>
+                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
                             </ul>
                         </li>

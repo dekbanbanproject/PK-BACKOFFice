@@ -110,6 +110,7 @@
                                             {{-- <th class="text-center">spsch</th>  --}}
                                             <th class="text-center">income</th>
                                             <th class="text-center">price_approve</th>  
+                                            <th class="text-center">STMdoc</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -130,7 +131,7 @@
                                                 
                                                 <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
                                                 <td class="text-center" width="10%">{{ number_format($item->price_approve, 2) }}</td> 
- 
+                                                <td class="text-center" width="10%">{{ $item->STMdoc }}</td> 
                                             </tr>
                                         @endforeach
                                     </tbody>

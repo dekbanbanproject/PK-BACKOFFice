@@ -6908,7 +6908,7 @@ class AccountPKController extends Controller
         $data['users'] = User::get();
 
         $acc_debtor = DB::select('
-        SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.account_code,a.income,a.debit,a.debit_total,ai.repno,SUM(ai.sum_price_approve) as price_approve
+        SELECT a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.account_code,a.income,a.debit,a.debit_total,ai.repno,SUM(ai.sum_price_approve) as price_approve,ai.STMdoc
         FROM acc_1102050101_2166 a
         LEFT JOIN acc_stm_ti_total ai ON ai.cid = a.cid AND ai.vstdate = a.vstdate
         WHERE a.account_code="1102050101.2166"
@@ -7571,80 +7571,191 @@ class AccountPKController extends Controller
         Acc_stm_ti_excel::truncate();
         return redirect()->back();
     }
+    // function upstm_ti_importexcel(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'file' => 'required|file|mimes:xls,xlsx'
+    //     ]);
+    //     $the_file = $request->file('file');
+    //     // dd($the_file);
+    //     try{
+    //         $spreadsheet = IOFactory::load($the_file->getRealPath());
+    //         $sheet        = $spreadsheet->getActiveSheet(2);
+    //         $row_limit    = $sheet->getHighestDataRow();
+    //         $column_limit = $sheet->getHighestDataColumn();
+    //         $row_range    = range( 9, $row_limit );
+    //         $column_range = range( 'F', $column_limit );
+    //         $startcount = 9;
+    //         $data = array();
+    //         foreach ( $row_range as $row ) {
+
+    //             $reg = $sheet->getCell( 'J' . $row )->getValue();
+
+    //             $starttime = substr($reg, 0, 5);
+    //             $regday = substr($reg, 0, 2);
+    //             $regmo = substr($reg, 3, 2);
+    //             $regyear = substr($reg, 6, 10);
+    //             $regdate = $regyear.'-'.$regmo.'-'.$regday;
+
+    //             $vst = $sheet->getCell( 'K' . $row )->getValue();
+    //             $starttime = substr($vst, 0, 5);
+    //             $day = substr($vst, 0, 2);
+    //             $mo = substr($vst, 3, 2);
+    //             $year = substr($vst, 6, 10);
+    //             $vstdate = $year.'-'.$mo.'-'.$day;
+
+    //             $data[] = [ 
+    //                 'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
+    //                 'tranid'                =>$sheet->getCell( 'C' . $row )->getValue(),
+    //                 'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
+    //                 'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
+    //                 'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
+    //                 'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
+    //                 'hipdata_code'          =>$sheet->getCell( 'H' . $row )->getValue(),
+
+    //                 'regdate'               =>$regdate,
+    //                 'vstdate'               =>$vstdate, 
+    //                 'no'                    =>$sheet->getCell( 'L' . $row )->getValue(),
+    //                 'list'                  =>$sheet->getCell( 'M' . $row )->getValue(),
+    //                 'qty'                   =>$sheet->getCell( 'N' . $row )->getValue(),
+    //                 'unitprice'             =>$sheet->getCell( 'O' . $row )->getValue(),
+    //                 'unitprice_max'         =>$sheet->getCell( 'P' . $row )->getValue(),
+    //                 'price_request'         =>$sheet->getCell( 'Q' . $row )->getValue(),
+    //                 'pscode'                =>$sheet->getCell( 'R' . $row )->getValue(),
+    //                 'percent'               =>$sheet->getCell( 'S' . $row )->getValue(),
+    //                 'pay_amount'            =>$sheet->getCell( 'T' . $row )->getValue(),
+    //                 'nonpay_amount'         =>$sheet->getCell( 'U' . $row )->getValue(),
+    //                 'payplus_amount'        =>$sheet->getCell( 'V' . $row )->getValue(),
+    //                 'payback_amount'        =>$sheet->getCell( 'W' . $row )->getValue(),
+    //                 'filename'              =>$sheet->getCell( 'Y' . $row )->getValue(),
+    //             ];
+    //             $startcount++;
+    //         }
+    //         DB::table('acc_stm_ti_excel')->insert($data); 
+    //     } catch (Exception $e) {
+    //         $error_code = $e->errorInfo[1];
+    //         return back()->withErrors('There was a problem uploading the data!');
+    //     }
+            
+    //                 return response()->json([
+    //                 'status'    => '200',
+    //             ]);
+
+    // }
     function upstm_ti_importexcel(Request $request)
-    {
+    { 
         $this->validate($request, [
             'file' => 'required|file|mimes:xls,xlsx'
         ]);
-        $the_file = $request->file('file');
-        try{
-            $spreadsheet = IOFactory::load($the_file->getRealPath());
-            $sheet        = $spreadsheet->getActiveSheet(2);
-            $row_limit    = $sheet->getHighestDataRow();
-            $column_limit = $sheet->getHighestDataColumn();
-            $row_range    = range( 9, $row_limit );
-            $column_range = range( 'F', $column_limit );
-            $startcount = 9;
-            $data = array();
-            foreach ( $row_range as $row ) {
+        $the_file = $request->file('file'); 
+        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+        // dd($file_);
+            try{
+                $spreadsheet = IOFactory::load($the_file->getRealPath());
+                // $sheet        = $spreadsheet->getActiveSheet(2);
+                $sheet        = $spreadsheet->setActiveSheetIndex(2);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 9, $row_limit );
+                $column_range = range( 'F', $column_limit );
+                $startcount = 9;
 
-                $reg = $sheet->getCell( 'J' . $row )->getValue();
+                   //         $spreadsheet = IOFactory::load($the_file->getRealPath());
+    //         $sheet        = $spreadsheet->getActiveSheet(2);
+    //         $row_limit    = $sheet->getHighestDataRow();
+    //         $column_limit = $sheet->getHighestDataColumn();
+    //         $row_range    = range( 9, $row_limit );
+    //         $column_range = range( 'F', $column_limit );
+    //         $startcount = 9;
+    //         $data = array();
 
-                $starttime = substr($reg, 0, 5);
-                $regday = substr($reg, 0, 2);
-                $regmo = substr($reg, 3, 2);
-                $regyear = substr($reg, 6, 10);
-                $regdate = $regyear.'-'.$regmo.'-'.$regday;
+    
 
-                $vst = $sheet->getCell( 'K' . $row )->getValue();
-                $starttime = substr($vst, 0, 5);
-                $day = substr($vst, 0, 2);
-                $mo = substr($vst, 3, 2);
-                $year = substr($vst, 6, 10);
-                $vstdate = $year.'-'.$mo.'-'.$day;
+                $data = array();
+                foreach ($row_range as $row ) {
+                    // $vst = $sheet->getCell( 'H' . $row )->getValue(); 
+                    // $day = substr($vst,0,2);
+                    // $mo = substr($vst,3,2);
+                    // $year = substr($vst,6,4);
+                    // $vstdate = $year.'-'.$mo.'-'.$day;
 
-                $data[] = [
-                    // 'hcode'                 =>$sheet->getCell( 'A' . $row )->getValue(),
-                    'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
-                    'tranid'                =>$sheet->getCell( 'C' . $row )->getValue(),
-                    'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
-                    'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
-                    'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                    'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
-                    'hipdata_code'          =>$sheet->getCell( 'H' . $row )->getValue(),
+                    // $reg = $sheet->getCell( 'I' . $row )->getValue(); 
+                    // $regday = substr($reg, 0, 2);
+                    // $regmo = substr($reg, 3, 2);
+                    // $regyear = substr($reg, 6, 4);
+                    // $dchdate = $regyear.'-'.$regmo.'-'.$regday;
 
-                    'regdate'               =>$regdate,
-                    'vstdate'               =>$vstdate,
+                    //             $reg = $sheet->getCell( 'J' . $row )->getValue();
 
-                    // 'regdate'               =>$sheet->getCell( 'J' . $row )->getValue(),
-                    // 'vstdate'               =>$sheet->getCell( 'K' . $row )->getValue(),
-                    'no'                    =>$sheet->getCell( 'L' . $row )->getValue(),
-                    'list'                  =>$sheet->getCell( 'M' . $row )->getValue(),
-                    'qty'                   =>$sheet->getCell( 'N' . $row )->getValue(),
-                    'unitprice'             =>$sheet->getCell( 'O' . $row )->getValue(),
-                    'unitprice_max'         =>$sheet->getCell( 'P' . $row )->getValue(),
-                    'price_request'         =>$sheet->getCell( 'Q' . $row )->getValue(),
-                    'pscode'                =>$sheet->getCell( 'R' . $row )->getValue(),
-                    'percent'               =>$sheet->getCell( 'S' . $row )->getValue(),
-                    'pay_amount'            =>$sheet->getCell( 'T' . $row )->getValue(),
-                    'nonpay_amount'         =>$sheet->getCell( 'U' . $row )->getValue(),
-                    'payplus_amount'        =>$sheet->getCell( 'V' . $row )->getValue(),
-                    'payback_amount'        =>$sheet->getCell( 'W' . $row )->getValue(),
-                    'filename'              =>$sheet->getCell( 'Y' . $row )->getValue(),
-                ];
-                $startcount++;
+                    //             $starttime = substr($reg, 0, 5);
+                    //             $regday = substr($reg, 0, 2);
+                    //             $regmo = substr($reg, 3, 2);
+                    //             $regyear = substr($reg, 6, 10);
+                    //             $regdate = $regyear.'-'.$regmo.'-'.$regday;
+
+                    //             $vst = $sheet->getCell( 'K' . $row )->getValue();
+                    //             $starttime = substr($vst, 0, 5);
+                    //             $day = substr($vst, 0, 2);
+                    //             $mo = substr($vst, 3, 2);
+                    //             $year = substr($vst, 6, 10);
+                    //             $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $vst = $sheet->getCell( 'K' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,6,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+
+                    $reg = $sheet->getCell( 'J' . $row )->getValue();
+                    // $starttime = substr($reg, 0, 5);
+                    $regday = substr($reg, 0, 2);
+                    $regmo = substr($reg, 3, 2);
+                    $regyear = substr($reg, 6, 4);
+                    $regdate = $regyear.'-'.$regmo.'-'.$regday;
+
+                   $data[] = [ 
+                        'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
+                        'tranid'                =>$sheet->getCell( 'C' . $row )->getValue(),
+                        'hn'                    =>$sheet->getCell( 'D' . $row )->getValue(),
+                        'an'                    =>$sheet->getCell( 'E' . $row )->getValue(),
+                        'cid'                   =>$sheet->getCell( 'F' . $row )->getValue(),
+                        'fullname'              =>$sheet->getCell( 'G' . $row )->getValue(),
+                        'hipdata_code'          =>$sheet->getCell( 'H' . $row )->getValue(),
+                        'hcode'                 =>$sheet->getCell( 'I' . $row )->getValue(),
+
+                        'vstdate'               =>$vstdate,
+                        'regdate'               =>$regdate, 
+                        'no'                    =>$sheet->getCell( 'L' . $row )->getValue(),
+                        'list'                  =>$sheet->getCell( 'M' . $row )->getValue(),
+                        'qty'                   =>$sheet->getCell( 'N' . $row )->getValue(),
+                        'unitprice'             =>$sheet->getCell( 'O' . $row )->getValue(),
+                        'unitprice_max'         =>$sheet->getCell( 'P' . $row )->getValue(),
+                        'price_request'         =>$sheet->getCell( 'Q' . $row )->getValue(),
+                        'pscode'                =>$sheet->getCell( 'R' . $row )->getValue(),
+                        'percent'               =>$sheet->getCell( 'S' . $row )->getValue(),
+                        'pay_amount'            =>$sheet->getCell( 'T' . $row )->getValue(),
+                        'nonpay_amount'         =>$sheet->getCell( 'U' . $row )->getValue(),
+                        'payplus_amount'        =>$sheet->getCell( 'V' . $row )->getValue(),
+                        'payback_amount'        =>$sheet->getCell( 'W' . $row )->getValue(),
+                        'filename'              =>$file_
+                    ];
+
+                  
+                    $startcount++;
+                    // $file_
+
+                }
+                DB::table('acc_stm_ti_excel')->insert($data);  
+
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
             }
-            DB::table('acc_stm_ti_excel')->insert($data);
-            // DB::table('check_authen')->insert($data);
-        } catch (Exception $e) {
-            $error_code = $e->errorInfo[1];
-            return back()->withErrors('There was a problem uploading the data!');
-        }
             // return back()->withSuccess('Great! Data has been successfully uploaded.');
-                    return response()->json([
-                    'status'    => '200',
-                ]);
-
+            return response()->json([
+            'status'    => '200',
+        ]);
     }
     public function upstm_tixml(Request $request)
     {
