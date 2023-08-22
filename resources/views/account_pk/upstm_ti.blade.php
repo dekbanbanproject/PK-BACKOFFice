@@ -99,7 +99,7 @@
                                 <div class="col"></div>
                                 <div class="col-md-8">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL => ลบคำอธิบายด้านล่าง =>เพิ่มชื่อไฟล์ไว้คอลัม Y => UP STM => ส่งข้อมูล</label>
+                                        <label for="formFileLg" class="form-label">UP STM EXCEL => ลบคำอธิบายด้านล่าง=> UP STM => ส่งข้อมูล</label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">

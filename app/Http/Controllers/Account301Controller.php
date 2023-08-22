@@ -100,7 +100,7 @@ class Account301Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $data_trimart = DB::table('acc_trimart')->get();
+        $data_trimart = DB::table('acc_trimart')->limit(3)->get();
         // $data_ = DB::table('acc_trimart')->where('acc_trimart_code','=','1')->first();
         $data_ = DB::table('acc_trimart')->first();
         // dd($data_trimart);

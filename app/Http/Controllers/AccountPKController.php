@@ -2200,8 +2200,8 @@ class AccountPKController extends Controller
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
                      and account_code="1102050101.302"
-
-                     group by month(a.dchdate) desc;
+ 
+                     group by month(a.dchdate) order by month(a.dchdate) desc limit 3;
              ');
              // and stamp = "N"
          } else {
@@ -2219,7 +2219,7 @@ class AccountPKController extends Controller
                      WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                      and account_code="1102050101.302"
 
-                     group by month(a.dchdate) desc;
+                     group by month(a.dchdate) order by month(a.dchdate) desc;
              ');
          }
 
@@ -4078,7 +4078,7 @@ class AccountPKController extends Controller
 
         // LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
 
-// dd($acc_debtor);
+        // dd($acc_debtor);
          foreach ($acc_debtor as $items) {
             // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
                      $check = Acc_debtor::where('an', $items->an)->whereBetween('dchdate', [$startdate, $enddate])->count();

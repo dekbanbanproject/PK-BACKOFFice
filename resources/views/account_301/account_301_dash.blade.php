@@ -147,16 +147,26 @@
                                                 $sum_Y = $value2->debit_total;
                                                 $count_Y = $value2->Cvit;
                                             }
+                                            
+                                            //STM
                                             $sumapprove_ = DB::select('
                                                 SELECT 
                                                     SUM(ar.acc_stm_repmoney_price301) as total                                                   
                                                     FROM acc_stm_repmoney ar 
                                                     LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_stm_repmoney_tri 
                                                     WHERE a.acc_trimart_code = "'.$item->acc_trimart_code.'"  
-                                                ');                                           
-                                                foreach ($sumapprove_ as $key => $value3) {
-                                                    $total301 = $value3->total; 
-                                                }
+                                            ');                                           
+                                            foreach ($sumapprove_ as $key => $value3) {
+                                                $total301 = $value3->total; 
+                                            }
+
+                                            if ( $sum_Y > $total301) {
+                                                $yokpai = $sum_Y - $total301;
+                                            } else {
+                                                $yokpai = $total301 - $sum_Y;
+                                            }
+                                            
+
                                             
                                         ?>
                                         <div class="row">
@@ -237,7 +247,7 @@
                                             </div>
                                         </div>
 
-                                        {{-- <div class="row">
+                                        <div class="row">
                                             <div class="col-md-1 text-start ms-4">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
                                             </div>
@@ -248,16 +258,16 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_301_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma}} Visit">
-                                                                {{ number_format($total_yokma, 2) }}
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >
+                                                            {{ number_format($yokpai, 2) }} 
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>
-                                                </a>
+                                                {{-- </a> --}}
                                             </div>
-                                        </div> --}}
+                                        </div>
 
                                         {{-- <div class="row">
                                             <div class="col-md-1 text-start ms-4">
