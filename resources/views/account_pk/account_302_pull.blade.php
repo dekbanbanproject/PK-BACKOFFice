@@ -351,60 +351,7 @@
                             }
                 })
             });
-            $('#Check_sitipd').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                //    alert(datepicker);
-                Swal.fire({
-                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
-                        text: "You Check Sit Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, pull it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner-div").show(); //Load button clicked show spinner 
-                            $.ajax({
-                                url: "{{ route('acc.account_pkCheck_sitipd') }}",
-                                type: "POST",
-                                dataType: 'json',
-                                data: {
-                                    datepicker,
-                                    datepicker2                        
-                                },
-                                success: function(data) {
-                                    if (data.status == 200) { 
-                                        Swal.fire({
-                                            title: 'เช็คสิทธิ์สำเร็จ',
-                                            text: "You Check sit success",
-                                            icon: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#06D177',
-                                            confirmButtonText: 'เรียบร้อย'
-                                        }).then((result) => {
-                                            if (result
-                                                .isConfirmed) {
-                                                console.log(
-                                                    data);
-                                                window.location.reload();
-                                                $('#spinner-div').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                    },500);
-                                            }
-                                        })
-                                    } else {
-                                        
-                                    }
-
-                                },
-                            });
-                        }
-                })
-            });
+            
         });
     </script>
     @endsection

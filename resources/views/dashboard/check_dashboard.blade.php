@@ -200,7 +200,7 @@
                                     
                                     ?>
                                         <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                            <td class="p-2">{{ $item2->staff }}</td>
+                                            <td class="p-2">{{ $item2->staff_name }}</td>
                                             <td class="text-center">{{ $item2->countvn }}</td>
                                             <td class="text-center text-success"> 
                                                 <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success" href="{{ url('check_dashboard_staff/' . $item2->staff.'/'. $item2->day.'/'. $item2->month.'/'. $item2->year) }}"  target="_blank">

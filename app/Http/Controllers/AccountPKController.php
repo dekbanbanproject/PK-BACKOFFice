@@ -6623,8 +6623,8 @@ class AccountPKController extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
                     and account_code="1102050101.2166"
-
-                    group by month(a.vstdate) desc;
+                    group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
+                   
             ');
             // and stamp = "N"
         } else {
@@ -6640,7 +6640,7 @@ class AccountPKController extends Controller
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.2166"
 
-                    group by month(a.vstdate) desc;
+                    group by month(a.vstdate) order by month(a.vstdate) desc
             ');
         }
         return view('account_pk.account_pkti2166_dash',[
@@ -7529,48 +7529,98 @@ class AccountPKController extends Controller
     public function upstm_ti_importtotal(Request $request)
     {
         $data_ = DB::connection('mysql')->select('
-                SELECT repno,hn,cid,fullname,vstdate,filename,hipdata_code,sum(pay_amount) as Sumprice
+                SELECT repno,hn,cid,fullname,vstdate,filename,hipdata_code,pay_amount 
                 FROM acc_stm_ti_excel
-                GROUP BY cid,vstdate
+              
         ');
+        // ,sum(pay_amount) as Sumprice
+        // GROUP BY cid,vstdate
         foreach ($data_ as $key => $value) {
-            $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
-            if ($check > 0) {
-                Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                    ->update([
-                        // 'repno'             => $value->repno,
-                        // 'hn'                => $value->hn,
-                        // 'cid'               => $value->cid,
-                        // 'fullname'          => $value->fullname,
-                        // 'vstdate'           => $value->vstdate,
-                        // 'sum_price_approve' => $value->Sumprice,
-                        'Total_amount'      => $value->Sumprice,
-                        'STMdoc'            => $value->filename,
-                        'HDflag'            => $value->hipdata_code
-                ]);
-            } else {
-                Acc_stm_ti_total::create([
-                    'repno'             => $value->repno,
-                    'hn'                => $value->hn,
-                    'cid'               => $value->cid,
-                    'fullname'          => $value->fullname,
-                    'vstdate'           => $value->vstdate,
-                    'sum_price_approve' => $value->Sumprice,
-                    'Total_amount'      => $value->Sumprice,
-                    'STMdoc'            => $value->filename,
-                    'HDflag'            => $value->hipdata_code
-                ]);
-            }
+            // $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
+          
+                // Acc_stm_ti_total::create([
+                //     'repno'             => $value->repno,
+                //     'hn'                => $value->hn,
+                //     'cid'               => $value->cid,
+                //     'fullname'          => $value->fullname,
+                //     'vstdate'           => $value->vstdate,
+                //     'sum_price_approve' => $value->pay_amount,
+                //     'Total_amount'      => $value->pay_amount,
+                //     'STMdoc'            => $value->filename,
+                //     'HDflag'            => $value->hipdata_code
+                // ]);
+            // }
             Acc_1102050101_2166::where('cid',$value->cid)->where('vstdate',$value->vstdate)
                 ->update([
                     'status'   => 'Y'
-                ]);
+                ]); 
+
+            $add = new Acc_stm_ti_total();
+            $add->repno         = $value->repno;
+            $add->hn            = $value->hn;
+            $add->cid           = $value->cid;
+            $add->fullname      = $value->fullname;
+            $add->vstdate       = $value->vstdate;
+            $add->sum_price_approve  = $value->pay_amount;
+            $add->Total_amount  = $value->pay_amount;
+            $add->STMdoc        = $value->filename;
+            $add->HDflag        = $value->hipdata_code;
+            $add->save();
+
         }
 
 
         Acc_stm_ti_excel::truncate();
         return redirect()->back();
     }
+
+    // public function upstm_ti_importtotal(Request $request)
+    // {
+    //     $data_ = DB::connection('mysql')->select('
+    //             SELECT repno,hn,cid,fullname,vstdate,filename,hipdata_code,pay_amount
+    //             FROM acc_stm_ti_excel
+               
+    //     ');
+    //     // ,sum(pay_amount) as Sumprice
+    //     // GROUP BY cid,vstdate
+    //     foreach ($data_ as $key => $value) {
+    //         $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
+    //         // if ($check > 0) {
+    //         //     Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+    //         //         ->update([
+    //         //             // 'repno'             => $value->repno,
+    //         //             // 'hn'                => $value->hn,
+    //         //             // 'cid'               => $value->cid,
+    //         //             // 'fullname'          => $value->fullname,
+    //         //             // 'vstdate'           => $value->vstdate,
+    //         //             // 'sum_price_approve' => $value->Sumprice,
+    //         //             'Total_amount'      => $value->pay_amount,
+    //         //             'STMdoc'            => $value->filename,
+    //         //             'HDflag'            => $value->hipdata_code
+    //         //     ]);
+    //         // } else {
+    //             Acc_stm_ti_total::create([
+    //                 'repno'             => $value->repno,
+    //                 'hn'                => $value->hn,
+    //                 'cid'               => $value->cid,
+    //                 'fullname'          => $value->fullname,
+    //                 'vstdate'           => $value->vstdate,
+    //                 'sum_price_approve' => $value->pay_amount,
+    //                 'Total_amount'      => $value->pay_amount,
+    //                 'STMdoc'            => $value->filename,
+    //                 'HDflag'            => $value->hipdata_code
+    //             ]);
+    //         // }
+    //         Acc_1102050101_2166::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+    //             ->update([
+    //                 'status'   => 'Y'
+    //             ]);
+    //     }
+
+
+    //     // Acc_stm_ti_excel::truncate();
+    //     return redirect()->back();
+    // }
     // function upstm_ti_importexcel(Request $request)
     // {
     //     $this->validate($request, [

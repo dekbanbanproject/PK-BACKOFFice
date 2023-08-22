@@ -248,8 +248,10 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <a href="{{url('account_pkti2166_stmtang/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่วนต่าง {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit">
-                                                            <p class="text-muted mb-0"><span class="text-secondary fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($total_yokma, 2) }}</span></p>
+                                                        {{-- <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่วนต่าง {{number_format($total_yokma, 2) }} / {{$count_yokma}}Visit"> --}}
+                                                            <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่วนต่าง 00 / 00Visit">
+                                                            <p class="text-muted mb-0"><span class="text-secondary fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>00</span></p>
+                                                            {{-- <p class="text-muted mb-0"><span class="text-secondary fw-bold font-size-12 me-2"><i class="fa-solid fa-hand-holding-dollar me-1 align-middle"></i>{{ number_format($total_yokma, 2) }}</span></p> --}}
                                                         </div>
                                                     </a>
                                                 </div>

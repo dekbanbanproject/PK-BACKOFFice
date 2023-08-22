@@ -45,7 +45,7 @@ class ImportAcc_stm_tiexcel_import implements ToModel
                 'hipdata_code' => $row[7],             
                 'regdate' =>$regdate,
                 'vstdate' => $vstdate, 
-                'no' => $row[11],
+                'no' => $row[0],
                 'list' => $row[12],
                 'qty' => $row[13],
                 'unitprice' => $row[14], 

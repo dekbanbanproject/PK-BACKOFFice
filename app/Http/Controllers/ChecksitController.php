@@ -1246,7 +1246,7 @@ class ChecksitController extends Controller
                  MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
-				,c.staff
+				,c.staff,c.staff_name
                 ,COUNT(DISTINCT c.vn) as countvn
                 ,COUNT(c.claimcode) as Authen
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen
@@ -1281,7 +1281,7 @@ class ChecksitController extends Controller
                 MONTH(c.vstdate) as month
                 ,YEAR(c.vstdate) as year
                 ,DAY(c.vstdate) as day
-                ,c.staff
+                ,c.staff,c.staff_name
                 ,COUNT(DISTINCT c.vn) as countvn
                 ,COUNT(c.claimcode) as Authen
                 ,COUNT(c.vn)-COUNT(c.claimcode) as Noauthen

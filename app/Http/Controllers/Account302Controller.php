@@ -117,11 +117,12 @@ class Account302Controller extends Controller
                     WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
                     and account_code="1102050101.302"
 
-                    group by month(a.dchdate) desc;
+                    group by month(a.dchdate) order by month(a.dchdate) desc limit 3;
             ');
             // and stamp = "N"
         } else {
-            $datashow = DB::select('
+            $datashow = DB::select(' 
+
                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
                     ,count(distinct a.hn) as hn
                     ,count(distinct a.vn) as vn
@@ -135,15 +136,17 @@ class Account302Controller extends Controller
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.302"
 
-                    group by month(a.dchdate) desc;
+                    group by month(a.dchdate) order by month(a.dchdate) desc;
             ');
         }
-
+        $data_trimart = DB::table('acc_trimart')->limit(3)->get();
+        
             return view('account_pk.account_302_dash',[
-                'startdate'     =>     $startdate,
-                'enddate'       =>     $enddate,
-                'datashow'    =>     $datashow,
+                'startdate'        =>     $startdate,
+                'enddate'          =>     $enddate,
+                'datashow'         =>     $datashow,
                 'leave_month_year' =>  $leave_month_year,
+                'data_trimart'     =>  $data_trimart,
             ]);
     }
     public function account_302_pull(Request $request)
@@ -158,8 +161,7 @@ class Account302Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.an = a.an
-
+                left outer join check_sit_auto c on c.an = a.an 
                 WHERE a.account_code="1102050101.302"
                 AND a.stamp = "N"
                 order by a.dchdate asc;
@@ -281,8 +283,8 @@ class Account302Controller extends Controller
                     ]);
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
-            
-                $check = Acc_debtor::where('an', $value->an)->where('debit_total','=','0')->count();
+             
+                $check = Acc_1102050101_302::where('an', $value->an)->count();
                 if ($check > 0) {
                 # code...
                 } else {
