@@ -54,11 +54,11 @@
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
   <style>
-       body{
-        /* background: */
-            /* url(/pkbackoffice/public/images/bg7.png);  */
+        body{   
+        background:
+            url(/pkbackoffice/public/images/bg7.png);
+            /* url(/pkbackoffice/public/images/bg5.jpg); */
             /* -webkit-background-size: cover; */
-        background-color:rgb(245, 240, 240);
         background-repeat: no-repeat;
 		background-attachment: fixed;
 		/* background-size: cover; */
@@ -67,17 +67,12 @@
         /* align-items: center; */
         /* justify-content: center; */
         /* width: 100vw;   ให้เต็มพอดี */
-        /* height: 100vh; ให้เต็มพอดี  */
+        /* height: 100vh; ให้เต็มพอดี  */ 
         }
     .Bgsidebar {
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
 		background-repeat: no-repeat;
 	}
-    .Bgheader {
-  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
-		background-repeat: no-repeat;
-	}
-    
   </style>
 
 <body data-topbar="dark">
@@ -86,12 +81,12 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgba(247, 198, 176)">
+            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)">
+              
 
                 <div class="d-flex">
                     <!-- LOGO -->
-                    <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
+                    <div class="navbar-brand-box">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
@@ -106,29 +101,28 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(247, 198, 176)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
-                    <h4 style="color:rgb(255, 255, 255)" class="mt-4">CLAIM CENTER</h4>
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
                                 select * from orginfo 
                                 where orginfo_id = 1                                                                                                                      ',
                         ); 
                     ?>
-                    {{-- <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
-                    </form>                                          --}}
+                    </form>                                         
                 </div>
  
                 <div class="d-flex">
@@ -180,7 +174,7 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         {{-- <div class="vertical-menu "> --}}
-            <div class="vertical-menu">
+            <div class="vertical-menu Bgsidebar">
         {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
@@ -453,10 +447,8 @@
         <!-- ============================================================== -->
         <div class="main-content">
             {{-- background:url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%; --}}
-            {{-- <div class="page-content Backgroupbody"> --}}
-                <div class="page-content Backgroupbody"> 
-                {{-- <div class="page-content"> --}}
-                    {{-- <div class="page-content" style="background-color: rgba(247, 244, 244, 0.911)"> --}}
+            <div class="page-content Backgroupbody">
+
                 @yield('content')
 
             </div>

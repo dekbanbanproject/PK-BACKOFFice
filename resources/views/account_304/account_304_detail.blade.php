@@ -63,7 +63,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050101.301
+                    รายละเอียด 1102050101.304
                         <div class="btn-actions-pane-right">
 
                         </div>

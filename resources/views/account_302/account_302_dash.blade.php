@@ -80,8 +80,8 @@
                 </div>
             </div>
         </div>
-        {{-- <form action="{{ route('acc.account_pkucs217_dash') }}" method="GET">
-            @csrf --}}
+        <form action="{{ url('account_302_dash') }}" method="GET">
+            @csrf
             <div class="row"> 
                 <div class="col-md-4">
                     <h4 class="card-title">Detail 1102050101.302</h4>
@@ -90,17 +90,15 @@
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-3 text-end">
-                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            data-date-language="th-th" value="{{ $startdate }}" required/>
-                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div> 
+                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control">
+                        <option value="">--เลือก--</option>
+                        @foreach ($trimart as $item)
+                            <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} {{$item->acc_trimart_end_date}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-2 text-start">
-                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
@@ -110,13 +108,13 @@
                     </a>
                 </div>
             </div>
-        {{-- </form>   --}}
+        </form>  
         <div class="row "> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
 
-                    @if ($startdate == '')
+                    {{-- @if ($startdate == '') --}}
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
@@ -138,7 +136,7 @@
                                                 $sum_N = $value->sumdebit;
                                             }
                                             // ตั้งลูกหนี้
-                                            $datasum_ = DB::select('
+                                             $datasum_ = DB::select('
                                                 SELECT sum(debit_total) as debit_total,count(vn) as Cvit
                                                 from acc_1102050101_302
                                                 where vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
@@ -175,11 +173,11 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-3 text-end mt-2 me-4">
-                                                <a href="{{url('account_301_pull')}}" target="_blank">
+                                                {{-- <a href="{{url('account_301_pull')}}" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                         <h6 class="text-end">{{ $count_N}} Visit</h6>
                                                     </div>
-                                                </a>
+                                                {{-- </a> --}}
                                             </div>
                                         </div>
                                         <div class="row">
@@ -214,14 +212,14 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                {{-- <a href="" target="_blank"> --}}
+                                                <a href="{{url('account_302_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
                                                                 <i class="fa-brands fa-btc text-danger ms-2"></i>
                                                         </p>
                                                     </div>
-                                                {{-- </a> --}}
+                                                </a>
                                             </div>
                                         </div>
 
@@ -297,9 +295,9 @@
                             </div>
                         </div>
                     </div>
-                    @else
+                    {{-- @else --}}
                         
-                    @endif                
+                    {{-- @endif                 --}}
                        
                    
                 </div> 

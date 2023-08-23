@@ -2357,64 +2357,64 @@ class AccountPKController extends Controller
     }
 
     // ***************** 304********************************
-    public function account_304_dash(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+    // public function account_304_dash(Request $request)
+    // {
+    //     $datenow = date('Y-m-d');
+    //     $startdate = $request->startdate;
+    //     $enddate = $request->enddate;
+    //     $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
 
-        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+    //     $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+    //     $date = date('Y-m-d');
+    //     $y = date('Y') + 543;
+    //     $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+    //     $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+    //     $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-        if ($startdate == '') {
-            $datashow = DB::select('
-                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,count(distinct a.an) as an
-                    ,sum(a.income) as income
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //     if ($startdate == '') {
+    //         $datashow = DB::select('
+    //                 SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
 
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                    WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
-                    and account_code="1102050101.304"
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+    //                 WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
+    //                 and account_code="1102050101.304"
 
-                    group by month(a.dchdate) desc;
-            ');
-            // and stamp = "N"
-        } else {
-            $datashow = DB::select('
-                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,count(distinct a.an) as an
-                    ,sum(a.income) as income
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 group by month(a.dchdate) desc;
+    //         ');
+    //         // and stamp = "N"
+    //     } else {
+    //         $datashow = DB::select('
+    //                 SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
 
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.304"
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+    //                 WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+    //                 and account_code="1102050101.304"
 
-                    group by month(a.dchdate) desc;
-            ');
-        }
+    //                 group by month(a.dchdate) desc;
+    //         ');
+    //     }
 
-            return view('account_pk.account_304_dash',[
-                'startdate'     =>     $startdate,
-                'enddate'       =>     $enddate,
-                'datashow'    =>     $datashow,
-                'leave_month_year' =>  $leave_month_year,
-            ]);
-    }
+    //         return view('account_pk.account_304_dash',[
+    //             'startdate'     =>     $startdate,
+    //             'enddate'       =>     $enddate,
+    //             'datashow'    =>     $datashow,
+    //             'leave_month_year' =>  $leave_month_year,
+    //         ]);
+    // }
     public function account_304_pull(Request $request)
     {
         $datenow = date('Y-m-d');

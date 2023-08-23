@@ -93,90 +93,30 @@ class Account301Controller extends Controller
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+        $acc_trimart_id = $request->acc_trimart_id;
+
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $data_trimart = DB::table('acc_trimart')->limit(3)->get();
-        // $data_ = DB::table('acc_trimart')->where('acc_trimart_code','=','1')->first();
-        $data_ = DB::table('acc_trimart')->first();
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี 
+       
+        $data_ = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->first();
+        // $startdate_tri = $data_->acc_trimart_start_date;
+        // $enddate_tri = $data_->acc_trimart_end_date;
         // dd($data_trimart);
         
-        // foreach ($data_trimart as $value) {
-        //     // dd($value->acc_trimart_start_date);
-        //     // if ($value->acc_trimart_code = 1) {
-        //       $da = $value->acc_trimart_name;
-
-            //   dd($da);
-                // $datashow = DB::select(' 
-                //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                //         ,count(distinct a.hn) as hn
-                //         ,count(distinct a.vn) as vn
-                //         ,sum(a.paid_money) as paid_money
-                //         ,sum(a.income) as income
-                //         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                //         FROM acc_debtor a
-                //         left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                //         WHERE a.vstdate between "'.$value->acc_trimart_start_date.'" and "'.$value->acc_trimart_end_date.'"
-                //         and account_code="1102050101.301"
-                //         group by month(a.vstdate) 
-                // ');
-                // dd($datashow);
-            // } else {
-            //     # code...
-            // }
-            
-                //   $datashow = DB::select(' 
-                //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                //         ,count(distinct a.hn) as hn
-                //         ,count(distinct a.vn) as vn
-                //         ,sum(a.paid_money) as paid_money
-                //         ,sum(a.income) as income
-                //         ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                //         FROM acc_debtor a
-                //         left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                //         WHERE a.vstdate between "2023-01-01" and "2023-06-30"
-                //         and account_code="1102050101.301"
-                //         group by month(a.vstdate) 
-                // ');
-                
-        // }
-        // dd($da);
-        // if ($startdate == '') {
-        //     $datashow = DB::select('
-        //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-        //             ,count(distinct a.hn) as hn
-        //             ,count(distinct a.vn) as vn
-        //             ,sum(a.paid_money) as paid_money
-        //             ,sum(a.income) as income
-        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-        //             FROM acc_debtor a
-        //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-        //             WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-        //             and account_code="1102050101.301"
-        //             and income <> 0
-        //             group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
-        //     ');
-
-        // } else {
-        //     $datashow = DB::select('
-        //         SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-        //             ,count(distinct a.hn) as hn
-        //             ,count(distinct a.vn) as vn
-        //             ,sum(a.paid_money) as paid_money
-        //             ,sum(a.income) as income
-        //             ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-        //             FROM acc_debtor a
-        //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-        //             WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-        //             and account_code="1102050101.301"
-        //             and income <>0
-        //             group by month(a.vstdate) order by month(a.vstdate) desc;
-        //     ');
-        // }
+       if ($acc_trimart_id == '') {
+            $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
+            $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
+       } else {
+            // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();
+            $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
+            $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
+       }
+       
 
         return view('account_301.account_301_dash',[
             'startdate'        => $startdate,
@@ -185,6 +125,7 @@ class Account301Controller extends Controller
             'data_trimart'     => $data_trimart,
             'newyear'          => $newyear,
             'date'             => $date,
+            'trimart'          => $trimart,
         ]);
     }
 
@@ -209,6 +150,15 @@ class Account301Controller extends Controller
             ');
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
         } else {
+            $acc_debtor = DB::select('
+                SELECT a.*,c.subinscl from acc_debtor a
+                left outer join check_sit_auto c on c.vn = a.vn
+                WHERE a.account_code="1102050101.301"
+                AND a.stamp = "N"
+                group by a.vn
+                order by a.vstdate asc;
+
+            ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
 
@@ -422,7 +372,7 @@ class Account301Controller extends Controller
             'status'    => '200'
         ]);
     }
-    public function account_301_detail(Request $request,$months,$year)
+    public function account_301_detail(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -431,96 +381,21 @@ class Account301Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
+        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
             from acc_1102050101_301 U1
-            LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-            WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        
+            WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             GROUP BY U1.vn
         ');
-
-        return view('account_pk.account_301_detail', $data, [
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
+        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        return view('account_301.account_301_detail', $data, [ 
             'data'          =>     $data,
-            'months'        =>     $months,
-            'year'          =>     $year
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
         ]);
     }
-    public function account_301_stm(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // dd($id);
-        $data['users'] = User::get();
-
-        $datashow = DB::select('
-        SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
-            from acc_1102050101_401 U1
-            LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-            WHERE month(U1.vstdate) = "'.$months.'"
-            and year(U1.vstdate) = "'.$year.'"
-            AND U2.pricereq_all IS NOT NULL
-            GROUP BY U1.vn
-        ');
-        return view('account_pk.account_301_stm', $data, [
-            'startdate'         =>     $startdate,
-            'enddate'           =>     $enddate,
-            'datashow'          =>     $datashow,
-            'months'            =>     $months,
-            'year'              =>     $year,
-
-        ]);
-    }
-    public function account_301_stmnull(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // dd($id);
-        $data['users'] = User::get();
-
-        $datashow = DB::connection('mysql')->select('
-                SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-                AND U1.status ="N"
-            ');
-
-
-        return view('account_pk.account_301_stmnull', $data, [
-            'startdate'         =>     $startdate,
-            'enddate'           =>     $enddate,
-            'datashow'          =>     $datashow,
-            'months'            =>     $months,
-            'year'              =>     $year,
-        ]);
-    }
-
-    public function account_301_stmnull_all(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // dd($id);
-        $data['users'] = User::get();
-        $mototal = $months + 1;
-        $datashow = DB::connection('mysql')->select('
-                SELECT U2.repno,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,SUM(U2.pricereq_all) as pricereq_all,U2.STMdoc
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                WHERE U1.status ="N"
-                AND U2.pricereq_all IS NULL
-                GROUP BY U1.vn
-            ');
-        return view('account_pk.account_301_stmnull_all', $data, [
-            'startdate'         =>     $startdate,
-            'enddate'           =>     $enddate,
-            'datashow'          =>     $datashow,
-            'months'            =>     $months,
-            'year'              =>     $year,
-        ]);
-    }
+    
+   
+ 
 
  }
