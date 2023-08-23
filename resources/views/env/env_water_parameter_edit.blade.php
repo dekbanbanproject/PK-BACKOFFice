@@ -93,21 +93,21 @@ $count_service = StaticController::count_service();
                                             <div class="col-md-2 text-end">
                                                 <label for="land_tonnage_number">รายการพารามิเตอร์ :</label>
                                             </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <input id="water_parameter_name" type="text"
                                                         class="form-control form-control-sm" name="water_parameter_name" value="{{$water_parameter->water_parameter_name}}">
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-md-1 text-end">
-                                                <label for="article_name">หน่วย :</label>
+                                            <div class="col-md-1 text-end">
+                                                <label for="water_parameter_short_name">คำย่อ :</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <input id="water_parameter_unit" type="text" 
-                                                        class="form-control form-control-sm" name="water_parameter_unit" value="{{$water_parameter->water_parameter_unit}}">                                                        
+                                                    <input id="water_parameter_short_name" type="text" 
+                                                        class="form-control form-control-sm" name="water_parameter_short_name" value="{{$water_parameter->water_parameter_short_name}}">                                                        
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                         </div>
     
                                         <div class="row mt-3">
@@ -137,10 +137,10 @@ $count_service = StaticController::count_service();
                                                     </select>                                                    
                                                 </div>
                                             </div>
-                                            <div class="col-md-2 text-end">
+                                            <div class="col-md-1 text-end">
                                                 <label for="land_tonnage_no">ค่ามาตรฐาน :</label>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <input id="water_parameter_normal" type="text"
                                                         class="form-control form-control-sm" name="water_parameter_normal" value="{{$water_parameter->water_parameter_normal}}">

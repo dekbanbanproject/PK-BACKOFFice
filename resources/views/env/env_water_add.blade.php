@@ -198,13 +198,12 @@ $count_service = StaticController::count_service();
                                                         {{-- <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="5%">ค่าที่กำหนด</th>   --}}
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="10%">ผลการวิเคราะห์</th>
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="7%">หน่วย</th>                                                       
-                                                        {{-- <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="15%">ค่ามาตรฐาน</th>                                             --}}
+                                                        {{-- <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="15%">ค่ามาตรฐาน</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody class="tbody">
                                                     <?php $number = 1; ?>
-                                                    @foreach($dataparameters as $items)
-                                                   
+                                                    @foreach($dataparameters as $items) 
                                                     <tr height="20">                                             
                                                         <td style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 13px;"> {{ $number++}} </td>                                           
                                                         <td>
@@ -214,10 +213,14 @@ $count_service = StaticController::count_service();
                                                         
                                                         <td><input name="water_qty[]" id="water_qty[]" class="form-control input-sm fo13" type="number" required></td>
                                                         
-                                                        <td><input value="{{ $items->water_parameter_unit }}" name="water_parameter_unit[]" id="water_parameter_unit[]" class="form-control input-sm fo13" readonly ></td>
+                                                        <td>
+                                                            <input value="{{ $items->water_parameter_unit }}" name="water_parameter_unit[]" id="water_parameter_unit[]" class="form-control input-sm fo13" readonly >
+                                                            <input type="hidden" value="{{ $items->water_parameter_short_name }}" name="water_parameter_short_name[]" id="water_parameter_short_name[]" class="form-control input-sm fo13" >
+                                                        </td>
                                                         
                                                         {{-- <td><input type="hidden" value="{{ $items->water_parameter_normal }}" name="water_parameter_normal[]" id="water_parameter_normal[]" class="form-control input-sm fo13" readonly></td> --}}
                                                     </tr>
+                                                    
                                                     @endforeach 
                                                 </tbody>
                                             </table> 

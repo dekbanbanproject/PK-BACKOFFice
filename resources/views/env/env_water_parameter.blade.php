@@ -132,28 +132,7 @@ if (Auth::check()) {
                                                         @endif
                                                         <label for="{{ $item-> water_parameter_id }}" data-on-label="On" data-off-label="Off"></label>
                                                 </td>
-                                                <td class="text-center" width="7%">
-    
-                                                    {{-- <div class="dropdown">
-                                                        <button class="dropdown-toggle btn btn-sm text-secondary" href="#" id="dropdownMenuLink" data-mdb-toggle="dropdown" aria-expanded="false" >
-                                                          ทำรายการ
-                                                        </button>                                      
-                                                            <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-                                                              
-                                                                  <li>
-                                                                    <a href="{{ url('article/article_index_edit/' .$item->article_id) }}" class="text-warning me-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" title="แก้ไข" >
-                                                                      <i class="fa-solid fa-pen-to-square me-2 mt-3 ms-4"></i>
-                                                                      <label for="" style="color: black">แก้ไข</label>
-                                                                    </a>  
-                                                                  </li>
-                                                                  <li>
-                                                                    <a class="text-danger" href="javascript:void(0)" onclick="article_destroy({{ $item->article_id }})">
-                                                                      <i class="fa-solid fa-trash-can me-2 mt-3 ms-4 mb-4"></i>
-                                                                      <label for="" style="color: black">ลบ</label>
-                                                                    </a> 
-                                                                  </li>
-                                                            </ul>
-                                                    </div> --}}
+                                                <td class="text-center" width="7%">                                                    
                                                     <div class="btn-group">
                                                         <button type="button"
                                                             class="btn btn-outline-secondary btn-sm dropdown-toggle"
