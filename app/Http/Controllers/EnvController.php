@@ -257,7 +257,7 @@ class EnvController extends Controller
                 }  
                 if($send_line !== '' && $send_line !== null){ 
 
-                    // function notify_message($smessage,$linetoken)
+                    // function notify_message($linetoken,$smessage)
                     // {
                         $chOne = curl_init();
                         curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
