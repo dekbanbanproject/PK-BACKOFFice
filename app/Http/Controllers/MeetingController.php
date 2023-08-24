@@ -1152,13 +1152,15 @@ public function updateinform(Request $request)
                 "\n" . "ถึงวันที่ : " . $dateend .
                 "\n" . "สถานะ : " .'แจ้งยกเลิก'.
                 "\n" .  "อุปกรณ์ : "; 
+                
                 foreach ($products as $product){ 
-                    $message.="\n"." - " . $product->ARTICLE_NAME ." จำนวน ".$product->TOTAL;
-                        }
-                    $message.="\n"."อาหาร : "; 
-                    foreach ($foods as $food){ 
+                        $message.="\n"." - " . $product->ARTICLE_NAME ." จำนวน ".$product->TOTAL;
+                }
+                        $message.="\n"."อาหาร : "; 
+
+                foreach ($foods as $food){ 
                     $message.="\n"." - " . $food->FOOD_NAME ." จำนวน ".$food->TOTAL." ".$food->FOOD_UNIT;
-                    }
+                }
 
             $chOne = curl_init();
             curl_setopt($chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");

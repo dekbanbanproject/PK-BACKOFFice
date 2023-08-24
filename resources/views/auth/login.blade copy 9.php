@@ -30,7 +30,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"
         rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
     <!-- Vendor CSS Files -->
     <link href="{{ asset('medical/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('medical/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
@@ -48,9 +48,16 @@
     <!-- <link href="{{ asset('medical/assets/css/variables-pink.css') }}" rel="stylesheet"> -->
 
     <!-- Template Main CSS File -->
-    <link href="{{ asset('medical/assets/css/main.css') }}" rel="stylesheet"> 
-    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
-   
+    <link href="{{ asset('medical/assets/css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- =======================================================
+  * Template Name: HeroBiz
+  * Updated: Jul 27 2023 with Bootstrap v5.3.1
+  * Template URL: https://bootstrapmade.com/herobiz-bootstrap-business-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
 <body>
@@ -1154,8 +1161,10 @@
             <div class="container">
 
                 <div class="section-header">
-                    <h2>โครงสร้างบริหารงาน</h2>
-                    <p>โครงสร้างบริหารงานโรงพยาบาลภูเขียวเฉลิมพระเกียรติ อำเภอภูเขียว จังหวัดชัยภูมิ</p>
+                    <h2>Portfolio</h2>
+                    <p>Non hic nulla eum consequatur maxime ut vero memo vero totam officiis pariatur eos dolorum sed
+                        fug dolorem est possimus esse quae repudiandae. Dolorem id enim officiis sunt deserunt esse
+                        soluta consequatur quaerat</p>
                 </div>
 
             </div>
@@ -1523,30 +1532,32 @@
                     </div>
 
                     <div class="col-lg-8">
-                        <form action="{{route('Cus.contact_save')}}" method="POST">
-                            @csrf
-                            {{-- id="Sendmessage" --}}
-                            <div class="row ">
+                        <form action="{{route('Cus.contact_save')}}" id="Sendmessage" method="post" role="form" class="php-email-form">
+                        {{-- <form class="php-email-form"> --}}
+                            <div class="row php-email-form">
                                 <div class="col-md-6 form-group">
-                                    <input type="text" name="patientpk_name" class="form-control" id="patientpk_name" placeholder="Your Name" required>
+                                    <input type="text" name="patientpk_name" class="form-control" id="patientpk_name"
+                                        placeholder="Your Name" required>
                                 </div>
                                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="email" class="form-control" name="patientpk_email" id="patientpk_email" placeholder="Your Email" >
+                                    <input type="email" class="form-control" name="patientpk_email" id="patientpk_email"
+                                        placeholder="Your Email" >
                                 </div>
                             </div>
                             <div class="form-group mt-3">
-                                <input type="text" class="form-control" name="patientpk_subject" id="patientpk_subject" placeholder="Subject" >
+                                <input type="text" class="form-control" name="patientpk_subject" id="patientpk_subject"
+                                    placeholder="Subject" >
                             </div>
                             <div class="form-group mt-3">
-                                <textarea class="form-control" name="patientpk_message" id="patientpk_message" placeholder="Message" rows="10" ></textarea>
+                                <textarea class="form-control" name="patientpk_message" id="patientpk_message" placeholder="Message"></textarea>
                             </div>
                             <div class="my-3">
-                                {{-- <div class="loading">Loading</div> --}}
-                                {{-- <div class="error-message"></div> --}}
-                                {{-- <div class="sent-message">Your message has been sent. Thank you!</div> --}}
+                                <div class="loading">Loading</div>
+                                <div class="error-message"></div>
+                                <div class="sent-message">Your message has been sent. Thank you!</div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">Send Message</button>
+                                <button type="submit">Send Message</button>
                             </div>
                         </form>
                     </div><!-- End Contact Form -->
@@ -1724,8 +1735,6 @@
     <div id="preloader"></div>
 
     <!-- Vendor JS Files -->
-  
-    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('medical/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('medical/assets/vendor/aos/aos.js') }}"></script>
     <script src="{{ asset('medical/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
@@ -1735,8 +1744,8 @@
 
     <!-- Template Main JS File -->
     <script src="{{ asset('medical/assets/js/main.js') }}"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
-  
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -1747,7 +1756,46 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-   
+ 
+            // $('#Savedata').click(function() {
+            //         var patientpk_name = $('#patientpk_name').val();
+            //         var patientpk_email = $('#patientpk_email').val();
+            //         var patientpk_subject = $('#patientpk_subject').val();
+            //         var patientpk_message = $('#patientpk_message').val(); 
+
+            //         $.ajax({
+            //             url: "{{ route('acc.uprep_money_save') }}",
+            //             type: "POST",
+            //             dataType: 'json',
+            //             data: {
+            //                 patientpk_name,patientpk_email,patientpk_subject,patientpk_message 
+            //             },
+            //             success: function(data) {
+            //                 if (data.status == 200) {
+            //                     Swal.fire({
+            //                         title: 'ส่งข้อมูลสำเร็จ',
+            //                         text: "You Send data success",
+            //                         icon: 'success',
+            //                         showCancelButton: false,
+            //                         confirmButtonColor: '#06D177',
+            //                         confirmButtonText: 'เรียบร้อย'
+            //                     }).then((result) => {
+            //                         if (result
+            //                             .isConfirmed) {
+            //                             console.log(
+            //                                 data);
+            //                             window.location.reload();
+            //                             // window.location="{{ url('warehouse/warehouse_index') }}";
+            //                         }
+            //                     })
+            //                 } else {
+
+            //                 }
+
+            //             },
+            //         });
+            // });
+            
             $('#Sendmessage').on('submit',function(e){
                     e.preventDefault();
                     var form = this;
@@ -1780,46 +1828,9 @@
                         }
                       }
                     });
-            });   
-            
-             $('#Savedata').click(function() {
-                    var patientpk_name = $('#patientpk_name').val();
-                    var patientpk_email = $('#patientpk_email').val();
-                    var patientpk_subject = $('#patientpk_subject').val();
-                    var patientpk_message = $('#patientpk_message').val(); 
-                alert(patientpk_name);
-                    $.ajax({
-                        url: "{{ route('Cus.contact_save') }}",
-                        type: "POST",
-                        dataType: 'json',
-                        data: {
-                            patientpk_name,patientpk_email,patientpk_subject,patientpk_message 
-                        },
-                        success: function(data) {
-                            if (data.status == 200) {
-                                Swal.fire({
-                                    title: 'ส่งข้อมูลสำเร็จ',
-                                    text: "You Send data success",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#06D177',
-                                    confirmButtonText: 'เรียบร้อย'
-                                }).then((result) => {
-                                    if (result
-                                        .isConfirmed) {
-                                        console.log(
-                                            data);
-                                        window.location.reload();
-                                        // window.location="{{ url('warehouse/warehouse_index') }}";
-                                    }
-                                })
-                            } else {
-
-                            }
-
-                        },
-                    });
             });
+
+            
              
         });
 

@@ -45,7 +45,7 @@ use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
-use App\Models\Acc_1102050101_302;
+use App\Models\Patientpk;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -91,89 +91,62 @@ class CustormerController extends Controller
     public function contact_save(Request $request)
     {
         $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-      
-        return response()->json([
+        
+        $add = new Patientpk();
+        $add->patientpk_name = $request->patientpk_name;
+        $add->patientpk_email = $request->patientpk_email;
+        $add->patientpk_subject = $request->patientpk_subject;
+        $add->patientpk_message = $request->patientpk_message;
+        $add->patientpk_date = $datenow;
+        $add->save();
 
-            'status'    => '200'
-        ]); 
-    }
-    
-
-    public function account_304_pulldata(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->datepicker;
-        $enddate = $request->datepicker2;
-        // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select('
-                SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
-                ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
-                ,a.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
-                ,ec.name as account_name,ifnull(ec.ar_ipd,"") pang_debit
-                ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
-                ,a.income-a.rcpt_money-a.discount_money as looknee_money
-                
-                ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
-                ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                from ipt ip
-                LEFT JOIN hos.an_stat a ON ip.an = a.an
-                LEFT JOIN patient pt on pt.hn=a.hn
-                LEFT JOIN pttype ptt on a.pttype=ptt.pttype
-                LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
-                LEFT JOIN hos.opitemrece op ON ip.an = op.an
-                LEFT JOIN hos.vn_stat v on v.vn = a.vn
-                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND a.pttype = "s7"
-                GROUP BY a.an;
-            ');
-
-            foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.304')->whereBetween('dchdate', [$startdate, $enddate])->count();
-                    if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->fullname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'regdate'            => $value->admdate,
-                            'dchdate'            => $value->dchdate,
-                            'acc_code'           => $value->code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->cash_money,
-                            'rcpt_money'         => $value->cash_money,
-                            'debit'              => $value->looknee_money,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'fokliad'            => $value->fokliad,
-                            'debit_total'        => $value->looknee_money,
-                            'max_debt_amount'    => $value->max_debt_money,
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
-                    }
+        $linetoken = "9WhX0dXO7HwwdRRgKyqEwt9madYkd893vNmnKKkKnDt"; //ใส่ token line ENV แล้ว       
+           
+            $smessage = [];
+            $header = "ติดต่อเรา";
+            $smessage =  $header. 
+                    "\n"."ชื่อผู้ติดต่อ : "    . $request->patientpk_name. 
+                   "\n"."อีเมล์ : "         . $request->patientpk_email . 
+                   "\n"."เรื่อง : "          . $request->patientpk_subject .
+                   "\n"."ข้อความ : "       . $request->patientpk_message .
+                   "\n"."วันที่ : "          . $datenow ; 
  
-            }
-            return response()->json([
-
-                'status'    => '200'
-            ]);
+                if($linetoken == null){
+                    $send_line ='';
+                }else{
+                    $send_line = $linetoken;
+                }  
+                if($send_line !== '' && $send_line !== null){ 
+ 
+                        $chOne = curl_init();
+                        curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                        curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt( $chOne, CURLOPT_POST, 1);
+                        // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$smessage");
+                        curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                        $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
+                        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec( $chOne );
+                        if(curl_error($chOne)) { echo 'error:' . curl_error($chOne); }
+                        else { $result_ = json_decode($result, true);
+                        echo "status : ".$result_['status']; 
+                        echo "message : ". $result_['message']; }
+                        curl_close( $chOne );
+                        // return response()->json([
+                        //     'status'    => '200'
+                        // ]); 
+                }  
+                return redirect()->route('index');       
+        // return response()->json([
+        //     'status'    => '200'
+        // ]); 
     }
     
+
+   
  
 
 

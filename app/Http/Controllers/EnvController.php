@@ -187,6 +187,7 @@ class EnvController extends Controller
             left join p4p_workload l on l.p4p_workload_user=u.id
             group by u.dep_subsubtrueid;
         ');        
+       
         $add = new Env_water();
         $add->water_date            = $request->input('water_date');
         $add->water_user            = $request->input('water_user');
@@ -304,7 +305,9 @@ class EnvController extends Controller
 
         // $idsub = Env_water_parameter::max('water_parameter_id');
         $data_loob = Env_water_sub::where('water_id','=',$waterid)->get();
-        $name = User::where('id','=',$iduser)->first();
+        // $name = User::where('id','=',$iduser)->first();
+        $data_users = User::where('id','=',$request->water_user)->first();
+        $name = $data_users->fname.''.$data_users->lname;
 
         $mMessage = array();
         foreach ($data_loob as $key => $value) { 
@@ -315,24 +318,28 @@ class EnvController extends Controller
                     'status'                        => $value->status,           
                 ];   
             }   
-        // dd($mMessage); 
-
-        $smessage = array();
-        foreach ($mMessage as $key => $smes) {
-            $na_mesage           = $smes['water_parameter_short_name'];
-            $qt_mesage           = $smes['water_qty'];
-            $status_mesage       = $smes['status'];
-      
+       
             // $linetoken = "q2PXmPgx0iC5IZXjtkeZUFiNwtmEkSGjRp1PsxFUaYe"; //ใส่ token line ENV แล้ว    
             $linetoken = "DVWB9QFYmafdjEl9rvwB0qdPgCdsD59NHoWV7WhqbN4"; //ใส่ token line ENV แล้ว       
            
-            $smessage = [];
+            // $smessage = [];
             $header = "ข้อมูลตรวจน้ำ";
-            $smessage =  $header. 
-                    "\n"."รายการพารามิเตอร์ : "    . $na_mesage. 
-                   "\n"."ผลการวิเคราะห์ : "        . $qt_mesage . 
-                   "\n"."สถานะ : "              . $status_mesage ; 
+            $message =  $header. 
+                    "\n"."วันที่บันทึก : "      . $request->input('water_date'). 
+                   "\n"."ผู้บันทึก  : "        . $name . 
+                   "\n"."สถานที่เก็บตัวอย่าง : " . $request->input('water_location'); 
  
+            foreach ($mMessage as $key => $smes) {
+                $na_mesage           = $smes['water_parameter_short_name'];
+                $qt_mesage           = $smes['water_qty'];
+                $status_mesage       = $smes['status'];
+
+                $message.="\n"."รายการพารามิเตอร์" . $na_mesage .
+                          "\n"."ผลการวิเคราะห์ : " . $qt_mesage . 
+                          "\n"."สถานะ : "       . $status_mesage;  
+            } 
+              
+
                 if($linetoken == null){
                     $send_line ='';
                 }else{
@@ -348,13 +355,16 @@ class EnvController extends Controller
                         curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
                         curl_setopt( $chOne, CURLOPT_POST, 1);
                         // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
-                        curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$smessage");
+                        curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
                         curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
                         $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
                         curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
                         curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
-                        $result = curl_exec( $chOne );                        
-                        curl_close( $chOne );
+                        $result = curl_exec($chOne);
+                        if (curl_error($chOne)) {echo 'error:' . curl_error($chOne);} else { $result_ = json_decode($result, true);
+                            echo "status : " . $result_['status'];
+                            echo "message : " . $result_['message'];}
+                        curl_close($chOne);
                     // } 
                     // foreach ($mMessage as $linetoken) {
                     //     notify_message($linetoken,$smessage);
@@ -362,7 +372,7 @@ class EnvController extends Controller
 
                 }              
                     
-        } 
+        // } 
         return redirect()->route('env.env_water');
         
         
