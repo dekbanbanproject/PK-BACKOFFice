@@ -180,6 +180,15 @@
                                                         $total_yokma = $value5->debityokma;
                                                         $count_yokma = $value5->anyokma;
                                                     }
+
+                                                    if ( $sum_Y > $amountpay) {
+                                                        $yokpai = $sum_Y - $amountpay;
+                                                        $count_Yok = $count_Y - $stm_count;
+                                                    } else {
+                                                        $yokpai = $amountpay - $sum_Y;
+                                                        $count_Yok = $stm_count - $amountpay;
+                                                    }
+                                                    
                                                     $mo = $item->months;
                                                     $sumyokma_all_ = DB::select('
                                                         SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
@@ -195,7 +204,7 @@
                                                         $total_yokma_all = $value6->debityokma + $total_yokma;
                                                         $count_yokma_all = $value6->anyokma + $count_yokma;
                                                     }
-
+ 
                                             ?>
                                             <div class="row">
                                                 <div class="col-md-5 text-start mt-4 ms-4">
@@ -288,8 +297,8 @@
                                                 <div class="col-md-4 text-end me-4">
                                                     <a href="{{url('account_pkucs217_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma}} Visit">
-                                                                    {{ number_format($total_yokma, 2) }}
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_Yok}} Visit">
+                                                                    {{ number_format($yokpai, 2) }}
                                                                     <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                             </p>
                                                         </div>

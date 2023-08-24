@@ -13,7 +13,7 @@
     <!-- Font Awesome -->
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('apkclaim/images/logo150.ico') }}">
+    {{-- <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
     <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
 
     <!-- Favicons -->
-    <link href="{{ asset('medical/assets/img/favicon.png') }}" rel="icon">
+    <link href="{{ asset('medical/assets/img/logo150.ico') }}" rel="icon">
     <link href="{{ asset('medical/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -68,13 +68,13 @@
             <a href="" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="assets/img/logo.png" alt=""> -->
-                <h1>PHUKIEO CHALERMPRAKIAT HOSPITAL<span>.</span></h1>
+                <h2>PHUKIEO CHALERMPRAKIAT HOSPITAL<span></span></h2>
             </a>
 
             <nav id="navbar" class="navbar">
                 <ul>
 
-                    <li class="dropdown"><a href="#"><span>Home</span> <i
+                    {{-- <li class="dropdown"><a href="#"><span>Home</span> <i
                                 class="bi bi-chevron-down dropdown-indicator"></i></a>
                         <ul>
                             <li><a href="index.html">Home 1 - index.html</a></li>
@@ -82,14 +82,14 @@
                             <li><a href="index-3.html" class="active">Home 3 - index-3.html</a></li>
                             <li><a href="index-4.html">Home 4 - index-4.html</a></li>
                         </ul>
-                    </li>
-
-                    <li><a class="nav-link scrollto" href="index.html#about">About</a></li>
-                    <li><a class="nav-link scrollto" href="index.html#services">Services</a></li>
-                    <li><a class="nav-link scrollto" href="index.html#portfolio">Portfolio</a></li>
-                    <li><a class="nav-link scrollto" href="index.html#team">Team</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i
+                    </li> --}}
+                    <li><a class="nav-link scrollto" href="{{url('/')}}">Home</a></li>
+                    {{-- <li><a class="nav-link scrollto" href="#about">About</a></li> --}}
+                    {{-- <li><a class="nav-link scrollto" href="#services">Services</a></li> --}}
+                    {{-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> --}}
+                    <li><a class="nav-link scrollto" href="#team">Team</a></li>
+                    {{-- <li><a href="blog.html">Blog</a></li> --}}
+                    {{-- <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i
                                 class="bi bi-chevron-down dropdown-indicator"></i></a>
                         <ul>
                             <li>
@@ -113,8 +113,8 @@
                                 <a href="#">Column 4 link 3</a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i
+                    </li> --}}
+                    {{-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i
                                 class="bi bi-chevron-down dropdown-indicator"></i></a>
                         <ul>
                             <li><a href="#">Drop Down 1</a></li>
@@ -132,17 +132,18 @@
                             <li><a href="#">Drop Down 3</a></li>
                             <li><a href="#">Drop Down 4</a></li>
                         </ul>
-                    </li>
-                    <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
+                    </li> --}}
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                    <li><a href="{{ url('check_dashboard') }}" target="_blank">Report</a></li> 
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle d-none"></i>
             </nav>
             <!-- .navbar -->
 
             {{-- <a class="btn-getstarted scrollto" href="index.html#about">เข้าสู่ระบบ</a> --}}
-            <button class="btn btn-outline-warning btn-sm" type="button" data-bs-toggle="modal"
+            <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-fingerprint text-warning"></i>
+                        <i class="fa-solid fa-fingerprint text-info"></i>
                         เข้าสู่ระบบ
                     </button>
 
@@ -151,13 +152,15 @@
 
     <section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
         <div class="container d-flex flex-column align-items-center position-relative" data-aos="zoom-out">
-            <h2>Welcome to <span>HeroBiz</span></h2>
-            <p>Et voluptate esse accusantium accusamus natus reiciendis quidem voluptates similique aut.</p>
+            <h2>Welcome to <span>PHUKIEO CHALERMPRAKIAT HOSPITAL</span></h2>
+            <p>เป็นโรงพยาบาลตัวอย่าง ด้านคุณภาพความปลอดภัยและประทับใจ.</p>
             <div class="d-flex">
                 <a href="#about" class="btn-get-started scrollto">Get Started</a>
-                <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ"
-                    class="glightbox btn-watch-video d-flex align-items-center"><i
-                        class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                {{-- <a href="" --}}
+                <a href="https://www.youtube.com/watch?v=7VTjCocVzFM"
+                    class="btn btn-outline-info glightbox btn-watch-video d-flex align-items-center">
+                    <i class="bi bi-play-circle"></i><span>Watch Video</span>
+                </a>
             </div>
         </div>
     </section>
@@ -208,7 +211,7 @@
         </section><!-- End Featured Services Section -->
 
         <!-- ======= About Section ======= -->
-        <section id="about" class="about">
+        {{-- <section id="about" class="about">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-header">
@@ -339,10 +342,11 @@
                 </div>
 
             </div>
-        </section><!-- End About Section -->
+        </section> --}}
+        <!-- End About Section -->
 
         <!-- ======= Clients Section ======= -->
-        <section id="clients" class="clients">
+        {{-- <section id="clients" class="clients">
             <div class="container" data-aos="zoom-out">
 
                 <div class="clients-slider swiper">
@@ -367,10 +371,11 @@
                 </div>
 
             </div>
-        </section><!-- End Clients Section -->
+        </section> --}}
+        <!-- End Clients Section -->
 
         <!-- ======= Call To Action Section ======= -->
-        <section id="cta" class="cta">
+        {{-- <section id="cta" class="cta">
             <div class="container" data-aos="zoom-out">
 
                 <div class="row g-5">
@@ -393,10 +398,11 @@
                 </div>
 
             </div>
-        </section><!-- End Call To Action Section -->
+        </section> --}}
+        <!-- End Call To Action Section -->
 
         <!-- ======= On Focus Section ======= -->
-        <section id="onfocus" class="onfocus">
+        {{-- <section id="onfocus" class="onfocus">
             <div class="container-fluid p-0" data-aos="fade-up">
 
                 <div class="row g-0">
@@ -427,10 +433,11 @@
                 </div>
 
             </div>
-        </section><!-- End On Focus Section -->
+        </section> --}}
+        <!-- End On Focus Section -->
 
         <!-- ======= Features Section ======= -->
-        <section id="features" class="features">
+        {{-- <section id="features" class="features">
             <div class="container" data-aos="fade-up">
 
                 <ul class="nav nav-tabs row gy-4 d-flex">
@@ -678,10 +685,11 @@
                 </div>
 
             </div>
-        </section><!-- End Features Section -->
+        </section> --}}
+        <!-- End Features Section -->
 
         <!-- ======= Services Section ======= -->
-        <section id="services" class="services">
+        {{-- <section id="services" class="services">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-header">
@@ -806,10 +814,11 @@
                 </div>
 
             </div>
-        </section><!-- End Services Section -->
+        </section> --}}
+        <!-- End Services Section -->
 
         <!-- ======= Testimonials Section ======= -->
-        <section id="testimonials" class="testimonials">
+        {{-- <section id="testimonials" class="testimonials">
             <div class="container" data-aos="fade-up">
 
                 <div class="testimonials-slider swiper">
@@ -925,10 +934,11 @@
                 </div>
 
             </div>
-        </section><!-- End Testimonials Section -->
+        </section> --}}
+        <!-- End Testimonials Section -->
 
         <!-- ======= Pricing Section ======= -->
-        <section id="pricing" class="pricing">
+        {{-- <section id="pricing" class="pricing">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-header">
@@ -1015,10 +1025,11 @@
                 </div>
 
             </div>
-        </section><!-- End Pricing Section -->
+        </section> --}}
+        <!-- End Pricing Section -->
 
         <!-- ======= F.A.Q Section ======= -->
-        <section id="faq" class="faq">
+        {{-- <section id="faq" class="faq">
             <div class="container-fluid" data-aos="fade-up">
 
                 <div class="row gy-4">
@@ -1140,7 +1151,8 @@
                 </div>
 
             </div>
-        </section><!-- End F.A.Q Section -->
+        </section> --}}
+        <!-- End F.A.Q Section -->
 
         <!-- ======= Portfolio Section ======= -->
         <section id="portfolio" class="portfolio" data-aos="fade-up">
@@ -1394,7 +1406,7 @@
         </section><!-- End Team Section -->
 
         <!-- ======= Recent Blog Posts Section ======= -->
-        <section id="recent-blog-posts" class="recent-blog-posts">
+        {{-- <section id="recent-blog-posts" class="recent-blog-posts">
 
             <div class="container" data-aos="fade-up">
 
@@ -1458,7 +1470,8 @@
 
             </div>
 
-        </section><!-- End Recent Blog Posts Section -->
+        </section> --}}
+        <!-- End Recent Blog Posts Section -->
 
         <!-- ======= Contact Section ======= -->
         <section id="contact" class="contact">
@@ -1473,10 +1486,11 @@
             </div>
 
             <div class="map">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
-                    frameborder="0" allowfullscreen></iframe>
-            </div><!-- End Google Maps -->
+    
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.970617774736!2d102.12411908484135!3d16.375459090829438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x312203324df99815%3A0xcd2f7b21c5895544!2z4LmC4Lij4LiH4Lie4Lii4Liy4Lia4Liy4Lil4Lig4Li54LmA4LiC4Li14Lii4Lin4LmA4LiJ4Lil4Li04Lih4Lie4Lij4Liw4LmA4LiB4Li14Lii4Lij4LiV4Li0!5e0!3m2!1sth!2sth!4v1692861084953!5m2!1sth!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            <!-- End Google Maps -->
 
             <div class="container">
 
@@ -1486,14 +1500,13 @@
 
                         <div class="info">
                             <h3>Get in touch</h3>
-                            <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia
-                                commodi minus.</p>
+                            <p>ติดต่อส่งข้อความถึงเรา.</p>
 
                             <div class="info-item d-flex">
                                 <i class="bi bi-geo-alt flex-shrink-0"></i>
                                 <div>
                                     <h4>Location:</h4>
-                                    <p>A108 Adam Street, New York, NY 535022</p>
+                                    <p>149 หมู่ 4 ตำบล ผักปัง อำเภอ ภูเขียว ชัยภูมิ 36110</p>
                                 </div>
                             </div><!-- End Info Item -->
 
@@ -1509,7 +1522,7 @@
                                 <i class="bi bi-phone flex-shrink-0"></i>
                                 <div>
                                     <h4>Call:</h4>
-                                    <p>+1 5589 55488 55</p>
+                                    <p>044-861700-3</p>
                                 </div>
                             </div><!-- End Info Item -->
 
@@ -1548,7 +1561,8 @@
                 </div>
 
             </div>
-        </section><!-- End Contact Section -->
+        </section>
+        <!-- End Contact Section -->
 
     </main><!-- End #main -->
 
@@ -1561,7 +1575,7 @@
 
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-info">
-                            <h3>HeroBiz</h3>
+                            <h3>PHUKIEO CHALERMPRAKIAT HOSPITAL</h3>
                             <p>
                                 A108 Adam Street <br>
                                 NY 535022, USA<br><br>
@@ -1612,14 +1626,14 @@
 
                 <div class="d-flex flex-column align-items-center align-items-lg-start">
                     <div class="copyright">
-                        &copy; Copyright <strong><span>HeroBiz</span></strong>. All Rights Reserved
+                        &copy; Copyright <strong><span>PHUKIEO CHALERMPRAKIAT HOSPITAL</span></strong>. All Rights Reserved
                     </div>
                     <div class="credits">
                         <!-- All the links in the footer should remain intact. -->
                         <!-- You can delete the links only if you purchased the pro version. -->
                         <!-- Licensing information: https://bootstrapmade.com/license/ -->
                         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
-                        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                        Designed by <a href="">PK TAEM</a>
                     </div>
                 </div>
 

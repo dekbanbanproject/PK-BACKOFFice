@@ -11,12 +11,12 @@ use Laravel\Sanctum\HasApiTokens;
 class Tempexport extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    // protected $connection = 'mysql7';
+    protected $connection = 'mysql7';
     protected $table = 'tempexport';
     public $timestamps = false; 
  
     protected $fillable = [  
-        'active',
+        'ACTIVE',
         'vn',  
         'hn',  
         'an',

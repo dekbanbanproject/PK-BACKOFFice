@@ -18,6 +18,8 @@ use App\Http\Controllers\UserComController;
 //     return view('welcome');
 // });
 
+Route::match(['get','post'],'contact_save',[App\Http\Controllers\CustormerController::class, 'contact_save'])->name('Cus.contact_save');//
+
 Route::match(['get','post'],'connectdb',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb'])->name('db.connectdb');//
 Route::match(['get','post'],'connectdb_save',[App\Http\Controllers\ConfigDatabaseController::class, 'connectdb_save'])->name('db.connectdb_save');//
 
