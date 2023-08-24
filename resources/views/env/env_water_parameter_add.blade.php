@@ -122,10 +122,10 @@ $count_service = StaticController::count_service();
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <select id="env_water_icon_name" name="env_water_icon_name"class="form-control form-control-sm" style="width: 100%">
+                                                    <select id="water_parameter_icon" name="water_parameter_icon"class="form-control form-control-sm" style="width: 100%">
                                                             <option value="">--เลือก--</option>
                                                         @foreach ($data_water_icon as $icon)                                               
-                                                            <option value="{{ $icon->env_water_icon_id }}"> {{ $icon->env_water_icon_name }}  </option>                                             
+                                                            <option value="{{ $icon->env_water_icon_name }}"> {{ $icon->env_water_icon_name }}  </option>                                             
                                                         @endforeach
                                                     </select>
                                                     {{-- <input id="water_parameter_icon" type="text"

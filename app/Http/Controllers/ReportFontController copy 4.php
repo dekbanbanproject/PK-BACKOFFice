@@ -1060,11 +1060,6 @@ class ReportFontController extends Controller
         $enddate = $request->enddate;
         $hospcode = $request->hospcode;
         Refer_cross::truncate();
-
-        // and v.pttype in("98","99")
-        // and v.pttype in("50","98","99")
-        // and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
-
         if ($hospcode != '') {
             $datashow_ = DB::connection('mysql3')->select('
             SELECT * FROM
@@ -1091,12 +1086,12 @@ class ReportFontController extends Controller
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and i.an is null                       
+                        and i.an is null
+                       
                         and v.hospmain = "'.$hospcode.'"
-
-                        and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
-
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                        and v.pttype in("50","98","99")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
                         group by v.vn
 
@@ -1124,12 +1119,12 @@ class ReportFontController extends Controller
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
                         and left(ov.vsttime,5) = mid(TIME_FORMAT(m.TIMEADM,"%r"),4,5)
                         where v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and i.an is null                        
+                        and i.an is null
+                        
                         and v.hospmain = "'.$hospcode.'"
-
-                        and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
-
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                        and v.pttype in("50","98","99")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                        
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
                         AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
                         AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"
@@ -1190,10 +1185,9 @@ class ReportFontController extends Controller
                         and i.an is null
                         AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-
-                        and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
-
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                      
+                        and v.pttype in("50","98","99")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                      
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
                         group by v.vn
 
@@ -1223,10 +1217,9 @@ class ReportFontController extends Controller
                         and i.an is null
                         AND g.er_emergency_level_id NOT IN("1","2")
                         and v.hospmain IN("10970","10971","10972","10973","10974","10975","10976","10977","10979","10980","10981","10982","10983","10702","04007","14425","24684")
-
-                        and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
-
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                       
+                        and v.pttype in("50","98","99")
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )
+                       
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
                         AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
                         AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"

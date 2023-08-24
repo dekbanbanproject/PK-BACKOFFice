@@ -211,7 +211,7 @@ $count_service = StaticController::count_service();
                                                             <input value="{{ $items->water_parameter_name }}" name="" id="" class="form-control input-sm fo13" readonly>
                                                         </td>
                                                         
-                                                        <td><input name="water_qty[]" id="water_qty[]" class="form-control input-sm fo13" type="number" required></td>
+                                                        <td><input name="water_qty[]" id="water_qty[]" class="form-control input-sm fo13" type="text" required></td>
                                                         
                                                         <td>
                                                             <input value="{{ $items->water_parameter_unit }}" name="water_parameter_unit[]" id="water_parameter_unit[]" class="form-control input-sm fo13" readonly >

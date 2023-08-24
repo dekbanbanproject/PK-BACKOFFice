@@ -211,13 +211,92 @@ class EnvController extends Controller
                 for($count = 0; $count< $number; $count++)
                 {
                     $idwater = Env_water_parameter::where('water_parameter_id','=',$water_parameter_id[$count])->first();
-
+                    
                     $add_sub = new Env_water_sub();
                     $add_sub->water_id                              = $waterid;
                     $add_sub->water_list_idd                        = $idwater->water_parameter_id;
                     $add_sub->water_list_detail                     = $idwater->water_parameter_name;
                     $add_sub->water_list_unit                       = $water_parameter_unit[$count]; 
                     $add_sub->water_qty                             = $water_qty[$count];
+                    $add_sub->water_results                         = $idwater->water_parameter_icon.''.$idwater->water_parameter_normal;
+
+                    if ($idwater->water_parameter_id == 1 || $water_qty[$count]  <= 20) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 2 || $water_qty[$count]  <= 120) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 3 || $water_qty[$count]  <= 500) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 4 || $water_qty[$count]  <= 30) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 5 || $water_qty[$count]  <= 0.5) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 6 || $water_qty[$count]  <= 35) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }  
+                    if ($idwater->water_parameter_id == 7 || $water_qty[$count]  == 5 || $water_qty[$count]  == 6 || $water_qty[$count]  == 7 || $water_qty[$count]  == 8 || $water_qty[$count]  == 9 ) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 8 || $water_qty[$count]  <= 1.0) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 9 || $water_qty[$count]  <= 20) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 10 || $water_qty[$count]  <= 5000) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 11 || $water_qty[$count]  <= 1000) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 12 || $water_qty[$count]  <= 1) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 13 || $water_qty[$count]  <= 1000) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 14 || $water_qty[$count]  >= 5) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == 15 || $water_qty[$count]  >= 400) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    
+                    $add_sub->status                         = $status;
                     $add_sub->water_parameter_short_name            = $water_parameter_short_name[$count];
                     $add_sub->save();        
                 }
@@ -231,24 +310,28 @@ class EnvController extends Controller
         foreach ($data_loob as $key => $value) { 
 
                $mMessage[] = [
-                    'water_parameter_short_name'          => $value->water_parameter_short_name,
-                    'water_qty'                           => $value->water_qty,           
+                    'water_parameter_short_name'    => $value->water_parameter_short_name,
+                    'water_qty'                     => $value->water_qty, 
+                    'status'                        => $value->status,           
                 ];   
             }   
         // dd($mMessage); 
 
         $smessage = array();
         foreach ($mMessage as $key => $smes) {
-            $na_mesage = $smes['water_parameter_short_name'];
-            $qt_mesage = $smes['water_qty'];
+            $na_mesage           = $smes['water_parameter_short_name'];
+            $qt_mesage           = $smes['water_qty'];
+            $status_mesage       = $smes['status'];
       
             // $linetoken = "q2PXmPgx0iC5IZXjtkeZUFiNwtmEkSGjRp1PsxFUaYe"; //ใส่ token line ENV แล้ว    
             $linetoken = "DVWB9QFYmafdjEl9rvwB0qdPgCdsD59NHoWV7WhqbN4"; //ใส่ token line ENV แล้ว       
            
             $smessage = [];
-            // $smessage = "ข้อมูลตรวจน้ำ".
-            $smessage = "รายการพารามิเตอร์ : " . $na_mesage. 
-                   "\n"."ผลการวิเคราะห์ : "    . $qt_mesage ; 
+            $header = "ข้อมูลตรวจน้ำ";
+            $smessage =  $header. 
+                    "\n"."รายการพารามิเตอร์ : "    . $na_mesage. 
+                   "\n"."ผลการวิเคราะห์ : "        . $qt_mesage . 
+                   "\n"."สถานะ : "              . $status_mesage ; 
  
                 if($linetoken == null){
                     $send_line ='';
@@ -451,6 +534,7 @@ class EnvController extends Controller
 
     public function env_water_parameter_save (Request $request)
     {  
+        // env_water_icon_name
         $datenow = date('Y-m-d H:m:s');
         Env_water_parameter::insert([
             'water_parameter_name'                   => $request->water_parameter_name,
