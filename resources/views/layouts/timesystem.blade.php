@@ -115,7 +115,7 @@
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
-                    <h4 style="color:rgb(255, 255, 255)" class="mt-4">TIME ATTENDANCE SYSEM</h4>
+                    <h4 style="color:rgb(255, 255, 255)" class="mt-4">TIME ATTENDANCE SYSTEM</h4>
                     <?php
                         $org = DB::connection('mysql')->select(                                                            '
                                 select * from orginfo

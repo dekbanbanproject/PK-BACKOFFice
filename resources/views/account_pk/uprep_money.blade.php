@@ -325,8 +325,8 @@
                             <div class="input-group input-group-sm"> 
                                 <select name="acc_stm_repmoney_tri" id="acc_stm_repmoney_tri" class="form-select form-control" style="width: 100%">
                                     <option value="">เลือก</option>
-                                    @foreach ($acc_trimart_liss as $item)
-                                        <option value="{{$item->acc_trimart_liss_id}}">{{$item->acc_trimart_liss_start}} - {{$item->acc_trimart_liss_end}}</option>
+                                    @foreach ($trimart as $item)
+                                        <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} ถึง {{$item->acc_trimart_end_date}}</option>
                                     @endforeach
                                 </select> 
                             </div>
@@ -402,8 +402,8 @@
                             <div class="input-group input-group-sm"> 
                                 <select name="acc_stm_repmoney_tri" id="editacc_stm_repmoney_tri" class="form-control" style="width: 100%">
                                     <option value="">เลือก</option>
-                                    @foreach ($acc_trimart_liss as $item)
-                                        <option value="{{$item->acc_trimart_liss_id}}">{{$item->acc_trimart_liss_start}} - {{$item->acc_trimart_liss_end}}</option>
+                                    @foreach ($trimart as $item)
+                                        <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} ถึง {{$item->acc_trimart_end_date}}</option>
                                     @endforeach
                                 </select> 
                             </div>
@@ -617,7 +617,7 @@
                     url: "{{ url('uprep_money_edit') }}" + '/' + acc_stm_repmoney_id,
                     success: function(data) {
                         console.log(data.data_show.acc_stm_repmoney_id);
-                        $('#editacc_stm_repmoney_tri').val(data.data_show.acc_stm_repmoney_tri)
+                        $('#editacc_stm_repmoney_tri').val(data.data_show.acc_trimart_id)
                         $('#editacc_stm_repmoney_book').val(data.data_show.acc_stm_repmoney_book)
                         $('#editacc_stm_repmoney_no').val(data.data_show.acc_stm_repmoney_no)
                         $('#editacc_stm_repmoney_price301').val(data.data_show.acc_stm_repmoney_price301)

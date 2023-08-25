@@ -17,7 +17,7 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('acc_stm_repmoney', function (Blueprint $table) {
                 $table->bigIncrements('acc_stm_repmoney_id');
-                $table->string('acc_stm_repmoney_tri')->nullable();//
+                $table->string('acc_trimart_id')->nullable();//
                 $table->string('acc_stm_repmoney_book')->nullable();//
                 $table->string('acc_stm_repmoney_no')->nullable();//
                 $table->string('acc_stm_repmoney_price301')->nullable();//

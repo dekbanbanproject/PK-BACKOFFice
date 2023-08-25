@@ -84,8 +84,8 @@ if (Auth::check()) {
                 <div class="btn-actions-pane-right">
                     <div class="nav">
                         <a href="{{ url('time_nurs_dep') }}" class="btn-pill btn-wide btn btn-outline-alternate btn-sm">กลุ่มภารกิจ</a>
-                        <a href="{{ url('time_nurs_depsub') }}" class="btn-pill btn-wide me-1 ms-1 active btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
-                        <a href="{{ url('time_nurs_depsubsub') }}" class="btn-pill btn-wide  btn btn-outline-alternate btn-sm">หน่วยงาน</a>
+                        <a href="{{ url('time_nurs_depsub') }}" class="btn-pill btn-wide me-1 ms-1 btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
+                        <a href="{{ url('time_nurs_depsubsub') }}" class="btn-pill btn-wide active btn btn-outline-alternate btn-sm">หน่วยงาน</a>
                     </div>
                 </div>
             </div>
