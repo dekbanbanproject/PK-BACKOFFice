@@ -22,7 +22,7 @@
 
     <!-- Favicons -->
     <link href="{{ asset('medical/assets/img/logo150.ico') }}" rel="icon">
-    <link href="{{ asset('medical/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    {{-- <link href="{{ asset('medical/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon"> --}}
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,11 +77,14 @@
                             <li><a href="index-4.html">Home 4 - index-4.html</a></li>
                         </ul>
                     </li> --}}
-                    <li><a class="nav-link scrollto" href="{{url('/')}}">Home</a></li>
+                    <li><a class="nav-link scrollto" href="{{url('/')}}">
+                        <i class="fa-solid fa-house-chimney me-2"></i>
+                        Home</a>
+                    </li>
                     {{-- <li><a class="nav-link scrollto" href="#about">About</a></li> --}}
                     {{-- <li><a class="nav-link scrollto" href="#services">Services</a></li> --}}
                     {{-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> --}}
-                    <li><a class="nav-link scrollto" href="#team">Team</a></li>
+                    <li><a class="nav-link scrollto" href="#exsecutiva"><i class="fa-solid fa-people-group me-2"></i>Exsecutiva</a></li>
                     {{-- <li><a href="blog.html">Blog</a></li> --}}
                     {{-- <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i
                                 class="bi bi-chevron-down dropdown-indicator"></i></a>
@@ -127,19 +130,28 @@
                             <li><a href="#">Drop Down 4</a></li>
                         </ul>
                     </li> --}}
-                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-                    <li><a href="{{ url('check_dashboard') }}" target="_blank">Report</a></li> 
+                    <li><a class="nav-link scrollto" href="#contact"><i class="fa-regular fa-address-book me-2"></i>Contact</a></li>
+                    <li><a href="{{ url('check_dashboard') }}" target="_blank"><i class="fa-solid fa-chart-line me-2"></i>Report</a></li> 
+
+                    <li>
+                        {{-- <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        <i class="fa-solid fa-fingerprint text-info"></i>
+                        เข้าสู่ระบบ
+                    </button> --}}
+                        <a href="{{ url('check_dashboard') }}" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a>
+                    </li> 
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle d-none"></i>
             </nav>
             <!-- .navbar -->
 
             {{-- <a class="btn-getstarted scrollto" href="index.html#about">เข้าสู่ระบบ</a> --}}
-            <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
-                        <i class="fa-solid fa-fingerprint text-info"></i>
-                        เข้าสู่ระบบ
-                    </button>
+            {{-- <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
+                <i class="fa-solid fa-fingerprint text-info"></i>
+                เข้าสู่ระบบ
+            </button> --}}
 
         </div>
     </header><!-- End Header -->
@@ -1149,7 +1161,7 @@
         <!-- End F.A.Q Section -->
 
         <!-- ======= Portfolio Section ======= -->
-        <section id="portfolio" class="portfolio" data-aos="fade-up">
+        {{-- <section id="portfolio" class="portfolio" data-aos="fade-up">
 
             <div class="container">
 
@@ -1166,26 +1178,27 @@
                     data-portfolio-sort="original-order">
 
                     <ul class="portfolio-flters">
-                        <li data-filter="*" class="filter-active">All</li>
-                        <li data-filter=".filter-app">App</li>
+                        <li data-filter="*" class="filter-active">All</li>  
+                         <li data-filter=".filter-app">App</li>
                         <li data-filter=".filter-product">Product</li>
                         <li data-filter=".filter-branding">Branding</li>
                         <li data-filter=".filter-books">Books</li>
-                    </ul><!-- End Portfolio Filters -->
+                    </ul> 
 
                     <div class="row g-0 portfolio-container">
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-app">
-                            <img src="assets/img/portfolio/app-1.jpg" class="img-fluid" alt="">
+                            <img src="{{ asset('medical/assets/img/po.png') }}" class="img-fluid" alt="">
                             <div class="portfolio-info">
                                 <h4>App 1</h4>
-                                <a href="assets/img/portfolio/app-1.jpg" title="App 1"
+                                <a href="{{ asset('medical/assets/img/po.png') }}" title="App 1"
                                     data-gallery="portfolio-gallery" class="glightbox preview-link"><i
                                         class="bi bi-zoom-in"></i></a>
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div>
+                       
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-product">
                             <img src="assets/img/portfolio/product-1.jpg" class="img-fluid" alt="">
@@ -1197,7 +1210,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-branding">
                             <img src="assets/img/portfolio/branding-1.jpg" class="img-fluid" alt="">
@@ -1209,7 +1222,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-books">
                             <img src="assets/img/portfolio/books-1.jpg" class="img-fluid" alt="">
@@ -1221,20 +1234,23 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
-
-                        <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-app">
-                            <img src="assets/img/portfolio/app-2.jpg" class="img-fluid" alt="">
+                        </div> 
+                        <div class="col">
+                        </div>
+                        <div class="col-xl-2 col-lg-4 col-md-6 portfolio-item filter-app">
+                            <img src="{{ asset('medical/assets/img/po.png') }}" class="img-fluid" alt="">
                             <div class="portfolio-info">
-                                <h4>App 2</h4>
-                                <a href="assets/img/portfolio/app-2.jpg" title="App 2"
+                                <h4>นายแพทย์สุภาพ สำราญวงษ์</h4>
+                                <h4>ผู้อำนวยการโรงพยาบาล</h4>
+                                <a href="{{ asset('medical/assets/img/po.png') }}" title="นายแพทย์สุภาพ สำราญวงษ์"
                                     data-gallery="portfolio-gallery" class="glightbox preview-link"><i
                                         class="bi bi-zoom-in"></i></a>
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
-
+                        </div> 
+                        <div class="col">
+                        </div>
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-product">
                             <img src="assets/img/portfolio/product-2.jpg" class="img-fluid" alt="">
                             <div class="portfolio-info">
@@ -1245,7 +1261,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-branding">
                             <img src="assets/img/portfolio/branding-2.jpg" class="img-fluid" alt="">
@@ -1257,7 +1273,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-books">
                             <img src="assets/img/portfolio/books-2.jpg" class="img-fluid" alt="">
@@ -1269,7 +1285,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-app">
                             <img src="assets/img/portfolio/app-3.jpg" class="img-fluid" alt="">
@@ -1281,7 +1297,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-product">
                             <img src="assets/img/portfolio/product-3.jpg" class="img-fluid" alt="">
@@ -1293,7 +1309,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-branding">
                             <img src="assets/img/portfolio/branding-3.jpg" class="img-fluid" alt="">
@@ -1305,7 +1321,7 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
                         <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item filter-books">
                             <img src="assets/img/portfolio/books-3.jpg" class="img-fluid" alt="">
@@ -1317,28 +1333,29 @@
                                 <a href="portfolio-details.html" title="More Details" class="details-link"><i
                                         class="bi bi-link-45deg"></i></a>
                             </div>
-                        </div><!-- End Portfolio Item -->
+                        </div> 
 
-                    </div><!-- End Portfolio Container -->
+                    </div> 
 
                 </div>
 
             </div>
-        </section><!-- End Portfolio Section -->
+        </section> --}}
+        <!-- End Portfolio Section -->
 
         <!-- ======= Team Section ======= -->
-        <section id="team" class="team">
+        <section id="exsecutiva" class="team">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-header">
-                    <h2>Our Team</h2>
-                    <p>Architecto nobis eos vel nam quidem vitae temporibus voluptates qui hic deserunt iusto omnis nam
-                        voluptas asperiores sequi tenetur dolores incidunt enim voluptatem magnam cumque fuga.</p>
+                    <h2>โครงสร้างบริหารงาน</h2>
+                    <p>โครงสร้างบริหารงานโรงพยาบาลภูเขียวเฉลิมพระเกียรติ อำเภอภูเขียว จังหวัดชัยภูมิ</p>
+                    
                 </div>
 
                 <div class="row gy-5">
-
-                    <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="col"></div>
+                    {{-- <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="200">
                         <div class="team-member">
                             <div class="member-img">
                                 <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
@@ -1354,27 +1371,25 @@
                                 <span>Chief Executive Officer</span>
                             </div>
                         </div>
-                    </div><!-- End Team Member -->
-
+                    </div>  --}}
                     <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="400">
                         <div class="team-member">
-                            <div class="member-img">
-                                <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
+                            <div class="member-img text-center">
+                                <img src="{{ asset('medical/assets/img/po.png') }}" class="img-fluid" alt="">
                             </div>
-                            <div class="member-info">
+                            <div class="member-info mt-1">
                                 <div class="social">
                                     <a href=""><i class="bi bi-twitter"></i></a>
                                     <a href=""><i class="bi bi-facebook"></i></a>
                                     <a href=""><i class="bi bi-instagram"></i></a>
                                     <a href=""><i class="bi bi-linkedin"></i></a>
                                 </div>
-                                <h4>Sarah Jhonson</h4>
-                                <span>Product Manager</span>
+                                <h4>นายแพทย์สุภาพ สำราญวงษ์</h4>
+                                <span>ผู้อำนวยการโรงพยาบาล</span>
                             </div>
                         </div>
-                    </div><!-- End Team Member -->
-
-                    <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="600">
+                    </div> 
+                    {{-- <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="600">
                         <div class="team-member">
                             <div class="member-img">
                                 <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
@@ -1390,8 +1405,99 @@
                                 <span>CTO</span>
                             </div>
                         </div>
-                    </div><!-- End Team Member -->
-
+                    </div>  --}}
+                    <div class="col"></div>
+                </div>
+                <div class="row gy-5 mt-2">
+                    <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="team-member">
+                            <div class="member-img text-center">
+                                <img src="{{ asset('medical/assets/img/mo.png') }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info mt-1">
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
+                                <h4>นายสถาพร ป้อมสุวรรณ</h4>
+                                <span>รองผู้อำนวยการฝ่ายบริหาร</span>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="team-member">
+                            <div class="member-img text-center">
+                                <img src="{{ asset('medical/assets/img/otinee.png') }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info mt-1">
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
+                                <h4>แพทย์หญิงโอทนี สุวรรณมาลี</h4>
+                                <span>รองผู้อำนวยการฝ่ายการแพทย์</span>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="600">
+                        <div class="team-member">
+                            <div class="member-img text-center">
+                                <img src="{{ asset('medical/assets/img/satapon.png') }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info mt-1">
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
+                                <h4>นางสิริพร ศัลย์วิเศษ</h4>
+                                <span>หัวหน้ากลุ่มภารกิจด้านการพยาบาล</span>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <div class="row gy-5 mt-2">
+                    <div class="col"></div>
+                    <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="team-member">
+                            <div class="member-img text-center">
+                                <img src="{{ asset('medical/assets/img/niwat.png') }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info mt-1">
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
+                                <h4>นายแพทย์นิวัฒน์ ขจัดพาล</h4>
+                                <span>หัวหน้ากลุ่มภารกิจด้านพัฒนาระบบบริการและสนับสนุนบริการสุขภาพ(พรส)</span>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="team-member">
+                            <div class="member-img text-center">
+                                <img src="{{ asset('medical/assets/img/naruemon.png') }}" class="img-fluid" alt="">
+                            </div>
+                            <div class="member-info mt-1">
+                                <div class="social">
+                                    <a href=""><i class="bi bi-twitter"></i></a>
+                                    <a href=""><i class="bi bi-facebook"></i></a>
+                                    <a href=""><i class="bi bi-instagram"></i></a>
+                                    <a href=""><i class="bi bi-linkedin"></i></a>
+                                </div>
+                                <h4>แพทย์หญิงนฤมล บำเพ็ญเกียรติกุล</h4>
+                                <span>หัวหน้ากลุ่มภารกิจด้านบริการปฐมภูมิ</span>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col"></div>
                 </div>
 
             </div>
