@@ -52,13 +52,15 @@
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+<link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
 </head>
   <style>
         body{
-        background:
-            url(/pkbackoffice/public/images/bg5.jpg);
+        /* background:
+            url(/pkbackoffice/public/images/bg5.jpg); */
             /* url(/pkbackoffice/public/images/bg5.jpg); */
             /* -webkit-background-size: cover; */
+            background-color:rgb(245, 240, 240);
         background-repeat: no-repeat;
 		background-attachment: fixed;
 		/* background-size: cover; */
@@ -85,12 +87,12 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg Bgheader" >
-
-
+            {{-- <div class="navbar-header shadow-lg Bgheader" > --}}
+                <div class="navbar-header shadow" style="background-color: rgb(152, 226, 224)">
+                {{-- style="background-color: rgb(152, 226, 224)" --}}
                 <div class="d-flex">
                     <!-- LOGO -->
-                    <div class="navbar-brand-box">
+                    <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
@@ -105,28 +107,29 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5>
+                                <h4 style="color:rgb(152, 226, 224)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
+                    <h4 style="color:rgb(255, 255, 255)" class="mt-4">TIME ATTENDANCE SYSEM</h4>
                     <?php
                         $org = DB::connection('mysql')->select(                                                            '
                                 select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
                         );
                     ?>
-                    <form class="app-search d-none d-lg-block">
+                    {{-- <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
 
                         </div>
-                    </form>
+                    </form> --}}
                 </div>
 
                 <div class="d-flex">
@@ -178,7 +181,8 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         {{-- <div class="vertical-menu "> --}}
-            <div class="vertical-menu Bgsidebar">
+            {{-- <div class="vertical-menu Bgsidebar"> --}}
+            <div class="vertical-menu">
         {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
@@ -318,7 +322,7 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
 
     @yield('footer')
 
