@@ -80,12 +80,12 @@
                 </div>
             </div>
         </div>
-        <form action="{{ url('account_304_dash') }}" method="GET">
+        <form action="{{ url('account_308_dash') }}" method="GET">
             @csrf
             <div class="row"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050101.304</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.304</p>
+                    <h4 class="card-title">Detail 1102050101.308</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.308</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -110,7 +110,7 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_304_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                    <a href="{{url('account_308_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
                     </a>
@@ -135,7 +135,7 @@
                                                 SELECT count(DISTINCT an) as Can
                                                     ,SUM(debit) as sumdebit
                                                     from acc_debtor
-                                                    WHERE account_code="1102050101.304"
+                                                    WHERE account_code="1102050101.308"
                                                     AND stamp = "N"
                                                     AND dchdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             ');
@@ -146,7 +146,7 @@
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
                                                 SELECT sum(debit_total) as debit_total,count(vn) as Cvit
-                                                from acc_1102050101_304
+                                                from acc_1102050101_308
                                                 where dchdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             ');   
                                             foreach ($datasum_ as $key => $value2) {
@@ -181,7 +181,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-3 text-end mt-2 me-4">
-                                                <a href="{{url('account_304_pull')}}" target="_blank">
+                                                <a href="{{url('account_308_pull')}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                         <h6 class="text-end">{{ $count_N}} Visit</h6>
                                                     </div>
@@ -220,7 +220,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_304_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
+                                                <a href="{{url('account_308_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}

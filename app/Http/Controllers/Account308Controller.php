@@ -46,6 +46,7 @@ use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
 use App\Models\Acc_1102050101_302;
+use App\Models\Acc_1102050101_307;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -85,11 +86,10 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 date_default_timezone_set("Asia/Bangkok");
 
 
-class Account304Controller extends Controller
+class Account308Controller extends Controller
  { 
     
-
-    public function account_304_dash(Request $request)
+    public function account_308_dash(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -103,7 +103,6 @@ class Account304Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-
     
         // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
         if ($acc_trimart_id == '') {
@@ -114,7 +113,7 @@ class Account304Controller extends Controller
             $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
             $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
         }
-        return view('account_304.account_304_dash',[
+        return view('account_308.account_308_dash',[
             'startdate'        =>     $startdate,
             'enddate'          =>     $enddate,
             'trimart'          => $trimart,
@@ -122,7 +121,7 @@ class Account304Controller extends Controller
             'data_trimart'     =>  $data_trimart,
         ]);
     }
-    public function account_304_pull(Request $request)
+    public function account_308_pull(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
@@ -135,9 +134,9 @@ class Account304Controller extends Controller
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
                 left outer join check_sit_auto c on c.an = a.an 
-                WHERE a.account_code="1102050101.304"
+                WHERE a.account_code="1102050101.308"
                 AND a.stamp = "N"
-                order by a.dchdate asc;
+                order by a.vstdate asc;
 
             ');
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
@@ -145,14 +144,14 @@ class Account304Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
 
-        return view('account_304.account_304_pull',[
+        return view('account_308.account_308_pull',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'      =>     $acc_debtor,
         ]);
     }
 
-    public function account_304_pulldata(Request $request)
+    public function account_308_pulldata(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
@@ -180,12 +179,12 @@ class Account304Controller extends Controller
                 LEFT JOIN hos.opitemrece op ON ip.an = op.an
                 LEFT JOIN hos.vn_stat v on v.vn = a.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND a.pttype = "s7"
+                AND a.pttype = "14"
                 GROUP BY a.an;
             ');
 
             foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.304')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.308')->whereBetween('dchdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
@@ -224,7 +223,7 @@ class Account304Controller extends Controller
                 'status'    => '200'
             ]);
     }
-    public function account_304_stam(Request $request)
+    public function account_308_stam(Request $request)
     {
         $id = $request->ids;
         $iduser = Auth::user()->id;
@@ -236,11 +235,11 @@ class Account304Controller extends Controller
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
              
-                $check = Acc_1102050101_304::where('an', $value->an)->count();
+                $check = Acc_1102050101_308::where('an', $value->an)->count();
                 if ($check > 0) {
                 # code...
                 } else {
-                    Acc_1102050101_304::insert([
+                    Acc_1102050101_308::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
                             'an'                => $value->an,
@@ -275,61 +274,54 @@ class Account304Controller extends Controller
         ]);
     }
 
-    public function account_304_detail(Request $request,$startdate,$enddate)
+    public function account_308_detail(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
         
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate
-                from acc_1102050101_304 U1
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.nhso_docno
+                from acc_1102050101_308 U1
             
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                 GROUP BY U1.an
         ');
-       
-        return view('account_304.account_304_detail', $data, [ 
+        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        return view('account_308.account_308_detail', $data, [ 
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
         ]);
     }
 
-    public function account_304_sync(Request $request)
-    {
-        $an = $request->an;
-        $sync = DB::connection('mysql3')->select('
-                SELECT an,nhso_docno 
-                from ipt_pttype
-                WHERE an = "' . $an . '" 
-                
-            ');
-        
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
-
-    public function account_304_syncall(Request $request)
+    public function account_308_syncall(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $sync = DB::connection('mysql3')->select('
-                SELECT ip.an,i.dchdate,ip.nhso_docno 
-                from ipt_pttype ip
-                LEFT JOIN ipt i ON i.an = ip.an
-                WHERE i.dchdate BETWEEN "' . $startdate . '"  AND "' . $enddate . '" 
-                AND ip.nhso_docno  <> "" 
+                SELECT v.vn,o.vstdate,v.nhso_docno 
+                from visit_pttype v
+                LEFT JOIN ovst o ON o.vn = v.vn
+                WHERE o.vstdate BETWEEN "' . $startdate . '"  AND "' . $enddate . '" 
+                AND v.nhso_docno  <> ""
             ');
-            foreach ($sync as $key => $value) { 
-                    // $update = Acc_1102050101_304::find($value->an);
-                    // $update->nhso_docno = $value->nhso_docno;
-                    // $update->save(); 
-                    Acc_1102050101_304::where('an',$value->an) 
+            foreach ($sync as $key => $value) {
+               
+                if ($value->nhso_docno != '') {
+                     
+                    Acc_1102050101_308::where('vn',$value->vn) 
                         ->update([ 
                             'nhso_docno'      => $value->nhso_docno 
                     ]);
+                    return response()->json([
+                        'status'    => '200'
+                    ]);
+                } else {
+                    return response()->json([
+                        'status'    => '100'
+                    ]);
+                } 
             }
             return response()->json([
                 'status'    => '200'
@@ -337,7 +329,6 @@ class Account304Controller extends Controller
         
         
     }
-
 
 
 

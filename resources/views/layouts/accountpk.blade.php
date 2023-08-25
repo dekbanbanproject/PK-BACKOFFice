@@ -321,10 +321,12 @@
                                 <span>ประกันสังคม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_301_dash') }}">ผัง-301</a></li>
-                                <li><a href="{{ url('account_302_dash') }}">ผัง-302</a></li>
-                                <li><a href="{{ url('account_304_dash') }}">ผัง-304</a></li>
-                                {{-- <li><a href="{{ url('account_308_dash') }}">ผัง-308</a></li> --}}
+                                <li><a href="{{ url('account_301_dash') }}">301-OPเครือข่าย</a></li>
+                                <li><a href="{{ url('account_302_dash') }}">302-IPเครือข่าย</a></li>
+                                <li><a href="{{ url('account_304_dash') }}">304-IPนอกเครือข่าย</a></li>
+                                <li><a href="{{ url('account_307_dash') }}">307-กองทุนทดแทน</a></li>
+                                <li><a href="{{ url('account_308_dash') }}">308-72ชั่วโมงแรก</a></li>
+                                <li><a href="{{ url('account_309_dash') }}">309-ค่าใช้จ่ายสูง/อุบัติเหตุ/ฉุกเฉินOP</a></li>
                             </ul>
                         </li>
                         <li>
@@ -400,6 +402,14 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="{{ url('uprep_money') }}">ลงใบเสร็จรับเงิน</a></li> 
+                                {{-- <li><a href="{{ url('uprep_money_alone') }}">ลงใบเสร็จรับเงินรายตัว</a></li>  --}}
+                                <li><a href="javascript: void(0);" class="has-arrow">ลงใบเสร็จรับเงินรายตัว</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('uprep_money_sss') }}">ประกันสังคม</a></li> 
+                                        <li><a href="{{ url('uprep_money_plb') }}">พรบ</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         <li>
@@ -549,7 +559,7 @@
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('acccph/vendors/@chenfengyuan/datepicker/dist/datepicker.min.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/vendors/@chenfengyuan/datepicker/dist/datepicker.min.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('acccph/vendors/daterangepicker/daterangepicker.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
