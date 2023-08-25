@@ -5060,6 +5060,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'PHPUnit\\Framework\\Constraint\\LogicalXor' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Operator/LogicalXor.php',
         'PHPUnit\\Framework\\Constraint\\ObjectEquals' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Object/ObjectEquals.php',
         'PHPUnit\\Framework\\Constraint\\ObjectHasAttribute' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Object/ObjectHasAttribute.php',
+        'PHPUnit\\Framework\\Constraint\\ObjectHasProperty' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Object/ObjectHasProperty.php',
         'PHPUnit\\Framework\\Constraint\\Operator' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Operator/Operator.php',
         'PHPUnit\\Framework\\Constraint\\RegularExpression' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/String/RegularExpression.php',
         'PHPUnit\\Framework\\Constraint\\SameSize' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Constraint/Cardinality/SameSize.php',
