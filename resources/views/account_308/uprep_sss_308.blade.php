@@ -161,7 +161,7 @@
                                                                 ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ 
                                                             </button>
                                                         @elseif ($item->nhso_docno != '' && $item->recieve_no =='')
-                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_1102050101_304_id }}">
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_1102050101_308_id }}">
                                                                 <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                                 ลงเลขที่ใบเสร็จ 
                                                             </button>
@@ -274,7 +274,7 @@
                 $('#editModal').modal('show');
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('uprep_sss_304edit') }}" + '/' + acc_1102050101_308_id,
+                    url: "{{ url('uprep_sss_308edit') }}" + '/' + acc_1102050101_308_id,
                     success: function(data) {
                         console.log(data.data_show.acc_1102050101_308_id); 
                         $('#editrecieve_true').val(data.data_show.recieve_true)
