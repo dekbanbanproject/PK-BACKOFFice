@@ -1,6 +1,22 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
     <style>
         #button {
             display: block;

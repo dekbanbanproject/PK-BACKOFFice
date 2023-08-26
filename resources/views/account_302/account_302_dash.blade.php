@@ -151,7 +151,7 @@
                                                 SELECT 
                                                     SUM(ar.acc_stm_repmoney_price302) as total                                                   
                                                     FROM acc_stm_repmoney ar 
-                                                    LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_stm_repmoney_tri 
+                                                    LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_trimart_id 
                                                     WHERE a.acc_trimart_code = "'.$item->acc_trimart_code.'"  
                                             ');                                           
                                             foreach ($sumapprove_ as $key => $value3) {

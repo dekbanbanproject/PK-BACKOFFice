@@ -201,7 +201,21 @@ Route::match(['get','post'],'uprepdestroy/{id}',[App\Http\Controllers\UpstmContr
 Route::match(['get','post'],'uprep_money_updatefile',[App\Http\Controllers\UpstmController::class, 'uprep_money_updatefile'])->name('acc.uprep_money_updatefile');//
 
 
-Route::match(['get','post'],'uprep_money_sss',[App\Http\Controllers\UpstmController::class, 'uprep_money_sss'])->name('acc.uprep_money_sss');//
+Route::match(['get','post'],'uprep_sss_304',[App\Http\Controllers\UpstmController::class, 'uprep_sss_304'])->name('acc.uprep_sss_304');//
+Route::match(['get','post'],'uprep_sss_304edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_304edit'])->name('acc.uprep_sss_304edit');//
+Route::match(['get','post'],'uprep_sss_304_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_304_update'])->name('acc.uprep_sss_304_update');//
+
+Route::match(['get','post'],'uprep_sss_307',[App\Http\Controllers\UpstmController::class, 'uprep_sss_307'])->name('acc.uprep_sss_307');//
+Route::match(['get','post'],'uprep_sss_307edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_307edit'])->name('acc.uprep_sss_307edit');//
+Route::match(['get','post'],'uprep_sss_307_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_307_update'])->name('acc.uprep_sss_307_update');//
+
+Route::match(['get','post'],'uprep_sss_308',[App\Http\Controllers\UpstmController::class, 'uprep_sss_308'])->name('acc.uprep_sss_308');//
+Route::match(['get','post'],'uprep_sss_308edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_308edit'])->name('acc.uprep_sss_308edit');//
+Route::match(['get','post'],'uprep_sss_308_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_308_update'])->name('acc.uprep_sss_308_update');//
+
+Route::match(['get','post'],'uprep_sss_309',[App\Http\Controllers\UpstmController::class, 'uprep_sss_309'])->name('acc.uprep_sss_309');//
+Route::match(['get','post'],'uprep_sss_309edit/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_309edit'])->name('acc.uprep_sss_309edit');//
+Route::match(['get','post'],'uprep_sss_309_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_309_update'])->name('acc.uprep_sss_309_update');//
 
 Route::match(['get','post'],'uprep_money_plb',[App\Http\Controllers\UpstmController::class, 'uprep_money_plb'])->name('acc.uprep_money_plb');//
  

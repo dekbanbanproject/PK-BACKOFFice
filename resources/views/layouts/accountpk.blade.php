@@ -405,7 +405,10 @@
                                 {{-- <li><a href="{{ url('uprep_money_alone') }}">ลงใบเสร็จรับเงินรายตัว</a></li>  --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">ลงใบเสร็จรับเงินรายตัว</a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('uprep_money_sss') }}">ประกันสังคม</a></li> 
+                                        <li><a href="{{ url('uprep_sss_304') }}">SSS-304</a></li> 
+                                        <li><a href="{{ url('uprep_sss_307') }}">SSS-307</a></li> 
+                                        <li><a href="{{ url('uprep_sss_308') }}">SSS-308</a></li> 
+                                        <li><a href="{{ url('uprep_sss_309') }}">SSS-309</a></li> 
                                         <li><a href="{{ url('uprep_money_plb') }}">พรบ</a>
                                         </li>
                                     </ul>
@@ -464,13 +467,13 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content">
+        <div class="main-content mt-3">
             {{-- <div class="page-content"> --}}
-            <div class="page-content Backgroupbody">
+            {{-- <div class="page-content"> --}}
 
                 @yield('content')
 
-            </div>
+            {{-- </div> --}}
             <!-- End Page-content -->
 
             <footer class="footer">
