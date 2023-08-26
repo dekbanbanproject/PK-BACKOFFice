@@ -405,11 +405,16 @@ $pos = strrpos($url, '/') + 1;
                             <div class="card">
                                 <div class="card-body shadow-lg"> 
                                     <div class="form-check mt-2"> 
-                                        <i class="fa-solid fa-hand-holding-droplet" style="color: rgb(9, 169, 197)"></i> 
-                                    
+                                        <i class="fa-solid fa-hand-holding-droplet" style="color: rgb(9, 169, 197)"></i>                                     
                                         <input class="form-check-input" type="checkbox" id="permiss_env"
                                             name="permiss_env"/>
                                         <label class="form-check-label" for="permiss_env">ระบบ ENV</label> 
+                                    </div>
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_setting_env" name="permiss_setting_env"/>
+                                        <label class="form-check-label" for="permiss_setting_env">ตั้งค่า ENV</label> 
                                     </div>
                                 </div>
                             </div>
@@ -423,6 +428,64 @@ $pos = strrpos($url, '/') + 1;
                                             name="permiss_account"/>
                                         <label class="form-check-label" for="permiss_account">การบัญชี</label> 
                                     </div>
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_ucs" name="permiss_ucs"/>
+                                        <label class="form-check-label" for="permiss_ucs">UCS</label> 
+                                    </div>
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_sss" name="permiss_sss"/>
+                                        <label class="form-check-label" for="permiss_sss">SSS</label> 
+                                    </div>
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_ofc" name="permiss_ofc"/>
+                                        <label class="form-check-label" for="permiss_ofc">OFC</label> 
+                                    </div>
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_lgo" name="permiss_lgo"/>
+                                        <label class="form-check-label" for="permiss_lgo">LGO</label> 
+                                    </div>
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_prb" name="permiss_prb"/>
+                                        <label class="form-check-label" for="permiss_prb">พรบ</label> 
+                                    </div>
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_ti" name="permiss_ti"/>
+                                        <label class="form-check-label" for="permiss_ti">ไต</label> 
+                                    </div>
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_rep_money" name="permiss_rep_money"/>
+                                        <label class="form-check-label" for="permiss_rep_money">ใบเสร็จรับเงิน</label> 
+                                    </div>
+
+
+
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_setting_account" name="permiss_setting_account"/>
+                                        <label class="form-check-label" for="permiss_setting_account">ตั้งค่า Account</label> 
+                                    </div>
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_setting_upstm" name="permiss_setting_upstm"/>
+                                        <label class="form-check-label" for="permiss_setting_upstm">UP STM</label> 
+                                    </div>
+
+                                    <div class="form-check mt-2"> 
+                                        <i class="fa-solid fa-gear text-danger" style="color: rgb(9, 169, 197)"></i>                                     
+                                        <input class="form-check-input" type="checkbox" id="permiss_rep_money" name="permiss_rep_money"/>
+                                        <label class="form-check-label" for="permiss_rep_money">ใบเสร็จรับเงิน</label> 
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

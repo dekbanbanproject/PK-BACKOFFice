@@ -215,11 +215,6 @@ class StaticController extends Controller
     $comcountenv =  User::where('id','=',$iduser)->where('permiss_env','=','on')->count();   
     return $comcountenv;
   }
-  public static function countpermiss_account($iduser)
-  {
-    $comcountaccount=  User::where('id','=',$iduser)->where('permiss_account','=','on')->count();   
-    return $comcountaccount;
-  }
   public static function permiss_setting($iduser)
   {
     $envcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ENV')->count();   
@@ -232,39 +227,92 @@ class StaticController extends Controller
   }
   public static function permiss_account($iduser)
   {
-    $accountcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ACCOUNT')->count();   
-    return $accountcount;
+    $permiss_account=  User::where('id','=',$iduser)->where('permiss_account','=','on')->count();   
+    return $permiss_account;
+  }
+  public static function permiss_setting_upstm($iduser)
+  {
+    $permiss_setting_upstm=  User::where('id','=',$iduser)->where('permiss_setting_upstm','=','on')->count();   
+    return $permiss_setting_upstm;
+  }
+  public static function permiss_setting_env($iduser)
+  {
+    $permiss_setting_env=  User::where('id','=',$iduser)->where('permiss_setting_env','=','on')->count();   
+    return $permiss_setting_env;
   }
   public static function permiss_ucs($iduser)
   {
-    $ucscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_UCS')->count();   
-    return $ucscount;
+    $permiss_ucs=  User::where('id','=',$iduser)->where('permiss_ucs','=','on')->count();   
+    return $permiss_ucs;
   }
   public static function permiss_sss($iduser)
   {
-    $ssscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_SSS')->count();   
-    return $ssscount;
+    $permiss_sss=  User::where('id','=',$iduser)->where('permiss_sss','=','on')->count();   
+    return $permiss_sss;
   }
   public static function permiss_ofc($iduser)
   {
-    $ofccount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_OFC')->count();   
-    return $ofccount;
+    $permiss_ofc=  User::where('id','=',$iduser)->where('permiss_ofc','=','on')->count();   
+    return $permiss_ofc;
   }
   public static function permiss_lgo($iduser)
   {
-    $lgocount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_LGO')->count();   
-    return $lgocount;
+    $permiss_lgo=  User::where('id','=',$iduser)->where('permiss_lgo','=','on')->count();   
+    return $permiss_lgo;
   }
   public static function permiss_prb($iduser)
   {
-    $prbcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_PRB')->count();   
-    return $prbcount;
+    $permiss_prb=  User::where('id','=',$iduser)->where('permiss_prb','=','on')->count();   
+    return $permiss_prb;
   }
+
   public static function permiss_ti($iduser)
   {
-    $ticount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_TI')->count();   
-    return $ticount;
+    $permiss_ti=  User::where('id','=',$iduser)->where('permiss_ti','=','on')->count();   
+    return $permiss_ti;
   }
+  public static function permiss_rep_money($iduser)
+  {
+    $permiss_rep_money=  User::where('id','=',$iduser)->where('permiss_rep_money','=','on')->count();   
+    return $permiss_rep_money;
+  }
+ 
+  // public static function permiss_account($iduser)
+  // {
+  //   $accountcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ACCOUNT')->count();   
+  //   return $accountcount;
+  // }
+  // public static function permiss_ucs($iduser)
+  // {
+  //   $ucscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_UCS')->count();   
+  //   return $ucscount;
+  // }
+  // public static function permiss_sss($iduser)
+  // {
+  //   $ssscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_SSS')->count();   
+  //   return $ssscount;
+  // }
+  // public static function permiss_ofc($iduser)
+  // {
+  //   $ofccount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_OFC')->count();   
+  //   return $ofccount;
+  // }
+  // public static function permiss_lgo($iduser)
+  // {
+  //   $lgocount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_LGO')->count();   
+  //   return $lgocount;
+  // }
+  // public static function permiss_prb($iduser)
+  // {
+  //   $prbcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_PRB')->count();   
+  //   return $prbcount;
+  // }
+  // public static function permiss_ti($iduser)
+  // {
+  //   $ticount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_TI')->count();   
+  //   return $ticount;
+  // }
+
   public static function permiss_upstm($iduser)
   {
     $upstmcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_UPSTM')->count();   

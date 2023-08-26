@@ -79,6 +79,14 @@ public function permiss_save(Request $request)
         $update->permiss_setting_account = $request->input('permiss_setting_account');  
         $update->permiss_setting_upstm = $request->input('permiss_setting_upstm');  
         $update->permiss_setting_env = $request->input('permiss_setting_env');   
+        $update->permiss_rep_money = $request->input('permiss_rep_money'); 
+
+        $update->permiss_ucs = $request->input('permiss_ucs'); 
+        $update->permiss_sss = $request->input('permiss_sss'); 
+        $update->permiss_ofc = $request->input('permiss_ofc'); 
+        $update->permiss_lgo = $request->input('permiss_lgo'); 
+        $update->permiss_prb = $request->input('permiss_prb'); 
+        $update->permiss_ti = $request->input('permiss_ti'); 
         $update->save(); 
 
         // dd($request->id);

@@ -73,16 +73,17 @@ return new class extends Migration
             $table->string('permiss_account')->nullable();
             $table->string('permiss_dental')->nullable();
 
-            $table->string('permiss_setting_account')->nullable();
-            $table->string('permiss_setting_upstm')->nullable();
+            $table->string('permiss_setting_account')->nullable();  //การบัญชี
+            $table->string('permiss_setting_upstm')->nullable();  //UP STM
             $table->string('permiss_setting_env')->nullable();
-            $table->string('permiss_setting_ucs')->nullable();
-            $table->string('permiss_setting_sss')->nullable();
-            $table->string('permiss_setting_ofc')->nullable();
-            $table->string('permiss_setting_lgo')->nullable();
-            $table->string('permiss_setting_prb')->nullable();
-            $table->string('permiss_setting_ti')->nullable();
-            $table->string('permiss_setting_warehouse')->nullable();
+            $table->string('permiss_ucs')->nullable();
+            $table->string('permiss_sss')->nullable();
+            $table->string('permiss_ofc')->nullable();
+            $table->string('permiss_lgo')->nullable();
+            $table->string('permiss_prb')->nullable();
+            $table->string('permiss_ti')->nullable();
+            $table->string('permiss_setting_warehouse')->nullable(); 
+            $table->string('permiss_rep_money')->nullable(); //ใบเสร็จรับเงิน
 
             $table->string('store_id')->nullable();
             $table->string('member_id')->nullable();

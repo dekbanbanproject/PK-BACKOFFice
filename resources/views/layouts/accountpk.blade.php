@@ -101,7 +101,30 @@
         color: #ccbcd1;
     } */
 </style>
-
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+ 
+use App\Http\Controllers\StaticController;
+use App\Models\Products_request_sub;
+    $permiss_account = StaticController::permiss_account($iduser); 
+    $permiss_setting_upstm = StaticController::permiss_setting_upstm($iduser);
+    $permiss_ucs = StaticController::permiss_ucs($iduser);
+    $permiss_sss = StaticController::permiss_sss($iduser);
+    $permiss_ofc = StaticController::permiss_ofc($iduser);
+    $permiss_lgo = StaticController::permiss_lgo($iduser);
+    $permiss_prb = StaticController::permiss_prb($iduser);
+    $permiss_ti = StaticController::permiss_ti($iduser);
+    $permiss_rep_money= StaticController::permiss_rep_money($iduser);
+ 
+?>
 
 <body data-topbar="dark">
 
@@ -284,6 +307,7 @@
                                 <li><a href="{{ url('account_pk_ipd') }}">ดึงลูกหนี้จาก Hos-ipd</a></li>
                             </ul>
                         </li>  --}}
+                        @if ($permiss_ucs !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}
@@ -295,6 +319,7 @@
                                 <li><a href="{{ url('account_pkucs217_dash') }}">ผัง-217</a></li>
                             </ul>
                         </li>
+                        @endif
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-info"></i>
@@ -314,6 +339,7 @@
                                 <li><a href="{{ url('account_pksss') }}">ตั้งลูกหนี้</a></li>
                             </ul>
                         </li>  --}}
+                        @if ($permiss_sss !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}
@@ -329,6 +355,9 @@
                                 <li><a href="{{ url('account_309_dash') }}">309-ค่าใช้จ่ายสูง/อุบัติเหตุ/ฉุกเฉินOP</a></li>
                             </ul>
                         </li>
+                        @endif
+
+                        @if ($permiss_ofc !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-danger"></i> --}}
@@ -340,6 +369,9 @@
                                 <li><a href="{{ url('account_402_dash') }}">ผัง-402</a></li>
                             </ul>
                         </li>
+                        @endif
+
+                        @if ($permiss_lgo !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-brands fa-btc text-danger"></i>
@@ -352,6 +384,9 @@
                                 {{-- <li><a href="{{ url('account_804_dash') }}">ผัง-804</a></li> --}}
                             </ul>
                         </li>
+                        @endif
+
+                        @if ($permiss_prb !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-danger"></i> --}}
@@ -363,6 +398,9 @@
                                 <li><a href="{{ url('account_603_dash') }}">ผัง-603</a></li>
                             </ul>
                         </li>
+                        @endif
+
+                        @if ($permiss_ti !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-brands fa-btc text-primary"></i>
@@ -377,6 +415,9 @@
                                 <li><a href="{{ url('account_pkti3099_dash') }}">SSS-3099</a></li>
                             </ul>
                         </li>
+                        @endif
+
+                        @if ($permiss_setting_upstm !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-warning"></i> --}}
@@ -384,7 +425,6 @@
                                 <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                {{-- <li><a href="{{ url('upstm') }}">Upstm</a></li>  --}}
                                 <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
                                 <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li>
                                 <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li>
@@ -395,14 +435,16 @@
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
                             </ul>
                         </li>
+                        @endif
+
+                        @if ($permiss_rep_money !=0)
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">  
+                                <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(250, 124, 187)"></i>
                                 <span>ใบเสร็จรับเงิน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('uprep_money') }}">ลงใบเสร็จรับเงิน</a></li> 
-                                {{-- <li><a href="{{ url('uprep_money_alone') }}">ลงใบเสร็จรับเงินรายตัว</a></li>  --}}
+                                <li><a href="{{ url('uprep_money') }}">ลงใบเสร็จรับเงิน</a></li>  
                                 <li><a href="javascript: void(0);" class="has-arrow">ลงใบเสร็จรับเงินรายตัว</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('uprep_sss_304') }}">SSS-304</a></li> 
@@ -425,6 +467,8 @@
                                 <li><a href="{{ url('acc_repstm') }}">report stm ไต</a></li>
                             </ul>
                         </li>
+                        @endif
+                        @if ($permiss_ucs !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-sliders text-danger"></i>
@@ -436,6 +480,7 @@
 
                             </ul>
                         </li>
+                        @endif
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-line text-danger"></i>
