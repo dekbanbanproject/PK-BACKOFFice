@@ -344,7 +344,7 @@ use App\Models\Products_request_sub;
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}
                                 <i class="fa-brands fa-btc text-success"></i>
-                                <span>ประกันสังคม</span>
+                                <span>SSS</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('account_301_dash') }}">301-OPเครือข่าย</a></li>
