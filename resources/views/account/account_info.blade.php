@@ -94,7 +94,7 @@
                                                 where month(v.vstdate) = "' . $item2->months . '" AND year(v.vstdate) = "' . $item2->monyear . '" 
                                                 and v.pttype in("o1","o2","o3","o4","o5") 
                                                 and i.an is null and (rr.sss_approval_code is null or rr.sss_approval_code ="")
-                                                and v.uc_money > 1 
+                                                and v.uc_money > 1 and v.hn <> ""
                                         ');
                                         foreach ($data_null_ as $key => $value) {
                                             $data_null = $value->vnnull;

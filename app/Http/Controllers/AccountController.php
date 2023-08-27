@@ -335,7 +335,7 @@ class AccountController extends Controller
                 and e.uc_money > 0
                 and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
                 and e.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
-              
+                and e.hn <> ""
                 group by e.vn,e.vstdate
                 order by e.vstdate
         ');
