@@ -305,11 +305,55 @@ class UpstmController extends Controller
 
      public function uprep_sss_309(Request $request)
      { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
          $data['users'] = User::get(); 
+            if ($startdate != '') {
+                $data['data'] = DB::select('
+                    SELECT U1.acc_1102050101_309_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.recieve_no
+                        from acc_1102050101_309 U1 
+                        WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                        GROUP BY U1.vn
+                ');  
+            } else {
+                $data['data'] = DB::select('
+                    SELECT U1.acc_1102050101_309_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.recieve_no
+                        from acc_1102050101_309 U1
+                    
+                        WHERE U1.nhso_docno <> ""
+                        GROUP BY U1.vn
+                ');  
+            } 
           
-         return view('account_309.uprep_sss_309', $data);
+         return view('account_309.uprep_sss_309', $data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+         ]);
      }
 
+     public function uprep_sss_309edit(Request $request,$id)
+     {
+         $data_show = Acc_1102050101_309::find($id);
+         return response()->json([
+             'status'               => '200', 
+             'data_show'            =>  $data_show,
+         ]);
+     }
+     public function uprep_sss_309_update(Request $request)
+     {
+         $id = $request->acc_1102050101_309_id;
+         $update = Acc_1102050101_309::find($id);
+         $update->recieve_true      = $request->recieve_true;
+         $update->difference        = $request->difference;
+         $update->recieve_no        = $request->recieve_no;
+         $update->recieve_date      = $request->recieve_date;
+         $update->recieve_user      = $request->user_id; 
+         $update->save();
+          
+         return response()->json([
+             'status'    => '200' 
+         ]); 
+     }
     // ***************           **************
     public function import_stm(Request $request)
     { 
