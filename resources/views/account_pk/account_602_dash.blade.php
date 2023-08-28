@@ -75,7 +75,7 @@
 
      
 
-   <div class="tabs-animation">
+   <div class="tabs-animation ">
         <div id="preloader">
             <div id="status">
                 <div class="spinner">

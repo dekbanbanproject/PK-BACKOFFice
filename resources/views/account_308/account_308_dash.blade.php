@@ -82,7 +82,7 @@
         </div>
         <form action="{{ url('account_308_dash') }}" method="GET">
             @csrf
-            <div class="row"> 
+            <div class="row ms-3 me-3"> 
                 <div class="col-md-4">
                     <h4 class="card-title">Detail 1102050101.308</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.308</p>
@@ -117,7 +117,7 @@
                 </div>
             </div>
         </form>  
-        <div class="row "> 
+        <div class="row ms-3 me-3"> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-6">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
