@@ -163,6 +163,29 @@ class Account301Controller extends Controller
         ]);
     }
 
+    public function account_301_dashsubdetail(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d'); 
+        // dd($id);
+        $data['users'] = User::get();
+
+        $data = DB::select('
+        SELECT 
+            month(vstdate) as months,year(vstdate) as year
+            ,vn,hn,cid,ptname,vstdate,pttype,debit_total
+            from acc_1102050101_301
+        
+            WHERE month(vstdate) = "'.$months.'"  
+            AND year(vstdate) = "'.$year.'"
+        ');
+        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        return view('account_301.account_301_dashsubdetail', $data, [ 
+            'data'          =>     $data,
+            'year'          =>     $year,
+            'months'        =>     $months
+        ]);
+    }
+
     // public function account_301_dash(Request $request)
     // {
     //     $datenow = date('Y-m-d');
@@ -300,6 +323,7 @@ class Account301Controller extends Controller
 
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.301')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    // $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
@@ -324,7 +348,8 @@ class Account301Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer, 
                             'fokliad'            => $value->fokliad,
-                            'debit_total'        => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_toa - $value->debit_refer,
+                            'debit_total'        => $value->debit,
+                            // 'debit_total'        => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_toa - $value->debit_refer,
                             'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
@@ -337,73 +362,73 @@ class Account301Controller extends Controller
                     //         'account_name'     => "บริการเฉพาะ(CR)"
                     //     ]);
                     // }
-                    if ($value->debit_instument > 0 && $value->account_code =='1102050101.301') {
-                            $checkins = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.217')->count();
+                    // if ($value->debit_instument > 0 && $value->account_code =='1102050101.301') {
+                    //         $checkins = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.217')->count();
 
-                            if ($checkins == 0) {
-                                Acc_debtor::insert([
-                                    'hn'                 => $value->hn,
-                                    'an'                 => $value->an,
-                                    'vn'                 => $value->vn,
-                                    'cid'                => $value->cid,
-                                    'ptname'             => $value->ptname,
-                                    'pttype'             => $value->pttype,
-                                    'vstdate'            => $value->vstdate,
-                                    // 'regdate'            => $value->admdate,
-                                    // 'dchdate'            => $value->dchdate,
-                                    'acc_code'           => "03",
-                                    'account_code'       => '1102050101.217',
-                                    'account_name'       => 'บริการเฉพาะ(CR)',
-                                    'income_group'       => '02',
-                                    'debit'              => $value->debit_instument,
-                                    'debit_total'        => $value->debit_instument
-                                ]);
-                            }
-                    }
-                    if ($value->debit_drug > 0 && $value->account_code =='1102050101.301') {
-                            $checkindrug = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_drug)->count();
-                            if ($checkindrug == 0) {
-                                Acc_debtor::insert([
-                                    'hn'                 => $value->hn,
-                                    'an'                 => $value->an,
-                                    'vn'                 => $value->vn,
-                                    'cid'                => $value->cid,
-                                    'ptname'             => $value->ptname,
-                                    'pttype'             => $value->pttype,
-                                    'vstdate'            => $value->vstdate,
-                                    // 'regdate'            => $value->admdate,
-                                    // 'dchdate'            => $value->dchdate,
-                                    'acc_code'           => "03",
-                                    'account_code'       => '1102050101.217',
-                                    'account_name'       => 'บริการเฉพาะ(CR)',
-                                    'income_group'       => '03',
-                                    'debit'              => $value->debit_drug,
-                                    'debit_total'        => $value->debit_drug
-                                ]);
-                            }
-                    }
-                    if ($value->debit_refer > 0 && $value->account_code =='1102050101.301') {
-                        $checkinrefer = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_refer)->count();
-                        if ($checkinrefer == 0) {
-                            Acc_debtor::insert([
-                                'hn'                 => $value->hn,
-                                'an'                 => $value->an,
-                                'vn'                 => $value->vn,
-                                'cid'                => $value->cid,
-                                'ptname'             => $value->ptname,
-                                'pttype'             => $value->pttype,
-                                'vstdate'            => $value->vstdate,
-                                // 'regdate'            => $value->admdate,
-                                // 'dchdate'            => $value->dchdate,
-                                'acc_code'           => "03",
-                                'account_code'       => '1102050101.217',
-                                'account_name'       => 'บริการเฉพาะ(CR)',
-                                'income_group'       => '20',
-                                'debit'              => $value->debit_refer,
-                                'debit_total'        => $value->debit_refer
-                            ]);
-                        }
-                    }
+                    //         if ($checkins == 0) {
+                    //             Acc_debtor::insert([
+                    //                 'hn'                 => $value->hn,
+                    //                 'an'                 => $value->an,
+                    //                 'vn'                 => $value->vn,
+                    //                 'cid'                => $value->cid,
+                    //                 'ptname'             => $value->ptname,
+                    //                 'pttype'             => $value->pttype,
+                    //                 'vstdate'            => $value->vstdate,
+                    //                 // 'regdate'            => $value->admdate,
+                    //                 // 'dchdate'            => $value->dchdate,
+                    //                 'acc_code'           => "03",
+                    //                 'account_code'       => '1102050101.217',
+                    //                 'account_name'       => 'บริการเฉพาะ(CR)',
+                    //                 'income_group'       => '02',
+                    //                 'debit'              => $value->debit_instument,
+                    //                 'debit_total'        => $value->debit_instument
+                    //             ]);
+                    //         }
+                    // }
+                    // if ($value->debit_drug > 0 && $value->account_code =='1102050101.301') {
+                    //         $checkindrug = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_drug)->count();
+                    //         if ($checkindrug == 0) {
+                    //             Acc_debtor::insert([
+                    //                 'hn'                 => $value->hn,
+                    //                 'an'                 => $value->an,
+                    //                 'vn'                 => $value->vn,
+                    //                 'cid'                => $value->cid,
+                    //                 'ptname'             => $value->ptname,
+                    //                 'pttype'             => $value->pttype,
+                    //                 'vstdate'            => $value->vstdate,
+                    //                 // 'regdate'            => $value->admdate,
+                    //                 // 'dchdate'            => $value->dchdate,
+                    //                 'acc_code'           => "03",
+                    //                 'account_code'       => '1102050101.217',
+                    //                 'account_name'       => 'บริการเฉพาะ(CR)',
+                    //                 'income_group'       => '03',
+                    //                 'debit'              => $value->debit_drug,
+                    //                 'debit_total'        => $value->debit_drug
+                    //             ]);
+                    //         }
+                    // }
+                    // if ($value->debit_refer > 0 && $value->account_code =='1102050101.301') {
+                    //     $checkinrefer = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_refer)->count();
+                    //     if ($checkinrefer == 0) {
+                    //         Acc_debtor::insert([
+                    //             'hn'                 => $value->hn,
+                    //             'an'                 => $value->an,
+                    //             'vn'                 => $value->vn,
+                    //             'cid'                => $value->cid,
+                    //             'ptname'             => $value->ptname,
+                    //             'pttype'             => $value->pttype,
+                    //             'vstdate'            => $value->vstdate,
+                    //             // 'regdate'            => $value->admdate,
+                    //             // 'dchdate'            => $value->dchdate,
+                    //             'acc_code'           => "03",
+                    //             'account_code'       => '1102050101.217',
+                    //             'account_name'       => 'บริการเฉพาะ(CR)',
+                    //             'income_group'       => '20',
+                    //             'debit'              => $value->debit_refer,
+                    //             'debit_total'        => $value->debit_refer
+                    //         ]);
+                    //     }
+                    // }
                      
         }
 

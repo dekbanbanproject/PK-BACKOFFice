@@ -216,28 +216,28 @@ class Account302Controller extends Controller
                         ]);
                     }
 
-                    if ($value->fokliad > 0 && $value->account_code =='1102050101.302') {
-                        $checkfokliad = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.3099')->count();
-                        if ($checkfokliad == 0) {
-                            Acc_debtor::insert([
-                                'hn'                 => $value->hn,
-                                'an'                 => $value->an,
-                                'vn'                 => $value->vn,
-                                'cid'                => $value->cid,
-                                'ptname'             => $value->fullname,
-                                'pttype'             => $value->pttype,
-                                'vstdate'            => $value->vstdate,
-                                'regdate'            => $value->admdate,
-                                'dchdate'            => $value->dchdate,
-                                'acc_code'           => "38",
-                                'account_code'       => '1102050101.3099',
-                                'account_name'       => 'ประกันสังคม-ค่าใช้จ่ายสูง OP(ฟอกไต)',
-                                'income_group'       => '11',
-                                'debit'              => $value->fokliad,
-                                'debit_total'        => $value->fokliad
-                            ]);
-                        }
-                    }
+                    // if ($value->fokliad > 0 && $value->account_code =='1102050101.302') {
+                    //     $checkfokliad = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.3099')->count();
+                    //     if ($checkfokliad == 0) {
+                    //         Acc_debtor::insert([
+                    //             'hn'                 => $value->hn,
+                    //             'an'                 => $value->an,
+                    //             'vn'                 => $value->vn,
+                    //             'cid'                => $value->cid,
+                    //             'ptname'             => $value->fullname,
+                    //             'pttype'             => $value->pttype,
+                    //             'vstdate'            => $value->vstdate,
+                    //             'regdate'            => $value->admdate,
+                    //             'dchdate'            => $value->dchdate,
+                    //             'acc_code'           => "38",
+                    //             'account_code'       => '1102050101.3099',
+                    //             'account_name'       => 'ประกันสังคม-ค่าใช้จ่ายสูง OP(ฟอกไต)',
+                    //             'income_group'       => '11',
+                    //             'debit'              => $value->fokliad,
+                    //             'debit_total'        => $value->fokliad
+                    //         ]);
+                    //     }
+                    // }
             }
             return response()->json([
 

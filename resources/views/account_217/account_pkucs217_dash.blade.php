@@ -17,8 +17,7 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
-    $ynow = date('Y')+543;
-    $yb =  date('Y')+542;
+    
     ?>
      
      <style>

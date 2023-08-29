@@ -1511,6 +1511,7 @@ Route::middleware(['type'])->group(function(){
 
     Route::match(['get','post'],'account_301_dash',[App\Http\Controllers\Account301Controller::class, 'account_301_dash'])->name('acc.account_301_dash');//
     Route::match(['get','post'],'account_301_dashsub/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsub'])->name('acc.account_301_dashsub');//
+    Route::match(['get','post'],'account_301_dashsubdetail/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsubdetail'])->name('acc.account_301_dashsubdetail');//
     Route::match(['get','post'],'account_301_pull',[App\Http\Controllers\Account301Controller::class, 'account_301_pull'])->name('acc.account_301_pull');//
     Route::match(['get','post'],'account_301_pulldata',[App\Http\Controllers\Account301Controller::class, 'account_301_pulldata'])->name('acc.account_301_pulldata');//
     Route::match(['get','post'],'account_301/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301'])->name('acc.account_301');//
