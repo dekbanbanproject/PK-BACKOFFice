@@ -80,16 +80,16 @@
                 </div>
             </div>
         </div>
-       
+ 
             <div class="row ms-3 me-3"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050101.301</h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.301</p>
+                    <h4 class="card-title">Detail 1102050101.302</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.302</p>
                 </div>
                 <div class="col"></div>
                
             </div>
-        
+       
         <div class="row ms-3 me-3"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
@@ -104,43 +104,43 @@
                                          $y = $item->year;
                                         $ynew = $y + 543;
                                             $datashow_a = DB::select('
-                                                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME,l.MONTH_ID
+                                                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME,l.MONTH_ID
                                                     ,count(distinct a.hn) as hn
-                                                    ,count(distinct a.vn) as vn 
+                                                    ,count(distinct a.an) as an 
                                                     ,sum(a.income) as income
                                                     ,sum(a.paid_money) as paid_money
                                                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
                                                     ,sum(a.debit) as debit
                                                     FROM acc_debtor a
-                                                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                                                    WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                                                    and month(a.vstdate) = "'.$item->months.'" 
-                                                    and a.account_code="1102050101.301"  
+                                                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                                                    WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                    and month(a.dchdate) = "'.$item->months.'" 
+                                                    and a.account_code="1102050101.302"  
                                                     and a.stamp ="N"                                                  
                                             ');
                                             // WHERE month(a.vstdate) = "'.$item->months.'" 
                                             foreach ($datashow_a as $key => $value1) {
-                                                $visit = $value1->vn;
+                                                $visit = $value1->an;
                                                 $sum_N = $value1->debit;
                                             }
 
                                             $datashow_b = DB::select('
-                                                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME,l.MONTH_ID
+                                                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME,l.MONTH_ID
                                                     ,count(distinct a.hn) as hn
-                                                    ,count(distinct a.vn) as vn 
+                                                    ,count(distinct a.an) as an 
                                                     ,sum(a.income) as income
                                                     ,sum(a.paid_money) as paid_money
                                                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
                                                     ,sum(a.debit) as debit
                                                     FROM acc_debtor a
-                                                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                                                    WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                                                    and month(a.vstdate) = "'.$item->months.'"
-                                                    and a.account_code="1102050101.301" and a.stamp ="Y"    
+                                                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                                                    WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                    and month(a.dchdate) = "'.$item->months.'"
+                                                    and a.account_code="1102050101.302" and a.stamp ="Y"    
                                                                                                   
                                             ');
                                             foreach ($datashow_b as $key => $value2) {
-                                                $count_Y = $value2->vn;
+                                                $count_Y = $value2->an;
                                                 $sum_Y = $value2->debit;
                                             }
                                         ?>
@@ -150,7 +150,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-3 text-end mt-2 me-4">
-                                                <a href="{{url('account_301_pull')}}" target="_blank">
+                                                <a href="{{url('account_302_pull')}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ตั้ง {{$visit}} Visit">
                                                         <h6 class="text-end">{{$visit}} Visit</h6>
                                                     </div>
@@ -192,7 +192,7 @@
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
                                                 {{-- <a href="" target="_blank"> --}}
-                                                    <a href="{{url('account_301_dashsubdetail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_302_dashsubdetail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}

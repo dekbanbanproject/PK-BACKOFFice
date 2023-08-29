@@ -98,11 +98,11 @@
                     </select>
                 </div>
                 <div class="col-md-2 text-start">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_302_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                    <a href="{{url('account_302_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
                     </a>
@@ -112,7 +112,7 @@
         <div class="row ms-3 me-3"> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-4">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="main-card mb-3 card shadow" style="background-color: rgb(235, 242, 247)"> 
 
                     {{-- @if ($startdate == '') --}}
                     <div class="grid-menu-col">
@@ -124,12 +124,12 @@
                                            
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
-                                                SELECT count(DISTINCT vn) as Can
+                                                SELECT count(DISTINCT an) as Can
                                                     ,SUM(debit) as sumdebit
                                                     from acc_debtor
                                                     WHERE account_code="1102050101.302"
                                                     AND stamp = "N"
-                                                    AND vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
+                                                    AND dchdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             ');
                                             foreach ($datas as $key => $value) {
                                                 $count_N = $value->Can;
@@ -137,9 +137,9 @@
                                             }
                                             // ตั้งลูกหนี้
                                              $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                SELECT sum(debit_total) as debit_total,count(an) as Cvit
                                                 from acc_1102050101_302
-                                                where vstdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
+                                                where dchdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             ');   
                                             foreach ($datasum_ as $key => $value2) {
                                                 $sum_Y = $value2->debit_total;
@@ -212,7 +212,8 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_302_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
+                                                {{-- <a href="{{url('account_302_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank"> --}}
+                                                <a href="{{url('account_302_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}

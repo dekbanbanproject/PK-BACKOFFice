@@ -8,12 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Acc_1102050102_602 extends Authenticatable
+class Acc_1102050101_310 extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'acc_1102050102_602';
-    protected $primaryKey = 'acc_1102050102_602_id';
+    protected $table = 'acc_1102050101_310';
+    protected $primaryKey = 'acc_1102050101_310_id';
     protected $fillable = [
         'vn',
         'an',

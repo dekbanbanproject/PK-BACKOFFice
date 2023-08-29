@@ -81,7 +81,7 @@
                 </div> 
             </div>
             <div class="col-md-4"> 
-                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
+                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                     ดึงข้อมูล</button>    
                   
@@ -89,25 +89,18 @@
             <div class="col"></div>
         </div>
              
-        <div class="row mt-3 text-center">  
+        <div class="row mt-2 text-center">  
             <div id="overlay">
                 <div class="cv-spinner">
                   <span class="spinner"></span>
                 </div>
               </div>
         </div> 
-        <div class="row mt-3">
+        <div class="row mt-2">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body shadow-lg">
-                        <div class="row mt-3 text-center">  
-                            <div id="overlay">
-                                <div class="cv-spinner">
-                                <span class="spinner"></span>
-                                </div>
-                            </div>
-                        </div> 
-                      
+                        
                         <div class="row">
                             <div class="col-md-4">
                                 <h4 class="card-title">Detail Account</h4>
