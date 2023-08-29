@@ -86,7 +86,8 @@ date_default_timezone_set("Asia/Bangkok");
 
 
 class Account217Controller extends Controller
- { public function account_pkucs217_pull(Request $request)
+ { 
+    public function account_pkucs217_pull(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');

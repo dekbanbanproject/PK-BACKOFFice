@@ -1265,7 +1265,6 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'report_refer_opdrep_subsubtotal/{vn}',[App\Http\Controllers\ReportController::class, 'report_refer_opdrep_subsubtotal'])->name('report.report_refer_opdrep_subsubtotal');//
      Route::match(['get','post'],'report_refer_opdrep_subsubtran/{tran_id}',[App\Http\Controllers\ReportController::class, 'report_refer_opdrep_subsubtran'])->name('report.report_refer_opdrep_subsubtran');//
 
-
     //  รายงานการลงข้อมูลรับกลับ Refer IPD
      Route::match(['get','post'],'report_refer_mainsub_checkopd/{year}/{month}',[App\Http\Controllers\ReportController::class, 'report_refer_mainsub_checkopd'])->name('report.report_refer_mainsub_checkopd');// จำนวนผู้ป่วย OPD (ครั้ง)
      Route::match(['get','post'],'report_refer_mainsub_checkipd/{year}/{month}',[App\Http\Controllers\ReportController::class, 'report_refer_mainsub_checkipd'])->name('report.report_refer_mainsub_checkipd');// จำนวนผู้ป่วย IPD (ครั้ง)
@@ -1278,7 +1277,6 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'report_refer_mainsub_rep_imcstork/{year}/{month}',[App\Http\Controllers\ReportController::class, 'report_refer_mainsub_rep_imcstork'])->name('report.report_refer_mainsub_rep_imcstork');//
      Route::match(['get','post'],'report_refer_mainsub_rep_imcbrain/{year}/{month}',[App\Http\Controllers\ReportController::class, 'report_refer_mainsub_rep_imcbrain'])->name('report.report_refer_mainsub_rep_imcbrain');//
      Route::match(['get','post'],'report_refer_mainsub_rep_imcinjury/{year}/{month}',[App\Http\Controllers\ReportController::class, 'report_refer_mainsub_rep_imcinjury'])->name('report.report_refer_mainsub_rep_imcinjury');//
-
 
      Route::match(['get','post'],'report_refer_main_search',[App\Http\Controllers\ReportController::class, 'report_refer_main_search'])->name('report.report_refer_main_search');//
      Route::match(['get','post'],'report_refer_2561',[App\Http\Controllers\ReportController::class, 'report_refer_2561'])->name('report.report_refer_2561');//
@@ -1306,11 +1304,14 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'opd_chai_list',[App\Http\Controllers\SssController::class, 'opd_chai_list'])->name('sss.opd_chai_list');//
      Route::match(['get','post'],'opd_chai_listvn/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_chai_listvn'])->name('sss.opd_chai_listvn');//
      Route::match(['get','post'],'opd_chai_listrep/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_chai_listrep'])->name('sss.opd_chai_listrep');//
+     Route::match(['get','post'],'opd_chai_listnorep/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_chai_listnorep'])->name('sss.opd_chai_listnorep');//
 
      Route::match(['get','post'],'ipd_chai',[App\Http\Controllers\SssController::class, 'ipd_chai'])->name('sss.ipd_chai');//
      Route::match(['get','post'],'ipd_chai_an/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_an'])->name('sss.ipd_chai_an');//
      Route::match(['get','post'],'ipd_chai_rep/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_rep'])->name('sss.ipd_chai_rep');//
      Route::match(['get','post'],'ipd_chai_norep/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_norep'])->name('sss.ipd_chai_norep');//
+
+     Route::match(['get','post'],'ipd_chai_vn/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_vn'])->name('sss.ipd_chai_vn');//
 
      Route::match(['get','post'],'opd_outlocate',[App\Http\Controllers\SssController::class, 'opd_outlocate'])->name('sss.opd_outlocate');//
      Route::match(['get','post'],'opd_outlocate_sub/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_outlocate_sub'])->name('sss.opd_outlocate_sub');//
@@ -1509,6 +1510,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkucs217_stmnull_all/{months}/{year}',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_stmnull_all'])->name('acc.account_pkucs217_stmnull_all');//
 
     Route::match(['get','post'],'account_301_dash',[App\Http\Controllers\Account301Controller::class, 'account_301_dash'])->name('acc.account_301_dash');//
+    Route::match(['get','post'],'account_301_dashsub/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsub'])->name('acc.account_301_dashsub');//
     Route::match(['get','post'],'account_301_pull',[App\Http\Controllers\Account301Controller::class, 'account_301_pull'])->name('acc.account_301_pull');//
     Route::match(['get','post'],'account_301_pulldata',[App\Http\Controllers\Account301Controller::class, 'account_301_pulldata'])->name('acc.account_301_pulldata');//
     Route::match(['get','post'],'account_301/{months}/{year}',[App\Http\Controllers\Account301Controller::class, 'account_301'])->name('acc.account_301');//

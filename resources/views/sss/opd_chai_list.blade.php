@@ -36,7 +36,7 @@
             <form action="{{ route('sss.opd_chai_list') }}" method="POST" >
                 @csrf
             <div class="row">                   
-                    <div class="col"></div>
+                    <div class="col"></div> 
                     <div class="col-md-1 text-end">ประเภท </div>
                     <div class="col-md-2 text-center"> 
                         <select id="typesick" name="typesick" class="form-control" style="width: 100%" required>
@@ -51,30 +51,21 @@
                             
                         </select>
                     </div>
-                    <div class="col-md-1 text-end">วันที่</div>
-                    <div class="col-md-2 text-center"> 
-                        <div class="input-group" id="datepicker1">
-                            <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startdate" id="startdate"
-                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" value="{{$startdate}}">
-
-                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                        </div>  
-                    </div>
-                    <div class="col-md-1 text-center">ถึงวันที่</div>
-                    <div class="col-md-2 text-center"> 
-                        <div class="input-group" id="datepicker1">
-                            <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="enddate" id="enddate"
-                                data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" value="{{$enddate}}">
-
-                            <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                    
+                    <div class="col-md-1 text-end mt-2">วันที่</div>
+                    <div class="col-md-3 text-end">
+                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $startdate }}" required/>
+                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $enddate }}"/>  
                         </div> 
                     </div>
                     <div class="col-md-2"> 
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-magnifying-gla
-                            ss me-2"></i>
-                            ค้นหา
-                        </button>
+                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" > 
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>
+                            ค้นหา</button>    
+                        
                     </div>
                     <div class="col"></div>
                 </form>
@@ -105,7 +96,32 @@
                             @if ($typesick =='OPD')
                                 <tbody>
                                     <?php $i = 1; ?>
-                                    @foreach ($datashow as $item)                                            
+                                    @foreach ($datashow as $item)   
+                                    <?php 
+                                        $data_claim_ = DB::connection('mysql3')->select(' 
+                                                    SELECT month(o.vstdate),year(o.vstdate),count(vp.vn) as repvn 
+                                                    FROM opitemrece o
+                                                    left join vn_stat v on v.vn=o.vn
+                                                    left outer join visit_pttype vp on vp.vn = o.vn
+                                                    left outer join pttype pt on pt.pttype = o.pttype
+                                                    left outer join hospcode h on h.hospcode = v.hospmain
+                                                    LEFT JOIN nondrugitems n on n.icode = o.icode
+                                                    LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
+                                                    left join patient p on p.hn = v.hn
+                                                    WHERE month(o.vstdate) = "'.$item->months.'"
+                                                    and o.income="02" 
+                                                    and o.pttype="a7"
+                                                    and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
+                                                    and n.billcode like "8%"
+                                                    and n.billcode not in ("8608","8307")
+                                                    and o.an is null 
+                                                    and vp.claim_code="1"
+                                                    and year(o.vstdate) = "'.$item->year.'"
+                                            '); 
+                                            foreach ($data_claim_ as $key => $value) {
+                                                $claim = $value->repvn;
+                                            }
+                                    ?>                                         
                                             <tr>
                                                 <td>{{$i++ }}</td>
                                                 <td>{{$item->year}}</td> 
@@ -136,15 +152,15 @@
                                                     <td width="15%" class="text-center">ธันวาคม</td>
                                                 @endif
  
-                                                <td>
+                                                <td class="text-center">
                                                     <a href="{{url('opd_chai_listvn/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->vn }}</a>  
                                                 </td>                                            
                                                 <td class="text-center" >
-                                                    <a href="{{url('opd_chai_listrep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->repvn }}</a>
+                                                    <a href="{{url('opd_chai_listrep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $claim }}</a>
                                                    
                                                 </td>
                                                 <td class="text-center" >
-                                                    <a href="{{url('opd_chai_listrep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->norep }}</a>
+                                                    <a href="{{url('opd_chai_listnorep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->vn - $claim}}</a>
                                                    
                                                 </td>   
                                                 
@@ -186,15 +202,15 @@
                                                 <td width="15%" class="text-center">ธันวาคม</td>
                                             @endif
 
-                                            <td> 
-                                                <a href="{{url('ipd_chai_vn/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->icode }}</a> 
+                                            <td class="text-center"> 
+                                                <a href="{{url('ipd_chai_vn/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->an }}</a> 
                                             </td> 
-                                            <td>
-                                                <a href="{{url('ipd_chai_rep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->vn }}</a>  
+                                            <td class="text-center">
+                                                <a href="{{url('ipd_chai_rep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->claim }}</a>  
                                              </td>                                            
                                             <td class="text-center" >
-                                                {{-- <a href="{{url('ipd_chai_norep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->disvn }}</a>  --}}
-                                                {{ $item->disvn }}
+                                                <a href="{{url('ipd_chai_norep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->noclaim }}</a> 
+                                                {{-- {{ $item->disvn }} --}}
                                             </td>   
                                             <td class="text-center">{{ $item->summony }}</td>  
                                         </tr>
@@ -225,6 +241,19 @@
             $('select').select2();
             $('#ECLAIM_STATUS').select2({
                 dropdownParent: $('#detailclaim')
+            });
+            $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            $('#datepicker3').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker4').datepicker({
+                format: 'yyyy-mm-dd'
             });
             $.ajaxSetup({
                 headers: {

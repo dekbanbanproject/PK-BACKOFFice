@@ -44,14 +44,18 @@
                             <thead>
                                 <tr>
                                     <th width="5%" class="text-center">ลำดับ</th>
+                                    <th class="text-center">VN</th>
                                     <th class="text-center">HN</th>
                                     <th class="text-center">PDX</th>
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">ชื่อ - สกุล</th>
+                                    <th class="text-center">รหัส</th>
                                     <th class="text-center">อุปกรณ์</th>
                                     <th class="text-center">รหัส</th>
                                     <th class="text-center">จำนวน</th>
                                     <th class="text-center">ค่าใช้จ่าย HOSxP</th> 
+                                    <th class="text-center">claim_code</th>
+                                    <th class="text-center">nhso_docno</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,14 +63,18 @@
                                 @foreach ($datashow as $item)                                            
                                         <tr>
                                             <td>{{$i++ }}</td>
+                                            <td>  {{ $item->vn }} </td> 
                                             <td>  {{ $item->hn }} </td> 
                                             <td>{{ $item->pdx }} </td>     
                                             <td class="text-center">{{ $item->vstdate }}</td>                                                       
-                                            <td>{{ $item->fullname }}</td>  
+                                            <td>{{ $item->fullname }}</td> 
+                                            <td>{{ $item->icode }} </td>  
                                             <td>{{ $item->name }} </td> 
                                             <td>{{ $item->billcode }} </td> 
                                             <td>{{ $item->qty }} </td> 
-                                            <td class="text-center">{{ $item->total }}</td>    
+                                            <td class="text-center">{{ $item->total }}</td> 
+                                            <td class="p-2">{{ $item->claim_code }}</td> 
+                                            <td class="p-2">{{ $item->nhso_docno }}</td>    
                                         </tr>
                                 @endforeach
                             </tbody>

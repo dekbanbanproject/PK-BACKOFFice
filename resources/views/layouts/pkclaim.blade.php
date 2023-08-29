@@ -326,7 +326,7 @@
                                 <li><a href="javascript: void(0);" class="has-arrow">สถิติรายงาน</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('opd_chai') }}">OPD ชัยภูมิ</a></li>
-                                        <li><a href="{{ url('opd_chai_list') }}">OPD ชัยภูมิ อุปกรณ์</a></li>
+                                        <li><a href="{{ url('opd_chai_list') }}">OPD-IPD ชัยภูมิ อุปกรณ์</a></li>
                                         <li><a href="{{ url('ipd_chai') }}">IPD ชัยภูมิ</a></li>
                                         <li><a href="{{ url('opd_outlocate') }}">OPD นอกเขต</a></li>
                                         <li><a href="{{ url('ipd_outlocate') }}">IPD นอกเขต</a></li>

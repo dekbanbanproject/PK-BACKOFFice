@@ -220,8 +220,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_301_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
-                                                    {{-- <a href="{{url('account_301_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank"> --}}
+                                                <a href="{{url('account_301_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
