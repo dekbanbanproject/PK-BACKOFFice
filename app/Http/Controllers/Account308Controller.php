@@ -319,7 +319,7 @@ class Account308Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.nhso_docno
+            SELECT U1.acc_1102050101_308_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.nhso_docno
                 from acc_1102050101_308 U1
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 GROUP BY U1.an
@@ -336,36 +336,44 @@ class Account308Controller extends Controller
     {
         $months = $request->months;
         $year = $request->year;
-        $sync = DB::connection('mysql3')->select('
-               
-                SELECT a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno 
-                FROM an_stat a
-                LEFT JOIN ipt_pttype ip ON ip.an = a.an
+        $sync = DB::connection('mysql')->select('               
+                SELECT ac.acc_1102050101_308_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno 
+                FROM hos.an_stat a
+                LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
+                LEFT JOIN pkbackoffice.acc_1102050101_308 ac ON ac.an = a.an
                 WHERE month(a.dchdate) = "'.$months.'" 
                 AND year(a.dchdate) = "'.$year.'" 
-                AND ip.nhso_ownright_pid  <> ""
+                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> ""
             ');
+            // dd($sync);
             foreach ($sync as $key => $value) {
                
-                if ($value->nhso_docno != '') {
+                // if ($value->nhso_docno != '') {
                      
-                    Acc_1102050101_308::where('an',$value->an) 
-                        ->update([ 
-                            'nhso_docno'           => $value->nhso_docno ,
-                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
-                    ]);
+                        // Acc_1102050101_308::where('acc_1102050101_308_id',$value->acc_1102050101_308_id) 
+                        //     ->update([ 
+                        //         'nhso_docno'           => $value->nhso_docno,
+                        //         'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                        // ]);
+
+                        $update = Acc_1102050101_308::find($value->acc_1102050101_308_id);
+                        $update->nhso_docno           = $value->nhso_docno;
+                        $update->nhso_ownright_pid    = $value->nhso_ownright_pid;
+                        $update->save();
+
                     return response()->json([
                         'status'    => '200'
                     ]);
-                } else {
-                    return response()->json([
-                        'status'    => '100'
-                    ]);
-                } 
+
+                // } else {
+                //     return response()->json([
+                //         'status'    => '100'
+                //     ]);
+                // } 
             }
-            return response()->json([
-                'status'    => '200'
-            ]);
+            // return response()->json([
+            //     'status'    => '200'
+            // ]);
         
         
     }

@@ -80,7 +80,7 @@
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     {{-- <th class="text-center" width="5%">repno</th> --}}
-                                    {{-- <th class="text-center">an</th> --}}
+                                    {{-- <th class="text-center">acc_1102050101_308_id</th> --}}
                                     <th class="text-center" >vn</th>
                                     <th class="text-center">an</th> 
                                     <th class="text-center" >hn</th>
@@ -102,7 +102,7 @@
                                    
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                            {{-- <td class="text-center" width="10%">{{ $item->repno }}</td>   --}}
+                                            {{-- <td class="text-center" width="10%">{{ $item->acc_1102050101_308_id }}</td>   --}}
                                                     <td class="text-center" width="10%">{{ $item->vn }}</td> 
                                                     <td class="text-center" width="10%">{{ $item->an }}</td> 
                                                     <td class="text-center" width="10%">{{ $item->hn }}</td>   
