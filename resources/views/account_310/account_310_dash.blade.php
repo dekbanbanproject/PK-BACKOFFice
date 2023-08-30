@@ -159,9 +159,11 @@
                                             }
 
                                             if ( $sum_Y > $total310) {
-                                                $yokpai = $sum_Y - $total310;
+                                                $yokpai_ = $sum_Y - $total310;
+                                                $yokpai = '-'.$yokpai_;
                                             } else {
-                                                $yokpai = $total310 - $sum_Y;
+                                                $yokpai_ = $total310 - $sum_Y;
+                                                $yokpai = '+'.$yokpai_;
                                             }
                                             
 
@@ -260,7 +262,12 @@
                                                
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >
+                                                            @if ($yokpai > 0)
+                                                            + {{ number_format($yokpai, 2) }} 
+                                                            @else
                                                             {{ number_format($yokpai, 2) }} 
+                                                            @endif
+                                                           
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>

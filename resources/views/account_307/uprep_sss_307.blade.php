@@ -161,13 +161,48 @@ $pos = strrpos($url, '/') + 1;
                                                         
                                                     </td> 
                                                     <td class="text-center" width="10%"> 
+                                                        {{-- @if ( $item->pttype != 'C5' && $item->pttype !='C4'&& $item->pttype !='ss' || $item->recieve_no == '' || $item->nhso_docno =='') --}}
+                                                        @if ( $item->pttype != 'C5' && $item->pttype !='C4'&& $item->pttype !='ss' )
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                                                <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
+                                                                ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ  
+                                                            </button>
+                                                        {{-- @elseif ($item->pttype =='SS')
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_1102050101_307_id }}">
+                                                                <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
+                                                                ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ 11 
+                                                            </button> --}}
+                                                        @elseif ($item->nhso_docno != '' && $item->recieve_no =='')
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_1102050101_307_id }}">
+                                                                <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
+                                                                ลงเลขที่ใบเสร็จ 
+                                                            </button>
+                                                        @elseif ( $item->pttype == 'C5' || $item->pttype =='C4'|| $item->pttype =='ss' )
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_1102050101_307_id }}">
+                                                                <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
+                                                                ลงเลขที่ใบเสร็จ 
+                                                            </button>
+                                                        
+                                                        @else
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                                                <i class="fa-solid fa-book-open text-primary me-2"></i> 
+                                                                {{$item->recieve_no}}
+                                                            </button>
+                                                        @endif
+                                                    </td>  
 
-                                                        @if ($item->recieve_no == '' && $item->nhso_docno =='')
+                                                    {{-- <td class="text-center" width="10%">  
+                                                        @if ($item->pttype == 'O6' || $item->pttype == '35' )
                                                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                                 <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                                 ยังไม่ได้ลงเลขหนังสือ-เลขที่ใบเสร็จ 
                                                             </button>
                                                         @elseif ($item->nhso_docno != '' && $item->recieve_no =='')
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_1102050101_307_id }}">
+                                                                <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
+                                                                ลงเลขที่ใบเสร็จ 
+                                                            </button> 
+                                                         @elseif ($item->pttype = 'C5' || $item->pttype =='C4'|| $item->pttype =='ss')
                                                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_1102050101_307_id }}">
                                                                 <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                                 ลงเลขที่ใบเสร็จ 
@@ -178,7 +213,7 @@ $pos = strrpos($url, '/') + 1;
                                                                 {{$item->recieve_no}}
                                                             </button>
                                                         @endif
-                                                    </td>  
+                                                    </td>   --}}
                                                     <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
                                                     <td class="text-center" width="10%">{{ $item->pttype }}</td> 
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>                                                    

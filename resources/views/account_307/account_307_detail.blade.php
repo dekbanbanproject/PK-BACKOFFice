@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="row">
+        <div class="row ms-3 me-3">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -72,8 +72,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="startdate" id="startdate" value="{{$startdate}}">
-                        <input type="hidden" name="enddate" id="enddate" value="{{$enddate}}">
+                        <input type="hidden" name="months" id="months" value="{{$months}}">
+                        <input type="hidden" name="year" id="year" value="{{$year}}">
                         {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
@@ -251,8 +251,8 @@
         });
          
         $('.PulldataAll').click(function() { 
-                var startdate = $('#startdate').val();
-                var enddate = $('#enddate').val();
+                var months = $('#months').val();
+                var year = $('#year').val();
                 // alert(startdate);
                 Swal.fire({
                         title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
@@ -271,7 +271,7 @@
                                     url: "{{ url('account_307_syncall') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {startdate,enddate},
+                                    data: {months,year},
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({

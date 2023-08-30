@@ -34,7 +34,7 @@
         <div class="row justify-content-center">
             <div class="row invoice-card-row">
                 <div class="col-md-2 mt-2">
-                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(241, 195, 247)">
+                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(243, 212, 155)">
                         <div class="panel-header px-3 py-2 text-white">
                             ทันตแพทย์
                         </div>
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="col-md-10 mt-2">
-                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(241, 195, 247)">
+                    <div class="card p-1 mx-0 shadow" style="background-color: rgb(243, 212, 155)">
                         <div class="panel-header text-left px-3 py-2 text-white">
                             ปฎิทินข้อมูลการนัดทำฟัน<span class="fw-3 fs-18 text-primary bg-sl-r2 px-2 radius-5">
                             </span>

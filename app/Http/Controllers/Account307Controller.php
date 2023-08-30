@@ -103,6 +103,10 @@ class Account307Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
     
         // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
         if ($acc_trimart_id == '') {
@@ -113,12 +117,51 @@ class Account307Controller extends Controller
             $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
             $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
         }
+        if ($startdate == '') {
+            $datashow = DB::select('
+                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an
+                    ,sum(a.income) as income
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+                    and account_code="1102050101.307"
+                    group by month(a.vstdate) 
+                    
+                    order by a.vstdate desc limit 6;
+            '); 
+            // 
+            // order by month(a.vstdate),year(a.vstdate) desc limit 6;
+        } else {
+            $datashow = DB::select('
+                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an
+                    ,sum(a.income) as income
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.307"
+                    group by month(a.vstdate) 
+                    order by a.vstdate desc;
+            ');
+        }
         return view('account_307.account_307_dash',[
             'startdate'        =>     $startdate,
             'enddate'          =>     $enddate,
             'trimart'          => $trimart,
             'leave_month_year' =>  $leave_month_year,
             'data_trimart'     =>  $data_trimart,
+            'datashow'         =>  $datashow,
         ]);
     }
     public function account_307_pull(Request $request)
@@ -193,6 +236,12 @@ class Account307Controller extends Controller
             // AND v.hospmain = "10702"
             foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    if ($value->pttype == 'SS') {
+                        $pttype = 'ss';
+                    } else {
+                        # code...
+                    }
+                    
                     // ->where('account_code','1102050101.307')
                     if ($check == 0) {
                         Acc_debtor::insert([
@@ -201,7 +250,7 @@ class Account307Controller extends Controller
                             'vn'                 => $value->vn,
                             'cid'                => $value->cid,
                             'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
+                            'pttype'             => $pttype,
                             'vstdate'            => $value->vstdate,
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
@@ -282,7 +331,7 @@ class Account307Controller extends Controller
         ]);
     }
 
-    public function account_307_detail(Request $request,$startdate,$enddate)
+    public function account_307_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         // $startdate = $request->startdate;
@@ -293,15 +342,15 @@ class Account307Controller extends Controller
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno
                 from acc_1102050101_307 U1
-            
-                WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+             
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 GROUP BY U1.vn
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_307.account_307_detail', $data, [ 
-            'data'          =>     $data,
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate
+            'data'       =>     $data,
+            'months'     =>     $months,
+            'year'       =>     $year
         ]);
     }
 
@@ -338,13 +387,15 @@ class Account307Controller extends Controller
 
     public function account_307_syncall(Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $months = $request->months;
+        $year = $request->year;
         $sync = DB::connection('mysql3')->select('
                 SELECT v.vn,o.vstdate,v.nhso_docno 
                 from visit_pttype v
                 LEFT JOIN ovst o ON o.vn = v.vn
-                WHERE o.vstdate BETWEEN "' . $startdate . '"  AND "' . $enddate . '" 
+                 
+                WHERE month(o.vstdate) = "'.$months.'"  
+                AND year(o.vstdate) = "'.$year.'"
                 AND v.nhso_docno  <> ""
             ');
             foreach ($sync as $key => $value) {

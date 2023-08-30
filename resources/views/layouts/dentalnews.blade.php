@@ -85,12 +85,12 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(252, 252, 252)">
+            <div class="navbar-header" style="background-color: rgb(243, 212, 155)">
 
 
                 <div class="d-flex">
                     <!-- LOGO -->
-                    <div class="navbar-brand-box">
+                    <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
@@ -105,28 +105,30 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(41, 41, 41)" class="mt-4">PK-BACKOFFice</h4>
+                                <h4 style="color:rgb(243, 212, 155)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
+
+                    <h4 style="color:rgb(255, 255, 255)" class="mt-4">DENTAL</h4>
                     <?php
                         $org = DB::connection('mysql')->select(                                                            '
                                 select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
                         );
                     ?>
-                    <form class="app-search d-none d-lg-block">
+                    {{-- <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
 
                         </div>
-                    </form>
+                    </form> --}}
                 </div>
 
 
@@ -199,8 +201,8 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu Bgsidebar">
-
+        <div class="vertical-menu">
+            {{-- <div class="vertical-menu Bgsidebar"> --}}
             <div data-simplebar class="h-100" >
 
                 <!--- Sidemenu -->

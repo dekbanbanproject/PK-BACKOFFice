@@ -242,38 +242,211 @@ class Account310Controller extends Controller
             foreach ($acc_debtor as $key => $value) {
                 // if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) {    
                     // $check = Acc_debtor::where('an', $value->an)->whereBetween('dchdate', [$startdate, $enddate])->count();
-                    $check = Acc_debtor::where('an', $value->an)->whereIn('account_code', ['1102050102.107','1102050101.302'])->count();
-                    // ec.ar_ipd
-                    if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->fullname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'regdate'            => $value->admdate,
-                            'dchdate'            => $value->dchdate,
-                            'acc_code'           => $value->code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->cash_money,
-                            'rcpt_money'         => $value->cash_money,
-                            'debit'              => $value->looknee_money,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'fokliad'            => $value->fokliad,
-                            'debit_total'        => $value->looknee_money,
-                            'max_debt_amount'    => $value->max_debt_money,
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
+                    // $check = Acc_debtor::where('an', $value->an)->whereIn('account_code', ['1102050102.107','1102050101.302'])->count();
+                    $checkins =  Acc_debtor::where('an', $value->an)
+                    // ->where('debit_instument', '>','0')
+                    ->where('dchdate', $value->dchdate)->where('account_code','1102050101.310')
+                    // ->where('debit', '=',$value->debit_instument)->where('debit', '=',$value->debit_drug)->where('debit', '=',$value->debit_refer)
+                    ->count(); 
+
+                    $check = Acc_debtor::where('an', $value->an)
+                    ->where('debit_instument', '>','0')->where('debit_drug', '>','0')->where('debit_refer', '>','0')
+                    ->count(); 
+                    // dd( $checkins );
+                    if ($checkins == 0) {
+                        if ($check == 0) {
+                            if ($value->debit_instument > 0) {
+                                Acc_debtor::insert([
+                                    'hn'                 => $value->hn,
+                                    'an'                 => $value->an,
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->fullname,
+                                    'pttype'             => $value->pttype,
+                                    'vstdate'            => $value->vstdate,
+                                    'regdate'            => $value->admdate,
+                                    'dchdate'            => $value->dchdate,
+                                    'acc_code'           => '15',
+                                    'account_code'       => '1102050101.310',
+                                    'account_name'       => 'ประกันสังคม HC/AE',
+                                    'income_group'       => $value->income_group,
+                                    'income'             => $value->income,
+                                    'uc_money'           => $value->uc_money,
+                                    'discount_money'     => $value->discount_money,
+                                    'paid_money'         => $value->cash_money,
+                                    'rcpt_money'         => $value->cash_money,
+                                    'debit'              => $value->debit_instument,
+                                    'debit_drug'         => $value->debit_drug,
+                                    'debit_instument'    => $value->debit_instument,
+                                    'debit_toa'          => $value->debit_toa,
+                                    'debit_refer'        => $value->debit_refer,
+                                    'fokliad'            => $value->fokliad,
+                                    'debit_total'        => $value->debit_instument,
+                                    'max_debt_amount'    => $value->max_debt_money,
+                                    'acc_debtor_userid'  => Auth::user()->id
+                                ]);
+                            }elseif ($value->debit_drug > 0) {
+                                Acc_debtor::insert([
+                                    'hn'                 => $value->hn,
+                                    'an'                 => $value->an,
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->fullname,
+                                    'pttype'             => $value->pttype,
+                                    'vstdate'            => $value->vstdate,
+                                    'regdate'            => $value->admdate,
+                                    'dchdate'            => $value->dchdate,
+                                    'acc_code'           => '15',
+                                    'account_code'       => '1102050101.310',
+                                    'account_name'       => 'ประกันสังคม HC/AE',
+                                    'income_group'       => $value->income_group,
+                                    'income'             => $value->income,
+                                    'uc_money'           => $value->uc_money,
+                                    'discount_money'     => $value->discount_money,
+                                    'paid_money'         => $value->cash_money,
+                                    'rcpt_money'         => $value->cash_money,
+                                    'debit'              => $value->debit_drug,
+                                    'debit_drug'         => $value->debit_drug,
+                                    'debit_instument'    => $value->debit_instument,
+                                    'debit_toa'          => $value->debit_toa,
+                                    'debit_refer'        => $value->debit_refer,
+                                    'fokliad'            => $value->fokliad,
+                                    'debit_total'        => $value->debit_drug,
+                                    'max_debt_amount'    => $value->max_debt_money,
+                                    'acc_debtor_userid'  => Auth::user()->id
+                                ]);
+                            }elseif ($value->debit_refer > 0) {
+                                Acc_debtor::insert([
+                                    'hn'                 => $value->hn,
+                                    'an'                 => $value->an,
+                                    'vn'                 => $value->vn,
+                                    'cid'                => $value->cid,
+                                    'ptname'             => $value->fullname,
+                                    'pttype'             => $value->pttype,
+                                    'vstdate'            => $value->vstdate,
+                                    'regdate'            => $value->admdate,
+                                    'dchdate'            => $value->dchdate,
+                                    'acc_code'           => '15',
+                                    'account_code'       => '1102050101.310',
+                                    'account_name'       => 'ประกันสังคม HC/AE',
+                                    'income_group'       => $value->income_group,
+                                    'income'             => $value->income,
+                                    'uc_money'           => $value->uc_money,
+                                    'discount_money'     => $value->discount_money,
+                                    'paid_money'         => $value->cash_money,
+                                    'rcpt_money'         => $value->cash_money,
+                                    'debit'              => $value->debit_refer,
+                                    'debit_drug'         => $value->debit_drug,
+                                    'debit_instument'    => $value->debit_instument,
+                                    'debit_toa'          => $value->debit_toa,
+                                    'debit_refer'        => $value->debit_refer,
+                                    'fokliad'            => $value->fokliad,
+                                    'debit_total'        => $value->debit_refer,
+                                    'max_debt_amount'    => $value->max_debt_money,
+                                    'acc_debtor_userid'  => Auth::user()->id
+                                ]);
+                            } else {
+                                # code...
+                            } 
+                        }
+                    } else { 
+                    
+                        // if ($check == 0) {
+                        //     if ($value->debit_instument > 0) {
+                        //         Acc_debtor::insert([
+                        //             'hn'                 => $value->hn,
+                        //             'an'                 => $value->an,
+                        //             'vn'                 => $value->vn,
+                        //             'cid'                => $value->cid,
+                        //             'ptname'             => $value->fullname,
+                        //             'pttype'             => $value->pttype,
+                        //             'vstdate'            => $value->vstdate,
+                        //             'regdate'            => $value->admdate,
+                        //             'dchdate'            => $value->dchdate,
+                        //             'acc_code'           => '15',
+                        //             'account_code'       => '1102050101.310',
+                        //             'account_name'       => 'ประกันสังคม HC/AE',
+                        //             'income_group'       => $value->income_group,
+                        //             'income'             => $value->income,
+                        //             'uc_money'           => $value->uc_money,
+                        //             'discount_money'     => $value->discount_money,
+                        //             'paid_money'         => $value->cash_money,
+                        //             'rcpt_money'         => $value->cash_money,
+                        //             'debit'              => $value->debit_instument,
+                        //             'debit_drug'         => $value->debit_drug,
+                        //             'debit_instument'    => $value->debit_instument,
+                        //             'debit_toa'          => $value->debit_toa,
+                        //             'debit_refer'        => $value->debit_refer,
+                        //             'fokliad'            => $value->fokliad,
+                        //             'debit_total'        => $value->debit_instument,
+                        //             'max_debt_amount'    => $value->max_debt_money,
+                        //             'acc_debtor_userid'  => Auth::user()->id
+                        //         ]);
+                        //     }elseif ($value->debit_drug > 0) {
+                        //         Acc_debtor::insert([
+                        //             'hn'                 => $value->hn,
+                        //             'an'                 => $value->an,
+                        //             'vn'                 => $value->vn,
+                        //             'cid'                => $value->cid,
+                        //             'ptname'             => $value->fullname,
+                        //             'pttype'             => $value->pttype,
+                        //             'vstdate'            => $value->vstdate,
+                        //             'regdate'            => $value->admdate,
+                        //             'dchdate'            => $value->dchdate,
+                        //             'acc_code'           => '15',
+                        //             'account_code'       => '1102050101.310',
+                        //             'account_name'       => 'ประกันสังคม HC/AE',
+                        //             'income_group'       => $value->income_group,
+                        //             'income'             => $value->income,
+                        //             'uc_money'           => $value->uc_money,
+                        //             'discount_money'     => $value->discount_money,
+                        //             'paid_money'         => $value->cash_money,
+                        //             'rcpt_money'         => $value->cash_money,
+                        //             'debit'              => $value->debit_drug,
+                        //             'debit_drug'         => $value->debit_drug,
+                        //             'debit_instument'    => $value->debit_instument,
+                        //             'debit_toa'          => $value->debit_toa,
+                        //             'debit_refer'        => $value->debit_refer,
+                        //             'fokliad'            => $value->fokliad,
+                        //             'debit_total'        => $value->debit_drug,
+                        //             'max_debt_amount'    => $value->max_debt_money,
+                        //             'acc_debtor_userid'  => Auth::user()->id
+                        //         ]);
+                        //     }elseif ($value->debit_refer > 0) {
+                        //         Acc_debtor::insert([
+                        //             'hn'                 => $value->hn,
+                        //             'an'                 => $value->an,
+                        //             'vn'                 => $value->vn,
+                        //             'cid'                => $value->cid,
+                        //             'ptname'             => $value->fullname,
+                        //             'pttype'             => $value->pttype,
+                        //             'vstdate'            => $value->vstdate,
+                        //             'regdate'            => $value->admdate,
+                        //             'dchdate'            => $value->dchdate,
+                        //             'acc_code'           => '15',
+                        //             'account_code'       => '1102050101.310',
+                        //             'account_name'       => 'ประกันสังคม HC/AE',
+                        //             'income_group'       => $value->income_group,
+                        //             'income'             => $value->income,
+                        //             'uc_money'           => $value->uc_money,
+                        //             'discount_money'     => $value->discount_money,
+                        //             'paid_money'         => $value->cash_money,
+                        //             'rcpt_money'         => $value->cash_money,
+                        //             'debit'              => $value->debit_refer,
+                        //             'debit_drug'         => $value->debit_drug,
+                        //             'debit_instument'    => $value->debit_instument,
+                        //             'debit_toa'          => $value->debit_toa,
+                        //             'debit_refer'        => $value->debit_refer,
+                        //             'fokliad'            => $value->fokliad,
+                        //             'debit_total'        => $value->debit_refer,
+                        //             'max_debt_amount'    => $value->max_debt_money,
+                        //             'acc_debtor_userid'  => Auth::user()->id
+                        //         ]);
+                        //     } else {
+                        //         # code...
+                        //     } 
+                        // }
+                    
                     }
                     
                 // } else {
@@ -281,7 +454,7 @@ class Account310Controller extends Controller
                 // }
  
                 // if ($value->debit_instument > 0 ) {
-                //         $checkins = Acc_debtor::where('an', $value->an)->whereIn('account_code', ['1102050102.107','1102050101.302'])->count();
+                //         $checkins = Acc_debtor::where('an', $value->an)->where('debit_instument', '>','0')->count();
 
                 //         if ($checkins == 0) {
                 //             Acc_debtor::insert([
@@ -299,12 +472,12 @@ class Account310Controller extends Controller
                 //                 'account_name'       => $value->account_name,
                 //                 'income_group'       => $value->income_group,
                 //                 'debit'              => $value->debit_instument,
-                //                 'debit_total'    => $value->debit_instument
+                //                 'debit_total'       => $value->debit_instument
                 //             ]);
                 //         }
                 // }
                 // if ($value->debit_drug > 0) {
-                //         $checkindrug = Acc_debtor::where('an', $value->an)->where('debit','=',$value->debit_drug)->count();
+                //         $checkindrug = Acc_debtor::where('an', $value->an)->where('debit_drug','>','0')->count();
                 //         if ($checkindrug == 0) {
                 //             Acc_debtor::insert([
                 //                 'hn'                 => $value->hn,
@@ -326,7 +499,7 @@ class Account310Controller extends Controller
                 //         }
                 // }
                 // if ($value->debit_refer > 0) {
-                //     $checkinrefer = Acc_debtor::where('an', $value->an)->where('debit','=',$value->debit_refer)->count();
+                //     $checkinrefer = Acc_debtor::where('an', $value->an)->where('debit_refer','>','0')->count();
                 //     if ($checkinrefer == 0) {
                 //         Acc_debtor::insert([
                 //             'hn'                 => $value->hn,
@@ -353,7 +526,7 @@ class Account310Controller extends Controller
                 'status'    => '200'
             ]);
     }
-    public function account_302_stam(Request $request)
+    public function account_310_stam(Request $request)
     {
         $id = $request->ids;
         $iduser = Auth::user()->id;
@@ -365,11 +538,11 @@ class Account310Controller extends Controller
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
              
-                $check = Acc_1102050101_302::where('an', $value->an)->count();
+                $check = Acc_1102050101_310::where('an', $value->an)->count();
                 if ($check > 0) {
                 # code...
                 } else {
-                    Acc_1102050101_302::insert([
+                    Acc_1102050101_310::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
                             'an'                => $value->an,
@@ -404,26 +577,82 @@ class Account310Controller extends Controller
         ]);
     }
    
-    public function account_302_detail(Request $request,$startdate,$enddate)
+    // public function account_302_detail(Request $request,$startdate,$enddate)
+    // {
+    //     $datenow = date('Y-m-d');
+    //     // $startdate = $request->startdate;
+    //     // $enddate = $request->enddate;
+    //     // dd($id);
+    //     $data['users'] = User::get();
+
+    //     $data = DB::select('
+    //     SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+    //         from acc_1102050101_302 U1
+        
+    //         WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+    //         GROUP BY U1.vn
+    //     ');
+    //     // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+    //     return view('account_302.account_302_detail', $data, [ 
+    //         'data'          =>     $data,
+    //         'startdate'     =>     $startdate,
+    //         'enddate'       =>     $enddate
+    //     ]);
+    // }
+    public function account_310_dashsub(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
-        // $startdate = $request->startdate;
-        // $enddate = $request->enddate;
+        
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d'); 
+        // dd($end );
+       
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME,l.MONTH_ID
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an
+                    ,sum(a.income) as income
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.310"
+                    group by month(a.dchdate) order by month(a.dchdate) desc;
+            ');
+            
+
+        return view('account_310.account_310_dashsub',[
+            'startdate'          =>  $startdate,
+            'enddate'            =>  $enddate,
+            'datashow'           =>  $datashow,
+            'leave_month_year'   =>  $leave_month_year,
+        ]);
+    }
+
+    public function account_310_dashsubdetail(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d'); 
         // dd($id);
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-            from acc_1102050101_302 U1
+        SELECT 
+            month(dchdate) as months,year(dchdate) as year
+            ,an,vn,hn,cid,ptname,dchdate,pttype,debit_total
+            from acc_1102050101_310
         
-            WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-            GROUP BY U1.vn
+            WHERE month(dchdate) = "'.$months.'"  
+            AND year(dchdate) = "'.$year.'"
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_302.account_302_detail', $data, [ 
+        return view('account_310.account_310_dashsubdetail', $data, [ 
             'data'          =>     $data,
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate
+            'year'          =>     $year,
+            'months'        =>     $months
         ]);
     }
    

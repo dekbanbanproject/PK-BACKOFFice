@@ -127,29 +127,29 @@
                                                 <td>{{$item->year}}</td> 
 
                                                 @if ($item->months == '1')
-                                                    <td width="15%" class="text-center">มกราคม</td>
+                                                    <td width="15%" class="p-2">มกราคม</td>
                                                 @elseif ($item->months == '2')
-                                                    <td width="15%" class="text-center">กุมภาพันธ์</td>
+                                                    <td width="15%" class="p-2">กุมภาพันธ์</td>
                                                 @elseif ($item->months == '3')
-                                                    <td width="15%" class="text-center">มีนาคม</td>
+                                                    <td width="15%" class="p-2">มีนาคม</td>
                                                 @elseif ($item->months == '4')
-                                                    <td width="15%" class="text-center">เมษายน</td>
+                                                    <td width="15%" class="p-2">เมษายน</td>
                                                 @elseif ($item->months == '5')
-                                                    <td width="15%" class="text-center">พฤษภาคม</td>
+                                                    <td width="15%" class="p-2">พฤษภาคม</td>
                                                 @elseif ($item->months == '6')
-                                                    <td width="15%" class="text-center">มิถุนายน</td>
+                                                    <td width="15%" class="p-2">มิถุนายน</td>
                                                 @elseif ($item->months == '7')
-                                                    <td width="15%" class="text-center">กรกฎาคม</td>
+                                                    <td width="15%" class="p-2">กรกฎาคม</td>
                                                 @elseif ($item->months == '8')
-                                                    <td width="15%" class="text-center">สิงหาคม</td>
+                                                    <td width="15%" class="p-2">สิงหาคม</td>
                                                 @elseif ($item->months == '9')
-                                                    <td width="15%" class="text-center">กันยายน</td>
+                                                    <td width="15%" class="p-2">กันยายน</td>
                                                 @elseif ($item->months == '10')
-                                                    <td width="15%" class="text-center">ตุลาคม</td>
+                                                    <td width="15%" class="p-2">ตุลาคม</td>
                                                 @elseif ($item->months == '11')
-                                                    <td width="15%" class="text-center">พฤษจิกายน</td>
+                                                    <td width="15%" class="p-2">พฤษจิกายน</td>
                                                 @else
-                                                    <td width="15%" class="text-center">ธันวาคม</td>
+                                                    <td width="15%" class="p-2">ธันวาคม</td>
                                                 @endif
  
                                                 <td class="text-center">
@@ -171,45 +171,71 @@
                             @else
                             <tbody>
                                 <?php $i = 1; ?>
-                                @foreach ($datashow as $item)                                            
+                                @foreach ($datashow as $item)  
+                                    <?php 
+                                        $data_claim_ = DB::connection('mysql3')->select(' 
+                                                      
+                                                    SELECT year(o.vstdate) as year,month(o.vstdate) as months,count(distinct o.an) as an 
+                                                    ,count(distinct o.an,o.icode)- count(distinct vp.an) as noclaim
+                                                    ,sum(o.sum_price) as summony
+                                                    FROM opitemrece o
+                                                    inner join an_stat v on v.an=o.an
+                                                    left outer join ipt_pttype vp on vp.an = o.an  
+                                                    left outer join pttype pt on pt.pttype = o.pttype
+                                                    left outer join hospcode h on h.hospcode = vp.hospmain
+                                                    LEFT JOIN nondrugitems n on n.icode = o.icode
+                                                    LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
+                                                    WHERE v.dchdate = "'.$item->months.'"
+                                                    and o.pttype="a7"
+                                                    and n.billcode not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
+                                                    and n.billcode like "8%"
+                                                    and n.billcode not in ("8608","8628","8361","8543","8152","8660")   
+                                                    and vp.nhso_ownright_pid > 1                                             
+                                                    and month(v.dchdate) = "'.$item->year.'"
+                                                    ORDER BY months DESC
+                                            '); 
+                                            foreach ($data_claim_ as $key => $value) {
+                                                $claim = $value->an;
+                                            }
+                                    ?>                                                   
                                         <tr>
                                             <td>{{$i++ }}</td>
                                             <td>{{$item->year}}</td> 
 
                                             @if ($item->months == '1')
-                                                <td width="15%" class="text-center">มกราคม</td>
+                                                <td width="15%" class="p-2">มกราคม</td>
                                             @elseif ($item->months == '2')
-                                                <td width="15%" class="text-center">กุมภาพันธ์</td>
+                                                <td width="15%" class="p-2">กุมภาพันธ์</td>
                                             @elseif ($item->months == '3')
-                                                <td width="15%" class="text-center">มีนาคม</td>
+                                                <td width="15%" class="p-2">มีนาคม</td>
                                             @elseif ($item->months == '4')
-                                                <td width="15%" class="text-center">เมษายน</td>
+                                                <td width="15%" class="p-2">เมษายน</td>
                                             @elseif ($item->months == '5')
-                                                <td width="15%" class="text-center">พฤษภาคม</td>
+                                                <td width="15%" class="p-2">พฤษภาคม</td>
                                             @elseif ($item->months == '6')
-                                                <td width="15%" class="text-center">มิถุนายน</td>
+                                                <td width="15%" class="p-2">มิถุนายน</td>
                                             @elseif ($item->months == '7')
-                                                <td width="15%" class="text-center">กรกฎาคม</td>
+                                                <td width="15%" class="p-2">กรกฎาคม</td>
                                             @elseif ($item->months == '8')
-                                                <td width="15%" class="text-center">สิงหาคม</td>
+                                                <td width="15%" class="p-2">สิงหาคม</td>
                                             @elseif ($item->months == '9')
-                                                <td width="15%" class="text-center">กันยายน</td>
+                                                <td width="15%" class="p-2">กันยายน</td>
                                             @elseif ($item->months == '10')
-                                                <td width="15%" class="text-center">ตุลาคม</td>
+                                                <td width="15%" class="p-2">ตุลาคม</td>
                                             @elseif ($item->months == '11')
-                                                <td width="15%" class="text-center">พฤษจิกายน</td>
+                                                <td width="15%" class="p-2">พฤษจิกายน</td>
                                             @else
-                                                <td width="15%" class="text-center">ธันวาคม</td>
+                                                <td width="15%" class="p-2">ธันวาคม</td>
                                             @endif
 
                                             <td class="text-center"> 
                                                 <a href="{{url('ipd_chai_vn/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->an }}</a> 
                                             </td> 
                                             <td class="text-center">
-                                                <a href="{{url('ipd_chai_rep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->claim }}</a>  
+                                                <a href="{{url('ipd_chai_rep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $claim}}</a>  
                                              </td>                                            
                                             <td class="text-center" >
-                                                <a href="{{url('ipd_chai_norep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->noclaim }}</a> 
+                                                <a href="{{url('ipd_chai_norep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->an - $claim}}</a> 
                                                 {{-- {{ $item->disvn }} --}}
                                             </td>   
                                             <td class="text-center">{{ $item->summony }}</td>  

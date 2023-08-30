@@ -217,13 +217,12 @@ class UpstmController extends Controller
             $data['data'] = DB::select('
             SELECT U1.acc_1102050101_307_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.recieve_no
                 from acc_1102050101_307 U1
-            
-                WHERE U1.nhso_docno <> ""
+               
                 GROUP BY U1.vn
         ');   
          }
-         
-                 
+        //  WHERE U1.pttype IN("ss","C4","C5") 
+        //  WHERE U1.nhso_docno <> ""      
          return view('account_307.uprep_sss_307', $data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,

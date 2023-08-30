@@ -1537,7 +1537,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_304_pulldata',[App\Http\Controllers\Account304Controller::class, 'account_304_pulldata'])->name('acc.account_304_pulldata');//
     Route::match(['get','post'],'account_304_dash',[App\Http\Controllers\Account304Controller::class, 'account_304_dash'])->name('acc.account_304_dash');//
     Route::match(['get','post'],'account_304/{months}/{year}',[App\Http\Controllers\Account304Controller::class, 'account_304'])->name('acc.account_304');//
-    Route::match(['get','post'],'account_304_detail/{startdate}/{enddate}',[App\Http\Controllers\Account304Controller::class, 'account_304_detail'])->name('acc.account_304_detail');//
+    Route::match(['get','post'],'account_304_detail/{months}/{year}',[App\Http\Controllers\Account304Controller::class, 'account_304_detail'])->name('acc.account_304_detail');//
     Route::match(['get','post'],'account_304_stm/{months}/{year}',[App\Http\Controllers\Account304Controller::class, 'account_304_stm'])->name('acc.account_304_stm');//
     Route::match(['get','post'],'account_304_stmnull/{months}/{year}',[App\Http\Controllers\Account304Controller::class, 'account_304_stmnull'])->name('acc.account_304_stmnull');//
     Route::match(['get','post'],'account_304_stam',[App\Http\Controllers\Account304Controller::class, 'account_304_stam'])->name('acc.account_304_stam');//  stamp IPD

@@ -49,7 +49,7 @@
                                     <th class="text-center">PDX</th>
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">ชื่อ - สกุล</th>
-                                    <th class="text-center">รหัส</th>
+                                    <th class="text-center">icode</th>
                                     <th class="text-center">อุปกรณ์</th>
                                     <th class="text-center">รหัส</th>
                                     <th class="text-center">จำนวน</th>

@@ -52,7 +52,7 @@
     $countpermiss_time = StaticController::countpermiss_time($iduser);
 
     $countpermiss_env = StaticController::countpermiss_env($iduser);
-    $countpermiss_account = StaticController::countpermiss_account($iduser);
+    $permiss_account = StaticController::permiss_account($iduser);
     
     ?>
   
@@ -655,7 +655,7 @@
                 </div>
             @endif
 
-            @if ($countpermiss_account != 0)
+            @if ($permiss_account != 0)
                 <div class="col-xl-3 col-md-3">
                     <div class="main-card mb-3 card">
                         <div class="grid-menu-col">

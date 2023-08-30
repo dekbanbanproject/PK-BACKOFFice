@@ -27,7 +27,7 @@
     <div class="container-fluid">
 
         <div class="row mt-3">
-            <h5 class="mb-sm-0">รายงานจำนวนผู้ป่วยใน ปกส.ชัยภูมิ </h5>
+            <h5 class="mb-sm-0">รายงานจำนวนผู้ป่วยใน ปกส.ชัยภูมิ แยกเป็นรายการ</h5>
             <div class="col-xl-12 mt-2">
                 <div class="card">
                     <div class="card-body py-0 px-2 mt-2">
@@ -40,19 +40,17 @@
                                         <th class="text-center">HN</th>
                                         <th class="text-center">AN</th>
                                         <th class="text-center">ชื่อ - สกุล</th>
-                                        <th class="text-center">เลขบัตรประชาชน</th>
-                                        <th class="text-center">วันเกิด</th>
-                                        <th class="text-center">วันที่รับบริการ</th>
-                                        <th class="text-center">เวลารับบริการ</th>
+                                        <th class="text-center">เลขบัตรประชาชน</th>  
                                         <th class="text-center">แผนก</th>
-                                        <th class="text-center">วันที่จำหน่าย</th>
-                                        <th class="text-center">เวลาจำหน่าย</th>
+                                        <th class="text-center">วันที่จำหน่าย</th> 
                                         <th class="text-center">แผนกที่จำหน่าย</th>
                                         <th class="text-center">สถานภาพการจำหน่าย</th>
                                         <th class="text-center">ประเภทการจำหน่าย</th>
                                         <th class="text-center">ICD</th>
-                                        <th class="text-center">ค่าใช้จ่าย</th>
+                                        <th class="text-center">income</th>
                                         <th class="text-center">สิทธิ</th>
+                                        <th class="text-center">อุปกรณ์</th>
+                                        <th class="text-center">ราคา</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,20 +60,18 @@
                                             <td>{{ $i++ }}</td>
                                             <td>{{ $item->hn }} </td>
                                             <td>{{ $item->an }} </td>
-                                            <td class="text-center">{{ $item->fullname }}</td>
-                                            <td>{{ $item->cid }}</td>
-                                            <td>{{ $item->birthday }} </td>
-                                            <td>{{ $item->regdate }} </td>
-                                            <td>{{ $item->regtime }} </td>
-                                            <td class="text-center">{{ $item->wardname }}</td>
-                                            <td class="text-center">{{ $item->dchdate }}</td>
-                                            <td class="text-center">{{ $item->dchtime }}</td>
-                                            <td class="text-center">{{ $item->wardnamepay }}</td>
+                                            <td class="p-2">{{ $item->fullname }}</td>
+                                            <td class="text-center">{{ $item->cid }}</td>  
+                                            <td class="p-2">{{ $item->wardname }}</td>
+                                            <td class="text-center">{{ $item->dchdate }}</td> 
+                                            <td class="p-2">{{ $item->wardnamepay }}</td>
                                             <td class="text-center">{{ $item->typename }}</td>
                                             <td class="text-center">{{ $item->typepay }}</td>
                                             <td class="text-center">{{ $item->pdx }}</td>
                                             <td class="text-center">{{ $item->income }}</td>
                                             <td class="text-center">{{ $item->pttype }}</td>
+                                            <td class="p-2">{{ $item->nname }}</td>
+                                            <td class="text-center">{{ $item->total }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

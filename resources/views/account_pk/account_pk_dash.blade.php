@@ -79,16 +79,14 @@
                 <div class="spinner"> 
                 </div>
             </div>
-        </div>
-        {{-- <form action="{{ route('acc.account_pkucs217_dash') }}" method="GET">
-            @csrf --}}
-            <div class="row"> 
+        </div> 
+            <div class="row ms-3 me-3"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail </h4>
+                    <h4 class="card-title">Dashboard Account </h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล</p>
                 </div>
                 <div class="col"></div>
-                <div class="col-md-1 text-end mt-2">วันที่</div>
+                {{-- <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-3 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -102,14 +100,9 @@
                 <div class="col-md-2 text-start">
                     <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
-                    </button>
-                    {{-- <a href="{{url('account_pkucs217_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                        ดึงข้อมูล
-                    </a> --}}
-                </div>
-            </div>
-        {{-- </form>   --}}
+                    </button> 
+                </div> --}}
+            </div> 
         <div class="row "> 
             
             <div class="col-xl-6 col-md-6">

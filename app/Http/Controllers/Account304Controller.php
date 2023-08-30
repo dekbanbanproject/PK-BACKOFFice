@@ -103,7 +103,11 @@ class Account304Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        // dd($yearnew );
     
         // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
         if ($acc_trimart_id == '') {
@@ -114,12 +118,48 @@ class Account304Controller extends Controller
             $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
             $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
         }
+
+        if ($startdate == '') {
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an
+                    ,sum(a.income) as income
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$start.'" and "'.$end.'"
+                    and account_code="1102050101.304"
+                    group by month(a.dchdate) order by a.dchdate desc limit 6;
+            ');
+            // and stamp = "N"
+        } else {
+            $datashow = DB::select('
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.vn) as vn
+                    ,count(distinct a.an) as an
+                    ,sum(a.income) as income
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    ,sum(a.debit) as debit
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050101.304"
+                    group by month(a.dchdate) order by a.dchdate desc;
+            ');
+        }
         return view('account_304.account_304_dash',[
             'startdate'        =>     $startdate,
             'enddate'          =>     $enddate,
             'trimart'          => $trimart,
             'leave_month_year' =>  $leave_month_year,
             'data_trimart'     =>  $data_trimart,
+            'datashow'         =>  $datashow,
         ]);
     }
     public function account_304_pull(Request $request)
@@ -275,7 +315,7 @@ class Account304Controller extends Controller
         ]);
     }
 
-    public function account_304_detail(Request $request,$startdate,$enddate)
+    public function account_304_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         
@@ -285,14 +325,14 @@ class Account304Controller extends Controller
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate
                 from acc_1102050101_304 U1
             
-                WHERE U1.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
                 GROUP BY U1.an
         ');
        
         return view('account_304.account_304_detail', $data, [ 
             'data'          =>     $data,
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate
+            'months'        =>     $months,
+            'year'          =>     $year
         ]);
     }
 
@@ -313,14 +353,15 @@ class Account304Controller extends Controller
 
     public function account_304_syncall(Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $months = $request->months;
+        $year = $request->year;
         $sync = DB::connection('mysql3')->select('
-                SELECT ip.an,i.dchdate,ip.nhso_docno 
-                from ipt_pttype ip
-                LEFT JOIN ipt i ON i.an = ip.an
-                WHERE i.dchdate BETWEEN "' . $startdate . '"  AND "' . $enddate . '" 
-                AND ip.nhso_docno  <> "" 
+                SELECT a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno 
+                FROM an_stat a
+                LEFT JOIN ipt_pttype ip ON ip.an = a.an
+                WHERE month(a.dchdate) = "'.$months.'" 
+                AND year(a.dchdate) = "'.$year.'" 
+                AND ip.nhso_ownright_pid  <> ""
             ');
             foreach ($sync as $key => $value) { 
                     // $update = Acc_1102050101_304::find($value->an);
@@ -328,7 +369,8 @@ class Account304Controller extends Controller
                     // $update->save(); 
                     Acc_1102050101_304::where('an',$value->an) 
                         ->update([ 
-                            'nhso_docno'      => $value->nhso_docno 
+                            'nhso_docno'           => $value->nhso_docno ,
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
                     ]);
             }
             return response()->json([

@@ -90,15 +90,20 @@
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-3 text-end">
-                     
-                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control">
+                        <option value="">--เลือก--</option>
+                        @foreach ($trimart as $item)
+                            <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} {{$item->acc_trimart_end_date}}</option>
+                        @endforeach
+                    </select>
+                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div> 
+                    </div>  --}}
                 </div>
                 <div class="col-md-2 text-start">
                     <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -113,8 +118,7 @@
             </div>
         </form>  
         <div class="row ms-3 me-3"> 
-     
-            @foreach ($datashow as $item) 
+            @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-6">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
 
@@ -125,8 +129,7 @@
                                 <div class="d-flex text-start">
                                     <div class="flex-grow-1 ">
                                         <?php
-                                             $y = $item->year;
-                                                $ynew = $y + 543;
+                                           
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
                                                 SELECT count(DISTINCT an) as Can
@@ -134,52 +137,47 @@
                                                     from acc_debtor
                                                     WHERE account_code="1102050101.308"
                                                     AND stamp = "N"
-                                                    AND month(dchdate) = "'.$item->months.'"
-                                                    AND year(dchdate) = "'.$item->year.'";
-                                                    
+                                                    AND dchdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             ');
-                                            // AND dchdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             foreach ($datas as $key => $value) {
                                                 $count_N = $value->Can;
                                                 $sum_N = $value->sumdebit;
                                             }
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(an) as Cvit
+                                                SELECT sum(debit_total) as debit_total,count(vn) as Cvit
                                                 from acc_1102050101_308
-                                                where month(dchdate) = "'.$item->months.'"
-                                                    AND year(dchdate) = "'.$item->year.'";
+                                                where dchdate between "'.$item->acc_trimart_start_date.'" and "'.$item->acc_trimart_end_date.'"
                                             ');   
                                             foreach ($datasum_ as $key => $value2) {
                                                 $sum_Y = $value2->debit_total;
                                                 $count_Y = $value2->Cvit;
                                             }
                                             
-                                            // STM
-                                            $sumapprove_ = DB::select('
-                                                SELECT sum(recieve_true) as recieve_true,count(an) as Countvisit
-                                                    from acc_1102050101_308
-                                                    where month(dchdate) = "'.$item->months.'"
-                                                    AND year(dchdate) = "'.$item->year.'"
-                                                    AND recieve_true <> "" 
-                                            ');                                           
-                                            foreach ($sumapprove_ as $key => $value3) {
-                                                $sum_stm = $value3->recieve_true; 
-                                                $count_stm = $value3->Countvisit; 
-                                            }
+                                            //STM
+                                            // $sumapprove_ = DB::select('
+                                            //     SELECT 
+                                            //         SUM(ar.acc_stm_repmoney_price304) as total                                                   
+                                            //         FROM acc_stm_repmoney ar 
+                                            //         LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_trimart_id 
+                                            //         WHERE a.acc_trimart_code = "'.$item->acc_trimart_code.'"  
+                                            // ');                                           
+                                            // foreach ($sumapprove_ as $key => $value3) {
+                                            //     $total304 = $value3->total; 
+                                            // }
+
+                                            // if ( $sum_Y > $total304) {
+                                            //     $yokpai = $sum_Y - $total304;
+                                            // } else {
+                                            //     $yokpai = $total304 - $sum_Y;
+                                            // }
                                             
-                                            if ( $sum_Y > $sum_stm) {
-                                                $yokpai_ = $sum_Y - $sum_stm;
-                                                $yokpai = '-'.$yokpai_;
-                                            } else {
-                                                $yokpai_ = $sum_stm - $sum_Y;
-                                                $yokpai = '+'.$yokpai_;
-                                            }
-                                                                                        
+
+                                            
                                         ?>
                                         <div class="row">
                                             <div class="col-md-5 text-start mt-4 ms-4">
-                                                <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
+                                                <h5 > {{$item->acc_trimart_name}}</h5>
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-3 text-end mt-2 me-4">
@@ -222,7 +220,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_308_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_308_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
@@ -246,8 +244,8 @@
                                             <div class="col-md-4 text-end me-4">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_stm}} Visit">
-                                                                {{ number_format($sum_stm, 2) }}  
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement 0.00บาท">
+                                                                {{-- {{ number_format($total301, 2) }}  --}}0.00
                                                                 <i class="fa-brands fa-btc text-success ms-2"></i>
                                                         </p>
                                                     </div>
@@ -269,12 +267,7 @@
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >
-                                                            @if ($yokpai > 0)
-                                                            + {{ number_format($yokpai, 2) }} 
-                                                            @else
-                                                            {{ number_format($yokpai, 2) }} 
-                                                            @endif
-                                                           
+                                                            {{-- {{ number_format($yokpai, 2) }}  --}}0.00
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>

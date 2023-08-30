@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="row">
+        <div class="row ms-3 me-3">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -72,8 +72,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="startdate" id="startdate" value="{{$startdate}}">
-                        <input type="hidden" name="enddate" id="enddate" value="{{$enddate}}">
+                        <input type="hidden" name="months" id="months" value="{{$months}}">
+                        <input type="hidden" name="year" id="year" value="{{$year}}">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -87,8 +87,8 @@
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">Sync Data / เลขหนังสือ </th>
-                                    <th class="text-center">vstdate</th>
-                                    {{-- <th class="text-center">dchdate</th> --}}
+                                    {{-- <th class="text-center">vstdate</th> --}}
+                                    <th class="text-center">dchdate</th>
                                     <th class="text-center">pttype</th>
                                     
                                     <th class="text-center">ลูกหนี้</th>
@@ -121,7 +121,7 @@
                                                         </button> 
                                                         @endif 
                                                     </td> 
-                                                    <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
+                                                    <td class="text-center" width="10%">{{ $item->dchdate }}</td>    
                                                     <td class="text-center" width="10%">{{ $item->pttype }}</td> 
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
                                                     {{-- <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> 
@@ -168,8 +168,8 @@
                 }
             });
             $('.PulldataAll').click(function() { 
-                    var startdate = $('#startdate').val();
-                    var enddate = $('#enddate').val();
+                    var months = $('#months').val();
+                    var year = $('#year').val();
                     // alert(startdate);
                     Swal.fire({
                             title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
@@ -188,7 +188,7 @@
                                         url: "{{ url('account_308_syncall') }}",
                                         type: "POST",
                                         dataType: 'json',
-                                        data: {startdate,enddate},
+                                        data: {months,year},
                                         success: function(data) {
                                             if (data.status == 200) { 
                                                 Swal.fire({
