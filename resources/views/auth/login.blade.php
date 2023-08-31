@@ -57,7 +57,7 @@
 
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top" data-scrollto-offset="0">
-        <div class="container d-flex align-items-center justify-content-between">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
 
             <a href="" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
@@ -133,7 +133,57 @@
                     </li> --}}
                     <li><a class="nav-link scrollto" href="#contact"><i class="fa-regular fa-address-book me-2"></i>Contact</a></li>
                     <li><a href="{{ url('check_dashboard') }}" target="_blank"><i class="fa-solid fa-chart-line me-2"></i>Report</a></li> 
-
+                    {{-- <li class="dropdown"><a href="#"> 
+                        <i class="fa-solid fa-download me-2"></i>
+                        <span>Download</span>  
+                        <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            <li><a href="">รายงานการประชุม รพ.</a></li>
+                            <li><a href="">รายงานการประชุม คปสอ.</a></li>
+                            <li><a href="">แบบฟอร์มต่างๆ</a></li>  
+                        </ul>
+                    </li> --}}
+                    <li class="dropdown"><a href="#"> <i class="fa-solid fa-download me-2"></i><span>Download</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                          {{-- <li><a href="#">Drop Down 1</a></li> --}}
+                          <li class="dropdown"><a href="#"><span>รายงานการประชุม รพ.</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                            <ul>
+                              <li><a href="#">ปี พศ.2560</a></li>
+                              <li><a href="#">ปี พศ.2561</a></li>
+                              <li><a href="#">ปี พศ.2562</a></li>
+                              <li><a href="#">ปี พศ.2563</a></li>
+                              <li><a href="#">ปี พศ.2564</a></li>
+                              <li><a href="#">ปี พศ.2565</a></li>
+                              <li><a href="#">ปี พศ.2566</a></li>
+                            </ul>
+                          </li>
+                          <li class="dropdown"><a href="#"><span>รายงานการประชุม คปสอ.</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                            <ul>
+                              <li><a href="#">ปี พศ.2560</a></li>
+                              <li><a href="#">ปี พศ.2561</a></li>
+                              <li><a href="#">ปี พศ.2562</a></li>
+                              <li><a href="#">ปี พศ.2563</a></li>
+                              <li><a href="#">ปี พศ.2564</a></li>
+                              <li><a href="#">ปี พศ.2565</a></li>
+                              <li><a href="#">ปี พศ.2566</a></li>
+                            </ul>
+                          </li>
+                          <li class="dropdown"><a href="#"><span>รายงานการประชุม คปสอ.</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                            <ul>
+                              <li><a href="#">ปี พศ.2560</a></li>
+                              <li><a href="#">ปี พศ.2561</a></li>
+                              <li><a href="#">ปี พศ.2562</a></li>
+                              <li><a href="#">ปี พศ.2563</a></li>
+                              <li><a href="#">ปี พศ.2564</a></li>
+                              <li><a href="#">ปี พศ.2565</a></li>
+                              <li><a href="#">ปี พศ.2566</a></li>
+                            </ul>
+                          </li>
+                          <li><a href="#">แบบฟอร์มต่างๆ</a></li>
+                          {{-- <li><a href="#">Drop Down 3</a></li> --}}
+                          {{-- <li><a href="#">Drop Down 4</a></li> --}}
+                        </ul>
+                      </li>
 
                     <li>
                         {{-- <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal"
@@ -184,7 +234,7 @@
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-activity icon"></i></div>
-                            <h4><a href="" class="stretched-link">ประชาสัมพันธ์</a></h4>
+                            <h4><a href="" class="stretched-link">ข่าวสาร</a></h4>
                             <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
                         </div>
                     </div><!-- End Service Item -->
@@ -192,7 +242,7 @@
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="200">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-                            <h4><a href="" class="stretched-link">ประกาศจัดซื้อจัดจ้าง</a></h4>
+                            <h4><a href="" class="stretched-link">ประชาสัมพันธ์</a></h4>
                             <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
                         </div>
                     </div><!-- End Service Item -->
@@ -200,7 +250,7 @@
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="400">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                            <h4><a href="" class="stretched-link">ประกาศรับสมัครงาน/ผลสอบ</a></h4>
+                            <h4><a href="" class="stretched-link">ประกาศจัดซื้อจัดจ้าง</a></h4>
                             <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
                         </div>
                     </div><!-- End Service Item -->
@@ -208,7 +258,7 @@
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                            <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
+                            <h4><a href="" class="stretched-link">ประกาศรับสมัครงาน/ผลสอบ</a></h4>
                             <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
                         </div>
                     </div><!-- End Service Item -->
@@ -1804,13 +1854,13 @@
                     </div>
 
                     <div class="col-lg-2 col-md-6 footer-links">
-                        <h4>Useful Links</h4>
+                        <h4>Wb Pages</h4>
                         <ul>
-                            <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-                            <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-                            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
-                            <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="{{url('/')}}">Home</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="#contact">Contact</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="#exsecutiva">คณะผู้บริหารงาน</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="#vision">วิสัยทัศน์/พันธกิจ</a></li>
+                            <li><i class="bi bi-chevron-right"></i> <a href="#department">หน่วยงาน</a></li>
                         </ul>
                     </div>
 
