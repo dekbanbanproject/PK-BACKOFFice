@@ -66,7 +66,17 @@
             </a>
 
             <nav id="navbar" class="navbar">
-                <ul>                   
+                <ul>
+
+                    {{-- <li class="dropdown"><a href="#"><span>Home</span> <i
+                                class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            <li><a href="index.html">Home 1 - index.html</a></li>
+                            <li><a href="index-2.html">Home 2 - index-2.html</a></li>
+                            <li><a href="index-3.html" class="active">Home 3 - index-3.html</a></li>
+                            <li><a href="index-4.html">Home 4 - index-4.html</a></li>
+                        </ul>
+                    </li> --}}
                     <li><a class="nav-link scrollto" href="{{url('/')}}">
                         <i class="fa-solid fa-house-chimney me-2"></i>
                         Home</a>
@@ -74,18 +84,7 @@
                     {{-- <li><a class="nav-link scrollto" href="#about">About</a></li> --}}
                     {{-- <li><a class="nav-link scrollto" href="#services">Services</a></li> --}}
                     {{-- <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li> --}}
-                     <li class="dropdown"><a href="#">
-                        <i class="fa-solid fa-address-book me-2"></i>
-                        <span>เกี่ยวกับเรา</span>  
-                        <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                        <ul>
-                            <li><a href="">ประวัติโรงพยาบาล</a></li>
-                            <li><a href="#exsecutiva">คณะผู้บริหารงาน</a></li>
-                            <li><a href="#vision">วิสัยทัศน์/พันธกิจ</a></li> 
-                            <li><a href="#department">หน่วยงาน</a></li>
-                        </ul>
-                    </li>
-                    {{-- <li><a class="nav-link scrollto" href="#exsecutiva"><i class="fa-solid fa-people-group me-2"></i>Exsecutiva</a></li> --}}
+                    <li><a class="nav-link scrollto" href="#exsecutiva"><i class="fa-solid fa-people-group me-2"></i>Exsecutiva</a></li>
                     {{-- <li><a href="blog.html">Blog</a></li> --}}
                     {{-- <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i
                                 class="bi bi-chevron-down dropdown-indicator"></i></a>
@@ -133,7 +132,6 @@
                     </li> --}}
                     <li><a class="nav-link scrollto" href="#contact"><i class="fa-regular fa-address-book me-2"></i>Contact</a></li>
                     <li><a href="{{ url('check_dashboard') }}" target="_blank"><i class="fa-solid fa-chart-line me-2"></i>Report</a></li> 
-
 
                     <li>
                         {{-- <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal"
@@ -184,7 +182,7 @@
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-activity icon"></i></div>
-                            <h4><a href="" class="stretched-link">ประชาสัมพันธ์</a></h4>
+                            <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
                             <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
                         </div>
                     </div><!-- End Service Item -->
@@ -192,7 +190,7 @@
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="200">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-                            <h4><a href="" class="stretched-link">ประกาศจัดซื้อจัดจ้าง</a></h4>
+                            <h4><a href="" class="stretched-link">Sed ut perspici</a></h4>
                             <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
                         </div>
                     </div><!-- End Service Item -->
@@ -200,7 +198,7 @@
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="400">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                            <h4><a href="" class="stretched-link">ประกาศรับสมัครงาน/ผลสอบ</a></h4>
+                            <h4><a href="" class="stretched-link">Magni Dolores</a></h4>
                             <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
                         </div>
                     </div><!-- End Service Item -->
@@ -219,33 +217,32 @@
         </section><!-- End Featured Services Section -->
 
         <!-- ======= About Section ======= -->
-        <section id="vision" class="about">
+        {{-- <section id="about" class="about">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-header">
-                    <h2>วิสัยทัศน์ (Vision)</h2>
-                    {{-- <p>เป็นโรงพยาบาลตัวอย่าง ด้านคุณภาพความปลอดภัยและประทับใจ.</p> --}}
-                    <h4 >เป็นโรงพยาบาลตัวอย่าง ด้านคุณภาพความปลอดภัยและประทับใจ.</h4>
-                    <img src="{{ asset('medical/assets/img/visio.jpg') }}" class="img-fluid mt-2" alt="">
+                    <h2>About Us</h2>
+                    <p>Architecto nobis eos vel nam quidem vitae temporibus voluptates qui hic deserunt iusto omnis nam
+                        voluptas asperiores sequi tenetur dolores incidunt enim voluptatem magnam cumque fuga.</p>
                 </div>
 
                 <div class="row g-4 g-lg-5" data-aos="fade-up" data-aos-delay="200">
 
-                    {{-- <div class="col-lg-3">
+                    <div class="col-lg-5">
                         <div class="about-img">
                             <img src="assets/img/about.jpg" class="img-fluid" alt="">
                         </div>
-                    </div> --}}
+                    </div>
 
-                    <div class="col-lg-12">
-                        {{-- <h4 class="pt-0 pt-lg-5">เป็นโรงพยาบาลตัวอย่าง ด้านคุณภาพความปลอดภัยและประทับใจ.</h4> --}}
+                    <div class="col-lg-7">
+                        <h3 class="pt-0 pt-lg-5">Neque officiis dolore maiores et exercitationem quae est seda lidera
+                            pat claero</h3>
 
                         <!-- Tabs -->
                         <ul class="nav nav-pills mb-3">
-                            <li><a class="nav-link active" data-bs-toggle="pill" href="#tab1">พันธกิจ (Missions)</a></li>
-                            <li><a class="nav-link" data-bs-toggle="pill" href="#tab2">ยุทธศาสตร์(Strategic Issue)</a></li>
-                            <li><a class="nav-link" data-bs-toggle="pill" href="#tab3">วัตถุประสงค์เชิงกลยุทธ์(Strategic Objectives)</a></li>
-                            <li><a class="nav-link" data-bs-toggle="pill" href="#tab4">จุดเน้น/เข็มมุ่ง(Key Focus Area)</a></li>
+                            <li><a class="nav-link active" data-bs-toggle="pill" href="#tab1">Saepe fuga</a></li>
+                            <li><a class="nav-link" data-bs-toggle="pill" href="#tab2">Voluptates</a></li>
+                            <li><a class="nav-link" data-bs-toggle="pill" href="#tab3">Corrupti</a></li>
                         </ul><!-- End Tabs -->
 
                         <!-- Tab Content -->
@@ -253,132 +250,96 @@
 
                             <div class="tab-pane fade show active" id="tab1">
 
-                                {{-- <p class="fst-italic">1.พัฒนาการให้บริการที่มีคุณภาพและปลอดภัย</p> --}}
+                                <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
+                                    doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
+                                    suscipit voluptatem.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>1.พัฒนาการให้บริการที่มีคุณภาพและปลอดภัย</h4>
+                                    <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
                                 </div>
-                                {{-- <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
-                                    dolorum non eveniet magni quaerat nemo et.</p> --}}
+                                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
+                                    dolorum non eveniet magni quaerat nemo et.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>2.พัฒนาระบบการดูแลรักษาและการส่งต่อระหว่างเครือข่ายให้มีความปลอดภัย ไร้รอยต่อ</h4>
+                                    <h4>Incidunt non veritatis illum ea ut nisi</h4>
                                 </div>
-                                {{-- <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
+                                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
                                     tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
-                                    Dolorem quo tempora. Quia et perferendis.</p> --}}
+                                    Dolorem quo tempora. Quia et perferendis.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>3.พัฒนาระบบการจัดการและสนับสนุนการให้บริการด้านสุขภาพ</h4>
+                                    <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
                                 </div>
-                                {{-- <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
+                                <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
                                     officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
-                                    odit enim quaerat. Vero error error voluptatem eum.</p> --}}
+                                    odit enim quaerat. Vero error error voluptatem eum.</p>
 
                             </div><!-- End Tab 1 Content -->
 
                             <div class="tab-pane fade show" id="tab2">
 
-                                {{-- <p class="fst-italic">tab2 Consequuntur inventore voluptates consequatur aut vel et. Eos
+                                <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
                                     doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
-                                    suscipit voluptatem.</p> --}}
+                                    suscipit voluptatem.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>1.ส่งเสริมสุขภาพ ป้องกันโรค และคุ้มครองผู้บริโภคอย่างมีประสิทธิภาพ</h4>
+                                    <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
                                 </div>
-                                {{-- <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
-                                    dolorum non eveniet magni quaerat nemo et.</p> --}}
+                                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
+                                    dolorum non eveniet magni quaerat nemo et.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>2.พัฒนาระบบบริการสุขภาพ(Service Plan)</h4>
+                                    <h4>Incidunt non veritatis illum ea ut nisi</h4>
                                 </div>
-                                {{-- <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
+                                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
                                     tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
-                                    Dolorem quo tempora. Quia et perferendis.</p> --}}
+                                    Dolorem quo tempora. Quia et perferendis.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>3.พัฒนาศักยภาพบุคลากรและองค์กรแห่งความสุข</h4>
+                                    <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
                                 </div>
-                                {{-- <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
+                                <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
                                     officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
-                                    odit enim quaerat. Vero error error voluptatem eum.</p> --}}
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>4.พัฒนาระบบการจัดการและสนับสนุนการให้บริการด้านสุขภาพ</h4>
-                                </div>
+                                    odit enim quaerat. Vero error error voluptatem eum.</p>
 
                             </div><!-- End Tab 2 Content -->
 
                             <div class="tab-pane fade show" id="tab3">
- 
 
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>1.พัฒนาระบบส่งเสริมสุขภาพ ป้องกันโรค ในกลุ่มวัย(M1,S1)</h4>
-                                </div>
-                                
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>2.พัฒนาระบบดูแลทางคลีนิค และระบบส่งต่อระหว่างเครือข่ายให้มีคุณภาพและปลอดภัย(M1,M2,S2)</h4>
-                                </div>
-                                
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>3.พัฒนาศักยภาพบุคลากร ส่งเสริมสุขภาพดี มีความสุขของบุคลากร (M3,S3)</h4>
-                                </div>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>4.พัฒนาระบบเทคโนโลยี่สารสนเทศ สนับสนุนระบบบริการ (M3,S4)</h4>
-                                </div>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>5.พัฒนาให้เป็นองค์กรคุณภาพ (M3,S4)</h4>
-                                </div>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>6.ส่งเสริมการให้บริการที่เป็นเลิศ (M1,S2,S3)</h4>
-                                </div>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>7.สร้างความมั่นคงทางด้านการเงิน (M3,S4)</h4>
-                                </div>
-                                 
-                            </div><!-- End Tab 3 Content -->
-
-                            <div class="tab-pane fade show" id="tab4">
-
-                                {{-- <p class="fst-italic">tab2 Consequuntur inventore voluptates consequatur aut vel et. Eos
+                                <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
                                     doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
-                                    suscipit voluptatem.</p> --}}
+                                    suscipit voluptatem.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>1.การพัฒนาความปลอดภัยในการดูแลผู้ป่วย</h4>
+                                    <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
                                 </div>
-                               
+                                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
+                                    dolorum non eveniet magni quaerat nemo et.</p>
 
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>2.องค์กรแห่งความสุข</h4>
+                                    <h4>Incidunt non veritatis illum ea ut nisi</h4>
                                 </div>
-                              
+                                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
+                                    tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
+                                    Dolorem quo tempora. Quia et perferendis.</p>
+
                                 <div class="d-flex align-items-center mt-4">
                                     <i class="bi bi-check2"></i>
-                                    <h4>3.ความมั่นคงทางด้านการเงินและการคลัง</h4>
+                                    <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
                                 </div>
-                             
-                            </div><!-- End Tab 2 Content -->
+                                <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
+                                    officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
+                                    odit enim quaerat. Vero error error voluptatem eum.</p>
+
+                            </div><!-- End Tab 3 Content -->
 
                         </div>
 
@@ -387,7 +348,7 @@
                 </div>
 
             </div>
-        </section>
+        </section> --}}
         <!-- End About Section -->
 
         <!-- ======= Clients Section ======= -->
@@ -1542,89 +1503,8 @@
             </div>
         </section><!-- End Team Section -->
 
-        <!-- ======= Recent Blog Posts Section department======= -->
-        <section id="department" class="recent-blog-posts">
-
-            <div class="container" data-aos="fade-up">
-
-                <div class="section-header">
-                    <h2>หน่วยงาน</h2>
-                    <p>Department</p>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-lg-3" data-aos="fade-up" data-aos-delay="200">
-                        <div class="post-box">
-                            <div class="post-img">
-                                <img src="{{ asset('medical/assets/img/mareng.jpg') }}" class="img-fluid" alt=""> 
-                            </div>
-                            <div class="meta">
-                                <span class="post-date">Tue, December 12</span>
-                                <span class="post-author"> / Julia Parker</span>
-                            </div>
-                            <h3 class="post-title">ศูนย์มะเร็ง</h3>
-                            {{-- <p>Illum voluptas ab enim placeat. Adipisci enim velit nulla. Vel omnis laudantium.
-                                Asperiores eum ipsa est officiis. Modi cupiditate exercitationem qui magni est...</p> --}}
-                            <a href="" class="readmore stretched-link"><span>Read More</span><i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3" data-aos="fade-up" data-aos-delay="400">
-                        <div class="post-box">
-                            <div class="post-img"> <img src="{{ asset('medical/assets/img/suti.jpg') }}" class="img-fluid" alt=""> </div>
-                            <div class="meta">
-                                <span class="post-date">Fri, September 05</span>
-                                <span class="post-author"> / Mario Douglas</span>
-                            </div>
-                            <h3 class="post-title">สูตินรีเวชกรรม</h3>
-                            {{-- <p>Voluptatem nesciunt omnis libero autem tempora enim ut ipsam id. Odit quia ab eum
-                                assumenda. Quisquam omnis aliquid necessitatibus tempora consectetur doloribus...</p> --}}
-                            <a href="" class="readmore stretched-link"><span>Read More</span><i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3" data-aos="fade-up" data-aos-delay="600">
-                        <div class="post-box">
-                            <div class="post-img"> <img src="{{ asset('medical/assets/img/dental.jpg') }}" class="img-fluid" alt=""> </div>
-                            <div class="meta">
-                                <span class="post-date">Tue, July 27</span>
-                                <span class="post-author"> / Lisa Hunter</span>
-                            </div>
-                            <h3 class="post-title">ทันตกรรม</h3>
-                            {{-- <p>Quia nam eaque omnis explicabo similique eum quaerat similique laboriosam. Quis omnis
-                                repellat sed quae consectetur magnam veritatis dicta nihil...</p> --}}
-                            <a href="" class="readmore stretched-link"><span>Read More</span><i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3" data-aos="fade-up" data-aos-delay="600">
-                        <div class="post-box">
-                            <div class="post-img"> <img src="{{ asset('medical/assets/img/aryu.jpg') }}" class="img-fluid" alt=""> </div>
-                            <div class="meta">
-                                <span class="post-date">Tue, July 27</span>
-                                <span class="post-author"> / Lisa Hunter</span>
-                            </div>
-                            <h3 class="post-title">อายุรกรรม</h3>
-                            {{-- <p>Quia nam eaque omnis explicabo similique eum quaerat similique laboriosam. Quis omnis
-                                repellat sed quae consectetur magnam veritatis dicta nihil...</p> --}}
-                            <a href="" class="readmore stretched-link"><span>Read More</span><i
-                                    class="bi bi-arrow-right"></i></a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-        <!-- End Recent Blog Posts Section -->
-
-          <!-- ======= Recent Blog Posts Section ======= -->
-          {{-- <section id="recent-blog-posts" class="recent-blog-posts">
+        <!-- ======= Recent Blog Posts Section ======= -->
+        {{-- <section id="recent-blog-posts" class="recent-blog-posts">
 
             <div class="container" data-aos="fade-up">
 
@@ -1697,7 +1577,8 @@
 
                 <div class="section-header">
                     <h2>Contact Us</h2>
-                    <p>สอลถามข้อมูลเพิ่มเติมได้ที่นี่.</p>
+                    <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut ad
+                        dolores adipisci aliquam.</p>
                 </div>
 
             </div>
@@ -1795,9 +1676,9 @@
                         <div class="footer-info">
                             <h3>PHUKIEO CHALERMPRAKIAT HOSPITAL</h3>
                             <p>
-                                149 หมู่ 4 ตำบล ผักปัง  <br>
-                                อำเภอ ภูเขียว ชัยภูมิ 36110<br><br>
-                                <strong>Phone:</strong> 044-861700-3<br>
+                                A108 Adam Street <br>
+                                NY 535022, USA<br><br>
+                                <strong>Phone:</strong> +1 5589 55488 55<br>
                                 <strong>Email:</strong> info@example.com<br>
                             </p>
                         </div>
