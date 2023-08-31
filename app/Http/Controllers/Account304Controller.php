@@ -322,7 +322,7 @@ class Account304Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
                 from acc_1102050101_304 U1
             
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
@@ -356,12 +356,16 @@ class Account304Controller extends Controller
         $months = $request->months;
         $year = $request->year;
         $sync = DB::connection('mysql3')->select('
-                SELECT a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno 
-                FROM an_stat a
-                LEFT JOIN ipt_pttype ip ON ip.an = a.an
+                
+
+                SELECT ac.acc_1102050101_304_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno 
+                FROM hos.an_stat a
+                LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
+                LEFT JOIN pkbackoffice.acc_1102050101_304 ac ON ac.an = a.an
                 WHERE month(a.dchdate) = "'.$months.'" 
                 AND year(a.dchdate) = "'.$year.'" 
-                AND ip.nhso_ownright_pid  <> ""
+                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> "" AND ac.acc_1102050101_304_id <> ""
+                GROUP BY a.an
             ');
             foreach ($sync as $key => $value) { 
                     // $update = Acc_1102050101_304::find($value->an);

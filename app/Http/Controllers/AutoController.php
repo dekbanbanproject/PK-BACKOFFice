@@ -62,6 +62,7 @@ use App\Models\Check_sit_auto_claim;
 use App\Models\Db_year;
 use App\Models\Db_authen;
 use App\Models\Db_authen_detail;
+use App\Models\Checksit_hos;
 use Auth;
 use ZipArchive;
 use Storage;
@@ -420,7 +421,7 @@ class AutoController extends Controller
                                     'pttype_spsch' => @$subinscl,
                                     'hsub' => @$hsub,
 
-                                ]);
+                            ]);
                         // }else{
                             // Check_sit_auto::insert([
                             //     'status' => @$status,
@@ -1162,6 +1163,193 @@ class AutoController extends Controller
                   
             }
         return view('auto.sss_check_claimcode');
+    }
+
+    // ดึงข้อมูลมาไว้เช็คสิทธิ์ เอาทุกสิทธิ์
+    public function pull_Checksit_hosauto(Request $request)
+    {           
+        $data_sits = DB::connection('mysql')->select('
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as ptname,op.name as staffname,p.hometel
+                ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+                ,o.staff,op.name as sname
+                ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                FROM hos.ovst o
+                LEFT JOIN hos.vn_stat v on v.vn = o.vn
+                LEFT JOIN hos.patient p on p.hn=o.hn
+                LEFT JOIN hos.pttype pt on pt.pttype=o.pttype
+                LEFT JOIN hos.opduser op on op.loginname = o.staff
+                WHERE o.vstdate = CURDATE() 
+                AND p.nationality = "99"
+                
+                group by o.vn
+                    
+        ');        
+        //  AND p.birthday <> CURDATE()
+        foreach ($data_sits as $key => $value) {
+                $check = Checksit_hos::where('vn', $value->vn)->count();
+
+                if ($check > 0) {
+                
+                } else {
+                Checksit_hos::insert([
+                        'vn'         => $value->vn,
+                        'an'         => $value->an,
+                        'hn'         => $value->hn,
+                        'cid'        => $value->cid,
+                        'vstdate'    => $value->vstdate,
+                        'hometel'    => $value->hometel,
+                        'vsttime'    => $value->vsttime,
+                        'ptname'     => $value->ptname,
+                        'pttype'     => $value->pttype,
+                        'hospmain'   => $value->hospmain,
+                        'hospsub'    => $value->hospsub,
+                        'main_dep'   => $value->main_dep,
+                        'staff'      => $value->staff,
+                        'staff_name' => $value->staffname,
+                        'debit'      => $value->debit
+                    ]);
+
+                } 
+        } 
+        return view('auto.pull_Checksit_hosauto');
+    }
+    public function checksit_hosauto(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        $token_data = DB::connection('mysql')->select('
+            SELECT cid,token FROM ssop_token
+        ');       
+        foreach ($token_data as $key => $valuetoken) {
+            $cid_   = $valuetoken->cid;
+            $token_ = $valuetoken->token;
+        }
+        // $token_data = DB::connection('mysql')->select('
+        //     SELECT cid,token FROM hos.nhso_token where token <> ""
+        // ');
+        $data_sitss = DB::connection('mysql')->select('
+            SELECT cid,vn,an,vstdate
+            FROM checksit_hos
+            WHERE vstdate = CURDATE()
+            AND subinscl IS NULL
+            ORDER BY vstdate desc
+            LIMIT 100
+        ');
+        // WHERE vstdate = CURDATE()
+        // AND subinscl IS NULL 
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn = $item->vn;
+            $an = $item->an;
+
+            // foreach ($token_data as $key => $value) { 
+                $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                    array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace"=> 1,"exceptions"=> 0,"cache_wsdl"=> 0)
+                    );
+                    $params = array(
+                        'sequence' => array(
+                            "user_person_id" => "$cid_",
+                            "smctoken"       => "$token_",
+                            "person_id"      => "$pids"
+                    )
+                    // $params = array(
+                    //     'sequence' => array(
+                    //         "user_person_id" => "$value->cid",
+                    //         "smctoken"       => "$value->token",
+                    //         "person_id"      => "$pids"
+                    // )
+                );
+            // }
+            $contents = $client->__soapCall('searchCurrentByPID',$params);
+            foreach ($contents as $v) {
+                @$status = $v->status ;
+                @$maininscl = $v->maininscl;
+                @$startdate = $v->startdate;
+                @$hmain = $v->hmain ;
+                @$subinscl = $v->subinscl ;
+                @$person_id_nhso = $v->person_id;
+
+                @$hmain_op = $v->hmain_op;  //"10978"
+                @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                @$hsub = $v->hsub;    //"04047"
+                @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+
+                IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                    $date = date("Y-m-d");
+                    Checksit_hos::where('vn', $vn)
+                            ->update([
+                                'status'         => @$status,
+                                'maininscl'      => @$maininscl,
+                                'startdate'      => @$startdate,
+                                'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl,
+                                'person_id_nhso' => @$person_id_nhso,
+                                'hmain_op'       => @$hmain_op,
+                                'hmain_op_name'  => @$hmain_op_name,
+                                'hsub'           => @$hsub,
+                                'hsub_name'      => @$hsub_name,
+                                'subinscl_name'  => @$subinscl_name,
+                                'upsit_date'     => $date
+                        ]);
+                        Acc_debtor::where('vn', $vn)
+                        ->update([
+                            'status'          => @$status,
+                            'maininscl'       => @$maininscl,
+                            'hmain'           => @$hmain,
+                            'subinscl'        => @$subinscl,
+                            'pttype_spsch'    => @$subinscl,
+                            'hsub'            => @$hsub,
+
+                    ]);
+                    
+                }elseif(@$maininscl !="" || @$subinscl !=""){
+                        $date2 = date("Y-m-d");
+                        Checksit_hos::where('vn', $vn)
+                            ->update([
+                                'status' => @$status,
+                                'maininscl' => @$maininscl,
+                                'startdate' => @$startdate,
+                                'hmain' => @$hmain,
+                                'subinscl' => @$subinscl,
+                                'person_id_nhso' => @$person_id_nhso,
+                                'hmain_op' => @$hmain_op,
+                                'hmain_op_name' => @$hmain_op_name,
+                                'hsub' => @$hsub,
+                                'hsub_name' => @$hsub_name,
+                                'subinscl_name' => @$subinscl_name,
+                                'upsit_date'    => $date2
+                            ]);
+                        Acc_debtor::where('vn', $vn)
+                            ->update([
+                                'status' => @$status,
+                                'maininscl' => @$maininscl,
+                                'hmain' => @$hmain,
+                                'subinscl' => @$subinscl,
+                                'pttype_spsch' => @$subinscl,
+                                'hsub' => @$hsub,
+
+                            ]);
+                        Acc_debtor::where('an', $an)
+                            ->update([
+                                'status' => @$status,
+                                'maininscl' => @$maininscl,
+                                'hmain' => @$hmain,
+                                'subinscl' => @$subinscl,
+                                'pttype_spsch' => @$subinscl,
+                                'hsub' => @$hsub,
+
+                        ]);
+                            
+                }
+
+            }
+        }
+
+        return view('auto.checksit_hosauto');
+
     }
 
 

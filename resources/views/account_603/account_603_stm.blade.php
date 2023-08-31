@@ -79,7 +79,7 @@ $pos = strrpos($url, '/') + 1;
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050101.304
+                    รายละเอียด 1102050102_603
                     <div class="btn-actions-pane-right">
                         <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                             <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
@@ -101,18 +101,19 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
+                                    <th class="text-center">Sync Data / เลขหนังสือ </th>
+                                    <th class="text-center">รับจริง Hos</th>
                                     <th class="text-center">vstdate</th>
                                     <th class="text-center">dchdate</th>
                                     <th class="text-center">pttype</th>
-                                    <th class="text-center">Sync Data / เลขหนังสือ </th>
-                                    <th class="text-center">รับจริง Hos</th> 
+                                    
                                     <th class="text-center">ลูกหนี้</th>
                                     {{-- <th class="text-center">ยอดชดเชย</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0; ?>
-                                @foreach ($data as $item)
+                                @foreach ($datashow as $item)
                                     <?php $number++; 
                                         $sync = DB::connection('mysql3')->select('
                                             SELECT an,nhso_docno 
@@ -133,42 +134,26 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="text-center" width="10%">{{ $item->hn }}</td>   
                                                     <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                     <td class="p-2" >{{ $item->ptname }}</td>  
+                                                    <td class="text-center" width="5%">
+                                                        @if ($item->nhso_docno != '' )
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                                                <i class="fa-solid fa-book-open text-primary me-2"></i> 
+                                                                {{$item->nhso_docno}}  
+                                                            </button> 
+                                                        @else
+                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
+                                                                <i class="fa-solid fa-book-open text-warning me-2"></i> 
+                                                            ยังไม่ได้ลงเลขหนังสือ
+                                                            </button> 
+                                                        @endif 
+                                                    </td> 
+                                                  
+                                                    <td class="text-end" width="10%">{{ $item->nhso_ownright_pid}}</td> 
+                                               
+                                                   
                                                     <td class="text-center" width="10%">{{ $item->vstdate }}</td>  
                                                     <td class="text-center" width="10%">{{ $item->dchdate }}</td>   
                                                     <td class="text-center" width="10%">{{ $item->pttype }}</td> 
-                                                    <td class="text-center" width="5%">
-                                                        {{-- @if ($item->nhso_docno == '')
-                                                            <button type="button"
-                                                                    class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger Pulldata"
-                                                                    value="{{ $item->vn }}">
-                                                                    <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
-                                                                    Sync Data
-                                                            </button>
-                                                        @else
-                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                                                                <i class="fa-solid fa-book-open text-primary me-2"></i> 
-                                                                {{$item->nhso_docno}}
-                                                            </button>
-                                                        @endif --}}
-                                                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                                                            <i class="fa-solid fa-book-open text-primary me-2"></i> 
-                                                            {{$item->nhso_docno}}
-                                                        </button> --}}
-                                                        @if ($item->nhso_docno != '' )
-                                                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                                                            <i class="fa-solid fa-book-open text-primary me-2"></i> 
-                                                            {{$item->nhso_docno}}  
-                                                        </button> 
-                                                        @else
-                                                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
-                                                            <i class="fa-solid fa-book-open text-warning me-2"></i> 
-                                                           ยังไม่ได้ลงเลขหนังสือ
-                                                        </button> 
-                                                        @endif
-                                                        
-                                                    </td> 
-                                                    <td class="text-end" width="10%">{{ number_format($item->nhso_ownright_pid,2)}}</td> 
-                                                   
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>                                                    
                                                 </td>
                                         </tr>
@@ -230,7 +215,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show();  
                                 
                                 $.ajax({
-                                    url: "{{ url('account_304_syncall') }}",
+                                    url: "{{ url('account_603_syncall') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {months,year},
@@ -283,39 +268,7 @@ $pos = strrpos($url, '/') + 1;
                             }
                 })
         });
-            
-            // $(document).on('click', '.Pulldata', function() {
-            //     var an = $(this).val();
-            //     alert(an);
-                
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "{{ url('account_304_sync')}}",
-            //         dataType: 'json',
-            //         data: { an },
-            //         success: function(data) {
-            //             // if (data.status == 200) { 
-            //                     // Swal.fire({
-            //                     //     title: 'Sync ข้อมูลสำเร็จ',
-            //                     //     text: "You Sync data success",
-            //                     //     icon: 'success',
-            //                     //     showCancelButton: false,
-            //                     //     confirmButtonColor: '#06D177',
-            //                     //     confirmButtonText: 'เรียบร้อย'
-            //                     // }).then((result) => {
-            //                     //     if (result
-            //                     //         .isConfirmed) {
-            //                     //         console.log(
-            //                     //             data);
-            //                     //         window.location.reload(); 
-            //                     // })
-            //             // } else {
-                            
-            //             // }
-                        
-            //         }
-            //     });
-            // });
+          
 
         });
     </script>

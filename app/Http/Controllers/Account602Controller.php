@@ -488,18 +488,13 @@ class Account602Controller extends Controller
             SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                 ,o.vstdate,totime(o.vsttime) as vsttime
-                ,v.hospmain,op.income as income_group
-                ,o.vstdate as vstdatesave
+                ,v.hospmain,op.income as income_group 
                 ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-                ,ptt.pttype_eclaim_id
-                ,v.pttype,ptt.name as namelist
-                ,e.gf_opd as gfmis,e.code as acc_code
-                ,e.ar_opd as account_code
-                ,e.name as account_name
+                ,ptt.pttype_eclaim_id ,v.pttype 
+                ,e.code as acc_code ,e.ar_opd as account_code ,e.name as account_name
                 ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                ,v.rcpno_list as rcpno
-                ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
                 ,v.income-v.discount_money-v.rcpt_money as debit
+                ,if(op.icode IN ("3010058"),sum_price,0) as fokliad 
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
@@ -567,7 +562,7 @@ class Account602Controller extends Controller
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
             //  $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->where('account_code','1102050101.4011')->count();
-                $check = Acc_debtor::where('vn', $value->vn)->where('debit_total','=','0')->count();
+                $check = Acc_debtor::where('vn', $value->vn)->count();
                 if ($check > 0) {
                 # code...
                 } else {

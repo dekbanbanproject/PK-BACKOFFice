@@ -343,37 +343,38 @@ class Account308Controller extends Controller
                 LEFT JOIN pkbackoffice.acc_1102050101_308 ac ON ac.an = a.an
                 WHERE month(a.dchdate) = "'.$months.'" 
                 AND year(a.dchdate) = "'.$year.'" 
-                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> ""
-            ');
-            // dd($sync);
-            foreach ($sync as $key => $value) {
+                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> "" AND ac.acc_1102050101_308_id <> ""
+                GROUP BY a.an
+        ');
+        // dd($sync);
+        foreach ($sync as $key => $value) {
                
                 // if ($value->nhso_docno != '') {
-                     
-                        // Acc_1102050101_308::where('acc_1102050101_308_id',$value->acc_1102050101_308_id) 
-                        //     ->update([ 
-                        //         'nhso_docno'           => $value->nhso_docno,
-                        //         'nhso_ownright_pid'    => $value->nhso_ownright_pid
-                        // ]);
+                    // Acc_1102050101_308::where('acc_1102050101_308_id',$value->acc_1102050101_308_id) 
+                        Acc_1102050101_308::where('an',$value->an) 
+                            ->update([ 
+                                'nhso_docno'           => $value->nhso_docno,
+                                'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                        ]);
 
-                        $update = Acc_1102050101_308::find($value->acc_1102050101_308_id);
-                        $update->nhso_docno           = $value->nhso_docno;
-                        $update->nhso_ownright_pid    = $value->nhso_ownright_pid;
-                        $update->save();
+                        // $update = Acc_1102050101_308::find($value->acc_1102050101_308_id);
+                        // $update->nhso_docno           = $value->nhso_docno;
+                        // $update->nhso_ownright_pid    = $value->nhso_ownright_pid;
+                        // $update->save();
 
-                    return response()->json([
-                        'status'    => '200'
-                    ]);
+                    // return response()->json([
+                    //     'status'    => '200'
+                    // ]);
 
                 // } else {
                 //     return response()->json([
                 //         'status'    => '100'
                 //     ]);
                 // } 
-            }
-            // return response()->json([
-            //     'status'    => '200'
-            // ]);
+        }
+        return response()->json([
+            'status'    => '200'
+        ]);
         
         
     }

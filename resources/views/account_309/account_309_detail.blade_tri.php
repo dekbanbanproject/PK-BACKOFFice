@@ -88,8 +88,8 @@ $pos = strrpos($url, '/') + 1;
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="months" id="months" value="{{$months}}">
-                        <input type="hidden" name="year" id="year" value="{{$year}}">
+                        <input type="hidden" name="startdate" id="startdate" value="{{$startdate}}">
+                        <input type="hidden" name="enddate" id="enddate" value="{{$enddate}}">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -183,8 +183,8 @@ $pos = strrpos($url, '/') + 1;
                 }
             });
             $('.PulldataAll').click(function() { 
-                    var months = $('#months').val();
-                    var year = $('#year').val();
+                    var startdate = $('#startdate').val();
+                    var enddate = $('#enddate').val();
                     // alert(startdate);
                     Swal.fire({
                             title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
@@ -203,7 +203,7 @@ $pos = strrpos($url, '/') + 1;
                                         url: "{{ url('account_309_syncall') }}",
                                         type: "POST",
                                         dataType: 'json',
-                                        data: {months,year},
+                                        data: {startdate,enddate},
                                         success: function(data) {
                                             if (data.status == 200) { 
                                                 Swal.fire({

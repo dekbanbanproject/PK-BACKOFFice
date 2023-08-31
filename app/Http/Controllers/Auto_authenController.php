@@ -66,6 +66,7 @@ use App\Models\Check_authen;
 use App\Models\Check_sithos_auto;
 use App\Models\Check_sit_tiauto;
 use App\Models\Check_authen_ti;
+use App\Models\Checksit_hos;
 use Auth;
 use ZipArchive;
 use Storage;

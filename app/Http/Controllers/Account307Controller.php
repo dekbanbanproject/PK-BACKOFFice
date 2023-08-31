@@ -200,28 +200,20 @@ class Account307Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select('  
-                    SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-                            ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                            ,o.vstdate as vstdate
-                            ,setdate(o.vstdate) as vstdate2
-                            ,totime(o.vsttime) as vsttime
-                            ,v.hospmain,op.income as income_group 
-                            ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-                            ,ptt.pttype_eclaim_id
-                            ,o.pttype
-                            ,e.gf_opd as gfmis,e.code as acc_code
-                            ,e.ar_opd as account_code
-                            ,e.name as account_name
-                            ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                            ,v.rcpno_list as rcpno
-                            ,v.income-v.discount_money-v.rcpt_money as debit
-                            ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-                            ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                            ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                            ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                            ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                            ,ptt.max_debt_money
+            $acc_debtor = DB::connection('mysql3')->select(' 
+                SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,o.vstdate,o.vsttime
+                    ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
+                    ,ptt.pttype_eclaim_id,v.pttype
+                    ,e.code as acc_code,e.ar_opd as account_code,e.name as account_name
+                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
+                    ,v.income-v.discount_money-v.rcpt_money as debit
+                    ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    ,ptt.max_debt_money
                     from ovst o
                     left join vn_stat v on v.vn=o.vn
                     left join patient pt on pt.hn=o.hn
@@ -229,9 +221,38 @@ class Account307Controller extends Controller
                     LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT JOIN opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND v.pttype IN("35","ss","O6","C4","C5") AND v.income <> 0
+                    AND v.pttype IN("35","ss","06","C4","C5") AND v.income <> 0
                     and (o.an="" or o.an is null)
                     GROUP BY o.vn
+
+                    UNION all
+
+                    SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,o.vstdate,o.vsttime
+                    ,v.hospmain,a.regdate,a.dchdate ,op.income as income_group
+                    ,ptt.pttype_eclaim_id,a.pttype
+                    ,ec.code as acc_code,ec.ar_ipd as account_code,ec.name as account_name 
+                    ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
+                    ,a.income-a.rcpt_money-a.discount_money as debit
+                    ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    ,ptt.max_debt_money
+                    from ipt ip
+                    LEFT JOIN hos.an_stat a ON ip.an = a.an
+                    LEFT JOIN hos.ovst o ON o.an = a.an
+                    LEFT JOIN patient pt on pt.hn=a.hn
+                    LEFT JOIN pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
+                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                    WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                    AND a.pttype IN("35","06","C5")
+                    GROUP BY a.an; 
+                    
             ');
             // AND v.hospmain = "10702"
             foreach ($acc_debtor as $key => $value) {
@@ -239,7 +260,7 @@ class Account307Controller extends Controller
                     if ($value->pttype == 'SS') {
                         $pttype = 'ss';
                     } else {
-                        # code...
+                        $pttype = 'ss';
                     }
                     
                     // ->where('account_code','1102050101.307')
@@ -389,31 +410,44 @@ class Account307Controller extends Controller
     {
         $months = $request->months;
         $year = $request->year;
-        $sync = DB::connection('mysql3')->select('
-                SELECT v.vn,o.vstdate,v.nhso_docno 
-                from visit_pttype v
-                LEFT JOIN ovst o ON o.vn = v.vn
-                 
+        $sync = DB::connection('mysql')->select('
+                SELECT ac.acc_1102050101_307_id,o.an,v.vn,ac.vstdate,v.pttype,"" nhso_ownright_pid,v.nhso_docno 
+                from hos.visit_pttype v
+                LEFT JOIN hos.ovst o ON o.vn = v.vn
+                LEFT JOIN pkbackoffice.acc_1102050101_307 ac ON ac.vn = v.vn                   
                 WHERE month(o.vstdate) = "'.$months.'"  
                 AND year(o.vstdate) = "'.$year.'"
                 AND v.nhso_docno  <> ""
+                AND ac.acc_1102050101_307_id <> ""
+                GROUP BY v.vn
+
+                UNION all
+ 
+                SELECT ac.acc_1102050101_307_id,a.an,ac.vn,ac.vstdate,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno 
+                FROM hos.an_stat a
+                LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
+                LEFT JOIN pkbackoffice.acc_1102050101_307 ac ON ac.an = a.an
+                WHERE month(a.dchdate) = "'.$months.'" 
+                AND year(a.dchdate) = "'.$year.'"
+                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> "" AND ac.acc_1102050101_307_id <> ""
+                GROUP BY a.an
             ');
             foreach ($sync as $key => $value) {
                
-                if ($value->nhso_docno != '') {
+                // if ($value->nhso_docno != '') {
                      
                     Acc_1102050101_307::where('vn',$value->vn) 
                         ->update([ 
-                            'nhso_docno'      => $value->nhso_docno 
+                            'nhso_docno'           => $value->nhso_docno 
                     ]);
-                    return response()->json([
-                        'status'    => '200'
-                    ]);
-                } else {
-                    return response()->json([
-                        'status'    => '100'
-                    ]);
-                } 
+                    // return response()->json([
+                    //     'status'    => '200'
+                    // ]);
+                // } else {
+                //     return response()->json([
+                //         'status'    => '100'
+                //     ]);
+                // } 
             }
             return response()->json([
                 'status'    => '200'

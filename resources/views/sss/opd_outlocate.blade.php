@@ -38,7 +38,19 @@
             <div class="row">                   
                     <div class="col"></div>
                     <div class="col-md-1 text-end">วันที่</div>
-                    <div class="col-md-2 text-center"> 
+
+                    <div class="col-md-3 text-end"> 
+                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $startdate }}" required/>
+                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $enddate }}" required/>  
+                        </div> 
+                    </div>
+
+                    {{-- <div class="col-md-2 text-center"> 
                         <div class="input-group" id="datepicker1">
                             <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startdate" id="startdate"
                                 data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" value="{{$startdate}}">
@@ -54,11 +66,10 @@
 
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                         </div> 
-                    </div>
+                    </div> --}}
                     <div class="col-md-2"> 
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-magnifying-gla
-                            ss me-2"></i>
+                        <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                            <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>
                             ค้นหา
                         </button>
                     </div>
@@ -169,11 +180,24 @@
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
-            $('#example2').DataTable();
-
+            $('#example2').DataTable(); 
             $('select').select2();
             $('#ECLAIM_STATUS').select2({
                 dropdownParent: $('#detailclaim')
+            });
+
+            $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            $('#datepicker3').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker4').datepicker({
+                format: 'yyyy-mm-dd'
             });
             $.ajaxSetup({
                 headers: {

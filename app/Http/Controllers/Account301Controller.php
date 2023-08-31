@@ -290,16 +290,10 @@ class Account301Controller extends Controller
         $acc_debtor = DB::connection('mysql3')->select('
             SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                    ,o.vstdate as vstdate
-                    ,setdate(o.vstdate) as vstdate2
-                    ,totime(o.vsttime) as vsttime
-                    ,v.hospmain,op.income as income_group 
+                    ,o.vstdate ,totime(o.vsttime) as vsttime ,v.hospmain,op.income as income_group 
                     ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-                    ,ptt.pttype_eclaim_id
-                    ,o.pttype
-                    ,e.gf_opd as gfmis,e.code as acc_code
-                    ,e.ar_opd as account_code
-                    ,e.name as account_name
+                    ,ptt.pttype_eclaim_id ,o.pttype ,e.code as acc_code
+                    ,e.ar_opd as account_code ,e.name as account_name
                     ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
                     ,v.rcpno_list as rcpno
                     ,v.income-v.discount_money-v.rcpt_money as debit
@@ -316,10 +310,14 @@ class Account301Controller extends Controller
             LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
             LEFT JOIN opitemrece op ON op.vn = o.vn
             WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            AND v.pttype = "A7" AND v.hospmain = "10702" AND v.income <> 0
+            AND v.pttype = "A7" 
+             
+            AND v.income <> 0
             and (o.an="" or o.an is null)
             GROUP BY o.vn
         ');
+
+        // AND v.hospmain = "10702"
 
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.301')->whereBetween('vstdate', [$startdate, $enddate])->count();
