@@ -448,10 +448,11 @@ use App\Models\Products_request_sub;
                                 <li><a href="{{ url('uprep_money') }}">ลงใบเสร็จรับเงิน</a></li>  
                                 <li><a href="javascript: void(0);" class="has-arrow">ลงใบเสร็จรับเงินรายตัว</a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('uprep_sss_304') }}">SSS-304</a></li> 
-                                        <li><a href="{{ url('uprep_sss_307') }}">SSS-307</a></li> 
-                                        <li><a href="{{ url('uprep_sss_308') }}">SSS-308</a></li> 
-                                        <li><a href="{{ url('uprep_sss_309') }}">SSS-309</a></li> 
+                                        {{-- <li><a href="{{ url('uprep_sss_304') }}">SSS-304</a></li>  --}}
+                                        {{-- <li><a href="{{ url('uprep_sss_307') }}">SSS-307</a></li>  --}}
+                                        {{-- <li><a href="{{ url('uprep_sss_308') }}">SSS-308</a></li>  --}}
+                                        {{-- <li><a href="{{ url('uprep_sss_309') }}">SSS-309</a></li>  --}}
+                                        <li><a href="{{ url('uprep_sss_all') }}">ประกันสังคม</a>
                                         <li><a href="{{ url('uprep_money_plb') }}">พรบ</a>
                                         </li>
                                     </ul>
