@@ -156,46 +156,28 @@
                                             // AND status = "N"
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select('
-                                                    SELECT count(DISTINCT U1.vn) as Apvit ,sum(U2.payprice) as payprice
-                                                        FROM acc_1102050102_602 U1
-                                                        LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
-                                                        WHERE year(U1.vstdate) = "'.$item->year.'"
-                                                        AND month(U1.vstdate) = "'.$item->months.'"
-                                                        AND U2.acc_1102050102_602_sid IS NOT NULL
-
+                                                SELECT count(DISTINCT U1.vn) as Apvit ,sum(U1.nhso_ownright_pid) as nhso_ownright_pid
+                                                from acc_1102050102_602 U1 
+                                                WHERE month(U1.vstdate) = "'.$item->months.'" AND year(U1.vstdate) = "'.$item->year.'"
+                                                AND U1.nhso_ownright_pid is not null
                                                 ');
                                              
                                                 foreach ($sumapprove_ as $key => $value3) {
-                                                    $amountpay = $value3->payprice;
-                                                    $stm_count = $value3->Apvit;
+                                                    $stm_count    = $value3->Apvit;
+                                                    $sum_stm      = $value3->nhso_ownright_pid;
                                                 }
-                                                // สีส้ม ยกยอดไป
-                                                $sumyokma_ = DB::select('
-                                                    SELECT count(DISTINCT vn) as anyokma ,sum(debit_total) as debityokma
-                                                            FROM acc_1102050102_602
-                                                            WHERE year(vstdate) = "'.$item->year.'"
-                                                            AND month(vstdate) = "'.$item->months.'"
-                                                            AND status ="N"
-                                                ');
-                                                foreach ($sumyokma_ as $key => $value5) {
-                                                    $total_yokma = $value5->debityokma;
-                                                    $count_yokma = $value5->anyokma;
-                                                }
-                                                $mo = $item->months;
-                                                $sumyokma_all_ = DB::select('
-                                                    SELECT count(DISTINCT U1.vn) as anyokma ,sum(U1.debit_total) as debityokma
-                                                            FROM acc_1102050102_602 U1
-                                                            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id  
-                                                            WHERE U1.status ="N"
-                                                            AND month(U1.vstdate) < "'.$mo.'"
-                                                            and year(U1.vstdate) = "'.$item->year.'"
-                                                            AND U2.acc_1102050102_602_sid IS NULL
-                                                ');
 
-                                                foreach ($sumyokma_all_ as $key => $value6) {
-                                                    $total_yokma_all = $value6->debityokma + $total_yokma;
-                                                    $count_yokma_all = $value6->anyokma + $count_yokma;
+                                                if ( $sum_Y > $sum_stm) {
+                                                    $yokpai_ = $sum_Y - $sum_stm;
+                                                    $yokpai = '-'.$yokpai_;
+
+                                                    $yokpaicount = $count_Y - $stm_count;
+                                                } else {
+                                                    $yokpai_ = $sum_stm - $sum_Y;
+                                                    $yokpai = '+'.$yokpai_;
+                                                    $yokpaicount = $stm_count - $count_Y;
                                                 }
+                                                
 
                                         ?>
                                         <div class="row">
@@ -268,7 +250,7 @@
                                                 <a href="{{url('account_602_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
-                                                                {{ number_format($amountpay, 2) }}
+                                                                {{ number_format($sum_stm, 2) }}
                                                                 <i class="fa-brands fa-btc text-success ms-2"></i>
                                                         </p>
                                                     </div>
@@ -289,8 +271,8 @@
                                             <div class="col-md-4 text-end me-4">
                                                 <a href="{{url('account_602_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma}} Visit">
-                                                                {{ number_format($total_yokma, 2) }}
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">
+                                                                {{ number_format($yokpai, 2) }}
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>
@@ -298,7 +280,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="col-md-1 text-start ms-4">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(10, 124, 201)"></i>
                                             </div>
@@ -318,7 +300,7 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> --}}
 
 
                                     </div>
@@ -333,7 +315,7 @@
         </div>
 
     </div>
-
+    <br><br><br> 
 @endsection
 @section('footer')
     <script>

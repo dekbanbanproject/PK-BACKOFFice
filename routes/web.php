@@ -1601,6 +1601,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_602_stmnull/{months}/{year}',[App\Http\Controllers\Account602Controller::class, 'account_602_stmnull'])->name('acc.account_602_stmnull');//
     Route::match(['get','post'],'account_602_stmnull_all/{months}/{year}',[App\Http\Controllers\Account602Controller::class, 'account_602_stmnull_all'])->name('acc.account_602_stmnull_all');//
     Route::match(['get','post'],'account_602_stam',[App\Http\Controllers\Account602Controller::class, 'account_602_stam'])->name('acc.account_602_stam');//  stamp OPD
+    Route::match(['get','post'],'account_602_syncall',[App\Http\Controllers\Account602Controller::class, 'account_602_syncall'])->name('acc.account_602_syncall');//
 
     Route::match(['get','post'],'account_603_dash',[App\Http\Controllers\Account603Controller::class, 'account_603_dash'])->name('acc.account_603_dash');//
     Route::match(['get','post'],'account_603_pull',[App\Http\Controllers\Account603Controller::class, 'account_603_pull'])->name('acc.account_603_pull');//

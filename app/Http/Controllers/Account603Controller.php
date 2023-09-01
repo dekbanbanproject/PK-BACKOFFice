@@ -334,6 +334,7 @@ class Account603Controller extends Controller
                 AND year(a.dchdate) = "'.$year.'" 
                 AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> "" AND ac.acc_1102050102_603_id <> ""
                 GROUP BY a.an
+                
             ');
             foreach ($sync as $key => $value) { 
                      
@@ -349,7 +350,7 @@ class Account603Controller extends Controller
         
         
     }
-      public function account_603_stm(Request $request,$months,$year)
+    public function account_603_stm(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -372,6 +373,34 @@ class Account603Controller extends Controller
         //         WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
         //         GROUP BY U1.an
         return view('account_603.account_603_stm', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow,
+            'months'            =>     $months,
+            'year'              =>     $year,
+
+        ]);
+    }
+
+    public function account_603_stmnull(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+                SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+                    from acc_1102050102_603 U1
+                    
+                    WHERE month(U1.dchdate) = "'.$months.'"
+                    and year(U1.dchdate) = "'.$year.'"
+                    AND U1.nhso_ownright_pid IS NULL
+                    GROUP BY U1.an
+        ');
+       
+        return view('account_603.account_603_stmnull', $data, [
             'startdate'         =>     $startdate,
             'enddate'           =>     $enddate,
             'datashow'          =>     $datashow,

@@ -434,7 +434,7 @@ class Account307Controller extends Controller
         $months = $request->months;
         $year = $request->year;
         $sync = DB::connection('mysql')->select('
-                SELECT ac.acc_1102050101_307_id,o.an,v.vn,ac.vstdate,v.pttype,"" nhso_ownright_pid,v.nhso_docno 
+                SELECT ac.acc_1102050101_307_id,o.an,v.vn,ac.vstdate,v.pttype,v.nhso_ownright_pid,v.nhso_docno 
                 from hos.visit_pttype v
                 LEFT JOIN hos.ovst o ON o.vn = v.vn
                 LEFT JOIN pkbackoffice.acc_1102050101_307 ac ON ac.vn = v.vn                   

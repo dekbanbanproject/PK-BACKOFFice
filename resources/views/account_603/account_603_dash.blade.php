@@ -114,7 +114,7 @@
 
             </div>
         </form>
-        <div class="row ms-3 me-3">
+        <div class="row ms-3 me-3 ">
             @foreach ($datashow as $item)
             <div class="col-xl-4 col-md-12">
                 <div class="main-card card shadow" style="background-color: rgb(246, 235, 247)">
@@ -174,9 +174,11 @@
                                                 if ( $sum_Y > $sum_stm) {
                                                     $yokpai_ = $sum_Y - $sum_stm;
                                                     $yokpai = '-'.$yokpai_;
+                                                    $yokpaicount = $count_Y - $stm_count;
                                                 } else {
                                                     $yokpai_ = $sum_stm - $sum_Y;
                                                     $yokpai = '+'.$yokpai_;
+                                                    $yokpaicount = $stm_count - $count_Y;
                                                 }
                                                 
                                         ?>
@@ -205,14 +207,14 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="" target="_blank">
+                                                {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
                                                                 {{ number_format($sum_N, 2) }}
                                                                 <i class="fa-brands fa-btc text-secondary ms-2"></i>
                                                         </p>
                                                     </div>
-                                                </a>
+                                                {{-- </a> --}}
                                             </div>
                                         </div>
                                         <div class="row">
@@ -270,9 +272,9 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                {{-- <a href="" target="_blank"> --}}
+                                                <a href="{{url('account_603_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">
                                                             @if ($yokpai > 0)
                                                             + {{ number_format($yokpai, 2) }} 
                                                             @else
@@ -282,7 +284,7 @@
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>
-                                                {{-- </a> --}}
+                                                </a>  
                                             </div>
                                         </div>
 
@@ -321,7 +323,7 @@
         </div>
 
     </div>
-
+<br><br><br> 
 @endsection
 @section('footer')
     <script>

@@ -79,9 +79,12 @@ $pos = strrpos($url, '/') + 1;
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050102_602 
+                    รายละเอียด 1102050102_603
                     <div class="btn-actions-pane-right">
-                        
+                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                            <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
+                            Sync Data All 
+                    </button> --}}
                     </div>
                     </div>
                     <div class="card-body">
@@ -94,16 +97,13 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">ลำดับ</th>
                                     {{-- <th class="text-center" width="5%">repno</th> --}} 
                                     <th class="text-center" >vn</th>
-                                    {{-- <th class="text-center">an</th>  --}}
+                                    <th class="text-center">an</th> 
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
-                                    <th class="text-center">ptname</th>
-                                   
-                                  
-                                    <th class="text-center">vstdate</th>
-                                    {{-- <th class="text-center">dchdate</th> --}}
-                                    <th class="text-center">pttype</th>
-                                   
+                                    <th class="text-center">ptname</th> 
+                                    {{-- <th class="text-center">vstdate</th> --}}
+                                    <th class="text-center">dchdate</th>
+                                    <th class="text-center">pttype</th> 
                                     <th class="text-center">ลูกหนี้</th>
                                     <th class="text-center">รับจริง Hos</th>
                                     <th class="text-center">Sync Data / เลขหนังสือ </th>
@@ -128,14 +128,12 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
                                             {{-- <td class="text-center" width="10%">{{ $item->repno }}</td>   --}}
                                                     <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                                    {{-- <td class="text-center" width="10%">{{ $item->an }}</td>  --}}
+                                                    <td class="text-center" width="10%">{{ $item->an }}</td> 
                                                     <td class="text-center" width="10%">{{ $item->hn }}</td>   
                                                     <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                     <td class="p-2" >{{ $item->ptname }}</td>  
-                                                   
-                                                   
-                                                    <td class="text-center" width="10%">{{ $item->vstdate }}</td>  
-                                                    {{-- <td class="text-center" width="10%">{{ $item->dchdate }}</td>    --}}
+                                                    {{-- <td class="text-center" width="10%">{{ $item->vstdate }}</td>   --}}
+                                                    <td class="text-center" width="10%">{{ $item->dchdate }}</td>   
                                                     <td class="text-center" width="10%">{{ $item->pttype }}</td> 
                                                    
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>  
@@ -152,7 +150,7 @@ $pos = strrpos($url, '/') + 1;
                                                             ยังไม่ได้ลงเลขหนังสือ
                                                             </button> 
                                                         @endif 
-                                                    </td>                                                  
+                                                    </td>               
                                                 </td>
                                         </tr>
                                         
@@ -194,7 +192,79 @@ $pos = strrpos($url, '/') + 1;
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
- 
+
+            $('.PulldataAll').click(function() {  
+                var months = $('#months').val();
+                var year = $('#year').val();
+                // alert(months);
+                Swal.fire({
+                        title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
+                        text: "You Sync Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Sync it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show();  
+                                
+                                $.ajax({
+                                    url: "{{ url('account_603_syncall') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {months,year},
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ซิ้งค์ข้อมูลสำเร็จ',
+                                                text: "You Sync data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+
+                                        } else if (data.status == 100) { 
+                                            Swal.fire({
+                                                title: 'ยังไม่ได้ลงเลขที่หนังสือ',
+                                                text: "Please enter the number of the book.",
+                                                icon: 'warning',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                   
+                                                }
+                                            })
+                                            
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+        });
+          
 
         });
     </script>
