@@ -1313,7 +1313,8 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'ipd_chai_an/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_an'])->name('sss.ipd_chai_an');//
      Route::match(['get','post'],'ipd_chai_rep/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_rep'])->name('sss.ipd_chai_rep');//
      Route::match(['get','post'],'ipd_chai_norep/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_norep'])->name('sss.ipd_chai_norep');//
-
+     Route::match(['get','post'],'ipd_chaino/{months}/{year}',[App\Http\Controllers\SssController::class, 'ipd_chaino'])->name('sss.ipd_chaino');//
+     Route::match(['get','post'],'ipd_chairep/{months}/{year}',[App\Http\Controllers\SssController::class, 'ipd_chairep'])->name('sss.ipd_chairep');//
      Route::match(['get','post'],'ipd_chai_vn/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'ipd_chai_vn'])->name('sss.ipd_chai_vn');//
 
      Route::match(['get','post'],'opd_outlocate',[App\Http\Controllers\SssController::class, 'opd_outlocate'])->name('sss.opd_outlocate');//

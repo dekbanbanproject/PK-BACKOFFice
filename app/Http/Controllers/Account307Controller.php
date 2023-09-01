@@ -374,6 +374,29 @@ class Account307Controller extends Controller
             'year'       =>     $year
         ]);
     }
+    public function account_307_stm(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        // $startdate = $request->startdate;
+        // $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050101_307 U1
+             
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
+                AND U1.recieve_no is not null
+                GROUP BY U1.vn
+        ');
+        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        return view('account_307.account_307_stm', $data, [ 
+            'data'       =>     $data,
+            'months'     =>     $months,
+            'year'       =>     $year
+        ]);
+    }
 
     public function account_307_sync(Request $request)
     {

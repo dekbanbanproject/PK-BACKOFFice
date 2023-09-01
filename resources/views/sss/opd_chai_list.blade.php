@@ -62,7 +62,7 @@
                         </div> 
                     </div>
                     <div class="col-md-2"> 
-                        <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" > 
+                        <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" > 
                             <i class="fa-solid fa-magnifying-glass me-2"></i>
                             ค้นหา</button>    
                         

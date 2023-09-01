@@ -38,7 +38,7 @@
             <div class="row">                   
                     <div class="col"></div>
                     <div class="col-md-1 text-end">วันที่</div>
-                    <div class="col-md-2 text-center"> 
+                    {{-- <div class="col-md-2 text-center"> 
                         <div class="input-group" id="datepicker1">
                             <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="startdate" id="startdate"
                                 data-date-format="yyyy-mm-dd" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" value="{{$startdate}}">
@@ -54,11 +54,18 @@
 
                             <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                         </div> 
+                    </div> --}}
+                    <div class="col-md-4 text-end">
+                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $startdate }}" required/>
+                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                data-date-language="th-th" value="{{ $enddate }}"/>  
+                        </div> 
                     </div>
                     <div class="col-md-2"> 
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-magnifying-gla
-                            ss me-2"></i>
+                        <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>
                             ค้นหา
                         </button>
                     </div>
@@ -92,7 +99,30 @@
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                @foreach ($datashow as $item)                                            
+                                @foreach ($datashow as $item)  
+                                    <?php 
+                                            // $data_claim_ = DB::connection('mysql3')->select('  
+                                            //             select year(a.dchdate) as year
+                                            //             ,month(a.dchdate) as months
+                                            //             ,count(distinct a.an) as an
+                                            //             ,sum(a.an and a.an in (select an from ipt_pttype where an is not null and claim_code ="1")) as noman
+                                            //             ,sum(a.an and a.an in (select an from ipt_pttype where an is not null and claim_code is null)) as nonoman
+                                            //             ,round(sum(ii.adjrw),2) as adjrw
+                                            //             ,sum(vp.nhso_ownright_pid) as nhso_ownright_pid,sum(vp.nhso_ownright_name) as nhso_ownright_name
+                                            //             ,100*sum(a.an and a.an in (select an from ipt_pttype where an is not null and claim_code ="1"))/count(distinct a.an) as sumclaim_code
+                                            //             from an_stat a
+                                            //             left outer join pttype p on p.pttype = a.pttype
+                                            //             left outer join icd9cm1 i on i.code in("op0","op1","op2","op3","op4","op5","op6")
+                                            //             left outer join ipt_pttype vp on vp.an = a.an
+                                            //             left outer join ipt ii on ii.an = a.an
+                                            //             where and year(a.dchdate) = "'.$item->year.'"
+                                            //             and a.pttype in("a7")
+                                            //             and month(a.dchdate) = "'.$item->months.'"
+                                            //     '); 
+                                            //     foreach ($data_claim_ as $key => $value) {
+                                            //         $claim = $value->repvn;
+                                            //     }
+                                        ?>                                             
                                         <tr>
                                             <td>{{$i++ }}</td>
                                             <td>{{$item->year}}</td> 
@@ -126,10 +156,10 @@
                                                 <a href="{{url('ipd_chai_an/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->an }}</a>                                           
                                              </td>                                            
                                             <td class="text-center" >
-                                                <a href="{{url('ipd_chai_rep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->noman }}</a> 
+                                                <a href="{{url('ipd_chairep/'.$item->months.'/'.$item->year)}}" target="_blank">{{ $item->noman }}</a> 
                                             </td>  
                                             <td class="text-center">
-                                                <a href="{{url('ipd_chai_norep/'.$item->months.'/'.$startdate.'/'.$enddate)}}" target="_blank">{{ $item->nonoman }}</a>   
+                                                <a href="{{url('ipd_chaino/'.$item->months.'/'.$item->year)}}" target="_blank">{{ $item->nonoman }}</a>   
                                             </td> 
                                             <td class="text-center">{{ $item->adjrw }}</td> 
                                             <td class="text-center">{{ $item->nhso_ownright_pid }}</td> 
@@ -161,6 +191,19 @@
             $('select').select2();
             $('#ECLAIM_STATUS').select2({
                 dropdownParent: $('#detailclaim')
+            });
+            $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            $('#datepicker3').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker4').datepicker({
+                format: 'yyyy-mm-dd'
             });
             $.ajaxSetup({
                 headers: {

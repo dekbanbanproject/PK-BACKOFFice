@@ -406,6 +406,10 @@ class Account602Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
 
         if ($startdate == '') {
             $datashow = DB::select('
@@ -417,10 +421,11 @@ class Account602Controller extends Controller
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
+                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050102.602"
                     and income <> 0
-                    group by month(a.vstdate) order by month(a.vstdate) desc limit 3;
+                    group by month(a.vstdate) 
+                    order by month(a.vstdate) desc limit 6;
             ');
 
         } else {
@@ -436,7 +441,8 @@ class Account602Controller extends Controller
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050102.602"
                     and income <>0
-                    group by month(a.vstdate) order by month(a.vstdate) desc;
+                    group by month(a.vstdate) 
+                    order by month(a.vstdate) desc;
             ');
         }
 
@@ -562,7 +568,7 @@ class Account602Controller extends Controller
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
             //  $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->where('account_code','1102050101.4011')->count();
-                $check = Acc_debtor::where('vn', $value->vn)->count();
+                $check = Acc_1102050102_602::where('vn', $value->vn)->count();
                 if ($check > 0) {
                 # code...
                 } else {
@@ -609,13 +615,14 @@ class Account602Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.acc_1102050102_602_id,U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice
+       
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
             from acc_1102050102_602 U1
-            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
-            WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+         
+            WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"           
             GROUP BY U1.vn
         ');
-
+        // AND U1.recieve_no is not null
         return view('account_602.account_602_detail', $data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,

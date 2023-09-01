@@ -1074,34 +1074,30 @@ class SssController extends Controller
         public function ipd_chai_norep(Request $request,$months,$startdate,$enddate)
         {   
 
-                        $datashow = DB::connection('mysql3')->select('
-                     
-
-                        select v.hn,o.hn,o.an,v.pdx,o.vstdate,v.dchdate ,concat(p.pname,p.fname," ",p.lname) as fullname,n.name as nname,n.billcode,o.qty,o.sum_price*o.qty as total 
-                        ,vp.claim_code,vp.nhso_docno,vp.max_debt_amount,o.icode,vp.nhso_ownright_pid,i.regdate,i.regtime,p.cid
-                        ,i.dchtime,ss.name as wardnamepay,d.name as typename,dd.name as typepay,v.pdx,v.income,v.pttype,s.name as wardname
-                        FROM opitemrece o
-                        left join an_stat v on v.an=o.an
-                        left outer join ipt i on i.an = v.an
-                        left outer join spclty s on s.spclty = i.spclty
-                        left outer join spclty ss on ss.spclty = i.ipt_spclty
-                        left outer join dchstts d on d.dchstts = i.dchstts
-                        left outer join dchtype dd on dd.dchtype = i.dchtype
-                        left outer join ipt_pttype vp on vp.an = o.an
-                        left outer join pttype pt on pt.pttype = o.pttype
-                        left outer join hospcode h on h.hospcode = vp.hospmain
-                        LEFT JOIN nondrugitems n on n.icode = o.icode
-                        LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
-                        left join patient p on p.hn = v.hn
-                        where v.dchdate between "'.$startdate.'" AND "'.$enddate.'"
-                        and month(v.dchdate) = "'.$months.'" 
-                        and o.income="02" 
-                        and o.pttype="a7"
-                        and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
-                        and n.billcode like "8%"
-                        and n.billcode not in ("8608","8628","8361","8543","8152","8660")
-                        
-                               
+                        $datashow = DB::connection('mysql3')->select(' 
+                                select v.hn,o.hn,o.an,v.pdx,o.vstdate,v.dchdate ,concat(p.pname,p.fname," ",p.lname) as fullname,n.name as nname,n.billcode,o.qty,o.sum_price*o.qty as total 
+                                ,vp.claim_code,vp.nhso_docno,vp.max_debt_amount,o.icode,vp.nhso_ownright_pid,i.regdate,i.regtime,p.cid
+                                ,i.dchtime,ss.name as wardnamepay,d.name as typename,dd.name as typepay,v.pdx,v.income,v.pttype,s.name as wardname
+                                FROM opitemrece o
+                                left join an_stat v on v.an=o.an
+                                left outer join ipt i on i.an = v.an
+                                left outer join spclty s on s.spclty = i.spclty
+                                left outer join spclty ss on ss.spclty = i.ipt_spclty
+                                left outer join dchstts d on d.dchstts = i.dchstts
+                                left outer join dchtype dd on dd.dchtype = i.dchtype
+                                left outer join ipt_pttype vp on vp.an = o.an
+                                left outer join pttype pt on pt.pttype = o.pttype
+                                left outer join hospcode h on h.hospcode = vp.hospmain
+                                LEFT JOIN nondrugitems n on n.icode = o.icode
+                                LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
+                                left join patient p on p.hn = v.hn
+                                where v.dchdate between "'.$startdate.'" AND "'.$enddate.'"
+                                and month(v.dchdate) = "'.$months.'" 
+                                and o.income="02" 
+                                and o.pttype="a7"
+                                and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
+                                and n.billcode like "8%"
+                                and n.billcode not in ("8608","8628","8361","8543","8152","8660")     
                         '); 
                         // and v.pttype in("a7")
                         // and (vp.claim_code is null or vp.claim_code="2")
@@ -1131,6 +1127,70 @@ class SssController extends Controller
                                 'datashow'   =>  $datashow,
                                 'startdate'  =>  $startdate,
                                 'enddate'    =>  $enddate,
+                        ]);
+        }
+        public function ipd_chairep(Request $request,$months,$year)
+        {   
+                        $datashow = DB::connection('mysql3')->select(' 
+                                
+                                select v.hn,v.an,concat(p.pname,p.fname," ",p.lname) as fullname,p.cid,concat(day(p.birthday),"/",month(p.birthday),"/",year(p.birthday)+543) as birth,
+                                v.regdate,i.regtime,s.name as wardname,v.dchdate,i.dchtime,ss.name as payward,
+                                d.name as status,dd.name as typename,v.pdx,v.income,v.pttype,ddd.name as doctor,ddd.licenseno,pp.claim_code
+                                
+                                from an_stat v
+                                left outer join opdscreen oo on oo.vn = v.vn
+                                left outer join patient p on p.hn = v.hn
+                                left outer join ipt i on i.an = v.an 
+                                left outer join spclty s on s.spclty = i.spclty
+                                left outer join spclty ss on ss.spclty = i.ipt_spclty
+                                left outer join dchstts d on d.dchstts = i.dchstts
+                                left outer join dchtype dd on dd.dchtype = i.dchtype
+                                left outer join doctor ddd on ddd.code = i.dch_doctor
+                                left outer join ipt_pttype pp on pp.an = v.an
+                                where year(v.dchdate) = "'.$year.'" 
+                                and v.pttype in("a7")
+                                and month(v.dchdate) = "'.$months.'" 
+                                and pp.claim_code is not null
+                                group by v.an
+                        '); 
+                        
+ 
+                        return view('sss.ipd_chairep',[
+                                'datashow'   =>  $datashow,
+                                'year'       =>  $year,
+                                'months'     =>  $months,
+                        ]);
+        }
+        public function ipd_chaino(Request $request,$months,$year)
+        {   
+                        $datashow = DB::connection('mysql3')->select(' 
+                                
+                                select v.hn,v.an,concat(p.pname,p.fname," ",p.lname) as fullname,p.cid,concat(day(p.birthday),"/",month(p.birthday),"/",year(p.birthday)+543) as birth,
+                                v.regdate,i.regtime,s.name as wardname,v.dchdate,i.dchtime,ss.name as payward,
+                                d.name as status,dd.name as typename,v.pdx,v.income,v.pttype,ddd.name as doctor,ddd.licenseno,pp.claim_code
+                                
+                                from an_stat v
+                                left outer join opdscreen oo on oo.vn = v.vn
+                                left outer join patient p on p.hn = v.hn
+                                left outer join ipt i on i.an = v.an 
+                                left outer join spclty s on s.spclty = i.spclty
+                                left outer join spclty ss on ss.spclty = i.ipt_spclty
+                                left outer join dchstts d on d.dchstts = i.dchstts
+                                left outer join dchtype dd on dd.dchtype = i.dchtype
+                                left outer join doctor ddd on ddd.code = i.dch_doctor
+                                left outer join ipt_pttype pp on pp.an = v.an
+                                where year(v.dchdate) = "'.$year.'" 
+                                and v.pttype in("a7")
+                                and month(v.dchdate) = "'.$months.'" 
+                                and pp.claim_code is null
+                                group by v.an
+                        '); 
+                        
+ 
+                        return view('sss.ipd_chaino',[
+                                'datashow'   =>  $datashow,
+                                'year'       =>  $year,
+                                'months'     =>  $months,
                         ]);
         }
         public function ipd_chai_norep____(Request $request,$months,$startdate,$enddate)

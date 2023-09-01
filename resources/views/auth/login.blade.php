@@ -62,7 +62,7 @@
             <a href="" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                  <img src="{{ asset('medical/assets/img/logo150.png') }}" alt="" class="me-2">  
-                <h2 class="mt-2">PHUKIEO CHALERMPRAKIAT HOSPITAL<span></span></h2>
+                <h2 class="mt-2">Phukieo Chalermprakiat Hospital<span></span></h2>
             </a>
 
             <nav id="navbar" class="navbar">
@@ -210,7 +210,7 @@
 
     <section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
         <div class="container d-flex flex-column align-items-center position-relative" data-aos="zoom-out">
-            <h2>Welcome to <span>PHUKIEO CHALERMPRAKIAT HOSPITAL</span></h2>
+            <h2>Welcome to <span>Phukieo Chalermprakiat Hospital</span></h2>
             <p>เป็นโรงพยาบาลตัวอย่าง ด้านคุณภาพความปลอดภัยและประทับใจ.</p>
             <div class="d-flex">
                 <a href="#about" class="btn-get-started scrollto">Get Started</a>
@@ -235,7 +235,7 @@
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-activity icon"></i></div>
                             <h4><a href="" class="stretched-link">ข่าวสาร</a></h4>
-                            <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                            <p>News</p>
                         </div>
                     </div><!-- End Service Item -->
 
@@ -243,7 +243,7 @@
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
                             <h4><a href="" class="stretched-link">ประชาสัมพันธ์</a></h4>
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                            <p>public relations</p>
                         </div>
                     </div><!-- End Service Item -->
 
@@ -251,15 +251,15 @@
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
                             <h4><a href="" class="stretched-link">ประกาศจัดซื้อจัดจ้าง</a></h4>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+                            <p>Procurement Announcement</p>
                         </div>
                     </div><!-- End Service Item -->
 
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
                         <div class="service-item position-relative">
                             <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                            <h4><a href="" class="stretched-link">ประกาศรับสมัครงาน/ผลสอบ</a></h4>
-                            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                            <h4><a href="" class="stretched-link">ประกาศรับสมัครงาน<br>และผลสอบ</a></h4>
+                            <p>Job announcement</p>
                         </div>
                     </div><!-- End Service Item -->
 
