@@ -119,9 +119,12 @@
                             <input type="hidden" name="account" id="editaccount_code" value="{{$account}}">                         
                     </div>
                     <div class="card-footer">
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
-                            <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
-                        </button>
+                        <div class="btn-actions-pane-right">
+                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
+                                <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
+                            </button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
