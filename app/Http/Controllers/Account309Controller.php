@@ -200,34 +200,34 @@ class Account309Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select('  
-                    SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-                            ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                            ,o.vstdate as vstdate
-                            ,setdate(o.vstdate) as vstdate2
-                            ,totime(o.vsttime) as vsttime
-                            ,v.hospmain,op.income as income_group 
-                            ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-                            ,ptt.pttype_eclaim_id
-                            ,o.pttype
-                            ,e.gf_opd as gfmis,e.code as acc_code
-                            ,e.ar_opd as account_code
-                            ,e.name as account_name
-                            ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                            ,v.rcpno_list as rcpno
-                            ,v.income-v.discount_money-v.rcpt_money as debit
-                            ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-                            ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                            ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                            ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                            ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                            ,ptt.max_debt_money
-                    from ovst o
-                    left join vn_stat v on v.vn=o.vn
-                    left join patient pt on pt.hn=o.hn
-                    LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-                    LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                    LEFT JOIN opitemrece op ON op.vn = o.vn
+            $acc_debtor = DB::connection('mysql')->select('   
+                    SELECT o.vn,ifnull(o.an,"") as an,o.hn,pt.cid as cid
+                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                    ,o.vstdate as vstdate 
+                    ,o.vsttime ,v.hospmain,op.income as income_group  
+                    ,ptt.pttype_eclaim_id
+                    ,v.pttype
+                    ,e.code as acc_code
+                    ,e.ar_opd as account_code
+                    ,e.name as account_name
+                    ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
+                    ,v.rcpno_list as rcpno
+                    ,vp.nhso_ownright_pid
+                    ,format(vp.nhso_ownright_pid-v.uc_money,2) as sauntang
+                    ,v.income-v.discount_money-v.rcpt_money as looknee
+                    ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    ,vp.max_debt_amount
+                    from hos.ovst o
+                    left join hos.vn_stat v on v.vn=o.vn
+                    left join hos.patient pt on pt.hn=o.hn
+                    LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn
+                    LEFT JOIN hos.pttype ptt on o.pttype=ptt.pttype
+                    LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND v.pttype = "14" AND v.income <> 0
                     and (o.an="" or o.an is null)
@@ -246,7 +246,7 @@ class Account309Controller extends Controller
                             'ptname'             => $value->ptname,
                             'pttype'             => $value->pttype,
                             'vstdate'            => $value->vstdate,
-                            'ptsubtype'          => $value->ptsubtype,
+                            // 'ptsubtype'          => $value->ptsubtype,
                             'pttype_eclaim_id'   => $value->pttype_eclaim_id,
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
@@ -257,15 +257,15 @@ class Account309Controller extends Controller
                             'discount_money'     => $value->discount_money,
                             'paid_money'         => $value->paid_money,
                             'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
+                            'debit'              => $value->looknee,
                             'debit_drug'         => $value->debit_drug,
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer, 
                             'fokliad'            => $value->fokliad,
                             // 'debit_total'        => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_toa - $value->debit_refer,
-                            'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_money,
+                            'debit_total'        => $value->looknee,
+                            'max_debt_amount'    => $value->max_debt_amount,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }

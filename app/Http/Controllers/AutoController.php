@@ -1352,5 +1352,192 @@ class AutoController extends Controller
 
     }
 
+    public function check_304(Request $request)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        // Db_authen_detail
+        $detail_auto = DB::connection('mysql')->select('  
+                SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
+                    ,ipt.pttype 
+                    ,"1102050101.304" as account_code
+                    ,"ประกันสังคม นอกเครือข่าย" as account_name 
+                    ,a.income as income ,a.uc_money,a.rcpt_money,a.discount_money
+                    ,a.income-a.rcpt_money-a.discount_money as debit
+                    
+                    ,ipt.nhso_ownright_pid as looknee
+                    ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    from hos.ipt ip
+                    LEFT JOIN hos.an_stat a ON ip.an = a.an
+                    LEFT JOIN hos.patient pt on pt.hn=a.hn
+                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype 
+                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
+                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                    WHERE a.dchdate BETWEEN "' . $start . '" AND "' . $end . '"
+                    AND ipt.pttype = "s7" AND ipt.nhso_ownright_pid IS NULL
+                    GROUP BY a.an;
+            ');
+
+            // a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            foreach ($detail_auto as $key => $value) {
+                    if ($value->looknee == '') {
+                     
+                        $linetoken = "xdj4Q5LeOBiKFX8mABHnVFbx6vLR9ft9LANllZ7PgTl";
+                        
+                        $datesend = date('Y-m-d'); 
+                        $header = "ผัง 304";
+                        $message = $header.
+                            "\n"."an : "               . $value->an. 
+                            "\n"."vn  : "              . $value->vn . 
+                            "\n"."hn  : "              . $value->hn .
+                            "\n"."cid  : "             . $value->cid .
+                            "\n"."ptname  : "          . $value->ptname .
+                            "\n"."dchdate  : "          . $value->dchdate .
+                            "\n"."debit  : "           . $value->debit; 
+                                    
+                            if($linetoken == null){
+                                $send_line ='';
+                            }else{
+                                $send_line = $linetoken;
+                            }
+
+                        if($send_line !== '' && $send_line !== null){  
+                                $chOne = curl_init();
+                                curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                                curl_setopt( $chOne, CURLOPT_POST, 1);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                                curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                                $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$send_line.'', );
+                                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                                curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                                $result = curl_exec( $chOne );
+                                //  if(curl_error($chOne)) { echo 'error:' . curl_error($chOne); }
+                                //     else { 
+                                //         $result_ = json_decode($result, true);
+                                //         echo "status : ".$result_['status']; echo "message : ". $result_['message'];
+                                //         //  return response()->json([
+                                //         //      'status'     => 200 , 
+                                //         //      ]);                                
+                                // }
+                                curl_close( $chOne );
+                                
+                        }
+                    } else {
+                        # code...
+                    }
+                  
+            }
+        return view('auto.check_304');
+    }
+
+    public function check_308(Request $request)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        $detail_auto = DB::connection('mysql')->select('  
+                    SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                    ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
+                    ,ipt.pttype,"1102050101.308" as account_code,"ประกันสังคม นอกเครือข่าย" as account_name 
+                    ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
+                    ,a.income-a.rcpt_money-a.discount_money as debit,ipt.max_debt_amount
+                    ,ipt.nhso_ownright_pid as looknee
+                    ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    from hos.ipt ip
+                    LEFT JOIN hos.an_stat a ON ip.an = a.an
+                    LEFT JOIN hos.patient pt on pt.hn=a.hn
+                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
+                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                    WHERE a.dchdate BETWEEN "' . $start . '" AND "' . $end . '" 
+                    AND ipt.pttype = "14" AND ipt.nhso_ownright_pid IS NULL
+                    GROUP BY a.an;
+            ');
+
+            // a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            foreach ($detail_auto as $key => $value) {
+                    if ($value->looknee == '') {
+                     
+                        $linetoken = "kYW8gGoxc6RwemXIUxsf7ojJGJpNLvDo0SdM4OMBn5W";
+                        
+                        $datesend = date('Y-m-d'); 
+                        $header = "ผัง 308";
+                        $message = $header.
+                            "\n"."an : "               . $value->an. 
+                            "\n"."vn  : "              . $value->vn . 
+                            "\n"."hn  : "              . $value->hn .
+                            "\n"."cid  : "             . $value->cid .
+                            "\n"."ptname  : "          . $value->ptname .
+                            "\n"."dchdate  : "          . $value->dchdate .
+                            "\n"."debit  : "           . $value->debit; 
+                                    
+                            if($linetoken == null){
+                                $send_line ='';
+                            }else{
+                                $send_line = $linetoken;
+                            }
+
+                        if($send_line !== '' && $send_line !== null){  
+                                $chOne = curl_init();
+                                curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                                curl_setopt( $chOne, CURLOPT_POST, 1);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                                curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                                $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$send_line.'', );
+                                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                                curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                                $result = curl_exec( $chOne );
+                                //  if(curl_error($chOne)) { echo 'error:' . curl_error($chOne); }
+                                //     else { 
+                                //         $result_ = json_decode($result, true);
+                                //         echo "status : ".$result_['status']; echo "message : ". $result_['message'];
+                                //         //  return response()->json([
+                                //         //      'status'     => 200 , 
+                                //         //      ]);                                
+                                // }
+                                curl_close( $chOne );
+                                
+                        }
+                    } else {
+                        # code...
+                    }
+                  
+            }
+        return view('auto.check_308');
+    }
+
 
 }

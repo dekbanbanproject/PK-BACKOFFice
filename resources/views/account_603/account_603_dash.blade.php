@@ -171,15 +171,28 @@
                                                     $stm_count = $value3->Apvit;
                                                 }
 
-                                                if ( $sum_Y > $sum_stm) {
-                                                    $yokpai_ = $sum_Y - $sum_stm;
-                                                    $yokpai = '-'.$yokpai_;
-                                                    $yokpaicount = $count_Y - $stm_count;
-                                                } else {
-                                                    $yokpai_ = $sum_stm - $sum_Y;
-                                                    $yokpai = '+'.$yokpai_;
-                                                    $yokpaicount = $stm_count - $count_Y;
-                                                }
+                                            $data_null = DB::select('
+                                                    SELECT count(DISTINCT an) as yokpai_an,sum(debit_total) as yokpai 
+                                                        from acc_1102050102_603 
+                                                        WHERE month(dchdate) = "'.$item->months.'"
+                                                        and year(dchdate) = "'.$item->year.'"
+                                                        AND nhso_ownright_pid IS NULL 
+                                            ');
+                                             foreach ($data_null as $key => $valnull) {
+                                                $countyokpia = $valnull->yokpai_an;
+                                                $sumyokpia = $valnull->yokpai;
+                                             }
+                                            
+
+                                            if ( $sum_Y > $sum_stm) {
+                                                $yokpai_ = $sum_Y - $sum_stm;
+                                                $yokpai = '-'.$yokpai_;
+                                                $yokpaicount = $count_Y - $stm_count;
+                                            } else {
+                                                $yokpai_ = $sum_stm - $sum_Y;
+                                                $yokpai = '+'.$yokpai_;
+                                                $yokpaicount = $stm_count - $count_Y;
+                                            }
                                                 
                                         ?>
                                         <div class="row">
@@ -274,13 +287,14 @@
                                             <div class="col-md-4 text-end me-4">
                                                 <a href="{{url('account_603_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">
+                                                        {{-- <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">
                                                             @if ($yokpai > 0)
                                                             + {{ number_format($yokpai, 2) }} 
                                                             @else
                                                             {{ number_format($yokpai, 2) }} 
-                                                            @endif
-                                                           
+                                                            @endif --}}
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$countyokpia}} Visit">
+                                                     {{ number_format($sumyokpia, 2) }} 
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>

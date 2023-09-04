@@ -157,14 +157,14 @@
                                             
                                             // STM
                                             $sumapprove_ = DB::select('
-                                                SELECT sum(recieve_true) as recieve_true,count(an) as Countvisit
+                                                SELECT sum(nhso_ownright_pid) as nhso_ownright_pid,count(an) as Countvisit
                                                     from acc_1102050101_308
                                                     where month(dchdate) = "'.$item->months.'"
                                                     AND year(dchdate) = "'.$item->year.'"
-                                                    AND recieve_true <> "" 
+                                                    AND nhso_ownright_pid <> "" 
                                             ');                                           
                                             foreach ($sumapprove_ as $key => $value3) {
-                                                $sum_stm = $value3->recieve_true; 
+                                                $sum_stm = $value3->nhso_ownright_pid; 
                                                 $count_stm = $value3->Countvisit; 
                                             }
                                             

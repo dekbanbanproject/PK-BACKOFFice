@@ -118,6 +118,9 @@ Route::match(['get','post'],'repage',[App\Http\Controllers\AutoController::class
 Route::match(['get','post'],'sit_pullacc_auto',[App\Http\Controllers\AutoController::class, 'sit_pullacc_auto'])->name('auto.sit_pullacc_auto');//
 
 Route::match(['get','post'],'sss_check_claimcode',[App\Http\Controllers\AutoController::class, 'sss_check_claimcode'])->name('check.sss_check_claimcode');//
+Route::match(['get','post'],'check_304',[App\Http\Controllers\AutoController::class, 'check_304'])->name('check.check_304');//
+Route::match(['get','post'],'check_308',[App\Http\Controllers\AutoController::class, 'check_308'])->name('check.check_308');//
+Route::match(['get','post'],'check_309',[App\Http\Controllers\AutoController::class, 'check_309'])->name('check.check_309');//
 
 Route::match(['get','post'],'pull_Checksit_hosauto',[App\Http\Controllers\AutoController::class, 'pull_Checksit_hosauto'])->name('auto.pull_Checksit_hosauto');//
 Route::match(['get','post'],'checksit_hosauto',[App\Http\Controllers\AutoController::class, 'checksit_hosauto'])->name('auto.checksit_hosauto');//

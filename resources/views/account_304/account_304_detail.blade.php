@@ -168,7 +168,6 @@ $pos = strrpos($url, '/') + 1;
                                                         
                                                     </td> 
                                                     <td class="text-end" width="10%">{{ number_format($item->nhso_ownright_pid,2)}}</td> 
-                                                   
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>                                                    
                                                 </td>
                                         </tr>

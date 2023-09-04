@@ -139,7 +139,7 @@
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th> 
-                                            {{-- <th class="text-center">income</th> --}}
+                                            <th class="text-center">income</th>
                                             <th class="text-center">ลูกหนี้</th>  
                                         </tr>
                                     </thead>
@@ -148,14 +148,14 @@
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                @if ($item->subinscl == '')
+                                                {{-- @if ($item->subinscl == '')
                                                     <td class="text-center" width="5%">
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-                                                @endif
-                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
+                                                @endif --}}
+                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
@@ -167,8 +167,8 @@
                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
                                                 
-                                                {{-- <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>  --}}
-                                                <td class="text-center" width="10%">{{ number_format($item->debit, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
  
                                             </tr>
                                         @endforeach
