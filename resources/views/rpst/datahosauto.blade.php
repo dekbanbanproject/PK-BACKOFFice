@@ -166,7 +166,7 @@
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->hometel }}</td>
                                             <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->fullname }}</td>
+                                            <td>{{ $item->ptname }}</td>
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>
                                             <td >{{ $item->hospmain }}</td>
                                             <td>{{ $item->hospsub }}</td>
@@ -174,7 +174,7 @@
                                             <td>{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
  
-                                            <td>{{ $item->staff }}</td>
+                                            <td>{{ $item->staff_name }}</td>
                                             <td>{{ $item->department }}</td>
                                         </tr>
                                     @elseif( $item->pttype != $item->subinscl )
@@ -186,7 +186,7 @@
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->hometel }}</td>
                                             <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->fullname }}</td>
+                                            <td>{{ $item->ptname }}</td>
                                             <td>
                                                 <?php
                                                       $pttype_hos = DB::connection('mysql')->table('pttype')->where('pttype','=',$item->pttype)->first();
@@ -206,7 +206,7 @@
                                             <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
                                           
-                                            <td>{{ $item->staff }}</td>
+                                            <td>{{ $item->staff_name }}</td>
                                             <td>{{ $item->department }}</td>
                                         </tr>
                                     @else
@@ -217,7 +217,7 @@
                                             <td>{{ $item->cid }}</td>
                                             <td>{{ $item->hometel }}</td>
                                             <td>{{ $item->vstdate }}</td>
-                                            <td>{{ $item->fullname }}</td>
+                                            <td>{{ $item->ptname }}</td>
 
                                             <td style="background-color: rgb(255, 255, 255)">{{ $item->pttype }}</td>
                                             <td style="background-color: rgb(155, 253, 240)">{{ $item->hospmain }}</td>
@@ -227,7 +227,7 @@
                                             <td style="background-color: rgb(188, 229, 253)">{{ $item->hmain }}</td>
                                             <td>{{ $item->hsub }}</td>
                                            
-                                            <td>{{ $item->staff }}</td>
+                                            <td>{{ $item->staff_name }}</td>
                                             <td>{{ $item->department }}</td>
                                         </tr>
                                     @endif

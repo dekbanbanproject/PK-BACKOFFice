@@ -86,14 +86,13 @@ class AutorpstController extends Controller
                 ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
                 ,o.staff,op.name as sname
                 ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
-                FROM hos.ovst o
-                LEFT JOIN hos.vn_stat v on v.vn = o.vn
-                LEFT JOIN hos.patient p on p.hn=o.hn
-                LEFT JOIN hos.pttype pt on pt.pttype=o.pttype
-                LEFT JOIN hos.opduser op on op.loginname = o.staff
+                FROM hosxp_pcu.ovst o
+                LEFT JOIN hosxp_pcu.vn_stat v on v.vn = o.vn
+                LEFT JOIN hosxp_pcu.patient p on p.hn=o.hn
+                LEFT JOIN hosxp_pcu.pttype pt on pt.pttype=o.pttype
+                LEFT JOIN hosxp_pcu.opduser op on op.loginname = o.staff
                 WHERE o.vstdate = CURDATE() 
-                AND p.nationality = "99"
-                
+                AND p.nationality = "99" 
                 group by o.vn
                     
         ');        
@@ -236,8 +235,8 @@ class AutorpstController extends Controller
         $dateend = $request->enddate;
  
             $data_sit = DB::connection('mysql')->select('
-                SELECT c.vn,c.hn,c.cid,c.vstdate,c.fullname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff,k.department
-                FROM check_sit_auto c
+                SELECT c.vn,c.hn,c.cid,c.vstdate,c.ptname,c.pttype,c.subinscl,c.debit,c.claimcode,c.claimtype,c.hospmain,c.hometel,c.hospsub,c.main_dep,c.hmain,c.hsub,c.subinscl_name,c.staff_name,c.staff,k.department
+                FROM checksit_hospcu c
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
 
                 WHERE c.vstdate BETWEEN "'.$datestart.'" AND "'.$dateend.'"
