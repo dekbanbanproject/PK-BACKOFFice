@@ -87,9 +87,9 @@
                                     <th class="text-center">ปี</th>
                                     <th class="text-center">เดือน</th>
                                     {{-- <th class="text-center">ผู้ป่วย(คน)</th> --}}
-                                    <th class="text-center">ผู้ป่วย(ครั้ง)</th>
-                                    <th class="text-center">เรียกเก็บ</th>
-                                    <th class="text-center">ไม่ได้เรียกเก็บ</th>
+                                    <th class="text-center">ผู้ป่วย/Visit</th>
+                                    <th class="text-center">เรียกเก็บ/Visit</th>
+                                    <th class="text-center">ไม่ได้เรียกเก็บ/Visit</th>
                                     <th class="text-center">จำนวนเงิน</th> 
                                 </tr>
                             </thead>
@@ -174,10 +174,8 @@
                                 @foreach ($datashow as $item)  
                                     <?php 
                                         $data_claim_ = DB::connection('mysql3')->select(' 
-                                                      
-                                                    SELECT year(o.vstdate) as year,month(o.vstdate) as months,count(distinct o.an) as an 
-                                                    ,count(distinct o.an,o.icode)- count(distinct vp.an) as noclaim
-                                                    ,sum(o.sum_price) as summony
+                                            SELECT year(v.dchdate) as year,month(v.dchdate) as months,count(distinct vp.an) as an 
+                                               
                                                     FROM opitemrece o
                                                     inner join an_stat v on v.an=o.an
                                                     left outer join ipt_pttype vp on vp.an = o.an  
@@ -185,15 +183,17 @@
                                                     left outer join hospcode h on h.hospcode = vp.hospmain
                                                     LEFT JOIN nondrugitems n on n.icode = o.icode
                                                     LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
-                                                    WHERE v.dchdate = "'.$item->months.'"
+                                                    WHERE month(v.dchdate) = "'.$item->months.'"  and year(v.dchdate) = "'.$item->year.'"
+                                                    and o.income="02" 
                                                     and o.pttype="a7"
                                                     and n.billcode not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                                                     and n.billcode like "8%"
-                                                    and n.billcode not in ("8608","8628","8361","8543","8152","8660")   
-                                                    and vp.nhso_ownright_pid > 1                                             
-                                                    and month(v.dchdate) = "'.$item->year.'"
-                                                    ORDER BY months DESC
+                                                    and n.billcode not in("8608","8628","8361","8543","8152","8660")
+                                                    and vp.nhso_docno is not null 
+                                                    group by month(v.dchdate)                                                                                               
+                                                  
                                             '); 
+                                            // group by month(v.dchdate),v.an 
                                             foreach ($data_claim_ as $key => $value) {
                                                 $claim = $value->an;
                                             }

@@ -710,6 +710,7 @@ class SssController extends Controller
                                 LEFT JOIN nondrugitems n on n.icode = o.icode
                                 LEFT JOIN eclaimdb.l_instrumentitem l on l.`CODE` = n.billcode and l.MAININSCL="sss" 
                                 WHERE v.dchdate between "'.$startdate.'" AND "'.$enddate.'"
+                                
                                 and o.income="02" 
                                 and o.pttype="a7"
                                 and n.billcode not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
@@ -972,8 +973,11 @@ class SssController extends Controller
                                 and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                                 and n.billcode like "8%"
                                 and n.billcode not in("8608","8628","8361","8543","8152","8660") 
-                                and vp.nhso_ownright_pid > 1
+                           
+                                and vp.nhso_docno is not null 
+                                group by o.an,o.icode 
                         '); 
+                        // and vp.nhso_ownright_pid > 1
                         $datashow2 = DB::connection('mysql3')->select('
                                         select count(distinct e.an) as an,sum(vp.nhso_ownright_pid) as nhso_ownright_pid,sum(vp.nhso_ownright_name) as nhso_ownright_name from an_stat e
                                         left outer join patient p on p.hn =e.hn
@@ -1097,7 +1101,8 @@ class SssController extends Controller
                                 and o.pttype="a7"
                                 and n.billcode  not in (select `CODE` from eclaimdb.l_instrumentitem where `CODE`= l.`CODE`)
                                 and n.billcode like "8%"
-                                and n.billcode not in ("8608","8628","8361","8543","8152","8660")     
+                                and n.billcode not in ("8608","8628","8361","8543","8152","8660") 
+                                and vp.nhso_ownright_pid is null    
                         '); 
                         // and v.pttype in("a7")
                         // and (vp.claim_code is null or vp.claim_code="2")

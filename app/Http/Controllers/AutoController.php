@@ -1364,7 +1364,7 @@ class AutoController extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-        // Db_authen_detail
+       //  dd($end);
         $detail_auto = DB::connection('mysql')->select('  
                 SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
@@ -1459,7 +1459,7 @@ class AutoController extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-        $detail_auto = DB::connection('mysql')->select('  
+            $detail_auto = DB::connection('mysql')->select('  
                     SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                     ,ipt.pttype,"1102050101.308" as account_code,"ประกันสังคม นอกเครือข่าย" as account_name 
