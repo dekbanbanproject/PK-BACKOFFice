@@ -17,6 +17,9 @@ use App\Http\Controllers\UserComController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::match(['get','post'],'datahosauto',[App\Http\Controllers\AutorpstController::class, 'datahosauto'])->name('sit.datahosauto');//  รพสต
+Route::match(['get','post'],'pullhosauto',[App\Http\Controllers\AutorpstController::class, 'pullhosauto'])->name('sit.pullhosauto');//  รพสต
+Route::match(['get','post'],'checksit_pullhosauto',[App\Http\Controllers\AutorpstController::class, 'checksit_pullhosauto'])->name('sit.checksit_pullhosauto');//รพสต
 
 Route::match(['get','post'],'contact_save',[App\Http\Controllers\CustormerController::class, 'contact_save'])->name('Cus.contact_save');//
 
