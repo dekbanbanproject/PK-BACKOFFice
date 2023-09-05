@@ -195,12 +195,13 @@ class Account308Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select('
-                SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+            $acc_debtor = DB::connection('mysql3')->select('  
+                SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                 ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                 ,ipt.pttype,"1102050101.308" as account_code,"ประกันสังคม นอกเครือข่าย" as account_name 
                 ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
-                ,a.income-a.rcpt_money-a.discount_money as debit,ipt.max_debt_amount
+                ,a.income-a.rcpt_money-a.discount_money as debit
+                ,ipt.max_debt_amount  
                 ,ipt.nhso_ownright_pid as looknee
                 ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
@@ -216,7 +217,7 @@ class Account308Controller extends Controller
                 LEFT JOIN hos.opitemrece op ON ip.an = op.an
                 LEFT JOIN hos.vn_stat v on v.vn = a.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND ipt.pttype = "14"
+                AND ipt.pttype = "14"  
                 GROUP BY a.an;
             ');
 

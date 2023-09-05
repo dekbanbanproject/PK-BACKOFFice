@@ -307,7 +307,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
+                                            {{-- <div class="row">
                                                 <div class="col-md-1 text-start ms-4">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(10, 124, 201)"></i>
                                                 </div>
@@ -327,7 +327,7 @@
                                                         </div>
                                                     </a>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
 
                                         </div>
