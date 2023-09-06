@@ -200,7 +200,7 @@ class Account309Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql')->select('   
+            $acc_debtor = DB::connection('mysql2')->select('   
                     SELECT o.vn,ifnull(o.an,"") as an,o.hn,pt.cid as cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,o.vstdate as vstdate 
@@ -335,7 +335,7 @@ class Account309Controller extends Controller
  
         
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_309 U1
             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
@@ -355,11 +355,12 @@ class Account309Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_309 U1
             
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-                AND U1.recieve_no is not null
+                AND U1.nhso_ownright_pid is not null
+                AND U1.recieve_true is not null
                 GROUP BY U1.vn
         ');
        
@@ -375,33 +376,28 @@ class Account309Controller extends Controller
         $months = $request->months;
         $year = $request->year;
         $sync = DB::connection('mysql')->select(' 
-                SELECT ac.acc_1102050101_309_id,v.vn,o.vstdate,v.pttype,v.nhso_docno 
+                SELECT ac.acc_1102050101_309_id,v.vn,o.vstdate,v.pttype,v.nhso_docno,v.nhso_ownright_pid
                 from hos.visit_pttype v
                 LEFT JOIN hos.ovst o ON o.vn = v.vn
-                LEFT JOIN pkbackoffice.acc_1102050101_309 ac ON ac.vn = v.vn
-                 
+                LEFT JOIN pkbackoffice.acc_1102050101_309 ac ON ac.vn = v.vn  
                 WHERE month(o.vstdate) = "'.$months.'"  
                 AND year(o.vstdate) = "'.$year.'"
+                AND v.nhso_ownright_pid <> ""
                 AND v.nhso_docno  <> ""
                 AND ac.acc_1102050101_309_id <> ""
-                GROUP BY v.vn
+                and v.pttype ="14"
+                GROUP BY v.vn 
             ');
             foreach ($sync as $key => $value) {
                
                 // if ($value->nhso_docno != '') {
                      
                     Acc_1102050101_309::where('vn',$value->vn) 
-                        ->update([ 
-                            'nhso_docno'      => $value->nhso_docno 
+                        ->update([  
+                            'nhso_docno'           => $value->nhso_docno,
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
                     ]);
-                //     return response()->json([
-                //         'status'    => '200'
-                //     ]);
-                // } else {
-                //     return response()->json([
-                //         'status'    => '100'
-                //     ]);
-                // } 
+                
             }
             return response()->json([
                 'status'    => '200'

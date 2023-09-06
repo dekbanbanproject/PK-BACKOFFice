@@ -322,7 +322,7 @@ class Account308Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.acc_1102050101_308_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid
+            SELECT U1.acc_1102050101_308_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_308 U1
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 GROUP BY U1.an
@@ -345,7 +345,7 @@ class Account308Controller extends Controller
                 from acc_1102050101_308 U1
             
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
-                AND U1.nhso_ownright_pid is not null
+                AND U1.recieve_true is not null
                 GROUP BY U1.an
         ');
        

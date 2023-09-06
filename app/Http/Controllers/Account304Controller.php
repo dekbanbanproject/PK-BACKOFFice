@@ -196,7 +196,7 @@ class Account304Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql')->select('                 
+            $acc_debtor = DB::connection('mysql3')->select('                 
                 SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                     ,ipt.pttype 
@@ -355,7 +355,7 @@ class Account304Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_304 U1
             
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
@@ -379,7 +379,7 @@ class Account304Controller extends Controller
                 from acc_1102050101_304 U1
             
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
-                AND U1.nhso_ownright_pid is not null
+                AND U1.recieve_true is not null
                 GROUP BY U1.an
         ');
        

@@ -105,9 +105,12 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">dchdate</th>
                                     <th class="text-center">pttype</th>
                                     <th class="text-center">Sync Data / เลขหนังสือ </th>
-                                    <th class="text-center">รับจริง Hos</th> 
                                     <th class="text-center">ลูกหนี้</th>
-                                    {{-- <th class="text-center">ยอดชดเชย</th> --}}
+                                    <th class="text-center">เบิกจริง</th> 
+                                    <th class="text-center">รับชำระ</th>
+                                    <th class="text-center">ส่วนต่าง</th> 
+                                    <th class="text-center">เลขที่ใบเสร็จ</th> 
+                                    <th class="text-center">วันที่ลงรับ</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,8 +170,12 @@ $pos = strrpos($url, '/') + 1;
                                                         @endif
                                                         
                                                     </td> 
-                                                    <td class="text-end" width="10%">{{ number_format($item->nhso_ownright_pid,2)}}</td> 
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>                                                    
+                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  </td>
+                                                    <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>  </td>
+                                                    <td class="text-end text-success"  width="7%"> {{ $item->recieve_true }}</td>  </td>
+                                                    <td class="text-end" style="color:rgb(231, 73, 134)" width="7%"> {{ $item->difference }}</td>  </td> 
+                                                    <td class="text-center">{{ $item->recieve_no }}</td>
+                                                    <td class="text-center">{{ $item->recieve_date }}</td>                                                   
                                                 </td>
                                         </tr>
                                         

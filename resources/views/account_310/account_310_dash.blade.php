@@ -152,7 +152,7 @@
                                                     SUM(ar.acc_stm_repmoney_price310) as total                                                   
                                                     FROM acc_stm_repmoney ar 
                                                     LEFT JOIN acc_trimart a ON a.acc_trimart_id = ar.acc_trimart_id 
-                                                    WHERE a.acc_trimart_code = "'.$item->acc_trimart_code.'"  
+                                                    WHERE a.acc_trimart_id = "'.$item->acc_trimart_id.'"  
                                             ');                                           
                                             foreach ($sumapprove_ as $key => $value3) {
                                                 $total310 = $value3->total; 
@@ -171,7 +171,7 @@
                                         ?>
                                         <div class="row">
                                             <div class="col-md-5 text-start mt-4 ms-4">
-                                                <h5 > {{$item->acc_trimart_name}}</h5>
+                                                <h5> {{$item->acc_trimart_name}} {{($item->year)+543}}</h5>
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-3 text-end mt-2 me-4">

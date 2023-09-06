@@ -231,7 +231,7 @@ class Account307Controller extends Controller
                     ,o.vstdate,o.vsttime
                     ,v.hospmain,a.regdate,a.dchdate ,op.income as income_group
                     ,ptt.pttype_eclaim_id,a.pttype
-                    ,ec.code as acc_code,ec.ar_ipd as account_code,ec.name as account_name 
+                    ,ec.code as acc_code,"1102050101.307" as account_code,ec.name as account_name 
                     ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                     ,a.income-a.rcpt_money-a.discount_money as debit
                     ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
@@ -260,7 +260,7 @@ class Account307Controller extends Controller
                     if ($value->pttype == 'SS') {
                         $pttype = 'ss';
                     } else {
-                        $pttype = 'ss';
+                        $pttype = $value->pttype;
                     }
                     
                     // ->where('account_code','1102050101.307')
@@ -287,8 +287,7 @@ class Account307Controller extends Controller
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer, 
-                            'fokliad'            => $value->fokliad,
-                            // 'debit_total'        => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_toa - $value->debit_refer,
+                            'fokliad'            => $value->fokliad, 
                             'debit_total'        => $value->debit,
                             'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id
@@ -361,7 +360,7 @@ class Account307Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_307 U1
              
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
@@ -383,11 +382,11 @@ class Account307Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_307 U1
              
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-                AND U1.recieve_no is not null
+                AND U1.recieve_true is not null
                 GROUP BY U1.vn
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
@@ -461,7 +460,8 @@ class Account307Controller extends Controller
                      
                     Acc_1102050101_307::where('vn',$value->vn) 
                         ->update([ 
-                            'nhso_docno'           => $value->nhso_docno 
+                            'nhso_docno'           => $value->nhso_docno,
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid 
                     ]);
                     // return response()->json([
                     //     'status'    => '200'
