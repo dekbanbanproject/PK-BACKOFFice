@@ -132,8 +132,8 @@
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th> 
-                                            <th class="text-center">income</th>
-                                            <th class="text-center">ลูกหนี้</th>  
+                                            <th class="text-center">ลูกหนี้</th>
+                                            <th class="text-center">ลูกหนี้ 310</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
