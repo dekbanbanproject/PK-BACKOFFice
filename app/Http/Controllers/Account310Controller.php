@@ -228,7 +228,8 @@ class Account310Controller extends Controller
                     ,"ประกันสังคม HC/AE" as account_name  
                     ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
                     ,a.income-a.rcpt_money-a.discount_money as debit
-                    ,sum(if(op.icode IN ("3001758"),sum_price,0)) as looknee
+                    ,sum(if(op.icode IN ("3001758"),sum_price,0)) as tr
+				    ,sum(if(op.icode IN ("3001758"),n.ipd_price3,0)) as looknee
                     ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
@@ -242,59 +243,54 @@ class Account310Controller extends Controller
                     LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
                     LEFT JOIN ipt_pttype ipt ON ipt.an = a.an
                     LEFT JOIN opitemrece op ON ip.an = op.an
+                    LEFT JOIN nondrugitems n ON n.icode = op.icode
                     LEFT JOIN iptoprt io on io.an = ip.an
                     LEFT JOIN vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND ipt.pttype IN("A7","15")
                     AND v.hospmain = "10702"
                     and io.icd9 like "%6632%"
-                    GROUP BY a.an;
-                
+                GROUP BY a.an; 
             ');
 
             foreach ($acc_debtor as $key => $value) { 
-                    $check =  Acc_debtor::where('an', $value->an) 
-                    ->where('dchdate', $value->dchdate)
-                    ->where('account_code','1102050101.310')->count();  
-                    // dd( $checkins );
-                    if ($check == 0) { 
-                                Acc_debtor::insert([
-                                    'hn'                 => $value->hn,
-                                    'an'                 => $value->an,
-                                    'vn'                 => $value->vn,
-                                    'cid'                => $value->cid,
-                                    'ptname'             => $value->ptname,
-                                    'pttype'             => $value->pttype,
-                                    'vstdate'            => $value->vstdate,
-                                    'regdate'            => $value->admdate,
-                                    'dchdate'            => $value->dchdate,
-                                    'acc_code'           => $value->acc_code,
-                                    'account_code'       => $value->account_code,
-                                    'account_name'       => $value->account_name,
-                                    'income_group'       => $value->income_group,
-                                    'income'             => $value->income,
-                                    'uc_money'           => $value->uc_money,
-                                    'discount_money'     => $value->discount_money,
-                                    'paid_money'         => $value->cash_money,
-                                    'rcpt_money'         => $value->cash_money,
-                                    'debit'              => $value->debit,
-                                    'debit_drug'         => $value->debit_drug,
-                                    'debit_instument'    => $value->debit_instument,
-                                    'debit_toa'          => $value->debit_toa,
-                                    'debit_refer'        => $value->debit_refer,
-                                    'fokliad'            => $value->fokliad,
-                                    'debit_total'        => $value->looknee,
-                                    // 'max_debt_amount'    => $value->max_debt_money,
-                                    'acc_debtor_userid'  => Auth::user()->id
-                                ]);
-                           
-                    }
-                   
- 
-              
+                $check =  Acc_debtor::where('an', $value->an) 
+                        // ->where('dchdate', $value->dchdate)
+                        ->where('account_code','1102050101.310')->count();  
+                        // dd( $checkins );
+                        if ($check == 0) { 
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate,
+                                'regdate'            => $value->admdate,
+                                'dchdate'            => $value->dchdate,
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name,
+                                'income_group'       => $value->income_group,
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money,
+                                'paid_money'         => $value->cash_money,
+                                'rcpt_money'         => $value->cash_money,
+                                'debit'              => $value->debit,
+                                'debit_drug'         => $value->debit_drug,
+                                'debit_instument'    => $value->debit_instument,
+                                'debit_toa'          => $value->debit_toa,
+                                'debit_refer'        => $value->debit_refer,
+                                'fokliad'            => $value->fokliad,
+                                'debit_total'        => $value->looknee,
+                                // 'max_debt_amount'    => $value->max_debt_money,
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]); 
+                        }  
             }
-            return response()->json([
-
+            return response()->json([ 
                 'status'    => '200'
             ]);
     }
@@ -331,15 +327,13 @@ class Account310Controller extends Controller
                             'income_group'      => $value->income_group,
                             'uc_money'          => $value->uc_money,
                             'discount_money'    => $value->discount_money,
-                            'rcpt_moneๅ
-                            410
-                            y'        => $value->rcpt_money,
+                            'rcpt_money'        => $value->rcpt_money,
                             'debit'             => $value->debit,
                             'debit_drug'        => $value->debit_drug,
                             'debit_instument'   => $value->debit_instument,
                             'debit_refer'       => $value->debit_refer,
                             'debit_toa'         => $value->debit_toa,
-                            'debit_total'       => $value->debit,
+                            'debit_total'       => $value->debit_total,
                             'max_debt_amount'   => $value->max_debt_amount,
                             'acc_debtor_userid' => $iduser
                     ]);

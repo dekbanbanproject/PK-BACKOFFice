@@ -132,7 +132,8 @@ $pos = strrpos($url, '/') + 1;
                 </div>
             </div>
             <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card shadow-lg" style="background-color: rgba(245, 164, 209, 0.452)">
+                <div class="main-card mb-3 card shadow-lg" style="background-color: rgba(255, 255, 255, 0.452)">
+                    {{-- <div class="main-card mb-3 card shadow-lg" style="background-color: rgba(245, 164, 209, 0.452)"> --}}
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
@@ -143,7 +144,8 @@ $pos = strrpos($url, '/') + 1;
                                                 <h5 class="text-start mb-2">ระบบการลา</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
-                                                <a href="{{ url('gleave') }}" target="_blank">
+                                                <a>
+                                                    {{-- <a href="{{ url('gleave') }}" target="_blank"> --}}
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
@@ -172,7 +174,8 @@ $pos = strrpos($url, '/') + 1;
                                                 <h5 class="text-start mb-2">สารบรรณ</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
-                                                <a href="{{ url('book/bookmake_index') }}" target="_blank">
+                                                <a >
+                                                    {{-- <a href="{{ url('book/bookmake_index') }}" target="_blank"> --}}
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
@@ -201,7 +204,8 @@ $pos = strrpos($url, '/') + 1;
                                                 <h5 class="text-start mb-2">ยานพาหนะ</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
-                                                <a href="{{ url('car/car_narmal_calenda') }}" target="_blank">
+                                                <a >
+                                                    {{-- <a href="{{ url('car/car_narmal_calenda') }}" target="_blank"> --}}
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
@@ -291,7 +295,8 @@ $pos = strrpos($url, '/') + 1;
                                                 <h5 class="text-start mb-2">แผนงาน</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
-                                                <a href="{{ url('plan') }}" target="_blank">
+                                                {{-- <a > --}}
+                                                    <a href="{{ url('plan') }}" target="_blank">
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
