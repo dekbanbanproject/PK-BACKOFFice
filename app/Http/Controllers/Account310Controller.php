@@ -128,39 +128,7 @@ class Account310Controller extends Controller
                 'data_trimart'     =>  $data_trimart,
             ]);
     }
-    public function account_302_dashsub(Request $request,$startdate,$enddate)
-    {
-        $datenow = date('Y-m-d');
-        
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d'); 
-        // dd($end );
-       
-            $datashow = DB::select('
-                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME,l.MONTH_ID
-                    ,count(distinct a.hn) as hn
-                    ,count(distinct a.vn) as vn
-                    ,count(distinct a.an) as an
-                    ,sum(a.income) as income
-                    ,sum(a.paid_money) as paid_money
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-                    ,sum(a.debit) as debit
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.302"
-                    group by month(a.dchdate) order by month(a.dchdate) desc;
-            ');
-            
-
-        return view('account_302.account_302_dashsub',[
-            'startdate'          =>  $startdate,
-            'enddate'            =>  $enddate,
-            'datashow'           =>  $datashow,
-            'leave_month_year'   =>  $leave_month_year,
-        ]);
-    }
+    
     public function account_302_dashsubdetail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d'); 
@@ -196,10 +164,10 @@ class Account310Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.an = a.an 
+                left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.310"
                 AND a.stamp = "N"
-                order by a.dchdate asc;
+                order by a.dchdate desc;
 
             ');
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
@@ -345,28 +313,7 @@ class Account310Controller extends Controller
         ]);
     }
    
-    // public function account_302_detail(Request $request,$startdate,$enddate)
-    // {
-    //     $datenow = date('Y-m-d');
-    //     // $startdate = $request->startdate;
-    //     // $enddate = $request->enddate;
-    //     // dd($id);
-    //     $data['users'] = User::get();
-
-    //     $data = DB::select('
-    //     SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-    //         from acc_1102050101_302 U1
-        
-    //         WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-    //         GROUP BY U1.vn
-    //     ');
-    //     // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-    //     return view('account_302.account_302_detail', $data, [ 
-    //         'data'          =>     $data,
-    //         'startdate'     =>     $startdate,
-    //         'enddate'       =>     $enddate
-    //     ]);
-    // }
+    
     public function account_310_dashsub(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
@@ -410,7 +357,7 @@ class Account310Controller extends Controller
         $data = DB::select('
         SELECT 
             month(dchdate) as months,year(dchdate) as year
-            ,an,vn,hn,cid,ptname,dchdate,pttype,debit_total
+            ,an,vn,hn,cid,ptname,dchdate,pttype,debit,debit_total
             from acc_1102050101_310
         
             WHERE month(dchdate) = "'.$months.'"  

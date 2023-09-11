@@ -99,11 +99,11 @@ class Account217Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
+                left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.217"
                 AND a.stamp = "N"
                 group by a.an
-                order by a.vstdate asc;
+                order by a.vstdate desc;
             ');
             // AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
 
@@ -116,11 +116,11 @@ class Account217Controller extends Controller
         } else {
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
+                left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.217"
                 AND a.stamp = "N"
                 group by a.an
-                order by a.vstdate asc;
+                order by a.vstdate desc;
             ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }

@@ -73,18 +73,18 @@
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 </div> 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                     <i class="fa-solid fa-magnifying-glass"></i> 
                     ค้นหา 
                 </button>    --}}
-                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
+                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                     ดึงข้อมูล</button>    
                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sitipd">
@@ -93,17 +93,10 @@
                 </button>    --}}
                                       
             </div>
-            <div class="col"></div>
+            {{-- <div class="col"></div> --}}
         </div>
-       
-        <div class="row mt-2 text-center">  
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
-                </div>
-              </div>
-        </div> 
-        <div class="row mt-2">
+        
+        <div class="row mt-3">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body shadow-lg">
@@ -117,7 +110,7 @@
                       
                         <div class="row">
                             <div class="col-md-4">
-                                <h4 class="card-title">Detail Account</h4>
+                                <h4 class="card-title">Detail Account ผัง 1102050101.217</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                             </div>
                             <div class="col"></div>

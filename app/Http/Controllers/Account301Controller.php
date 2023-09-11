@@ -253,23 +253,23 @@ class Account301Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.vn = a.vn
+                SELECT a.*,c.subinscl from acc_debtor a 
+                left join checksit_hos c on c.vn = a.vn
                 WHERE a.account_code="1102050101.301"
                 AND a.stamp = "N"
                 group by a.vn
-                order by a.vstdate asc;
+                order by a.vstdate desc;
 
             ');
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
         } else {
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left outer join check_sit_auto c on c.vn = a.vn
+                left join checksit_hos c on c.vn = a.vn
                 WHERE a.account_code="1102050101.301"
                 AND a.stamp = "N"
                 group by a.vn
-                order by a.vstdate asc;
+                order by a.vstdate desc;
 
             ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();

@@ -78,7 +78,7 @@
         $yb =  date('Y')+542;
     ?>
 
-   <div class="tabs-animation">
+   <div class="container-fluid">
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
@@ -97,10 +97,10 @@
                 <div class="col-md-3 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
                     </div>
                 </div>

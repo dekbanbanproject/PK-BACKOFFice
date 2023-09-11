@@ -93,7 +93,8 @@
                     <select name="acc_trimart_id" id="acc_trimart_id" class="form-control">
                         <option value="">--เลือก--</option>
                         @foreach ($trimart as $item)
-                            <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} {{$item->acc_trimart_end_date}}</option>
+                            {{-- <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} {{$item->acc_trimart_end_date}}</option> --}}
+                            <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}}( {{$item->acc_trimart_start_date}} ถึง {{$item->acc_trimart_end_date}})</option>
                         @endforeach
                     </select>
                 </div>

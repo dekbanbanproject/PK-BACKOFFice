@@ -103,8 +103,8 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">dchdate</th>
                                     <th class="text-center">pttype</th>
                                     
+                                    <th class="text-center">income</th>
                                     <th class="text-center">ลูกหนี้</th>
-                                    {{-- <th class="text-center">ยอดชดเชย</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,9 +121,8 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="p-2" >{{ $item->ptname }}</td>  
                                                     <td class="text-center" width="10%">{{ $item->dchdate }}</td>    
                                                     <td class="text-center" width="10%">{{ $item->pttype }}</td> 
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                                    {{-- <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> 
-                                                        {{ number_format($item->pricereq_all,2)}}   --}}
+                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit,2)}}</td>
+                                                    <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->debit_total,2)}}  
                                                 </td>
                                         </tr>
                                         
