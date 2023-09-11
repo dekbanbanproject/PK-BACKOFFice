@@ -331,7 +331,9 @@ class Account310Controller extends Controller
                             'income_group'      => $value->income_group,
                             'uc_money'          => $value->uc_money,
                             'discount_money'    => $value->discount_money,
-                            'rcpt_money'        => $value->rcpt_money,
+                            'rcpt_moneๅ
+                            410
+                            y'        => $value->rcpt_money,
                             'debit'             => $value->debit,
                             'debit_drug'        => $value->debit_drug,
                             'debit_instument'   => $value->debit_instument,
