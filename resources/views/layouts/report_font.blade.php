@@ -211,7 +211,8 @@
                                 <li ><a href="{{ url('check_knee_ipd') }}" >ข้อเข่า</a></li>
                                 <li ><a href="{{ url('check_kradook') }}" >แผ่นโลหะกระดูก</a></li>
                                 <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li>
-                                <li ><a href="{{ url('check_bumbat') }}" >อุปกรณ์ในการบำบัดรักษา</a></li>
+                                <li ><a href="{{ url('check_bumbat') }}" >อุปกรณ์ในการบำบัดรักษา(9104)</a></li>
+                                <li ><a href="{{ url('check_lapo') }}" >Laparoscopic appendectomy(4701)</a></li>
                             </ul>
                         </li>
                         <li>
