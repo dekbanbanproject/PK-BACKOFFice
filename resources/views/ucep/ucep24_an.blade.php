@@ -125,14 +125,12 @@ $pos = strrpos($url, '/') + 1;
                             <tr>
                                 <th class="text-center">ลำดับ</th>
                                 <th class="text-center">an</th>
-                                <th class="text-center">hn</th>
-                                <th class="text-center">cid</th>
-                                <th class="text-center">ptname</th>                             
                                 <th class="text-center">dchdate</th>
-                                <th class="text-center">pttype</th>
-                                <!-- <th class="text-center">icode</th> -->
-                                <!-- <th class="text-center">รายการ</th> -->
-                                <!-- <th class="text-center">total</th> -->
+                                <th class="text-center">icode</th>
+                                <th class="text-center">รายการ</th>                           
+                                
+                                <th class="text-center">ราคา</th> 
+                                <th class="text-center">ราคารวม</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -142,22 +140,16 @@ $pos = strrpos($url, '/') + 1;
 
                             <tr height="20" style="font-size: 14px;">
                                 <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>
-                                <td class="text-center" width="10%">
-                                    <a href="{{url('ucep24_an/'.$item->an)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> 
-                                        <i class="fa-solid fa-asterisk text-info me-2"></i>
-                                        {{ $item->an }}
-</a>                                   
+                                <td class="text-center" width="10%">                               
+                                        {{ $item->an }} 
                                 </td>
-                                <td class="text-center" width="10%">{{ $item->hn }}</td>
-                                <td class="text-center" width="10%">{{ $item->cid }}</td>
-                                <td class="p-2">{{ $item->ptname }}</td>
                                 <td class="text-center" width="10%">{{ $item->dchdate }}</td>
-                                <td class="text-center" width="10%">{{ $item->pttype }}</td>
-                                <!-- <td class="text-center" width="10%">{{ $item->icode }}</td> -->
-                                <!-- <td class="p-2">{{ $item->name }}</td> -->
-                                <!-- <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->sum_price,2)}}</td> -->
-
-                                </td>
+                                <td class="text-center" width="10%">{{ $item->icode }}</td>
+                          
+                                <td class="p-2">{{ $item->nameliss }}</td>
+                            
+                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->unitprice,2)}}</td>
+                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->sum_price,2)}}</td>                             
                             </tr>
 
 

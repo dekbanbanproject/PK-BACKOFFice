@@ -2066,7 +2066,8 @@ Route::match(['get','post'],'medicine_salt_subhn/{hn}',[App\Http\Controllers\Med
 // Route::match(['get','post'],'sixteendata',[App\Http\Controllers\ClaimreferController::class, 'sixteendata'])->name('data.sixteendata');//
 // Route::match(['get','post'],'sixteendata_pull',[App\Http\Controllers\ClaimreferController::class, 'sixteendata_pull'])->name('data.sixteendata_pull');//
 
-Route::match(['get','post'],'ucep24',[App\Http\Controllers\Ucep24Controller::class, 'ucep24'])->name('data.ucep24');//  
+Route::match(['get','post'],'ucep24',[App\Http\Controllers\Ucep24Controller::class, 'ucep24'])->name('data.ucep24');// 
+Route::match(['get','post'],'ucep24_an/{an}',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_an'])->name('data.ucep24_an');//  
 
 Route::match(['get','post'],'six',[App\Http\Controllers\SixteenController::class, 'six'])->name('data.six');//
 Route::match(['get','post'],'six_pull_a',[App\Http\Controllers\SixteenController::class, 'six_pull_a'])->name('data.six_pull_a');//
