@@ -132,7 +132,9 @@
                         </ul>
                     </li> --}}
                     <li><a class="nav-link scrollto" href="#contact"><i class="fa-regular fa-address-book me-2"></i>Contact</a></li>
-                    <li><a href="{{ url('check_dashboard') }}" target="_blank"><i class="fa-solid fa-chart-line me-2"></i>Report</a></li> 
+                    {{-- <li><a href="{{ url('check_dashboard') }}" target="_blank"><i class="fa-solid fa-chart-line me-2"></i>Report</a></li>  --}}
+                    <li><a href="{{ url('report_dashboard') }}" target="_blank"><i class="fa-solid fa-chart-line me-2"></i>Report</a></li> 
+                    
                     {{-- <li class="dropdown"><a href="#"> 
                         <i class="fa-solid fa-download me-2"></i>
                         <span>Download</span>  

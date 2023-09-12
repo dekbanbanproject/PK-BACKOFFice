@@ -149,7 +149,7 @@ $pos = strrpos($url, '/') + 1;
                           
                                 <td class="text-center"> 
                                     @if ($item->paidst_ucep > 0)
-                                    <a href="{{url('ucep24_income/'.$item->an.'/'.$item->income)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> 
+                                    <a href="{{url('ucep24_income/'.$item->an.'/'.$item->income)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" target="_blank"> 
                                      
                                         {{ $item->paidst02 }}
                                     </a>

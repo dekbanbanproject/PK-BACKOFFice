@@ -130,7 +130,7 @@ class Ucep24Controller extends Controller
                         and p.hipdata_code ="ucs"
                         and DATEDIFF(o.rxdate,a.vstdate)<="1"
                         and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
-                        and e.er_emergency_type  in("1","5")
+                        and e.er_emergency_type  in("1","2","5")
                         and n.nhso_adp_code in(SELECT code from hshooterdb.h_ucep24)
                         group BY i.an,o.icode,o.rxdate
                         ORDER BY i.an;

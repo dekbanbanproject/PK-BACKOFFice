@@ -29,22 +29,20 @@
         <div class="row">
             <div class="col"></div>
             <div class="col-md-7">
-                <div class="card">
+                <div class="main-card mb-3 card">
                     <div class="card-header ">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5>หัตถการแพทย์แผนไทย</h5>
-                            </div>
-                            <div class="col"></div> 
-                            <div class="col-md-2 text-end">
-                           
-                            </div>
-    
+                        หัตถการแพทย์แผนไทย 
+                        <div class="btn-actions-pane-right">
+                                <!-- Button trigger modal -->
+                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Launch demo modal
+                                </button> -->
                         </div>
+                       
                     </div>
-                    <div class="card-body shadow-lg">
+                    <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;" id="example"> 
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>                                           
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>

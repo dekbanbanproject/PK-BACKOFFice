@@ -13,10 +13,10 @@
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-   
 
-    <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css">
+
+
+    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
@@ -37,7 +37,6 @@
     <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
         rel="stylesheet" type="text/css" />
 
-
     <!-- Bootstrap Css -->
     <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -46,16 +45,40 @@
     <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
-    {{-- <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet"> --}}
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <link href="{{ asset('css/tableclaim.css') }}" rel="stylesheet"> --}}
-    <!-- App Css-->
-    <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-
+   <!-- select2 -->
+    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+   <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+<!-- Plugins css -->
+{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
-    .myTable thead tr{
-    background-color: #a248dd;
+    body{
+        /* background: */
+            /* url(/pkbackoffice/public/images/bg7.png);  */
+            /* -webkit-background-size: cover; */
+        background-color:rgb(245, 240, 240);
+        background-repeat: no-repeat;
+		background-attachment: fixed;
+		/* background-size: cover; */
+        background-size: 100% 100%;
+        /* display: flex; */
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* width: 100vw;   ให้เต็มพอดี */
+        /* height: 100vh; ให้เต็มพอดี  */
+        }
+    .Bgsidebar {
+  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
+		background-repeat: no-repeat;
+	}
+    .Bgheader {
+  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+		background-repeat: no-repeat;
+	}
+    /* .myTable thead tr{
+    background-color: #b56fca;
     color: #ffffff;
     text-align: center;
     }
@@ -69,38 +92,86 @@
         font-size:15px;
     }
     .myTable tbody tr:nth-of-type(even){
-        background-color: #e3fcf3;
+        background-color: #f4e1f7;
     }
     .myTable tbody tr:last-of-type{
-        border-bottom: 3px solid #32cab1;
+        border-bottom: 3px solid #ccbcd1;
     }
     .myTable tbody tr .active-row{
-        color: #32cab1;
-    }
+        color: #ccbcd1;
+    } */
 </style>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+ 
+use App\Http\Controllers\StaticController;
+use App\Models\Products_request_sub;
+    $permiss_account = StaticController::permiss_account($iduser); 
+    $permiss_setting_upstm = StaticController::permiss_setting_upstm($iduser);
+    $permiss_ucs = StaticController::permiss_ucs($iduser);
+    $permiss_sss = StaticController::permiss_sss($iduser);
+    $permiss_ofc = StaticController::permiss_ofc($iduser);
+    $permiss_lgo = StaticController::permiss_lgo($iduser);
+    $permiss_prb = StaticController::permiss_prb($iduser);
+    $permiss_ti = StaticController::permiss_ti($iduser);
+    $permiss_rep_money= StaticController::permiss_rep_money($iduser);
+ 
+?>
 
 <body data-topbar="dark">
 
     <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 
     <!-- Loader -->
-    <div id="preloader">
+    {{-- <div id="preloader">
         <div id="status">
             <div class="spinner">
-                <i class="ri-loader-line spin-icon"></i>
+
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <header id="page-topbar">
-            <div class="navbar-header" style="background-color: rgb(159, 9, 197)">
-                
+        <header id="page-topbar ">
+            {{-- <div class="navbar-header"> --}}
+                <div class="navbar-header shadow" style="background-color: rgb(200, 195, 201)">
+                {{-- <div class="d-flex">
+                    <div class="navbar-brand-box">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
+                    </div>
+                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
+                        data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                        <i class="ri-menu-2-line align-middle"></i>
+                    </button>
+
+                    <div class="dropdown dropdown-mega d-none d-lg-block ">
+                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                            id="vertical-menu-btn">
+                            <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                        </button>
+                        <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
+                        <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
+                            aria-haspopup="false" aria-expanded="false">
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-3">โรงพยาบาลภูเขียวเฉลิมพระเกียรติ</h4>
+
+                        </button>
+                    </div>
+
+                </div> --}}
+
                 <div class="d-flex">
                     <!-- LOGO -->
-                    <div class="navbar-brand-box">
+                    <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
@@ -111,32 +182,34 @@
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
+                            <span class="logo-sm">
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgba(200, 195, 201, 0.781)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle"></i>
+                        <i class="ri-menu-2-line align-middle" style="color:rgb(255, 255, 255)"></i>
                     </button>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
+
+                    <h4 style="color:rgb(255, 255, 255)" class="mt-4">Thai traditional medicine</h4>
+                    <?php
+                        $org = DB::connection('mysql')->select(                                                            '
+                                select * from orginfo
                                 where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                        );
                     ?>
-                    <form class="app-search d-none d-lg-block">
+                    {{-- <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
                             <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
-                            
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-3">ACCOUNT</h4>
                         </div>
-                    </form>                                         
+                    </form> --}}
                 </div>
 
 
@@ -144,7 +217,7 @@
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(255, 255, 255)"></i>
+                            <i class="ri-fullscreen-line" style="color: rgb(39, 38, 38)"></i>
                         </button>
                     </div>
 
@@ -158,14 +231,14 @@
                                 <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
                                     width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
                             @endif
-                            <span class="d-none d-xl-inline-block ms-1">
+                            <span class="d-none d-xl-inline-block ms-1" style="color: rgb(49, 48, 48)">
                                 {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                             </span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block" style="color: rgb(44, 43, 43)"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('admin_profile_edit/' . Auth::user()->id) }}"><i
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"><i
                                     class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}"
@@ -191,100 +264,65 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
+        {{-- <div class="vertical-menu" style="background-color: rgb(255, 255, 255)"> --}}
         <div class="vertical-menu">
+            {{-- <div class="vertical-menu Bgsidebar"> --}}
 
             <div data-simplebar class="h-100">
-
-                <!-- User details -->
-                {{-- <div class="user-profile text-center mt-3">
-                    <div class="">                       
-                        @if (Auth::user()->img == null)
-                        <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
-                            width="32px" alt="Image" class="avatar-md rounded-circle">                                    
-                    @else
-                        <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
-                            width="32px" alt="Image" class="avatar-md rounded-circle">
-                    @endif
-                    </div>
-                    <div class="mt-3">
-                        <h4 class="font-size-16 mb-1">
-                            {{ Auth::user()->fname }} {{ Auth::user()->lname }}
-                        </h4>
-                        <span class="text-muted"><i
-                                class="ri-record-circle-line align-middle font-size-14 text-success"></i> Online</span>
-                    </div>
-                </div> --}}
 
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
- 
+                        {{-- <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-invoice-dollar text-success"></i>
+                                <span>New-Eclaim</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('check_auth') }}" target="_blank">Check User Api</a></li>
+
+                            </ul>
+
+                        </li> --}}
+                        
+                       
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}
+                                {{-- <i class="fa-brands fa-btc text-success"></i> --}}
                                 <i class="fa-solid fa-file-pen text-danger"></i>
                                 <span>ลงข้อมูล</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('medicine_salt') }}">ทับหม้อเกลือ บัตรทองในเขต</a></li>
+                                {{-- <li><a href="{{ url('account_302_dash') }}">302-IPเครือข่าย</a></li> --}}
+                                {{-- <li><a href="{{ url('account_304_dash') }}">304-IPนอกเครือข่าย</a></li> --}}
+                                {{-- <li><a href="{{ url('account_307_dash') }}">307-กองทุนทดแทน</a></li> --}}
+                                
                             </ul>
                         </li>
-                       
+                      
+
+                     
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-chart-line text-danger"></i>
-                                <span>รายงานแยกปีงบ</span>
+                                <span>รายงาน</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('report_op') }}">ผู้ป่วย OPD Visit</a></li>
-                                <li><a href="{{ url('report_ipd') }}">ผู้ป่วย IPD Visit</a></li>
-                                <li><a href="javascript: void(0);" class="has-arrow">รายงาน OFC แยกปีงบ</a>
-                                    <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('report_opd_ofc') }}">ผู้ป่วย OPD OFC</a></li>
-                                        <li><a href="{{ url('report_ipd_ofc') }}">ผู้ป่วย IPD OFC</a></li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li> --}}
-                        
-                       
+                        </li>  --}}
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-user-tie text-danger"></i>
-                                <span>karn</span>
+                                <i class="fa-solid fa-gears text-danger"></i>
+                                <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('karn_main') }}">ตรวจสอบ</a></li>
-                                <li><a href="{{ url('karn_main_sss') }}">LAB 07</a></li>
-                                <li><a href="{{ url('karn_sss_309') }}">ไต 309</a></li>
+                                <li><a href="{{ url('p4p_work_position') }}">ตำแหน่งสายงาน</a></li>
+                                <li><a href="{{ url('p4p_workgroupset') }}">หมวดภาระงาน</a></li>
                             </ul>
                         </li> --}}
 
-
-                        {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-chart-column text-danger"></i>
-                                <span>ผังบัญชี</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{url('checksit_sendaccount')}} ">ส่งการเงิน</a></li>
-                                <li><a href="{{url('checksit_sendlist')}} ">รายการที่ส่ง</a></li>
-                      
-                                <li><a href="javascript: void(0);" class="has-arrow">ตรวจสอบสิทธิ์</a>
-                                    <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('checksit_admit') }}">ตรวจสอบสิทธิ์ admit ทุกสิทธิ์</a>
-                                        </li>
-                                        <li><a href="{{ url('checksit_admit2') }}">ตรวจสอบสิทธิ์ OFC SI</a></li>
-                                        
-                                    </ul>
-                                </li>
-                                
-                            </ul>
-                        </li> --}}
-
-                     
 
 
                     </ul>
@@ -299,13 +337,13 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content">
-
-            <div class="page-content">
+        <div class="main-content mt-3">
+            {{-- <div class="page-content"> --}}
+            {{-- <div class="page-content"> --}}
 
                 @yield('content')
 
-            </div>
+            {{-- </div> --}}
             <!-- End Page-content -->
 
             <footer class="footer">
@@ -318,7 +356,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i>by ทีมพัฒนา PK-HOS
+                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-HOS
                             </div>
                         </div>
                     </div>
@@ -337,13 +375,16 @@
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
 
-    <!-- JAVASCRIPT --> 
+    <!-- JAVASCRIPT -->
+    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
+
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
 
-    <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
@@ -384,28 +425,33 @@
     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
 
     <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
- 
+
+
     <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
-    {{-- <script src="{{ asset('js/select2.min.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
- 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- <script type="text/javascript" src="{{ asset('acccph/vendors/@chenfengyuan/datepicker/dist/datepicker.min.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/vendors/daterangepicker/daterangepicker.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/datepicker.js') }}"></script>
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-
+    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
     @yield('footer')
 
-    
 
     <script type="text/javascript">
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
             $('#example3').DataTable();
-  
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -413,8 +459,12 @@
             });
 
         });
- 
-        
+
+        $(document).ready(function() {
+
+        });
+
+
     </script>
 
 </body>

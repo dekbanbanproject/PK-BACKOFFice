@@ -33,28 +33,33 @@
                     <div class="row">
                         <div class="col"></div>
                         <div class="col-md-1 text-end">วันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
+                        <div class="col-md-4 text-center">
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $start }}" required/>
+                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $end }}"/>  
+                            </div> 
+
+                            {{-- <div class="input-group" id="datepicker1">
                                 <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
                                     data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
                                     value="{{ $start }}">
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                {{-- <input id="startdate" name="startdate" class="form-control form-control-sm" type="date" value="{{$start}}"> --}}
-                            </div>
+                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span> 
+                            </div> --}}
                         </div>
-                        <div class="col-md-1 text-center">ถึงวันที่</div>
+                        {{-- <div class="col-md-1 text-center">ถึงวันที่</div>
                         <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                {{-- <input id="enddate" name="enddate" class="form-control form-control-sm" type="date" value="{{$end}}">  --}}
+                            <div class="input-group" id="datepicker1"> 
                                 <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
                                     data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
                                     value="{{ $end }}">
                                 <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
                             </div>
-                        </div>
+                        </div> --}}
                          
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                 <i class="fa-solid fa-magnifying-glass me-2"></i>
                                 ค้นหา
                             </button>
@@ -67,30 +72,35 @@
         <div class="row mt-3">
             <div class="col"></div>
             <div class="col-md-7">
-                <div class="card">
-                    <div class="card-header ">
+                <div class="main-card mb-3 card">
+                    {{-- <div class="card-header ">
                         <div class="row">
                             <div class="col-md-8">
-                                <h5>การลงข้อมูล ทับหม้อเกลือ บัตรทองในเขต 
-                                    {{-- <br>  {{$output_show}} --}}
-                                </h5>
-                            </div>
-                            <div class="col"></div> 
+                                <h5>การลงข้อมูล ทับหม้อเกลือ บัตรทองในเขต </h5>
+                            </div> 
+                        </div>
+                    </div> --}}
+                    <div class="card-header">
+                        การลงข้อมูล ทับหม้อเกลือ บัตรทองในเขต  
+                        <div class="btn-actions-pane-right">
+                                <!-- Button trigger modal -->
+                                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Launch demo modal
+                                </button> -->
                         </div>
                     </div>
-                    <div class="card-body shadow-lg">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered table-sm myTable" style="width: 100%;"> 
-                                <thead>                                           
-                                    <tr>
-                                        <th width="5%" class="text-center">ลำดับ</th>
-                                        <th class="text-center">ปี</th>
-                                        <th class="text-center">เดือน</th>
-                                        <th class="text-center">จำนวนผู้ป่วย(ครั้ง)</th>                                                    
-                                    </tr>                                            
-                                </thead>
-                                <tbody>
-                                    <?php $i = 1; ?>
+                    <div class="card-body">
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">ลำดับ</th>
+                                    <th class="text-center">ปี</th>
+                                    <th class="text-center">เดือน</th>
+                                    <th class="text-center">จำนวนผู้ป่วย(ครั้ง)</th>  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1; ?>
                                     @foreach ($datashow as $item)
                                         <tr>
                                             <td class="text-center">{{$i++}}</td> 
@@ -127,9 +137,10 @@
                                             </td>  
                                         </tr>
                                     @endforeach
-                                </tbody>
-                            </table>
-                        </div> 
+    
+                            </tbody>
+                        </table>
+                            
                     </div>
                 </div>
             </div>

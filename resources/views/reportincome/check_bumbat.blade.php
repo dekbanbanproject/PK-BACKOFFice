@@ -1,22 +1,7 @@
-@extends('layouts.pkclaim')
+@extends('layouts.report_font')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 @section('content')
-<script>
-    function TypeAdmin() {
-        window.location.href = '{{ route('index') }}';
-    }
-</script>
-<?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
-?>
+ 
 <style>
     #button {
         display: block;
@@ -83,7 +68,7 @@ $pos = strrpos($url, '/') + 1;
         </div>
 
     </div>
-    <form action="{{ url('ucep24') }}" method="GET">
+    <form action="{{ url('check_bumbat') }}" method="GET">
             @csrf
     <div class="row"> 
             <div class="col"></div>
@@ -110,7 +95,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">
-                    รายละเอียด UCEP
+                    รายละเอียด ค่าอวัยวะเทียม/อุปกรณ์ในการบำบัดรักษา
                     <div class="btn-actions-pane-right">
                             <!-- Button trigger modal -->
                             <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -127,8 +112,18 @@ $pos = strrpos($url, '/') + 1;
                                 <th class="text-center">an</th>
                                 <th class="text-center">hn</th>
                                 <th class="text-center">cid</th>
-                                <th class="text-center">ptname</th>                             
                                 <th class="text-center">dchdate</th> 
+                                <th class="text-center">ptname</th>                             
+                                {{-- <th class="text-center">rw</th>  --}}
+                                {{-- <th class="text-center">อุปกรณ์</th>  --}}
+                                <th class="text-center">pdx</th> 
+                                <th class="text-center">icd9</th> 
+                                {{-- <th class="text-center">DOCTOR</th>  --}}
+                                
+                                <th class="text-center">icode</th> 
+                                <th class="text-center">รายการอุปกรณ์</th> 
+                                <th class="text-center">ค่าอวัยวะเทียม</th> 
+                                <th class="text-center">income</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -138,16 +133,28 @@ $pos = strrpos($url, '/') + 1;
 
                             <tr height="20" style="font-size: 14px;">
                                 <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>
-                                <td class="text-center" width="10%">
-                                    <a href="{{url('ucep24_an/'.$item->an)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" target="_blank"> 
+                                <td class="text-center" width="5%"> 
+                                    {{ $item->an }}
+                                    {{-- <a href="{{url('check_bumbat_/'.$item->an)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" target="_blank"> 
                                         <i class="fa-solid fa-asterisk text-info me-2"></i>
                                         {{ $item->an }}
-                                    </a>                                   
+                                    </a>                                    --}}
                                 </td>
-                                <td class="text-center" width="10%">{{ $item->hn }}</td>
+                                <td class="text-center" width="5%">{{ $item->hn }}</td>
                                 <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                 <td class="p-2">{{ $item->ptname }}</td>
-                                <td class="text-center" width="10%">{{ $item->dchdate }}</td>  
+                                {{-- <td class="text-center" width="5%">{{ $item->rw }}</td> --}}
+                                {{-- <td class="p-2">{{ $item->incomename }}</td> --}}
+                                <td class="text-center" width="5%">{{ $item->pdx }}</td>
+                                <td class="text-center" width="5%">{{ $item->ICD9 }}</td>
+                                {{-- <td class="p-2" width="10%">{{ $item->DOCTOR }}</td> --}}
+                                {{-- <td class="text-center" width="10%">{{ $item->pttype }}</td> --}}
+                               
+                                <td class="text-center" width="10%">{{ $item->icode }}</td> 
+                                <td class="p-2">{{ $item->inname }}</td>
+                                <td class="text-end" width="10%">{{ number_format($item->sum_price,2)}}</td>
+                                <td class="text-end" width="10%">{{ number_format($item->income,2)}}</td>
                             </tr>
 
 
