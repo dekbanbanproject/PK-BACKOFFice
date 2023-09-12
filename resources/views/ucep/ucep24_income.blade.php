@@ -112,11 +112,10 @@ $pos = strrpos($url, '/') + 1;
                 <div class="card-header">
                     รายละเอียด UCEP
                     <div class="btn-actions-pane-right">
-                        <a href="{{url('ucep24')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning"> 
+                        <a href="{{url('ucep24_an/'.$an)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning"> 
                             <i class="fa-solid fa-circle-arrow-left text-warning me-2"></i>
                             ย้อนกลับ
                         </a> 
-                      
                     </div>
                 </div>
                 <div class="card-body">
@@ -126,12 +125,14 @@ $pos = strrpos($url, '/') + 1;
                             <tr>
                                 <th class="text-center">ลำดับ</th>
                                 <th class="text-center">รหัสหมวด</th>
+                                <th class="text-center">billcode</th>
+                                <th class="text-center">icode</th>
                                 <th class="text-center">ชื่อ</th>
                                 <th class="text-center">จำนวน</th>
-                                <th class="text-center">เบิกได้</th>                           
-                                
-                                <th class="text-center">เบิกไม่ได้</th> 
-                                <th class="text-center">ค่ารักษา UCEP 24</th> 
+                                <th class="text-center">ราคา</th> 
+                                <th class="text-center">จำนวน ucep 24</th> 
+                                <th class="text-center">UCEP 24</th> 
+                                {{-- <th class="text-center">ค่ารักษา UCEP 24</th>  --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -144,34 +145,28 @@ $pos = strrpos($url, '/') + 1;
                                 <td class="text-center" width="10%">                               
                                         {{ $item->income }} 
                                 </td>
-                                <td class="p-2">{{ $item->nameliss }}</td>
-                                <td class="text-center" width="10%">{{ $item->qty }}</td>
-                          
-                                <td class="text-center"> 
-                                    @if ($item->paidst_ucep > 0)
-                                    <a href="{{url('ucep24_income/'.$item->an.'/'.$item->income)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> 
-                                     
-                                        {{ $item->paidst02 }}
-                                    </a>
+                                <td class="text-center" width="10%"><label for="" style="font-size: 20px;">{{ $item->nhso_adp_code }}</label></td>
+                                <td class="text-center" width="10%">{{ $item->icode }}</td>
+                                <td class="p-2" >{{ $item->dname }}</td>                          
+                                <td class="text-center">{{ $item->qty }}</td>                            
+                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"><label for="" style="font-size: 20px;">{{ number_format($item->sum_price,2)}}</label></td>
+                                <td class="text-center" style="color:rgb(243, 12, 12)">
+                                    @if ($item->qty_ucep > 0)
+                                    <label for="" style="font-size: 20px;">{{ $item->qty_ucep }}</label>
                                     @else
-                                    {{ number_format($item->paidst02,2)}} 
+                                        
                                     @endif
+                                    
                                 </td>
-                            
-                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->paidst0103,2)}}</td>
-                                <td class="text-end" style="color:rgb(231, 78, 73)" width="7%">
-                                 
-                                    {{-- @if ($item->paidst_ucep > 0)
-                                    <a href="{{url('ucep24_income/'.$item->an.'/'.$item->income)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"> 
-                                     
-                                        {{ $item->paidst_ucep }}
-                                    </a>
-                                    @else --}}
-                                    {{ number_format($item->paidst_ucep,2)}} 
-                                    {{-- @endif --}}
-                                </td> 
-                                   
-                                
+                                <td class="text-end" style="color:rgb(248, 22, 22)" width="7%">
+                                    @if ($item->price_ucep > 0)
+                                    <label for="" style="font-size: 20px;">{{ number_format($item->price_ucep,2)}}</label>
+                                    @else
+                                        
+                                    @endif
+                                    
+                                    </td> 
+                                                                   
                             </tr>
 
 

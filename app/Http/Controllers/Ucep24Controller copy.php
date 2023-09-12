@@ -105,15 +105,11 @@ class Ucep24Controller extends Controller
             $end = (''.$yearnew.'-09-30'); 
 
             if ($startdate == '') {
-                 
-                $data = DB::connection('mysql')->select('SELECT * from acc_ucep24 group by an');  
-
-            } else {
                 $data_ = DB::connection('mysql')->select('   
                         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                         ,i.dchdate,ii.pttype
                         ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
-                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
+                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz 
                         FROM hos.ipt i
                         LEFT JOIN hos.opitemrece o on i.an = o.an 
                         LEFT JOIN hos.ovst a on a.an = o.an
@@ -124,15 +120,12 @@ class Ucep24Controller extends Controller
                         LEFT JOIN hos.patient pt on pt.hn = a.hn
                         LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype	
                         
-                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        WHERE i.dchdate BETWEEN "'.$date.'" and "'.$date.'"
                         and o.an is not null
                         and o.paidst ="02"
-                        and p.hipdata_code ="ucs"
-                        and DATEDIFF(o.rxdate,a.vstdate)<="1"
-                        and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
-                        and e.er_emergency_type  in("1","5")
-                        and n.nhso_adp_code in(SELECT code from hshooterdb.h_ucep24)
-                        group BY i.an,o.icode,o.rxdate
+                        and p.hipdata_code ="ucs" 
+                        and e.er_emergency_type  in("1","5") 
+                        group BY i.an
                         ORDER BY i.an;
                 '); 
                 Acc_ucep24::truncate();
@@ -155,7 +148,55 @@ class Ucep24Controller extends Controller
                         'sum_price'         => $value->sum_price, 
                     ]);
                 }
-                $data = DB::connection('mysql')->select('SELECT * from acc_ucep24 group by an');  
+                $data = DB::connection('mysql')->select('SELECT * from acc_ucep24');  
+
+            } else {
+                $data_ = DB::connection('mysql')->select('   
+                        SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                        ,i.dchdate,ii.pttype
+                        ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
+                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
+                        FROM hos.ipt i
+                        LEFT JOIN hos.opitemrece o on i.an = o.an 
+                        LEFT JOIN hos.ovst a on a.an = o.an
+                        left JOIN hos.er_regist e on e.vn = i.vn
+                        LEFT JOIN hos.ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN hos.pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN hos.s_drugitems n on n.icode = o.icode
+                        LEFT JOIN hos.patient pt on pt.hn = a.hn
+                        LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype	
+                        
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        and o.an is not null
+                        and o.paidst ="02"
+                        and p.hipdata_code ="ucs"
+                   
+                        and e.er_emergency_type  in("1","5")
+                       
+                        group BY i.an
+                        ORDER BY i.an;
+                '); 
+                Acc_ucep24::truncate();
+                foreach ($data_ as $key => $value) {    
+                    Acc_ucep24::insert([
+                        'vn'                => $value->vn,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an,
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'vstdate'           => $value->vstdate,
+                        'rxdate'            => $value->rxdate,
+                        'dchdate'           => $value->dchdate,
+                        // 'pttype'            => $value->pttype, 
+                        'income'            => $value->income, 
+                        'icode'             => $value->icode,
+                        'name'              => $value->namelist,
+                        'qty'               => $value->qty,
+                        'unitprice'         => $value->unitprice,
+                        'sum_price'         => $value->sum_price, 
+                    ]);
+                }
+                $data = DB::connection('mysql')->select('SELECT * from acc_ucep24');  
             }
                   
             return view('ucep.ucep24',[
@@ -183,7 +224,7 @@ class Ucep24Controller extends Controller
                 $data = DB::connection('mysql')->select('   
                        
 
-                        select o.an,i.income,i.name as nameliss,sum(o.qty) as qty,
+                        select i.income,i.name as nameliss,sum(o.qty) as qty,
                         (select sum(sum_price) from hos.opitemrece where an=o.an and income = o.income and paidst in("02")) as paidst02,
                         (select sum(sum_price) from hos.opitemrece where an=o.an and income = o.income and paidst in("01","03")) as paidst0103,
                         (select sum(u.sum_price) from acc_ucep24 u where u.an= o.an and i.income = u.income) as paidst_ucep
@@ -236,36 +277,40 @@ class Ucep24Controller extends Controller
                 'data'             =>     $data, 
             ]);
     }
-    public function ucep24_income(Request $request,$an,$income)
-    { 
-            $startdate = $request->startdate;
-            $enddate = $request->enddate;
-            // select *
-            // from acc_ucep24                         
-            // where an = "'.$an.'"  and income = "'.$income.'" 
-                $data = DB::connection('mysql')->select('  
-                        select o.income,ifnull(n.icode,d.icode) as icode,ifnull(n.billcode,n.nhso_adp_code) as nhso_adp_code,ifnull(n.name,d.name) as dname,sum(o.qty) as qty,sum(sum_price) as sum_price
-                        ,(SELECT sum(qty) from pkbackoffice.acc_ucep24 where an = o.an and icode = o.icode) as qty_ucep 
-                        ,(SELECT sum(sum_price) from pkbackoffice.acc_ucep24 where an = o.an and icode = o.icode) as price_ucep
-                        from hos.opitemrece o
-                        left outer join hos.nondrugitems n on n.icode = o.icode
-                        left outer join hos.drugitems d on d.icode = o.icode
-                        left outer join hos.income i on i.income = o.income
-                        where o.an = "'.$an.'"
-                        and o.income = "'.$income.'" 
-                        group by o.icode
-                        order by o.icode
-                '); 
+    
+    // public function account_310_dashsub(Request $request,$startdate,$enddate)
+    // {
+    //     $datenow = date('Y-m-d');
+        
+    //     $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+    //     $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+    //     $date = date('Y-m-d'); 
+    //     // dd($end );
+       
+    //         $datashow = DB::select('
+    //                 SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME,l.MONTH_ID
+    //                 ,count(distinct a.hn) as hn
+    //                 ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 ,sum(a.debit) as debit
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+    //                 WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+    //                 and account_code="1102050101.310"
+    //                 group by month(a.dchdate) order by month(a.dchdate) desc;
+    //         ');
+            
 
-            return view('ucep.ucep24_income',[
-                'startdate'        =>     $startdate,
-                'enddate'          =>     $enddate, 
-                'data'             =>     $data, 
-                'an'               =>     $an, 
-                'income'           =>     $income, 
-            ]);
-    }
-    
-    
+    //     return view('account_310.account_310_dashsub',[
+    //         'startdate'          =>  $startdate,
+    //         'enddate'            =>  $enddate,
+    //         'datashow'           =>  $datashow,
+    //         'leave_month_year'   =>  $leave_month_year,
+    //     ]);
+    // }
+ 
    
  }
