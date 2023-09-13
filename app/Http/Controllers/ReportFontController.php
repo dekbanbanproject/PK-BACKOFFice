@@ -162,14 +162,18 @@ class ReportFontController extends Controller
 
     }
     public function report_dashboard(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
-        // $newDate = date('Y-m-d', strtotime($date . ' 1 months')); // 1 เดือน
+    { 
         $startdate = $request->startdate;
         $enddate = $request->enddate;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
         // dd($date);
         $dataopd_ = DB::connection('mysql3')->select('
             select COUNT(ro.hn) as OHN
@@ -192,13 +196,13 @@ class ReportFontController extends Controller
         $refer_ = DB::connection('mysql8')->select('
             SELECT COUNT(hn) as HN FROM referout
             WHERE loads_id="02"
-            AND refer_date BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+            AND refer_date BETWEEN "'.$start.'" AND "'.$end.'"
         ');
         foreach ($refer_ as $key => $value3) {
             $refer = $value3->HN;
         }
         $dataknee_ = DB::connection('mysql3')->select('
-                SELECT COUNT(e.an) as AN
+                SELECT COUNT(DISTINCT e.an) as AN
                 from an_stat e
                 left outer join patient pt on pt.hn = e.hn
                 left outer join pttype p on p.pttype = e.pttype
@@ -210,19 +214,19 @@ class ReportFontController extends Controller
                 LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id
                 left join hos.nondrugitems n1 on n1.icode = oo.icode
                 left join hos.s_drugitems sd on sd.icode = oo.icode
-                where e.dchdate BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                where e.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
                 and oo.icode IN("3009737","3010372","3010569");
         ');
         foreach ($dataknee_ as $value4) {
             $dataknee = $value4->AN;
         }
         $Opdknee_ = DB::connection('mysql3')->select('
-                SELECT COUNT(v.vn) as VN
+                SELECT COUNT(DISTINCT v.vn) as VN
                 from vn_stat v
                 left outer join hos.opitemrece oo on oo.vn = v.vn
                 left join hos.nondrugitems n1 on n1.icode = oo.icode
                 left join hos.s_drugitems sd on sd.icode = oo.icode
-                where v.vstdate BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                where v.vstdate BETWEEN "'.$start.'" AND "'.$end.'"
                 and oo.icode IN("3009737","3010372","3010569");
         ');
         foreach ($Opdknee_ as $value5) {
@@ -232,7 +236,7 @@ class ReportFontController extends Controller
                 SELECT COUNT(DISTINCT a.an) as AN
                 from an_stat a
                 left outer join hos.opitemrece oo on oo.an = a.an
-                where a.dchdate BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                where a.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
                 and oo.icode IN("3009738","3009739","3010896","3009740","3010228");
         ');
         foreach ($countsaphok_ as $value6) {
@@ -243,23 +247,60 @@ class ReportFontController extends Controller
                 from an_stat a
                 left join ipt ip on ip.an = a.an
                 left outer join hos.opitemrece oo on oo.an = a.an
-                where a.dchdate BETWEEN "'.$newDate.'" AND "'.$datenow.'"
+                where a.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
                 and oo.icode IN("3011002","3009749");
         ');
 
         foreach ($countkradook_ as $value7) {
             $countkradook = $value7->AN;
         }
-        // dd($datenow);
+        $count9140_ = DB::connection('mysql3')->select('
+                SELECT COUNT(DISTINCT a.an) as AN
+                FROM an_stat a
+                LEFT JOIN opitemrece o on o.an=a.an
+                LEFT JOIN iptoprt idx ON idx.an = a.an
+                LEFT JOIN icd9cm1 on icd9cm1.code=idx.icd9
+                LEFT JOIN patient pt on pt.hn = a.hn
+                LEFT JOIN pttype p on p.pttype = a.pttype  
+                LEFT JOIN doctor d on d.code = a.dx_doctor 
+                LEFT JOIN nondrugitems n on n.icode = o.icode
+                LEFT JOIN income ic on ic.income = n.income
+                WHERE o.icode = "3010581"
+                AND a.dchdate BETWEEN "'.$start.'" AND "'.$end.'"                
+        ');
+        foreach ($count9140_ as $value8) {
+            $count9140 = $value8->AN;
+        }
+        $count4701_ = DB::connection('mysql3')->select('
+            SELECT COUNT(DISTINCT a.an) as AN
+            FROM an_stat a
+                LEFT JOIN opitemrece o on o.an=a.an
+                LEFT JOIN iptoprt idx ON idx.an = a.an
+                LEFT JOIN icd9cm1 on icd9cm1.code=idx.icd9
+                LEFT JOIN patient pt on pt.hn = a.hn
+                LEFT JOIN pttype p on p.pttype = a.pttype  
+                LEFT JOIN doctor d on d.code = a.dx_doctor 
+                LEFT JOIN nondrugitems n on n.icode = o.icode
+                LEFT JOIN income ic on ic.income = n.income
+                WHERE idx.icd9 ="4701" 
+                AND a.dchdate BETWEEN "'.$start.'" and "'.$end.'"
+                        
+    ');
+    foreach ($count4701_ as $value8) {
+        $count4701 = $value8->AN;
+    }
         return view('dashboard.report_dashboard', [
             'dataknee'          =>  $dataknee,
             'refer'             =>  $refer,
             'total_refer'       =>  $total_refer,
             'Opdknee'           =>  $Opdknee,
-            'newDate'           =>  $newDate,
-            'datenow'           =>  $datenow,
+            'start'             =>  $start,
+            'end'               =>  $end,
+            'datenow'           =>  $date,
             'countsaphok'       =>  $countsaphok,
             'countkradook'      =>  $countkradook,
+            'count9140'         =>  $count9140,
+            'count4701'         =>  $count4701,
         ]);
     }
     public function report_authen(Request $request)
@@ -1411,6 +1452,66 @@ class ReportFontController extends Controller
     public function cross_exportexcel(Request $request)
     {
         return Excel::download(new RefercrossExport,'Refer_export.xlsx');
+    }
+
+    public function check_lapo_detail(Request $request,$newDate,$datenow)
+    {
+        $datashow_ = DB::connection('mysql3')->select('
+            SELECT a.dchdate,a.vn,pt.cid ,a.hn,a.an,a.rw
+            ,n.income as groupincome,ic.name as incomename
+            ,o.rxdate,a.regdate
+            ,concat(pt.pname,pt.fname," ",pt.lname) ptname
+            ,a.pdx,idx.icd9 as ICD9,d.name as DOCTOR,o.icode,n.name as inname
+            ,idx.opdate,idx.optime,p.pttype,p.name ,a.inc08,a.income,a.uc_money,a.item_money,o.unitprice,o.sum_price
+            FROM an_stat a
+            LEFT JOIN opitemrece o on o.an=a.an
+            LEFT JOIN iptoprt idx ON idx.an = a.an
+            LEFT JOIN icd9cm1 on icd9cm1.code=idx.icd9
+            LEFT JOIN patient pt on pt.hn = a.hn
+            LEFT JOIN pttype p on p.pttype = a.pttype  
+            LEFT JOIN doctor d on d.code = a.dx_doctor 
+            LEFT JOIN nondrugitems n on n.icode = o.icode
+            LEFT JOIN income ic on ic.income = n.income
+            WHERE idx.icd9 ="4701" 
+            AND a.dchdate BETWEEN "'.$newDate.'" and "'.$datenow.'" 
+            group by a.an 
+        ');
+
+        return view('dashboard.check_lapo_detail', [
+            'datashow_'      =>  $datashow_,
+            'newDate'        =>  $newDate,
+            'datenow'        =>  $datenow,
+        ]);
+    }
+
+    public function check_bumbat_detail(Request $request,$newDate,$datenow)
+    {
+        $datashow_ = DB::connection('mysql3')->select('
+            SELECT a.dchdate,a.vn,pt.cid ,a.hn,a.an,a.rw
+            ,n.income as groupincome,ic.name as incomename
+            ,o.rxdate,a.regdate
+            ,concat(pt.pname,pt.fname," ",pt.lname) ptname
+            ,a.pdx,idx.icd9 as ICD9,d.name as DOCTOR,o.icode,n.name as inname
+            ,idx.opdate,idx.optime,p.pttype,p.name ,a.inc08,a.income,a.uc_money,a.item_money,o.unitprice,o.qty,o.sum_price
+            FROM an_stat a
+            LEFT JOIN opitemrece o on o.an=a.an
+            LEFT JOIN iptoprt idx ON idx.an = a.an
+            LEFT JOIN icd9cm1 on icd9cm1.code=idx.icd9
+            LEFT JOIN patient pt on pt.hn = a.hn
+            LEFT JOIN pttype p on p.pttype = a.pttype  
+            LEFT JOIN doctor d on d.code = a.dx_doctor 
+            LEFT JOIN nondrugitems n on n.icode = o.icode
+            LEFT JOIN income ic on ic.income = n.income
+            WHERE o.icode = "3010581"
+            AND a.dchdate BETWEEN "'.$newDate.'" and "'.$datenow.'" 
+            group by a.an 
+        ');
+
+        return view('dashboard.check_bumbat_detail', [
+            'datashow_'      =>  $datashow_,
+            'newDate'        =>  $newDate,
+            'datenow'        =>  $datenow,
+        ]);
     }
 
 

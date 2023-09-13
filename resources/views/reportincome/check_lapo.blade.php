@@ -129,7 +129,19 @@
                         <tbody>
                             <?php $number = 0; ?>
                             @foreach ($data as $item)
-                            <?php $number++; ?>
+                            <?php $number++;
+                            
+                                $data4701 = DB::connection('mysql3')->select('
+                                    select o.rxdate,o.rxtime,o.icode,s.name as name4701,s.strength,s.units ,o.qty,o.sum_price,o.paidst ,p.name as paidst_name,pt.name as pttype_name,o.income,i.name as comename  
+                                        from opitemrece o  
+                                        left outer join s_drugitems s on s.icode = o.icode  
+                                        left outer join paidst p on p.paidst = o.paidst 
+                                        left outer join pttype pt on pt.pttype = o.pttype  
+                                        LEFT JOIN income i on i.income = o.income
+                                        WHERE o.an = "'.$item->an.'" AND o.rxdate = "'.$item->rxdate.'" AND o.income  ="02"
+                                ');
+                            
+                            ?>
 
                             <tr height="20" style="font-size: 14px;">
                                 <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>
@@ -154,7 +166,7 @@
                                 {{-- <td class="text-center" width="10%">{{ $item->icode }}</td>  --}}
                                 {{-- <td class="p-2">{{ $item->inname }}</td> --}}
                                 <td class="text-end" width="10%">
-                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"data-bs-toggle="modal" data-bs-target="#exampleModal"> 
+                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"> 
                                         <i class="fa-solid fa-asterisk text-info me-2"></i> 
                                     {{ number_format($item->inc08,2)}}
                                     </button>
@@ -171,11 +183,33 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-4">หมวด</div>
+                                            <div class="col-md-1" >รหัส</div>
+                                            <div class="col-md-4 ">รายการอุปกรณ์</div>
+                                            <div class="col-md-1 ">จำนวน</div>
+                                            <div class="col-md-2 ">ราคา</div>
+                                        </div>
+                                        <hr>
+                                        @foreach ($data4701 as $item2)
+                                            <div class="row mt-2">
+                                                <div class="col-md-4">{{$item2->comename}}</div>
+                                                <div class="col-md-1">{{$item2->icode}}</div>
+                                                <div class="col-md-4">{{$item2->name4701}}</div>
+                                                <div class="col-md-1">{{$item2->qty}}</div>
+                                                <div class="col-md-2">{{$item2->sum_price}}</div>
+                                            </div>
+                                            <hr>
+                                        @endforeach
+                                        
                                         
                                     </div>
                                     <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">
+                                        <i class="fa-solid fa-xmark text-danger me-2"></i>
+                                        Close
+                                    </button>
+                                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
                                     </div>
                                 </div>
                                 </div>

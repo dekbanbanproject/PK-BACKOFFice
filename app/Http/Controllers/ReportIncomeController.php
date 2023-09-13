@@ -63,7 +63,7 @@ class ReportIncomeController extends Controller
         $data = DB::connection('mysql3')->select('
                 SELECT a.dchdate,a.vn,pt.cid ,a.hn,a.an,a.rw
                 ,n.income as groupincome,ic.name as incomename
-                
+                ,o.rxdate
                 ,concat(pt.pname,pt.fname," ",pt.lname) ptname
                 ,a.pdx,idx.icd9 as ICD9,d.name as DOCTOR,o.icode,n.name as inname
                 ,idx.opdate,idx.optime,p.pttype,p.name ,a.inc08,a.income,a.uc_money,a.item_money,o.unitprice,o.sum_price
@@ -78,7 +78,6 @@ class ReportIncomeController extends Controller
                 LEFT JOIN income ic on ic.income = n.income
                 WHERE idx.icd9 ="4701" 
                 AND a.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-
                 group by a.an 
         ');
         

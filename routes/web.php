@@ -77,6 +77,8 @@ Route::match(['get','post'],'check_kradookdetail/{newDate}/{datenow}',[App\Http\
 
 Route::match(['get','post'],'check_khosaphok',[App\Http\Controllers\ReportFontController::class, 'check_khosaphok'])->name('rep.check_khosaphok');// report ข้อสะโพก
 Route::match(['get','post'],'check_khosaphokdetail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_khosaphokdetail'])->name('rep.check_khosaphokdetail');// report ข้อสะโพก
+Route::match(['get','post'],'check_bumbat_detail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_bumbat_detail'])->name('rep.check_bumbat_detail');// 
+Route::match(['get','post'],'check_lapo_detail/{newDate}/{datenow}',[App\Http\Controllers\ReportFontController::class, 'check_lapo_detail'])->name('rep.check_lapo_detail');// 
 
 Route::match(['get','post'],'check_bumbat',[App\Http\Controllers\ReportIncomeController::class, 'check_bumbat'])->name('rep.check_bumbat');// ค่าอวัยวะเทียม/อุปกรณ์ในการบำบัดรักษา
 Route::match(['get','post'],'check_lapo',[App\Http\Controllers\ReportIncomeController::class, 'check_lapo'])->name('rep.check_lapo');// 
