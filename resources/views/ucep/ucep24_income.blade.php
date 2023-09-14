@@ -149,7 +149,7 @@ $pos = strrpos($url, '/') + 1;
                                 <td class="text-center" width="10%">{{ $item->icode }}</td>
                                 <td class="p-2" >{{ $item->dname }}</td>                          
                                 <td class="text-center">{{ $item->qty }}</td>                            
-                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"><label for="" style="font-size: 20px;">{{ number_format($item->sum_price,2)}}</label></td>
+                                <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"><label for="" style="font-size: 20px;">{{ number_format($item->unitprice,2)}}</label></td>
                                 <td class="text-center" style="color:rgb(243, 12, 12)">
                                     @if ($item->qty_ucep > 0)
                                     <label for="" style="font-size: 20px;">{{ $item->qty_ucep }}</label>

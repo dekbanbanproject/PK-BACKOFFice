@@ -128,6 +128,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
@@ -141,7 +142,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-md-3">
+
+            <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -154,6 +156,21 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                    <div id="chart4"> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div> 
 
     </div>
@@ -185,53 +202,75 @@
         });
     </script>
     <script>
+        var options1 = {
+            chart: {
+                height: 350,
+                type: "radialBar",
+            },
+            series: [32, 98, 70, 61],
+            plotOptions: {
+                radialBar: {
+                dataLabels: {
+                    total: {
+                            show: true,
+                            label: 'TOTAL'
+                    }
+                }
+                }
+            },
+            labels: ['401', '402', '403', '404']
+            };
+
+            new ApexCharts(document.querySelector("#chart4"), options1).render();
+    </script>
+    <script>
          var options7 = {
           series: [{
-        //   data: data.slice()
-        data: [1523,2562,2555,2240]
-        }],
-          chart: {
-          id: 'realtime',
-          height: 350,
-          type: 'line',
-          animations: {
-            enabled: true,
-            easing: 'linear',
-            dynamicAnimation: {
-              speed: 1000
-            }
-          },
-          toolbar: {
-            show: false
-          },
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        title: {
-          text: 'Dynamic Updating Chart',
-          align: 'left'
-        },
-        markers: {
-          size: 0
-        },
-        xaxis: {
-          type: 'datetime',
-          range: XAXISRANGE,
-        },
-        yaxis: {
-          max: 100
-        },
-        legend: {
-          show: false
-        },
-        };
+                // data: data.slice()
+                data: [1523,2562,2555,2240]
+                }],
+                chart: {
+                id: 'realtime',
+                height: 350,
+                type: 'line',
+                animations: {
+                    enabled: true,
+                    easing: 'linear',
+                    dynamicAnimation: {
+                    speed: 1000
+                    }
+                },
+                toolbar: {
+                    show: false
+                },
+                zoom: {
+                    enabled: false
+                }
+                },
+                dataLabels: {
+                enabled: false
+                },
+                stroke: {
+                curve: 'smooth'
+                },
+                title: {
+                text: 'Dynamic Updating Chart',
+                align: 'left'
+                },
+                markers: {
+                size: 0
+                },
+                xaxis: {
+                type: 'datetime',
+                range: XAXISRANGE,
+                },
+                yaxis: {
+                max: 100
+                },
+                legend: {
+                show: false
+                },
+            };
 
         var chart = new ApexCharts(document.querySelector("#linechart"), options7);
         chart.render();

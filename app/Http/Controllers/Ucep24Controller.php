@@ -131,10 +131,11 @@ class Ucep24Controller extends Controller
                         and DATEDIFF(o.rxdate,a.vstdate)<="1"
                         and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
                         and e.er_emergency_type  in("1","2","5")
-                        and n.nhso_adp_code in(SELECT code from hshooterdb.h_ucep24)
+                       
                         group BY i.an,o.icode,o.rxdate
                         ORDER BY i.an;
                 '); 
+                // and n.nhso_adp_code in(SELECT code from hshooterdb.h_ucep24)
                 Acc_ucep24::truncate();
                 foreach ($data_ as $key => $value) {    
                     Acc_ucep24::insert([
@@ -245,7 +246,7 @@ class Ucep24Controller extends Controller
             // where an = "'.$an.'"  and income = "'.$income.'" 
                 $data = DB::connection('mysql')->select('  
                         select o.income,ifnull(n.icode,d.icode) as icode,ifnull(n.billcode,n.nhso_adp_code) as nhso_adp_code,ifnull(n.name,d.name) as dname,sum(o.qty) as qty,sum(sum_price) as sum_price
-                        ,(SELECT sum(qty) from pkbackoffice.acc_ucep24 where an = o.an and icode = o.icode) as qty_ucep 
+                        ,(SELECT sum(qty) from pkbackoffice.acc_ucep24 where an = o.an and icode = o.icode) as qty_ucep ,o.unitprice
                         ,(SELECT sum(sum_price) from pkbackoffice.acc_ucep24 where an = o.an and icode = o.icode) as price_ucep
                         from hos.opitemrece o
                         left outer join hos.nondrugitems n on n.icode = o.icode

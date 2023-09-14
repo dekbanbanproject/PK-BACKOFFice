@@ -337,6 +337,12 @@ class AccountPKController extends Controller
             ');
         }
 
+        $realhos = DB::select('
+            SELECT 
+            SUM(debit_total) as total 
+            ,COUNT(vn) as vn
+            FROM acc_1102050101_401
+        ');
         $realtime = DB::select('
             SELECT 
             SUM(debit_total) as total 

@@ -12,7 +12,7 @@ class D_ins extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'd_ins';
     protected $primaryKey = 'd_ins_id';
     protected $fillable = [

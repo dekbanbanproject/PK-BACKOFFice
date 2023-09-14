@@ -580,8 +580,6 @@ class SixteenController extends Controller
         ]);
     }
    
-
-
     public function six_pull_c(Request $request)
     {
         $iduser = Auth::user()->id;
@@ -807,9 +805,7 @@ class SixteenController extends Controller
 
         return redirect()->back();
     }
-
  
-
     public function six_send(Request $request)
     {
         $sss_date_now = date("Y-m-d");

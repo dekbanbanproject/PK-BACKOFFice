@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class D_odx extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'd_odx';
     protected $primaryKey = 'd_odx_id';
     protected $fillable = [ 

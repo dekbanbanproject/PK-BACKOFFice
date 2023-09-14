@@ -8,21 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class D_lvd extends Authenticatable
+class Acc_imc_an extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql';
-    protected $table = 'd_lvd';
-    protected $primaryKey = 'd_lvd_id';
+
+    protected $table = 'acc_imc_an';
+    protected $primaryKey = 'acc_imc_an_id';
     protected $fillable = [
-        'SEQLVD', 
-        'AN', 
-        'DATEOUT',  
-        'TIMEOUT',  
-        'DATEIN',
-        'TIMEIN',
-        'QTYDAY', 
-      
+        'vn',
+        'an',
+        'hn'         
     ];
 
   

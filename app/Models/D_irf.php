@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class D_irf extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'd_irf';
     protected $primaryKey = 'd_irf_id';
     protected $fillable = [
