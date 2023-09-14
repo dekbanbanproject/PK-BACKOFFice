@@ -25,6 +25,7 @@ return new class extends Migration
                 $table->string('TIMEIN')->nullable();//  
                 $table->string('DATEOUT')->nullable();// 
                 $table->string('TIMEOUT')->nullable();// 
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //   
                 $table->timestamps();
             });

@@ -37,6 +37,7 @@ return new class extends Migration
                 $table->string('SUBINSCL')->nullable(); // 
                 $table->string('RELINSCL')->nullable(); // 
                 $table->string('HTYPE')->nullable(); // 
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             });

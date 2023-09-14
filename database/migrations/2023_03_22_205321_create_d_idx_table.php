@@ -21,6 +21,7 @@ return new class extends Migration
                 $table->string('DIAG')->nullable();// 
                 $table->string('DXTYPE')->nullable();//                   
                 $table->string('DRDX')->nullable();//   
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             });

@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->string('REFER')->nullable(); //             
                 $table->string('REFERTYPE')->nullable(); //  
                 $table->string('SEQ')->nullable(); //  
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             });

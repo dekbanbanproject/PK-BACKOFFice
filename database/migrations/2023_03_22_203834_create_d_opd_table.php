@@ -31,7 +31,7 @@ return new class extends Migration
                 // $table->string('PR')->nullable(); // 
                 // $table->string('RR')->nullable(); //   
                 // $table->string('OPTYPE')->nullable(); // 
-                // $table->string('TYPEIN')->nullable(); // 
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //        
                 $table->timestamps();
             });

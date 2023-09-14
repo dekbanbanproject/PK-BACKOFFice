@@ -31,6 +31,7 @@ return new class extends Migration
                 $table->string('ADM_W')->nullable(); // 
                 $table->string('UUC')->nullable(); // 
                 $table->string('SVCTYPE')->nullable(); // 
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             });

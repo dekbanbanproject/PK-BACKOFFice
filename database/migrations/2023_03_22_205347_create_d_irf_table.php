@@ -20,7 +20,8 @@ return new class extends Migration
  
                 $table->string('AN')->nullable();//  
                 $table->string('REFER')->nullable();//  
-                $table->string('REFERTYPE')->nullable(); //   
+                $table->string('REFERTYPE')->nullable(); //  
+                $table->string('d_anaconda_id')->nullable(); //  
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             });

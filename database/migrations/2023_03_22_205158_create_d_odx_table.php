@@ -25,6 +25,7 @@ return new class extends Migration
                 $table->string('DRDX')->nullable(); //  
                 $table->string('PERSON_ID')->nullable(); // 
                 $table->string('SEQ')->nullable(); // 
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             });

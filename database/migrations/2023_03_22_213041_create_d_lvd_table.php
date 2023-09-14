@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->date('DATEIN')->nullable();//  
                 $table->string('TIMEIN')->nullable();//  
                 $table->string('QTYDAY')->nullable();//  
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
             });

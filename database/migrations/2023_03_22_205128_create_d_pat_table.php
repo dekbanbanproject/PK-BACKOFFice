@@ -32,6 +32,7 @@ return new class extends Migration
                 $table->string('FNAME')->nullable(); // 
                 $table->string('LNAME')->nullable(); // 
                 $table->string('IDTYPE')->nullable(); // 
+                $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //   
                 $table->timestamps();
             });

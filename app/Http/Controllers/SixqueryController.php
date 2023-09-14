@@ -105,7 +105,7 @@ class SixqueryController extends Controller
             D_irf::where('user_id','=',$iduser)->delete();
              
              //D_opd
-             $data_opd = DB::connection('mysql3')->select('
+             $data_opd = DB::connection('mysql2')->select('
                     SELECT  v.hn HN
                     ,v.spclty CLINIC
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
@@ -133,7 +133,7 @@ class SixqueryController extends Controller
                 $addo->user_id        = $iduser;
                 $addo->save();
             }
-            // //D_orf
+            //D_orf
             $data_orf = DB::connection('mysql3')->select('
                     SELECT v.hn HN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
@@ -162,7 +162,7 @@ class SixqueryController extends Controller
                 $addof->user_id        = $iduser;
                 $addof->save();
             }
-            // //D_oop
+            //D_oop
             $data_oop = DB::connection('mysql3')->select('
                     SELECT v.hn HN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
