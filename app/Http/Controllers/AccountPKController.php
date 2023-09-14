@@ -337,11 +337,20 @@ class AccountPKController extends Controller
             ');
         }
 
+        $realtime = DB::select('
+            SELECT 
+            SUM(debit_total) as total 
+            ,COUNT(vn) as vn
+            FROM acc_1102050101_401
+        ');
+
+
         return view('account_pk.account_pk_dash',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'    =>     $datashow,
-            'leave_month_year' =>  $leave_month_year,
+            'startdate'         => $startdate,
+            'enddate'           => $enddate,
+            'datashow'          => $datashow,
+            'leave_month_year'  => $leave_month_year,
+            'realtime'          => $realtime,
         ]);
     }
     public function account_pk(Request $request)

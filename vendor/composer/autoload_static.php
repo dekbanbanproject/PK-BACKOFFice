@@ -201,11 +201,13 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         array (
             'Brick\\Math\\' => 11,
             'Barryvdh\\DomPDF\\' => 16,
+            'Balping\\JsonRaw\\' => 16,
             'BaconQrCode\\' => 12,
         ),
         'A' => 
         array (
             'App\\' => 4,
+            'Akaunting\\Apexcharts\\' => 21,
         ),
     );
 
@@ -621,6 +623,10 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         array (
             0 => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src',
         ),
+        'Balping\\JsonRaw\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/balping/json-raw-encoder/src',
+        ),
         'BaconQrCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
@@ -628,6 +634,10 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
+        ),
+        'Akaunting\\Apexcharts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src',
         ),
     );
 
@@ -656,6 +666,41 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
     );
 
     public static $classMap = array (
+        'Akaunting\\Apexcharts\\Chart' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Chart.php',
+        'Akaunting\\Apexcharts\\Facade' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Facade.php',
+        'Akaunting\\Apexcharts\\Options\\Annotations' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Annotations.php',
+        'Akaunting\\Apexcharts\\Options\\Chart' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Chart.php',
+        'Akaunting\\Apexcharts\\Options\\DataLabels' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/DataLabels.php',
+        'Akaunting\\Apexcharts\\Options\\Fill' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Fill.php',
+        'Akaunting\\Apexcharts\\Options\\ForecastDataPoints' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/ForecastDataPoints.php',
+        'Akaunting\\Apexcharts\\Options\\Grid' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Grid.php',
+        'Akaunting\\Apexcharts\\Options\\Legend' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Legend.php',
+        'Akaunting\\Apexcharts\\Options\\Markers' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Markers.php',
+        'Akaunting\\Apexcharts\\Options\\NoData' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/NoData.php',
+        'Akaunting\\Apexcharts\\Options\\PlotOptions' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/PlotOptions.php',
+        'Akaunting\\Apexcharts\\Options\\Responsive' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Responsive.php',
+        'Akaunting\\Apexcharts\\Options\\States' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/States.php',
+        'Akaunting\\Apexcharts\\Options\\Stroke' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Stroke.php',
+        'Akaunting\\Apexcharts\\Options\\Subtitle' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Subtitle.php',
+        'Akaunting\\Apexcharts\\Options\\Theme' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Theme.php',
+        'Akaunting\\Apexcharts\\Options\\Title' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Title.php',
+        'Akaunting\\Apexcharts\\Options\\Tooltip' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Tooltip.php',
+        'Akaunting\\Apexcharts\\Options\\Xaxis' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Xaxis.php',
+        'Akaunting\\Apexcharts\\Options\\Yaxis' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Options/Yaxis.php',
+        'Akaunting\\Apexcharts\\Provider' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Provider.php',
+        'Akaunting\\Apexcharts\\Support\\DatasetClass' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Support/DatasetClass.php',
+        'Akaunting\\Apexcharts\\Traits\\Formatter' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Traits/Formatter.php',
+        'Akaunting\\Apexcharts\\Traits\\Types' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Traits/Types.php',
+        'Akaunting\\Apexcharts\\Types\\Area' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/Area.php',
+        'Akaunting\\Apexcharts\\Types\\Bar' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/Bar.php',
+        'Akaunting\\Apexcharts\\Types\\Donut' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/Donut.php',
+        'Akaunting\\Apexcharts\\Types\\HeatMap' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/HeatMap.php',
+        'Akaunting\\Apexcharts\\Types\\HorizontalBar' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/HorizontalBar.php',
+        'Akaunting\\Apexcharts\\Types\\Line' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/Line.php',
+        'Akaunting\\Apexcharts\\Types\\Pie' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/Pie.php',
+        'Akaunting\\Apexcharts\\Types\\PolarArea' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/PolarArea.php',
+        'Akaunting\\Apexcharts\\Types\\Radar' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/Radar.php',
+        'Akaunting\\Apexcharts\\Types\\Radial' => __DIR__ . '/..' . '/akaunting/laravel-apexcharts/src/Types/Radial.php',
         'App\\Console\\Commands\\DatabaseBackUp' => __DIR__ . '/../..' . '/app/Console/Commands/DatabaseBackUp.php',
         'App\\Console\\Commands\\DbBackup' => __DIR__ . '/../..' . '/app/Console/Commands/DbBackup.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
@@ -772,6 +817,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\RepairnarmalController' => __DIR__ . '/../..' . '/app/Http/Controllers/RepairnarmalController.php',
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
         'App\\Http\\Controllers\\ReportFontController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportFontController.php',
+        'App\\Http\\Controllers\\ReportIncomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportIncomeController.php',
         'App\\Http\\Controllers\\ReportWarehouseController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportWarehouseController.php',
         'App\\Http\\Controllers\\Report\\AssetReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/Report/AssetReportController.php',
         'App\\Http\\Controllers\\Report\\BookReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/Report/BookReportController.php',
@@ -941,6 +987,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Acc_stm_ucs' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ucs.php',
         'App\\Models\\Acc_stm_ucs_excel' => __DIR__ . '/../..' . '/app/Models/Acc_stm_ucs_excel.php',
         'App\\Models\\Acc_trimart' => __DIR__ . '/../..' . '/app/Models/Acc_trimart.php',
+        'App\\Models\\Acc_ucep24' => __DIR__ . '/../..' . '/app/Models/Acc_ucep24.php',
         'App\\Models\\Account' => __DIR__ . '/../..' . '/app/Models/Account.php',
         'App\\Models\\Account_creditor' => __DIR__ . '/../..' . '/app/Models/Account_creditor.php',
         'App\\Models\\Account_listpercen' => __DIR__ . '/../..' . '/app/Models/Account_listpercen.php',
@@ -1409,6 +1456,9 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'BaconQrCode\\Renderer\\RendererStyle\\GradientType' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/Renderer/RendererStyle/GradientType.php',
         'BaconQrCode\\Renderer\\RendererStyle\\RendererStyle' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/Renderer/RendererStyle/RendererStyle.php',
         'BaconQrCode\\Writer' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/Writer.php',
+        'Balping\\JsonRaw\\Encoder' => __DIR__ . '/..' . '/balping/json-raw-encoder/src/Encoder.php',
+        'Balping\\JsonRaw\\Raw' => __DIR__ . '/..' . '/balping/json-raw-encoder/src/Raw.php',
+        'Balping\\JsonRaw\\Replacer' => __DIR__ . '/..' . '/balping/json-raw-encoder/src/Replacer.php',
         'Barryvdh\\DomPDF\\Facade\\Pdf' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/Facade/Pdf.php',
         'Barryvdh\\DomPDF\\PDF' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/PDF.php',
         'Barryvdh\\DomPDF\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/ServiceProvider.php',

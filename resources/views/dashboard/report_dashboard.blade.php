@@ -316,16 +316,62 @@
                 </div> 
             </div>                      --}}
                         
-    </div>
-
+        </div>
+        <div class="row">
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                    <div id="chart"> </div>
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
+            </div> 
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                    <div id="chart2"> </div>
+                                    {{-- @apexchartsScripts
+                                    {!! $chart->container() !!}
+                                    {!! $chart->script() !!} --}}
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
+            </div> 
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card mb-3 card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover"> 
+                                    <div id="chart3"> </div>
+                                    {{-- @apexchartsScripts
+                                    {!! $chart->container() !!}
+                                    {!! $chart->script() !!} --}}
+                                </div>                                           
+                            </div>  
+                        </div>                                           
+                    </div> 
+                </div> 
+            </div> 
+        </div>
            
-       
+        
     </div>
   
-
+    @apexchartsScripts
     @endsection
-    @section('footer')
-    
+    @section('footer') 
+    {{-- <script src="{{ asset('apexcharts/report.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -335,8 +381,145 @@
             });
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
-            });
-              
+            }); 
         });
+        
+    </script>
+    <script>
+        var options = {
+            chart: {
+                height: 350,
+                type: "radialBar",
+            },
+
+            series: [67],
+            colors: ["#20E647"],
+            plotOptions: {
+                radialBar: {
+                hollow: {
+                    margin: 0,
+                    size: "70%",
+                    background: "#293450"
+                },
+                track: {
+                    dropShadow: {
+                    enabled: true,
+                    top: 2,
+                    left: 0,
+                    blur: 4,
+                    opacity: 0.15
+                    }
+                },
+                dataLabels: {
+                    name: {
+                    offsetY: -10,
+                    color: "#fff",
+                    fontSize: "13px"
+                    },
+                    value: {
+                    color: "#fff",
+                    fontSize: "30px",
+                    show: true
+                    }
+                }
+                }
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                shade: "dark",
+                type: "vertical",
+                gradientToColors: ["#87D4F9"],
+                stops: [0, 100]
+                }
+            },
+            stroke: {
+                lineCap: "round"
+            },
+            labels: ["Progress"]
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+   
+
+            var options2 = {
+                chart: {
+                    height: 350,
+                    type: 'radialBar',
+                },
+                series: [
+                    87
+                ],
+                plotOptions: {
+                radialBar: {
+                hollow: {
+                    margin: 15,
+                    size: "70%"
+                },
+                
+                dataLabels: {
+                    showOn: "always",
+                    name: {
+                    offsetY: -10,
+                    show: true,
+                    color: "#888",
+                    fontSize: "13px"
+                    },
+                    value: {
+                    color: "#111",
+                    fontSize: "30px",
+                    show: true
+                    }
+                }
+                }
+                },
+                stroke: {
+                    lineCap: "round",
+                },
+                labels: ['Progress'],
+            }  
+            var chart = new ApexCharts(document.querySelector("#chart2"), options2);            
+            chart.render();
+
+            var options3 = {
+                chart: {
+                    height: 350,
+                    type: 'radialBar',
+                },
+                series: [
+                    15
+                ],
+                plotOptions: {
+                radialBar: {
+                hollow: {
+                    margin: 15,
+                    size: "70%"
+                },
+                
+                dataLabels: {
+                    showOn: "always",
+                    name: {
+                    offsetY: -10,
+                    show: true,
+                    color: "#888",
+                    fontSize: "13px"
+                    },
+                    value: {
+                    color: "#111",
+                    fontSize: "30px",
+                    show: true
+                    }
+                }
+                }
+                },
+
+                stroke: {
+                    lineCap: "round",
+                },
+                labels: ['Progress'],
+            }  
+            var chart = new ApexCharts(document.querySelector("#chart3"), options3);            
+            chart.render();
     </script>
     @endsection

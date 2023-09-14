@@ -481,29 +481,33 @@
                      // setup 
                     const data = {
                         labels: ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"] ,
+                        // labels: [0] ,
                         datasets: [                        
                             {
                                 label: ['คนไข้ที่มารับบริการ OPD'],
+                                // data: [0],
                                 data: count,
                                 fill: false,
                                 borderColor: 'rgba(255, 205, 86)',
-                                tension: 0.4
+                                lineTension: 0.4
                                
                             },
                             {
                                 label: ['ขอ Authen Code'],
+                                // data: [0],
                                 data: Authen,
                                 fill: false,
                                 borderColor: 'rgba(75, 192, 192)',
-                                tension: 0.4
+                                lineTension: 0.4
                                
                             },
                             {
                                 label: ['ไม่ Authen Code'],
+                                // data: [0],
                                 data: Noauthen,
                                 fill: false,
                                 borderColor: 'rgba(255, 99, 132)',
-                                tension: 0.4
+                                lineTension: 0.4
                                 
                             },
                             
@@ -514,15 +518,14 @@
              
                     const config = {
                         type: 'line',
-                        data,
+                        data:data,
                         options: { 
                             scales: { 
                                 y: {
                                     beginAtZero: true 
                                 }
                             } 
-                        },
-                        
+                        },                        
                         plugins:[ChartDataLabels],
                         
                     };
@@ -532,6 +535,15 @@
                         document.getElementById('myChartNew'),
                         config
                     );
+                    // window.setInterval(mycallback,2000);
+                    // function mycallback () {
+                    //     var now = new Date();
+                    //     now = now.getHours()+ ":"+now.getMinutes()+":"+now.getSeconds();
+                    //     var value = Math.floor(Math.random()*1000);
+                    //     data.labels.push(now);
+                    //     data.datasets[0].data.push(value);
+                    //     myChartNew.update();
+                    // }
                 }
              }
 

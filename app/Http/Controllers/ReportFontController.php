@@ -17,6 +17,7 @@ use App\Models\Refer_cross;
 use Illuminate\Support\Facades\File;
 use DataTables;
 use Intervention\Image\ImageManagerStatic as Image;
+use Akaunting\Apexcharts\Chart;
 
 class ReportFontController extends Controller
 {
@@ -285,10 +286,17 @@ class ReportFontController extends Controller
                 WHERE idx.icd9 ="4701" 
                 AND a.dchdate BETWEEN "'.$start.'" and "'.$end.'"
                         
-    ');
-    foreach ($count4701_ as $value8) {
-        $count4701 = $value8->AN;
-    }
+        ');
+        foreach ($count4701_ as $value8) {
+            $count4701 = $value8->AN;
+        }
+ 
+        $chart = (new Chart)->setType('radialBar')
+            ->setWidth('100%')
+            ->setHeight(350)
+            ->setLabels(['Sales', 'Deposit'])
+            ->setDataset('Income by Category', 'donut', [1907, 2500]);
+
         return view('dashboard.report_dashboard', [
             'dataknee'          =>  $dataknee,
             'refer'             =>  $refer,
@@ -301,6 +309,7 @@ class ReportFontController extends Controller
             'countkradook'      =>  $countkradook,
             'count9140'         =>  $count9140,
             'count4701'         =>  $count4701,
+            'chart'             =>  $chart,
         ]);
     }
     public function report_authen(Request $request)
