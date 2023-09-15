@@ -39,7 +39,9 @@ return new class extends Migration
                 $table->string('pricereq_all')->nullable();//   
                 $table->string('STMdoc')->nullable();//  
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH'])->default('REP')->nullable(); 
-                $table->timestamps();
+                // $table->timestamps();
+                $table->timestamp(column:'created_at')->useCurrent();
+                $table->timestamp(column:'updated_at')->nullable();
             });
         }
     }

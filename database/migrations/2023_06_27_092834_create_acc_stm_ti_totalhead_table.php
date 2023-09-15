@@ -24,7 +24,7 @@ return new class extends Migration
                 $table->string('STMdoc')->nullable();// 
                 $table->string('dateStart')->nullable();// 
                 $table->string('dateEnd')->nullable();//
-                $table->string('datedue')->nullable();//            
+                $table->string('dateData')->nullable();//            
                 $table->string('dateIssue')->nullable();// 
                 $table->string('acount')->nullable();//  
                 $table->string('amount')->nullable();// 

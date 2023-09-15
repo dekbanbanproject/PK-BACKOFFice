@@ -435,12 +435,13 @@ use App\Models\Products_request_sub;
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
                                 <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li>
-                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml)</a></li>
+                               
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)</a></li>
                                 <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li>
 
                                 <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
+                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)</a></li>
                             </ul>
                         </li>
                         @endif
@@ -638,7 +639,7 @@ use App\Models\Products_request_sub;
     <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script>
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/treeview.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script>
 

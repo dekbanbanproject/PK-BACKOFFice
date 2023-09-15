@@ -206,7 +206,7 @@ class Account309Controller extends Controller
                     ,o.vstdate as vstdate 
                     ,o.vsttime ,v.hospmain,op.income as income_group  
                     ,ptt.pttype_eclaim_id
-                    ,v.pttype
+                    ,vp.pttype
                     ,e.code as acc_code
                     ,e.ar_opd as account_code
                     ,e.name as account_name
@@ -229,7 +229,7 @@ class Account309Controller extends Controller
                     LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND v.pttype = "14" AND v.income <> 0
+                    AND vp.pttype = "14" AND v.income <> 0
                     and (o.an="" or o.an is null)
                     GROUP BY o.vn
             ');
