@@ -7346,8 +7346,13 @@ class AccountPKController extends Controller
                     $startcount++; 
 
                 }
-                DB::table('acc_stm_ucs_excel')->insert($data); 
+                // DB::table('acc_stm_ucs_excel')->insert($data); 
 
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {
+                    Acc_stm_ucs_excel::insert($data_); 
+                }
+                // Acc_stm_ucs_excel::insert($data); 
                 // Cheet 3
                 $spreadsheet2 = IOFactory::load($the_file->getRealPath()); 
                 $sheet2        = $spreadsheet2->setActiveSheetIndex(3);
@@ -7459,8 +7464,11 @@ class AccountPKController extends Controller
                     $startcount2++; 
 
                 }
-                DB::table('acc_stm_ucs_excel')->insert($data2); 
-
+                // DB::table('acc_stm_ucs_excel')->Transaction::insert($data2); 
+                $for_insert2 = array_chunk($data2, length:1000);
+                foreach ($for_insert2 as $key => $data2_) {
+                    Acc_stm_ucs_excel::insert($data2_); 
+                }
 
 
 

@@ -92,7 +92,8 @@ return new class extends Migration
             $table->double('money', 10, 2)->nullable(); 
             $table->string('color_ot')->nullable(); 
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamps('created_at')->useCurrent();
+            $table->timestamps('updated_at')->nullable();
         });
     }
 }

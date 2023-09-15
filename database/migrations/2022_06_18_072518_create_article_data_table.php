@@ -85,7 +85,8 @@ return new class extends Migration
             $table->string('article_used')->nullable();
             $table->string('medical_typecat_id')->nullable(); //
             $table->string('article_type_id')->nullable(); // 
-            $table->timestamps();
+            $table->timestamps('created_at')->useCurrent();
+            $table->timestamps('updated_at')->nullable();
         });
     }
     }

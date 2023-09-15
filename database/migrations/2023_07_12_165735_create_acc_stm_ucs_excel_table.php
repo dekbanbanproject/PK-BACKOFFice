@@ -62,7 +62,8 @@ return new class extends Migration
                 $table->string('STMdoc')->nullable();//
 
                 $table->enum('active', ['REP','APPROVE','CANCEL','FINISH','PULL'])->default('PULL')->nullable();
-                $table->timestamps();
+                $table->timestamp(column:'created_at')->useCurrent();
+                $table->timestamp(column:'updated_at')->nullable();
             });
         }
     }

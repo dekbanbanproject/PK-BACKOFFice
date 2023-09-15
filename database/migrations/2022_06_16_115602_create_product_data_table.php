@@ -36,7 +36,8 @@ return new class extends Migration
             $table->string('img')->nullable();
             $table->string('store_id')->nullable(); 
             $table->enum('product_claim', ['CLAIM', 'NOCLAIM'])->default('NOCLAIM');//ส่งเคลมใด้
-            $table->timestamps();
+            $table->timestamps('created_at')->useCurrent();
+            $table->timestamps('updated_at')->nullable();
         });
     }
     }
