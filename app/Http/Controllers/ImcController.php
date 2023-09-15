@@ -139,7 +139,10 @@ class ImcController extends Controller
                 // D_dru::where('user_id','=',$iduser)->delete();
                 D_idx::where('d_anaconda_id','=','1')->delete();
                 D_ipd::where('d_anaconda_id','=','1')->delete();
-                // D_irf::where('user_id','=',$iduser)->delete();
+                D_irf::where('d_anaconda_id','=','1')->delete();
+
+                D_aer::where('d_anaconda_id','=','1')->delete();
+                D_iop::where('d_anaconda_id','=','1')->delete();
                 // $data_ = DB::connection('mysql2')->select('  
                 //     SELECT a.an from hos.an_stat a
                 //     LEFT JOIN hos.iptdiag i on i.an = a.an
@@ -424,6 +427,179 @@ class ImcController extends Controller
                     $addipd->user_id        = $iduser;
                     $addipd->d_anaconda_id  = 1;
                     $addipd->save();
+                }
+                //D_irf
+                $data_irf = DB::connection('mysql2')->select('
+                        SELECT ""d_irf_id,v.an AN
+                        ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
+                        ,"0100" REFERTYPE,"" created_at,"" updated_at
+                        FROM an_stat v
+                        LEFT JOIN referout o on o.vn =v.an
+                        LEFT JOIN referin oo on oo.vn =v.an
+                        LEFT JOIN ipt ip on ip.an = v.an
+                        LEFT JOIN vn_stat x on x.vn = ip.vn
+                        LEFT JOIN pttype p on p.pttype = v.pttype
+                        LEFT JOIN opitemrece op on op.an = ip.an
+                        WHERE ip.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        and (v.an in(select vn from referin where vn = oo.vn) or v.an in(select vn from referout where vn = o.vn))
+                        AND p.hipdata_code ="ucs"
+                        AND op.icode = "3010887"
+                ');
+                foreach ($data_irf as $va11) {
+                    D_irf::insert([
+                        'AN'                 => $va11->AN,
+                        'REFER'              => $va11->REFER,
+                        'REFERTYPE'          => $va11->REFERTYPE,
+                        'user_id'            => $iduser,
+                        'd_anaconda_id'      => 1
+                    ]);
+                }
+                //D_aer
+                $data_aer = DB::connection('mysql2')->select('
+                        SELECT ""d_aer_id,v.hn HN,i.an AN
+                        ,v.vstdate DATEOPD,vv.claim_code AUTHAE
+                        ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+                        ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ
+                        ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
+                        from vn_stat v
+                        LEFT JOIN ipt i on i.vn = v.vn
+                        LEFT JOIN visit_pttype vv on vv.vn = v.vn
+                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
+                        LEFT JOIN opitemrece op on op.an = i.an
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        AND pt.hipdata_code ="ucs"
+                        AND op.icode = "3010887"
+                        and i.an is null
+                        GROUP BY v.vn
+
+                        union all
+
+                        SELECT ""d_aer_id,v.hn HN
+                        ,v.an AN,v.dchdate DATEOPD,vv.claim_code AUTHAE
+                        ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+                        ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE
+                        ,"" SEQ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
+                        from an_stat v
+                        LEFT JOIN ipt_pttype vv on vv.an = v.an
+                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
+                        LEFT JOIN opitemrece op on op.an = v.an
+                        WHERE v.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        AND pt.hipdata_code ="ucs"
+                        AND op.icode = "3010887"
+                        group by v.an;
+                ');
+
+                foreach ($data_aer as $va12) {
+                    D_aer::insert([
+                        'HN'                => $va12->HN,
+                        'AN'                => $va12->AN,
+                        'DATEOPD'           => $va12->DATEOPD,
+                        'AUTHAE'            => $va12->AUTHAE,
+                        'AEDATE'            => $va12->AEDATE,
+                        'AETIME'            => $va12->AETIME,
+                        'AETYPE'            => $va12->AETYPE,
+                        'REFER_NO'          => $va12->REFER_NO,
+                        'REFMAINI'          => $va12->REFMAINI,
+                        'IREFTYPE'          => $va12->IREFTYPE,
+                        'REFMAINO'          => $va12->REFMAINO,
+                        'OREFTYPE'          => $va12->OREFTYPE,
+                        'UCAE'              => $va12->UCAE,
+                        'SEQ'               => $va12->SEQ,
+                        'AESTATUS'          => $va12->AESTATUS,
+                        'DALERT'            => $va12->DALERT,
+                        'TALERT'            => $va12->TALERT,
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 1
+                    ]);
+                }
+
+                //D_iop
+                $data_iop = DB::connection('mysql3')->select('
+                        SELECT "" d_iop_id,v.an AN
+                        ,o.icd9 OPER
+                        ,o.oper_type as OPTYPE
+                        ,if(d.licenseno="","-99999",d.licenseno) DROPID
+                        ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
+                        ,Time_format(o.optime,"%H%i") TIMEIN
+                        ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
+                        ,Time_format(o.endtime,"%H%i") TIMEOUT,"" created_at,"" updated_at
+                        FROM an_stat v
+                        LEFT JOIN iptoprt o on o.an = v.an
+                        LEFT JOIN doctor d on d.`code` = o.doctor
+                        INNER JOIN icd9cm1 i on i.code = o.icd9
+                        LEFT JOIN ipt ip on ip.an = v.an
+                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
+                        LEFT JOIN opitemrece op on op.an = v.an
+                        WHERE v.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        AND pt.hipdata_code ="ucs"
+                        AND op.icode = "3010887"
+                         
+                ');
+                foreach ($data_iop as $va7) {
+                    D_iop::insert([
+                        'AN'                => $va7->AN,
+                        'OPER'              => $va7->OPER,
+                        'OPTYPE'            => $va7->OPTYPE,
+                        'DROPID'            => $va7->DROPID,
+                        'DATEIN'            => $va7->DATEIN,
+                        'TIMEIN'            => $va7->TIMEIN,
+                        'DATEOUT'           => $va7->DATEOUT,
+                        'TIMEOUT'           => $va7->TIMEOUT,
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 1
+                    ]);
+                }
+                // D_pat
+                $data_pat = DB::connection('mysql3')->select('
+                        SELECT "" d_pat_id
+                        ,v.hcode HCODE
+                        ,v.hn HN
+                        ,pt.chwpart CHANGWAT
+                        ,pt.amppart AMPHUR
+                        ,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
+                        ,pt.sex SEX
+                        ,pt.marrystatus MARRIAGE
+                        ,pt.occupation OCCUPA
+                        ,lpad(pt.nationality,3,0) NATION
+                        ,pt.cid PERSON_ID
+                        ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
+                        ,pt.pname TITLE
+                        ,pt.fname FNAME
+                        ,pt.lname LNAME
+                        ,"1" IDTYPE
+                        ,"" created_at
+                        ,"" updated_at
+                        from vn_stat v
+                        LEFT JOIN pttype p on p.pttype = v.pttype
+                        LEFT JOIN ipt i on i.vn = v.vn
+                        LEFT JOIN patient pt on pt.hn = v.hn
+                        LEFT JOIN opitemrece op on op.an = i.an
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        AND p.hipdata_code ="ucs"
+                        AND op.icode = "3010887"
+                         
+                 
+                ');
+                foreach ($data_pat as $va2) {
+                    D_pat::insert([
+                        'HCODE'               => $va2->HCODE,
+                        'HN'                  => $va2->HN,
+                        'CHANGWAT'            => $va2->CHANGWAT,
+                        'AMPHUR'              => $va2->AMPHUR,
+                        'DOB'                 => $va2->DOB,
+                        'SEX'                 => $va2->SEX,
+                        'MARRIAGE'            => $va2->MARRIAGE,
+                        'OCCUPA'              => $va2->OCCUPA,
+                        'NATION'              => $va2->NATION,
+                        'PERSON_ID'           => $va2->PERSON_ID,
+                        'NAMEPAT'             => $va2->NAMEPAT,
+                        'TITLE'               => $va2->TITLE,
+                        'FNAME'               => $va2->FNAME,
+                        'LNAME'               => $va2->LNAME,
+                        'IDTYPE'              => $va2->IDTYPE,
+                        'user_id'             => $iduser,
+                        'd_anaconda_id'     => 1
+                    ]);
                 }
                 //D-dru
                 // $data_dru = DB::connection('mysql3')->select('
