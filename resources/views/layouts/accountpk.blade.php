@@ -50,6 +50,13 @@
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
+   <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+   <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
+
 <!-- Plugins css -->
 {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
@@ -568,6 +575,8 @@ use App\Models\Products_request_sub;
     <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
+    <script type="text/javascript" src="{{ asset('acccph/vendors/jquery-circle-progress/dist/circle-progress.min.js') }}"></script>
+
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -615,11 +624,24 @@ use App\Models\Products_request_sub;
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('acccph/js/form-components/datepicker.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script> --}}
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/form-components/datepicker.js') }}"></script> --}}
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script> --}}
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
+
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/charts/apex-charts.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/demo.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/scrollbar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/treeview.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script>
+
     @yield('footer')
 
 
