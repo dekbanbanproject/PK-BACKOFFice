@@ -160,7 +160,8 @@
                                                     LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.vstdate = a.vstdate
                                                     where month(a.vstdate) = "'.$item->months.'"
                                                     AND year(a.vstdate) = "'.$item->year.'"
-                                                    AND Total_amount <> "" 
+                                                    AND Total_amount <> ""
+                                                     
                                             ');                                           
                                             foreach ($sumapprove_ as $key => $value3) {
                                                 $sum_stm = $value3->Total_amount; 
