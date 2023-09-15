@@ -140,9 +140,12 @@ class ImcController extends Controller
                 D_idx::where('d_anaconda_id','=','1')->delete();
                 D_ipd::where('d_anaconda_id','=','1')->delete();
                 D_irf::where('d_anaconda_id','=','1')->delete();
-
                 D_aer::where('d_anaconda_id','=','1')->delete();
                 D_iop::where('d_anaconda_id','=','1')->delete();
+                D_pat::where('d_anaconda_id','=','1')->delete();
+                D_cht::where('d_anaconda_id','=','1')->delete();
+                D_cha::where('d_anaconda_id','=','1')->delete();
+                
                 // $data_ = DB::connection('mysql2')->select('  
                 //     SELECT a.an from hos.an_stat a
                 //     LEFT JOIN hos.iptdiag i on i.an = a.an
@@ -410,20 +413,20 @@ class ImcController extends Controller
                         AND p.hipdata_code ="ucs"
                         AND op.icode = "3010887"
                 ');
-                foreach ($data_ipd as $va10) {                
+                foreach ($data_ipd as $va8) {                
                     $addipd = new D_ipd; 
-                    $addipd->AN             = $va10->AN;
-                    $addipd->HN             = $va10->HN;
-                    $addipd->DATEADM        = $va10->DATEADM;
-                    $addipd->TIMEADM        = $va10->TIMEADM; 
-                    $addipd->DATEDSC        = $va10->DATEDSC; 
-                    $addipd->TIMEDSC        = $va10->TIMEDSC; 
-                    $addipd->DISCHS         = $va10->DISCHS; 
-                    $addipd->DISCHT         = $va10->DISCHT; 
-                    $addipd->DEPT           = $va10->DEPT; 
-                    $addipd->ADM_W          = $va10->ADM_W; 
-                    $addipd->UUC            = $va10->UUC; 
-                    $addipd->SVCTYPE        = $va10->SVCTYPE; 
+                    $addipd->AN             = $va8->AN;
+                    $addipd->HN             = $va8->HN;
+                    $addipd->DATEADM        = $va8->DATEADM;
+                    $addipd->TIMEADM        = $va8->TIMEADM; 
+                    $addipd->DATEDSC        = $va8->DATEDSC; 
+                    $addipd->TIMEDSC        = $va8->TIMEDSC; 
+                    $addipd->DISCHS         = $va8->DISCHS; 
+                    $addipd->DISCHT         = $va8->DISCHT; 
+                    $addipd->DEPT           = $va8->DEPT; 
+                    $addipd->ADM_W          = $va8->ADM_W; 
+                    $addipd->UUC            = $va8->UUC; 
+                    $addipd->SVCTYPE        = $va8->SVCTYPE; 
                     $addipd->user_id        = $iduser;
                     $addipd->d_anaconda_id  = 1;
                     $addipd->save();
@@ -445,11 +448,11 @@ class ImcController extends Controller
                         AND p.hipdata_code ="ucs"
                         AND op.icode = "3010887"
                 ');
-                foreach ($data_irf as $va11) {
+                foreach ($data_irf as $va9) {
                     D_irf::insert([
-                        'AN'                 => $va11->AN,
-                        'REFER'              => $va11->REFER,
-                        'REFERTYPE'          => $va11->REFERTYPE,
+                        'AN'                 => $va9->AN,
+                        'REFER'              => $va9->REFER,
+                        'REFERTYPE'          => $va9->REFERTYPE,
                         'user_id'            => $iduser,
                         'd_anaconda_id'      => 1
                     ]);
@@ -489,32 +492,32 @@ class ImcController extends Controller
                         group by v.an;
                 ');
 
-                foreach ($data_aer as $va12) {
+                foreach ($data_aer as $va10) {
                     D_aer::insert([
-                        'HN'                => $va12->HN,
-                        'AN'                => $va12->AN,
-                        'DATEOPD'           => $va12->DATEOPD,
-                        'AUTHAE'            => $va12->AUTHAE,
-                        'AEDATE'            => $va12->AEDATE,
-                        'AETIME'            => $va12->AETIME,
-                        'AETYPE'            => $va12->AETYPE,
-                        'REFER_NO'          => $va12->REFER_NO,
-                        'REFMAINI'          => $va12->REFMAINI,
-                        'IREFTYPE'          => $va12->IREFTYPE,
-                        'REFMAINO'          => $va12->REFMAINO,
-                        'OREFTYPE'          => $va12->OREFTYPE,
-                        'UCAE'              => $va12->UCAE,
-                        'SEQ'               => $va12->SEQ,
-                        'AESTATUS'          => $va12->AESTATUS,
-                        'DALERT'            => $va12->DALERT,
-                        'TALERT'            => $va12->TALERT,
+                        'HN'                => $va10->HN,
+                        'AN'                => $va10->AN,
+                        'DATEOPD'           => $va10->DATEOPD,
+                        'AUTHAE'            => $va10->AUTHAE,
+                        'AEDATE'            => $va10->AEDATE,
+                        'AETIME'            => $va10->AETIME,
+                        'AETYPE'            => $va10->AETYPE,
+                        'REFER_NO'          => $va10->REFER_NO,
+                        'REFMAINI'          => $va10->REFMAINI,
+                        'IREFTYPE'          => $va10->IREFTYPE,
+                        'REFMAINO'          => $va10->REFMAINO,
+                        'OREFTYPE'          => $va10->OREFTYPE,
+                        'UCAE'              => $va10->UCAE,
+                        'SEQ'               => $va10->SEQ,
+                        'AESTATUS'          => $va10->AESTATUS,
+                        'DALERT'            => $va10->DALERT,
+                        'TALERT'            => $va10->TALERT,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 1
                     ]);
                 }
 
                 //D_iop
-                $data_iop = DB::connection('mysql3')->select('
+                $data_iop = DB::connection('mysql2')->select('
                         SELECT "" d_iop_id,v.an AN
                         ,o.icd9 OPER
                         ,o.oper_type as OPTYPE
@@ -535,22 +538,22 @@ class ImcController extends Controller
                         AND op.icode = "3010887"
                          
                 ');
-                foreach ($data_iop as $va7) {
+                foreach ($data_iop as $va11) {
                     D_iop::insert([
-                        'AN'                => $va7->AN,
-                        'OPER'              => $va7->OPER,
-                        'OPTYPE'            => $va7->OPTYPE,
-                        'DROPID'            => $va7->DROPID,
-                        'DATEIN'            => $va7->DATEIN,
-                        'TIMEIN'            => $va7->TIMEIN,
-                        'DATEOUT'           => $va7->DATEOUT,
-                        'TIMEOUT'           => $va7->TIMEOUT,
+                        'AN'                => $va11->AN,
+                        'OPER'              => $va11->OPER,
+                        'OPTYPE'            => $va11->OPTYPE,
+                        'DROPID'            => $va11->DROPID,
+                        'DATEIN'            => $va11->DATEIN,
+                        'TIMEIN'            => $va11->TIMEIN,
+                        'DATEOUT'           => $va11->DATEOUT,
+                        'TIMEOUT'           => $va11->TIMEOUT,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 1
                     ]);
                 }
                 // D_pat
-                $data_pat = DB::connection('mysql3')->select('
+                $data_pat = DB::connection('mysql2')->select('
                         SELECT "" d_pat_id
                         ,v.hcode HCODE
                         ,v.hn HN
@@ -580,27 +583,126 @@ class ImcController extends Controller
                          
                  
                 ');
-                foreach ($data_pat as $va2) {
+                foreach ($data_pat as $va12) {
                     D_pat::insert([
-                        'HCODE'               => $va2->HCODE,
-                        'HN'                  => $va2->HN,
-                        'CHANGWAT'            => $va2->CHANGWAT,
-                        'AMPHUR'              => $va2->AMPHUR,
-                        'DOB'                 => $va2->DOB,
-                        'SEX'                 => $va2->SEX,
-                        'MARRIAGE'            => $va2->MARRIAGE,
-                        'OCCUPA'              => $va2->OCCUPA,
-                        'NATION'              => $va2->NATION,
-                        'PERSON_ID'           => $va2->PERSON_ID,
-                        'NAMEPAT'             => $va2->NAMEPAT,
-                        'TITLE'               => $va2->TITLE,
-                        'FNAME'               => $va2->FNAME,
-                        'LNAME'               => $va2->LNAME,
-                        'IDTYPE'              => $va2->IDTYPE,
+                        'HCODE'               => $va12->HCODE,
+                        'HN'                  => $va12->HN,
+                        'CHANGWAT'            => $va12->CHANGWAT,
+                        'AMPHUR'              => $va12->AMPHUR,
+                        'DOB'                 => $va12->DOB,
+                        'SEX'                 => $va12->SEX,
+                        'MARRIAGE'            => $va12->MARRIAGE,
+                        'OCCUPA'              => $va12->OCCUPA,
+                        'NATION'              => $va12->NATION,
+                        'PERSON_ID'           => $va12->PERSON_ID,
+                        'NAMEPAT'             => $va12->NAMEPAT,
+                        'TITLE'               => $va12->TITLE,
+                        'FNAME'               => $va12->FNAME,
+                        'LNAME'               => $va12->LNAME,
+                        'IDTYPE'              => $va12->IDTYPE,
                         'user_id'             => $iduser,
+                        'd_anaconda_id'       => 1
+                    ]);
+                }
+
+                //D_cht
+                $data_cht = DB::connection('mysql2')->select('
+                        SELECT "" d_cht_id
+                        ,v.hn HN
+                        ,v.an AN
+                        ,DATE_FORMAT(if(a.an is null,v.vstdate,a.dchdate),"%Y%m%d") DATE
+                        ,round(if(a.an is null,vv.income,a.income),2) TOTAL
+                        ,round(if(a.an is null,vv.paid_money,a.paid_money),2) PAID
+                        ,if(vv.paid_money >"0" or a.paid_money >"0","10",pt.pcode) PTTYPE
+                        ,pp.cid PERSON_ID
+                        ,v.vn SEQ
+                        ,"" created_at
+                        ,"" updated_at
+                        from ovst v
+                        LEFT JOIN vn_stat vv on vv.vn = v.vn
+                        LEFT JOIN an_stat a on a.an = v.an
+                        LEFT JOIN patient pp on pp.hn = v.hn
+                        LEFT JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
+                        LEFT JOIN opitemrece op on op.an = a.an
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        AND pt.hipdata_code ="ucs"
+                        AND op.icode = "3010887"
+                ');
+                foreach ($data_cht as $va13) {
+                    D_cht::insert([
+                        'HN'                => $va13->HN,
+                        'AN'                => $va13->AN,
+                        'DATE'              => $va13->DATE,
+                        'TOTAL'             => $va13->TOTAL,
+                        'PAID'              => $va13->PAID,
+                        'PTTYPE'            => $va13->PTTYPE,
+                        'PERSON_ID'         => $va13->PERSON_ID,
+                        'SEQ'               => $va13->SEQ,
+                        'user_id'           => $iduser,
                         'd_anaconda_id'     => 1
                     ]);
                 }
+
+                //D_cha
+                $data_cha = DB::connection('mysql2')->select('
+                        SELECT "" d_cha_id,v.hn HN
+                        ,if(v1.an is null,"",v1.an) AN
+                        ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
+                        ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
+                        ,round(sum(v.sum_price),2) AMOUNT
+                        ,p.cid PERSON_ID
+                        ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
+                        from opitemrece v
+                        LEFT JOIN vn_stat vv on vv.vn = v.vn
+                        LEFT JOIN patient p on p.hn = v.hn
+                        LEFT JOIN ipt v1 on v1.an = v.an
+                        LEFT JOIN income i on v.income=i.income
+                        LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
+                        LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
+                        LEFT JOIN pttype pt on pt.pttype = vv.pttype
+                        WHERE v1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        AND pt.hipdata_code ="ucs"
+                        AND v.icode = "3010887"
+                        group by v.vn,CHRGITEM
+
+                        union all
+
+                        SELECT "" d_cha_id,v.hn HN
+                        ,v1.an AN
+                        ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
+                        ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
+                        ,round(sum(v.sum_price),2) AMOUNT
+                        ,p.cid PERSON_ID
+                        ,ifnull(v.vn,v.an) SEQ,"" created_at,"" updated_at
+                        from opitemrece v
+                        LEFT JOIN vn_stat vv on vv.vn = v.vn
+                        LEFT JOIN patient p on p.hn = v.hn
+                        LEFT JOIN ipt v1 on v1.an = v.an
+                        LEFT JOIN income i on v.income=i.income
+                        LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
+                        LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
+                        
+                        LEFT JOIN pttype pt on pt.pttype = v1.pttype
+                        WHERE v1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                        AND pt.hipdata_code ="ucs"
+                        AND v.icode = "3010887"
+
+                        group by v.an,CHRGITEM;
+                ');
+                foreach ($data_cha as $va14) {
+                    D_cha::insert([
+                        'HN'                => $va14->HN,
+                        'AN'                => $va14->AN,
+                        'DATE'              => $va14->DATE,
+                        'CHRGITEM'          => $va14->CHRGITEM,
+                        'AMOUNT'            => $va14->AMOUNT,
+                        'PERSON_ID'         => $va14->PERSON_ID,
+                        'SEQ'               => $va14->SEQ,
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 1
+                    ]);
+                }
+
                 //D-dru
                 // $data_dru = DB::connection('mysql3')->select('
                 //     SELECT vv.hcode HCODE
