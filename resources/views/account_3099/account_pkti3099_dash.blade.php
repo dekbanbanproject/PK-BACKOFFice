@@ -155,15 +155,15 @@
                                             
                                            // STM
                                            $sumapprove_ = DB::select('
-                                                SELECT sum(am.sum_price_approve) as sum_price_approve,count(a.vn) as Countvisit
+                                                SELECT sum(am.Total_amount) as Total_amount,count(a.vn) as Countvisit
                                                     from acc_1102050101_3099 a
                                                     LEFT JOIN acc_stm_ti_total am on am.cid = a.cid AND am.vstdate = a.vstdate
                                                     where month(a.vstdate) = "'.$item->months.'"
                                                     AND year(a.vstdate) = "'.$item->year.'"
-                                                      
+                                                    AND Total_amount <> ""
                                             ');                                           
                                             foreach ($sumapprove_ as $key => $value3) {
-                                                $sum_stm = $value3->sum_price_approve; 
+                                                $sum_stm = $value3->Total_amount; 
                                                 $count_stm = $value3->Countvisit; 
                                             }
                                             
@@ -184,7 +184,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-3 text-end mt-2 me-4">
-                                                <a href="{{url('account_309_pull')}}" target="_blank">
+                                                <a href="{{url('account_pkti3099_pull')}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                         <h6 class="text-end">{{ $count_N}} Visit</h6>
                                                     </div>
@@ -223,7 +223,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_309_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_pkti3099_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
@@ -245,7 +245,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-4 text-end me-4">
-                                                <a href="{{url('account_309_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_pkti3099_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_stm}} Visit">
                                                             {{ number_format($sum_stm, 2) }} 
@@ -266,8 +266,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
-                                                {{-- <a href="" target="_blank"> --}}
+                                            <div class="col-md-4 text-end me-4"> 
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >
                                                             @if ($yokpai > 0)
@@ -277,8 +276,7 @@
                                                             @endif
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
-                                                    </div>
-                                                {{-- </a> --}}
+                                                    </div> 
                                             </div>
                                         </div>
  
