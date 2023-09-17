@@ -82,7 +82,7 @@
         </div>
         <form action="{{ url('account_pkti3099_dash') }}" method="GET">
             @csrf
-            <div class="row ms-3 me-3"> 
+            <div class="row ms-3 me-3 mt-3"> 
                 <div class="col-md-4">
                     <h4 class="card-title">Detail 1102050101.3099</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.3099</p>
@@ -155,16 +155,15 @@
                                             
                                            // STM
                                            $sumapprove_ = DB::select('
-                                                SELECT sum(am.Total_amount) as Total_amount,count(a.vn) as Countvisit
+                                                SELECT sum(am.sum_price_approve) as sum_price_approve,count(a.vn) as Countvisit
                                                     from acc_1102050101_3099 a
-                                                    LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.vstdate = a.vstdate
+                                                    LEFT JOIN acc_stm_ti_total am on am.cid = a.cid AND am.vstdate = a.vstdate
                                                     where month(a.vstdate) = "'.$item->months.'"
                                                     AND year(a.vstdate) = "'.$item->year.'"
-                                                    AND Total_amount <> ""
-                                                     
+                                                      
                                             ');                                           
                                             foreach ($sumapprove_ as $key => $value3) {
-                                                $sum_stm = $value3->Total_amount; 
+                                                $sum_stm = $value3->sum_price_approve; 
                                                 $count_stm = $value3->Countvisit; 
                                             }
                                             
@@ -298,7 +297,7 @@
         </div>
 
     </div>
-
+    <br><br><br> 
 @endsection
 @section('footer')
     <script>
