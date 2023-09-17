@@ -8149,7 +8149,7 @@ class AccountPKController extends Controller
                                 // $EPO_tt = $value2['EPO']['epoPay'];
                                 // $EPO_tt = $value2['EPOs']['EPO']['epoPay'];
                                 $EPO_tt = '';
-                                $Total = '';
+                                $Total = $amount;
                             }
 
 
@@ -8163,6 +8163,12 @@ class AccountPKController extends Controller
                             //     $Total = '';
                             // }
                             // dd($EPO_tt );  EPOpay
+                            // if ( $Total == '') {
+                            //     $Total_amount = $amount;
+                            // } else {
+                            //     # code...
+                            // }
+                            
                             $checkc     = Acc_stm_ti_total::where('hn', $hn)->where('vstdate', $dttdate)->count();
                             $datenow = date('Y-m-d');
                             if ( $checkc > 0) {
