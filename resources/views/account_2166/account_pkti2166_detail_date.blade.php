@@ -79,7 +79,7 @@ $pos = strrpos($url, '/') + 1;
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050101.3099
+                    รายละเอียด 1102050101.2166
                         {{-- <div class="btn-actions-pane-right">
                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
@@ -88,8 +88,8 @@ $pos = strrpos($url, '/') + 1;
                         </div> --}}
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="months" id="months" value="{{$months}}">
-                        <input type="hidden" name="year" id="year" value="{{$year}}">
+                        {{-- <input type="hidden" name="months" id="months" value="{{$months}}"> --}}
+                        {{-- <input type="hidden" name="year" id="year" value="{{$year}}"> --}}
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -119,9 +119,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="10%">{{ $item->pttype }}</td>  
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
-                                        
-                                    
- 
+                                         
                                 @endforeach
 
                             </tbody>

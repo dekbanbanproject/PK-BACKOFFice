@@ -82,8 +82,8 @@
         </div>
         <form action="{{ url('account_310_dash') }}" method="GET">
             @csrf
-            <div class="row ms-3 me-3"> 
-                <div class="col-md-4">
+            <div class="row ms-3 me-3 mt-2"> 
+                <div class="col-md-3">
                     <h4 class="card-title">Detail 1102050101.310</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.310</p>
                 </div>
@@ -97,7 +97,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 text-start">
+                <div class="col-md-3 text-start">
                     <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
@@ -174,7 +174,7 @@
                                                 <h5> {{$item->acc_trimart_name}} {{($item->year)+543}}</h5>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-3 text-end mt-2 me-4">
+                                            <div class="col-md-5 text-end mt-2 me-2">
                                                 {{-- <a href="{{url('account_310_pull')}}" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                         <h6 class="text-end">{{ $count_N}} Visit</h6>
@@ -192,7 +192,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{ $count_N}} Visit" >
@@ -213,7 +213,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="{{url('account_302_detail/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank"> --}}
                                                 <a href="{{url('account_310_dashsub/'.$item->acc_trimart_start_date.'/'.$item->acc_trimart_end_date)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
@@ -236,7 +236,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                          
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{number_format($total310, 2) }} บาท">
@@ -258,7 +258,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                                
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >

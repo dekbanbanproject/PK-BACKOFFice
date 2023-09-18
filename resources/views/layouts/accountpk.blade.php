@@ -441,7 +441,7 @@ use App\Models\Products_request_sub;
 
                                 <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
                                 <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
-                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)</a></li>
+                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)OK</a></li>
                             </ul>
                         </li>
                         @endif

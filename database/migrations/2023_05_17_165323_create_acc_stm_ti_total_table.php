@@ -17,6 +17,7 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('acc_stm_ti_total', function (Blueprint $table) {
                 $table->bigIncrements('acc_stm_ti_total_id'); 
+                $table->string('acc_stm_ti_totalhead_id',100)->nullable();// 
                 $table->string('repno',100)->nullable();//   
                 $table->string('hn')->nullable();//   
                 $table->string('cid')->nullable();//

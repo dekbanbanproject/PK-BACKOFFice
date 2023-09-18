@@ -86,7 +86,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i> 
                     ค้นหา 
                 </button>    --}}
-                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
+                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                     ดึงข้อมูล</button>    
                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sitipd">

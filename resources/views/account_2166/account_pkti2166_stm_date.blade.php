@@ -63,7 +63,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายละเอียด 1102050101.3099 STM
+                        รายละเอียด 1102050101.2166 STM
                         <div class="btn-actions-pane-right">
                             {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
@@ -72,8 +72,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="months" id="months" value="{{$months}}">
-                        <input type="hidden" name="year" id="year" value="{{$year}}">
+                        
                         {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"

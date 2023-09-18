@@ -59,11 +59,11 @@
 
         </div>
 
-        <div class="row ms-3 me-3 mt-2">
+        <div class="row ms-3 me-3">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายละเอียด 1102050101.3099 STM
+                        รายละเอียด 1102050101.4011 STM
                         <div class="btn-actions-pane-right">
                             {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>

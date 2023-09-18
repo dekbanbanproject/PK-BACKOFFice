@@ -7653,43 +7653,37 @@ class AccountPKController extends Controller
     public function upstm_ti_importtotal(Request $request)
     {
         $data_ = DB::connection('mysql')->select('
-                SELECT repno,hn,cid,fullname,vstdate,filename,hipdata_code,pay_amount 
+                SELECT repno,hn,cid,fullname,vstdate,hipdata_code,qty,unitprice,pay_amount,filename,SUM(pay_amount) as total_pay
                 FROM acc_stm_ti_excel
+            
+                WHERE pay_amount <> 0
+                GROUP BY cid,vstdate
               
         ');
+        // --  WHERE cid ='5361100020614'
         // ,sum(pay_amount) as Sumprice
         // GROUP BY cid,vstdate
         foreach ($data_ as $key => $value) {
             // $check = Acc_stm_ti_total::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
-          
-                // Acc_stm_ti_total::create([
-                //     'repno'             => $value->repno,
-                //     'hn'                => $value->hn,
-                //     'cid'               => $value->cid,
-                //     'fullname'          => $value->fullname,
-                //     'vstdate'           => $value->vstdate,
-                //     'sum_price_approve' => $value->pay_amount,
-                //     'Total_amount'      => $value->pay_amount,
-                //     'STMdoc'            => $value->filename,
-                //     'HDflag'            => $value->hipdata_code
-                // ]);
-            // }
-            Acc_1102050101_2166::where('cid',$value->cid)->where('vstdate',$value->vstdate)
-                ->update([
-                    'status'   => 'Y'
-                ]); 
+           
+                Acc_1102050101_2166::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+                    ->update([
+                        'status'   => 'Y'
+                    ]); 
 
-            $add = new Acc_stm_ti_total();
-            $add->repno         = $value->repno;
-            $add->hn            = $value->hn;
-            $add->cid           = $value->cid;
-            $add->fullname      = $value->fullname;
-            $add->vstdate       = $value->vstdate;
-            $add->sum_price_approve  = $value->pay_amount;
-            $add->Total_amount  = $value->pay_amount;
-            $add->STMdoc        = $value->filename;
-            $add->HDflag        = $value->hipdata_code;
-            $add->save();
+                $add = new Acc_stm_ti_total();
+                $add->repno              = $value->repno;
+                $add->hn                 = $value->hn;
+                $add->cid                = $value->cid;
+                $add->fullname           = $value->fullname;
+                $add->vstdate            = $value->vstdate;
+                $add->amount             = $value->pay_amount;
+                $add->sum_price_approve  = $value->total_pay;
+                $add->Total_amount       = $value->total_pay;
+                $add->STMdoc             = $value->filename;
+                $add->HDflag             = $value->hipdata_code;
+                $add->save();
+             
 
         }
 
@@ -7822,8 +7816,7 @@ class AccountPKController extends Controller
             'file' => 'required|file|mimes:xls,xlsx'
         ]);
         $the_file = $request->file('file'); 
-        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-        // dd($file_);
+        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์ 
             try{
                 $spreadsheet = IOFactory::load($the_file->getRealPath());
                 // $sheet        = $spreadsheet->getActiveSheet(2);
@@ -7833,47 +7826,10 @@ class AccountPKController extends Controller
                 $row_range    = range( 9, $row_limit );
                 $column_range = range( 'F', $column_limit );
                 $startcount = 9;
-
-                   //         $spreadsheet = IOFactory::load($the_file->getRealPath());
-    //         $sheet        = $spreadsheet->getActiveSheet(2);
-    //         $row_limit    = $sheet->getHighestDataRow();
-    //         $column_limit = $sheet->getHighestDataColumn();
-    //         $row_range    = range( 9, $row_limit );
-    //         $column_range = range( 'F', $column_limit );
-    //         $startcount = 9;
-    //         $data = array();
-
-    
-
+ 
                 $data = array();
                 foreach ($row_range as $row ) {
-                    // $vst = $sheet->getCell( 'H' . $row )->getValue(); 
-                    // $day = substr($vst,0,2);
-                    // $mo = substr($vst,3,2);
-                    // $year = substr($vst,6,4);
-                    // $vstdate = $year.'-'.$mo.'-'.$day;
-
-                    // $reg = $sheet->getCell( 'I' . $row )->getValue(); 
-                    // $regday = substr($reg, 0, 2);
-                    // $regmo = substr($reg, 3, 2);
-                    // $regyear = substr($reg, 6, 4);
-                    // $dchdate = $regyear.'-'.$regmo.'-'.$regday;
-
-                    //             $reg = $sheet->getCell( 'J' . $row )->getValue();
-
-                    //             $starttime = substr($reg, 0, 5);
-                    //             $regday = substr($reg, 0, 2);
-                    //             $regmo = substr($reg, 3, 2);
-                    //             $regyear = substr($reg, 6, 10);
-                    //             $regdate = $regyear.'-'.$regmo.'-'.$regday;
-
-                    //             $vst = $sheet->getCell( 'K' . $row )->getValue();
-                    //             $starttime = substr($vst, 0, 5);
-                    //             $day = substr($vst, 0, 2);
-                    //             $mo = substr($vst, 3, 2);
-                    //             $year = substr($vst, 6, 10);
-                    //             $vstdate = $year.'-'.$mo.'-'.$day;
-
+                                        
                     $vst = $sheet->getCell( 'K' . $row )->getValue();
                     // $starttime = substr($vst, 0, 5);
                     $day = substr($vst,0,2);
@@ -7887,6 +7843,21 @@ class AccountPKController extends Controller
                     $regmo = substr($reg, 3, 2);
                     $regyear = substr($reg, 6, 4);
                     $regdate = $regyear.'-'.$regmo.'-'.$regday;
+
+                    $o = $sheet->getCell( 'O' . $row )->getValue();
+                    $del_o = str_replace(",","",$o);
+                    $p = $sheet->getCell( 'P' . $row )->getValue();
+                    $del_p = str_replace(",","",$p);
+                    $q = $sheet->getCell( 'Q' . $row )->getValue();
+                    $del_q = str_replace(",","",$q);
+                    $t= $sheet->getCell( 'T' . $row )->getValue();
+                    $del_t = str_replace(",","",$t);
+                    $u = $sheet->getCell( 'U' . $row )->getValue();
+                    $del_u = str_replace(",","",$u);
+                    $v = $sheet->getCell( 'V' . $row )->getValue();
+                    $del_v = str_replace(",","",$v);
+                    $w = $sheet->getCell( 'W' . $row )->getValue();
+                    $del_w = str_replace(",","",$w);
 
                    $data[] = [ 
                         'repno'                 =>$sheet->getCell( 'B' . $row )->getValue(),
@@ -7903,15 +7874,18 @@ class AccountPKController extends Controller
                         'no'                    =>$sheet->getCell( 'L' . $row )->getValue(),
                         'list'                  =>$sheet->getCell( 'M' . $row )->getValue(),
                         'qty'                   =>$sheet->getCell( 'N' . $row )->getValue(),
-                        'unitprice'             =>$sheet->getCell( 'O' . $row )->getValue(),
-                        'unitprice_max'         =>$sheet->getCell( 'P' . $row )->getValue(),
-                        'price_request'         =>$sheet->getCell( 'Q' . $row )->getValue(),
+                       
+                        'unitprice'             =>$del_o,
+                        'unitprice_max'         =>$del_p,
+                        'price_request'         =>$del_q,
+
                         'pscode'                =>$sheet->getCell( 'R' . $row )->getValue(),
                         'percent'               =>$sheet->getCell( 'S' . $row )->getValue(),
-                        'pay_amount'            =>$sheet->getCell( 'T' . $row )->getValue(),
-                        'nonpay_amount'         =>$sheet->getCell( 'U' . $row )->getValue(),
-                        'payplus_amount'        =>$sheet->getCell( 'V' . $row )->getValue(),
-                        'payback_amount'        =>$sheet->getCell( 'W' . $row )->getValue(),
+
+                        'pay_amount'            =>$del_t,
+                        'nonpay_amount'         =>$del_u,
+                        'payplus_amount'        =>$del_v,
+                        'payback_amount'        =>$del_w,
                         'filename'              =>$file_
                     ];
 
@@ -7920,7 +7894,19 @@ class AccountPKController extends Controller
                     // $file_
 
                 }
-                DB::table('acc_stm_ti_excel')->insert($data);  
+                // DB::table('acc_stm_ti_excel')->insert($data);  
+                $check = Acc_stm_ti_total::where('STMdoc',$file_)->count();
+                if ($check > 0) {
+                    return response()->json([
+                        'status'    => '100',
+                    ]);
+                } else {
+                    $for_insert2 = array_chunk($data, length:1000);
+                    foreach ($for_insert2 as $key => $data2_) {
+                        acc_stm_ti_excel::insert($data2_); 
+                    }
+                }
+                 
 
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];

@@ -63,7 +63,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายละเอียด 1102050101.3099 STM
+                        รายละเอียด 1102050101.4011 ที่ไม่มีในรายการ STM
                         <div class="btn-actions-pane-right">
                             {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
@@ -87,6 +87,8 @@
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">pttype</th>   
+                                    <th class="text-center">income</th> 
+                                    <th class="text-center">rcpt_money</th> 
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">STM</th>  
                                 </tr>
@@ -103,7 +105,8 @@
                                         <td class="p-2">{{ $item->ptname }}</td>
                                         <td class="text-center" width="10%">{{ $item->vstdate }}</td>
                                         <td class="text-center" width="10%">{{ $item->pttype }}</td>
-                                        
+                                        <td class="text-end" width="10%">{{ number_format($item->income, 2) }}</td>
+                                        <td class="text-end" width="10%">{{ number_format($item->rcpt_money, 2) }}</td>
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
                                         @if ($item->Total_amount < $item->debit_total)
                                             <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
