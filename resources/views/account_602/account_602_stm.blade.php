@@ -91,7 +91,7 @@
                                 <?php $number = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                    @if ($item->debit_total <> $item->payprice)
+                                    {{-- @if ($item->debit_total <> $item->payprice)
                                         <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
                                             <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td> 
                                             <td class="text-center" width="8%" style="color:rgb(248, 12, 12)">{{ $item->req_no }}</td>  
@@ -104,7 +104,7 @@
                                             <td class="text-end" width="10%" style="color:rgb(243, 12, 12)"> {{ number_format($item->payprice,2)}} </td>
                                             <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->money_billno }}</td> 
                                         </tr>
-                                    @else
+                                    @else --}}
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
                                             <td class="text-center" width="8%">{{ $item->req_no }}</td>  
@@ -118,7 +118,7 @@
                                             <td class="p-2">{{ $item->money_billno }}</td> 
                                         </tr>
                                         
-                                    @endif
+                                    {{-- @endif --}}
  
                                 @endforeach
 
