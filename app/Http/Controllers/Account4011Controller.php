@@ -201,9 +201,9 @@ class Account4011Controller extends Controller
         // Acc_opitemrece::truncate();
         $acc_debtor = DB::connection('mysql2')->select('
           
-            SELECT o.vn,ifnull(o.an,"") as an,o.hn,pt.cid as cid
+            SELECT v.vn,ifnull(o.an,"") as an,v.hn,pt.cid as cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                ,o.vstdate as vstdate 
+                ,v.vstdate as vstdate 
                 ,o.vsttime ,v.hospmain,op.income as income_group  
                 ,ptt.pttype_eclaim_id
                 ,vp.pttype

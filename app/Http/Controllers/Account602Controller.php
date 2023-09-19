@@ -119,7 +119,7 @@ class Account602Controller extends Controller
                     and account_code="1102050102.602"
                     and income <> 0
                     group by month(a.vstdate) 
-                    order by month(a.vstdate) desc limit 6;
+                    order by a.vstdate desc limit 6;
             ');
 
         } else {
@@ -136,7 +136,7 @@ class Account602Controller extends Controller
                     and account_code="1102050102.602"
                     and income <>0
                     group by month(a.vstdate) 
-                    order by month(a.vstdate) desc;
+                    order by a.vstdate desc;
             ');
         }
 

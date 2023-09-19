@@ -340,6 +340,15 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
+                                <span>ทะเบียนคลุมหนังสือเข้า</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('book_inside_manage') }}">ทะเบียนหนังสือเข้า</a></li> 
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-pen text-danger"></i>
                                 <span>ปรับสถานะ ECLAIM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">

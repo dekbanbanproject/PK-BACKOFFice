@@ -8308,6 +8308,81 @@ class AccountPKController extends Controller
         ]);
     }
 
+    public function book_inside_manage(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ( $startdate != '') {
+            $datashow = DB::connection('mysql')->select('SELECT * from book_control b LEFT JOIN users u ON u.id = b.user_id WHERE daterep BETWEEN "'.$startdate.'" AND "'.$enddate.'" ORDER BY daterep DESC'); 
+        } else {
+            $datashow = DB::connection('mysql')->select('SELECT * from book_control b LEFT JOIN users u ON u.id = b.user_id ORDER BY daterep DESC'); 
+        }
+        
+         return view('bookcontrol.book_inside_manage',[
+            'datashow'      =>     $datashow,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+         ]);
+    }
+    public function book_inside_manage_save(Request $request)
+    {  
+        $add = new Book_control(); 
+        $add->bookno             = $request->input('bookno');
+        $add->datebook           = $request->input('datebook');
+        $add->daterep            = $request->input('daterep');
+        $add->department_from    = $request->input('department_from');
+        $add->bookname           = $request->input('bookname');
+        $add->comment            = $request->input('comment');
+        $add->user_id            = $request->input('user_id');
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+
+    public function book_inside_manage_edit(Request $request,$id)
+    {
+        $data_show = Book_control::find($id);
+        return response()->json([
+            'status'               => '200', 
+            'data_show'            =>  $data_show,
+        ]);
+    }
+
+    public function book_inside_manage_update(Request $request)
+    {  
+        $id = $request->input('book_control_id');
+         
+        $update = Book_control::find($id); 
+        $update->bookno             = $request->input('bookno');
+        $update->datebook           = $request->input('datebook');
+        $update->daterep            = $request->input('daterep');
+        $update->department_from    = $request->input('department_from');
+        $update->bookname           = $request->input('bookname');
+        $update->comment            = $request->input('comment');
+        $update->user_id            = $request->input('user_id');
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function book_inside_manage_destroy(Request $request,$id)
+    {
+        
+        // $file_ = Acc_stm_repmoney_file::find($id);  
+        // $file_name = $file_->filename; 
+        // $filepath = public_path('storage/account/'.$file_name);
+        // $description = File::delete($filepath);
+
+        $del = Book_control::find($id);  
+        $del->delete(); 
+
+        // return redirect()->route('acc.uprep_money');
+        return response()->json(['status' => '200']);
+    }
+
    
 
 

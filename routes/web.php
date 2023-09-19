@@ -1767,10 +1767,23 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_setting_save',[App\Http\Controllers\AccountPKController::class, 'acc_setting_save'])->name('acc.acc_setting_save');//
     Route::match(['get','post'],'acc_setting_update',[App\Http\Controllers\AccountPKController::class, 'acc_setting_update'])->name('acc.acc_setting_update');//
 
+
+    Route::match(['get','post'],'acc_settingpang',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang'])->name('acc.acc_settingpang');//
+    Route::match(['get','post'],'acc_settingpang_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang_edit'])->name('acc.acc_settingpang_edit');//
+    Route::match(['get','post'],'acc_settingpang_save',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang_save'])->name('acc.acc_settingpang_save');//
+    Route::match(['get','post'],'acc_settingpang_update',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang_update'])->name('acc.acc_settingpang_update');//
+
     Route::match(['get','post'],'aset_trimart',[App\Http\Controllers\AccountPKController::class, 'aset_trimart'])->name('acc.aset_trimart');//
     Route::match(['get','post'],'aset_trimart_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_edit'])->name('acc.aset_trimart_edit');//
     Route::match(['get','post'],'aset_trimart_save',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_save'])->name('acc.aset_trimart_save');//
     Route::match(['get','post'],'aset_trimart_update',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_update'])->name('acc.aset_trimart_update');//
+
+    Route::match(['get','post'],'book_inside_manage',[App\Http\Controllers\BooktrollController::class, 'book_inside_manage'])->name('pk.book_inside_manage');//
+    Route::match(['get','post'],'book_inside_manage_save',[App\Http\Controllers\BooktrollController::class, 'book_inside_manage_save'])->name('pk.book_inside_manage_save');//
+    Route::match(['get','post'],'book_inside_manage_edit/{id}',[App\Http\Controllers\BooktrollController::class, 'book_inside_manage_edit'])->name('pk.book_inside_manage_edit');//
+    Route::match(['get','post'],'book_inside_manage_update',[App\Http\Controllers\BooktrollController::class, 'book_inside_manage_update'])->name('pk.book_inside_manage_update');//
+    Route::match(['get','post'],'book_inside_manage_destroy/{id}',[App\Http\Controllers\BooktrollController::class, 'book_inside_manage_destroy'])->name('pk.book_inside_manage_destroy');//
+
      // **************************** PPFS 2566  ***********************
      Route::match(['get','post'],'anc_14001',[App\Http\Controllers\PPFSController::class, 'anc_14001'])->name('claim.anc_14001');//
      Route::match(['get','post'],'anc_14001_pull',[App\Http\Controllers\PPFSController::class, 'anc_14001_pull'])->name('claim.anc_14001_pull');//
