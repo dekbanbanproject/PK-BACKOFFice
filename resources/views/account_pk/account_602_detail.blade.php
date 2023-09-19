@@ -107,8 +107,7 @@
                                     <th class="text-center">ลูกหนี้</th>
                                     <th class="text-center">ยอดชดเชย</th>
                                     <th class="text-center" width="5%">req_no</th>
-                                    <th class="text-center">เลขที่ใบเสร็จรับเงิน</th> 
-                                    
+                                    <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>  
                                     <th class="text-center">จัดการ STM</th> 
                                 </tr>
                             </thead>

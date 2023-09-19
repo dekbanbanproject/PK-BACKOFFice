@@ -310,11 +310,21 @@ class Account602Controller extends Controller
 
         $data = DB::select('
        
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+            SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+            ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
             from acc_1102050102_602 U1 
+            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
             WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"           
             GROUP BY U1.vn
         ');
+
+        // $data = DB::select('
+        // //     SELECT U1.acc_1102050102_602_id,U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice
+        // //         from acc_1102050102_602 U1
+        // //         LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
+        // //         WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        // //         GROUP BY U1.vn
+        // //     ');
         // AND U1.recieve_no is not null
         return view('account_602.account_602_detail', $data, [
             'startdate'     =>     $startdate,
@@ -423,9 +433,10 @@ class Account602Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-        SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+        SELECT U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno
+        ,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
             from acc_1102050102_602 U1
-      
+            LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
             WHERE month(U1.vstdate) = "'.$months.'"
             and year(U1.vstdate) = "'.$year.'"
             AND U1.nhso_ownright_pid is not null
