@@ -18,6 +18,7 @@ return new class extends Migration
             Schema::connection('mysql')->create('acc_stm_prb', function (Blueprint $table) {
                 $table->bigIncrements('acc_stm_prb_id');  
                 $table->string('acc_1102050102_602_sid',100)->nullable();//
+                $table->string('acc_1102050102_603_sid',100)->nullable();//
                 $table->string('req_no',100)->nullable();// รับแจ้ง  
                 $table->string('claim_no')->nullable();// เคลม
                 $table->string('vendor')->nullable();// บริษัทประกันภัย

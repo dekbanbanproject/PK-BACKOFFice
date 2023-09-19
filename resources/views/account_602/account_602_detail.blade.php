@@ -94,16 +94,12 @@
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th>
-                                    
+                                    <th class="text-center">ลำดับ</th> 
                                     <th class="text-center">vn</th>
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
-                                    <th class="text-center">vstdate</th>
-                                    {{-- <th class="text-center">dchdate</th> --}}
-                                    {{-- <th class="text-center">pttype</th> --}}
-                                    
+                                    <th class="text-center">vstdate</th> 
                                     <th class="text-center">ลูกหนี้</th>
                                     <th class="text-center">ยอดชดเชย</th>
                                     <th class="text-center" width="5%">req_no</th>
@@ -158,9 +154,9 @@
                                                         {{-- @endif --}}
                                                         
                                                         
+                                                    </div>
                                                 </div>
-                                            </div>
-
+                                            </td> 
                                         </tr>
                                         
                                     {{-- @endif --}}

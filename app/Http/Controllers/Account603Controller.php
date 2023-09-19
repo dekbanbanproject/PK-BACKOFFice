@@ -118,7 +118,7 @@ class Account603Controller extends Controller
                     and account_code="1102050102.603"
                     and income <> 0
                     group by month(a.dchdate) 
-                    order by month(a.dchdate) desc limit 6;
+                    order by a.dchdate desc limit 6;
             ');
 
         } else {
@@ -135,7 +135,7 @@ class Account603Controller extends Controller
                     and account_code="1102050102.603"
                     and income <>0
                     group by month(a.dchdate) 
-                    order by month(a.dchdate) desc;
+                    order by a.dchdate desc;
             ');
         }
 
@@ -307,9 +307,10 @@ class Account603Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+            SELECT U1.acc_1102050102_603_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+            ,U2.money_billno,U2.payprice
                 from acc_1102050102_603 U1
-            
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_603_sid = U1.acc_1102050102_603_id
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
                 GROUP BY U1.an
         ');
