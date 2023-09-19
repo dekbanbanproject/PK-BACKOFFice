@@ -6967,7 +6967,7 @@ class AccountPKController extends Controller
                     $mo = substr($vst,3,2);
                     $year = substr($vst,7,4);
                     $vstdate = $year.'-'.$mo.'-'.$day;
-
+ 
                     $reg = $sheet->getCell( 'H' . $row )->getValue();
                     // $starttime = substr($reg, 0, 5);
                     $regday = substr($reg, 0, 2);
@@ -6995,10 +6995,6 @@ class AccountPKController extends Controller
                     $del_s = str_replace(",","",$s);
                     $t = $sheet->getCell( 'T' . $row )->getValue();
                     $del_t = str_replace(",","",$t);
-
-                    if ($vstdate == '0000-00-00') {
-                        $data[] = '';
-                    } else { 
                         $data[] = [
                             'repno'                   =>$sheet->getCell( 'A' . $row )->getValue(),
                             'no'                      =>$sheet->getCell( 'B' . $row )->getValue(),
@@ -7021,17 +7017,21 @@ class AccountPKController extends Controller
                             'service'                 =>$del_s,
                             'pricereq_all'            =>$del_t,
                             'STMdoc'                  =>$file_
-                        ];
-                    }
-
+                        ]; 
                     $startcount++;
+                    
                 }
                 $for_insert = array_chunk($data, length:1000);
                 foreach ($for_insert as $key => $data_) {
-                    Acc_stm_ofcexcel::insert($data_); 
+                    // if ($data_['vstdate'] == '0000-00-00') {
+                    //     # code...
+                    // } else {
+                        Acc_stm_ofcexcel::insert($data_); 
+                    // }
+                    
+                    
                 }
                 // DB::table('acc_stm_ofcexcel')->insert($data);
-
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
@@ -7046,6 +7046,7 @@ class AccountPKController extends Controller
                 $data_ = DB::connection('mysql')->select('
                     SELECT *
                     FROM acc_stm_ofcexcel
+                    WHERE income <> "" AND repno <> ""
                     GROUP BY cid
                 ');
                 // GROUP BY cid
@@ -7053,57 +7054,34 @@ class AccountPKController extends Controller
                 foreach ($data_ as $key => $value) {
                     // $value->no != '' && $value->repno != 'REP' &&
                     if ($value->repno != 'REP' && $value->cid != '') {
-                        $check = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->count();
-                        if ($check > 0) {
-                            # code...
-                        } else {
-                            $add = new Acc_stm_ofc();
-                            $add->repno          = $value->repno;
-                            $add->no             = $value->no;
-                            $add->hn             = $value->hn;
-                            $add->an             = $value->an;
-                            $add->cid            = $value->cid;
-                            $add->fullname       = $value->fullname;
-                            $add->vstdate        = $value->vstdate;
-                            $add->dchdate        = $value->dchdate;
-                            $add->PROJCODE       = $value->PROJCODE;
-                            $add->AdjRW          = $value->AdjRW;
-                            $add->price_req      = $value->price_req;
-                            $add->prb            = $value->prb;
-                            $add->room           = $value->room;
-                            $add->inst           = $value->inst;
-                            $add->drug           = $value->drug;
-                            $add->income         = $value->income;
-                            $add->refer          = $value->refer;
-                            $add->waitdch        = $value->waitdch;
-                            $add->service        = $value->service;
-                            $add->pricereq_all   = $value->pricereq_all;
-                            $add->STMdoc         = $value->STMdoc;
-                            $add->save();
-                            //  Acc_stm_ofc::create([
-                            //     'repno'             => $value->repno,
-                            //     'no'                => $value->no,
-                            //     'hn'                => $value->hn,
-                            //     'an'                => $value->an,
-                            //     'cid'               => $value->cid,
-                            //     'fullname'          => $value->fullname,
-                            //     'vstdate'           => $value->vstdate,
-                            //     'dchdate'           => $value->dchdate,
-                            //     'PROJCODE'          => $value->PROJCODE,
-                            //     'AdjRW'             => $value->AdjRW,
-                            //     'price_req'         => $value->price_req,
-                            //     'prb'               => $value->prb,
-                            //     'room'              => $value->room,
-                            //     'inst'              => $value->inst,
-                            //     'drug'              => $value->drug,
-                            //     'income'            => $value->income,
-                            //     'refer'             => $value->refer,
-                            //     'waitdch'           => $value->waitdch,
-                            //     'service'           => $value->service,
-                            //     'pricereq_all'      => $value->pricereq_all,
-                            //     'STMdoc'            => $value->STMdoc
-                            // ]);
-                        }
+                            $check = Acc_stm_ofc::where('repno','=',$value->repno)->where('no','=',$value->no)->count();
+                            if ($check > 0) {
+                                # code...
+                            } else {
+                                $add = new Acc_stm_ofc();
+                                $add->repno          = $value->repno;
+                                $add->no             = $value->no;
+                                $add->hn             = $value->hn;
+                                $add->an             = $value->an;
+                                $add->cid            = $value->cid;
+                                $add->fullname       = $value->fullname;
+                                $add->vstdate        = $value->vstdate;
+                                $add->dchdate        = $value->dchdate;
+                                $add->PROJCODE       = $value->PROJCODE;
+                                $add->AdjRW          = $value->AdjRW;
+                                $add->price_req      = $value->price_req;
+                                $add->prb            = $value->prb;
+                                $add->room           = $value->room;
+                                $add->inst           = $value->inst;
+                                $add->drug           = $value->drug;
+                                $add->income         = $value->income;
+                                $add->refer          = $value->refer;
+                                $add->waitdch        = $value->waitdch;
+                                $add->service        = $value->service;
+                                $add->pricereq_all   = $value->pricereq_all;
+                                $add->STMdoc         = $value->STMdoc;
+                                $add->save(); 
+                            }
 
                     } else {
                         # code...

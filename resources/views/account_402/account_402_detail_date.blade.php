@@ -79,7 +79,7 @@ $pos = strrpos($url, '/') + 1;
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050101.4022
+                    รายละเอียด 1102050101.402
                         {{-- <div class="btn-actions-pane-right">
                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
