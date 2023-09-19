@@ -220,23 +220,24 @@ class Account4022Controller extends Controller
                     ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money
 
-                    from ipt i
-                    left join an_stat a on a.an=i.an
-                    LEFT JOIN ipt_pttype ipt ON ipt.an = i.an
-                    left join patient pt on pt.hn=a.hn
-                    LEFT JOIN pttype ptt on ipt.pttype=ptt.pttype
-                    LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                    LEFT JOIN opitemrece op ON op.an = i.an
-                    LEFT JOIN drugitems d on d.icode=op.icode
-                    LEFT JOIN vn_stat v on v.vn = i.vn
+                    from hos.ipt i
+                    left join hos.an_stat a on a.an=i.an
+                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = i.an
+                    left join hos.patient pt on pt.hn=a.hn
+                    LEFT JOIN hos.pttype ptt on ipt.pttype=ptt.pttype
+                    LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.opitemrece op ON op.an = i.an
+                    LEFT JOIN hos.drugitems d on d.icode=op.icode
+                    LEFT JOIN hos.vn_stat v on v.vn = i.vn
 
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND ipt.pttype IN("O1","O2","O3","O4","O5")
+                   
+                    AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.4022"))
                     AND op.icode ="3010058"
                     GROUP BY i.an
             
         ');
-        // ,e.code as acc_code
+        // ,e.code as acc_code  AND ipt.pttype IN("O1","O2","O3","O4","O5")
         // ,e.ar_ipd as account_code
 
         foreach ($acc_debtor as $key => $value) {

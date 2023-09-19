@@ -286,12 +286,16 @@ class Account301Controller extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
+
+        $type = DB::connection('mysql')->select('
+            SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.301")
+        ');
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql3')->select('
-            SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+        $acc_debtor = DB::connection('mysql')->select('
+            SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                    ,o.vstdate ,totime(o.vsttime) as vsttime ,v.hospmain,op.income as income_group 
-                    ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
+                    ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group 
+                    
                     ,ptt.pttype_eclaim_id ,o.pttype ,e.code as acc_code
                     ,e.ar_opd as account_code ,e.name as account_name
                     ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
@@ -303,18 +307,18 @@ class Account301Controller extends Controller
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money
-            from ovst o
-            left join vn_stat v on v.vn=o.vn
-            left join patient pt on pt.hn=o.hn
-            LEFT JOIN pttype ptt on o.pttype=ptt.pttype
-            LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-            LEFT JOIN opitemrece op ON op.vn = o.vn
-            WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            AND v.pttype = "A7" 
+            from hos.ovst o
+            left join hos.vn_stat v on v.vn=o.vn
+            left join hos.patient pt on pt.hn=o.hn
+            LEFT JOIN hos.pttype ptt on o.pttype=ptt.pttype
+            LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+            LEFT JOIN hos.opitemrece op ON op.vn = o.vn
+            WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            AND v.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.301"))
              
             AND v.income <> 0
             and (o.an="" or o.an is null)
-            GROUP BY o.vn
+            GROUP BY v.vn
         ');
 
         // AND v.hospmain = "10702"

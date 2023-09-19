@@ -84,7 +84,10 @@
                     <div class="card-header">
                     รายละเอียด 1102050102.602
                         <div class="btn-actions-pane-right">
-
+                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                                <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
+                                Sync Data All 
+                        </button>
                         </div>
                     </div>
                     <div class="card-body">

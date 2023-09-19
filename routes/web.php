@@ -1768,10 +1768,14 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_setting_update',[App\Http\Controllers\AccountPKController::class, 'acc_setting_update'])->name('acc.acc_setting_update');//
 
 
-    Route::match(['get','post'],'acc_settingpang',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang'])->name('acc.acc_settingpang');//
-    Route::match(['get','post'],'acc_settingpang_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang_edit'])->name('acc.acc_settingpang_edit');//
-    Route::match(['get','post'],'acc_settingpang_save',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang_save'])->name('acc.acc_settingpang_save');//
-    Route::match(['get','post'],'acc_settingpang_update',[App\Http\Controllers\AccountPKController::class, 'acc_settingpang_update'])->name('acc.acc_settingpang_update');//
+    Route::match(['get','post'],'acc_settingpang',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang'])->name('acc.acc_settingpang');//
+    Route::match(['get','post'],'acc_settingpang_edit/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang_edit'])->name('acc.acc_settingpang_edit');//
+    Route::match(['get','post'],'acc_settingpang_save',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang_save'])->name('acc.acc_settingpang_save');//
+    Route::match(['get','post'],'acc_settingpang_update',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang_update'])->name('acc.acc_settingpang_update');//
+    Route::match(['get','post'],'acc_settingpang_destroy/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang_destroy'])->name('acc.acc_settingpang_destroy');//
+
+    Route::match(['get','post'],'acc_pang_addtype/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addtype'])->name('acc.acc_pang_addtype');//
+    Route::match(['get','post'],'acc_pang_addtypesave',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addtypesave'])->name('acc.acc_pang_addtypesave');//
 
     Route::match(['get','post'],'aset_trimart',[App\Http\Controllers\AccountPKController::class, 'aset_trimart'])->name('acc.aset_trimart');//
     Route::match(['get','post'],'aset_trimart_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_edit'])->name('acc.aset_trimart_edit');//
