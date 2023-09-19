@@ -200,17 +200,15 @@ class Account4022Controller extends Controller
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
         $acc_debtor = DB::connection('mysql2')->select(' 
-
                 SELECT a.vn,i.an,a.hn,pt.cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,pt.hcode,op.income as income_group
-                    ,o.vstdate ,o.vsttime
-                   
+                    ,v.vstdate  
                     ,a.dchdate
                     ,ptt.pttype_eclaim_id
                     ,ipt.pttype,ptt.name as namelist
                     ,"37" as acc_code
-					,"1102050101.4022" as account_code
+                    ,"1102050101.4022" as account_code
                     ,e.name as account_name
                     ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                     ,a.rcpno_list as rcpno
@@ -223,14 +221,14 @@ class Account4022Controller extends Controller
                     ,ptt.max_debt_money
 
                     from ipt i
-                    LEFT JOIN ovst o on o.an = i.an
                     left join an_stat a on a.an=i.an
                     LEFT JOIN ipt_pttype ipt ON ipt.an = i.an
                     left join patient pt on pt.hn=a.hn
-                    LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+                    LEFT JOIN pttype ptt on ipt.pttype=ptt.pttype
                     LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT JOIN opitemrece op ON op.an = i.an
                     LEFT JOIN drugitems d on d.icode=op.icode
+                    LEFT JOIN vn_stat v on v.vn = i.vn
 
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND ipt.pttype IN("O1","O2","O3","O4","O5")
@@ -238,6 +236,8 @@ class Account4022Controller extends Controller
                     GROUP BY i.an
             
         ');
+        // ,e.code as acc_code
+        // ,e.ar_ipd as account_code
 
         foreach ($acc_debtor as $key => $value) {
             $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->whereBetween('dchdate', [$startdate, $enddate])->count();
@@ -330,77 +330,78 @@ class Account4022Controller extends Controller
             'status'    => '200'
         ]);
     }
-    public function account_pkti4011_detail(Request $request,$months,$year)
+    public function account_pkti4022_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total 
-            from acc_1102050101_4011 U1            
-            WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-            GROUP BY U1.vn
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total 
+            from acc_1102050101_4022 U1            
+            WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
+            GROUP BY U1.an
         ');
       
-        return view('account_4011.account_pkti4011_detail', $data, [ 
+        return view('account_4022.account_pkti4022_detail', $data, [ 
             'data'       =>     $data,
             'months'     =>     $months,
             'year'       =>     $year
         ]);
     }
-    public function account_pkti4011_stm(Request $request,$months,$year)
+    public function account_pkti4022_stm(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount 
-                from acc_1102050101_4011 U1
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,am.Total_amount 
+                from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 AND am.Total_amount is not null 
-                group by U1.vn
+                group by U1.an
         ');
        
-        return view('account_4011.account_pkti4011_stm', $data, [ 
+        return view('account_4022.account_pkti4022_stm', $data, [ 
             'data'          =>     $data,
             'months'        =>     $months,
             'year'          =>     $year
         ]);
     }
-    public function account_pkti4011_stmnull(Request $request,$months,$year)
+    public function account_pkti4022_stmnull(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,am.Total_amount 
-                from acc_1102050101_4011 U1
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,am.Total_amount 
+                from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                AND am.Total_amount is null 
+                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
+                AND am.Total_amount is null
+                group by U1.an 
         ');
        
-        return view('account_4011.account_pkti4011_stmnull', $data, [ 
+        return view('account_4022.account_pkti4022_stmnull', $data, [ 
             'data'          =>     $data,
             'months'        =>     $months,
             'year'          =>     $year
         ]);
     }
 
-    public function account_pkti4011_detail_date(Request $request,$startdate,$enddate)
+    public function account_pkti4022_detail_date(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total 
-            from acc_1102050101_4011 U1            
-            WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            GROUP BY U1.vn
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total 
+            from acc_1102050101_4022 U1            
+            WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            GROUP BY U1.an
         ');
       
-        return view('account_4011.account_pkti4011_detail_date', $data, [ 
+        return view('account_4022.account_pkti4022_detail_date', $data, [ 
             'data'          =>  $data,
             'startdate'     =>  $startdate,
             'enddate'       =>  $enddate
@@ -412,11 +413,12 @@ class Account4022Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount 
                 from acc_1102050101_4011 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND am.Total_amount is not null 
+                group by U1.an
         ');
        
         return view('account_4011.account_pkti4011_stm_date', $data, [ 
