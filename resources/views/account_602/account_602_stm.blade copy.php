@@ -77,7 +77,7 @@ $pos = strrpos($url, '/') + 1;
 
         <div class="row ms-3 me-3">
             <div class="col-md-12">
-                <div class="main-card mb-3 card">
+                <div class="main-card card">
                     <div class="card-header">
                     รายละเอียด 1102050102_602 
                     <div class="btn-actions-pane-right">
@@ -169,7 +169,7 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </div>
 
-
+<br><br><br>
 
 @endsection
 @section('footer')
