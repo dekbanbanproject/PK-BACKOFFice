@@ -375,6 +375,7 @@ class Account4011Controller extends Controller
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
                 AND am.Total_amount is null 
+                GROUP BY U1.vn
         ');
        
         return view('account_4011.account_pkti4011_stmnull', $data, [ 
@@ -412,6 +413,7 @@ class Account4011Controller extends Controller
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND am.Total_amount is not null 
+                GROUP BY U1.vn
         ');
        
         return view('account_4011.account_pkti4011_stm_date', $data, [ 
@@ -431,6 +433,7 @@ class Account4011Controller extends Controller
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND am.Total_amount is null 
+                GROUP BY U1.vn
         ');
        
         return view('account_4011.account_pkti4011_stmnull_date', $data, [ 

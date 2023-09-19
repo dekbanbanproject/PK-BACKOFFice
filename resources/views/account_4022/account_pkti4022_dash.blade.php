@@ -105,7 +105,7 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_pkti4011_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                    <a href="{{url('account_pkti4022_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
                     </a>
@@ -157,7 +157,7 @@
                                             $sumapprove_ = DB::select('
                                                     SELECT sum(am.Total_amount) as Total_amount,count(DISTINCT a.an) as Countvisit
                                                         from acc_1102050101_4022 a
-                                                        LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.dchdate = a.dchdate
+                                                        LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.vstdate = a.vstdate
                                                         where month(a.dchdate) = "'.$item->months.'"
                                                         AND year(a.dchdate) = "'.$item->year.'"
                                                         AND Total_amount <> ""
@@ -171,7 +171,7 @@
                                             $yokpai_data = DB::select('
                                                     SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.an) as Countvisit
                                                         from acc_1102050101_4022 a
-                                                        LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.dchdate = a.dchdate
+                                                        LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.vstdate = a.vstdate
                                                         where month(a.dchdate) = "'.$item->months.'"
                                                         AND year(a.dchdate) = "'.$item->year.'"
                                                         AND Total_amount IS NULL
@@ -325,7 +325,7 @@
                                         $sumapprove_ = DB::select('
                                                 SELECT sum(am.Total_amount) as Total_amount,count(DISTINCT a.an) as Countvisit
                                                     from acc_1102050101_4022 a
-                                                    LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.dchdate = a.dchdate
+                                                    LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.vstdate = a.vstdate
                                                     WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                     AND am.Total_amount <> ""
                                             ');                                           
@@ -338,7 +338,7 @@
                                         $yokpai_data = DB::select('
                                                 SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.an) as Countvisit
                                                     from acc_1102050101_4022 a
-                                                    LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.dchdate = a.dchdate
+                                                    LEFT JOIN acc_stm_ti_total am on am.hn = a.hn AND am.vstdate = a.vstdate
                                                     WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                     AND Total_amount IS NULL
                                             ');                                           

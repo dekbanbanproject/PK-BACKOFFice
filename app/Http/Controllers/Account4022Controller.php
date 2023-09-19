@@ -164,7 +164,7 @@ class Account4022Controller extends Controller
             'datashow'         =>  $datashow,
         ]);
     }
-    public function account_pkti4011_pull(Request $request)
+    public function account_pkti4022_pull(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
@@ -176,8 +176,8 @@ class Account4022Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left join checksit_hos c on c.vn = a.vn
-                WHERE a.account_code="1102050101.4011"
+                left join checksit_hos c on c.an = a.an
+                WHERE a.account_code="1102050101.4022"
                 AND a.stamp = "N"
                 order by a.vstdate desc;
 
@@ -187,84 +187,89 @@ class Account4022Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
 
-        return view('account_4011.account_pkti4011_pull',[
+        return view('account_4022.account_pkti4022_pull',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'      =>     $acc_debtor,
         ]);
     }
-    public function account_pkti4011_pulldata(Request $request)
+    public function account_pkti4022_pulldata(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql2')->select('
-          
-            SELECT o.vn,ifnull(o.an,"") as an,o.hn,pt.cid as cid
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                ,o.vstdate as vstdate 
-                ,o.vsttime ,v.hospmain,op.income as income_group  
-                ,ptt.pttype_eclaim_id
-                ,vp.pttype
-                ,e.code as acc_code
-                ,e.ar_opd as account_code
-                ,e.name as account_name
-                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                ,v.rcpno_list as rcpno
-                ,vp.nhso_ownright_pid
-                ,format(vp.nhso_ownright_pid-v.uc_money,2) as sauntang
-                ,v.income-v.discount_money-v.rcpt_money as debit
-                ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
-                ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                ,vp.max_debt_amount
-                from hos.ovst o
-                left join hos.vn_stat v on v.vn=o.vn
-                left join hos.patient pt on pt.hn=o.hn
-                LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn
-                LEFT JOIN hos.pttype ptt on o.pttype=ptt.pttype
-                LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-                LEFT JOIN hos.opitemrece op ON op.vn = o.vn
-                WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN("M1") AND v.income-v.discount_money-v.rcpt_money <> 0
-                and (o.an="" or o.an is null)
-                GROUP BY o.vn 
+        $acc_debtor = DB::connection('mysql2')->select(' 
+
+                SELECT a.vn,i.an,a.hn,pt.cid
+                    ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
+                    ,pt.hcode,op.income as income_group
+                    ,o.vstdate ,o.vsttime
+                   
+                    ,a.dchdate
+                    ,ptt.pttype_eclaim_id
+                    ,ipt.pttype,ptt.name as namelist
+                    ,"37" as acc_code
+					,"1102050101.4022" as account_code
+                    ,e.name as account_name
+                    ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
+                    ,a.rcpno_list as rcpno
+                    ,a.income-a.discount_money-a.rcpt_money as debit
+                    ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    ,ptt.max_debt_money
+
+                    from ipt i
+                    LEFT JOIN ovst o on o.an = i.an
+                    left join an_stat a on a.an=i.an
+                    LEFT JOIN ipt_pttype ipt ON ipt.an = i.an
+                    left join patient pt on pt.hn=a.hn
+                    LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+                    LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                    LEFT JOIN opitemrece op ON op.an = i.an
+                    LEFT JOIN drugitems d on d.icode=op.icode
+
+                    WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                    AND ipt.pttype IN("O1","O2","O3","O4","O5")
+                    AND op.icode ="3010058"
+                    GROUP BY i.an
             
         ');
 
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
-                    if ($check == 0) {
-                       Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate, 
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_amount,
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
-                    }
+            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.4022')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            if ($check == 0) {
+                Acc_debtor::insert([
+                    'hn'                 => $value->hn,
+                    'an'                 => $value->an,
+                    'vn'                 => $value->vn,
+                    'cid'                => $value->cid,
+                    'ptname'             => $value->ptname,
+                    'pttype'             => $value->pttype,
+                    'vstdate'            => $value->vstdate,
+                    'dchdate'            => $value->dchdate,
+                    'acc_code'           => $value->acc_code,
+                    'account_code'       => $value->account_code,
+                    'account_name'       => $value->account_name,
+                    'income_group'       => $value->income_group,
+                    'income'             => $value->income,
+                    'uc_money'           => $value->uc_money,
+                    'discount_money'     => $value->discount_money,
+                    'paid_money'         => $value->paid_money,
+                    'rcpt_money'         => $value->rcpt_money,
+                    'debit'              => $value->debit,
+                    'debit_drug'         => $value->debit_drug,
+                    'debit_instument'    => $value->debit_instument,
+                    'debit_toa'          => $value->debit_toa,
+                    'debit_refer'        => $value->debit_refer,
+                    'debit_total'        => $value->fokliad,
+                    'max_debt_amount'    => $value->max_debt_money,
+                    'acc_debtor_userid'  => Auth::user()->id
+                ]);
+            }
         }
 
             return response()->json([
@@ -272,7 +277,7 @@ class Account4022Controller extends Controller
                 'status'    => '200'
             ]);
     }
-    public function account_pkti4011_stam(Request $request)
+    public function account_pkti4022_stam(Request $request)
     {
         $id = $request->ids;
         $iduser = Auth::user()->id;
@@ -285,11 +290,11 @@ class Account4022Controller extends Controller
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
                    //  $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->where('account_code','1102050101.4011')->count();
-                $check = Acc_1102050101_4011::where('vn', $value->vn)->count();
+                $check = Acc_1102050101_4022::where('an', $value->an)->count();
                 if ($check > 0) {
                 # code...
                 } else {
-                    Acc_1102050101_4011::insert([
+                    Acc_1102050101_4022::insert([
                     'vn'                => $value->vn,
                     'hn'                => $value->hn,
                     'an'                => $value->an,
