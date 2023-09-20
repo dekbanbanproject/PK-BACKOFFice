@@ -30,6 +30,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->enum('type', ['ADMIN', 'STAFF', 'CUSTOMER', 'MANAGE','USER','NOTUSER'])->default('USER');
+            $table->string('passapp')->nullable();
             $table->string('line_token')->nullable();
             $table->string('group_p4p')->nullable();            
             $table->string('dep_id')->nullable();
