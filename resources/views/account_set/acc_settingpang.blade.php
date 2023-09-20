@@ -179,7 +179,7 @@
                                     <tr height="20" id="#sid">
                                         <td class="text-center" width="5%">{{ $number }}</td> 
                                         <td class="text-center" width="10%" >
-                                            <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-warning editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                            <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-primary editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
                                                {{ $item->pang }}
                                             </button>
                                         </td> 
