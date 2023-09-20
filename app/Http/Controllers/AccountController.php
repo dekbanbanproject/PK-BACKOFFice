@@ -1919,6 +1919,60 @@ class AccountController extends Controller
 
     }
 
+    public function account_nopaid(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+        $datashow = DB::connection('mysql')->select('
+            SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months 
+                ,SUM(v.paid_money) AS sum_paid_money
+                ,COUNT(v.vn) AS count_vn,l.MONTH_NAME
+                FROM hos.vn_stat v
+                LEFT JOIN hos.patient p on p.hn=v.hn
+                LEFT JOIN hos.pttype t on t.pttype=v.pttype
+                LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
+                WHERE v.vstdate between "' . $start . '" and "' . $end . '"
+                AND (v.paid_money>0 and v.rcpt_money=0 and v.remain_money=0)
+                GROUP BY date_format(v.vstdate, "%M")
+                ORDER BY v.vstdate desc limit 12
+        ');
+        return view('account.account_nopaid', [
+            'datashow'   =>  $datashow, 
+            'startdate'  =>  $startdate,
+            'enddate'    =>  $enddate, 
+        ]);
+    }
+    public function account_nopaid_sub(Request $request,$months,$year)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+
+        $datashow = DB::connection('mysql2')->select(' 
+                SELECT v.vn, v.income,v.cid, v.paid_money, v.hn, v.vstdate, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname
+                FROM vn_stat v
+                LEFT JOIN patient p on p.hn=v.hn
+                LEFT JOIN pttype t on t.pttype=v.pttype
+                WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '"
+                AND (v.paid_money>0 and v.rcpt_money=0 and v.remain_money=0)
+        ');
+        return view('account.account_nopaid_sub', [
+            'datashow'   =>  $datashow, 
+            'startdate'  =>  $startdate,
+            'enddate'    =>  $enddate, 
+        ]);
+    }
+
 
 
 

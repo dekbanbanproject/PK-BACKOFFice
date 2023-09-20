@@ -1898,6 +1898,10 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'debtor_sss',[App\Http\Controllers\AccountController::class, 'debtor_sss'])->name('acc.debtor_sss');//
 
 
+  Route::match(['get','post'],'account_nopaid',[App\Http\Controllers\AccountController::class, 'account_nopaid'])->name('acc.account_nopaid');//
+  Route::match(['get','post'],'account_nopaid_sub/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_sub'])->name('acc.account_nopaid_sub');//
+  Route::match(['get','post'],'account_nopaid_moneysub/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_moneysub'])->name('acc.account_nopaid_moneysub');//
+  
   // **************************** แผนโครงการ ***********************
   Route::match(['get','post'],'plan',[App\Http\Controllers\PlanController::class, 'plan'])->name('p.plan');//
   Route::match(['get','post'],'plan_save',[App\Http\Controllers\PlanController::class, 'plan_save'])->name('p.plan_save');//

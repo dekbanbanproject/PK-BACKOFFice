@@ -289,11 +289,21 @@ use App\Models\Products_request_sub;
                                 <li><a href="{{ url('account_info') }}" target="_blank">ไม่มี Approve Code</a></li>
 
                             </ul>
+                        </li>  
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-brands fa-btc text-success"></i>
+                                <span>ไม่ได้ชำระเงิน</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('account_nopaid') }}" target="_blank">ข้อมูลทั้งปี</a></li>
+
+                            </ul>
                         </li>                        
                         
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                <i class="fa-brands fa-btc text-info"></i>
+                                <i class="fa-brands fa-btc text-primary"></i>
                                 <span>เงินเดือนค่าตอบแทน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
