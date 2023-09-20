@@ -1,4 +1,4 @@
-@extends('layouts.account')
+@extends('layouts.accountnew')
 @section('title', 'PK-BACKOFFice || Account')
 @section('content')
     <script>
@@ -185,21 +185,15 @@
             <div class="row">
                 <div class="col"></div>
                 <div class="col-md-1 text-end">วันที่</div>
-                <div class="col-md-2 text-center">
-                    <div class="input-group" id="datepicker1">
-                        <input type="text" class="form-control" name="startdate" id="datepicker"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-language="th-th"
-                            data-date-autoclose="true" value="{{ $startdate }} ">
-                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="col-md-1 text-center">ถึงวันที่</div>
-                <div class="col-md-2 text-center">
-                    <div class="input-group" id="datepicker1">
-                        <input type="text" class="form-control" name="enddate" id="datepicker2"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-language="th-th"
-                            data-date-autoclose="true" value="{{ $enddate }} ">
-                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+             
+                <div class="col-md-4 text-end">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $enddate }}" required/>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -217,31 +211,47 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-magnifying-glass me-2"></i>
-                        ค้นหา
+                <div class="col-md-2">
+                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
                     </button>
                 </div>
-                <div class="col-md-1 text-end">
+                {{-- <div class="col-md-1 text-end"> --}}
                     {{-- <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                         data-bs-target="#insertuserdata">
                         เพิ่มเจ้าหน้าที่
                     </button> --}}
-                </div>
+                {{-- </div> --}}
 
-                <div class="col-md-1 text-start">
+                {{-- <div class="col-md-1 text-start"> --}}
                     {{-- <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
                         data-bs-target="#copydata">
                         คัดลอกข้อมูล
                     </button> --}}
-                </div>
+                {{-- </div> --}}
             </div>
         </form>
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="card shadow">
-                    <div class="card-header ">
+                    <div class="card-header">
+                        <h5>บัญชีรับ {{ $data_hos->users_hos_name }}</h5>
+                            <div class="btn-actions-pane-right">
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(236, 232, 181)">
+                                    {{-- <i class="fa-solid fa-arrows-rotate text-danger me-2"></i> --}}
+                                    ลงบัญชีจ่าย
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(200, 233, 248)">
+                                    {{-- <i class="fa-solid fa-arrows-rotate text-danger me-2"></i> --}}
+                                    เช็คบัญชีจ่าย
+                                </button>
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(232, 208, 255)">
+                                    {{-- <i class="fa-solid fa-arrows-rotate text-danger me-2"></i> --}}
+                                    ลงบัญชีจ่ายสำเร็จ
+                                </button>
+                            </div>
+                        </div>
+                    {{-- <div class="card-header ">
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>บัญชีจ่าย {{ $data_hos->users_hos_name }}</h5>
@@ -250,8 +260,8 @@
                                 <label for="" style="font-size: 17px">สถานะสี</label>
                             </div>
                             <div class="col-md-5 ">
-                                {{-- <button type="button" class="btn ms-3 text-white"
-                                    style="background-color: rgb(156, 219, 7)">ลงบัญชีรับเรียบร้อย</button> --}}
+                                <button type="button" class="btn ms-3 text-white"
+                                    style="background-color: rgb(156, 219, 7)">ลงบัญชีรับเรียบร้อย</button>
                                     <button type="button" class="btn ms-3 text-danger"
                                     style="background-color: rgb(236, 232, 181)">ลงบัญชีจ่าย</button>
                                 <button type="button" class="btn ms-3 text-danger"
@@ -262,7 +272,7 @@
 
                             <div class="col-md-2"></div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body shadow-lg">
                         <div class="table-responsive">
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"

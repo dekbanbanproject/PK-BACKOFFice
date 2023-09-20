@@ -88,14 +88,7 @@
             </div>
             <div class="col"></div>
         </div>
-             
-        <div class="row mt-2 text-center">  
-            <div id="overlay">
-                <div class="cv-spinner">
-                  <span class="spinner"></span>
-                </div>
-              </div>
-        </div> 
+          
         <div class="row mt-2">
             <div class="col-xl-12">
                 <div class="card">

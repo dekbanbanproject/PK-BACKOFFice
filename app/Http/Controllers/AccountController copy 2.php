@@ -250,7 +250,7 @@ class AccountController extends Controller
         // and a.uc_money > 1
         // group by year(a.vstdate),month(a.vstdate)
         // and (rr.sss_approval_code is null or rr.sss_approval_code ="")
-        $datashow2 = DB::connection('mysql2')->select('
+        $datashow2 = DB::connection('mysql3')->select('
                 select year(a.vstdate) as monyear
                 ,month(a.vstdate) as months
                 ,count(distinct a.vn) as vn
@@ -283,7 +283,7 @@ class AccountController extends Controller
 
         // dd($enddateadmit);
 
-        $datashow3 = DB::connection('mysql2')->select('
+        $datashow3 = DB::connection('mysql3')->select('
                 select left(DATEADM,4) as monyear,mid(dateadm,5,2) as months,count(distinct m.opdseq) as errorc
                 from eclaimdb.m_registerdata m
                 LEFT JOIN hshooterdb.m_stm s on s.vn = m.opdseq

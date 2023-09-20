@@ -1,4 +1,4 @@
-@extends('layouts.accountnew')
+@extends('layouts.account')
 @section('title', 'PK-BACKOFFice || Account')
 @section('content')
     <script>
@@ -18,7 +18,7 @@
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
     ?>
-    {{-- <style>
+    <style>
         body {
             font-size: 13px;
         }
@@ -117,118 +117,14 @@
             height: 2px;
             margin-bottom: 9px;
         }
-    </style> --}}
-    <style>
-        #button {
-            display: block;
-            margin: 20px auto;
-            padding: 30px 30px;
-            background-color: #eee;
-            border: solid #ccc 1px;
-            cursor: pointer;
-        }
-    
-        #overlay {
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: rgba(0, 0, 0, 0.6);
-        }
-    
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    
-        .spinner {
-            width: 250px;
-            height: 250px;
-            border: 10px #ddd solid;
-            border-top: 10px #fd6812 solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
-    
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    
-        .is-hide {
-            display: none;
-        }
     </style>
-    <div class="container-fluid mb-5">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-    
-                </div>
-            </div>
-        </div>
-        <form action="{{ url('account_money_monthlydebt/'.$id) }}" method="POST">
-            @csrf
-        <div class="row"> 
-         
-            {{-- <div class="col"></div> --}}
-            <div class="col-md-1 text-start">ข้อมูลหนี้รายเดือน</div>
-            <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
-                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div> 
-            </div>
-            <div class="col-md-2">
-                <select name="account_monthlydebt_type" id="account_monthlydebt_type2"
-                    class="form-control"bstyle="width: 100%" required>
-                    <option value="">=เลือก=</option>
-                    @foreach ($users_groups as $ug)
-                        @if ($main_type == $ug->users_group_id)
-                            <option value="{{ $ug->users_group_id }}" selected>
-                                {{ $ug->users_group_name }}</option>
-                        @else
-                            <option value="{{ $ug->users_group_id }}">{{ $ug->users_group_name }}
-                            </option>
-                        @endif
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-4"> 
-                <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                    <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                    ค้นหา
-                </button>
-                 
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#insertuserdata">
-                    <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                    เพิ่มเจ้าหน้าที่
-                </button>  
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#copydata">
-                    <i class="fa-solid fa-file-circle-plus text-warning me-2"></i>
-                    คัดลอกข้อมูล
-                </button>   
-                 
-                  
-            </div>
-            <div class="col"></div>
-        </div>
-    </form>
-        <div class="row mt-3">
+    <div class="container-fluids">
+        <div class="row ">
             <div class="col-md-12">
-                {{-- <div class="card shadow">
-                    <form action="{{ url('account_money_monthlydebt/'.$id) }}" method="POST">
-                        @csrf
+                <div class="card shadow">
                     <div class="card-header ">
-                       
+                        <form action="{{ url('account_money_monthlydebt/'.$id) }}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-1 text-left">ข้อมูลหนี้รายเดือน</div>
                                 <div class="col-md-1 text-end">วันที่</div>
@@ -273,22 +169,26 @@
                                         ค้นหา
                                     </button>
                                 </div> 
-                                <div class="col-md-2 text-end">
+                                <div class="col-md-1 text-end">
                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                                        data-bs-target="#insertuserdata"> 
+                                        data-bs-target="#insertuserdata">
+                                        {{-- <i class="fa-solid fa-folder-plus text-primary me-2"></i> --}}
                                         เพิ่มเจ้าหน้าที่
                                     </button>
-                                </div> 
-                                <div class="col-md-2 text-start">
+                                </div>
+
+                                <div class="col-md-1 text-start">
                                     <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
-                                        data-bs-target="#copydata"> 
-                                        คัดลอกข้อมูล
+                                        data-bs-target="#copydata">
+                                        {{-- <i class="fa-solid fa-folder-plus text-primary me-2"></i> --}}
+                                        คัดลอกข้อมูลเดิม
                                     </button>
+
                                 </div>
                             </div>
 
                     </div>
-                    </form> --}}
+                    </form>
                     <div class="card-body shadow-lg">
                         <div class="table-responsive">
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable"

@@ -282,44 +282,59 @@
                                         </button>
                                     </td> 
                                     <td >   
-                                            <div id="headingTwo" class="b-radius-0 card-header">
+                                        <?php 
+                                            $data_sub_ = DB::connection('mysql')->select('
+                                                SELECT * from acc_setpang_type a
+                                                LEFT JOIN pttype p ON p.pttype = a.pttype 
+                                                WHERE acc_setpang_id = "'.$item->acc_setpang_id.'"');
+
+                                            $data_subcount_ = DB::connection('mysql')->select('SELECT COUNT(acc_setpang_id) as acc_setpang_id from acc_setpang_type WHERE acc_setpang_id = "'.$item->acc_setpang_id.'"');
+                                            foreach ($data_subcount_ as $key => $value) {
+                                                $data_subcount = $value->acc_setpang_id;
+                                            }
+                                        ?>
+                                        <div id="headingTwo" class="b-radius-0 card-header">
+                                            @if ($data_subcount == '0')
+                                                <button type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne2{{ $item->acc_setpang_id }}" aria-expanded="false"
+                                                    aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                    <h5 style="color: rgb(207, 204, 204)">{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5> 
+                                                </button>
+                                            @else
                                                 <button type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#collapseOne2{{ $item->acc_setpang_id }}" aria-expanded="false"
                                                     aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
                                                     <h5 >{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5> 
                                                 </button>
-                                            </div>
-                                            <?php 
-                                                $data_sub_ = DB::connection('mysql')->select('
-                                                    SELECT * from acc_setpang_type a
-                                                    LEFT JOIN pttype p ON p.pttype = a.pttype 
-                                                    WHERE acc_setpang_id = "'.$item->acc_setpang_id.'"');
-                                            ?>
-                                            <div data-parent="#accordion" id="collapseOne2{{ $item->acc_setpang_id }}" class="collapse">
-                                                <div class="card-body">
-                                                    <div class="row ms-3 me-3">
-                                                        @foreach ($data_sub_ as $itemsub)
-                                                            <div class="col-md-4 mb-2">
-                                                                @if ($itemsub->pttype != '')
-                                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" onclick="sub_destroy({{ $itemsub->acc_setpang_type_id }})">
-                                                                        {{$itemsub->pttype}} - {{$itemsub->name}} / {{$itemsub->opdipd}}
-                                                                    </button>
-                                                                @else                                                                    
-                                                                @endif
+                                            @endif
+                                            
+                                        </div>
+                                        
+                                        <div data-parent="#accordion" id="collapseOne2{{ $item->acc_setpang_id }}" class="collapse">
+                                            <div class="card-body">
+                                                <div class="row ms-3 me-3">
+                                                    @foreach ($data_sub_ as $itemsub)
+                                                        <div class="col-md-4 mb-2">
+                                                            @if ($itemsub->pttype != '')
+                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" onclick="sub_destroy({{ $itemsub->acc_setpang_type_id }})">
+                                                                    {{$itemsub->pttype}} - {{$itemsub->name}} / {{$itemsub->opdipd}}
+                                                                </button>
+                                                            @else                                                                    
+                                                            @endif
 
-                                                                @if ($itemsub->icode != '')
-                                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="subicode_destroy({{ $itemsub->acc_setpang_type_id }})">
-                                                                       ICODE - {{$itemsub->icode}}  
-                                                                    </button> 
-                                                                @else                                                                    
-                                                                @endif
-                                                                
-                                                            </div>
-                                                          
-                                                        @endforeach                                                        
-                                                    </div>
+                                                            @if ($itemsub->icode != '')
+                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="subicode_destroy({{ $itemsub->acc_setpang_type_id }})">
+                                                                    ICODE - {{$itemsub->icode}}  
+                                                                </button> 
+                                                            @else                                                                    
+                                                            @endif
+                                                            
+                                                        </div>
+                                                        
+                                                    @endforeach                                                        
                                                 </div>
-                                            </div> 
+                                            </div>
+                                        </div> 
                                     </td> 
                                     {{-- <a href="#collapseOne{{ $item->acc_setpang_id }}" class="text-dark" data-bs-toggle="collapse"
                                                     aria-expanded="true"

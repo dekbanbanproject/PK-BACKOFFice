@@ -1,5 +1,5 @@
  
-@extends('layouts.account')
+@extends('layouts.accountnew')
 @section('title', 'PK-BACKOFFice || Account')
 @section('content')
 
@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <div class="row "> 
             @foreach ($users_hos as $item)
-                <div class="col-6 col-md-4 col-xl-2 mt-3">  
+                <div class="col-6 col-md-4 col-xl-4 mt-3">  
                     <div class="card">
                         <div class="card-body shadow-lg">          
                             <a href="{{url("account_money_pay/".$item->users_hos_id)}}" class="nav-link text-dark text-center"> 
@@ -65,7 +65,7 @@
                                 
                             @endif
                             <br>
-                            <label for="" class="mt-2">{{$item->users_hos_name}}</label>
+                            <label for="" class="mt-2 ms-3">{{$item->users_hos_name}}</label>
                             </a>
                     </div>
                 </div>

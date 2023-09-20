@@ -1,4 +1,4 @@
-@extends('layouts.account')
+@extends('layouts.accountnew')
 @section('title', 'PK-BACKOFFice || Account')
 @section('content')
     <script>
