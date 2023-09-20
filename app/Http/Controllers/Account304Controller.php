@@ -218,10 +218,11 @@ class Account304Controller extends Controller
                     LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
                     LEFT JOIN hos.opitemrece op ON ip.an = op.an
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
-                    WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND ipt.pttype = "s7"
+                    WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
+                    AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.304"))
                     GROUP BY a.an;
             ');
+            // AND ipt.pttype = "s7"
             // ,ipt.max_debt_amount as looknee
             foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.304')->whereBetween('dchdate', [$startdate, $enddate])->count();

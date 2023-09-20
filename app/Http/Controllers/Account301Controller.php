@@ -296,7 +296,7 @@ class Account301Controller extends Controller
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group 
                     
-                    ,ptt.pttype_eclaim_id ,o.pttype ,e.code as acc_code
+                    ,ptt.pttype_eclaim_id ,vp.pttype ,e.code as acc_code
                     ,e.ar_opd as account_code ,e.name as account_name
                     ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
                     ,v.rcpno_list as rcpno
@@ -309,12 +309,13 @@ class Account301Controller extends Controller
                     ,ptt.max_debt_money
             from hos.ovst o
             left join hos.vn_stat v on v.vn=o.vn
+            LEFT JOIN visit_pttype vp on vp.vn = v.vn
             left join hos.patient pt on pt.hn=o.hn
             LEFT JOIN hos.pttype ptt on o.pttype=ptt.pttype
             LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
             LEFT JOIN hos.opitemrece op ON op.vn = o.vn
             WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            AND v.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.301"))
+            AND vp.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.301"))
              
             AND v.income <> 0
             and (o.an="" or o.an is null)

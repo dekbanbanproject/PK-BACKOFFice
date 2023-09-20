@@ -215,12 +215,12 @@ class Account310Controller extends Controller
                     LEFT JOIN iptoprt io on io.an = ip.an
                     LEFT JOIN vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND ipt.pttype IN("A7","15")
+                    AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.310"))
                     AND v.hospmain = "10702"
                     and io.icd9 like "%6632%"
                 GROUP BY a.an; 
             ');
-
+            // AND ipt.pttype IN("A7","15")
             foreach ($acc_debtor as $key => $value) { 
                 $check =  Acc_debtor::where('an', $value->an) 
                         // ->where('dchdate', $value->dchdate)

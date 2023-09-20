@@ -217,10 +217,11 @@ class Account308Controller extends Controller
                 LEFT JOIN hos.opitemrece op ON ip.an = op.an
                 LEFT JOIN hos.vn_stat v on v.vn = a.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND ipt.pttype = "14"  
+               
+                AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.308"))
                 GROUP BY a.an;
             ');
-
+            // AND ipt.pttype = "14"  
             foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.308')->whereBetween('dchdate', [$startdate, $enddate])->count();
                     if ($check == 0) {

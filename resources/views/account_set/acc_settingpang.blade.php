@@ -265,7 +265,8 @@
                                 <th class="text-center">ชื่อผัง</th>
                                 <th class="text-center">pttype</th>
                                 <th class="text-center">icode</th>  
-                                <th class="text-center">hipdata_code</th> 
+                                <th class="text-center">hospmain</th>
+                                <th class="text-center">icd9</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -301,7 +302,7 @@
                                                             <div class="col-md-4 mb-2">
                                                                 @if ($itemsub->pttype != '')
                                                                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" onclick="sub_destroy({{ $itemsub->acc_setpang_type_id }})">
-                                                                        {{$itemsub->pttype}} - {{$itemsub->name}}
+                                                                        {{$itemsub->pttype}} - {{$itemsub->name}} / {{$itemsub->opdipd}}
                                                                     </button>
                                                                 @else                                                                    
                                                                 @endif
@@ -350,10 +351,16 @@
                                             icode
                                         </button>
                                     </td> 
-                                    <td class="text-center" width="10%">
-                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addhipdata_codeModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม hipdata_code">
+                                    <td class="text-center" width="7%">
+                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addhospmainModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม hipdata_code">
                                             <i class="fa-solid fa-plus text-success"></i>
-                                            hipdata_code
+                                            hospmain
+                                        </button>
+                                    </td> 
+                                    <td class="text-center" width="7%">
+                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addicd9Modal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม hipdata_code">
+                                            <i class="fa-solid fa-plus text-success"></i>
+                                            icd9
                                         </button>
                                     </td> 
                                     {{-- <td class="p-2" width="30%" > {{ $item->pttype }}</td>  --}}
@@ -522,13 +529,13 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="pang" class="form-label">รหัสผังบัญชี</label>
+                            <label for="addtypepang" class="form-label">รหัสผังบัญชี</label>
                             <div class="input-group input-group-sm"> 
                                 <input type="text" class="form-control" id="addtypepang" name="pang" readonly>  
                             </div>
                         </div>  
                         <div class="col-md-8">
-                            <label for="pangname" class="form-label">ชื่อผังบัญชี</label>
+                            <label for="addtypepangname" class="form-label">ชื่อผังบัญชี</label>
                             <div class="input-group input-group-sm"> 
                                 <input type="text" class="form-control" id="addtypepangname" name="pangname" readonly>  
                             </div>
@@ -537,8 +544,17 @@
     
 
                     <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label for="pttype" class="form-label">เพิ่มสิทธิ์การรักษา</label>
+                        <div class="col-md-4">
+                            <label for="pttype" class="form-label">OPD-IPD</label>
+                            <div class="input-group input-group-sm"> 
+                                <select name="opdipd" id="opdipd" class="form-control" style="width: 100%">
+                                    <option value="OPD">- OPD -</option>
+                                    <option value="IPD">- IPD -</option>
+                                </select>                                 
+                            </div>
+                        </div>  
+                        <div class="col-md-8">
+                            <label for="addpttype" class="form-label">เพิ่มสิทธิ์การรักษา</label>
                             <div class="input-group input-group-sm">  
                                 <select name="addpttype" id="addpttype" class="form-control" style="width: 100%">
                                     <option value="">-Choose-</option>
@@ -611,6 +627,49 @@
     </div>
 </div>
  
+<!-- addhospmainModal Modal --> 
+<div class="modal fade" id="addhospmainModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">เพิ่มรหัส hospmain ตามเงื่อนไข</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="pang" class="form-label">รหัสผังบัญชี</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="addpanghospmain" name="addpanghospmain" readonly>  
+                            </div>
+                        </div>  
+                        <div class="col-md-8">
+                            <label for="pangname" class="form-label">ชื่อผังบัญชี</label>
+                            <div class="input-group input-group-sm"> 
+                                <input type="text" class="form-control" id="addhospmainpangname" name="addhospmainpangname" readonly>  
+                            </div>
+                        </div> 
+                    </div> 
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label for="pttype" class="form-label">icode</label>
+                            <div class="input-group input-group-sm">  
+                                <input type="text" class="form-control" id="addhospmainpang" name="addhospmainpang">  
+                            </div>
+                        </div>                          
+                    </div>                 
+                <input type="hidden" name="user_id" id="adduser_id"> 
+                <input type="hidden" name="addhospmainacc_setpang_id" id="addhospmainacc_setpang_id"> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatehospmain">
+                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('footer')
  
@@ -633,9 +692,9 @@
             dropdownParent: $('#addpttypeModal')
         });
 
-        // $('#editacc_stm_repmoney_tri').select2({
-        //     dropdownParent: $('#editModal')
-        // });
+        $('#opdipd').select2({
+            dropdownParent: $('#addpttypeModal')
+        });
 
         $('#Savedata').click(function() {
                 var pang = $('#pang').val();
@@ -715,13 +774,14 @@
         $('#Updatetype').click(function() { 
                 var addtypepang = $('#addtypepang').val(); 
                 var addpttype = $('#addpttype').val(); 
+                var opdipd = $('#opdipd').val(); 
                 var acc_setpang_id = $('#addtypeacc_setpang_id').val();
                 $.ajax({
                     url: "{{ route('acc.acc_pang_addtypesave') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        addpttype,acc_setpang_id,addtypepang
+                        addpttype,acc_setpang_id,addtypepang,opdipd
                     },
                     success: function(data) {
                         if (data.status == 200) {
@@ -820,6 +880,20 @@
     $(document).on('click', '.addicodeModal', function() {
         var acc_setpang_id = $(this).val(); 
         $('#addicodeModal').modal('show');
+        $.ajax({
+            type: "GET",
+            url: "{{ url('acc_pang_addicode') }}" + '/' + acc_setpang_id,
+            success: function(data) {
+                console.log(data.data_icode.acc_setpang_id); 
+                $('#addpangcode').val(data.data_icode.pang)
+                $('#addicodepangname').val(data.data_icode.pangname) 
+                $('#addicodeacc_setpang_id').val(data.data_icode.acc_setpang_id)
+            },
+        });
+    });
+    $(document).on('click', '.addhospmainModal', function() {
+        var acc_setpang_id = $(this).val(); 
+        $('#addhospmainModal').modal('show');
         $.ajax({
             type: "GET",
             url: "{{ url('acc_pang_addicode') }}" + '/' + acc_setpang_id,

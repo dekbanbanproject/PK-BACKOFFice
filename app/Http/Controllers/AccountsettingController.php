@@ -169,6 +169,7 @@ class AccountsettingController extends Controller
         $add->pang             = $request->input('addtypepang');
         $add->acc_setpang_id   = $request->input('acc_setpang_id');
         $add->pttype           = $request->input('addpttype'); 
+        $add->opdipd           = $request->input('opdipd'); 
         $add->save();
 
         return response()->json([
