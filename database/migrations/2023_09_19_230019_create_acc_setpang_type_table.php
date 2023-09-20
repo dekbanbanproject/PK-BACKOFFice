@@ -20,6 +20,8 @@ return new class extends Migration
                 $table->string('acc_setpang_id')->nullable();//  
                 $table->string('pang')->nullable();//  
                 $table->string('pttype')->nullable();//    
+                $table->string('hipdata_code')->nullable();//   
+                $table->string('icode')->nullable();//
                 $table->timestamps();
             }); 
         }

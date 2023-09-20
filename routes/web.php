@@ -1774,6 +1774,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_settingpang_update',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang_update'])->name('acc.acc_settingpang_update');//
     Route::match(['get','post'],'acc_settingpang_destroy/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang_destroy'])->name('acc.acc_settingpang_destroy');//
 
+    Route::match(['get','post'],'acc_settingpang_detail/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_settingpang_detail'])->name('acc.acc_settingpang_detail');//
+
     Route::match(['get','post'],'acc_pang_addtype/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addtype'])->name('acc.acc_pang_addtype');//
     Route::match(['get','post'],'acc_pang_addtypesave',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addtypesave'])->name('acc.acc_pang_addtypesave');//
 

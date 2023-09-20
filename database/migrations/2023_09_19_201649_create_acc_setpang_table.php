@@ -19,7 +19,8 @@ return new class extends Migration
                 $table->bigIncrements('acc_setpang_id');//                 
                 $table->string('pang')->nullable();//  
                 $table->string('pangname')->nullable();//    
-                $table->string('pttype')->nullable();//   
+                $table->string('pttype')->nullable();// 
+                $table->string('hipdata_code')->nullable();//   
                 $table->string('icode')->nullable();//    
                 $table->enum('active', ['TRUE','FALSE'])->default('TRUE')->nullable(); //สถานะ
                 $table->timestamps();
