@@ -93,7 +93,14 @@ class AccountsettingController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
          
-        $datashow = DB::connection('mysql')->select('SELECT * from acc_setpang ORDER BY pang ASC'); 
+        $datashow = DB::connection('mysql')->select('
+            SELECT 
+             a.acc_setpang_id,a.pang,a.pangname,a.active,b.acc_setpang_type_id,b.acc_setpang_id as acc_setpang_id2,b.pang as pang2
+             ,b.pttype as pttype2,b.hipdata_code,b.icode as icode2
+            from acc_setpang a
+            LEFT JOIN acc_setpang_type b ON b.acc_setpang_id = a.acc_setpang_id
+            GROUP BY a.pang
+            ORDER BY a.pang ASC'); 
         $data_sit = DB::connection('mysql')->select('SELECT * from pttype');
          return view('account_set.acc_settingpang',[
             'datashow'      =>     $datashow,
@@ -147,6 +154,7 @@ class AccountsettingController extends Controller
         return response()->json(['status' => '200']);
     }
 
+    // **********************************
     public function acc_pang_addtype(Request $request,$id)
     {
         $data_type = Acc_setpang::find($id);
@@ -155,7 +163,6 @@ class AccountsettingController extends Controller
             'data_type'            =>  $data_type,
         ]);
     }
-
     public function acc_pang_addtypesave(Request $request)
     {  
         $add = new Acc_setpang_type(); 
@@ -168,8 +175,41 @@ class AccountsettingController extends Controller
             'status'     => '200',
         ]);
     }
+    public function sub_destroy(Request $request,$id)
+    { 
+        $del = Acc_setpang_type::find($id);  
+        $del->delete();  
+        return response()->json(['status' => '200']);
+    }
 
-  
+    // ************************************
+    public function acc_pang_addicode(Request $request,$id)
+    {
+        $data_icode = Acc_setpang::find($id);
+        return response()->json([
+            'status'                => '200', 
+            'data_icode'            =>  $data_icode,
+        ]);
+    }
+    public function acc_pang_addicodesave(Request $request)
+    {  
+        $add = new Acc_setpang_type(); 
+        $add->pang             = $request->input('addpangcode');
+        $add->acc_setpang_id   = $request->input('acc_setpang_id');
+        $add->icode           = $request->input('addicodepang'); 
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function subicode_destroy(Request $request,$id)
+    { 
+        // $idd = Acc_setpang_type::where('icode',$id)->first();
+        $del = Acc_setpang_type::find($id);  
+        $del->delete();  
+        return response()->json(['status' => '200']);
+    }
 
 
 

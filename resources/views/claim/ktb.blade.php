@@ -369,18 +369,21 @@
                                     <span class="d-none d-sm-block">PAT</span>
                                 </a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#Opd" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
                                     <span class="d-none d-sm-block">OPD</span>
                                 </a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#Odx" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
                                     <span class="d-none d-sm-block">ODX</span>
                                 </a>
                             </li>
+                            
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="tab" href="#Adp" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
@@ -690,7 +693,7 @@
 
                                                 <th class="text-center">TOTCOPAY</th>
                                                 <th class="text-center">USE_STATUS</th>
-                                                <th class="text-center">STATUS1</th>
+                                                {{-- <th class="text-center">STATUS1</th> --}}
                                                 <th class="text-center">TOTAL</th>
                                                 <th class="text-center">SIGCODE</th>
                                                 <th class="text-center">SIGTEXT</th>
@@ -722,7 +725,7 @@
 
                                                     <td class="text-center">{{ $item6->TOTCOPAY }}</td>
                                                     <td class="text-center">{{ $item6->USE_STATUS }}</td>
-                                                    <td class="text-center">{{ $item6->STATUS1 }}</td>
+                                                    {{-- <td class="text-center">{{ $item6->STATUS1 }}</td> --}}
                                                     <td class="text-center">{{ $item6->TOTAL }}</td>
                                                     <td class="text-center">{{ $item6->SIGCODE }}</td>
                                                     <td class="text-center">{{ $item6->SIGTEXT }}</td>
