@@ -420,6 +420,12 @@
                                             Update Spsch To Checksit Ti Auto
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ url('check_prb202') }}" target="_blank">
+                                            <i class="metismenu-icon"></i>
+                                            พรบ.ลืมลงค่าสูงสุด Auto
+                                        </a>
+                                    </li>
                                     {{-- <li>
                                         <a href="{{ url('checkauthen_autospsch') }}" target="_blank">
                                             <i class="metismenu-icon"></i>

@@ -129,7 +129,11 @@ class ApiController extends Controller
                 ,p.birthday,p.hometel,p.addrpart,p.moopart, address3.name AS tmbpart,address2.name AS amppart,address1.name AS chwpart
                 , concat(p.addrpart,"หมู่ที่",p.moopart," ต. ",address3.name," อ. ",address2.name," จ. ",address1.name) as fulladdress,ptt.name as pttype
                 ,d.name as doctor_name,a.pdx,oi.icd9,oi.name,concat(a.regdate," ",i.regtime) AS admit_time, a.admdate,a.income,min(ot.in_datetime) AS ortime
-                ,concat(i.dchdate," ",i.dchtime) AS dc_time, CASE WHEN  p.sex="1" then "ชาย" else "หญิง" end as sexname,a.age_y,a.los,i.adjrw
+                ,concat(i.dchdate," ",i.dchtime) AS dc_time, 
+                CASE WHEN  p.sex="1" then "ชาย" 
+                else "หญิง" 
+                end as sexname
+                ,a.age_y,a.los,i.adjrw
                 ,i.ward,ward.name as wardname, " " as id,"Hip" as type, " " as operation,"yes" as find,"ชัยภูมิ" as fr_province
                 , "10978" as hospcode, "36" as provincecode
                 

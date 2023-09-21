@@ -81,13 +81,13 @@
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 </div> 
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                     <i class="fa-solid fa-magnifying-glass"></i> 
                     ค้นหา 
                 </button>    --}}
                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
-                    <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
+                    <i class="fa-solid fa-file-circle-plus text-primary "></i>
                     ดึงข้อมูล</button>    
                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sitipd">
                     <i class="fa-solid fa-2 me-2"></i> 

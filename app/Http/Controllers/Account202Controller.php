@@ -147,30 +147,46 @@ class Account202Controller extends Controller
          $startdate = $request->datepicker;
          $enddate = $request->datepicker2;
          // Acc_opitemrece::truncate();
-         $acc_debtor = DB::connection('mysql2')->select('
-            SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+         $acc_debtor = DB::connection('mysql2')->select(' 
+             SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                 ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
-                ,ipt.pttype,ptt.max_debt_money,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
-                ,ec.code,ec.ar_ipd as account_code
-                ,ec.name as account_name 
+                ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount
+                ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
+                ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN "01" 
+                    ELSE ec.code
+                    END as code
+                ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN "1102050101.202" 
+                    ELSE ec.ar_ipd
+                    END as account_code	
+                ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN "UC ใน CUP" 
+                    ELSE ec.name
+                    END as account_name	
+                ,ipt.nhso_ownright_pid
                 ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
-                ,a.income-a.rcpt_money-a.discount_money as debit
-                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                 ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                 ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                 from ipt ip
-                 LEFT JOIN hos.an_stat a ON ip.an = a.an
-                 LEFT JOIN patient pt on pt.hn=a.hn
-                 LEFT JOIN pttype ptt on a.pttype=ptt.pttype
-                 LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                 LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
-                 LEFT JOIN hos.opitemrece op ON ip.an = op.an
-                 LEFT JOIN hos.vn_stat v on v.vn = a.vn
-             WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-             AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.202"))
-             
-             GROUP BY a.an;
+
+                ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN ipt.max_debt_amount
+                    ELSE a.income-a.rcpt_money-a.discount_money
+                    END as debit
+
+                ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                from hos.ipt ip
+                LEFT JOIN hos.an_stat a ON ip.an = a.an
+                LEFT JOIN hos.patient pt on pt.hn=a.hn
+                LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                LEFT JOIN hos.opitemrece op ON ip.an = op.an
+                LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
+                GROUP BY a.an;
          ');
         //  AND ec.ar_ipd = "1102050101.202"
          foreach ($acc_debtor as $key => $value) {
@@ -193,19 +209,23 @@ class Account202Controller extends Controller
                              'income'             => $value->income,
                              'uc_money'           => $value->uc_money,
                              'discount_money'     => $value->discount_money,
-                             'paid_money'         => $value->cash_money,
-                             'rcpt_money'         => $value->cash_money,
+                            //  'paid_money'         => $value->cash_money,
+                             'rcpt_money'         => $value->rcpt_money,
                              'debit'              => $value->debit,
                              'debit_drug'         => $value->debit_drug,
                              'debit_instument'    => $value->debit_instument,
                              'debit_toa'          => $value->debit_toa,
                              'debit_refer'        => $value->debit_refer,
-                             'debit_total'        => $value->debit,
+                             'debit_total'        => $value->debit,                           
                              'max_debt_amount'    => $value->max_debt_money,
+                             'rw'                 => $value->rw,
+                             'adjrw'              => $value->adjrw,
+                             'total_adjrw_income' => $value->total_adjrw_income,
+                             'sauntang'           => $value->total_adjrw_income,
                              'acc_debtor_userid'  => Auth::user()->id
                          ]);
                      }
- 
+                    //  total_adjrw_income
                      if ($value->debit_toa > 0) {
                              Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])
                              ->update([
@@ -214,7 +234,7 @@ class Account202Controller extends Controller
                                  'account_name'     => "บริการเฉพาะ(CR)"
                              ]);
                      }
-                     if ($value->debit_instument > 0 && $value->pang_debit =='1102050101.202') {
+                     if ($value->debit_instument > 0 && $value->account_code =='1102050101.202') {
                              $checkins = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->count();
  
                              if ($checkins == 0) {
@@ -233,11 +253,11 @@ class Account202Controller extends Controller
                                      'account_name'       => 'บริการเฉพาะ(CR)',
                                      'income_group'       => '02',
                                      'debit'              => $value->debit_instument,
-                                     'debit_total'    => $value->debit_instument
+                                     'debit_total'        => $value->debit_instument
                                  ]);
                              }
                      }
-                     if ($value->debit_drug > 0 && $value->pang_debit =='1102050101.202') {
+                     if ($value->debit_drug > 0 && $value->account_code =='1102050101.202') {
                              $checkindrug = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_drug)->count();
                              if ($checkindrug == 0) {
                                  Acc_debtor::insert([
@@ -259,7 +279,7 @@ class Account202Controller extends Controller
                                  ]);
                              }
                      }
-                     if ($value->debit_refer > 0 && $value->pang_debit =='1102050101.202') {
+                     if ($value->debit_refer > 0 && $value->account_code =='1102050101.202') {
                          $checkinrefer = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_refer)->count();
                          if ($checkinrefer == 0) {
                              Acc_debtor::insert([

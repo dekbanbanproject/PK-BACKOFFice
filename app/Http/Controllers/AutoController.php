@@ -1351,6 +1351,101 @@ class AutoController extends Controller
         return view('auto.checksit_hosauto');
 
     }
+    public function check_prb202(Request $request)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+       //  dd($end);
+        $detail_auto = DB::connection('mysql2')->select('  
+            SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,a.dchdate,v.vstdate
+                    ,ipt.pttype,ipt.pttype_number
+                    ,ipt.max_debt_amount
+                    ,ip.adjrw,ip.adjrw*8350 as total_adjrw_income 
+                    ,CASE 
+                    WHEN  ipt.pttype_number ="2" THEN "1102050101.202" 
+                    ELSE ec.ar_ipd
+                    END as account_code	 
+                    ,ipt.nhso_ownright_pid
+                    ,a.rcpt_money,a.discount_money
+                    ,a.income-a.rcpt_money-a.discount_money as debit
+
+                    from hos.ipt ip
+                    LEFT JOIN hos.an_stat a ON ip.an = a.an
+                    LEFT JOIN hos.patient pt on pt.hn=a.hn
+                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
+                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                    WHERE a.dchdate BETWEEN "' . $start . '" AND "' . $end . '"
+                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
+                    AND ipt.pttype_number = "2" AND ipt.max_debt_amount IS NULL
+                    GROUP BY a.an;
+                
+            ');
+
+            // a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+            foreach ($detail_auto as $key => $value) {
+                    if ($value->max_debt_amount == '') {
+                     
+                        $linetoken = "1oDKi9NtbpxpNNxeiqkMdhpn4Y0YU8npoMpe5PitrJy";
+                        
+                        $datesend = date('Y-m-d'); 
+                        $header = "พรบ.ลืมลงวงเงินสูงสุด";
+                        $message = $header.
+                            "\n"."an : "               . $value->an.  
+                            "\n"."hn  : "              . $value->hn .
+                            "\n"."cid  : "             . $value->cid .
+                            "\n"."ptname  : "          . $value->ptname .
+                            "\n"."dchdate  : "         . $value->dchdate .
+                            "\n"."วงเงินสูงสุด  : "       . $value->max_debt_amount .
+                            "\n"."debit  : "           . $value->debit; 
+                                    
+                            if($linetoken == null){
+                                $send_line ='';
+                            }else{
+                                $send_line = $linetoken;
+                            }
+
+                        if($send_line !== '' && $send_line !== null){  
+                                $chOne = curl_init();
+                                curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                                curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                                curl_setopt( $chOne, CURLOPT_POST, 1);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                                curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                                curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                                $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$send_line.'', );
+                                curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                                curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                                $result = curl_exec( $chOne );
+                                //  if(curl_error($chOne)) { echo 'error:' . curl_error($chOne); }
+                                //     else { 
+                                //         $result_ = json_decode($result, true);
+                                //         echo "status : ".$result_['status']; echo "message : ". $result_['message'];
+                                //         //  return response()->json([
+                                //         //      'status'     => 200 , 
+                                //         //      ]);                                
+                                // }
+                                curl_close( $chOne );
+                                
+                        }
+                    } else {
+                        # code...
+                    }
+                  
+            }
+        return view('auto.check_prb202');
+    }
 
     public function check_304(Request $request)
     {
