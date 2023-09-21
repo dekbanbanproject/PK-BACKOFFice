@@ -20,6 +20,7 @@ use App\Http\Controllers\UserComController;
 // ***************   Report  **********************************
 Route::match(['get','post'],'ins_dashboard',[App\Http\Controllers\InstrumentController::class, 'ins_dashboard'])->name('ins.ins_dashboard');//
 Route::match(['get','post'],'ins_a',[App\Http\Controllers\InstrumentController::class, 'ins_a'])->name('ins.ins_a');//
+Route::match(['get','post'],'ins_b',[App\Http\Controllers\InstrumentController::class, 'ins_b'])->name('ins.ins_b');//
 
 Route::match(['get','post'],'datahosauto',[App\Http\Controllers\AutorpstController::class, 'datahosauto'])->name('sit.datahosauto');//  รพสต
 Route::match(['get','post'],'pullhosauto',[App\Http\Controllers\AutorpstController::class, 'pullhosauto'])->name('sit.pullhosauto');//  รพสต
@@ -217,6 +218,7 @@ Route::match(['get','post'],'uprep_money_update',[App\Http\Controllers\UpstmCont
 Route::match(['get','post'],'uprepdestroy/{id}',[App\Http\Controllers\UpstmController::class, 'uprepdestroy'])->name('acc.uprepdestroy');//
 // Route::DELETE('uprepdestroy/{id}',[App\Http\Controllers\UpstmController::class, 'uprepdestroy']);//
 Route::match(['get','post'],'uprep_money_updatefile',[App\Http\Controllers\UpstmController::class, 'uprep_money_updatefile'])->name('acc.uprep_money_updatefile');//
+
 
 
 Route::match(['get','post'],'uprep_sss_304',[App\Http\Controllers\UpstmController::class, 'uprep_sss_304'])->name('acc.uprep_sss_304');//
@@ -1316,6 +1318,7 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'karn_main_sss_detail/{an}',[App\Http\Controllers\karnController::class, 'karn_main_sss_detail'])->name('k.karn_main_sss_detail');//
      Route::match(['get','post'],'karn_sss_309',[App\Http\Controllers\karnController::class, 'karn_sss_309'])->name('k.karn_sss_309');//
 
+     Route::match(['get','post'],'inst_sss',[App\Http\Controllers\SssController::class, 'inst_sss'])->name('acc.inst_sss');//
 
      Route::match(['get','post'],'opd_chai',[App\Http\Controllers\SssController::class, 'opd_chai'])->name('sss.opd_chai');//
      Route::match(['get','post'],'opd_chai_hn/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_chai_hn'])->name('sss.opd_chai_hn');//

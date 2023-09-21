@@ -322,6 +322,7 @@
                                 <span>ประกันสังคม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('inst_sss') }}">รายการค่าอวัยวะเทียมและอุปกรณ์บำบัด-ปกส.</a></li>
                                 <li><a href="https://cs3.chi.or.th/ambtrcs/login.asp">เบิกค่ารถ Refer</a></li>
                                 {{-- <li><a href="{{url('prb_repopd')}}">OPD</a></li> --}}
                                 {{-- <li><a href="{{url('prb_repipd')}}">IPD</a></li> --}}
@@ -332,6 +333,7 @@
                                         <li><a href="{{ url('ipd_chai') }}">IPD ชัยภูมิ</a></li>
                                         <li><a href="{{ url('opd_outlocate') }}">OPD นอกเขต</a></li>
                                         <li><a href="{{ url('ipd_outlocate') }}">IPD นอกเขต</a></li>
+                                       
                                     </ul>
                                 </li>
 

@@ -214,7 +214,8 @@
                                 <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li>
                                 <li ><a href="{{ url('check_bumbat') }}" >อุปกรณ์ในการบำบัดรักษา(9104)</a></li>
                                 <li ><a href="{{ url('check_lapo') }}" >Laparoscopic appendectomy(4701)</a></li>
-                                <li ><a href="{{ url('ins_dashboard') }}" >Colostomy</a></li>
+                                <li ><a href="{{ url('ins_a') }}" >Colostomy OPD</a></li>
+                                <li ><a href="{{ url('ins_b') }}" >Colostomy IPD</a></li>
                             </ul>
                         </li>
                         <li>

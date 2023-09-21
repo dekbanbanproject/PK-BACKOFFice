@@ -1259,4 +1259,8 @@ class SssController extends Controller
                                 'enddate'    =>  $enddate,
                         ]);
         }
+        public function inst_sss(Request $request)
+        {     
+                return view('sss.inst_sss');
+        }
 }
