@@ -62,10 +62,11 @@
     body{
     background:
         /* url(/pkbackoffice/public/images/bg7.jpg); */
+        /* background-color:rgb(245, 240, 240); */
         background-color:rgb(245, 240, 240);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
     }
 .Bgsidebar {
       background-image: url('/pkbackoffice/public/images/bgside.jpg');
@@ -213,6 +214,7 @@
                                 <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li>
                                 <li ><a href="{{ url('check_bumbat') }}" >อุปกรณ์ในการบำบัดรักษา(9104)</a></li>
                                 <li ><a href="{{ url('check_lapo') }}" >Laparoscopic appendectomy(4701)</a></li>
+                                <li ><a href="{{ url('ins_dashboard') }}" >Colostomy</a></li>
                             </ul>
                         </li>
                         <li>

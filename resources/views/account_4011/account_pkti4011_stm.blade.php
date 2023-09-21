@@ -89,6 +89,7 @@
                                     <th class="text-center">pttype</th>   
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">STM</th>  
+                                    <th class="text-center">STMdoc</th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,12 +98,12 @@
 
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
-                                        <td class="text-center" width="10%">{{ $item->vn }}</td>
-                                        <td class="text-center" width="10%">{{ $item->hn }}</td>
+                                        <td class="text-center" width="8%">{{ $item->vn }}</td>
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>
-                                        <td class="text-center" width="10%">{{ $item->pttype }}</td>
+                                        <td class="text-center" width="8%">{{ $item->vstdate }}</td>
+                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
                                         @if ($item->Total_amount < $item->debit_total)
@@ -110,7 +111,7 @@
                                         @else
                                             <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
                                         @endif
-                                        
+                                        <td class="text-center" width="14%">{{ $item->STMdoc }}</td>
                                     </tr>
                                 @endforeach
 

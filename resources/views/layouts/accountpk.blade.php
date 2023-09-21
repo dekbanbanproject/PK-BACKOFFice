@@ -488,7 +488,6 @@ use App\Models\Products_request_sub;
                                 <li><a href="{{ url('aset_trimart') }}">ไตรมาส</a></li> 
                                 <li><a href="{{ url('acc_settingpang') }}">Map ผังบัญชี</a></li> 
                                 <li><a href="{{ url('acc_setting') }}">Mapping Pttype</a></li>
-
                             </ul>
                         </li>
                         @endif

@@ -355,7 +355,7 @@ class Account4022Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,am.Total_amount 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,am.Total_amount ,am.STMdoc 
                 from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
@@ -376,7 +376,7 @@ class Account4022Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,am.Total_amount 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,am.Total_amount ,am.STMdoc 
                 from acc_1102050101_4022 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 

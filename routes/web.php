@@ -17,6 +17,10 @@ use App\Http\Controllers\UserComController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+// ***************   Report  **********************************
+Route::match(['get','post'],'ins_dashboard',[App\Http\Controllers\InstrumentController::class, 'ins_dashboard'])->name('ins.ins_dashboard');//
+Route::match(['get','post'],'ins_a',[App\Http\Controllers\InstrumentController::class, 'ins_a'])->name('ins.ins_a');//
+
 Route::match(['get','post'],'datahosauto',[App\Http\Controllers\AutorpstController::class, 'datahosauto'])->name('sit.datahosauto');//  รพสต
 Route::match(['get','post'],'pullhosauto',[App\Http\Controllers\AutorpstController::class, 'pullhosauto'])->name('sit.pullhosauto');//  รพสต
 Route::match(['get','post'],'checksit_pullhosauto',[App\Http\Controllers\AutorpstController::class, 'checksit_pullhosauto'])->name('sit.checksit_pullhosauto');//รพสต
@@ -2266,6 +2270,13 @@ Route::match(['get','post'],'opdtoipd_sub/{vn}',[App\Http\Controllers\OpipContro
 Route::match(['get','post'],'opdtoipd_subsubclaim/{vn}/{income}',[App\Http\Controllers\OpipController::class, 'opdtoipd_subsubclaim'])->name('op.opdtoipd_subsubclaim');//
 Route::match(['get','post'],'opdtoipd_subsub/{vn}/{income}',[App\Http\Controllers\OpipController::class, 'opdtoipd_subsub'])->name('op.opdtoipd_subsub');//
 // Route::match(['get','post'],'opdtoipd_sub/{month}/{year}',[App\Http\Controllers\OpipController::class, 'opdtoipd_sub'])->name('op.opdtoipd_sub');//
+
+
+
+
+ 
+
+
 //********************* */ ENV  ***********************************
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 
