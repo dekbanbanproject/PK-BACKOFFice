@@ -57,16 +57,19 @@ return new class extends Migration
                 $table->string('paid_money')->nullable();// 
                 $table->string('rcpt_money')->nullable();// 
                 $table->string('rcpno')->nullable();//  
-                $table->string('debit')->nullable();// 
+                $table->string('debit')->nullable();//                
 
                 $table->string('debit_drug')->nullable();// 
                 $table->string('debit_instument')->nullable();// 
                 $table->string('debit_toa')->nullable();// 
                 $table->string('debit_refer')->nullable();//  
-                $table->string('fokliad')->nullable();// 
-                
-                $table->string('debit_total')->nullable();// 
+                $table->string('fokliad')->nullable();//                
+                $table->string('debit_total')->nullable();//          ลูกหนี้
                 $table->string('max_debt_amount')->nullable();// 
+                $table->string('rw')->nullable();// 
+                $table->string('adjrw')->nullable();//                 adjrw
+                $table->string('total_adjrw_income')->nullable();//    = adjrw * 8350,9000
+                $table->string('sauntang')->nullable();//              ส่วนต่าง
                 $table->string('acc_debtor_filename')->nullable();// 
                 $table->string('acc_debtor_userid')->nullable();// 
                 $table->timestamps();

@@ -147,13 +147,14 @@ class Account202Controller extends Controller
          $startdate = $request->datepicker;
          $enddate = $request->datepicker2;
          // Acc_opitemrece::truncate();
-         $acc_debtor = DB::connection('mysql3')->select('
-                 SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
-                 ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
-                 ,a.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
-                 ,ec.name as account_name,ifnull(ec.ar_ipd,"") pang_debit
-                 ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
-                 ,a.income-a.rcpt_money-a.discount_money as looknee_money
+         $acc_debtor = DB::connection('mysql2')->select('
+            SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
+                ,ipt.pttype,ptt.max_debt_money,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
+                ,ec.code,ec.ar_ipd as account_code
+                ,ec.name as account_name 
+                ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
+                ,a.income-a.rcpt_money-a.discount_money as debit
                  ,sum(if(op.income="02",sum_price,0)) as debit_instument
                  ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                  ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
@@ -167,10 +168,11 @@ class Account202Controller extends Controller
                  LEFT JOIN hos.opitemrece op ON ip.an = op.an
                  LEFT JOIN hos.vn_stat v on v.vn = a.vn
              WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-             AND ec.ar_ipd = "1102050101.202"
+             AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.202"))
+             
              GROUP BY a.an;
          ');
- 
+        //  AND ec.ar_ipd = "1102050101.202"
          foreach ($acc_debtor as $key => $value) {
                      $check = Acc_debtor::where('an', $value->an)->whereBetween('dchdate', [$startdate, $enddate])->count();
                      if ($check == 0) {
@@ -179,7 +181,7 @@ class Account202Controller extends Controller
                              'an'                 => $value->an,
                              'vn'                 => $value->vn,
                              'cid'                => $value->cid,
-                             'ptname'             => $value->fullname,
+                             'ptname'             => $value->ptname,
                              'pttype'             => $value->pttype,
                              'vstdate'            => $value->vstdate,
                              'regdate'            => $value->admdate,
@@ -193,12 +195,12 @@ class Account202Controller extends Controller
                              'discount_money'     => $value->discount_money,
                              'paid_money'         => $value->cash_money,
                              'rcpt_money'         => $value->cash_money,
-                             'debit'              => $value->looknee_money,
+                             'debit'              => $value->debit,
                              'debit_drug'         => $value->debit_drug,
                              'debit_instument'    => $value->debit_instument,
                              'debit_toa'          => $value->debit_toa,
                              'debit_refer'        => $value->debit_refer,
-                             'debit_total'        => $value->looknee_money,
+                             'debit_total'        => $value->debit,
                              'max_debt_amount'    => $value->max_debt_money,
                              'acc_debtor_userid'  => Auth::user()->id
                          ]);
@@ -412,8 +414,7 @@ class Account202Controller extends Controller
          // dd($id);
          $data['users'] = User::get();
  
-         $data = DB::select('
- 
+         $data = DB::select(' 
              SELECT *  from acc_1102050101_202
              WHERE month(dchdate) = "'.$months.'" and year(dchdate) = "'.$year.'"
              AND status = "N"

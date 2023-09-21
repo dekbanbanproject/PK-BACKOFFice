@@ -1020,6 +1020,50 @@ class UpstmController extends Controller
                                                    
         return redirect()->back();
     }
+    public function uprep_money_plb(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+        if ($startdate != '') {
+            $datashow = DB::select(' 
+                SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+                ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
+                from acc_1102050102_602 U1 
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
+                WHERE U1.vstdate = "'.$startdate.'" AND year(U1.vstdate) = "'.$enddate.'"           
+                GROUP BY U1.vn
+            ');
+        } else {
+            $datashow = DB::select(' 
+                SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+                ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
+                from acc_1102050102_602 U1 
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
+                WHERE U1.vstdate = "'.$start.'" AND year(U1.vstdate) = "'.$end.'"           
+                GROUP BY U1.vn
+            '); 
+        }
+        
+
+        
+       
+        return view('upstm.uprep_money_plb', [ 
+            'datashow'          =>  $datashow,
+        ]);
+            
+         
+    }
 
    
 }

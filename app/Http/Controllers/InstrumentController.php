@@ -198,7 +198,7 @@ class InstrumentController extends Controller
                         AND o.main_dep = "'.$depcode.'"
                         AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
                         and (o.an="" or o.an is null)
-                        GROUP BY v.vn
+                        GROUP BY v.vn,op.icode
                 ');
             } else {
                 $datashow = DB::connection('mysql2')->select('
@@ -221,7 +221,7 @@ class InstrumentController extends Controller
                         WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                    
                         AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
                         and (o.an="" or o.an is null)
-                        GROUP BY v.vn
+                        GROUP BY v.vn,op.icode
                 ');
             }
              
@@ -247,7 +247,7 @@ class InstrumentController extends Controller
                     WHERE o.vstdate BETWEEN "'.$start.'" AND "'.$end.'"
                     AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
                     and (o.an="" or o.an is null)
-                    GROUP BY v.vn
+                    GROUP BY v.vn,op.icode
             ');
         }
         $datadep = DB::connection('mysql2')->select('SELECT depcode,department FROM kskdepartment');
@@ -296,7 +296,7 @@ class InstrumentController extends Controller
                         WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND n.nhso_adp_code IN("5701","5702","5703A","5703B")
                         AND i.ward = "'.$ward.'"
-                        GROUP BY i.an
+                        GROUP BY i.an,op.icode
  
                 ');
             } else {
@@ -318,7 +318,7 @@ class InstrumentController extends Controller
                         LEFT JOIN ward w ON w.ward = i.ward 
                         WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
-                        GROUP BY i.an
+                        GROUP BY i.an,op.icode
  
                 ');
             }
@@ -343,7 +343,7 @@ class InstrumentController extends Controller
                         LEFT JOIN ward w ON w.ward = i.ward 
                         WHERE i.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
                         AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
-                        GROUP BY i.an
+                        GROUP BY i.an,op.icode
  
             ');
         }
