@@ -134,7 +134,7 @@ class Account603Controller extends Controller
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050102.603"
                     and income <>0
-                    group by month(a.dchdate) 
+                   
                     order by a.dchdate desc;
             ');
         }

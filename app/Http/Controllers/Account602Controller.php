@@ -135,7 +135,7 @@ class Account602Controller extends Controller
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050102.602"
                     and income <>0
-                    group by month(a.vstdate) 
+                 
                     order by a.vstdate desc;
             ');
         }

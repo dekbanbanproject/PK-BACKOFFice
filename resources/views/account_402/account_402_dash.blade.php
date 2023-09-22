@@ -95,6 +95,11 @@
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end">
+                    {{-- <select name="year" id="year" class="form-control" style="width: 100%">
+                        @foreach ($leave_year as $item)
+                            <option value="{{$item->year}}">{{$item->year}}</option>
+                        @endforeach
+                    </select> --}}
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -321,7 +326,8 @@
                                                 $datasum_ = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(an) as Cvit
                                                             from acc_1102050101_402
-                                                            WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"; 
+                                                            WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                            
                                                 ');
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
@@ -335,6 +341,7 @@
                                                         LEFT JOIN acc_stm_ofc au ON au.an = a.an  
                                                         WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                         AND au.pricereq_all IS NOT NULL
+                                                       
                                                 ');                                            
                                                 foreach ($sumapprove_ as $key => $value3) {
                                                     $sum_stm = $value3->pricereq_all;
@@ -347,6 +354,7 @@
                                                         LEFT JOIN acc_stm_ofc am on am.an = a.an  
                                                         WHERE a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                         AND am.pricereq_all IS NULL
+                                                        
                                                 ');                                           
                                                 foreach ($yokpai_data as $key => $value4) {
                                                     $sum_yokpai = $value4->debit_total; 
@@ -480,7 +488,7 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
-            $('#p4p_work_month').select2({
+            $('#year').select2({
                 placeholder: "--เลือก--",
                 allowClear: true
             });

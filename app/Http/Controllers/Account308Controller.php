@@ -147,7 +147,8 @@ class Account308Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.308"
-                    group by month(a.dchdate) order by a.dchdate desc;
+                   
+                    order by a.dchdate desc;
             ');
         }
         return view('account_308.account_308_dash',[

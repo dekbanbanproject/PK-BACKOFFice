@@ -319,7 +319,7 @@
                                                 }
                                                 // ตั้งลูกหนี้
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                             from acc_1102050101_401
                                                             WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                           

@@ -90,9 +90,12 @@ class Account402Controller extends Controller
     public function account_402_dash(Request $request)
     {
         $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $enddate   = $request->enddate;
+        $year      = $request->year;
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $leave_year = DB::table('leave_year')->orderBy('year', 'ASC')->get();
+        
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
@@ -131,11 +134,10 @@ class Account402Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.402"
-                    and income <>0
-                    group by month(a.dchdate) order by a.dchdate desc;
+                    and income <>0 
             ');
         }
-
+        // group by month(a.dchdate) order by a.dchdate desc;
         return view('account_402.account_402_dash',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
@@ -143,6 +145,7 @@ class Account402Controller extends Controller
             'datashow'         => $datashow,
             'newyear'          => $newyear,
             'date'             => $date,
+            'leave_year'       => $leave_year,
         ]);
     }
     public function account_402_pull(Request $request)
@@ -388,7 +391,7 @@ class Account402Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc  
                 from acc_1102050101_402 U1
                 LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
