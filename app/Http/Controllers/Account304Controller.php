@@ -196,7 +196,7 @@ class Account304Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select('                 
+            $acc_debtor = DB::connection('mysql2')->select('                 
                 SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                     ,ipt.pttype 
@@ -219,7 +219,7 @@ class Account304Controller extends Controller
                     LEFT JOIN hos.opitemrece op ON ip.an = op.an
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                    AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.304"))
+                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.304"))
                     GROUP BY a.an;
             ');
             // AND ipt.pttype = "s7"

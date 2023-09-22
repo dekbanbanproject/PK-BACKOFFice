@@ -196,7 +196,7 @@ class InstrumentController extends Controller
                         LEFT JOIN ipt i ON i.vn = v.vn
                         WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                         AND o.main_dep = "'.$depcode.'"
-                        AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
+                        AND n.nhso_adp_code IN("5701","5702","5703","5703A","5703B")
                         and (o.an="" or o.an is null)
                         GROUP BY v.vn,op.icode
                 ');
@@ -219,7 +219,7 @@ class InstrumentController extends Controller
                         LEFT JOIN kskdepartment k ON k.depcode = o.main_dep
                         LEFT JOIN ipt i ON i.vn = v.vn
                         WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"                    
-                        AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
+                        AND n.nhso_adp_code IN("5701","5702","5703","5703A","5703B") 
                         and (o.an="" or o.an is null)
                         GROUP BY v.vn,op.icode
                 ');
@@ -245,7 +245,7 @@ class InstrumentController extends Controller
                     LEFT JOIN kskdepartment k ON k.depcode = o.main_dep
                     LEFT JOIN ipt i ON i.vn = v.vn
                     WHERE o.vstdate BETWEEN "'.$start.'" AND "'.$end.'"
-                    AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
+                    AND n.nhso_adp_code IN("5701","5702","5703","5703A","5703B") 
                     and (o.an="" or o.an is null)
                     GROUP BY v.vn,op.icode
             ');
@@ -294,7 +294,7 @@ class InstrumentController extends Controller
                         LEFT JOIN spclty sp on sp.spclty = i.ipt_spclty
                         LEFT JOIN ward w ON w.ward = i.ward 
                         WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND n.nhso_adp_code IN("5701","5702","5703A","5703B")
+                        AND n.nhso_adp_code IN("5701","5702","5703","5703A","5703B") 
                         AND i.ward = "'.$ward.'"
                         GROUP BY i.an,op.icode
  
@@ -317,7 +317,7 @@ class InstrumentController extends Controller
                         LEFT JOIN spclty sp on sp.spclty = i.ipt_spclty
                         LEFT JOIN ward w ON w.ward = i.ward 
                         WHERE i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                        AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
+                        AND n.nhso_adp_code IN("5701","5702","5703","5703A","5703B") 
                         GROUP BY i.an,op.icode
  
                 ');
@@ -342,7 +342,7 @@ class InstrumentController extends Controller
                         LEFT JOIN spclty sp on sp.spclty = i.ipt_spclty
                         LEFT JOIN ward w ON w.ward = i.ward 
                         WHERE i.dchdate BETWEEN "'.$start.'" AND "'.$end.'"
-                        AND n.nhso_adp_code IN("5701","5702","5703A","5703B") 
+                        AND n.nhso_adp_code IN("5701","5702","5703","5703A","5703B") 
                         GROUP BY i.an,op.icode
  
             ');

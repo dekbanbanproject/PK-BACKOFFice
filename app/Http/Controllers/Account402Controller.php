@@ -213,9 +213,11 @@ class Account402Controller extends Controller
                 LEFT JOIN vn_stat v on v.vn = i.vn
                 
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND ipt.pttype IN("O1","O2","O3","O4","O5")                
+                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402 AND opdipd ="IPD""))
+                            
                 GROUP BY i.an 
         '); 
+        // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
@@ -328,7 +330,7 @@ class Account402Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
                 from acc_1102050101_402 U1
                 LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 

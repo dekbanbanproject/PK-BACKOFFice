@@ -229,14 +229,15 @@ class Account3099Controller extends Controller
                 LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                 WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN("M2","M5") AND v.income-v.discount_money-v.rcpt_money <> 0
+                AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.3099"))
+                AND v.income-v.discount_money-v.rcpt_money <> 0
                 and (o.an="" or o.an is null)
-                GROUP BY o.vn 
+                GROUP BY v.vn 
             
         ');
-
+        // AND vp.pttype IN("M2","M5") 
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.3099')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
                        Acc_debtor::insert([
                             'hn'                 => $value->hn,

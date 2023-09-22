@@ -232,11 +232,12 @@ class Account4022Controller extends Controller
 
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                    
-                    AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.4022"))
-                    AND op.icode ="3010058"
+                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND opdipd ="IPD"))
+                    AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022"))
                     GROUP BY i.an
             
         ');
+        // AND op.icode ="3010058"
         // ,e.code as acc_code  AND ipt.pttype IN("O1","O2","O3","O4","O5")
         // ,e.ar_ipd as account_code
 

@@ -200,7 +200,7 @@ class Account307Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select(' 
+            $acc_debtor = DB::connection('mysql2')->select(' 
                 SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,o.vstdate,o.vsttime
                     ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
@@ -222,7 +222,7 @@ class Account307Controller extends Controller
                     LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT JOIN opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND vp.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="OPD")) 
+                    AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="OPD")) 
                     AND v.income <> 0
                     and (o.an="" or o.an is null)
                     GROUP BY o.vn
@@ -253,7 +253,7 @@ class Account307Controller extends Controller
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                    
-                    AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="IPD"))
+                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="IPD"))
                     GROUP BY a.an; 
                     
             ');
@@ -261,7 +261,7 @@ class Account307Controller extends Controller
             // AND a.pttype IN("35","06","C5")
             // AND v.hospmain = "10702"
             foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.307')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($value->pttype == 'SS') {
                         $pttype = 'ss';
                     } else {

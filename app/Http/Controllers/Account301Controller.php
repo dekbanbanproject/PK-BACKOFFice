@@ -291,7 +291,7 @@ class Account301Controller extends Controller
             SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.301")
         ');
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql')->select('
+        $acc_debtor = DB::connection('mysql2')->select('
             SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                     ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,v.vstdate ,o.vsttime ,v.hospmain,op.income as income_group 
@@ -315,7 +315,7 @@ class Account301Controller extends Controller
             LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
             LEFT JOIN hos.opitemrece op ON op.vn = o.vn
             WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            AND vp.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.301"))
+            AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.301"))
              
             AND v.income <> 0
             and (o.an="" or o.an is null)

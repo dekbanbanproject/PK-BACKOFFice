@@ -220,7 +220,7 @@ class Account302Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select('
+            $acc_debtor = DB::connection('mysql2')->select('
                 SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
                 ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                 ,ipt.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
@@ -233,7 +233,7 @@ class Account302Controller extends Controller
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                from ipt ip
+                from hos.ipt ip
                 LEFT JOIN hos.an_stat a ON ip.an = a.an
                 LEFT JOIN patient pt on pt.hn=a.hn
                 LEFT JOIN pttype ptt on a.pttype=ptt.pttype
@@ -243,7 +243,7 @@ class Account302Controller extends Controller
                 LEFT JOIN hos.vn_stat v on v.vn = a.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                
-                AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.302"))
+                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.302"))
                 GROUP BY a.an;
             ');
             // AND ipt.pttype = "A7"

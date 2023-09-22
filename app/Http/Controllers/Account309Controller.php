@@ -230,7 +230,7 @@ class Account309Controller extends Controller
                     LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                   
-                    AND vp.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.309"))
+                    AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.309"))
                     AND v.income <> 0
                     and (o.an="" or o.an is null)
                     GROUP BY o.vn
@@ -238,7 +238,7 @@ class Account309Controller extends Controller
             // AND vp.pttype = "14" 
             // AND v.hospmain = "10702"
             foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.309')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     // ->where('account_code','1102050101.307')
                     if ($check == 0) {
                         Acc_debtor::insert([
@@ -265,8 +265,7 @@ class Account309Controller extends Controller
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer, 
-                            'fokliad'            => $value->fokliad,
-                            // 'debit_total'        => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_toa - $value->debit_refer,
+                            'fokliad'            => $value->fokliad, 
                             'debit_total'        => $value->looknee,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'acc_debtor_userid'  => Auth::user()->id

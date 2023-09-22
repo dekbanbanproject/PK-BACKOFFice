@@ -204,28 +204,25 @@ class Account310Controller extends Controller
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
 
-                    from ipt ip
-                    LEFT JOIN an_stat a ON ip.an = a.an
-                    LEFT JOIN patient pt on pt.hn=a.hn
-                    LEFT JOIN pttype ptt on a.pttype=ptt.pttype
-                    LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                    LEFT JOIN ipt_pttype ipt ON ipt.an = a.an
-                    LEFT JOIN opitemrece op ON ip.an = op.an
-                    LEFT JOIN nondrugitems n ON n.icode = op.icode
-                    LEFT JOIN iptoprt io on io.an = ip.an
-                    LEFT JOIN vn_stat v on v.vn = a.vn
+                    from hos.ipt ip
+                    LEFT JOIN hos.an_stat a ON ip.an = a.an
+                    LEFT JOIN hos.patient pt on pt.hn=a.hn
+                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
+                    LEFT JOIN hos.nondrugitems n ON n.icode = op.icode
+                    LEFT JOIN hos.iptoprt io on io.an = ip.an
+                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.310"))
+                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND opdipd ="IPD"))
                     AND v.hospmain = "10702"
                     and io.icd9 like "%6632%"
                 GROUP BY a.an; 
             ');
             // AND ipt.pttype IN("A7","15")
             foreach ($acc_debtor as $key => $value) { 
-                $check =  Acc_debtor::where('an', $value->an) 
-                        // ->where('dchdate', $value->dchdate)
-                        ->where('account_code','1102050101.310')->count();  
-                        // dd( $checkins );
+                $check =  Acc_debtor::where('an', $value->an)->where('account_code','1102050101.310')->whereBetween('dchdate', [$startdate, $enddate])->count();   
                         if ($check == 0) { 
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,

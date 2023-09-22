@@ -195,14 +195,19 @@ class Account308Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql3')->select('  
+            $acc_debtor = DB::connection('mysql2')->select('  
                 SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                 ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
-                ,ipt.pttype,"1102050101.308" as account_code,"ประกันสังคม นอกเครือข่าย" as account_name 
+                ,ipt.pttype,ipt.pttype_number,"1102050101.308" as account_code,"ประกันสังคม นอกเครือข่าย" as account_name 
                 ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
                 ,a.income-a.rcpt_money-a.discount_money as debit
                 ,ipt.max_debt_amount  
-                ,ipt.nhso_ownright_pid as looknee
+               
+                ,CASE 
+                WHEN  ipt.nhso_ownright_pid <>"" THEN ipt.nhso_ownright_pid
+                ELSE a.income-a.rcpt_money-a.discount_money 
+                END as looknee
+
                 ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
@@ -218,9 +223,10 @@ class Account308Controller extends Controller
                 LEFT JOIN hos.vn_stat v on v.vn = a.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                
-                AND ipt.pttype IN(SELECT pttype from acc_setpang_type WHERE pttype IN (SELECT pttype FROM acc_setpang_type WHERE pang ="1102050101.308"))
+                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.308"))
                 GROUP BY a.an;
             ');
+            // ,ipt.nhso_ownright_pid as looknee
             // AND ipt.pttype = "14"  
             foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.308')->whereBetween('dchdate', [$startdate, $enddate])->count();
