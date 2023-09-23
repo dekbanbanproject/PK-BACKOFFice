@@ -165,7 +165,7 @@ class Account202Controller extends Controller
                     ELSE ec.name
                     END as account_name	
                     ,ipt.nhso_ownright_pid
-                    ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
+                    ,a.income as income ,a.uc_money,a.rcpt_money,a.discount_money
                     
                     ,CASE 
                     WHEN  ipt.pttype_number ="2" AND ipt.pttype IN ("31","36","39") THEN ipt.max_debt_amount 
@@ -209,7 +209,7 @@ class Account202Controller extends Controller
                              'income'             => $value->income,
                              'uc_money'           => $value->uc_money,
                              'discount_money'     => $value->discount_money,
-                            //  'paid_money'         => $value->cash_money,
+                            //  'paid_money'         => $value->rcpt_money,
                              'rcpt_money'         => $value->rcpt_money,
                              'debit'              => $value->debit,
                              'debit_drug'         => $value->debit_drug,
