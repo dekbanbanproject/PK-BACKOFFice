@@ -148,42 +148,42 @@ class Account202Controller extends Controller
          $enddate = $request->datepicker2;
          // Acc_opitemrece::truncate();
          $acc_debtor = DB::connection('mysql2')->select(' 
-             SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
-                ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount
-                ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
-                ,CASE 
+                SELECT ip.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
+                    ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount
+                    ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
+                    ,CASE 
                     WHEN  ipt.pttype_number ="2" THEN "01" 
                     ELSE ec.code
                     END as code
-                ,CASE 
+                    ,CASE 
                     WHEN  ipt.pttype_number ="2" THEN "1102050101.202" 
                     ELSE ec.ar_ipd
                     END as account_code	
-                ,CASE 
+                    ,CASE 
                     WHEN  ipt.pttype_number ="2" THEN "UC ใน CUP" 
                     ELSE ec.name
                     END as account_name	
-                ,ipt.nhso_ownright_pid
-                ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
-
-                ,CASE 
-                    WHEN  ipt.pttype_number ="2" THEN ipt.max_debt_amount
+                    ,ipt.nhso_ownright_pid
+                    ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
+                    
+                    ,CASE 
+                    WHEN  ipt.pttype_number ="2" AND ipt.pttype IN ("31","36","39") THEN ipt.max_debt_amount 
                     ELSE a.income-a.rcpt_money-a.discount_money
                     END as debit
-
-                ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                from hos.ipt ip
-                LEFT JOIN hos.an_stat a ON ip.an = a.an
-                LEFT JOIN hos.patient pt on pt.hn=a.hn
-                LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
-                LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
-                LEFT JOIN hos.opitemrece op ON ip.an = op.an
-                LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                    
+                    ,sum(if(op.income="02",sum_price,0)) as debit_instument
+                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
+                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                    from hos.ipt ip
+                    LEFT JOIN hos.an_stat a ON ip.an = a.an
+                    LEFT JOIN hos.patient pt on pt.hn=a.hn
+                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
+                    LEFT JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
                 GROUP BY a.an;
@@ -221,7 +221,7 @@ class Account202Controller extends Controller
                              'rw'                 => $value->rw,
                              'adjrw'              => $value->adjrw,
                              'total_adjrw_income' => $value->total_adjrw_income,
-                             'sauntang'           => $value->total_adjrw_income,
+                            //  'sauntang'           => $value->total_adjrw_income,
                              'acc_debtor_userid'  => Auth::user()->id
                          ]);
                      }
