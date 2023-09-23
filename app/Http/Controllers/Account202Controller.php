@@ -252,8 +252,11 @@ class Account202Controller extends Controller
                                      'account_code'       => '1102050101.217',
                                      'account_name'       => 'บริการเฉพาะ(CR)',
                                      'income_group'       => '02',
+                                     'income'             => $value->income,
+                                     'uc_money'           => $value->uc_money,
                                      'debit'              => $value->debit_instument,
-                                     'debit_total'        => $value->debit_instument
+                                     'debit_total'        => $value->debit_instument,
+                                     'acc_debtor_userid'  => Auth::user()->id
                                  ]);
                              }
                      }
@@ -274,8 +277,11 @@ class Account202Controller extends Controller
                                      'account_code'       => '1102050101.217',
                                      'account_name'       => 'บริการเฉพาะ(CR)',
                                      'income_group'       => '03',
+                                     'income'             => $value->income,
+                                     'uc_money'           => $value->uc_money,
                                      'debit'              => $value->debit_drug,
-                                     'debit_total'        => $value->debit_drug
+                                     'debit_total'        => $value->debit_drug,
+                                     'acc_debtor_userid'  => Auth::user()->id
                                  ]);
                              }
                      }
@@ -296,8 +302,11 @@ class Account202Controller extends Controller
                                  'account_code'       => '1102050101.217',
                                  'account_name'       => 'บริการเฉพาะ(CR)',
                                  'income_group'       => '20',
+                                 'income'             => $value->income,
+                                 'uc_money'           => $value->uc_money,
                                  'debit'              => $value->debit_refer,
-                                 'debit_total'        => $value->debit_refer
+                                 'debit_total'        => $value->debit_refer,
+                                 'acc_debtor_userid'  => Auth::user()->id
                              ]);
                          }
                      }
