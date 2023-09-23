@@ -190,7 +190,7 @@ class Account202Controller extends Controller
          ');
         //  AND ec.ar_ipd = "1102050101.202"
          foreach ($acc_debtor as $key => $value) {
-                     $check = Acc_debtor::where('an', $value->an)->whereBetween('dchdate', [$startdate, $enddate])->count();
+                     $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])->count();
                      if ($check == 0) {
                          Acc_debtor::insert([
                              'hn'                 => $value->hn,
@@ -495,6 +495,7 @@ class Account202Controller extends Controller
                          'pttype_nhso'       => $value->pttype_spsch,
                          'acc_code'          => $value->acc_code,
                          'account_code'      => $value->account_code,
+                         'income_group'      => $value->income_group,
                          'income'            => $value->income,
                          'uc_money'          => $value->uc_money,
                          'discount_money'    => $value->discount_money,
@@ -506,35 +507,40 @@ class Account202Controller extends Controller
                          'debit_toa'         => $value->debit_toa,
                          'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
                          'max_debt_amount'   => $value->max_debt_amount,
-                         'acc_debtor_userid' => $iduser
+                         'rw'                => $value->rw,
+                         'adjrw'             => $value->adjrw,
+                         'total_adjrw_income'=> $value->total_adjrw_income,
+                         'acc_debtor_userid' => $value->acc_debtor_userid
+
+                           
                      ]);
-                     $acc_opitemrece_ = DB::connection('mysql')->select('
-                             SELECT a.stamp,ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
-                             FROM acc_opitemrece ao
-                             LEFT JOIN acc_debtor a ON ao.an = a.an
-                             WHERE a.account_code ="1102050101.202" AND a.stamp ="Y"
-                             AND ao.an ="'.$value->an.'"
-                     ');
-                     foreach ($acc_opitemrece_ as $va2) {
-                         Acc_opitemrece_stm::insert([
-                             'hn'                 => $va2->hn,
-                             'an'                 => $va2->an,
-                             'vn'                 => $va2->vn,
-                             'vstdate'            => $va2->vstdate,
-                             'pttype'             => $va2->pttype,
-                             'paidst'             => $va2->paidst,
-                             'finance_number'     => $va2->finance_number,
-                             'income'             => $va2->income,
-                             'icode'              => $va2->icode,
-                             'name'               => $va2->dname,
-                             'qty'                => $va2->qty,
-                             'cost'               => $va2->cost,
-                             'unitprice'          => $va2->unitprice,
-                             'discount'           => $va2->discount,
-                             'sum_price'          => $va2->sum_price
-                         ]);
+                    //  $acc_opitemrece_ = DB::connection('mysql')->select('
+                    //          SELECT a.stamp,ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
+                    //          FROM acc_opitemrece ao
+                    //          LEFT JOIN acc_debtor a ON ao.an = a.an
+                    //          WHERE a.account_code ="1102050101.202" AND a.stamp ="Y"
+                    //          AND ao.an ="'.$value->an.'"
+                    //  ');
+                    //  foreach ($acc_opitemrece_ as $va2) {
+                    //      Acc_opitemrece_stm::insert([
+                    //          'hn'                 => $va2->hn,
+                    //          'an'                 => $va2->an,
+                    //          'vn'                 => $va2->vn,
+                    //          'vstdate'            => $va2->vstdate,
+                    //          'pttype'             => $va2->pttype,
+                    //          'paidst'             => $va2->paidst,
+                    //          'finance_number'     => $va2->finance_number,
+                    //          'income'             => $va2->income,
+                    //          'icode'              => $va2->icode,
+                    //          'name'               => $va2->dname,
+                    //          'qty'                => $va2->qty,
+                    //          'cost'               => $va2->cost,
+                    //          'unitprice'          => $va2->unitprice,
+                    //          'discount'           => $va2->discount,
+                    //          'sum_price'          => $va2->sum_price
+                    //      ]);
  
-                     }
+                    //  }
          }
  
  
