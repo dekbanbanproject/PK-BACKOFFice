@@ -217,7 +217,7 @@ class Account202Controller extends Controller
                              'debit_toa'          => $value->debit_toa,
                              'debit_refer'        => $value->debit_refer,
                              'debit_total'        => $value->debit,                           
-                             'max_debt_amount'    => $value->max_debt_money,
+                             'max_debt_amount'    => $value->max_debt_amount,
                              'rw'                 => $value->rw,
                              'adjrw'              => $value->adjrw,
                              'total_adjrw_income' => $value->total_adjrw_income,
