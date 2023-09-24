@@ -206,8 +206,10 @@ class Account202Controller extends Controller
          ');
         //  AND ec.ar_ipd = "1102050101.202"
          foreach ($acc_debtor as $key => $value) {
+                if ($value->debit >0) {                 
                      $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])->count();
                      if ($check == 0) {
+
                          Acc_debtor::insert([
                              'hn'                 => $value->hn,
                              'an'                 => $value->an,
@@ -241,6 +243,10 @@ class Account202Controller extends Controller
                              'acc_debtor_userid'  => Auth::user()->id
                          ]);
                      }
+                     
+                } else {
+            
+                }
                     //  total_adjrw_income
                     //  if ($value->debit_toa > 0) {
                     //          Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])
