@@ -243,7 +243,7 @@ class Account202Controller extends Controller
                              'acc_debtor_userid'  => Auth::user()->id
                          ]);
                      }
-                     
+
                 } else {
             
                 }
@@ -530,7 +530,8 @@ class Account202Controller extends Controller
                          'debit_instument'   => $value->debit_instument,
                          'debit_refer'       => $value->debit_refer,
                          'debit_toa'         => $value->debit_toa,
-                         'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+                        //  'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+                         'debit_total'       => $value->debit_total,
                          'max_debt_amount'   => $value->max_debt_amount,
                          'rw'                => $value->rw,
                          'adjrw'             => $value->adjrw,
