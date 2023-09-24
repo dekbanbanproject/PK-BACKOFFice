@@ -180,7 +180,12 @@ class Account202Controller extends Controller
                     (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
                     (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
                     (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
-                    ELSE a.income-a.rcpt_money-a.discount_money
+                    ELSE 
+                    (a.income-a.rcpt_money-a.discount_money)-
+                    (sum(if(op.income="02",sum_price,0))) -
+                    (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
+                    (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
+                    (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
                     END as debit
                     
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
