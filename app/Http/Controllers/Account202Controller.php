@@ -174,11 +174,12 @@ class Account202Controller extends Controller
 
                     ,CASE 
                     WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") THEN 
-                    a.income-a.rcpt_money-a.discount_money-
-                    sum(if(op.income="02",sum_price,0))-
-                    sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))-
-                    sum(if(op.icode IN ("3001412","3001417"),sum_price,0))-
-                    sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))
+                    (a.income-a.rcpt_money-a.discount_money) -
+                    (a.income - ipt.max_debt_amount) - 
+                    (sum(if(op.income="02",sum_price,0))) -
+                    (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
+                    (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
+                    (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
                     ELSE a.income-a.rcpt_money-a.discount_money
                     END as debit
                     
@@ -215,7 +216,7 @@ class Account202Controller extends Controller
                              'acc_code'           => $value->code,
                              'account_code'       => $value->account_code,
                              'account_name'       => $value->account_name,
-                             'income_group'       => $value->income_group,
+                            //  'income_group'       => $value->income_group,
                              'income'             => $value->income,
                              'uc_money'           => $value->uc_money,
                              'discount_money'     => $value->discount_money,
@@ -330,7 +331,7 @@ class Account202Controller extends Controller
                     //      }
                     //  }
 
-                    
+
                      
                      // Acc_opitemrece::where('an', '=', $value->an)->delete();
  
