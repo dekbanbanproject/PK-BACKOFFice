@@ -81,11 +81,13 @@
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
+                                    <th class="text-center">Adjrw</th> 
+                                    <th class="text-center">Adjrw*8350</th>
                                     <th class="text-center">vstdate</th>
                                     <th class="text-center">dchdate</th>
                                     <th class="text-center">pttype</th>
                                     {{-- <th class="text-center">สปสช</th> --}}
-                                    <th class="text-center">income</th>
+                                    {{-- <th class="text-center">income</th> --}}
                                     <th class="text-center">ลูกหนี้</th>
                                 </tr>
                             </thead>
@@ -103,11 +105,13 @@
                                                 </td>
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>
                                                 <td class="p-2" >{{ $item->ptname }}</td>
-                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>
-                                                <td class="text-center" width="10%">{{ $item->dchdate }}</td>
+                                                <td class="text-center" width="7%">{{ $item->adjrw }}</td>
+                                                <td class="text-center" width="7%">{{ $item->total_adjrw_income }}</td>
+                                                <td class="text-center" width="7%">{{ $item->vstdate }}</td>
+                                                <td class="text-center" width="7%">{{ $item->dchdate }}</td>
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>
                                                 {{-- <td class="text-center" style="color:rgb(14, 108, 196)" width="5%">{{ $item->subinscl }}</td> --}}
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->income_group }}</td>
+                                                {{-- <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->income_group }}</td> --}}
                                                 <td class="text-end" width="10%">
                                                    
                                                         {{ number_format($item->debit_total,2)}} 

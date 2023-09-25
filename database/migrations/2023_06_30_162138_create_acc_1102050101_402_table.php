@@ -44,6 +44,10 @@ return new class extends Migration
                 $table->string('debit_toa')->nullable();//
                 $table->string('debit_total')->nullable();//
                 $table->string('max_debt_amount')->nullable();//  
+                $table->string('rw')->nullable();// 
+                $table->string('adjrw')->nullable();//                    adjrw
+                $table->string('total_adjrw_income')->nullable();//       = adjrw * 8350,9000
+                $table->string('sauntang')->nullable();//                 ส่วนต่าง
                 $table->string('acc_debtor_filename')->nullable();// 
                 $table->string('stm_rep')->nullable();//  
                 $table->string('stm_money')->nullable();//                

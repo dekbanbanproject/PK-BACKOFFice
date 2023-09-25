@@ -185,8 +185,8 @@ class Account402Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql3')->select('             
-                SELECT v.vn,i.an,a.hn,pt.cid
+        $acc_debtor = DB::connection('mysql2')->select('             
+                SELECT i.vn,i.an,a.hn,pt.cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                 ,pt.hcode,op.income as income_group
                 ,v.vstdate ,a.dchdate
@@ -204,6 +204,7 @@ class Account402Controller extends Controller
                 ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
                 ,ptt.max_debt_money
+                ,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income
                 
                 from ipt i
                 left join an_stat a on a.an=i.an
@@ -215,43 +216,52 @@ class Account402Controller extends Controller
                 LEFT JOIN drugitems d on d.icode=op.icode
                 LEFT JOIN vn_stat v on v.vn = i.vn
                 
-                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402 AND opdipd ="IPD""))
+                WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402" AND opdipd ="IPD"))
                             
                 GROUP BY i.an 
         '); 
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
-                    if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'dchdate'            => $value->dchdate,
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_money,
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
-                    }
+            if ($value->debit >0) {
+                $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                if ($check == 0) {
+                    Acc_debtor::insert([
+                        'hn'                 => $value->hn,
+                        'an'                 => $value->an,
+                        'vn'                 => $value->vn,
+                        'cid'                => $value->cid,
+                        'ptname'             => $value->ptname,
+                        'pttype'             => $value->pttype,
+                        'vstdate'            => $value->vstdate,
+                        'dchdate'            => $value->dchdate,
+                        'acc_code'           => $value->acc_code,
+                        'account_code'       => $value->account_code,
+                        'account_name'       => $value->account_name,
+                        'income_group'       => $value->income_group,
+                        'income'             => $value->income,
+                        'uc_money'           => $value->uc_money,
+                        'discount_money'     => $value->discount_money,
+                        'paid_money'         => $value->paid_money,
+                        'rcpt_money'         => $value->rcpt_money,
+                        'debit'              => $value->debit,
+                        'debit_drug'         => $value->debit_drug,
+                        'debit_instument'    => $value->debit_instument,
+                        'debit_toa'          => $value->debit_toa,
+                        'debit_refer'        => $value->debit_refer,
+                        'debit_total'        => $value->debit,
+                        'max_debt_amount'    => $value->max_debt_money,
+                        'rw'                 => $value->rw,
+                        'adjrw'              => $value->adjrw,
+                        'total_adjrw_income' => $value->total_adjrw_income,
+                        'acc_debtor_userid'  => Auth::user()->id
+                    ]);
+                }
+            } else {
+                # code...
+            }
+            
+                   
 
         }
 
@@ -300,6 +310,9 @@ class Account402Controller extends Controller
                             'debit_toa'         => $value->debit_toa,
                             'debit_total'       => $value->debit_total,
                             'max_debt_amount'   => $value->max_debt_amount,
+                            'rw'                => $value->rw,
+                            'adjrw'             => $value->adjrw,
+                            'total_adjrw_income'=> $value->total_adjrw_income,
                             'acc_debtor_userid' => $iduser
                     ]);
                 }
@@ -314,7 +327,7 @@ class Account402Controller extends Controller
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total ,U1.adjrw,U1.total_adjrw_income
             from acc_1102050101_402 U1            
             WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
             GROUP BY U1.an
@@ -333,7 +346,7 @@ class Account402Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc ,U1.adjrw,U1.total_adjrw_income
                 from acc_1102050101_402 U1
                 LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
@@ -355,6 +368,7 @@ class Account402Controller extends Controller
 
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U2.pricereq_all 
+            ,U1.adjrw,U1.total_adjrw_income
                 from acc_1102050101_402 U1
                 LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 

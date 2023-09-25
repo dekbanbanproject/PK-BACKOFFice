@@ -130,6 +130,8 @@
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
+                                            <th class="text-center">Adjrw</th> 
+                                            <th class="text-center">Adjrw*9000</th>
                                             <th class="text-center">vstdate</th>  
                                             <th class="text-center">dchdate</th> 
                                             <th class="text-center">pttype</th> 
@@ -156,14 +158,16 @@
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
-                                                <td class="text-center" width="10%">{{ $item->dchdate }}</td> 
+                                                <td class="text-center" width="7%">{{ $item->adjrw }}</td>
+                                                <td class="text-center" width="7%">{{ $item->total_adjrw_income }}</td>
+                                                <td class="text-center" width="7%">{{ $item->vstdate }}</td>   
+                                                <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
                                                 
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>  --}}
-                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
+                                                <td class="text-end" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
  
                                             </tr>
                                         @endforeach

@@ -1263,4 +1263,7 @@ class SssController extends Controller
         {     
                 return view('sss.inst_sss');
         }
-}
+        public function inst_sss_todtan(Request $request)
+        {     
+                return view('sss.inst_sss_todtan');
+        }}

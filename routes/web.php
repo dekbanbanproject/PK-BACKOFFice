@@ -1320,6 +1320,7 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'karn_sss_309',[App\Http\Controllers\karnController::class, 'karn_sss_309'])->name('k.karn_sss_309');//
 
      Route::match(['get','post'],'inst_sss',[App\Http\Controllers\SssController::class, 'inst_sss'])->name('acc.inst_sss');//
+     Route::match(['get','post'],'inst_sss_todtan',[App\Http\Controllers\SssController::class, 'inst_sss_todtan'])->name('acc.inst_sss_todtan');//
 
      Route::match(['get','post'],'opd_chai',[App\Http\Controllers\SssController::class, 'opd_chai'])->name('sss.opd_chai');//
      Route::match(['get','post'],'opd_chai_hn/{months}/{startdate}/{enddate}',[App\Http\Controllers\SssController::class, 'opd_chai_hn'])->name('sss.opd_chai_hn');//

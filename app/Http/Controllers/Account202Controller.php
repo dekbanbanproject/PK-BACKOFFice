@@ -585,7 +585,7 @@ class Account202Controller extends Controller
  
          $datashow = DB::select('
                 SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2
-                ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc
+                ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc,a.adjrw,a.total_adjrw_income
                 from acc_1102050101_202 a
              LEFT JOIN acc_stm_ucs s ON s.an = a.an
              WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND s.rep IS NOT NULL
@@ -629,7 +629,7 @@ class Account202Controller extends Controller
          $data['users'] = User::get();
  
             $data = DB::connection('mysql')->select('
-            SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue
+            SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
             from acc_1102050101_202 a
             LEFT JOIN acc_stm_ucs au ON au.an = a.an
             WHERE status ="N"
@@ -681,7 +681,7 @@ class Account202Controller extends Controller
          $datashow = DB::connection('mysql')->select('
  
  
-                 SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,au.STMdoc
+                 SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,au.STMdoc,a.adjrw,a.total_adjrw_income
                      from acc_1102050101_202 a
                      LEFT JOIN acc_stm_ucs au ON au.an = a.an
                      WHERE a.status ="N"
