@@ -81,7 +81,7 @@
             </div>
         </div>
        
-            <div class="row ms-3 me-3"> 
+            <div class="row"> 
                 <div class="col-md-4">
                     <h4 class="card-title">Detail 1102050101.301</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.301</p>
@@ -90,7 +90,7 @@
                
             </div>
         
-        <div class="row ms-3 me-3"> 
+        <div class="row"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
@@ -145,11 +145,11 @@
                                             }
                                         ?>
                                         <div class="row">
-                                            <div class="col-md-5 text-start mt-4 ms-4">
+                                            <div class="col-md-5 text-start mt-4 ms-2">
                                                 <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-3 text-end mt-2 me-4">
+                                            <div class="col-md-5 text-end mt-2 me-2">
                                                 <a href="{{url('account_301_pull')}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ตั้ง {{$visit}} Visit">
                                                         <h6 class="text-end">{{$visit}} Visit</h6>
@@ -159,7 +159,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
+                                            <div class="col-md-1 text-start ms-2">
                                                 <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                             </div>
                                             <div class="col-md-4 text-start mt-3">
@@ -168,7 +168,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{ $visit}} Visit" >
@@ -181,7 +181,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
+                                            <div class="col-md-1 text-start ms-2">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
                                             </div>
                                             <div class="col-md-4 text-start mt-3">
@@ -190,7 +190,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <a href="{{url('account_301_dashsubdetail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">

@@ -142,23 +142,57 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 ?>
 
 <body data-topbar="dark">
-    {{-- <body style="background-image: url('my_bg.jpg');"> --}}
+
+    <!-- <body data-layout="horizontal" data-topbar="dark"> -->
+
+    <!-- Loader -->
+    {{-- <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+
+            </div>
+        </div>
+    </div> --}}
+
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-        <header id="page-topbar">
-            {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgba(237, 199, 247)">
+        <header id="page-topbar ">
+            {{-- <div class="navbar-header"> --}}
+            <div class="navbar-header shadow" style="background-color: rgba(237, 199, 247)">
+                {{-- <div class="d-flex">
+                    <div class="navbar-brand-box">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">PK-BACKOFFice</h4>
+                    </div>
+                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
+                        data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                        <i class="ri-menu-2-line align-middle"></i>
+                    </button>
+
+                    <div class="dropdown dropdown-mega d-none d-lg-block ">
+                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                            id="vertical-menu-btn">
+                            <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                        </button>
+                        <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
+                        <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
+                            aria-haspopup="false" aria-expanded="false">
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-3">โรงพยาบาลภูเขียวเฉลิมพระเกียรติ</h4>
+
+                        </button>
+                    </div>
+
+                </div> --}}
 
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
+                                <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20">
+                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
                             </span>
                         </a>
 
@@ -175,12 +209,13 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
                         id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
+                        <i class="ri-menu-2-line align-middle" style="color:rgb(255, 255, 255)"></i>
                     </button>
+
                     <h4 style="color:rgb(255, 255, 255)" class="mt-4">ACCOUNT</h4>
                     <?php
-                    $org = DB::connection('mysql')->select('   
-                                                    select * from orginfo 
+                    $org = DB::connection('mysql')->select('
+                                                    select * from orginfo
                                                     where orginfo_id = 1                                                                                                                      ');
                     ?>
                     {{-- <form class="app-search d-none d-lg-block">
@@ -188,17 +223,21 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             @foreach ($org as $item)
                             <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
-                            
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-3">ACCOUNT</h4>
                         </div>
-                    </form>                                          --}}
+                    </form> --}}
                 </div>
+
+
 
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
-                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
+                        <button type="button" class="btn header-item noti-icon waves-effect"
+                            data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line" style="color: rgb(39, 38, 38)"></i>
                         </button>
                     </div>
+
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -209,17 +248,19 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
                                     width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
                             @endif
-                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
+                            <span class="d-none d-xl-inline-block ms-1" style="color: rgb(49, 48, 48)">
                                 {{ Auth::user()->fname }} {{ Auth::user()->lname }}
                             </span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"
+                                style="color: rgb(44, 43, 43)"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
-                                style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"><i
+                                    class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="{{ route('logout') }}" {{-- class="text-reset notification-item" --}}
+                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                class="text-reset notification-item"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                                     class="ri-shut-down-line align-middle me-1 text-danger"></i>
                                 Logout
@@ -229,22 +270,24 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </form>
                         </div>
                     </div>
+
+
+
+                    <div class="dropdown d-inline-block user-dropdown">
+
+                    </div>
+
                 </div>
             </div>
         </header>
-        {{-- <style>
-            .nom6{ 
-                background: linear-gradient(to right,#ffafbd);
-              
-            }
-        </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
-        {{-- <div class="vertical-menu "> --}}
+        {{-- <div class="vertical-menu" style="background-color: rgb(255, 255, 255)"> --}}
         <div class="vertical-menu">
-            {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
+            {{-- <div class="vertical-menu Bgsidebar"> --}}
+
             <div data-simplebar class="h-100">
-                {{-- <div data-simplebar class="h-100 nom6"> --}}
+
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
@@ -491,15 +534,13 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content">
-            {{-- background:url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%; --}}
-            {{-- <div class="page-content Backgroupbody"> --}}
-            <div class="page-content Backgroupbody">
-                {{-- <div class="page-content"> --}}
-                {{-- <div class="page-content" style="background-color: rgba(247, 244, 244, 0.911)"> --}}
-                @yield('content')
+        <div class="main-content mt-3">
+            {{-- <div class="page-content"> --}}
+            {{-- <div class="page-content"> --}}
 
-            </div>
+            @yield('content')
+
+            {{-- </div> --}}
             <!-- End Page-content -->
 
             <footer class="footer">

@@ -60,7 +60,7 @@
                }
     </style>
     
-    <div class="container-fluid">
+    <div class="tabs-animation">
         <div id="preloader">
             <div id="status">
                 <div class="spinner">                    
@@ -68,7 +68,7 @@
             </div>
         </div>
      
-        <div class="row"> 
+        <div class="row mb-3"> 
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
@@ -79,7 +79,7 @@
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 </div> 
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                     <i class="fa-solid fa-magnifying-glass"></i> 
                     ค้นหา 
@@ -96,17 +96,10 @@
             {{-- <div class="col"></div> --}}
         </div>
         
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-xl-12">
                 <div class="card">
-                    <div class="card-body shadow-lg">
-                        {{-- <div class="row mt-3 text-center">  
-                            <div id="overlay">
-                                <div class="cv-spinner">
-                                <span class="spinner"></span>
-                                </div>
-                            </div>
-                        </div>  --}}
+                    <div class="card-body shadow-lg"> 
                       
                         <div class="row">
                             <div class="col-md-4">
@@ -138,8 +131,8 @@
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th> 
-                                            {{-- <th class="text-center">income</th> --}}
+                                            <th class="text-center">spsch</th>  
+                                            <th class="text-center">income</th> 
                                             <th class="text-center">ลูกหนี้</th>  
                                         </tr>
                                     </thead>
@@ -165,10 +158,9 @@
                                                 <td class="text-center" width="10%">{{ $item->dchdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
                                                 
-                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
-                                                
-                                                {{-- <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>  --}}
-                                                <td class="text-center" width="10%">{{ number_format($item->debit, 2) }}</td> 
+                                                <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
+                                                <td class="text-center" style="color:rgb(119, 39, 247)" width="5%">{{ number_format($item->income, 2) }}</td> 
+                                                <td class="text-center" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
  
                                             </tr>
                                         @endforeach

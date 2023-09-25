@@ -12,9 +12,12 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
-   
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+        integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 
     {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -45,40 +48,42 @@
     <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
-   <!-- select2 -->
-    <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
-   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-   <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
-<!-- Plugins css -->
-{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+    <!-- select2 -->
+    <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet"
+        href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    <!-- Plugins css -->
+    {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
-  <style>
-       body{
+<style>
+    body {
         /* background: */
-            /* url(/pkbackoffice/public/images/bg7.png);  */
-            /* -webkit-background-size: cover; */
-        background-color:rgb(245, 240, 240);
+        /* url(/pkbackoffice/public/images/bg7.png);  */
+        /* -webkit-background-size: cover; */
+        background-color: rgb(245, 240, 240);
         background-repeat: no-repeat;
-		background-attachment: fixed;
-		/* background-size: cover; */
+        background-attachment: fixed;
+        /* background-size: cover; */
         background-size: 100% 100%;
         /* display: flex; */
         /* align-items: center; */
         /* justify-content: center; */
         /* width: 100vw;   ให้เต็มพอดี */
         /* height: 100vh; ให้เต็มพอดี  */
-        }
+    }
+
     .Bgsidebar {
-  		background-image: url('/pkbackoffice/public/images/bgside.jpg');
-		background-repeat: no-repeat;
-	}
+        background-image: url('/pkbackoffice/public/images/bgside.jpg');
+        background-repeat: no-repeat;
+    }
+
     .Bgheader {
-  		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
-		background-repeat: no-repeat;
-	}
-    
-  </style>
+        background-image: url('/pkbackoffice/public/images/bgheader.jpg');
+        background-repeat: no-repeat;
+    }
+</style>
 
 <body data-topbar="dark">
     {{-- <body style="background-image: url('my_bg.jpg');"> --}}
@@ -87,7 +92,7 @@
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgba(247, 198, 176)">
+            <div class="navbar-header shadow" style="background-color: rgba(247, 198, 176)">
 
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -102,24 +107,25 @@
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
-                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
+                            <span class="logo-sm">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
+                                    height="40">
                             </span>
                             <span class="logo-lg">
-                                <h4 style="color:rgba(247, 198, 176)" class="mt-4">PK-BACKOFFice</h4> 
+                                <h4 style="color:rgba(247, 198, 176)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
                     <h4 style="color:rgb(255, 255, 255)" class="mt-4">CLAIM CENTER</h4>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
-                                where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                    <?php
+                    $org = DB::connection('mysql')->select('   
+                                                    select * from orginfo 
+                                                    where orginfo_id = 1                                                                                                                      ');
                     ?>
                     {{-- <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
@@ -130,13 +136,13 @@
                         </div>
                     </form>                                          --}}
                 </div>
- 
+
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
-                    </div> 
+                    </div>
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -154,11 +160,10 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}" style="font-size: 12px"><i
-                                    class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
+                                style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                                {{-- class="text-reset notification-item" --}}
+                            <a class="dropdown-item text-danger" href="{{ route('logout') }}" {{-- class="text-reset notification-item" --}}
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                                     class="ri-shut-down-line align-middle me-1 text-danger"></i>
                                 Logout
@@ -180,22 +185,22 @@
 
         <!-- ========== Left Sidebar Start ========== -->
         {{-- <div class="vertical-menu "> --}}
-            <div class="vertical-menu">
-        {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
+        <div class="vertical-menu">
+            {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
-                <div id="sidebar-menu"> 
-                        <ul class="metismenu list-unstyled" id="side-menu" >
-                    
+                <div id="sidebar-menu">
+                    <ul class="metismenu list-unstyled" id="side-menu">
+
                         <li class="menu-title">Menu</li>
                         <li>
-                            <a href="{{ url('pkclaim_info') }}">  
+                            <a href="{{ url('pkclaim_info') }}">
                                 <i class="fa-solid fa-gauge-high text-danger"></i>
                                 <span>Dashboard</span>
                                 {{-- <span style="color: white">Dashboard</span> --}}
-                            </a> 
-                        </li> 
+                            </a>
+                        </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
@@ -206,15 +211,15 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-danger"></i>
                                 <span>Claim</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
+                            <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('ucep24') }}">UCEP 24</a></li>
                                 <li><a href="{{ url('imc') }}">IMC</a></li>
                                 <li><a href="{{ url('ofc') }}">OFC 401</a></li>
-                              
+
                                 {{-- <li><a href="{{ url('six') }}">ส่งออก 16 แฟ้ม</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
                                     <ul class="sub-menu" aria-expanded="true">
@@ -227,10 +232,10 @@
                                 </li>
                                 <li><a href="{{ url('ssop') }}">SSOP</a></li>
                                 <li><a href="{{ url('ssop_recheck') }}">SSOP RECHECK</a></li>
-                                 <li><a href="{{ url('aipn') }}">AIPN</a></li>
-                                 <li><a href="{{ url('aipn_plb') }}">AIPN พรบ</a></li>
-                                 <li><a href="{{ url('aipn_disability') }}">AIPN ทุภพพลภาพ </a></li>
-                                 <li><a href="{{ url('aipn_equipdev') }}">SSIP-Equipdev</a></li> 
+                                <li><a href="{{ url('aipn') }}">AIPN</a></li>
+                                <li><a href="{{ url('aipn_plb') }}">AIPN พรบ</a></li>
+                                <li><a href="{{ url('aipn_disability') }}">AIPN ทุภพพลภาพ </a></li>
+                                <li><a href="{{ url('aipn_equipdev') }}">SSIP-Equipdev</a></li>
                                 {{-- <li><a href="{{ url('free_schedule') }}">PPFS-Fre Schedule</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">PPFS-Fre Schedule</a>
                                     <ul class="sub-menu" aria-expanded="true">
@@ -240,15 +245,15 @@
                                     </ul>
                                 </li>
                             </ul>
-                            <ul class="sub-menu" aria-expanded="true"> 
+                            <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="javascript: void(0);" class="has-arrow">ANC-หญิงตั้งครรภ์</a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('anc_dent') }}">ตรวจฟัน+ขัดฟัน</a></li> 
-                                        <li><a href="{{ url('anc_14001') }}">บริการยาเม็ดเสริมธาตุเหล็ก</a></li> 
+                                        <li><a href="{{ url('anc_dent') }}">ตรวจฟัน+ขัดฟัน</a></li>
+                                        <li><a href="{{ url('anc_14001') }}">บริการยาเม็ดเสริมธาตุเหล็ก</a></li>
                                     </ul>
                                 </li>
                             </ul>
-                           
+
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -265,7 +270,7 @@
                                 <span>ตรวจตึกแยก ward</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('check_ward') }}">ตรวจตึก</a></li> 
+                                <li><a href="{{ url('check_ward') }}">ตรวจตึก</a></li>
                             </ul>
                         </li>
                         <li>
@@ -285,7 +290,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('otone') }}">ลง OT</a></li>
-                                {{-- <li><a href="{{url('ottwo')}}">OT 2</a></li>--}}
+                                {{-- <li><a href="{{url('ottwo')}}">OT 2</a></li> --}}
                             </ul>
                         </li>
                         <li>
@@ -306,13 +311,14 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-user-tie text-danger"></i>
                                 <span>PCT กุมารเวชกรรม</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{url('thalassemia_year')}}">การเบิก Thalassemia </a></li>
-                                <li><a href="http://hinsoxxx/21/images/%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9A%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%B6%E0%B8%81%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%A5%E0%B8%87%E0%B8%97%E0%B8%B0%E0%B9%80%E0%B8%9A%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%9B%E0%B9%88%E0%B8%A7%E0%B8%A2%E0%B9%82%E0%B8%A3%E0%B8%84%E0%B9%82%E0%B8%A5%E0%B8%AB%E0%B8%B4%E0%B8%95%E0%B8%88%E0%B8%B2%E0%B8%87%E0%B8%98%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%AA%E0%B8%8B%E0%B8%B5%E0%B9%80%E0%B8%A1%E0%B8%B5%E0%B8%A2.pdf" target="_blank">คู่มือ</a></li>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('thalassemia_year') }}">การเบิก Thalassemia </a></li>
+                                <li><a href="http://hinsoxxx/21/images/%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9A%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%B6%E0%B8%81%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%A5%E0%B8%87%E0%B8%97%E0%B8%B0%E0%B9%80%E0%B8%9A%E0%B8%B5%E0%B8%A2%E0%B8%99%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%9B%E0%B9%88%E0%B8%A7%E0%B8%A2%E0%B9%82%E0%B8%A3%E0%B8%84%E0%B9%82%E0%B8%A5%E0%B8%AB%E0%B8%B4%E0%B8%95%E0%B8%88%E0%B8%B2%E0%B8%87%E0%B8%98%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%AA%E0%B8%8B%E0%B8%B5%E0%B9%80%E0%B8%A1%E0%B8%B5%E0%B8%A2.pdf"
+                                        target="_blank">คู่มือ</a></li>
                                 {{-- <li><a href="{{url('karn_sss_309')}}">ไต 309</a></li> --}}
                             </ul>
                         </li>
@@ -334,7 +340,7 @@
                                         <li><a href="{{ url('ipd_chai') }}">IPD ชัยภูมิ</a></li>
                                         <li><a href="{{ url('opd_outlocate') }}">OPD นอกเขต</a></li>
                                         <li><a href="{{ url('ipd_outlocate') }}">IPD นอกเขต</a></li>
-                                       
+
                                     </ul>
                                 </li>
 
@@ -346,7 +352,7 @@
                                 <span>ทะเบียนคลุมหนังสือเข้า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('book_inside_manage') }}">ทะเบียนหนังสือเข้า</a></li> 
+                                <li><a href="{{ url('book_inside_manage') }}">ทะเบียนหนังสือเข้า</a></li>
                             </ul>
                         </li>
                         <li>
@@ -406,7 +412,7 @@
                                 <i class="fa-solid fa-chart-column text-danger"></i>
                                 <span>ผังบัญชี</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
+                            <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="javascript: void(0);" class="has-arrow">ลูกหนี้รายตัวงานประกัน</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="https://docs.google.com/spreadsheets/d/15Csl_ob0un0s9Uu7Lp43yl2PwwaFRubS/edit#gid=1628425741"
@@ -434,10 +440,10 @@
                                 <li><a href="javascript: void(0);" class="has-arrow">ตรวจสอบสิทธิ์</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('acc_checksit') }}">ตรวจสอบสิทธิ์</a>
-                                        </li> 
+                                        </li>
                                     </ul>
                                 </li>
-                               
+
                             </ul>
                         </li>
 
@@ -447,12 +453,12 @@
                                 <span>ค่ารักษาที่ไม่โอนไป IPD</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('opdtoipd') }}">ตรวจสอบ</a></li> 
+                                <li><a href="{{ url('opdtoipd') }}">ตรวจสอบ</a></li>
                             </ul>
                         </li>
 
 
-                      
+
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -468,9 +474,9 @@
         <div class="main-content">
             {{-- background:url(/pkbackoffice/public/sky16/images/logo250.png)no-repeat 50%; --}}
             {{-- <div class="page-content Backgroupbody"> --}}
-                <div class="page-content Backgroupbody"> 
+            <div class="page-content Backgroupbody">
                 {{-- <div class="page-content"> --}}
-                    {{-- <div class="page-content" style="background-color: rgba(247, 244, 244, 0.911)"> --}}
+                {{-- <div class="page-content" style="background-color: rgba(247, 244, 244, 0.911)"> --}}
                 @yield('content')
 
             </div>
@@ -522,7 +528,9 @@
     <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js"
+        integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- jquery.vectormap map -->
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
@@ -567,11 +575,11 @@
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
     {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
-    
+
     <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
 
     @yield('footer')
- 
+
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -663,74 +671,72 @@
                 });
             });
 
-            $('#insert_repForm').on('submit',function(e){
-                    e.preventDefault();
-                      //   alert('Person');
-                    var form = this;
-                  
-                    $.ajax({
-                      url:$(form).attr('action'),
-                      method:$(form).attr('method'),
-                      data:new FormData(form),
-                      processData:false,
-                      dataType:'json',
-                      contentType:false,
-                      beforeSend:function(){
+            $('#insert_repForm').on('submit', function(e) {
+                e.preventDefault();
+                //   alert('Person');
+                var form = this;
+
+                $.ajax({
+                    url: $(form).attr('action'),
+                    method: $(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function() {
                         $(form).find('span.error-text').text('');
-                      },
-                      success:function(data){
-                        if (data.status == 0 ) {   
-                        } else {                         
-                          Swal.fire({
-                            title: 'บันทึกข้อมูลสำเร็จ',
-                            text: "You Insert data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177', 
-                            confirmButtonText: 'เรียบร้อย'
-                          }).then((result) => {
-                            if (result.isConfirmed) {                  
-                                window.location.reload();
-                            }
-                          })      
+                    },
+                    success: function(data) {
+                        if (data.status == 0) {} else {
+                            Swal.fire({
+                                title: 'บันทึกข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            })
                         }
-                      }
-                    });
-            }); 
-            $('#update_repForm').on('submit',function(e){
-                    e.preventDefault();
-                      //   alert('Person');
-                    var form = this;
-                  
-                    $.ajax({
-                      url:$(form).attr('action'),
-                      method:$(form).attr('method'),
-                      data:new FormData(form),
-                      processData:false,
-                      dataType:'json',
-                      contentType:false,
-                      beforeSend:function(){
+                    }
+                });
+            });
+            $('#update_repForm').on('submit', function(e) {
+                e.preventDefault();
+                //   alert('Person');
+                var form = this;
+
+                $.ajax({
+                    url: $(form).attr('action'),
+                    method: $(form).attr('method'),
+                    data: new FormData(form),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function() {
                         $(form).find('span.error-text').text('');
-                      },
-                      success:function(data){
-                        if (data.status == 0 ) {   
-                        } else {                         
-                          Swal.fire({
-                            title: 'บันทึกข้อมูลสำเร็จ',
-                            text: "You Insert data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177', 
-                            confirmButtonText: 'เรียบร้อย'
-                          }).then((result) => {
-                            if (result.isConfirmed) {                  
-                                window.location.reload();
-                            }
-                          })      
+                    },
+                    success: function(data) {
+                        if (data.status == 0) {} else {
+                            Swal.fire({
+                                title: 'บันทึกข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            })
                         }
-                      }
-                    });
-            }); 
+                    }
+                });
+            });
         });
 
         $(document).ready(function() {

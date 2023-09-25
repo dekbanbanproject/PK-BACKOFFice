@@ -60,17 +60,19 @@
                }
     </style>
     
-    <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    
+    <div class="tabs-animation">
+        
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
                 </div>
             </div>
+
         </div>
         {{-- <form action="{{ route('acc.account_pk_ipd') }}" method="POST">
             @csrf --}}
-        <div class="row"> 
+        <div class="row mb-3"> 
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
@@ -100,18 +102,11 @@
             
         {{-- </form> --}}
      
-        <div class="row mt-3">
+        <div class="row ">
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body shadow-lg">
-                        <div class="row mt-3 text-center">  
-                            <div id="overlay">
-                                <div class="cv-spinner">
-                                <span class="spinner"></span>
-                                </div>
-                            </div>
-                        </div> 
-                      
+                                             
                         <div class="row">
                             <div class="col-md-4">
                                 <h4 class="card-title">Detail Account ผัง 1102050101.202</h4>

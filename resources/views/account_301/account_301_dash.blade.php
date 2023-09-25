@@ -73,7 +73,7 @@
         $yb =  date('Y')+542;
     ?>
 
-   <div class="tabs-animation">
+   <div class="tabs-animation mb-5">
         <div id="preloader">
             <div id="status">
                 <div class="spinner"> 

@@ -163,18 +163,20 @@ class Account217Controller extends Controller
                 END as debit_prb
                 
                 ,CASE 
-                WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") THEN 
+                WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
                 (sum(if(op.income="02",sum_price,0))) +
                 (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) +
                 (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) +
                 (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
-                WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income
-                ELSE 
-                
-                (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)))+
-                (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) +
-                (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
+
+                WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount <> "" THEN ipt.max_debt_amount 
+                        
+                WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income								
+                ELSE                 
+                sum(if(op.income="02",sum_price,0)) +
+                sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))+
+                sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
+                sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))
                 END as debit
                                     
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
@@ -191,10 +193,11 @@ class Account217Controller extends Controller
                 LEFT JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE ip.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
-                AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
+               
                 GROUP BY ip.an;
                 
         ');
+        // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
                 $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->whereBetween('dchdate', [$startdate, $enddate])->count();
@@ -623,7 +626,7 @@ class Account217Controller extends Controller
 
         $data = DB::select('
                 SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
-                ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217
+                ,s.inst + s.hc + s.hc_drug + s.ae + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217
                 from acc_1102050101_217 a
                 LEFT JOIN acc_stm_ucs s ON s.an = a.an
                 WHERE a.status ="N"

@@ -48,7 +48,7 @@
         }
     </style>
 
-    <div class="tabs-animation">
+    <div class="tabs-animation mb-5">
 
         <div class="row text-center">
             <div id="overlay">

@@ -398,6 +398,10 @@ class Account202Controller extends Controller
          $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
          $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
          $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+         $yearnew = date('Y');
+         $yearold = date('Y')-1;
+         $start = (''.$yearold.'-10-01');
+         $end = (''.$yearnew.'-09-30'); 
  
          if ($startdate == '') {
              $datashow = DB::select('
@@ -411,7 +415,7 @@ class Account202Controller extends Controller
  
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                     WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
+                     WHERE a.dchdate between "'.$start.'" and "'.$end.'"
                      and account_code="1102050101.202"
  
                      group by month(a.dchdate) order by month(a.dchdate) desc limit 3;
@@ -432,10 +436,10 @@ class Account202Controller extends Controller
                      WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                      and account_code="1102050101.202"
  
-                     group by month(a.dchdate) order by month(a.dchdate) desc;
+                     
              ');
          }
- 
+        //  group by month(a.dchdate) order by month(a.dchdate) desc;
              return view('account_202.account_pkucs202_dash',[
                  'startdate'     =>     $startdate,
                  'enddate'       =>     $enddate,
@@ -493,6 +497,31 @@ class Account202Controller extends Controller
              'data'          =>     $data,
              'months'        =>     $months,
              'year'          =>     $year
+         ]);
+     }
+     public function account_pkucs202_detail_date(Request $request,$startdate,$enddate)
+     {
+         $datenow = date('Y-m-d');
+         $startdate = $request->startdate;
+         $enddate = $request->enddate;
+         // dd($id);
+         $data['users'] = User::get();
+ 
+         $data = DB::select(' 
+             SELECT *  from acc_1102050101_202 
+             WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+             AND status = "N"
+         ');
+         // SELECT *,au.subinscl  from acc_1102050101_202 a
+         //     LEFT JOIN acc_debtor au ON au.an = a.an
+         //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'";
+ 
+         return view('account_202.account_pkucs202_detail_date', $data, [
+             'startdate'     =>     $startdate,
+             'enddate'       =>     $enddate,
+             'data'          =>     $data,
+             'startdate'     =>     $startdate,
+             'enddate'       =>     $enddate
          ]);
      }
      public function account_pkucs202_stam(Request $request)
@@ -620,6 +649,27 @@ class Account202Controller extends Controller
              'sum_stm_total'     =>     $sum_stm_total
          ]);
      }
+     public function account_pkucs202_stm_date(Request $request,$startdate,$enddate)
+     { 
+         $data['users'] = User::get();
+ 
+         $datashow = DB::select('
+                SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2
+                ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc,a.adjrw,a.total_adjrw_income
+                from acc_1102050101_202 a
+             LEFT JOIN acc_stm_ucs s ON s.an = a.an
+             WHERE a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+             AND s.rep IS NOT NULL
+ 
+         ');
+       
+ 
+         return view('account_202.account_pkucs202_stm_date', $data, [
+             'startdate'         =>     $startdate,
+             'enddate'           =>     $enddate,
+             'datashow'          =>     $datashow, 
+         ]);
+     }
      public function account_pkucs202_stmnull(Request $request,$months,$year)
      {
          $datenow = date('Y-m-d');
@@ -668,6 +718,25 @@ class Account202Controller extends Controller
              'year'              =>     $year,
              'sum_debit_total'   =>     $sum_debit_total,
              'sum_stm_total'     =>     $sum_stm_total
+         ]);
+     }
+     public function account_pkucs202_stmnull_date(Request $request,$startdate,$enddate)
+     { 
+         $data['users'] = User::get();
+ 
+            $data = DB::connection('mysql')->select('
+            SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
+            from acc_1102050101_202 a
+            LEFT JOIN acc_stm_ucs au ON au.an = a.an
+            WHERE status ="N" AND a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"   
+ 
+             ');
+             
+ 
+         return view('account_202.account_pkucs202_stmnull_date', $data, [
+             'startdate'         =>     $startdate,
+             'enddate'           =>     $enddate,
+             'data'              =>     $data, 
          ]);
      }
      public function account_pkucs202_stmnull_all(Request $request,$months,$year)

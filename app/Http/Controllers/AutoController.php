@@ -52,7 +52,7 @@ use App\Models\Claim_sixteen_orf;
 use App\Models\Claim_sixteen_pat;
 use App\Models\Claim_sixteen_ins;
 use App\Models\Claim_temp_ssop;
-use App\Models\Claim_sixteen_opd;
+use App\Models\Acc_opitemrece;
 use App\Models\Dashboard_authen_day;
 use App\Models\Dashboard_department_authen;
 use App\Models\Visit_pttype_authen_report;
@@ -1632,6 +1632,46 @@ class AutoController extends Controller
                   
             }
         return view('auto.check_308');
+    }
+
+    public function inst_opitemrece(Request $request)
+    {
+        date_default_timezone_set("Asia/Bangkok");
+        $date = date('Y-m-d');
+        $y = date('Y') + 543; 
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+                    $acc_opitemrece_ = DB::connection('mysql2')->select('
+                            SELECT vn,an,hn,vstdate,rxdate,income,pttype,paidst,order_no,icode,qty,cost,finance_number,unitprice,discount,sum_price
+                            FROM opitemrece 
+                            WHERE vstdate ="'.$date.'"
+                    ');
+                    foreach ($acc_opitemrece_ as $key => $va2) {
+                        // $check = Acc_opitemrece::where('')
+                        Acc_opitemrece::insert([
+                            'hn'                 => $va2->hn,
+                            'an'                 => $va2->an,
+                            'vn'                 => $va2->vn,
+                            'pttype'             => $va2->pttype,
+                            'paidst'             => $va2->paidst,
+                            'rxdate'             => $va2->rxdate,
+                            'vstdate'            => $va2->vstdate, 
+                            'income'             => $va2->income,
+                            'order_no'           => $va2->order_no,
+                            'icode'              => $va2->icode, 
+                            'qty'                => $va2->qty,
+                            'cost'               => $va2->cost,
+                            'finance_number'     => $va2->finance_number,
+                            'unitprice'          => $va2->unitprice,
+                            'discount'           => $va2->discount,
+                            'sum_price'          => $va2->sum_price,
+                        ]);
+                    }
+ 
+        return view('auto.inst_opitemrece');
     }
 
 
