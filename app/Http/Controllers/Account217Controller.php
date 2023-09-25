@@ -439,9 +439,9 @@ class Account217Controller extends Controller
         $data = DB::select('
             SELECT *  from acc_1102050101_217
             WHERE month(dchdate) = "'.$months.'" and year(dchdate) = "'.$year.'"
-            AND status = "N"
+           
         ');
-
+        // AND status = "N"
         return view('account_217.account_pkucs217_detail', $data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
@@ -564,7 +564,8 @@ class Account217Controller extends Controller
 
             SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
             ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
-            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217,s.total_approve STM_TOTAL
+            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217
+            ,s.total_approve STM_TOTAL
             from acc_1102050101_217 a
             LEFT JOIN acc_stm_ucs s ON s.an = a.an
             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"

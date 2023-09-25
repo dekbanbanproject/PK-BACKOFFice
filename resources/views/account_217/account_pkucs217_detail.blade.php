@@ -110,7 +110,7 @@
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->income_group }}</td>
                                                 <td class="text-end" width="10%">
                                                     {{-- <button type="button" class="btn btn-icon btn-shadow btn-dashed btn-outline-primary" data-bs-toggle="modal" data-bs-target="#DetailModal{{ $item->an }}" data-bs-placement="right" title="ค่าใช้จ่าย"> --}}
-                                                        {{ number_format($item->debit,2)}} 
+                                                        {{ number_format($item->debit_total,2)}} 
                                                     {{-- </button> --}}
                                                 </td>
                                     </tr>

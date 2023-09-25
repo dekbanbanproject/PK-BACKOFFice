@@ -7933,24 +7933,25 @@ class AccountPKController extends Controller
             // @$TBills = $result['TBills']['HDBills']['TBill']; //sss
             $bills_       = @$TBills;
             // dd($bills_ );
-            $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
-            if ($checkchead > 0) {
-                # code...
-            } else {
-                Acc_stm_ti_totalhead::insert([
-                    'stmAccountID'    => @$stmAccountID,
-                    'hcode'           => @$hcode,
-                    'hname'           => @$hname,
-                    'AccPeriod'       => @$AccPeriod,
-                    'STMdoc'          => @$STMdoc,
-                    'dateStart'       => @$dateStart,
-                    'dateEnd'         => @$dateEnd,
-                    'datedue'        => @$datedue,
-                    'dateIssue'       => @$dateIssue,
-                    'amount'          => @$amount,
-                    'thamount'        => @$thamount
-                ]);
-            }
+                $checkchead = Acc_stm_ti_totalhead::where('AccPeriod', @$AccPeriod)->count();
+                if ($checkchead > 0) {
+                    # code...
+                } else {
+                    Acc_stm_ti_totalhead::insert([
+                        'stmAccountID'    => @$stmAccountID,
+                        'hcode'           => @$hcode,
+                        'hname'           => @$hname,
+                        'AccPeriod'       => @$AccPeriod,
+                        'STMdoc'          => @$STMdoc,
+                        'dateStart'       => @$dateStart,
+                        'dateEnd'         => @$dateEnd,
+                        'datedue'        => @$datedue,
+                        'dateIssue'       => @$dateIssue,
+                        'amount'          => @$amount,
+                        'thamount'        => @$thamount
+                    ]);
+                }
+
                 foreach ($bills_ as $value) {
                     $hreg = $value['hreg'];
                     $station = $value['station'];
@@ -8007,7 +8008,8 @@ class AccountPKController extends Controller
                 }
                 // return redirect()->back();
                 return response()->json([
-                    'status'    => '200'
+                    'status'    => '200',
+                    'success'   => 'Successfully uploaded.'
                 ]);
 
     }
@@ -8191,7 +8193,8 @@ class AccountPKController extends Controller
                 }
                 // return redirect()->back();
                 return response()->json([
-                    'status'    => '200'
+                    'status'    => '200',
+                    'success'   => 'Successfully uploaded.'
                 ]);
     }
 

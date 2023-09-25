@@ -61,6 +61,15 @@
                .is-hide{
                display:none;
                }
+               .bar{
+            height: 50px;
+            background-color: rgb(10, 218, 55);
+        }
+        .percent{
+            position: absolute;
+            left: 50%;
+            color: black;
+        }
     </style>
        
     <div class="container-fluid">
@@ -79,7 +88,8 @@
                     <div class="main-card mb-3 card">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
-                                <form action="{{ route('acc.upstm_tixml_sssimport') }}" method="POST" enctype="multipart/form-data" id="insert_stmsssForm">
+                                {{-- <form action="{{ route('acc.upstm_tixml_sssimport') }}" method="POST" enctype="multipart/form-data" id="insert_stmsssForm"> --}}
+                                <form action="{{ route('acc.upstm_tixml_sssimport') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                         <div class="col-sm-12">
                                             <div class="widget-chart widget-chart-hover">
@@ -98,6 +108,15 @@
                             </div>                                           
                         </div> 
                     </div> 
+                    <br>
+                <div class="form-group">
+                    <div class="progress" style="height: 50px;">
+                       <div class="bar"></div>
+                       <div class="percent" style="font-size: 30px">0%</div>
+                       {{-- <div class="progress-bar progress-bar-striped progress-bar-animated bg-info percent" role="progressbar"
+                       aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> </div> --}}
+                    </div>
+                </div> 
                 </div> 
                 <div class="col"></div>
             </div>
@@ -109,7 +128,7 @@
 
     @endsection
     @section('footer')
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -158,42 +177,72 @@
               });
             });
 
-            $('#insert_stmsssForm').on('submit',function(e){
-                    e.preventDefault();
+            // $('#insert_stmsssForm').on('submit',function(e){
+            //         e.preventDefault();
 
-                    var form = this;
-                      //   alert('OJJJJOL');
-                    $.ajax({
-                      url:$(form).attr('action'),
-                      method:$(form).attr('method'),
-                      data:new FormData(form),
-                      processData:false,
-                      dataType:'json',
-                      contentType:false,
-                      beforeSend:function(){
-                        $(form).find('span.error-text').text('');
-                      },
-                      success:function(data){
-                        if (data.status == 0 ) {
+            //         var form = this;
+            //           //   alert('OJJJJOL');
+            //         $.ajax({
+            //           url:$(form).attr('action'),
+            //           method:$(form).attr('method'),
+            //           data:new FormData(form),
+            //           processData:false,
+            //           dataType:'json',
+            //           contentType:false,
+            //           beforeSend:function(){
+            //             $(form).find('span.error-text').text('');
+            //           },
+            //           success:function(data){
+            //             if (data.status == 0 ) {
 
-                        } else {
-                            Swal.fire({
-                                title: 'บันทึกข้อมูลสำเร็จ',
-                                text: "You Insert data success",
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonColor: '#06D177',
-                                // cancelButtonColor: '#d33',
-                                confirmButtonText: 'เรียบร้อย'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                window.location="{{url('upstm_tixml_sss')}}";
-                                }
-                            })
+            //             } else {
+            //                 Swal.fire({
+            //                     title: 'บันทึกข้อมูลสำเร็จ',
+            //                     text: "You Insert data success",
+            //                     icon: 'success',
+            //                     showCancelButton: false,
+            //                     confirmButtonColor: '#06D177',
+            //                     // cancelButtonColor: '#d33',
+            //                     confirmButtonText: 'เรียบร้อย'
+            //                 }).then((result) => {
+            //                     if (result.isConfirmed) {
+            //                     window.location="{{url('upstm_tixml_sss')}}";
+            //                     }
+            //                 })
+            //             }
+            //           }
+            //         });
+            // });
+
+            var bar = $('.bar');
+            var percent = $('.percent');
+            $('form').ajaxForm({
+                beforeSend: function() {
+                    var percentVal = '0%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete+'%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                complete: function(xhr) { 
+                    Swal.fire({
+                        title: 'UP STM สำเร็จ',
+                        text: "You UP STM success",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "{{ url('upstm_tixml_sss') }}";
                         }
-                      }
-                    });
-            });
+                    })
+                }
+            })
               
         });
     </script>

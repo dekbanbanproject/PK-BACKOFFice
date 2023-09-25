@@ -112,7 +112,7 @@
                                                 {{-- @if ($item->inst == '0')
                                                 <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
                                                 @else --}}
-                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->inst,2)}}</td> 
+                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->debit_total,2)}}</td> 
                                                 {{-- @endif --}}
                                                
 
