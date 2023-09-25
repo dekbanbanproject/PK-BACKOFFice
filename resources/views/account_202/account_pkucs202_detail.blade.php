@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="row">
+        <div class="row ms-3 me-3 mt-2">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">

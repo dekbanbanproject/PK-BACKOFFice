@@ -59,7 +59,7 @@
 
         </div>
         
-        <div class="row">
+        <div class="row ms-3 me-3">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header"> 
@@ -84,7 +84,7 @@
                                     <th class="text-center">ptname</th>
                                     {{-- <th class="text-center">vstdate</th>   --}}
                                     <th class="text-center">dchdate</th>  
-                                    <th class="text-center">income</th> 
+                                    {{-- <th class="text-center">income</th>  --}}
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">Stm 217</th> 
                                     <th class="text-center">ส่วนต่าง</th> 
@@ -107,16 +107,16 @@
                                                 <td class="p-2" width="10%">{{ $item->ptname }}</td> 
                                                 {{-- <td class="text-center" width="8%">{{ $item->vstdate }}</td> --}}
                                                 <td class="text-center" width="6%">{{ $item->dchdate }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->income_group }}</td>   
+                                                {{-- <td class="text-center" width="5%">{{ $item->income_group }}</td>    --}}
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                                @if ($item->inst == '0')
+                                                {{-- @if ($item->inst == '0')
                                                 <td class="text-end" style="color:rgb(243, 12, 12)" width="7%"></td> 
-                                                @else
+                                                @else --}}
                                                 <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->inst,2)}}</td> 
-                                                @endif
+                                                {{-- @endif --}}
                                                
 
-                                                <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->inst),2)}}</td> 
+                                                <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->stm217),2)}}</td> 
                                                 <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
                                                 <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
                                                  
