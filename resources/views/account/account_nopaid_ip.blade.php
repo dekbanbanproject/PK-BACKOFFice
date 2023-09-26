@@ -80,12 +80,12 @@
                 </div>
             </div>
         </div>
-        <form action="{{ url('account_nopaid') }}" method="GET">
+        <form action="{{ url('account_nopaid_ip') }}" method="GET">
             @csrf
             <div class="row ms-3 me-3 mt-2"> 
                 <div class="col-md-4">
                     <h4 class="card-title">Detail </h4>
-                    <p class="card-title-desc">รายละเอียดข้อมูล Visit ที่มีรายการค่าใช้จ่าย แต่ไม่มีการออกใบเสร็จ หรือลงค้าง OPD</p>
+                    <p class="card-title-desc">รายละเอียดข้อมูล Visit ที่มีรายการค่าใช้จ่าย แต่ไม่มีการออกใบเสร็จ หรือลงค้าง IPD</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -151,10 +151,10 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_nopaid_sub_ip/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="{{$item->count_vn}} Visit">
-                                                            {{$item->count_vn}} Visit
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="{{$item->count_an}} Visit">
+                                                            {{$item->count_an}} Visit
                                                                 <i class="fa-brands fa-btc text-danger ms-2"></i>
                                                         </p>
                                                     </div>
@@ -173,7 +173,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_nopaid_sub_ip/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดเงิน {{ number_format($item->sum_paid_money, 2) }} บาท">
                                                      {{ number_format($item->sum_paid_money, 2) }}

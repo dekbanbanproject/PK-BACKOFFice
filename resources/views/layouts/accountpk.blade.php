@@ -355,7 +355,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>LGO</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true">
-                                    {{-- <li><a href="{{ url('account_801_dash') }}">ผัง-801</a></li> --}}
+                                    <li><a href="{{ url('account_801_dash') }}">ผัง-801</a></li>
                                     {{-- <li><a href="{{ url('account_802_dash') }}">ผัง-802</a></li> --}}
                                     {{-- <li><a href="{{ url('account_803_dash') }}">ผัง-803</a></li> --}}
                                     {{-- <li><a href="{{ url('account_804_dash') }}">ผัง-804</a></li> --}}
@@ -405,7 +405,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
                                     <li><a href="{{ url('upstm_ofcexcel') }}">OFC(Excel)OK</a></li>
 
-                                    <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)</a></li>
+                                    <li><a href="{{ url('upstm_lgoexcel') }}">LGO-OP(Excel)OK</a></li>
                                     <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li>
 
                                     <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>

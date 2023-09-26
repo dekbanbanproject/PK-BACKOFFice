@@ -1731,17 +1731,25 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_402_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account402Controller::class, 'account_402_stm_date'])->name('acc.account_402_stm_date');//
     Route::match(['get','post'],'account_402_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account402Controller::class, 'account_402_stmnull_date'])->name('acc.account_402_stmnull_date');//
 
-   
-
-    Route::match(['get','post'],'account_801_dash',[App\Http\Controllers\AccountPKController::class, 'account_801_dash'])->name('acc.account_801_dash');//
-    Route::match(['get','post'],'account_801_pull',[App\Http\Controllers\AccountPKController::class, 'account_801_pull'])->name('acc.account_801_pull');//
-    Route::match(['get','post'],'account_801_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_801_pulldata'])->name('acc.account_801_pulldata');//
-    Route::match(['get','post'],'account_801/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801'])->name('acc.account_801');//
-    Route::match(['get','post'],'account_801_detail/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_detail'])->name('acc.account_801_detail');//
-    Route::match(['get','post'],'account_801_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_stm'])->name('acc.account_801_stm');//
-    Route::match(['get','post'],'account_801_stmnull/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_stmnull'])->name('acc.account_801_stmnull');//
-    Route::match(['get','post'],'account_801_stmnull_all/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_stmnull_all'])->name('acc.account_801_stmnull_all');//
-    Route::match(['get','post'],'account_801_stam',[App\Http\Controllers\AccountPKController::class, 'account_801_stam'])->name('acc.account_801_stam');//  stamp OPD
+    Route::match(['get','post'],'account_801_dash',[App\Http\Controllers\Account801Controller::class, 'account_801_dash'])->name('acc.account_801_dash');//
+    Route::match(['get','post'],'account_801_pull',[App\Http\Controllers\Account801Controller::class, 'account_801_pull'])->name('acc.account_801_pull');//
+    Route::match(['get','post'],'account_801_pulldata',[App\Http\Controllers\Account801Controller::class, 'account_801_pulldata'])->name('acc.account_801_pulldata');// 
+    Route::match(['get','post'],'account_801_detail/{months}/{year}',[App\Http\Controllers\Account801Controller::class, 'account_801_detail'])->name('acc.account_801_detail');//
+    Route::match(['get','post'],'account_801_stm/{months}/{year}',[App\Http\Controllers\Account801Controller::class, 'account_801_stm'])->name('acc.account_801_stm');//
+    Route::match(['get','post'],'account_801_stmnull/{months}/{year}',[App\Http\Controllers\Account801Controller::class, 'account_801_stmnull'])->name('acc.account_801_stmnull');// 
+    Route::match(['get','post'],'account_801_stam',[App\Http\Controllers\Account801Controller::class, 'account_801_stam'])->name('acc.account_801_stam');//  stamp OPD
+    Route::match(['get','post'],'account_801_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account801Controller::class, 'account_801_detail_date'])->name('acc.account_801_detail_date');//
+    Route::match(['get','post'],'account_801_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account801Controller::class, 'account_801_stm_date'])->name('acc.account_801_stm_date');//
+    Route::match(['get','post'],'account_801_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account801Controller::class, 'account_801_stmnull_date'])->name('acc.account_801_stmnull_date');// 
+    // Route::match(['get','post'],'account_801_dash',[App\Http\Controllers\AccountPKController::class, 'account_801_dash'])->name('acc.account_801_dash');//
+    // Route::match(['get','post'],'account_801_pull',[App\Http\Controllers\AccountPKController::class, 'account_801_pull'])->name('acc.account_801_pull');//
+    // Route::match(['get','post'],'account_801_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_801_pulldata'])->name('acc.account_801_pulldata');//
+    // Route::match(['get','post'],'account_801/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801'])->name('acc.account_801');//
+    // Route::match(['get','post'],'account_801_detail/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_detail'])->name('acc.account_801_detail');//
+    // Route::match(['get','post'],'account_801_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_stm'])->name('acc.account_801_stm');//
+    // Route::match(['get','post'],'account_801_stmnull/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_stmnull'])->name('acc.account_801_stmnull');//
+    // Route::match(['get','post'],'account_801_stmnull_all/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_801_stmnull_all'])->name('acc.account_801_stmnull_all');//
+    // Route::match(['get','post'],'account_801_stam',[App\Http\Controllers\AccountPKController::class, 'account_801_stam'])->name('acc.account_801_stam');//  stamp OPD
 
     Route::match(['get','post'],'account_802_dash',[App\Http\Controllers\AccountPKController::class, 'account_802_dash'])->name('acc.account_802_dash');//
     Route::match(['get','post'],'account_802_pull',[App\Http\Controllers\AccountPKController::class, 'account_802_pull'])->name('acc.account_802_pull');//
@@ -1917,7 +1925,11 @@ Route::middleware(['type'])->group(function(){
 
   Route::match(['get','post'],'account_nopaid',[App\Http\Controllers\AccountController::class, 'account_nopaid'])->name('acc.account_nopaid');//
   Route::match(['get','post'],'account_nopaid_sub/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_sub'])->name('acc.account_nopaid_sub');//
-  Route::match(['get','post'],'account_nopaid_moneysub/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_moneysub'])->name('acc.account_nopaid_moneysub');//
+  // Route::match(['get','post'],'account_nopaid_moneysub/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_moneysub'])->name('acc.account_nopaid_moneysub');//
+
+  Route::match(['get','post'],'account_nopaid_ip',[App\Http\Controllers\AccountController::class, 'account_nopaid_ip'])->name('acc.account_nopaid_ip');//
+  Route::match(['get','post'],'account_nopaid_sub_ip/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_sub_ip'])->name('acc.account_nopaid_sub_ip');//
+  // Route::match(['get','post'],'account_nopaid_moneysub_ip/{months}/{year}',[App\Http\Controllers\AccountController::class, 'account_nopaid_moneysub_ip'])->name('acc.account_nopaid_moneysub_ip');//
   
   // **************************** แผนโครงการ ***********************
   Route::match(['get','post'],'plan',[App\Http\Controllers\PlanController::class, 'plan'])->name('p.plan');//

@@ -69,6 +69,15 @@
         .is-hide {
             display: none;
         }
+        .bar{
+            height: 50px;
+            background-color: rgb(10, 218, 55);
+        }
+        .percent{
+            position: absolute;
+            left: 50%;
+            color: black;
+        }
     </style>
     <?php
     use App\Http\Controllers\StaticController;
@@ -90,8 +99,8 @@
             <div class="col-xl-8 col-md-6">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_ofcexcel_save') }}" method="POST" id="Upstmti"
-                            enctype="multipart/form-data">
+                        <form action="{{ route('acc.upstm_ofcexcel_save') }}" method="POST" enctype="multipart/form-data">
+                            {{-- id="Upstmti" --}}
                             @csrf
                             <div class="row">
 
@@ -125,6 +134,15 @@
                         </form>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="progress" style="height: 50px;">
+                       <div class="bar"></div>
+                       <div class="percent" style="font-size: 30px">0%</div>
+                       {{-- <div class="progress-bar progress-bar-striped progress-bar-animated bg-info percent" role="progressbar"
+                       aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> </div> --}}
+                    </div>
+                </div> 
+                <br> 
             </div>
             <div class="col"></div>
         </div>
@@ -268,7 +286,7 @@
 
 @endsection
 @section('footer')
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -279,6 +297,36 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
+
+            var bar = $('.bar');
+            var percent = $('.percent');
+            $('form').ajaxForm({
+                beforeSend: function() {
+                    var percentVal = '0%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete+'%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                complete: function(xhr) { 
+                    Swal.fire({
+                        title: 'UP STM สำเร็จ',
+                        text: "You UP STM success",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "{{ url('upstm_ofcexcel') }}";
+                        }
+                    })
+                }
+            })
 
             $('#Upstmti').on('submit', function(e) {
                 e.preventDefault();

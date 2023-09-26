@@ -163,15 +163,13 @@ class Account217Controller extends Controller
                 END as debit_prb
                 
                 ,CASE 
+                WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income	
                 WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
                 (sum(if(op.income="02",sum_price,0))) +
                 (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) +
                 (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) +
-                (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
-
-                WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount <> "" THEN ipt.max_debt_amount 
-                        
-                WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income								
+                (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))       
+                            WHEN ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount <> "" THEN ipt.max_debt_amount  		
                 ELSE                 
                 sum(if(op.income="02",sum_price,0)) +
                 sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))+

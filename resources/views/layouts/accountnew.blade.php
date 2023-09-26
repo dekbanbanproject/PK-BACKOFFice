@@ -296,8 +296,8 @@ use App\Models\Products_request_sub;
                                 <span>ไม่ได้ชำระเงิน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_nopaid') }}" target="_blank">ข้อมูลทั้งปี</a></li>
-
+                                <li><a href="{{ url('account_nopaid') }}" target="_blank">ข้อมูลทั้งปี OPD</a></li>
+                                <li><a href="{{ url('account_nopaid_ip') }}" target="_blank">ข้อมูลทั้งปี IPD</a></li>
                             </ul>
                         </li>                        
                         

@@ -1,22 +1,6 @@
-@extends('layouts.accountnew')
+@extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 @section('content')
-<script>
-    function TypeAdmin() {
-        window.location.href = '{{ route('index') }}';
-    }
-</script>
-<?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
-?>
     <style>
         #button {
             display: block;
@@ -75,50 +59,59 @@ $pos = strrpos($url, '/') + 1;
 
         </div>
 
-        <div class="row ms-3 me-3 mt-3">
+        <div class="row ms-3 me-3 mt-2">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายละเอียดข้อมูล Visit ที่มีรายการค่าใช้จ่าย แต่ไม่มีการออกใบเสร็จ หรือลงค้าง OPD
+                    รายละเอียด 1102050102.801 STM
                         <div class="btn-actions-pane-right">
 
                         </div>
                     </div>
-                    <div class="card-body"> 
+                    <div class="card-body">
+                            {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th> 
-                                    <th class="text-center" >vn</th>
+                                    <th class="text-center">ลำดับ</th>
+                                    <th class="text-center" width="5%">vn</th> 
+                                    <th class="text-center" >an</th>
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
-                                    <th class="text-center">ptname</th> 
+                                    <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">pttype</th> 
-                                    <th class="text-center">ICD</th>
-                                    <th class="text-center">ค่าใช้จ่ายทั้งหมด</th> 
-                                    <th class="text-center">ต้องชำระ</th> 
+                                    <th class="text-center">ลูกหนี้</th>
+                                    <th class="text-center">ยอดชดเชย</th>
+                                    <th class="text-center">STMdoc</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                   
-                                        <tr height="20" style="font-size: 14px;">
-                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                                    <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item->hn }}</td>   
-                                                    <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                    <td class="p-2" >{{ $item->ptname }}</td>  
-                                                    <td class="text-center" width="8%">{{ $item->vstdate }}</td>    
-                                                    <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item->pdx }}</td> 
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->income,2)}}</td> 
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->paid_money,2)}}</td> 
-                                                </td>
-                                        </tr> 
+                                    <tr height="20" style="font-size: 14px;">
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
+                                        <td class="text-center" width="8%">{{ $item->vn }}</td>
+                                        <td class="text-center" width="8%">{{ $item->an }}</td>
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                        <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                        <td class="p-2">{{ $item->ptname }}</td>
+                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>
+                                        {{-- <td class="text-center" width="7%">{{ $item->dchdate }}</td> --}}
+                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
+                                        
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
+                                        @if ($item->claim_true_af < $item->debit_total)
+                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->claim_true_af, 2) }}</td>
+                                        @else
+                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->claim_true_af, 2) }}</td>
+                                        @endif
+                                        <td class="text-center" width="12%">{{ $item->STMdoc }}</td>
+                                    </tr>
+ 
                                 @endforeach
 
                             </tbody>
