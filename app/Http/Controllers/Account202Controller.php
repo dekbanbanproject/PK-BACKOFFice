@@ -119,15 +119,20 @@ class Account202Controller extends Controller
              // order by a.dchdate asc;
          } else {
              $acc_debtor = DB::select('
-                 SELECT a.*,c.subinscl  from acc_debtor a
+                 SELECT 
+                 a.acc_debtor_id,a.an,a.vn,a.hn,a.cid,a.ptname,a.pttype,a.dchdate,a.income,a.debit_total,a.debit_instument,a.debit_drug,a.debit_toa,a.debit_refer
+                 ,c.subinscl
+                
+                 from acc_debtor a
                
                  left join checksit_hos c on c.an = a.an
                  WHERE a.account_code="1102050101.202" and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                  AND a.stamp = "N"
                  group by a.an
-                 order by a.vstdate desc;
+                 order by a.dchdate desc;
  
              ');
+            //  a.*,c.subinscl  
             //  left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
              // ,c.subinscl
              // left outer join check_sit_auto c on c.hn = a.hn and c.vstdate = a.vstdate
@@ -202,7 +207,7 @@ class Account202Controller extends Controller
                     LEFT JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
-                AND op.icode NOT IN ("3001412","3001417")
+                AND op.icode NOT IN("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417")
                 GROUP BY a.an;
          ');
         //  AND ec.ar_ipd = "1102050101.202"
@@ -211,9 +216,9 @@ class Account202Controller extends Controller
                      $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])->count();
                      if ($check == 0) {
 
-                        if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) {
-                            # code...
-                        } else {
+                        // if ($value->debit_instument > 0 || $value->debit_drug > 0 || $value->debit_toa > 0 || $value->debit_refer > 0) {
+                        //     # code...
+                        // } else {
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,
                                 'an'                 => $value->an,
@@ -244,7 +249,7 @@ class Account202Controller extends Controller
                                //  'sauntang'           => $value->total_adjrw_income,
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]);
-                        }
+                        // }
                         
 
                         
