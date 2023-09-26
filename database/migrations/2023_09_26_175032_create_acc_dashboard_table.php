@@ -18,12 +18,25 @@ return new class extends Migration
             Schema::connection('mysql')->create('acc_dashboard', function (Blueprint $table) {
                 $table->bigIncrements('acc_dashboard_id'); 
                 $table->date('vstdate')->nullable();//  
+                $table->string('months')->nullable();//
+                $table->string('year')->nullable();//
                 $table->string('hipdata_code')->nullable();//
-                $table->string('count_vn')->nullable();//           visit all        opd
+                $table->string('count_vn')->nullable();//   
+                $table->string('income')->nullable();//         visit all        opd 
+                $table->string('discount_money')->nullable();//  
+                $table->string('rcpt_money')->nullable();//  
+                $table->string('debit')->nullable();// 
+
                 $table->string('looknee_vn')->nullable();//         income looknee   opd
-                $table->string('looknee_sum_opd')->nullable();//    income looknee   opd
-                $table->string('claim_vn')->nullable();//            claim qty        opd
-                $table->string('claim_sum_opd')->nullable();//       claim stm    opd
+                $table->string('looknee_income')->nullable();// 
+                $table->string('looknee_discount_money')->nullable();// 
+                $table->string('looknee_rcpt_money')->nullable();// 
+                $table->string('looknee_debit_total')->nullable();//    income looknee   opd
+                
+                $table->string('claim_vn')->nullable();//  
+                $table->string('claim_income')->nullable();//            claim qty        opd
+                $table->string('claim_debit_total')->nullable();//       claim stm    opd
+                
                 $table->string('claim_stm_opd')->nullable();//       claim stm    opd
 
                 $table->string('count_an')->nullable();//            visit all          ipd

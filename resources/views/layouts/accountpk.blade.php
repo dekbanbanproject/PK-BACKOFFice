@@ -62,6 +62,11 @@
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
 
+   
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/github.min.css" /> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script> --}}
+ 
+    {{-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> --}}
     <!-- Plugins css -->
     {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
@@ -177,7 +182,10 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
-                    <h4 style="color:rgb(255, 255, 255)" class="mt-4">ACCOUNT</h4>
+                    <a href="{{url('account_pk_dash')}}">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">ACCOUNT</h4>
+                    </a>
+                   
                     <?php
                     $org = DB::connection('mysql')->select('   
                                                     select * from orginfo 
@@ -599,6 +607,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
 
+    
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/form-components/datepicker.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script> --}}
@@ -615,7 +624,8 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
     <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
-    <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script> --}}
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script> --}}
 
     @yield('footer')
 
