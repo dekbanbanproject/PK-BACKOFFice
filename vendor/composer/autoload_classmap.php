@@ -69,6 +69,7 @@ return array(
     'App\\Http\\Controllers\\Account402Controller' => $baseDir . '/app/Http/Controllers/Account402Controller.php',
     'App\\Http\\Controllers\\Account602Controller' => $baseDir . '/app/Http/Controllers/Account602Controller.php',
     'App\\Http\\Controllers\\Account603Controller' => $baseDir . '/app/Http/Controllers/Account603Controller.php',
+    'App\\Http\\Controllers\\Account801Controller' => $baseDir . '/app/Http/Controllers/Account801Controller.php',
     'App\\Http\\Controllers\\AccountController' => $baseDir . '/app/Http/Controllers/AccountController.php',
     'App\\Http\\Controllers\\AccountPKController' => $baseDir . '/app/Http/Controllers/AccountPKController.php',
     'App\\Http\\Controllers\\AccountsettingController' => $baseDir . '/app/Http/Controllers/AccountsettingController.php',

@@ -729,6 +729,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\Account402Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Account402Controller.php',
         'App\\Http\\Controllers\\Account602Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Account602Controller.php',
         'App\\Http\\Controllers\\Account603Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Account603Controller.php',
+        'App\\Http\\Controllers\\Account801Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Account801Controller.php',
         'App\\Http\\Controllers\\AccountController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccountController.php',
         'App\\Http\\Controllers\\AccountPKController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccountPKController.php',
         'App\\Http\\Controllers\\AccountsettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/AccountsettingController.php',

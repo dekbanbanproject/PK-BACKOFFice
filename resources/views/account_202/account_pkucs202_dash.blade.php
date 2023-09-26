@@ -126,7 +126,7 @@
                                                 $ynew = $y + 543;
                                                 // ลูกหนี้ทั้งหมด
                                                 $datas = DB::select('
-                                                    SELECT count(DISTINCT vn) as Can
+                                                    SELECT count(DISTINCT an) as Can
                                                         ,SUM(debit) as sumdebit
                                                         from acc_debtor
                                                             WHERE account_code="1102050101.202"
@@ -140,7 +140,7 @@
                                                 }
                                                 // ตั้งลูกหนี้
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                    SELECT sum(debit_total) as debit_total,count(an) as Cvit
                                                             from acc_1102050101_202
                                                             WHERE month(dchdate) = "'.$item->months.'"
                                                             and year(dchdate) = "'.$item->year.'"
@@ -346,7 +346,7 @@
                                             $ynew = $y + 543;
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
-                                                SELECT count(DISTINCT vn) as Can
+                                                SELECT count(DISTINCT an) as Can
                                                     ,SUM(debit) as sumdebit
                                                     from acc_debtor
                                                         WHERE account_code="1102050101.202"
@@ -354,12 +354,12 @@
                                                         AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                             ');
                                             foreach ($datas as $key => $value) {
-                                                $count_N = $value->Can;
-                                                $sum_N = $value->sumdebit;
+                                                $count_N2 = $value->Can;
+                                                $sum_N2 = $value->sumdebit;
                                             }
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
                                                         from acc_1102050101_202
                                                         WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                             ');
@@ -425,11 +425,11 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end mt-2 me-2">
-                                                <a href="{{url('account_pkucs202')}}" target="_blank">
+                                            
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
-                                                        <h6 class="text-end">{{$count_N}} Visit</h6>
+                                                        <h6 class="text-end">{{$count_N2}} Visit</h6>
                                                     </div>
-                                                </a>
+                                             
                                             </div>
                                         </div>
                                         <div class="row">
@@ -444,14 +444,14 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="" target="_blank">
+                                             
                                                     <div class="widget-chart widget-chart-hover" >
-                                                        <p class="text-end mb-0"  data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
-                                                                {{ number_format($sum_N, 2) }}
+                                                        <p class="text-end mb-0"  data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N2}} Visit" >
+                                                                {{ number_format($sum_N2, 2) }}
                                                                 <i class="fa-brands fa-btc text-secondary ms-2"></i>
                                                         </p>
                                                     </div>
-                                                </a>
+                                              
                                             </div>
                                         </div>
                                         <div class="row">
