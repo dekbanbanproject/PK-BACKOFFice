@@ -63,7 +63,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050101.401
+                    รายละเอียด 1102050102.801 STM
                         <div class="btn-actions-pane-right">
 
                         </div>
@@ -76,8 +76,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center" width="5%">repno</th> 
-                                    <th class="text-center" >vn</th>
+                                    <th class="text-center" width="5%">vn</th> 
+                                    <th class="text-center" >an</th>
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
@@ -104,10 +104,10 @@
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
-                                        @if ($item->pricereq_all < $item->debit_total)
-                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
+                                        @if ($item->claim_true_af < $item->debit_total)
+                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->claim_true_af, 2) }}</td>
                                         @else
-                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
+                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->claim_true_af, 2) }}</td>
                                         @endif
                                         <td class="text-center" width="12%">{{ $item->STMdoc }}</td>
                                     </tr>

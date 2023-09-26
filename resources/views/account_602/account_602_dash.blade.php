@@ -84,7 +84,7 @@
         </div>
         <form action="{{ route('acc.account_602_dash') }}" method="GET">
             @csrf
-            <div class="row ms-3 mt-3 me-3">
+            <div class="row">
                 <div class="col-md-3 ">
                     <h5 class="card-title">Detail 1102050102.602</h5>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.602</p>
@@ -114,7 +114,7 @@
 
             </div>
         </form>
-        <div class="row ms-3 me-3">
+        <div class="row">
             @foreach ($datashow as $item)
             <div class="col-xl-4 col-md-12">
                 <div class="main-card card shadow" style="background-color: rgb(246, 235, 247)">
@@ -291,29 +291,7 @@
                                                 </a>
                                             </div>
                                         </div>
-
-                                        {{-- <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
-                                                <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(10, 124, 201)"></i>
-                                            </div>
-                                            <div class="col-md-4 text-start mt-3">
-                                                <p class="text-muted mb-0">
-                                                        ยกยอดไปรวมทั้งหมด
-                                                </p>
-                                            </div>
-                                            <div class="col"></div>
-                                            <div class="col-md-5 text-end me-4">
-                                                <a href="{{url('account_602_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                    <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma_all}} Visit">
-                                                                {{ number_format($total_yokma_all, 2) }}
-                                                                <i class="fa-brands fa-btc ms-2" style="color: rgb(10, 124, 201)"></i>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div> --}}
-
+ 
 
                                     </div>
                                 </div>

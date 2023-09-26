@@ -74,9 +74,31 @@
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
-            </div>
-
+            </div> 
         </div>
+
+        <form action="{{ url('uprep_money_plb') }}" method="GET">
+            @csrf
+            <div class="row"> 
+                <div class="col"></div>
+                <div class="col-md-2 text-end mt-2">วันที่</div>
+                <div class="col-md-4 text-end">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $enddate }}"/>  
+                    </div> 
+                </div>
+                <div class="col-md-4"> 
+                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> 
+                        <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>
+                        ค้นหาข้อมูล</button>    
+                    
+                </div>
+                <div class="col"></div>
+            </div>
+        </form>  
 
         <div class="row mb-5 ms-3 me-3 mt-2">
             <div class="col-md-12">
@@ -114,19 +136,7 @@
                                 <?php $number = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                    {{-- @if ($item->debit_total <> $item->payprice)
-                                        <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                            <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->repno }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>   
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->cid }}</td>  
-                                            <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vstdate }}</td>    
-                                            <td class="text-end" style="color:rgb(248, 12, 12)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(243, 12, 12)">{{ number_format($item->pricereq_all,2)}}</td>
-                                        </tr>
-                                    @else --}}
+                                  
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
                                             <td class="text-center" width="10%">{{ $item->vn }}</td> 
@@ -152,18 +162,12 @@
                                                                 <i class="fa-solid fa-clipboard-check me-2 text-success" style="font-size:13px"></i>
                                                                 <span>ตัด STM</span>
                                                             </button>
-                                                        {{-- @else --}}
-                                                            
-                                                        {{-- @endif --}}
-                                                        
-                                                        
+                                                      
                                                     </div>
                                                 </div>
                                             </td> 
                                         </tr>
-                                        
-                                    {{-- @endif --}}
- 
+                                         
                                 @endforeach
 
                             </tbody>

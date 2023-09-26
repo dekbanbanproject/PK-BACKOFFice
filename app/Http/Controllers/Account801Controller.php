@@ -363,92 +363,61 @@ class Account801Controller extends Controller
             'year'          =>     $year
         ]);
     }
-    // public function account_401_stmnull(Request $request,$months,$year)
-    // {
-    //     $datenow = date('Y-m-d');
-        
-    //     $data['users'] = User::get();
+    public function account_801_detail_date(Request $request,$startdate,$enddate)
+    { 
 
-    //     $datashow = DB::select('
-    //         SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U2.pricereq_all ,U2.STMdoc
-    //             from acc_1102050101_401 U1
-    //             LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate  
-    //             WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-    //             AND U2.pricereq_all is null
-    //             group by U1.vn 
-    //     ');
-       
-    //     return view('account_401.account_401_stmnull',[ 
-    //         'datashow'          =>     $datashow,
-    //         'months'        =>     $months,
-    //         'year'          =>     $year
-    //     ]);
-    // }
+        $data = DB::select('
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+            from acc_1102050102_801 U1
+            WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+            GROUP BY U1.vn
+        '); 
+        return view('account_801.account_801_detail_date', $data, [ 
+            'data'          =>     $data,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
+        ]);
+    }
+    public function account_801_stm_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');        
+        $data['users'] = User::get();
 
-    // public function account_401_detail_date(Request $request,$startdate,$enddate)
-    // {
-    //     $datenow = date('Y-m-d');
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     // dd($id);
-    //     $data['users'] = User::get();
-
-    //     $data = DB::select('
-    //     SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-    //         from acc_1102050101_401 U1
-    //         WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
-    //         GROUP BY U1.vn
-    //     ');
-    //     // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-    //     return view('account_401.account_401_detail_date', $data, [ 
-    //         'data'          =>     $data,
-    //         'startdate'     =>     $startdate,
-    //         'enddate'       =>     $enddate
-    //     ]);
-    // }
-    // public function account_401_stm_date(Request $request,$startdate,$enddate)
-    // {
-    //     $datenow = date('Y-m-d');
-        
-    //     $data['users'] = User::get();
-
-    //     $datashow = DB::select('
-    //         SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
-    //             from acc_1102050101_401 U1
-    //             LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
-    //             WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-    //             AND U2.pricereq_all is not null 
-    //             group by U1.vn
-    //     ');
-       
-    //     return view('account_401.account_401_stm_date', $data, [ 
-    //         'datashow'         =>     $datashow,
-    //         'startdate'        =>     $startdate,
-    //         'enddate'          =>     $enddate
-    //     ]);
-    // }
-    // public function account_401_stmnull_date(Request $request,$startdate,$enddate)
-    // {
-    //     $datenow = date('Y-m-d');
-        
-    //     $data['users'] = User::get();
-
-    //     $datashow = DB::select('
-    //         SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U2.pricereq_all ,U2.STMdoc
-    //             from acc_1102050101_401 U1
-    //             LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate  
-    //             WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-    //             AND U2.pricereq_all is null
-    //             group by U1.vn 
-    //     ');
-       
-    //     return view('account_401.account_401_stmnull_date',[ 
-    //         'datashow'         =>     $datashow,
-    //         'startdate'        =>     $startdate,
-    //         'enddate'          =>     $enddate
-    //     ]);
-    // }
-   
+        $datashow = DB::select('
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+                from acc_1102050102_801 U1
+                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+                WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                AND U2.claim_true_af is not null 
+                group by U1.vn
+        ');
  
+        return view('account_801.account_801_stm_date', $data, [ 
+            'datashow'         =>     $datashow,
+            'startdate'        =>     $startdate,
+            'enddate'          =>     $enddate
+        ]);
+    }
+    public function account_801_stmnull_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');        
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+                from acc_1102050102_801 U1
+                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+                WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                AND U2.claim_true_af is null 
+                group by U1.vn
+        ');
+        
+        return view('account_801.account_801_stmnull_date', $data, [ 
+            'datashow'      =>     $datashow,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
+        ]);
+    }
+    
 
  }

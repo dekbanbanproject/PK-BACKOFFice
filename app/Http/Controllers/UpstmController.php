@@ -1059,7 +1059,9 @@ class UpstmController extends Controller
         
        
         return view('upstm.uprep_money_plb', [ 
-            'datashow'          =>  $datashow,
+            'datashow'      =>  $datashow,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
         ]);
             
          
