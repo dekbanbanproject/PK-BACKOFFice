@@ -1764,25 +1764,27 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_802_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account802Controller::class, 'account_802_stm_date'])->name('acc.account_802_stm_date');//
     Route::match(['get','post'],'account_802_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account802Controller::class, 'account_802_stmnull_date'])->name('acc.account_802_stmnull_date');// 
 
-    Route::match(['get','post'],'account_803_dash',[App\Http\Controllers\AccountPKController::class, 'account_803_dash'])->name('acc.account_803_dash');//
-    Route::match(['get','post'],'account_803_pull',[App\Http\Controllers\AccountPKController::class, 'account_803_pull'])->name('acc.account_803_pull');//
-    Route::match(['get','post'],'account_803_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_803_pulldata'])->name('acc.account_803_pulldata');//
-    Route::match(['get','post'],'account_803/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_803'])->name('acc.account_803');//
-    Route::match(['get','post'],'account_803_detail/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_803_detail'])->name('acc.account_803_detail');//
-    Route::match(['get','post'],'account_803_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_803_stm'])->name('acc.account_803_stm');//
-    Route::match(['get','post'],'account_803_stmnull/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_803_stmnull'])->name('acc.account_803_stmnull');//
-    Route::match(['get','post'],'account_803_stmnull_all/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_803_stmnull_all'])->name('acc.account_803_stmnull_all');//
-    Route::match(['get','post'],'account_803_stam',[App\Http\Controllers\AccountPKController::class, 'account_803_stam'])->name('acc.account_803_stam');//
+    Route::match(['get','post'],'account_803_dash',[App\Http\Controllers\Account803Controller::class, 'account_803_dash'])->name('acc.account_803_dash');//
+    Route::match(['get','post'],'account_803_pull',[App\Http\Controllers\Account803Controller::class, 'account_803_pull'])->name('acc.account_803_pull');//
+    Route::match(['get','post'],'account_803_pulldata',[App\Http\Controllers\Account803Controller::class, 'account_803_pulldata'])->name('acc.account_803_pulldata');// 
+    Route::match(['get','post'],'account_803_detail/{months}/{year}',[App\Http\Controllers\Account803Controller::class, 'account_803_detail'])->name('acc.account_803_detail');//
+    Route::match(['get','post'],'account_803_stm/{months}/{year}',[App\Http\Controllers\Account803Controller::class, 'account_803_stm'])->name('acc.account_803_stm');//
+    Route::match(['get','post'],'account_803_stmnull/{months}/{year}',[App\Http\Controllers\Account803Controller::class, 'account_803_stmnull'])->name('acc.account_803_stmnull');// 
+    Route::match(['get','post'],'account_803_stam',[App\Http\Controllers\Account803Controller::class, 'account_803_stam'])->name('acc.account_803_stam');//
+    Route::match(['get','post'],'account_803_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account803Controller::class, 'account_803_detail_date'])->name('acc.account_803_detail_date');//
+    Route::match(['get','post'],'account_803_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account803Controller::class, 'account_803_stm_date'])->name('acc.account_803_stm_date');//
+    Route::match(['get','post'],'account_803_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account803Controller::class, 'account_803_stmnull_date'])->name('acc.account_803_stmnull_date');// 
 
-    Route::match(['get','post'],'account_804_dash',[App\Http\Controllers\AccountPKController::class, 'account_804_dash'])->name('acc.account_804_dash');//
-    Route::match(['get','post'],'account_804_pull',[App\Http\Controllers\AccountPKController::class, 'account_804_pull'])->name('acc.account_804_pull');//
-    Route::match(['get','post'],'account_804_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_804_pulldata'])->name('acc.account_804_pulldata');//
-    Route::match(['get','post'],'account_804/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_804'])->name('acc.account_804');//
-    Route::match(['get','post'],'account_804_detail/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_804_detail'])->name('acc.account_804_detail');//
-    Route::match(['get','post'],'account_804_stm/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_804_stm'])->name('acc.account_804_stm');//
-    Route::match(['get','post'],'account_804_stmnull/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_804_stmnull'])->name('acc.account_804_stmnull');//
-    Route::match(['get','post'],'account_804_stmnull_all/{months}/{year}',[App\Http\Controllers\AccountPKController::class, 'account_804_stmnull_all'])->name('acc.account_804_stmnull_all');//
-    Route::match(['get','post'],'account_804_stam',[App\Http\Controllers\AccountPKController::class, 'account_804_stam'])->name('acc.account_804_stam');//
+    Route::match(['get','post'],'account_804_dash',[App\Http\Controllers\Account804Controller::class, 'account_804_dash'])->name('acc.account_804_dash');//
+    Route::match(['get','post'],'account_804_pull',[App\Http\Controllers\Account804Controller::class, 'account_804_pull'])->name('acc.account_804_pull');//
+    Route::match(['get','post'],'account_804_pulldata',[App\Http\Controllers\Account804Controller::class, 'account_804_pulldata'])->name('acc.account_804_pulldata');// 
+    Route::match(['get','post'],'account_804_detail/{months}/{year}',[App\Http\Controllers\Account804Controller::class, 'account_804_detail'])->name('acc.account_804_detail');//
+    Route::match(['get','post'],'account_804_stm/{months}/{year}',[App\Http\Controllers\Account804Controller::class, 'account_804_stm'])->name('acc.account_804_stm');//
+    Route::match(['get','post'],'account_804_stmnull/{months}/{year}',[App\Http\Controllers\Account804Controller::class, 'account_804_stmnull'])->name('acc.account_804_stmnull');// 
+    Route::match(['get','post'],'account_804_stam',[App\Http\Controllers\Account804Controller::class, 'account_804_stam'])->name('acc.account_804_stam');//
+    Route::match(['get','post'],'account_804_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account804Controller::class, 'account_804_detail_date'])->name('acc.account_804_detail_date');//
+    Route::match(['get','post'],'account_804_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account804Controller::class, 'account_804_stm_date'])->name('acc.account_804_stm_date');//
+    Route::match(['get','post'],'account_804_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account804Controller::class, 'account_804_stmnull_date'])->name('acc.account_804_stmnull_date');// 
 
     Route::match(['get','post'],'check_auth',[App\Http\Controllers\NeweclaimController::class, 'check_auth'])->name('api.check_auth');//
     Route::match(['get','post'],'check_authapi',[App\Http\Controllers\NeweclaimController::class, 'check_authapi'])->name('api.check_authapi');//

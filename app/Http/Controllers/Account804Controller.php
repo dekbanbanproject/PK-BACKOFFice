@@ -85,11 +85,11 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 date_default_timezone_set("Asia/Bangkok");
 
 
-class Account802Controller extends Controller
+class Account804Controller extends Controller
  {
-    // *************************** 802 ********************************************    
+    // *************************** 804 ********************************************    
    
-    public function account_802_dash(Request $request)
+    public function account_804_dash(Request $request)
     {
          $datenow = date('Y-m-d');
          $startdate = $request->startdate;
@@ -120,7 +120,7 @@ class Account802Controller extends Controller
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$start.'" and "'.$end.'"
-                     and account_code="1102050102.802"
+                     and account_code="1102050102.804"
  
                      group by month(a.dchdate) order by a.dchdate desc limit 3;
              ');
@@ -138,20 +138,20 @@ class Account802Controller extends Controller
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-                     and account_code="1102050102.802"
+                     and account_code="1102050102.804"
  
                      
              ');
          }
         //  group by month(a.dchdate) order by month(a.dchdate) desc;
-             return view('account_802.account_802_dash',[
+             return view('account_804.account_804_dash',[
                  'startdate'     =>     $startdate,
                  'enddate'       =>     $enddate,
                  'datashow'    =>     $datashow,
                  'leave_month_year' =>  $leave_month_year,
              ]);
     }
-    public function account_802_pull(Request $request)
+    public function account_804_pull(Request $request)
     {
          $datenow = date('Y-m-d');
          $months = date('m');
@@ -164,7 +164,7 @@ class Account802Controller extends Controller
              $acc_debtor = DB::select('
                  SELECT a.*,c.subinscl from acc_debtor a
                  left join checksit_hos c on c.an = a.an
-                 WHERE account_code="1102050102.802"
+                 WHERE account_code="1102050102.804"
                  AND stamp = "N"
                  group by an
                  order by vstdate desc; 
@@ -177,19 +177,19 @@ class Account802Controller extends Controller
                  from acc_debtor a
                
                  left join checksit_hos c on c.an = a.an
-                 WHERE a.account_code="1102050102.802" and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                 WHERE a.account_code="1102050102.804" and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                  AND a.stamp = "N"
                  group by a.an
                  order by a.dchdate desc; 
              '); 
          }  
-         return view('account_802.account_802_pull',[
+         return view('account_804.account_804_pull',[
              'startdate'     =>     $startdate,
              'enddate'       =>     $enddate,
              'acc_debtor'    =>     $acc_debtor,
          ]);
     }
-    public function account_802_pulldata(Request $request)
+    public function account_804_pulldata(Request $request)
     {
          $datenow = date('Y-m-d');
          $startdate = $request->datepicker;
@@ -219,13 +219,13 @@ class Account802Controller extends Controller
                     LEFT JOIN drugitems d on d.icode=op.icode
                     LEFT JOIN hos.vn_stat v on v.vn = i.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.802"))
+                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.804" AND opdipd ="IPD"))
                     GROUP BY i.an
                 
             ');
     
             foreach ($acc_debtor as $key => $value) {
-                        $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                        $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.804')->whereBetween('dchdate', [$startdate, $enddate])->count();
                         if ($check == 0) {
                             Acc_debtor::insert([
                                 'hn'                 => $value->hn,
@@ -264,7 +264,7 @@ class Account802Controller extends Controller
                  'status'    => '200'
              ]);
     }    
-    public function account_802_stam(Request $request)
+    public function account_804_stam(Request $request)
     {
          $id = $request->ids;
          $iduser = Auth::user()->id;
@@ -275,11 +275,11 @@ class Account802Controller extends Controller
                      ]);
          foreach ($data as $key => $value) {
                  $date = date('Y-m-d H:m:s');
-              $check = acc_1102050102_802::where('an', $value->an)->count(); 
+              $check = acc_1102050102_804::where('an', $value->an)->count(); 
                  if ($check > 0) {
                  # code...
                  } else {
-                     acc_1102050102_802::insert([
+                     acc_1102050102_804::insert([
                              'vn'                => $value->vn,
                              'hn'                => $value->hn,
                              'an'                => $value->an,
@@ -315,7 +315,7 @@ class Account802Controller extends Controller
              'status'    => '200'
          ]);
     }
-    public function account_802_detail(Request $request,$months,$year)
+    public function account_804_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -324,108 +324,108 @@ class Account802Controller extends Controller
 
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
-                from acc_1102050102_802 U1
+                from acc_1102050102_804 U1
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 GROUP BY U1.an
         ');
      
-        return view('account_802.account_802_detail', $data, [ 
+        return view('account_804.account_804_detail', $data, [ 
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
         ]);
     }
-    public function account_802_stm(Request $request,$months,$year)
+    public function account_804_stm(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');        
         $data['users'] = User::get();
 
         $datashow = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
-                from acc_1102050102_802 U1
+                from acc_1102050102_804 U1
                 LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 AND U2.claim_true_af is not null 
                 group by U1.an
         ');
        
-        return view('account_802.account_802_stm', $data, [ 
+        return view('account_804.account_804_stm', $data, [ 
             'datashow'      =>     $datashow,
             'months'        =>     $months,
             'year'          =>     $year
         ]);
     }
-    public function account_802_stmnull(Request $request,$months,$year)
+    public function account_804_stmnull(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');        
         $data['users'] = User::get();
 
         $datashow = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
-                from acc_1102050102_802 U1
+                from acc_1102050102_804 U1
                 LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 AND U2.claim_true_af is null 
                 group by U1.an
         ');
        
-        return view('account_802.account_802_stmnull', $data, [ 
+        return view('account_804.account_804_stmnull', $data, [ 
             'datashow'      =>     $datashow,
             'months'        =>     $months,
             'year'          =>     $year
         ]);
     }
-    public function account_802_detail_date(Request $request,$startdate,$enddate)
+    public function account_804_detail_date(Request $request,$startdate,$enddate)
     { 
 
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
-                from acc_1102050102_802 U1
+                from acc_1102050102_804 U1
                 WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 GROUP BY U1.an
         ');
      
-        return view('account_802.account_802_detail_date',[ 
+        return view('account_804.account_804_detail_date',[ 
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
         ]);
     }
-    public function account_802_stm_date(Request $request,$startdate,$enddate)
+    public function account_804_stm_date(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');        
         $data['users'] = User::get();
 
         $datashow = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
-                from acc_1102050102_802 U1
+                from acc_1102050102_804 U1
                 LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 AND U2.claim_true_af is not null 
                 group by U1.an
         ');
        
-        return view('account_802.account_802_stm_date', $data, [ 
+        return view('account_804.account_804_stm_date', $data, [ 
             'datashow'         =>     $datashow,
             'startdate'        =>     $startdate,
             'enddate'          =>     $enddate
         ]);
     }
-    public function account_802_stmnull_date(Request $request,$startdate,$enddate)
+    public function account_804_stmnull_date(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');        
         $data['users'] = User::get();
 
         $datashow = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
-                from acc_1102050102_802 U1
+                from acc_1102050102_804 U1
                 LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                 AND U2.claim_true_af is null 
                 group by U1.an
         ');
        
-        return view('account_802.account_802_stmnull_date', $data, [ 
+        return view('account_804.account_804_stmnull_date', $data, [ 
             'datashow'         =>     $datashow,
             'startdate'        =>     $startdate,
             'enddate'          =>     $enddate

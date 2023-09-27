@@ -49,19 +49,21 @@
     </style>
 
     <div class="tabs-animation mb-5">
+
         <div class="row text-center">
             <div id="overlay">
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
             </div>
+
         </div>
 
         <div class="row ms-3 me-3 mt-2">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050102.802 
+                    รายละเอียด 1102050102.804 
                         <div class="btn-actions-pane-right">
 
                         </div>

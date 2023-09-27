@@ -436,6 +436,20 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             </li>
                                         </ul>
                                     </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">ผัง-803</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_803_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_803_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">ผัง-804</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_804_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_804_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                         @endif

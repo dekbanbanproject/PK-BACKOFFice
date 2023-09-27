@@ -87,12 +87,12 @@
         </div>
 
     </div>
-        <form action="{{ route('acc.account_801_dash') }}" method="GET">
+        <form action="{{ route('acc.account_804_dash') }}" method="GET">
             @csrf
-            <div class="row mt-2">
+            <div class="row">
                 <div class="col-md-3">
-                    <h5 class="card-title">Detail 1102050102.801</h5>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.801</p>
+                    <h5 class="card-title">Detail 1102050102.804</h5>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.804</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -124,6 +124,7 @@
             <div class="col-xl-4 col-md-12">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)">
                     @if ($startdate == '')
+
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -134,13 +135,13 @@
                                                 $ynew = $y + 543;
                                                 // ลูกหนี้ทั้งหมด
                                                 $datas = DB::select('
-                                                    SELECT count(DISTINCT vn) as Can
+                                                    SELECT count(DISTINCT an) as Can
                                                         ,SUM(debit) as sumdebit
                                                         from acc_debtor
-                                                            WHERE account_code="1102050102.801"
+                                                            WHERE account_code="1102050102.804"
                                                             AND stamp = "N"
-                                                            and month(vstdate) = "'.$item->months.'"
-                                                            and year(vstdate) = "'.$item->year.'";
+                                                            and month(dchdate) = "'.$item->months.'"
+                                                            and year(dchdate) = "'.$item->year.'";
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
@@ -148,10 +149,10 @@
                                                 }
                                                 // ตั้งลูกหนี้
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(vn) as Cvit
-                                                            from acc_1102050102_801
-                                                            WHERE month(vstdate) = "'.$item->months.'"
-                                                            and year(vstdate) = "'.$item->year.'"
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
+                                                            from acc_1102050102_804
+                                                            WHERE month(dchdate) = "'.$item->months.'"
+                                                            and year(dchdate) = "'.$item->year.'"
                                                 ');
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
@@ -161,11 +162,11 @@
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select(' 
 
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true_af) as claim_true_af
-                                                            FROM acc_1102050102_801 a
+                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(au.claim_true_af) as claim_true_af
+                                                            FROM acc_1102050102_804 a
                                                             LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
-                                                            WHERE year(a.vstdate) = "'.$item->year.'"
-                                                            AND month(a.vstdate) = "'.$item->months.'"
+                                                            WHERE year(a.dchdate) = "'.$item->year.'"
+                                                            AND month(a.dchdate) = "'.$item->months.'"
                                                             AND au.claim_true_af IS NOT NULL
                                                 ');                                            
                                                 foreach ($sumapprove_ as $key => $value3) {
@@ -175,11 +176,11 @@
 
                                                 $yokpai_data = DB::select('
                                                 
-                                                    SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.vn) as Countvisit
-                                                        from acc_1102050102_801 a
+                                                    SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.an) as Countvisit
+                                                        from acc_1102050102_804 a
                                                         LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
-                                                        where month(a.vstdate) = "'.$item->months.'"
-                                                        AND year(a.vstdate) = "'.$item->year.'"
+                                                        where month(a.dchdate) = "'.$item->months.'"
+                                                        AND year(a.dchdate) = "'.$item->year.'"
                                                         AND au.claim_true_af IS NULL
                                                 ');                                           
                                                 foreach ($yokpai_data as $key => $value4) {
@@ -195,7 +196,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end mt-2 me-2">
-                                                    <a href="{{url('account_801_pull')}}" target="_blank">
+                                                    <a href="{{url('account_804_pull')}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                             <h6 class="text-end">{{$count_N}} Visit</h6>
                                                         </div>
@@ -236,7 +237,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_801_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_804_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                     {{ number_format($sum_Y, 2) }}
@@ -258,7 +259,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_801_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_804_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
                                                                     {{ number_format($sum_stm, 2) }}
@@ -280,7 +281,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2"> 
-                                                    <a href="{{url('account_801_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                    <a href="{{url('account_804_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokpai}} Visit" >
                                                             {{ number_format($sum_yokpai, 2) }}  
@@ -298,6 +299,7 @@
                                 </div>
                             </div>
                         </div>
+
                     @else
 
                     <div class="grid-menu-col">
@@ -310,12 +312,12 @@
                                             $ynew = $y + 543;
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
-                                                SELECT count(DISTINCT vn) as Can
+                                                SELECT count(DISTINCT an) as Can
                                                     ,SUM(debit) as sumdebit
                                                     from acc_debtor
-                                                        WHERE account_code="1102050102.801"
+                                                        WHERE account_code="1102050102.804"
                                                         AND stamp = "N"
-                                                        AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                        AND dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                             ');
                                             foreach ($datas as $key => $value) {
                                                 $count_N = $value->Can;
@@ -323,9 +325,9 @@
                                             }
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(vn) as Cvit
-                                                        from acc_1102050102_801
-                                                        WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
+                                                        from acc_1102050102_804
+                                                        WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                             ');
                                             // AND status = "N"
                                             foreach ($datasum_ as $key => $value2) {
@@ -335,10 +337,10 @@
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select(' 
 
-                                                    SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true_af) as claim_true_af
-                                                        FROM acc_1102050102_801 a
+                                                    SELECT count(DISTINCT a.an) as Apvit ,sum(au.claim_true_af) as claim_true_af
+                                                        FROM acc_1102050102_804 a
                                                         LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
-                                                        WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                        WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                         AND au.claim_true_af IS NOT NULL
                                             ');                                            
                                             foreach ($sumapprove_ as $key => $value3) {
@@ -348,10 +350,10 @@
 
                                             $yokpai_data = DB::select('
                                             
-                                                SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.vn) as Countvisit
-                                                    from acc_1102050102_801 a
+                                                SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.an) as Countvisit
+                                                    from acc_1102050102_804 a
                                                     LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
-                                                    where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                    where dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                     AND au.claim_true_af IS NULL
                                             ');                                           
                                             foreach ($yokpai_data as $key => $value4) {
@@ -367,7 +369,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end mt-2 me-2">
-                                                <a href="{{url('account_801_pull')}}" target="_blank">
+                                                <a href="" target="_blank">
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                         <h6 class="text-end">{{$count_N}} Visit</h6>
                                                     </div>
@@ -408,7 +410,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_801_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
+                                                <a href="{{url('account_804_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
@@ -430,7 +432,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_801_stm_date/'.$startdate.'/'.$enddate)}}" target="_blank">
+                                                <a href="{{url('account_804_stm_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
                                                                 {{ number_format($sum_stm, 2) }}
@@ -452,7 +454,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2"> 
-                                                <a href="{{url('account_801_stmnull_date/'.$startdate.'/'.$enddate)}}" target="_blank">
+                                                <a href="{{url('account_804_stmnull_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokpai}} Visit" >
                                                         {{ number_format($sum_yokpai, 2) }}  
@@ -470,7 +472,8 @@
                             </div>
                         </div>
                     </div>
- 
+
+                 
 
                     @endif
                 </div>
