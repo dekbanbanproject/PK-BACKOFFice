@@ -1387,14 +1387,14 @@ class AutoController extends Controller
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $start . '" AND "' . $end . '"
                     AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
-                    AND ipt.pttype_number = "2" AND ipt.max_debt_amount IS NULL
+                      AND ipt.pttype_number = "2"  AND ipt.max_debt_amount IS NULL 
                     GROUP BY a.an;
                 
             ');
 
             // a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
             foreach ($detail_auto as $key => $value) {
-                    if ($value->max_debt_amount == '') {
+                    if ($value->max_debt_amount == '' && $value->pttype <> "33") {
                      
                         $linetoken = "1oDKi9NtbpxpNNxeiqkMdhpn4Y0YU8npoMpe5PitrJy";
                         
@@ -1405,6 +1405,7 @@ class AutoController extends Controller
                             "\n"."hn  : "              . $value->hn .
                             "\n"."cid  : "             . $value->cid .
                             "\n"."ptname  : "          . $value->ptname .
+                            "\n"."pttype  : "          . $value->pttype .
                             "\n"."dchdate  : "         . $value->dchdate .
                             "\n"."วงเงินสูงสุด  : "       . $value->max_debt_amount .
                             "\n"."debit  : "           . $value->debit; 
