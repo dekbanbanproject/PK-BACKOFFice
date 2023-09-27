@@ -187,7 +187,7 @@ class AccdashboardController extends Controller
             $chart = DB::connection('mysql')->select(' 
                 SELECT months,year,hipdata_code,count_vn,income,rcpt_money,debit 
                 from acc_dashboard                 
-               
+                GROUP BY year,hipdata_code
                 ORDER BY months desc
             ');
             // WHERE months BETWEEN month("'.$start.'") AND month("'.$end.'")  
