@@ -312,9 +312,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
-
-                             
+                        </li>                             
                         @endif
                         
                         @if ($permiss_sss != 0)
@@ -392,31 +390,52 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </li> --}}
                         @endif
 
-                        @if ($permiss_ofc != 0)
+                        @if ($permiss_ofc != 0)                           
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    {{-- <i class="fa-solid fa-file-invoice-dollar text-danger"></i> --}}
-                                    <i class="fa-brands fa-btc text-primary"></i>
+                                    <i class="fa-brands fa-btc" style="color: rgb(39, 131, 236)"></i>
                                     <span>OFC</span>
                                 </a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li><a href="{{ url('account_401_dash') }}">ผัง-401</a></li>
-                                    <li><a href="{{ url('account_402_dash') }}">ผัง-402</a></li>
+                                <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="javascript: void(0);" class="has-arrow">ผัง-401</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_401_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_401_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">ผัง-402</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_402_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_402_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                         @endif
 
-                        @if ($permiss_lgo != 0)
+                        @if ($permiss_lgo != 0) 
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-brands fa-btc text-danger"></i>
+                                    <i class="fa-brands fa-btc" style="color: rgb(253, 38, 85)"></i>
                                     <span>LGO</span>
                                 </a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li><a href="{{ url('account_801_dash') }}">ผัง-801</a></li>
-                                    {{-- <li><a href="{{ url('account_802_dash') }}">ผัง-802</a></li> --}}
-                                    {{-- <li><a href="{{ url('account_803_dash') }}">ผัง-803</a></li> --}}
-                                    {{-- <li><a href="{{ url('account_804_dash') }}">ผัง-804</a></li> --}}
+                                <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="javascript: void(0);" class="has-arrow">ผัง-801</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_801_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_801_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">ผัง-802</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_802_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_802_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                         @endif

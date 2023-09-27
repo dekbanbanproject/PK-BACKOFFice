@@ -5244,8 +5244,9 @@ class AccountPKController extends Controller
                     SELECT *
                     FROM acc_stm_ofcexcel
                     WHERE income <> "" AND repno <> ""
-                    GROUP BY cid
+                    
                 ');
+                // GROUP BY cid
                 // GROUP BY cid
                 // GROUP BY cid,vstdate
                 foreach ($data_ as $key => $value) {
