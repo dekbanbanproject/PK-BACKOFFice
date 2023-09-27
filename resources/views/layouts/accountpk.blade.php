@@ -291,41 +291,92 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </ul>
                         </li>  --}}
                         @if ($permiss_ucs != 0)
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}
-                                    <i class="fa-brands fa-btc text-info"></i>
-                                    <span>UCS</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li><a href="{{ url('account_pkucs202_dash') }}">ผัง-202</a></li>
-                                    <li><a href="{{ url('account_pkucs217_dash') }}">ผัง-217</a></li>
-                                </ul>
-                            </li>
-                        @endif
-                        {{-- <li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
-                                <span>OFC</span>
+                                <i class="fa-brands fa-btc" style="color: rgb(250, 124, 187)"></i>
+                                <span>UCS</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pkofc401_dash') }}">ผัง-401</a></li>
-                                <li><a href="{{ url('account_pkofc402_dash') }}">ผัง-402</a></li>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">ผัง-202</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_pkucs202_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_pkucs202_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">ผัง-217</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_pkucs217_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_pkucs217_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
-                        </li>  --}}
-                        {{-- <li>
+                        </li>
+
+                             
+                        @endif
+                        
+                        @if ($permiss_sss != 0)
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-invoice-dollar text-info"></i>
+                                <i class="fa-brands fa-btc" style="color: rgb(134, 216, 27)"></i>
                                 <span>SSS</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_pksss') }}">ตั้งลูกหนี้</a></li>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">301-OPเครือข่าย</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_301_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_301_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">302-IPเครือข่าย</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_302_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_302_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">304-IPเครือข่าย</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_304_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_304_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">307-กองทุนทดแทน</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_307_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_307_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">308-72ชั่วโมงแรก</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_308_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_308_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">309-ค่าใช้จ่ายสูง/อุบัติเหตุ/ฉุกเฉิน OP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_309_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_309_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">310-ค่าใช้จ่ายสูง IP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_310_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_310_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
-                        </li>  --}}
-                        @if ($permiss_sss != 0)
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    {{-- <i class="fa-solid fa-file-invoice-dollar text-info"></i> --}}
+                        </li>
+                            {{-- <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                     <i class="fa-brands fa-btc text-success"></i>
                                     <span>SSS</span>
                                 </a>
@@ -335,11 +386,10 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <li><a href="{{ url('account_304_dash') }}">304-IPนอกเครือข่าย</a></li>
                                     <li><a href="{{ url('account_307_dash') }}">307-กองทุนทดแทน</a></li>
                                     <li><a href="{{ url('account_308_dash') }}">308-72ชั่วโมงแรก</a></li>
-                                    <li><a href="{{ url('account_309_dash') }}">309-ค่าใช้จ่ายสูง/อุบัติเหตุ/ฉุกเฉิน
-                                            OP</a></li>
+                                    <li><a href="{{ url('account_309_dash') }}">309-ค่าใช้จ่ายสูง/อุบัติเหตุ/ฉุกเฉิน OP</a></li>
                                     <li><a href="{{ url('account_310_dash') }}">310-ค่าใช้จ่ายสูง IP</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
                         @endif
 
                         @if ($permiss_ofc != 0)

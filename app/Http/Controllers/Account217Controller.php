@@ -168,19 +168,19 @@ class Account217Controller extends Controller
                 (sum(if(op.income="02",sum_price,0))) +
                 (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) +
                 (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) +
-                (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))       
-                            WHEN ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount <> "" THEN ipt.max_debt_amount  		
+                (sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))       
+                WHEN ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount <> "" THEN ipt.max_debt_amount  		
                 ELSE                 
                 sum(if(op.income="02",sum_price,0)) +
                 sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))+
                 sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
-                sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))
+                sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))
                 END as debit
                                     
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
+                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 from hos.ipt ip
                 LEFT JOIN hos.an_stat a ON ip.an = a.an
                 LEFT JOIN hos.patient pt on pt.hn=a.hn
@@ -191,7 +191,7 @@ class Account217Controller extends Controller
                 LEFT JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE ip.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
-               
+                AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
                 GROUP BY ip.an;
                 
         ');

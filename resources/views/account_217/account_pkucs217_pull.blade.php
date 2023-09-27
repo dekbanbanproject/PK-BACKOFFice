@@ -61,11 +61,13 @@
     </style>
     
     <div class="tabs-animation">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">                    
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
                 </div>
             </div>
+
         </div>
      
         <div class="row mb-3"> 
@@ -132,6 +134,8 @@
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
+                                       
+                                            <th class="text-center">income</th> 
                                             <th class="text-center">income</th> 
                                             <th class="text-center">ลูกหนี้</th> 
                                             <th class="text-center">ins</th> 
