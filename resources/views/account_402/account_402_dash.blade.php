@@ -191,7 +191,7 @@
                                             ?>
 
                                             <div class="row">
-                                                <div class="col-md-5 text-start mt-4 ms-4">
+                                                <div class="col-md-5 text-start mt-4 ms-2">
                                                     <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
                                                 </div>
                                                 <div class="col"></div>
@@ -205,7 +205,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -227,7 +227,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -249,7 +249,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -271,7 +271,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -364,7 +364,7 @@
                                             ?>
 
                                             <div class="row">
-                                                <div class="col-md-5 text-start mt-4 ms-4">
+                                                <div class="col-md-5 text-start mt-4 ms-2">
                                                     <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
                                                 </div>
                                                 <div class="col"></div>
@@ -378,7 +378,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -400,7 +400,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -422,7 +422,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -444,7 +444,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
+                                                <div class="col-md-1 text-start ms-2">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">

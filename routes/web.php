@@ -1760,6 +1760,9 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_802_stmnull/{months}/{year}',[App\Http\Controllers\Account802Controller::class, 'account_802_stmnull'])->name('acc.account_802_stmnull');//
     Route::match(['get','post'],'account_802_stmnull_all/{months}/{year}',[App\Http\Controllers\Account802Controller::class, 'account_802_stmnull_all'])->name('acc.account_802_stmnull_all');//
     Route::match(['get','post'],'account_802_stam',[App\Http\Controllers\Account802Controller::class, 'account_802_stam'])->name('acc.account_802_stam');//
+    Route::match(['get','post'],'account_802_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account802Controller::class, 'account_802_detail_date'])->name('acc.account_802_detail_date');//
+    Route::match(['get','post'],'account_802_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account802Controller::class, 'account_802_stm_date'])->name('acc.account_802_stm_date');//
+    Route::match(['get','post'],'account_802_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account802Controller::class, 'account_802_stmnull_date'])->name('acc.account_802_stmnull_date');// 
 
     Route::match(['get','post'],'account_803_dash',[App\Http\Controllers\AccountPKController::class, 'account_803_dash'])->name('acc.account_803_dash');//
     Route::match(['get','post'],'account_803_pull',[App\Http\Controllers\AccountPKController::class, 'account_803_pull'])->name('acc.account_803_pull');//

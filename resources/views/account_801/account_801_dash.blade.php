@@ -78,16 +78,18 @@
         $yb =  date('Y')+542;
     ?>
 
-   <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                </div>
+<div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
             </div>
         </div>
+
+    </div>
         <form action="{{ route('acc.account_801_dash') }}" method="GET">
             @csrf
-            <div class="row ms-2 me-2 mt-2">
+            <div class="row mt-2">
                 <div class="col-md-3">
                     <h5 class="card-title">Detail 1102050102.801</h5>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.801</p>
@@ -104,7 +106,7 @@
                             data-date-language="th-th" value="{{ $enddate }}" required/>
                     </div>
                 </div>
-                <div class="col-md-3 text-start">
+                <div class="col-md-2 text-start">
                     <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา

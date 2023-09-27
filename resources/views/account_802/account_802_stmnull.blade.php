@@ -63,7 +63,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050102.801 STM
+                    รายละเอียด 1102050102.802 
                         <div class="btn-actions-pane-right">
 
                         </div>
@@ -81,7 +81,7 @@
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
-                                    <th class="text-center">vstdate</th> 
+                                    <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th> 
                                     <th class="text-center">ลูกหนี้</th>
                                     <th class="text-center">ยอดชดเชย</th>
@@ -99,8 +99,8 @@
                                         <td class="text-center" width="5%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>
-                                        {{-- <td class="text-center" width="7%">{{ $item->dchdate }}</td> --}}
+                                        {{-- <td class="text-center" width="7%">{{ $item->vstdate }}</td> --}}
+                                        <td class="text-center" width="7%">{{ $item->dchdate }}</td>
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
