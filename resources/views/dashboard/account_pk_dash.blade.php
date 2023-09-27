@@ -107,7 +107,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card card">
-                    <h6 class="card-title mt-2 ms-2">Report Month ปี พ.ศ.{{ $ynow }}</h6> 
+                    <h6 class="card-title mt-2 ms-2">Report </h6> 
                         <div style="height:auto;" class="p-2"> 
                             <canvas id="myChartNew"></canvas>
                         <br>
