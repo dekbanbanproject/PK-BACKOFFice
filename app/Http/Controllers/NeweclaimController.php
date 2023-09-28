@@ -138,6 +138,210 @@ class NeweclaimController extends Controller
     }
 
 
+    public function check_authapi_send(Request $request)
+    {
+        $username        = $request->username;
+        $password        = $request->password;
+        // $username        = '6508634296688';
+        // $password        = 'a12345';
+        $ch = curl_init();
+        $headers  = [
+                    'User-Agent:<platform>/<version> <10978>',
+                    'Content-Type: application/json'
+                ];
+        $postData = [
+            'username' => $username,
+            'password' => $password
+        ];
+        curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");
+        // curl_setopt($ch, CURLOPT_URL,"https://uat-fdh.inet.co.th/hospital/");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response     = curl_exec ($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200
+        $contents = $response;
+
+        $result = json_decode($contents, true);
+        @$content = $result['content'];
+        // dd($content);
+
+        @$status = $result['status'];
+        @$message = $result['message'];
+        $token = $result['token'];
+
+        // dd($contents);
+        // dd($statusCode);
+        // dd($token);
+       
+        // ***************************** send *******************
+        #https://tnhsoapi.nhso.go.th/ecimp/v1/auth  #test_zone
+        #https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth  #product
+
+        // $fame_send = curl_init();
+
+        // $postData_send = [
+        //     "fileType" => "txt",
+        //     "maininscl" => "",
+        //     "importDup" => true,
+        //     "assignToMe" => true,
+        //     "dataTypes" => ["OP","IP"],
+        //     "opRefer" => false,
+        //     "file" => [
+        //         "ins" => [
+        //             "blobName" => "INS.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[0]",
+        //             "size" => $fam_file_size[0],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"pat" => [
+        //             "blobName" => "PAT.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[1]",
+        //             "size" => $fam_file_size[1],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"opd" => [
+        //             "blobName" => "OPD.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[2]",
+        //             "size" => $fam_file_size[2],
+        //             "encoding" => "UTF-8"
+        //         ]   
+        //     ,"orf" => [
+        //             "blobName" => "ORF.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[3]",
+        //             "size" => $fam_file_size[3],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"odx" => [
+        //             "blobName" => "ODX.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[4]",
+        //             "size" => $fam_file_size[4],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"oop" => [
+        //             "blobName" => "OOP.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[5]",
+        //             "size" => $fam_file_size[5],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"ipd" => [
+        //             "blobName" => "IPD.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[6]",
+        //             "size" => $fam_file_size[6],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"irf" => [
+        //             "blobName" => "IRF.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[7]",
+        //             "size" => $fam_file_size[7],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"idx" => [
+        //             "blobName" => "IDX.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[8]",
+        //             "size" => $fam_file_size[8],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"iop" => [
+        //             "blobName" => "IOP/plain.txt",
+        //             "blobType" => "text",
+        //             "blob" => "$fam_file_base64[9]",
+        //             "size" => $fam_file_size[9],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"cht" => [
+        //             "blobName" => "CHT/plain.txt",
+        //             "blobType" => "text",
+        //             "blob" => "$fam_file_base64[10]",
+        //             "size" => $fam_file_size[10],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"cha" => [
+        //             "blobName" => "CHA.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[11]",
+        //             "size" => $fam_file_size[11],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"aer" => [
+        //             "blobName" => "AER.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[12]",
+        //             "size" => $fam_file_size[12],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"adp" => [
+        //             "blobName" => "ADP.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[13]",
+        //             "size" => $fam_file_size[13],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"lvd" => [
+        //             "blobName" => "LVD.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[14]",
+        //             "size" => $fam_file_size[14],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"dru" => [
+        //             "blobName" => "DRU.txt",
+        //             "blobType" => "text/plain",
+        //             "blob" => "$fam_file_base64[15]",
+        //             "size" => $fam_file_size[15],
+        //             "encoding" => "UTF-8"
+        //     ]
+        //     ,"lab" => null
+        //     ]
+        // ];
+
+        
+
+        #echo json_encode($postData_send, JSON_UNESCAPED_SLASHES);   
+
+        // $headers_send  = [
+        //     'Authorization : Bearer '.$token,
+        //     'Content-Type: application/json',            
+        //     'User-Agent:<platform>/<version><10975>'
+                
+        // ];
+
+        // #https://tnhsoapi.nhso.go.th/ecimp/v1/send  test_zone
+        // #https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send
+        // curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+        // curl_setopt($fame_send, CURLOPT_POST, 1);
+        // curl_setopt($fame_send, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($fame_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+        // curl_setopt($fame_send, CURLOPT_HTTPHEADER, $headers_send);
+        // $send_fame_outp     = curl_exec ($fame_send);
+        // $statusCode_send_fame_outp = curl_getinfo($fame_send, CURLINFO_HTTP_CODE);
+
+        // $content_send_fame_outp = $send_fame_outp;
+        // $result_send_fame_outp = json_decode($content_send_fame_outp, true);
+
+        // #echo "<BR>";
+        // @$status_send = "status_send :".$result_send_fame_outp['status'];
+        // #echo "<BR>";
+        // @$message_send = "message_send :".$result_send_fame_outp['message'];
+        return response()->json([
+            'status'       => '200',
+             'response'    => $response,
+             'result'      => $result,
+        ]);
+    }
+
+
+
 
 
  }
