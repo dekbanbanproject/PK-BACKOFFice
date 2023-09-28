@@ -516,7 +516,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             <li><a href="javascript: void(0);" class="has-arrow">พรบ.</a>
                                                     <ul class="sub-menu" aria-expanded="true">
                                                         <li><a href="{{ url('uprep_money_plbop') }}">พรบ.-OP</a></li> 
-                                                        <li><a href="{{ url('uprep_money_plbip') }}">พรบ.-OP</a></li> 
+                                                        <li><a href="{{ url('uprep_money_plbip') }}">พรบ.-IP</a></li> 
                                                     </ul>
                                                
                                             </li>
@@ -634,7 +634,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
     <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
- 
+
     <script type="text/javascript" src="{{ asset('acccph/vendors/jquery-circle-progress/dist/circle-progress.min.js') }}"></script>  
     <script type="text/javascript" src="{{ asset('acccph/vendors/perfect-scrollbar/dist/perfect-scrollbar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/vendors/toastr/build/toastr.min.js') }}"></script>
@@ -648,8 +648,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
     <!-- jquery.vectormap map -->
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-    <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}">
-    </script>
+    <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
 
     <!-- Required datatable js -->
     <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
@@ -680,9 +679,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
 
     <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
+    <script src="{{ asset('fullcalendar/lib/moment.min.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('fullcalendar/fullcalendar.min.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('fullcalendar/lang/th.js')}}" type="text/javascript"></script>
 
     {{-- <script type="text/javascript" src="{{ asset('acccph/vendors/@chenfengyuan/datepicker/dist/datepicker.min.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('acccph/vendors/daterangepicker/daterangepicker.js') }}"></script>
@@ -700,15 +699,25 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
     <script type="text/javascript" src="{{ asset('acccph/js/charts/apex-charts.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/circle-progress.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('acccph/js/demo.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/demo.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('acccph/js/scrollbar.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/toastr.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('acccph/js/treeview.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/js/treeview.js') }}"></script>
     <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script>
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('disacc/js/charts/chartjs.js') }}"></script> --}}
-    {{-- <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script> --}} 
+    <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script>
+
+    {{-- <script type="text/javascript" src="./js/charts/apex-charts.js"></script>
+    <script type="text/javascript" src="./js/circle-progress.js"></script>
+    <script type="text/javascript" src="./js/demo.js"></script>
+    <script type="text/javascript" src="./js/scrollbar.js"></script>
+    <script type="text/javascript" src="./js/toastr.js"></script>
+    <script type="text/javascript" src="./js/treeview.js"></script>
+    <script type="text/javascript" src="./js/form-components/toggle-switch.js"></script>
+    <script type="text/javascript" src="./js/tables.js"></script>
+    <script type="text/javascript" src="./js/app.js"></script> --}}
 
     @yield('footer')
 

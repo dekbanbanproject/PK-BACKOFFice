@@ -15,6 +15,7 @@ class Acc_stm_ofcexcel extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'acc_stm_ofcexcel'; 
+    protected $primaryKey = 'acc_stm_ofcexcel_id';
     protected $fillable = [
         'acc_stm_ofcexcel_id',
         'repno',  

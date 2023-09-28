@@ -67,7 +67,7 @@
         }
     </style>
 
-    <div class="tabs-animation">
+    <div class="tabs-animation mb-5">
 
         <div class="row text-center">
             <div id="overlay">
@@ -75,10 +75,39 @@
                     <span class="spinner"></span>
                 </div>
             </div>
-
         </div>
 
-        <div class="row mb-5 ms-3 me-3 mt-2">
+        <form action="{{ url('uprep_money_plb') }}" method="GET">
+            @csrf
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-md-2 text-end mt-2">วันที่</div>
+                <div class="col-md-4 text-end">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $startdate }}" required />
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $enddate }}" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                        <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>
+                        ค้นหาข้อมูล
+                    </button>
+                    <a href="{{url('uprep_money_plbhn')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" target="_blank">
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา HN
+                    </a>
+                </div>
+                <div class="col"></div>
+            </div>
+        </form>
+
+        <div class="row mt-2"> 
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -98,37 +127,59 @@
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th>
+                                    <th class="text-center">ลำดับ</th> 
                                     <th class="text-center">vn</th>
-                                    <th class="text-center">hn</th>
-                                    <th class="text-center">cid</th>
+                                    <th class="text-center" >hn</th>
+                                    <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
-                                    <th class="text-center">vstdate</th>
+                                    <th class="text-center">vstdate</th> 
                                     <th class="text-center">ลูกหนี้</th>
                                     <th class="text-center">ยอดชดเชย</th>
                                     <th class="text-center" width="5%">req_no</th>
-                                    <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>
-                                    <th class="text-center">เลขที่หนังสือ</th>
+                                    <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>  
+                                    <th class="text-center">จัดการ STM</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0; ?>
-                                @foreach ($data as $item)
+                                @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                    {{-- @if ($item->debit_total != $item->payprice)
-                                        <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                            <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->repno }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>   
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->cid }}</td>  
-                                            <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vstdate }}</td>    
-                                            <td class="text-end" style="color:rgb(248, 12, 12)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(243, 12, 12)">{{ number_format($item->pricereq_all,2)}}</td>
-                                        </tr>
-                                    @else --}}
-                                    <tr height="20" style="font-size: 14px;">
+                                    <tr height="20" style="font-size: 13px;">
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
+                                        <td class="text-center" width="10%">{{ $item->vn }}</td> 
+                                        <td class="text-center" width="10%">{{ $item->hn }}</td> 
+                                        <td class="text-center" width="10%">{{ $item->cid }}</td>   
+                                        <td class="p-2" >{{ $item->ptname }}</td>  
+                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
+                                        <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">{{ number_format($item->payprice,2)}}</td>
+                                        <td class="text-center" width="10%">{{ $item->req_no }}</td> 
+                                        <td class="text-center" width="10%">{{ $item->money_billno }}</td> 
+                                        <td class="text-center" width="5%">
+                                            <div class="dropdown d-inline-block">
+                                                <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                    ทำรายการ
+                                                </button>
+                                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
+                                                    {{-- @if ($item->money_billno == '') --}}
+                                                        <button type="button"class="dropdown-item menu edit_data text-success" 
+                                                            value="{{ $item->acc_1102050102_602_id }}" 
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="ตัด STM"> 
+                                                            <i class="fa-solid fa-clipboard-check me-2 text-success" style="font-size:13px"></i>
+                                                            <span>ตัด STM</span>
+                                                        </button>
+                                                    {{-- @else --}}
+                                                        
+                                                    {{-- @endif --}}
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    {{-- <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}
                                         </td>
                                         <td class="text-center" width="10%">{{ $item->vn }}</td>
@@ -143,24 +194,28 @@
                                         <td class="text-center" width="10%">{{ $item->req_no }}</td>
                                         <td class="text-center" width="10%">{{ $item->money_billno }}</td>
                                         <td class="text-center" width="5%">
-                                            @if ($item->nhso_docno != '')
-                                                <button type="button"
-                                                    class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                                    <i class="fa-solid fa-book-open text-success me-2"></i>
-                                                    {{ $item->nhso_docno }}
+                                            <div class="dropdown d-inline-block">
+                                                <button type="button" aria-haspopup="true" aria-expanded="false"
+                                                    data-bs-toggle="dropdown"
+                                                    class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                    ทำรายการ
                                                 </button>
-                                            @else
-                                                <button type="button"
-                                                    class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
-                                                    <i class="fa-solid fa-book-open text-warning me-2"></i>
-                                                    ยังไม่ได้ลงเลขหนังสือ
-                                                </button>
-                                            @endif
-                                        </td>
-                                        </td>
-                                    </tr>
+                                                <div tabindex="-1" role="menu" aria-hidden="true"
+                                                    class="dropdown-menu-hover-link dropdown-menu"> 
+                                                    <button
+                                                        type="button"class="dropdown-item menu edit_data text-success"
+                                                        value="{{ $item->acc_1102050102_602_id }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left"
+                                                        title="ตัด STM">
+                                                        <i class="fa-solid fa-clipboard-check me-2 text-success"
+                                                            style="font-size:13px"></i>
+                                                        <span>ตัด STM</span>
+                                                    </button>
 
-                                    {{-- @endif --}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr> --}}
                                 @endforeach
 
                             </tbody>
@@ -168,6 +223,26 @@
                     </div>
                 </div>
             </div>
+            {{-- <div class="col-md-3">
+                <div class="main-card card">
+                    <table id="example" class="table table-striped table-bordered" style="width: 100%">
+                        <thead>
+                            <th>hn</th>
+                            <th>pname</th> 
+                        </thead>
+                        <tbody>
+                            <?php $i = 0; ?>
+                            @foreach ($patient as $itemp)
+                            <?php $i++; ?>
+                                <tr height="20" style="font-size: 13px;">
+                                    <td>{{$itemp->hn}}</td>
+                                    <td>{{$itemp->ptname}}</td> 
+                                </tr>  
+                            @endforeach 
+                        </tbody>
+                    </table>
+                </div> 
+            </div>  --}}
 
         </div>
     </div>
@@ -211,13 +286,13 @@
 
                     <div class="row mt-2">
                         <div class="col-md-3">
-                            <label for="" style="color: red">รับแจ้ง</label>
+                            <label for="">รับแจ้ง</label>
                             <div class="form-group">
                                 <input id="req_no" type="text" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="" style="color: red">เคลม</label>
+                            <label for="">เคลม</label>
                             <div class="form-group">
                                 <input id="claim_no" type="text" class="form-control form-control-sm">
                             </div>
@@ -272,7 +347,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="" style="color: red">วันที่บันทึก</label>
+                            <label for="">วันที่บันทึก</label>
                             <div class="form-group">
                                 <input id="savedate" type="date" class="form-control form-control-sm"
                                     value="{{ $datenow }}">
@@ -330,81 +405,11 @@
                 }
             });
 
-            $('.PulldataAll').click(function() {  
-                var months = $('#months').val();
-                var year = $('#year').val();
-                // alert(months);
-                Swal.fire({
-                        title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
-                        text: "You Sync Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Sync it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show();  
-                                
-                                $.ajax({
-                                    url: "{{ url('account_602_syncall') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {months,year},
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ซิ้งค์ข้อมูลสำเร็จ',
-                                                text: "You Sync data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-
-                                        } else if (data.status == 100) { 
-                                            Swal.fire({
-                                                title: 'ยังไม่ได้ลงเลขที่หนังสือ',
-                                                text: "Please enter the number of the book.",
-                                                icon: 'warning',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                   
-                                                }
-                                            })
-                                            
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
-            });
-
             $('#updateBtn').click(function() {
                 var acc_1102050102_602_id = $('#editacc_1102050102_602_id').val();
-                var cid = $('#editcid').val();
+                var vn = $('#editvn').val();
+                var hn = $('#edithn').val();
+                var cid = $('#editcid').val(); 
                 var ptname = $('#editptname').val();
                 var req_no = $('#req_no').val();
                 var claim_no = $('#claim_no').val();
@@ -420,7 +425,7 @@
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        acc_1102050102_602_id,
+                        acc_1102050102_602_id,vn,hn,
                         cid,
                         ptname,
                         req_no,
@@ -459,7 +464,7 @@
 
             $(document).on('click', '.edit_data', function() {
                 var acc_1102050102_602_id = $(this).val();
-                // alert(acc_1102050102_602_id);
+                alert(acc_1102050102_602_id);
                 $('#updteModal').modal('show');
                 $.ajax({
                     type: "GET",

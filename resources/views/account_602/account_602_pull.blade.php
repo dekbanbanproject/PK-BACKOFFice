@@ -60,13 +60,13 @@
                }
     </style>
     
-    <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    
+    <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
                 </div>
-            </div>
+            </div> 
         </div>
        
         <div class="row"> 
@@ -80,13 +80,15 @@
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 </div> 
             </div>
-            <div class="col-md-4"> 
+            
+            <div class="col-md-2"> 
+                <div id="tree"></div>
                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                     ดึงข้อมูล</button>    
                   
             </div>
-            <div class="col"></div>
+            
         </div>
           
         <div class="row mt-2">
@@ -97,8 +99,8 @@
                       
                         <div class="row">
                             <div class="col-md-4">
-                                <h4 class="card-title">Detail Account</h4>
-                                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+                                <h5 class="card-title">Detail 1102050102.602</h5>
+                                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.602</p>
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
@@ -111,8 +113,7 @@
 
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap"
-                                style=" border-spacing: 0; width: 100%;">
+                                <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
                                           

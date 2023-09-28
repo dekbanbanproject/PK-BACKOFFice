@@ -106,10 +106,10 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_602_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">
+                    {{-- <a href="{{url('account_602_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
-                    </a>
+                    </a> --}}
                 </div>
 
             </div>
@@ -166,17 +166,7 @@
                                                     $stm_count    = $value3->Apvit;
                                                     $sum_stm      = $value3->nhso_ownright_pid;
                                                 }
-
-                                                // if ( $sum_Y > $sum_stm) {
-                                                //     $yokpai_ = $sum_Y - $sum_stm;
-                                                //     $yokpai = '-'.$yokpai_;
-
-                                                //     $yokpaicount = $count_Y - $stm_count;
-                                                // } else {
-                                                //     $yokpai_ = $sum_stm - $sum_Y;
-                                                //     $yokpai = '+'.$yokpai_;
-                                                //     $yokpaicount = $stm_count - $count_Y;
-                                                // }
+  
 
                                                 $yokpai_data = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Countvisit

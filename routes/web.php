@@ -244,7 +244,9 @@ Route::match(['get','post'],'uprep_sss_alledit/{id}',[App\Http\Controllers\Upstm
 Route::match(['get','post'],'uprep_sss_alleditpage/{account}/{id}',[App\Http\Controllers\UpstmController::class, 'uprep_sss_alleditpage'])->name('acc.uprep_sss_alleditpage');//
 Route::match(['get','post'],'uprep_sss_all_update',[App\Http\Controllers\UpstmController::class, 'uprep_sss_all_update'])->name('acc.uprep_sss_all_update');//
 Route::match(['get','post'],'uprep_money_plb',[App\Http\Controllers\UpstmController::class, 'uprep_money_plb'])->name('acc.uprep_money_plb');//
- 
+Route::match(['get','post'],'uprep_money_plbop',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbop'])->name('acc.uprep_money_plbop');//
+Route::match(['get','post'],'uprep_money_plbip',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbip'])->name('acc.uprep_money_plbip');//
+Route::match(['get','post'],'uprep_money_plbhn',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbhn'])->name('acc.uprep_money_plbhn');//
 // ********************************* นักโทษ  *****************************************
 Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438
 Route::match(['get','post'],'prisoner_opd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail'])->name('prisoner.prisoner_opd_detail');  //นักโทษ 438

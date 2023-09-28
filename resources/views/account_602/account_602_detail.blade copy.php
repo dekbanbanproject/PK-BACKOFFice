@@ -158,7 +158,7 @@ $pos = strrpos($url, '/') + 1;
                                                             </button> 
                                                         @endif 
                                                     </td>                                                  
-                                                </td>
+                                               
                                         </tr>
                                         
                                     
@@ -270,7 +270,7 @@ $pos = strrpos($url, '/') + 1;
                                 
                             }
                 })
-        });
+            });
           
 
         });

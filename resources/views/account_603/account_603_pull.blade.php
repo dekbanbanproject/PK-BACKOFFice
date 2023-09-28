@@ -60,13 +60,13 @@
                }
     </style>
     
-    <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    
+    <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
                 </div>
-            </div>
+            </div> 
         </div>
        
         <div class="row"> 
@@ -80,13 +80,13 @@
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 </div> 
             </div>
-            <div class="col-md-4"> 
+            <div class="col-md-2"> 
                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                     ดึงข้อมูล</button>    
                   
             </div>
-            <div class="col"></div>
+            
         </div>
              
         <div class="row mt-2 text-center">  

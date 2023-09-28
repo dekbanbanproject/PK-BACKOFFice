@@ -182,14 +182,12 @@ class Account602Controller extends Controller
     {
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
-        $enddate = $request->datepicker2;
-        // Acc_opitemrece::truncate();
+        $enddate = $request->datepicker2; 
         $acc_debtor = DB::connection('mysql3')->select('
-            SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
+            SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                ,o.vstdate,totime(o.vsttime) as vsttime
-                ,v.hospmain,op.income as income_group 
-                ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
+                ,o.vstdate,o.vsttime 
+                ,v.hospmain,op.income as income_group                  
                 ,ptt.pttype_eclaim_id ,v.pttype 
                 ,e.code as acc_code ,e.ar_opd as account_code ,e.name as account_name
                 ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
@@ -197,17 +195,18 @@ class Account602Controller extends Controller
                 ,if(op.icode IN ("3010058"),sum_price,0) as fokliad 
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
-                ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
+                ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
+                ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,ptt.max_debt_money
             from vn_stat v
             left join ovst o on v.vn=o.vn
             left join patient pt on pt.hn=v.hn
+            LEFT JOIN visit_pttype vp on vp.vn = v.vn
             LEFT JOIN pttype ptt on v.pttype=ptt.pttype
             LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
             LEFT JOIN opitemrece op ON op.vn = o.vn
-            WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-            AND v.pttype IN("31","36","37","38","39")
+            WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"        
+            AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.602" AND opdipd ="OPD"))
             and (o.an="" or o.an is null)
             GROUP BY v.vn
         ');
@@ -226,7 +225,7 @@ class Account602Controller extends Controller
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
-                            'income_group'       => $value->income_group,
+                            // 'income_group'       => $value->income_group,
                             'income'             => $value->income,
                             'uc_money'           => $value->uc_money,
                             'discount_money'     => $value->discount_money,
@@ -336,8 +335,10 @@ class Account602Controller extends Controller
     }
     public function account_602_edit(Request $request, $id)
     {
-        $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
-        ->find($id);
+        $acc602 = Acc_1102050102_602::find($id);
+
+        // $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
+        // ->find($id);
 
         return response()->json([
             'status'      => '200',

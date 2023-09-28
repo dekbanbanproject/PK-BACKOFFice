@@ -341,11 +341,11 @@ class Account804Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
                 from acc_1102050102_804 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+                LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate  
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                AND U2.claim_true_af is not null 
+                AND U2.pricereq_all is not null 
                 group by U1.an
         ');
        
@@ -361,11 +361,11 @@ class Account804Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
                 from acc_1102050102_804 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+                LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate  
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                AND U2.claim_true_af is null 
+                AND U2.pricereq_all is null 
                 group by U1.an
         ');
        
@@ -397,11 +397,11 @@ class Account804Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
                 from acc_1102050102_804 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+                LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate  
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                AND U2.claim_true_af is not null 
+                AND U2.pricereq_all is not null 
                 group by U1.an
         ');
        
@@ -417,11 +417,11 @@ class Account804Controller extends Controller
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
                 from acc_1102050102_804 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
+                LEFT JOIN acc_stm_ofc U2 ON U2.cid = U1.cid AND U2.vstdate = U1.vstdate  
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                AND U2.claim_true_af is null 
+                AND U2.pricereq_all is null 
                 group by U1.an
         ');
        

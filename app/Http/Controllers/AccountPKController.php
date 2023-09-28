@@ -40,7 +40,7 @@ use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
-use App\Models\acc_stm_ofcexcel;
+use App\Models\Acc_stm_ofcexcel;
 use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
@@ -5220,11 +5220,9 @@ class AccountPKController extends Controller
                 }
                 $for_insert = array_chunk($data, length:1000);
                 foreach ($for_insert as $key => $data_) {
-                    // if ($data_['vstdate'] == '0000-00-00') {
-                    //     # code...
-                    // } else {
+                   
                         Acc_stm_ofcexcel::insert($data_); 
-                    // }
+                   
                     
                     
                 }

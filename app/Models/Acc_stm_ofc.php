@@ -15,6 +15,7 @@ class Acc_stm_ofc extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'acc_stm_ofc'; 
+    protected $primaryKey = 'acc_stm_ofc_id';
     protected $fillable = [
         'acc_stm_ofc_id',
         'repno',  

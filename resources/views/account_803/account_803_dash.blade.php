@@ -148,7 +148,7 @@
                                                 }
                                                 // ตั้งลูกหนี้
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                             from acc_1102050102_803
                                                             WHERE month(vstdate) = "'.$item->months.'"
                                                             and year(vstdate) = "'.$item->year.'"
@@ -161,15 +161,15 @@
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select(' 
 
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true_af) as claim_true_af
+                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(au.pricereq_all) as pricereq_all
                                                             FROM acc_1102050102_803 a
-                                                            LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
+                                                            LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate 
                                                             WHERE year(a.vstdate) = "'.$item->year.'"
                                                             AND month(a.vstdate) = "'.$item->months.'"
-                                                            AND au.claim_true_af IS NOT NULL
+                                                            AND au.pricereq_all IS NOT NULL
                                                 ');                                            
                                                 foreach ($sumapprove_ as $key => $value3) {
-                                                    $sum_stm = $value3->claim_true_af;
+                                                    $sum_stm = $value3->pricereq_all;
                                                     $stm_count = $value3->Apvit;
                                                 }
 
@@ -177,10 +177,10 @@
                                                 
                                                     SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.vn) as Countvisit
                                                         from acc_1102050102_803 a
-                                                        LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
+                                                        LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate  
                                                         where month(a.vstdate) = "'.$item->months.'"
                                                         AND year(a.vstdate) = "'.$item->year.'"
-                                                        AND au.claim_true_af IS NULL
+                                                        AND au.pricereq_all IS NULL
                                                 ');                                           
                                                 foreach ($yokpai_data as $key => $value4) {
                                                     $sum_yokpai = $value4->debit_total; 
@@ -335,14 +335,14 @@
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select(' 
 
-                                                    SELECT count(DISTINCT a.vn) as Apvit ,sum(au.claim_true_af) as claim_true_af
+                                                    SELECT count(DISTINCT a.vn) as Apvit ,sum(au.pricereq_all) as pricereq_all
                                                         FROM acc_1102050102_803 a
-                                                        LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
-                                                        WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                                                        AND au.claim_true_af IS NOT NULL
+                                                        LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate 
+                                                        WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                        AND au.pricereq_all IS NOT NULL
                                             ');                                            
                                             foreach ($sumapprove_ as $key => $value3) {
-                                                $sum_stm = $value3->claim_true_af;
+                                                $sum_stm = $value3->pricereq_all;
                                                 $stm_count = $value3->Apvit;
                                             }
 
@@ -350,9 +350,9 @@
                                             
                                                 SELECT sum(a.debit_total) as debit_total,count(DISTINCT a.vn) as Countvisit
                                                     from acc_1102050102_803 a
-                                                    LEFT JOIN acc_stm_lgo au ON au.cid_f = a.cid AND au.vstdate_i = a.vstdate 
-                                                    where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                                                    AND au.claim_true_af IS NULL
+                                                    LEFT JOIN acc_stm_ofc au ON au.cid = a.cid AND au.vstdate = a.vstdate  
+                                                    where a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                    AND au.pricereq_all IS NULL
                                             ');                                           
                                             foreach ($yokpai_data as $key => $value4) {
                                                 $sum_yokpai = $value4->debit_total; 

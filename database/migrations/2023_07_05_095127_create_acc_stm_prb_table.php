@@ -19,6 +19,10 @@ return new class extends Migration
                 $table->bigIncrements('acc_stm_prb_id');  
                 $table->string('acc_1102050102_602_sid',100)->nullable();//
                 $table->string('acc_1102050102_603_sid',100)->nullable();//
+                $table->string('vn',100)->nullable();//
+                $table->string('hn',100)->nullable();//
+                $table->string('cid',100)->nullable();//
+                $table->string('ptname',100)->nullable();//
                 $table->string('req_no',100)->nullable();// รับแจ้ง  
                 $table->string('claim_no')->nullable();// เคลม
                 $table->string('vendor')->nullable();// บริษัทประกันภัย

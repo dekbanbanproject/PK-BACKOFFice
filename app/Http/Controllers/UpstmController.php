@@ -1066,6 +1066,141 @@ class UpstmController extends Controller
             
          
     }
+    public function uprep_money_plbhn(Request $request)
+    { 
+        $startdate = $request->datepicker;
+        $enddate = $request->datepicker2;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543; 
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 1 เดือน 
+        if ($startdate != '') {
+            $patient = DB::connection('mysql2')->select('
+                SELECT v.vn,p.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname,v.vstdate,v.income
+                from patient p 
+                LEFT JOIN vn_stat v ON p.hn = v.hn
+                WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND p.death = "N" AND v.income <> 0
+                AND v.pttype IN("31","36","37","38","39")
+            ');
+        } else {
+            $patient = DB::connection('mysql2')->select('
+                SELECT v.vn,p.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname,v.vstdate,v.income
+                from patient p 
+                LEFT JOIN vn_stat v ON p.hn = v.hn
+                WHERE v.vstdate BETWEEN "'.$newDate.'" AND "'.$date.'"
+                AND p.death = "N" AND v.income <> 0
+                AND v.pttype IN("31","36","37","38","39")
+            ');
+        }
+        
+       
+       
+         
+        return view('upstm.uprep_money_plbhn', [  
+            'patient'       =>  $patient,
+            'startdate'     =>  $startdate,
+            'enddate'       =>  $enddate
+        ]);
+            
+         
+    }
+    public function uprep_money_plbop(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543; 
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+        if ($startdate != '') {
+            $datashow = DB::select('  
+                SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+                ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
+                from acc_1102050102_602 U1 
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"     
+                GROUP BY U1.vn
+            ');
+        } else {
+            $datashow = DB::select(' 
+                SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+                    ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
+                    from acc_1102050102_602 U1 
+                    LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id 
+                    WHERE U1.vstdate BETWEEN "'.$start.'" AND "'.$end.'"            
+                    GROUP BY U1.vn 
+            '); 
+        }
+             $patient = DB::connection('mysql2')->select('
+                SELECT p.hn,concat(p.pname,p.fname," ",p.lname) as ptname
+                from patient p 
+                LEFT JOIN vn_stat v ON p.hn = v.hn
+                WHERE vstdate BETWEEN "2023-09-01" AND "2023-09-28"
+                AND p.death = "N" 
+            ');
+         
+        return view('upstm.uprep_money_plbop', [ 
+            'datashow'      =>  $datashow,
+            'patient'       =>  $patient,
+            'startdate'     =>  $startdate,
+            'enddate'       =>  $enddate
+        ]);
+            
+         
+    }
+    public function uprep_money_plbip(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y');
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+
+        if ($startdate != '') {
+            $datashow = DB::select(' 
+                SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+                ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
+                from acc_1102050102_602 U1 
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
+                WHERE U1.vstdate = "'.$startdate.'" AND year(U1.vstdate) = "'.$enddate.'"           
+                GROUP BY U1.vn
+            ');
+        } else {
+            $datashow = DB::select(' 
+                SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+                ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
+                from acc_1102050102_602 U1 
+                LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
+                WHERE U1.vstdate = "'.$start.'" AND year(U1.vstdate) = "'.$end.'"           
+                GROUP BY U1.vn
+            '); 
+        }
+        
+
+        
+       
+        return view('upstm.uprep_money_plbip', [ 
+            'datashow'      =>  $datashow,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
+        ]);
+            
+         
+    }
 
    
 }
