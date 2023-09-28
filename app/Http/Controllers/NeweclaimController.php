@@ -11,41 +11,9 @@ use App\Models\User;
 use App\Models\Acc_debtor;
 use App\Models\Pttype_eclaim;
 use App\Models\Account_listpercen;
-use App\Models\Leave_month;
-use App\Models\Acc_debtor_stamp;
-use App\Models\Acc_debtor_sendmoney;
+use App\Models\Leave_month; 
 use App\Models\Pttype;
-use App\Models\Pttype_acc;
-use App\Models\Acc_stm_ti;
-use App\Models\Acc_stm_ti_total;
-use App\Models\Acc_opitemrece;
-use App\Models\Acc_1102050101_202;
-use App\Models\Acc_1102050101_217;
-use App\Models\Acc_1102050101_2166;
-use App\Models\Acc_stm_ucs;
-use App\Models\Acc_1102050101_301;
-use App\Models\Acc_1102050101_304;
-use App\Models\Acc_1102050101_308;
-use App\Models\Acc_1102050101_4011;
-use App\Models\Acc_1102050101_3099;
-use App\Models\Acc_1102050101_401;
-use App\Models\Acc_1102050101_402;
-use App\Models\Acc_1102050102_801;
-use App\Models\Acc_1102050102_802;
-use App\Models\Acc_1102050102_803;
-use App\Models\Acc_1102050102_804;
-use App\Models\Acc_1102050101_4022;
-use App\Models\Acc_1102050102_602;
-use App\Models\Acc_1102050102_603;
-use App\Models\Acc_stm_prb;
-use App\Models\Acc_stm_ti_totalhead;
-use App\Models\Acc_stm_ti_excel;
-use App\Models\Acc_stm_ofc;
-use App\Models\acc_stm_ofcexcel;
-use App\Models\Acc_stm_lgo;
-use App\Models\Acc_stm_lgoexcel;
-use App\Models\Check_sit_auto;
-use App\Models\Acc_stm_ucs_excel;
+ 
 use App\Models\Api_neweclaim;
 use App\Models\Oapp;
 use PDF;
@@ -59,20 +27,10 @@ use Mail;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use Http;
-use SoapClient;
-// use File;
-// use SplFileObject;
-use Arr;
-// use Storage;
+use SoapClient; 
+use Arr; 
 use GuzzleHttp\Client;
-
-use App\Imports\ImportAcc_stm_ti;
-use App\Imports\ImportAcc_stm_tiexcel_import;
-use App\Imports\ImportAcc_stm_ofcexcel_import;
-use App\Imports\ImportAcc_stm_lgoexcel_import;
-use App\Models\Acc_1102050101_217_stam;
-use App\Models\Acc_opitemrece_stm;
-
+ 
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -85,11 +43,8 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 date_default_timezone_set("Asia/Bangkok");
 
-
 class NeweclaimController extends Controller
- {
-    // ***************** 301********************************
-
+ { 
     public function check_auth (Request $request)
     {
         $startdate = $request->startdate;
@@ -105,14 +60,12 @@ class NeweclaimController extends Controller
             SELECT *
             FROM api_neweclaim
         ');
-
         return view('neweclaim.check_auth',[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
             'data_auth'        => $data_auth,
         ]);
     }
-
     public function check_authapi(Request $request)
     {
         $username        = $request->username;
