@@ -20,11 +20,12 @@ return new class extends Migration
                 $table->string('api_neweclaim_user')->nullable();//
                 $table->string('api_neweclaim_pass')->nullable();//
                 $table->string('api_neweclaim_token')->nullable();//
+                $table->string('user_id')->nullable();//
                 $table->timestamps();
             });
         }
     }
-
+    
     /**
      * Reverse the migrations.
      *

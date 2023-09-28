@@ -105,6 +105,17 @@ class NeweclaimController extends Controller
         // dd($result);
         $check = Api_neweclaim::where('api_neweclaim_user',$username)->where('api_neweclaim_pass',$password)->count();
         if ($check > 0) {
+            // return response()->json([
+            //     'status'       => '100',
+            //      'response'    => $response,
+            //      'result'      => $result,
+            // ]);
+            Api_neweclaim::where('api_neweclaim_user',$username)->update([
+                // 'api_neweclaim_user'        => $username,
+                // 'api_neweclaim_pass'        => $password,
+                'api_neweclaim_token'       => $token,
+                'user_id'                   => Auth::user()->id,
+            ]);
             return response()->json([
                 'status'       => '100',
                  'response'    => $response,
@@ -115,6 +126,7 @@ class NeweclaimController extends Controller
                 'api_neweclaim_user'        => $username,
                 'api_neweclaim_pass'        => $password,
                 'api_neweclaim_token'       => $token,
+                'user_id'                   => Auth::user()->id,
             ]);
             return response()->json([
                 'status'       => '200',

@@ -192,8 +192,8 @@
                             })
                         } else {
                             Swal.fire({
-                                title: 'มีข้อมูลอยู่แล้ว',
-                                text: "You Have data success",
+                                title: 'มีข้อมูลอยู่แล้ว อัพเดท Token เรียบร้อย',
+                                text: "You Have data And Update Token success",
                                 icon: 'warning',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',
