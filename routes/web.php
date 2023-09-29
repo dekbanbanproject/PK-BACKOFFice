@@ -1537,6 +1537,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pk_dash',[App\Http\Controllers\AccdashboardController::class, 'account_pk_dash'])->name('acc.account_pk_dash');//
     Route::match(['get','post'],'account_dash_save',[App\Http\Controllers\AccdashboardController::class, 'account_dash_save'])->name('acc.account_dash_save');//
     Route::match(['get','post'],'account_dashline',[App\Http\Controllers\AccdashboardController::class, 'account_dashline'])->name('acc.account_dashline');//
+    Route::match(['get','post'],'acc_stm_ct',[App\Http\Controllers\AccdashboardController::class, 'acc_stm_ct'])->name('acc.acc_stm_ct');//
 
     Route::match(['get','post'],'account_pk_ipd',[App\Http\Controllers\AccountPKController::class, 'account_pk_ipd'])->name('acc.account_pk_ipd');//
     Route::match(['get','post'],'account_pk_ipdsave',[App\Http\Controllers\AccountPKController::class, 'account_pk_ipdsave'])->name('acc.account_pk_ipdsave');//
