@@ -2170,6 +2170,8 @@ Route::match(['get','post'],'medicine_salt_subhn/{hn}',[App\Http\Controllers\Med
 Route::match(['get','post'],'ucep24',[App\Http\Controllers\Ucep24Controller::class, 'ucep24'])->name('data.ucep24');//  UCEP24
 Route::match(['get','post'],'ucep24_an/{an}',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_an'])->name('data.ucep24_an');// UCEP24
 Route::match(['get','post'],'ucep24_income/{an}/{income}',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_income'])->name('data.ucep24_income');//  UCEP24
+Route::match(['get','post'],'ucep24_claim',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim'])->name('data.ucep24_claim');//  UCEP24
+Route::match(['get','post'],'ucep24_claim_process',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim_process'])->name('data.ucep24_claim_process');//  UCEP24
 
 Route::match(['get','post'],'imc',[App\Http\Controllers\ImcController::class, 'imc'])->name('data.imc');//  IMC
 

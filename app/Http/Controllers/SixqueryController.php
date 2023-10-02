@@ -149,8 +149,7 @@ class SixqueryController extends Controller
                   
                     and (r1.vn is not null or r2.vn is not null);
             ');
-            // LEFT JOIN d_export_ucep x on x.vn = v.vn
-            // where x.active="N"
+            
             foreach ($data_orf as $va4) {              
                 $addof = new D_orf;  
                 $addof->HN             = $va4->HN;

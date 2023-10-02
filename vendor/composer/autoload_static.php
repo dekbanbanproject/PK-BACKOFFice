@@ -1141,6 +1141,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\D_pat' => __DIR__ . '/../..' . '/app/Models/D_pat.php',
         'App\\Models\\D_query' => __DIR__ . '/../..' . '/app/Models/D_query.php',
         'App\\Models\\D_ucep' => __DIR__ . '/../..' . '/app/Models/D_ucep.php',
+        'App\\Models\\D_ucep24' => __DIR__ . '/../..' . '/app/Models/D_ucep24.php',
         'App\\Models\\Dashboard_authen_day' => __DIR__ . '/../..' . '/app/Models/Dashboard_authen_day.php',
         'App\\Models\\Dashboard_authenstaff_day' => __DIR__ . '/../..' . '/app/Models/Dashboard_authenstaff_day.php',
         'App\\Models\\Dashboard_department_authen' => __DIR__ . '/../..' . '/app/Models/Dashboard_department_authen.php',

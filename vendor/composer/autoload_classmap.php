@@ -481,6 +481,7 @@ return array(
     'App\\Models\\D_pat' => $baseDir . '/app/Models/D_pat.php',
     'App\\Models\\D_query' => $baseDir . '/app/Models/D_query.php',
     'App\\Models\\D_ucep' => $baseDir . '/app/Models/D_ucep.php',
+    'App\\Models\\D_ucep24' => $baseDir . '/app/Models/D_ucep24.php',
     'App\\Models\\Dashboard_authen_day' => $baseDir . '/app/Models/Dashboard_authen_day.php',
     'App\\Models\\Dashboard_authenstaff_day' => $baseDir . '/app/Models/Dashboard_authenstaff_day.php',
     'App\\Models\\Dashboard_department_authen' => $baseDir . '/app/Models/Dashboard_department_authen.php',

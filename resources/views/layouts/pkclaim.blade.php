@@ -217,6 +217,8 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('ucep24') }}">UCEP 24</a></li>
+                                <li><a href="{{ url('ucep24_claim') }}">UCEP 24-Claim</a></li>
+                                
                                 <li><a href="{{ url('imc') }}">IMC</a></li>
                                 <li><a href="{{ url('ofc') }}">OFC 401</a></li>
 
@@ -588,6 +590,17 @@
             $('#example3').DataTable();
             $('#example4').DataTable();
             $('#example5').DataTable();
+            $('#example6').DataTable();
+            $('#example7').DataTable();
+            $('#example8').DataTable();
+            $('#example9').DataTable();
+            $('#example10').DataTable();
+            $('#example11').DataTable();
+            $('#example12').DataTable();
+            $('#example13').DataTable();
+            $('#example14').DataTable();
+            $('#example15').DataTable();
+            $('#example16').DataTable();
             $('#example_user').DataTable();
 
             $.ajaxSetup({
