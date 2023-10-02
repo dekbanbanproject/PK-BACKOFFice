@@ -101,7 +101,7 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button> 
-                    <a href="" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <a href="{{url('ucep24_claim_process')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ประมวลผล
                     </a>
@@ -170,6 +170,12 @@ $pos = strrpos($url, '/') + 1;
                                     <span class="d-none d-sm-block">IRF</span>    
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#AER" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">AER</span>    
+                                </a>
+                            </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
@@ -177,7 +183,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">an</th>
                                                 <th class="text-center">hn</th>
@@ -189,7 +195,7 @@ $pos = strrpos($url, '/') + 1;
                                             @foreach ($data_main as $item1)
                                             <?php $number++; ?>
                 
-                                            <tr height="20" style="font-size: 14px;">
+                                            <tr height="20" style="font-size: 12px;">
                                                 <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
                                                 <td class="text-center" width="10%">  {{ $item1->an }}  </td>
                                                 <td class="text-center" width="10%">{{ $item1->hn }}</td>
@@ -208,7 +214,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example2" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">HN</th>
                                                 <th class="text-center">CLINIC</th>
@@ -222,7 +228,7 @@ $pos = strrpos($url, '/') + 1;
                                             <?php $i = 0; ?>
                                             @foreach ($data_opd as $itemo)
                                             <?php $i++; ?> 
-                                                <tr height="20" style="font-size: 14px;">
+                                                <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $i }}</td>
                                                     <td class="text-center" width="10%">  {{ $itemo->HN }}  </td>
                                                     <td class="text-center" width="10%">{{ $itemo->CLINIC }}</td>
@@ -240,7 +246,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">HN</th>
                                                 <th class="text-center">CLINIC</th>
@@ -254,7 +260,7 @@ $pos = strrpos($url, '/') + 1;
                                             <?php $a = 0; ?>
                                             @foreach ($data_orf as $itemorf)
                                             <?php $a++; ?> 
-                                                <tr height="20" style="font-size: 14px;">
+                                                <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $a }}</td>
                                                     <td class="text-center" width="10%"> {{ $itemorf->HN }}  </td>
                                                     <td class="text-center" width="10%">{{ $itemorf->CLINIC }}</td>
@@ -272,7 +278,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example4" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">HN</th>
                                                 <th class="text-center">CLINIC</th>
@@ -287,7 +293,7 @@ $pos = strrpos($url, '/') + 1;
                                             <?php $b = 0; ?>
                                             @foreach ($data_oop as $itemoop)
                                             <?php $b++; ?> 
-                                                <tr height="20" style="font-size: 14px;">
+                                                <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $b }}</td>
                                                     <td class="text-center" width="10%">{{ $itemoop->HN }}</td>
                                                     <td class="text-center" width="10%">{{ $itemoop->CLINIC }}</td>
@@ -306,7 +312,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example5" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">HN</th>
                                                 <th class="text-center">CLINIC</th>
@@ -322,7 +328,7 @@ $pos = strrpos($url, '/') + 1;
                                             <?php $c = 0; ?>
                                             @foreach ($data_odx as $itemodx)
                                             <?php $c++; ?> 
-                                                <tr height="20" style="font-size: 14px;">
+                                                <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $c }}</td>
                                                     <td class="text-center" width="10%">{{ $itemodx->HN }}</td>
                                                     <td class="text-center" width="10%">{{ $itemodx->CLINIC }}</td>
@@ -342,7 +348,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example6" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">AN</th>
                                                 <th class="text-center">DIAG</th>
@@ -354,7 +360,7 @@ $pos = strrpos($url, '/') + 1;
                                             <?php $d = 0; ?>
                                             @foreach ($data_idx as $itemidx)
                                             <?php $d++; ?> 
-                                                <tr height="20" style="font-size: 14px;">
+                                                <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $d }}</td>
                                                     <td class="text-center" width="10%">{{ $itemidx->AN }}</td>
                                                     <td class="text-center" width="10%">{{ $itemidx->DIAG }}</td>
@@ -370,7 +376,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example7" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">AN</th>
                                                 <th class="text-center">HN</th>
@@ -390,7 +396,7 @@ $pos = strrpos($url, '/') + 1;
                                             <?php $d = 0; ?>
                                             @foreach ($data_ipd as $itemipd)
                                             <?php $d++; ?> 
-                                                <tr height="20" style="font-size: 14px;">
+                                                <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $d }}</td>
                                                     <td class="text-center" width="10%">{{ $itemipd->AN }}</td>
                                                     <td class="text-center" width="10%">{{ $itemipd->HN }}</td>
@@ -414,7 +420,7 @@ $pos = strrpos($url, '/') + 1;
                                 <p class="mb-0">
                                     <table id="example8" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
                                                 <th class="text-center">AN</th>
                                                 <th class="text-center">REFER</th>
@@ -425,11 +431,69 @@ $pos = strrpos($url, '/') + 1;
                                             <?php $d = 0; ?>
                                             @foreach ($data_irf as $itemirf)
                                             <?php $d++; ?> 
-                                                <tr height="20" style="font-size: 14px;">
+                                                <tr height="20" style="font-size: 12px;">
                                                     <td class="text-font" style="text-align: center;" width="5%">{{ $d }}</td>
                                                     <td class="text-center" width="10%">{{ $itemirf->AN }}</td>
                                                     <td class="text-center" width="10%">{{ $itemirf->REFER }}</td>
                                                     <td class="text-center" width="5%">{{ $itemirf->REFERTYPE }}</td> 
+                                                </tr>  
+                                            @endforeach 
+                                        </tbody>
+                                    </table>
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="AER" role="tabpanel">
+                                <p class="mb-0">
+                                    <table id="example9" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">  --}}
+                                        <thead>
+                                            <tr style="font-size: 13px">
+                                                <th class="text-center">ลำดับ</th>
+                                                <th class="text-center">HN</th>
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">DATEOPD</th>
+                                                <th class="text-center">AUTHAE</th> 
+                                                <th class="text-center">AEDATE</th> 
+                                                <th class="text-center">AETIME</th> 
+                                                <th class="text-center">AETYPE</th> 
+                                                <th class="text-center">REFER_NO</th> 
+                                                <th class="text-center">REFMAINI</th> 
+                                                <th class="text-center">IREFTYPE</th> 
+                                                <th class="text-center">REFMAINO</th> 
+                                                <th class="text-center">OREFTYPE</th> 
+                                                <th class="text-center">UCAE</th> 
+                                                <th class="text-center">EMTYPE</th> 
+                                                <th class="text-center">SEQ</th> 
+                                                <th class="text-center">AESTATUS</th> 
+                                                <th class="text-center">DALERT</th> 
+                                                <th class="text-center">TALERT</th>  
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $d = 0; ?>
+                                            @foreach ($data_aer as $itemaer)
+                                            <?php $d++; ?> 
+                                                <tr height="20" style="font-size: 12px;">
+                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $d }}</td>
+                                                    <td class="text-center" width="7%">{{ $itemaer->HN }}</td>
+                                                    <td class="text-center" width="7%">{{ $itemaer->AN }}</td>
+                                                    <td class="text-center" width="7%">{{ $itemaer->DATEOPD }}</td>
+                                                    <td class="text-center" >{{ $itemaer->AUTHAE }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->AEDATE }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->AETIME }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->AETYPE }}</td> 
+                                                    <td class="text-center">{{ $itemaer->REFER_NO }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->REFMAINI }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->IREFTYPE }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->REFMAINO }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->OREFTYPE }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->UCAE }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->EMTYPE }}</td> 
+                                                    <td class="text-center" width="7%">{{ $itemaer->SEQ }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->AESTATUS }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->DALERT }}</td> 
+                                                    <td class="text-center" >{{ $itemaer->TALERT }}</td>  
                                                 </tr>  
                                             @endforeach 
                                         </tbody>

@@ -517,9 +517,9 @@ class SixqueryController extends Controller
     //     $data_aer = DB::connection('mysql3')->select('
     //             SELECT ""d_aer_id,v.hn HN,i.an AN
     //             ,v.vstdate DATEOPD,vv.claim_code AUTHAE
-    //             ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
-    //             ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ
-    //             ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
+                // ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+                // ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ
+                // ,"" AESTATUS,"" DALERT,"" TALERT,"" created_at,"" updated_at
     //             from vn_stat v
     //             LEFT JOIN ipt i on i.vn = v.vn
     //             LEFT JOIN visit_pttype vv on vv.vn = v.vn
@@ -543,26 +543,26 @@ class SixqueryController extends Controller
     //     ');
 
     //     foreach ($data_aer as $va12) {
-    //         D_aer::insert([
-    //             'HN'                => $va12->HN,
-    //             'AN'                => $va12->AN,
-    //             'DATEOPD'           => $va12->DATEOPD,
-    //             'AUTHAE'            => $va12->AUTHAE,
-    //             'AEDATE'            => $va12->AEDATE,
-    //             'AETIME'            => $va12->AETIME,
-    //             'AETYPE'            => $va12->AETYPE,
-    //             'REFER_NO'          => $va12->REFER_NO,
-    //             'REFMAINI'          => $va12->REFMAINI,
-    //             'IREFTYPE'          => $va12->IREFTYPE,
-    //             'REFMAINO'          => $va12->REFMAINO,
-    //             'OREFTYPE'          => $va12->OREFTYPE,
-    //             'UCAE'              => $va12->UCAE,
-    //             'SEQ'               => $va12->SEQ,
-    //             'AESTATUS'          => $va12->AESTATUS,
-    //             'DALERT'            => $va12->DALERT,
-    //             'TALERT'            => $va12->TALERT,
-    //             'user_id'           => $iduser,
-    //         ]);
+            // D_aer::insert([
+            //     'HN'                => $va12->HN,
+            //     'AN'                => $va12->AN,
+            //     'DATEOPD'           => $va12->DATEOPD,
+            //     'AUTHAE'            => $va12->AUTHAE,
+            //     'AEDATE'            => $va12->AEDATE,
+            //     'AETIME'            => $va12->AETIME,
+            //     'AETYPE'            => $va12->AETYPE,
+            //     'REFER_NO'          => $va12->REFER_NO,
+            //     'REFMAINI'          => $va12->REFMAINI,
+            //     'IREFTYPE'          => $va12->IREFTYPE,
+            //     'REFMAINO'          => $va12->REFMAINO,
+            //     'OREFTYPE'          => $va12->OREFTYPE,
+            //     'UCAE'              => $va12->UCAE,
+            //     'SEQ'               => $va12->SEQ,
+            //     'AESTATUS'          => $va12->AESTATUS,
+            //     'DALERT'            => $va12->DALERT,
+            //     'TALERT'            => $va12->TALERT,
+            //     'user_id'           => $iduser,
+            // ]);
     //     }
     //      //D_iop
     //      $data_iop = DB::connection('mysql3')->select('

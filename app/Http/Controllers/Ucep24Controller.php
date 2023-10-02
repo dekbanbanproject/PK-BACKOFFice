@@ -286,6 +286,7 @@ class Ucep24Controller extends Controller
                 $data_idx = DB::connection('mysql')->select('SELECT * from d_idx');
                 $data_ipd = DB::connection('mysql')->select('SELECT * from d_ipd');
                 $data_irf = DB::connection('mysql')->select('SELECT * from d_irf');
+                $data_aer = DB::connection('mysql')->select('SELECT * from d_aer');
             } else {
                 $iduser = Auth::user()->id;
                 D_ucep24_main::truncate();
@@ -534,7 +535,7 @@ class Ucep24Controller extends Controller
                     $addipd->user_id        = $iduser;
                     $addipd->save();
                 }
-                  //D_irf
+                //D_irf
                 $data_irf_ = DB::connection('mysql2')->select('
                     SELECT a.an AN
                     ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
@@ -564,6 +565,7 @@ class Ucep24Controller extends Controller
                 $data_idx = DB::connection('mysql')->select('SELECT * from d_idx');
                 $data_ipd = DB::connection('mysql')->select('SELECT * from d_ipd');
                 $data_irf = DB::connection('mysql')->select('SELECT * from d_irf');
+                $data_aer = DB::connection('mysql')->select('SELECT * from d_aer');
             }
                   
             return view('ucep.ucep24_claim',[
@@ -578,8 +580,69 @@ class Ucep24Controller extends Controller
                 'data_idx'         =>     $data_idx,
                 'data_ipd'         =>     $data_ipd,
                 'data_irf'         =>     $data_irf,
+
+                'data_aer'         =>     $data_aer,
             ]);
     }
+    public function ucep24_claim_process(Request $request)
+    { 
+        $iduser = Auth::user()->id;
+        D_aer::where('user_id','=',$iduser)->delete();
+         //D_aer
+         $data_aer_ = DB::connection('mysql2')->select('
+            SELECT v.hn HN
+            ,i.an AN
+            ,v.vstdate DATEOPD
+            ,vv.claim_code AUTHAE
+            ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+            ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ
+            ,"" AESTATUS,"" DALERT,"" TALERT
+            from hos.vn_stat v
+            left join hos.ipt i on i.vn = v.vn
+            left join hos.visit_pttype vv on vv.vn = v.vn
+            left outer join hos.pttype pt on pt.pttype =v.pttype
+            WHERE v.vn IN(SELECT vn from pkbackoffice.d_ucep24_main)
+            and i.an is null
+            GROUP BY v.vn
+            union all
+            SELECT a.hn HN
+            ,a.an AN
+            ,a.dchdate DATEOPD
+            ,vv.claim_code AUTHAE
+            ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+            ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,"" SEQ
+            ,"" AESTATUS,"" DALERT,"" TALERT
+            from hos.an_stat a
+            left join hos.ipt_pttype vv on vv.an = a.an
+            left outer join hos.pttype pt on pt.pttype =a.pttype
+            WHERE a.an IN(SELECT an from pkbackoffice.d_ucep24_main)
+            group by a.an;
+        ');
+        foreach ($data_aer_ as $va1) {
+            D_aer::insert([
+                'HN'                => $va1->HN,
+                'AN'                => $va1->AN,
+                'DATEOPD'           => $va1->DATEOPD,
+                'AUTHAE'            => $va1->AUTHAE,
+                'AEDATE'            => $va1->AEDATE,
+                'AETIME'            => $va1->AETIME,
+                'AETYPE'            => $va1->AETYPE,
+                'REFER_NO'          => $va1->REFER_NO,
+                'REFMAINI'          => $va1->REFMAINI,
+                'IREFTYPE'          => $va1->IREFTYPE,
+                'REFMAINO'          => $va1->REFMAINO,
+                'OREFTYPE'          => $va1->OREFTYPE,
+                'UCAE'              => $va1->UCAE,
+                'SEQ'               => $va1->SEQ,
+                'AESTATUS'          => $va1->AESTATUS,
+                'DALERT'            => $va1->DALERT,
+                'TALERT'            => $va1->TALERT,
+                'user_id'           => $iduser,
+            ]);
+        }
+        return back();
+    }
+
     
     
    
