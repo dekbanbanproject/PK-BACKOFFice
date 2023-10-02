@@ -1232,7 +1232,7 @@ class AutoController extends Controller
             SELECT cid,vn,an,vstdate
             FROM checksit_hos
             
-            WHERE vstdate BETWEEN "2023-09-23" AND "2023-09-26"
+            WHERE vstdate = CURDATE()
             AND subinscl IS NULL
             ORDER BY vstdate desc
             LIMIT 100

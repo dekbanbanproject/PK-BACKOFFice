@@ -1944,10 +1944,12 @@ class AccountController extends Controller
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $startdate . '" and "' . $enddate . '"
-                    AND (v.paid_money>0 and v.rcpt_money>0 and v.remain_money=0)
+                    AND (v.paid_money>0 and v.rcpt_money=0 )
+                    AND v.rcpno_list = """"
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc  
             ');
+            // AND (v.paid_money>0 and v.rcpt_money>0 )
         } else {
             $datashow = DB::connection('mysql')->select('
                 SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months 
@@ -1958,7 +1960,8 @@ class AccountController extends Controller
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $start . '" and "' . $end . '"
-                    AND (v.paid_money>0 and v.rcpt_money>0 and v.remain_money=0)
+                    AND (v.paid_money>0 and v.rcpt_money=0 )
+                    AND v.rcpno_list = """"
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc limit 6
             ');
@@ -1982,7 +1985,9 @@ class AccountController extends Controller
                 LEFT JOIN patient p on p.hn=v.hn
                 LEFT JOIN pttype t on t.pttype=v.pttype
                 WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '"
-                AND (v.paid_money>0 and v.rcpt_money=0 and v.remain_money=0)
+                
+                AND (v.paid_money>0 and v.rcpt_money=0 and)
+                AND a.rcpno_list = """"
         ');
         return view('account.account_nopaid_sub', [
             'datashow'   =>  $datashow, 
@@ -1999,7 +2004,7 @@ class AccountController extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y');
         $yearold = date('Y')-1;
@@ -2019,6 +2024,8 @@ class AccountController extends Controller
                     GROUP BY MONTH(a.dchdate)
                     ORDER BY a.dchdate desc  
             ');
+            // AND (a.paid_money>0 and a.rcpt_money=0 )
+            // AND a.rcpno_list = """"
             // AND (a.paid_money>0 and a.rcpt_money=0 and a.remain_money=0)
         } else {
             $datashow = DB::connection('mysql')->select('
@@ -2030,11 +2037,12 @@ class AccountController extends Controller
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(a.dchdate)
                     WHERE a.dchdate BETWEEN "' . $start . '" and "' . $end . '"
                     AND (a.paid_money>0 and a.rcpt_money=0 )
+                     
                     GROUP BY MONTH(a.dchdate)
                     ORDER BY a.dchdate desc limit 6 
             ');
         }
-                
+        // AND (a.paid_money>0 and a.rcpt_money=0 )        
         return view('account.account_nopaid_ip', [
             'datashow'   =>  $datashow, 
             'startdate'  =>  $startdate,
@@ -2053,8 +2061,9 @@ class AccountController extends Controller
             LEFT JOIN patient p on p.hn=a.hn
             LEFT JOIN pttype t on t.pttype=a.pttype
             WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
-            AND (a.paid_money>0 and a.rcpt_money=0)
+            AND a.rcpno_list = """"
         ');
+        // AND a.paid_money > 0 and a.rcpt_money =0 
         return view('account.account_nopaid_sub_ip', [
             'datashow'   =>  $datashow, 
             'startdate'  =>  $startdate,
