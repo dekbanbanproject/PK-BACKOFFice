@@ -1231,11 +1231,13 @@ class AutoController extends Controller
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an,vstdate
             FROM checksit_hos
-            WHERE vstdate = CURDATE()
+            
+            WHERE vstdate BETWEEN "2023-09-23" AND "2023-09-26"
             AND subinscl IS NULL
             ORDER BY vstdate desc
             LIMIT 100
         ');
+        // WHERE vstdate BETWEEN "2023-09-23" AND "2023-09-26"
         // WHERE vstdate = CURDATE()
         // AND subinscl IS NULL 
         foreach ($data_sitss as $key => $item) {
@@ -1294,16 +1296,15 @@ class AutoController extends Controller
                                 'subinscl_name'  => @$subinscl_name,
                                 'upsit_date'     => $date
                         ]);
-                        Acc_debtor::where('vn', $vn)
-                        ->update([
-                            'status'          => @$status,
-                            'maininscl'       => @$maininscl,
-                            'hmain'           => @$hmain,
-                            'subinscl'        => @$subinscl,
-                            'pttype_spsch'    => @$subinscl,
-                            'hsub'            => @$hsub,
-
-                    ]);
+                        // Acc_debtor::where('vn', $vn)
+                        //     ->update([
+                        //         'status'          => @$status,
+                        //         'maininscl'       => @$maininscl,
+                        //         'hmain'           => @$hmain,
+                        //         'subinscl'        => @$subinscl,
+                        //         'pttype_spsch'    => @$subinscl,
+                        //         'hsub'            => @$hsub, 
+                        // ]);
                     
                 }elseif(@$maininscl !="" || @$subinscl !=""){
                         $date2 = date("Y-m-d");
@@ -1322,26 +1323,26 @@ class AutoController extends Controller
                                 'subinscl_name' => @$subinscl_name,
                                 'upsit_date'    => $date2
                             ]);
-                        Acc_debtor::where('vn', $vn)
-                            ->update([
-                                'status' => @$status,
-                                'maininscl' => @$maininscl,
-                                'hmain' => @$hmain,
-                                'subinscl' => @$subinscl,
-                                'pttype_spsch' => @$subinscl,
-                                'hsub' => @$hsub,
+                        // Acc_debtor::where('vn', $vn)
+                        //     ->update([
+                        //         'status' => @$status,
+                        //         'maininscl' => @$maininscl,
+                        //         'hmain' => @$hmain,
+                        //         'subinscl' => @$subinscl,
+                        //         'pttype_spsch' => @$subinscl,
+                        //         'hsub' => @$hsub,
 
-                            ]);
-                        Acc_debtor::where('an', $an)
-                            ->update([
-                                'status' => @$status,
-                                'maininscl' => @$maininscl,
-                                'hmain' => @$hmain,
-                                'subinscl' => @$subinscl,
-                                'pttype_spsch' => @$subinscl,
-                                'hsub' => @$hsub,
+                        //     ]);
+                        // Acc_debtor::where('an', $an)
+                        //     ->update([
+                        //         'status' => @$status,
+                        //         'maininscl' => @$maininscl,
+                        //         'hmain' => @$hmain,
+                        //         'subinscl' => @$subinscl,
+                        //         'pttype_spsch' => @$subinscl,
+                        //         'hsub' => @$hsub,
 
-                        ]);
+                        // ]);
                             
                 }
 

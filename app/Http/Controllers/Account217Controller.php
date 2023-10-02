@@ -102,10 +102,11 @@ class Account217Controller extends Controller
                 left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.217"
                 AND a.stamp = "N"
-                AND a.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
+               
                 group by a.an
                 order by a.vstdate desc;
             ');
+            // AND a.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
             // AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
 
             // SELECT a.*,c.subinscl from acc_debtor a
@@ -120,7 +121,7 @@ class Account217Controller extends Controller
                 left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.217"
                 AND a.stamp = "N"
-                AND a.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
+                
                 group by a.an
                 order by a.vstdate desc;
             ');
@@ -191,10 +192,12 @@ class Account217Controller extends Controller
                 LEFT JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE ip.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
-                AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
+               
+                AND op.icode NOT IN("3001","3002")
                 GROUP BY ip.an;
                 
         ');
+        // AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
         // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
@@ -464,17 +467,17 @@ class Account217Controller extends Controller
 
         foreach ($data as $key => $value) {
             Acc_1102050101_217::insert([
-                'vn'                => $value->vn,
-                'hn'                => $value->hn,
-                'an'                => $value->an,
-                'cid'               => $value->cid,
-                'ptname'            => $value->ptname,
-                'vstdate'           => $value->vstdate,
-                'regdate'           => $value->regdate,
-                'dchdate'           => $value->dchdate,
-                'pttype'            => $value->pttype,
-                'income_group'      => $value->income_group,
-                'account_code'      => $value->account_code,
+                'vn'                 => $value->vn,
+                'hn'                 => $value->hn,
+                'an'                 => $value->an,
+                'cid'                => $value->cid,
+                'ptname'             => $value->ptname,
+                'vstdate'            => $value->vstdate,
+                'regdate'            => $value->regdate,
+                'dchdate'            => $value->dchdate,
+                'pttype'             => $value->pttype,
+                'income_group'       => $value->income_group,
+                'account_code'       => $value->account_code,
                 'rw'                 => $value->rw,
                 'adjrw'              => $value->adjrw,
                 'total_adjrw_income' => $value->total_adjrw_income,
@@ -482,9 +485,13 @@ class Account217Controller extends Controller
                 'debit_instument'    => $value->debit_instument,
                 'debit_toa'          => $value->debit_toa,
                 'debit_refer'        => $value->debit_refer,
-                'debit'             => $value->debit,
-                'debit_total'       => $value->debit_total,
-                'acc_debtor_userid' => $value->acc_debtor_userid
+                'income'             => $value->income,
+                'uc_money'           => $value->uc_money,
+                'discount_money'     => $value->discount_money,
+                'rcpt_money'         => $value->rcpt_money,
+                'debit'              => $value->debit,
+                'debit_total'        => $value->debit_total,
+                'acc_debtor_userid'  => $value->acc_debtor_userid
             ]);
         }
         // $acc_217_stam = DB::connection('mysql')->select('

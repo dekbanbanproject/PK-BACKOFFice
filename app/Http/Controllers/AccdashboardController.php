@@ -267,7 +267,7 @@ class AccdashboardController extends Controller
                   left outer join visit_pttype vpt on vpt.vn = o.vn and vpt.pttype = o.pttype
                   left outer join pkbackoffice.acc_stm_ucs s ON s.hn = v.hn AND s.vstdate = v.vstdate
                   WHERE o.vstdate BETWEEN "'. $startdate.'" AND "'. $enddate.'"
-                  and (o.anonymous_visit is null or o.anonymous_visit = "N") 
+                   
                   AND i.code like "c%" AND t.hipdata_code = "UCS"
                   order by o.vn
             '); 
@@ -307,7 +307,7 @@ class AccdashboardController extends Controller
                 left outer join visit_pttype vpt on vpt.vn = o.vn and vpt.pttype = o.pttype
                 left outer join pkbackoffice.acc_stm_ucs s ON s.hn = v.hn AND s.vstdate = v.vstdate
                 WHERE o.vstdate BETWEEN "'. $newDate.'" AND "'. $date.'"
-                and (o.anonymous_visit is null or o.anonymous_visit = "N") 
+                
                 AND i.code like "c%" AND t.hipdata_code = "UCS"
                 order by o.vn
           '); 
