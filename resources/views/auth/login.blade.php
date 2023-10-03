@@ -67,7 +67,7 @@
 
             <nav id="navbar" class="navbar">
                 <ul>                   
-                    <li><a class="nav-link scrollto" href="{{url('/')}}">
+                    <li><a class="nav-link scrollto" href="{{url('/login')}}">
                         <i class="fa-solid fa-house-chimney me-2"></i>
                         Home</a>
                     </li>

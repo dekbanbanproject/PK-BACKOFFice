@@ -564,37 +564,37 @@ class SixqueryController extends Controller
             //     'user_id'           => $iduser,
             // ]);
     //     }
-    //      //D_iop
-    //      $data_iop = DB::connection('mysql3')->select('
-    //             SELECT "" d_iop_id,v.an AN
-    //             ,o.icd9 OPER
-    //             ,o.oper_type as OPTYPE
-    //             ,if(d.licenseno="","-99999",d.licenseno) DROPID
-    //             ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
-    //             ,Time_format(o.optime,"%H%i") TIMEIN
-    //             ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
-    //             ,Time_format(o.endtime,"%H%i") TIMEOUT,"" created_at,"" updated_at
-    //             FROM an_stat v
-    //             LEFT JOIN iptoprt o on o.an = v.an
-    //             LEFT JOIN doctor d on d.`code` = o.doctor
-    //             INNER JOIN icd9cm1 i on i.code = o.icd9
-    //             LEFT JOIN ipt ip on ip.an = v.an
-    //             LEFT JOIN d_export_ucep x on x.vn = v.vn
-    //             WHERE x.active="N";
-    //     ');
-    //     foreach ($data_iop as $va7) {
-    //         D_iop::insert([
-    //             'AN'                => $va7->AN,
-    //             'OPER'              => $va7->OPER,
-    //             'OPTYPE'            => $va7->OPTYPE,
-    //             'DROPID'            => $va7->DROPID,
-    //             'DATEIN'            => $va7->DATEIN,
-    //             'TIMEIN'            => $va7->TIMEIN,
-    //             'DATEOUT'           => $va7->DATEOUT,
-    //             'TIMEOUT'           => $va7->TIMEOUT,
-    //             'user_id'           => $iduser,
-    //         ]);
-    //     }
+        //  //D_iop
+        //  $data_iop = DB::connection('mysql3')->select('
+        //         SELECT "" d_iop_id,v.an AN
+        //         ,o.icd9 OPER
+        //         ,o.oper_type as OPTYPE
+        //         ,if(d.licenseno="","-99999",d.licenseno) DROPID
+        //         ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
+        //         ,Time_format(o.optime,"%H%i") TIMEIN
+        //         ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
+        //         ,Time_format(o.endtime,"%H%i") TIMEOUT,"" created_at,"" updated_at
+        //         FROM an_stat v
+        //         LEFT JOIN iptoprt o on o.an = v.an
+        //         LEFT JOIN doctor d on d.`code` = o.doctor
+        //         INNER JOIN icd9cm1 i on i.code = o.icd9
+        //         LEFT JOIN ipt ip on ip.an = v.an
+        //         LEFT JOIN d_export_ucep x on x.vn = v.vn
+        //         WHERE x.active="N";
+        // ');
+        // foreach ($data_iop as $va7) {
+        //     D_iop::insert([
+        //         'AN'                => $va7->AN,
+        //         'OPER'              => $va7->OPER,
+        //         'OPTYPE'            => $va7->OPTYPE,
+        //         'DROPID'            => $va7->DROPID,
+        //         'DATEIN'            => $va7->DATEIN,
+        //         'TIMEIN'            => $va7->TIMEIN,
+        //         'DATEOUT'           => $va7->DATEOUT,
+        //         'TIMEOUT'           => $va7->TIMEOUT,
+        //         'user_id'           => $iduser,
+        //     ]);
+        // }
 
     //     // D_pat
     //     $data_pat = DB::connection('mysql3')->select('

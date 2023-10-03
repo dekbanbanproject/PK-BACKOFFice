@@ -120,7 +120,9 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
                 <div class="card-body">
-                    <!-- Nav tabs -->
+                    <div class="row">
+                        <div class="col-md-12">
+                             <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
@@ -176,6 +178,49 @@ $pos = strrpos($url, '/') + 1;
                                     <span class="d-none d-sm-block">AER</span>    
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#IOP" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">IOP</span>    
+                                </a>
+                            </li>                           
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#ODX" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">ODX</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#PAT" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">PAT</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#CHT" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">CHT</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#CHA" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">CHA</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#INS" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">INS</span>    
+                                </a>
+                            </li>
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#IDX" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                    <span class="d-none d-sm-block">IDX</span>    
+                                </a>
+                            </li> --}}
+                            
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
@@ -393,11 +438,11 @@ $pos = strrpos($url, '/') + 1;
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $d = 0; ?>
+                                            <?php $e = 0; ?>
                                             @foreach ($data_ipd as $itemipd)
-                                            <?php $d++; ?> 
+                                            <?php $e++; ?> 
                                                 <tr height="20" style="font-size: 12px;">
-                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $d }}</td>
+                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $e }}</td>
                                                     <td class="text-center" width="10%">{{ $itemipd->AN }}</td>
                                                     <td class="text-center" width="10%">{{ $itemipd->HN }}</td>
                                                     <td class="text-center" width="5%">{{ $itemipd->DATEADM }}</td>
@@ -428,11 +473,11 @@ $pos = strrpos($url, '/') + 1;
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $d = 0; ?>
+                                            <?php $f = 0; ?>
                                             @foreach ($data_irf as $itemirf)
-                                            <?php $d++; ?> 
+                                            <?php $f++; ?> 
                                                 <tr height="20" style="font-size: 12px;">
-                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $d }}</td>
+                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $f }}</td>
                                                     <td class="text-center" width="10%">{{ $itemirf->AN }}</td>
                                                     <td class="text-center" width="10%">{{ $itemirf->REFER }}</td>
                                                     <td class="text-center" width="5%">{{ $itemirf->REFERTYPE }}</td> 
@@ -471,11 +516,11 @@ $pos = strrpos($url, '/') + 1;
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $d = 0; ?>
+                                            <?php $g = 0; ?>
                                             @foreach ($data_aer as $itemaer)
-                                            <?php $d++; ?> 
+                                            <?php $g++; ?> 
                                                 <tr height="20" style="font-size: 12px;">
-                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $d }}</td>
+                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $g}}</td>
                                                     <td class="text-center" width="7%">{{ $itemaer->HN }}</td>
                                                     <td class="text-center" width="7%">{{ $itemaer->AN }}</td>
                                                     <td class="text-center" width="7%">{{ $itemaer->DATEOPD }}</td>
@@ -500,50 +545,178 @@ $pos = strrpos($url, '/') + 1;
                                     </table>
                                 </p>
                             </div>
-                            {{-- <div class="tab-pane" id="OPItem" role="tabpanel">
+                            <div class="tab-pane" id="IOP" role="tabpanel">
                                 <p class="mb-0">
-                                    <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    <table id="example10" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
-                                            <tr>
+                                            <tr style="font-size: 13px">
                                                 <th class="text-center">ลำดับ</th>
-                                                <th class="text-center">an</th>
-                                                <th class="text-center">hn</th>
-                                                <th class="text-center">vn</th> 
-                                                <th class="text-center">dchdate</th> 
-                                                <th class="text-center">icode</th> 
-                                                <th class="text-center">name</th> 
-                                                <th class="text-center">qty</th> 
-                                                <th class="text-center">unitprice</th> 
-                                                <th class="text-center">sum_price</th> 
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">OPER</th>
+                                                <th class="text-center">OPTYPE</th> 
+                                                <th class="text-center">DROPID</th> 
+                                                <th class="text-center">DATEIN</th> 
+                                                <th class="text-center">TIMEIN</th> 
+                                                <th class="text-center">DATEOUT</th> 
+                                                <th class="text-center">TIMEOUT</th>  
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $number = 0; ?>
-                                            @foreach ($data as $item)
-                                            <?php $number++; ?>
-                
-                                            <tr height="20" style="font-size: 14px;">
-                                                <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>
-                                                <td class="text-center" width="8%"> {{ $item->an }} </td>
-                                                <td class="text-center" width="5%">{{ $item->hn }}</td>
-                                                <td class="text-center" width="8%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="8%">{{ $item->dchdate }}</td>  
-                                                <td class="text-center" width="10%">{{ $item->icode }}</td> 
-                                                <td class="p-2" >{{ $item->name }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->qty }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->unitprice }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->sum_price }}</td> 
+                                            <?php $e = 0; ?>
+                                            @foreach ($data_iop as $itemiop)
+                                            <?php $e++; ?> 
+                                                <tr height="20" style="font-size: 12px;">
+                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $e }}</td>
+                                                    <td class="text-center" width="10%">{{$itemiop->AN }}</td>
+                                                    <td class="text-center" width="10%">{{$itemiop->OPER }}</td>
+                                                    <td class="text-center" width="5%">{{ $itemiop->OPTYPE }}</td>  
+                                                    <td class="text-center" width="10%">{{$itemiop->DROPID }}</td>
+                                                    <td class="text-center" width="10%">{{$itemiop->DATEIN }}</td>
+                                                    <td class="text-center" width="10%">{{$itemiop->TIMEIN }}</td>
+                                                    <td class="text-center" width="10%">{{$itemiop->DATEOUT }}</td>
+                                                    <td class="text-center" width="10%">{{$itemiop->TIMEOUT }}</td> 
+                                                </tr>  
+                                            @endforeach 
+                                        </tbody>
+                                    </table>
+                                </p>
+                            </div>
+                            {{-- <div class="tab-pane" id="PAT" role="tabpanel">
+                                <p class="mb-0">
+                                    <table id="example11" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                            <tr style="font-size: 13px">
+                                                <th class="text-center">ลำดับ</th>
+                                                <th class="text-center">AN</th>
+                                                <th class="text-center">OPER</th>
+                                                <th class="text-center">OPTYPE</th> 
+                                                <th class="text-center">DROPID</th> 
+                                                <th class="text-center">DATEIN</th> 
+                                                <th class="text-center">TIMEIN</th> 
+                                                <th class="text-center">DATEOUT</th> 
+                                                <th class="text-center">TIMEOUT</th>  
                                             </tr>
-                
-                
-                
-                                            @endforeach
-                
+                                        </thead>
+                                        <tbody>
+                                            <?php $e = 0; ?>
+                                            @foreach ($data_pat as $itempat)
+                                            <?php $e++; ?> 
+                                                <tr height="20" style="font-size: 12px;">
+                                                    <td class="text-font" style="text-align: center;" width="5%">{{ $e }}</td>
+                                                    <td class="text-center" width="10%">{{$itempat->AN }}</td>
+                                                    <td class="text-center" width="10%">{{$itempat->OPER }}</td>
+                                                    <td class="text-center" width="5%">{{ $itempat->OPTYPE }}</td>  
+                                                    <td class="text-center" width="10%">{{$itempat->DROPID }}</td>
+                                                    <td class="text-center" width="10%">{{$itempat->DATEIN }}</td>
+                                                    <td class="text-center" width="10%">{{$itempat->TIMEIN }}</td>
+                                                    <td class="text-center" width="10%">{{$itempat->DATEOUT }}</td>
+                                                    <td class="text-center" width="10%">{{$itempat->TIMEOUT }}</td> 
+                                                </tr>  
+                                            @endforeach 
                                         </tbody>
                                     </table>
                                 </p>
                             </div> --}}
+                            
+                            
                         </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#ADP" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                        <span class="d-none d-sm-block">ADP</span>    
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#DRU" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                        <span class="d-none d-sm-block">DRU</span>    
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content p-3 text-muted">
+                                {{-- <div class="tab-pane active" id="ADP" role="tabpanel">
+                                    <p class="mb-0">
+                                        <table id="example11" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr style="font-size: 13px">
+                                                    <th class="text-center">ลำดับ</th>
+                                                    <th class="text-center">HN</th>
+                                                    <th class="text-center">AN</th>
+                                                    <th class="text-center">DATEOPD</th> 
+                                                    <th class="text-center">TYPE</th> 
+                                                    <th class="text-center">CODE</th> 
+                                                    <th class="text-center">QTY</th> 
+                                                    <th class="text-center">RATE</th> 
+                                                    <th class="text-center">SEQ</th> 
+                                                    <th class="text-center">CAGCODE</th>
+                                                    <th class="text-center">DOSE</th>
+                                                    <th class="text-center">CA_TYPE</th>
+                                                    <th class="text-center">SERIALNO</th>
+                                                    <th class="text-center">TOTCOPAY</th>
+                                                    <th class="text-center">USE_STATUS</th>
+                                                    <th class="text-center">TOTAL</th>
+                                                    <th class="text-center">QTYDAY</th>
+                                                    <th class="text-center">TMLTCODE</th>
+                                                    <th class="text-center">STATUS1</th>
+                                                    <th class="text-center">BI</th>
+                                                    <th class="text-center">CLINIC</th>
+                                                    <th class="text-center">ITEMSRC</th>
+                                                    <th class="text-center">PROVIDER</th>
+                                                    <th class="text-center">GLAVIDA</th>
+                                                    <th class="text-center">GA_WEEK</th>
+                                                    <th class="text-center">DCIP</th>
+                                                    <th class="text-center">LMP</th>
+                                                    <th class="text-center">SP_ITEM</th> 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $f = 0; ?>
+                                                @foreach ($data_adp as $itemadp)
+                                                <?php $f++; ?> 
+                                                    <tr height="20" style="font-size: 12px;">
+                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $f }}</td>
+                                                        <td class="text-center" width="5%">{{$itemadp->HN }}</td>
+                                                        <td class="text-center" width="7%">{{$itemadp->AN }}</td>
+                                                        <td class="text-center" width="5%">{{ $itemadp->DATEOPD }}</td>  
+                                                        <td class="text-center" >{{$itemadp->TYPE }}</td>
+                                                        <td class="text-center" >{{$itemadp->CODE }}</td>
+                                                        <td class="text-center" >{{$itemadp->QTY }}</td>
+                                                        <td class="text-center" >{{$itemadp->RATE }}</td>
+                                                        <td class="text-center" >{{$itemadp->SEQ }}</td> 
+                                                        <td class="text-center" >{{$itemadp->CAGCODE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->DOSE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->CA_TYPE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->SERIALNO }}</td> 
+                                                        <td class="text-center" >{{$itemadp->TOTCOPAY }}</td> 
+                                                        <td class="text-center" >{{$itemadp->USE_STATUS }}</td> 
+                                                        <td class="text-center" >{{$itemadp->TOTAL }}</td> 
+                                                        <td class="text-center" >{{$itemadp->QTYDAY }}</td> 
+                                                        <td class="text-center" >{{$itemadp->TMLTCODE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->STATUS1 }}</td> 
+                                                        <td class="text-center" >{{$itemadp->BI }}</td> 
+                                                        <td class="text-center" >{{$itemadp->CLINIC }}</td> 
+                                                        <td class="text-center" >{{$itemadp->ITEMSRC }}</td> 
+                                                        <td class="text-center" >{{$itemadp->PROVIDER }}</td> 
+                                                        <td class="text-center">{{$itemadp->GLAVIDA }}</td> 
+                                                        <td class="text-center" >{{$itemadp->GA_WEEK }}</td> 
+                                                        <td class="text-center" >{{$itemadp->DCIP }}</td> 
+                                                        <td class="text-center" >{{$itemadp->LMP }}</td> 
+                                                        <td class="text-center" >{{$itemadp->SP_ITEM }}</td>  
+                                                    </tr>  
+                                                @endforeach 
+                                            </tbody>
+                                        </table>
+                                    </p>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div>
+                       
 
                    
                 </div>

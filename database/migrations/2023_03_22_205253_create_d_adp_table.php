@@ -44,6 +44,8 @@ return new class extends Migration
                 $table->string('DCIP')->nullable(); //
                 $table->string('LMP')->nullable(); // 
                 $table->string('SP_ITEM')->nullable(); // 
+                $table->string('icode')->nullable(); // 
+                $table->date('vstdate')->nullable(); // 
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //  
                 $table->timestamps();
