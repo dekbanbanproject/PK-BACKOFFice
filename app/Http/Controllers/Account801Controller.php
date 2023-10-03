@@ -30,7 +30,7 @@ use App\Models\Acc_1102050101_4011;
 use App\Models\Acc_1102050101_3099;
 use App\Models\Acc_1102050101_401;
 use App\Models\Acc_1102050101_402;
-use App\Models\acc_1102050102_801;
+use App\Models\Acc_1102050102_801;
 use App\Models\Acc_1102050102_802;
 use App\Models\Acc_1102050102_803;
 use App\Models\Acc_1102050102_804;
@@ -259,11 +259,11 @@ class Account801Controller extends Controller
                     ]);
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
-             $check = acc_1102050102_801::where('vn', $value->vn)->count(); 
+             $check = Acc_1102050102_801::where('vn', $value->vn)->count(); 
                 if ($check > 0) {
                 # code...
                 } else {
-                    acc_1102050102_801::insert([
+                    Acc_1102050102_801::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
                             'an'                => $value->an,
