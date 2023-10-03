@@ -82,7 +82,7 @@
         </div>
         <form action="{{ url('account_pkti8011_dash') }}" method="GET">
             @csrf
-            <div class="row ms-3 me-3 mt-3"> 
+            <div class="row mt-2"> 
                 <div class="col-md-3">
                     <h4 class="card-title">Detail 1102050101.8011</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.8011</p>
@@ -112,7 +112,7 @@
                 </div>
             </div>
         </form>  
-        <div class="row ms-3 me-3"> 
+        <div class="row"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
