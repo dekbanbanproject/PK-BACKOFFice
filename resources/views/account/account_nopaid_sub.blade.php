@@ -75,7 +75,7 @@ $pos = strrpos($url, '/') + 1;
 
         </div>
 
-        <div class="row ms-3 me-3 mt-3">
+        <div class="row ">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">

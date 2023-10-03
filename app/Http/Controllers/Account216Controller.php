@@ -211,17 +211,17 @@ class Account216Controller extends Controller
                 WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN v.income	
                 WHEN  vp.pttype_number ="2" AND vp.pttype NOT IN ("31","36","39") AND vp.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
                 (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))     
+                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))     
                 WHEN vp.pttype_number ="2" AND vp.pttype NOT IN ("31","36","39") AND vp.max_debt_amount <> "" THEN vp.max_debt_amount  		
                 ELSE                 
                 (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))   
+                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))   
                 END as debit
                                                 
                 ,v.income-v.discount_money-v.rcpt_money as debit2
                  
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012"),sum_price,0)) as debit_drug
+                ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,vp.max_debt_amount

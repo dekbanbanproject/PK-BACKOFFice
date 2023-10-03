@@ -74,6 +74,12 @@
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
+                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
+                </div>  --}}
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -123,19 +129,14 @@
                                 style=" border-spacing: 0; width: 100%;">
                                     <thead>
                                         <tr>
-                                          
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
-                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
-                                            {{-- <th class="text-center" >cid</th> --}}
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
-                                       
-                                            <th class="text-center">income</th> 
                                             <th class="text-center">income</th> 
                                             <th class="text-center">ลูกหนี้</th> 
                                             <th class="text-center">ins</th> 
@@ -156,20 +157,15 @@
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif --}}
-                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-
-                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
+                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->hn }}</td>  
-                                                {{-- <td class="text-center" width="7%">{{ $item->cid }}</td>   --}}
+                                                <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
                                                 <td class="text-center" width="7%">{{ $item->dchdate }}</td>   
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
                                                 <td class="text-end" style="color:rgb(119, 39, 247)" width="5%">{{ number_format($item->income, 2) }}</td> 
                                                 <td class="text-end" style="color:rgb(247, 81, 39)" width="7%">{{ number_format($item->debit_total, 2) }}</td> 
-
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_instument, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_drug, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_toa, 2) }}</td> 

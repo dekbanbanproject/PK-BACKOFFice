@@ -1232,12 +1232,12 @@ class AutoController extends Controller
             SELECT cid,vn,an,vstdate
             FROM checksit_hos
             
-            WHERE vstdate = CURDATE()
+            WHERE vstdate BETWEEN "2023-09-15" AND "2023-09-19"
             AND subinscl IS NULL
             ORDER BY vstdate desc
             LIMIT 100
         ');
-        // WHERE vstdate BETWEEN "2023-09-23" AND "2023-09-26"
+        // WHERE vstdate BETWEEN "2023-09-15" AND "2023-09-19"
         // WHERE vstdate = CURDATE()
         // AND subinscl IS NULL 
         foreach ($data_sitss as $key => $item) {

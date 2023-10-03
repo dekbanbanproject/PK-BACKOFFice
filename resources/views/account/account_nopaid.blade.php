@@ -67,12 +67,7 @@
             display: none;
         }
     </style>
-
-    <?php
-        $ynow = date('Y')+543;
-        $yb =  date('Y')+542;
-    ?>
-
+ 
    <div class="tabs-animation">
         <div id="preloader">
             <div id="status">
@@ -82,7 +77,7 @@
         </div>
         <form action="{{ url('account_nopaid') }}" method="GET">
             @csrf
-            <div class="row ms-3 me-3 mt-2"> 
+            <div class="row "> 
                 <div class="col-md-4">
                     <h4 class="card-title">Detail </h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล Visit ที่มีรายการค่าใช้จ่าย แต่ไม่มีการออกใบเสร็จ หรือลงค้าง OPD</p>
@@ -109,95 +104,95 @@
                 </div>
             </div>
         </form>  
-        <div class="row ms-3 me-3"> 
-            @foreach ($datashow as $item)  
+            <div class="row"> 
+                @foreach ($datashow as $item)  
 
-                <?php 
-                    $y = $item->year;
-                    $ynew = $y + 543; 
-                ?>
-            <div class="col-xl-4 col-md-6">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
+                    <?php 
+                        $y = $item->year;
+                        $ynew = $y + 543; 
+                    ?>
+                <div class="col-xl-4 col-md-6">
+                    <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
 
-     
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="d-flex text-start">
-                                    <div class="flex-grow-1 ">
-                                        
-                                        <div class="row">
-                                            <div class="col-md-5 text-start mt-4 ms-4">
-                                                <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
+        
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="d-flex text-start">
+                                        <div class="flex-grow-1 ">
+                                            
+                                            <div class="row">
+                                                <div class="col-md-5 text-start mt-4 ms-4">
+                                                    <h5 > {{$item->MONTH_NAME}} {{$ynew}}</h5>
+                                                </div>
+                                                <div class="col"></div>
+                                                <div class="col-md-5 text-end mt-2 me-2">
+                                                    {{-- <a href="" target="_blank">
+                                                        <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="">
+                                                            <h6 class="text-end">{{$item->count_vn}} Visit</h6>
+                                                        </div>
+                                                    </a> --}}
+                                                </div>
                                             </div>
-                                            <div class="col"></div>
-                                            <div class="col-md-5 text-end mt-2 me-2">
-                                                {{-- <a href="" target="_blank">
-                                                    <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="">
-                                                        <h6 class="text-end">{{$item->count_vn}} Visit</h6>
-                                                    </div>
-                                                </a> --}}
+                                            
+                                            <div class="row">
+                                                <div class="col-md-1 text-start ms-4">
+                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
+                                                </div>
+                                                <div class="col-md-4 text-start mt-3">
+                                                    <p class="text-muted mb-0" >
+                                                        Visit
+                                                    </p>
+                                                </div>
+                                                <div class="col"></div>
+                                                <div class="col-md-5 text-end me-2">
+                                                    <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                        <div class="widget-chart widget-chart-hover">
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="{{$item->count_vn}} Visit">
+                                                                {{$item->count_vn}} Visit
+                                                                    <i class="fa-brands fa-btc text-danger ms-2"></i>
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-md-1 text-start ms-4">
+                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
+                                                </div>
+                                                <div class="col-md-4 text-start mt-3">
+                                                    <p class="text-muted mb-0">
+                                                            คงค้าง
+                                                    </p>
+                                                </div>
+                                                <div class="col"></div>
+                                                <div class="col-md-5 text-end me-2">
+                                                    <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                        <div class="widget-chart widget-chart-hover">
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดเงิน {{ number_format($item->sum_paid_money, 2) }} บาท">
+                                                        {{ number_format($item->sum_paid_money, 2) }}
+                                                                    <i class="fa-brands fa-btc text-success ms-2"></i>
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            
+
                                         </div>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
-                                                <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
-                                            </div>
-                                            <div class="col-md-4 text-start mt-3">
-                                                <p class="text-muted mb-0" >
-                                                    Visit
-                                                </p>
-                                            </div>
-                                            <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                    <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="{{$item->count_vn}} Visit">
-                                                            {{$item->count_vn}} Visit
-                                                                <i class="fa-brands fa-btc text-danger ms-2"></i>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
-                                                <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
-                                            </div>
-                                            <div class="col-md-4 text-start mt-3">
-                                                <p class="text-muted mb-0">
-                                                        คงค้าง
-                                                </p>
-                                            </div>
-                                            <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_nopaid_sub/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                    <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยอดเงิน {{ number_format($item->sum_paid_money, 2) }} บาท">
-                                                     {{ number_format($item->sum_paid_money, 2) }}
-                                                                <i class="fa-brands fa-btc text-success ms-2"></i>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                   
-                       
-                   
+                    
+                        
+                    
+                    </div> 
                 </div> 
-            </div> 
-            @endforeach
-        </div>
+                @endforeach
+            </div>
 
     </div>
 

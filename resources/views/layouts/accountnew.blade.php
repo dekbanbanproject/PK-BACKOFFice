@@ -296,11 +296,11 @@ use App\Models\Products_request_sub;
                                 <span>ไม่ได้ชำระเงิน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('account_nopaid') }}" target="_blank">ข้อมูลทั้งปี OPD</a></li>
-                                <li><a href="{{ url('account_nopaid_ip') }}" target="_blank">ข้อมูลทั้งปี IPD</a></li>
+                                <li><a href="{{ url('account_nopaid') }}" >ข้อมูลทั้งปี OPD</a></li>  
+                                <li><a href="{{ url('account_nopaid_ip') }}">ข้อมูลทั้งปี IPD</a></li>
                             </ul>
                         </li>                        
-                        
+                        {{-- target="_blank" --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-brands fa-btc text-primary"></i>
@@ -350,13 +350,13 @@ use App\Models\Products_request_sub;
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <div class="main-content mt-3">
+        <div class="main-content">
             {{-- <div class="page-content"> --}}
             {{-- <div class="page-content"> --}}
+                <div class="page-content Backgroupbody">
+                    @yield('content')
 
-                @yield('content')
-
-            {{-- </div> --}}
+            </div>
             <!-- End Page-content -->
 
             <footer class="footer">
@@ -404,7 +404,11 @@ use App\Models\Products_request_sub;
     <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('acccph/vendors/jquery-circle-progress/dist/circle-progress.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/vendors/jquery-circle-progress/dist/circle-progress.min.js') }}"></script>  
+    <script type="text/javascript" src="{{ asset('acccph/vendors/perfect-scrollbar/dist/perfect-scrollbar.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/vendors/toastr/build/toastr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/vendors/jquery.fancytree/dist/jquery.fancytree-all-deps.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('acccph/vendors/apexcharts/dist/apexcharts.min.js') }}"></script>
 
     <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -469,7 +473,7 @@ use App\Models\Products_request_sub;
     <script type="text/javascript" src="{{ asset('acccph/js/form-components/toggle-switch.js') }}"></script>
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/tables.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('acccph/js/carousel-slider.js') }}"></script> --}}
-    <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('acccph/js/app.js') }}"></script> --}}
 
     @yield('footer')
 

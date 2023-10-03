@@ -1940,12 +1940,11 @@ class AccountController extends Controller
                     ,SUM(v.paid_money) AS sum_paid_money
                     ,COUNT(DISTINCT v.vn) AS count_vn,l.MONTH_NAME
                     FROM hos.vn_stat v
-                     
+                    left outer join hos.rcpt_print r on v.vn = r.vn
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $startdate . '" and "' . $enddate . '"
-                    AND (v.paid_money>0 and v.rcpt_money=0 )
-                    AND v.rcpno_list = """"
+                    AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc  
             ');
@@ -1956,12 +1955,11 @@ class AccountController extends Controller
                     ,SUM(v.paid_money) AS sum_paid_money
                     ,COUNT(DISTINCT v.vn) AS count_vn,l.MONTH_NAME
                     FROM hos.vn_stat v
-                 
+                    left outer join hos.rcpt_print r on v.vn = r.vn
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $start . '" and "' . $end . '"
-                    AND (v.paid_money>0 and v.rcpt_money=0 )
-                    AND v.rcpno_list = """"
+                    AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1) 
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc limit 6
             ');
@@ -1984,10 +1982,10 @@ class AccountController extends Controller
                 FROM vn_stat v
                 LEFT JOIN patient p on p.hn=v.hn
                 LEFT JOIN pttype t on t.pttype=v.pttype
+                left outer join hos.rcpt_print r on v.vn = r.vn
                 WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '"
                 
-                AND (v.paid_money>0 and v.rcpt_money=0 and)
-                AND a.rcpno_list = """"
+                AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
         ');
         return view('account.account_nopaid_sub', [
             'datashow'   =>  $datashow, 
@@ -2019,8 +2017,10 @@ class AccountController extends Controller
                     FROM hos.an_stat a 
                     LEFT JOIN hos.pttype t on t.pttype=a.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(a.dchdate)
-                    WHERE a.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
-                    AND (a.paid_money>0 and a.rcpt_money=0 )
+                    left outer join hos.ipt i on i.an = a.an
+                    left outer join hos.rcpt_print r on r.vn = i.vn
+                    WHERE a.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
+                    AND (a.paid_money > 0 and a.rcpt_money = 0 )
                     GROUP BY MONTH(a.dchdate)
                     ORDER BY a.dchdate desc  
             ');
@@ -2035,9 +2035,10 @@ class AccountController extends Controller
                     FROM hos.an_stat a 
                     LEFT JOIN hos.pttype t on t.pttype=a.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(a.dchdate)
+                    left outer join hos.ipt i on i.an = a.an
+                    left outer join hos.rcpt_print r on r.vn = i.vn
                     WHERE a.dchdate BETWEEN "' . $start . '" and "' . $end . '"
-                    AND (a.paid_money>0 and a.rcpt_money=0 )
-                     
+                    AND (a.paid_money > 0 and a.rcpt_money = 0 )
                     GROUP BY MONTH(a.dchdate)
                     ORDER BY a.dchdate desc limit 6 
             ');
@@ -2056,12 +2057,15 @@ class AccountController extends Controller
 
         $datashow = DB::connection('mysql2')->select(' 
             SELECT a.an, a.income,p.cid, a.paid_money, a.hn
-            , a.dchdate, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname
+            , a.dchdate, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,r.bill_date_time
+            ,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
             FROM an_stat a
             LEFT JOIN patient p on p.hn=a.hn
             LEFT JOIN pttype t on t.pttype=a.pttype
+            left outer join hos.ipt i on i.an = a.an
+            left outer join hos.rcpt_print r on r.vn = i.vn
             WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
-            AND a.rcpno_list = """"
+            AND (a.paid_money > 0 and a.rcpt_money = 0 )
         ');
         // AND a.paid_money > 0 and a.rcpt_money =0 
         return view('account.account_nopaid_sub_ip', [

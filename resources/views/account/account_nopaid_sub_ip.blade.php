@@ -75,7 +75,7 @@ $pos = strrpos($url, '/') + 1;
 
         </div>
 
-        <div class="row ms-3 me-3 mt-3">
+        <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -96,9 +96,12 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">ptname</th> 
                                     <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th> 
-                                    <th class="text-center">ICD</th>
+                                    {{-- <th class="text-center">ICD</th> --}}
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th> 
                                     <th class="text-center">ต้องชำระ</th> 
+                                    <th class="text-center">Finance No.</th> 
+                                    <th class="text-center">เลขที่ใบเสร็จ</th> 
+                                    <th class="text-center">total_amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,9 +117,12 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="p-2" >{{ $item->ptname }}</td>  
                                                     <td class="text-center" width="8%">{{ $item->dchdate }}</td>    
                                                     <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item->pdx }}</td> 
+                                                    {{-- <td class="text-center" width="5%">{{ $item->pdx }}</td>  --}}
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->income,2)}}</td> 
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->paid_money,2)}}</td> 
+                                                    <td class="text-center" width="7%">{{ $item->finance_number }}</td>
+                                                    <td class="text-center" width="7%">{{ $item->book_number }}</td>
+                                                    <td class="text-center" width="7%">{{ $item->total_amount }}</td>
                                                 </td>
                                         </tr> 
                                 @endforeach
