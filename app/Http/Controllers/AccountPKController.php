@@ -36,6 +36,7 @@ use App\Models\Acc_1102050102_804;
 use App\Models\Acc_1102050101_4022;
 use App\Models\Acc_1102050102_602;
 use App\Models\Acc_1102050102_603;
+use App\Models\Acc_1102050102_8011;
 use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
@@ -46,6 +47,8 @@ use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
 use App\Models\Acc_stm_repmoney;
+use App\Models\Acc_stm_lgoti_excel;
+use App\Models\Acc_stm_lgoti;
 use App\Models\Acc_stm_repmoney_file;
 use App\Models\Acc_trimart;
 
@@ -5545,6 +5548,123 @@ class AccountPKController extends Controller
         // ]);
         return redirect()->back();
     }
+
+    // *********************************************************
+
+    public function upstm_lgotiexcel(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT repno,vstdate,SUM(pay_amount) as Sumprice,STMdoc,month(vstdate) as months,cid,ptname
+            FROM acc_stm_lgoti_excel 
+            WHERE cid <> ""
+            GROUP BY cid,vstdate
+            ');
+        $countc = DB::table('acc_stm_lgoti_excel')->count();
+        // dd($countc );
+        return view('account_pk.upstm_lgotiexcel',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    public function upstm_lgotiexcel_save(Request $request)
+    { 
+            $this->validate($request, [
+                'file' => 'required|file|mimes:xls,xlsx'
+            ]);
+            $the_file = $request->file('file');
+            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+
+            try{
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( 11, $row_limit );
+                $column_range = range( 'AO', $column_limit );
+                $startcount = 11;
+                // $row_range_namefile  = range( 9, $sheet->getCell( 'A' . $row )->getValue() );
+                $data = array();
+                foreach ($row_range as $row ) {
+
+                    $vst = $sheet->getCell( 'G' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day = substr($vst,0,2);
+                    $mo = substr($vst,3,2);
+                    $year = substr($vst,6,4);
+                    $vstdate = $year.'-'.$mo.'-'.$day;
+  
+                    $h = $sheet->getCell( 'H' . $row )->getValue();
+                    $del_h = str_replace(",","",$h);
+                     
+                        $data[] = [ 
+                            'repno'                     =>$sheet->getCell( 'B' . $row )->getValue(),
+                            'hn'                        =>$sheet->getCell( 'C' . $row )->getValue(),
+                            'cid'                       =>$sheet->getCell( 'D' . $row )->getValue(),
+                            'ptname'                    =>$sheet->getCell( 'E' . $row )->getValue(),
+                            'type'                      =>$sheet->getCell( 'F' . $row )->getValue(), 
+                            'vstdate'                   =>$vstdate,
+                            'pay_amount'                =>$del_h,    
+                            'STMDoc'                    =>$file_
+                        ]; 
+                    $startcount++;
+                    
+                }
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {                     
+                    Acc_stm_lgoti_excel::insert($data_);                       
+                }
+             
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+               return response()->json([
+                'status'    => '200',
+            ]);
+    }
+    public function upstm_lgotiexcel_senddata(Request $request)
+    {
+        $data_ = DB::connection('mysql')->select('
+            SELECT * FROM acc_stm_lgoti_excel
+            WHERE cid <> ""
+            GROUP BY cid,vstdate
+        ');
+        // group by tranid_c
+        // GROUP BY cid,vstdate
+        foreach ($data_ as $key => $value) {
+            $check = Acc_stm_lgoti::where('cid',$value->cid)->where('vstdate',$value->vstdate)->count();
+            if ($check  == 0) { 
+                Acc_stm_lgoti::insert([
+                        'repno'           => $value->repno,
+                        'hn'              => $value->hn,
+                        'cid'             => $value->cid,
+                        'ptname'          => $value->ptname,
+                        'type'            => $value->type,
+                        'vstdate'         => $value->vstdate,
+                        'pay_amount'      => $value->pay_amount,
+                        'STMDoc'          => $value->STMDoc 
+                ]);
+            } 
+               
+            Acc_1102050102_8011::where('cid',$value->cid)->where('vstdate',$value->vstdate)
+            ->update([
+                'status'   => 'Y'
+            ]);
+        }
+        Acc_stm_lgoti_excel::truncate();
+        // return response()->json([
+        //     'status'    => '200',
+        // ]);
+        return redirect()->back();
+    }
+
+
+    // **********************************************
 
     public function upstm_ucs(Request $request)
     {

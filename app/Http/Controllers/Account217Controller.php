@@ -461,7 +461,7 @@ class Account217Controller extends Controller
     {
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        Acc_1102050101_217_stam::truncate();
+        // Acc_1102050101_217_stam::truncate();
         $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
             Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
                     ->update([

@@ -102,6 +102,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">Finance No.</th> 
                                     <th class="text-center">เลขที่ใบเสร็จ</th> 
                                     <th class="text-center">total_amount</th>
+                                    <th class="text-center">staff</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -123,6 +124,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="text-center" width="7%">{{ $item->finance_number }}</td>
                                                     <td class="text-center" width="7%">{{ $item->book_number }}</td>
                                                     <td class="text-center" width="7%">{{ $item->total_amount }}</td>
+                                                    <td class="text-center" width="5%">{{ $item->staff }}</td>
                                                 </td>
                                         </tr> 
                                 @endforeach

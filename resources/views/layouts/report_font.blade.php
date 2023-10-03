@@ -247,15 +247,15 @@
                                 <li ><a href="{{ url('kayapap_jitvs_mian') }}" >จิตเวช</a></li> 
                             </ul>
                         </li>
-                        {{-- <li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-square-person-confined text-danger"></i>
-                                <span>จิตเวช</span>
+                                <span>มะเร็ง</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li ><a href="{{ url('kayapap_jitvs_mian') }}" >จิตเวช</a></li> 
+                                <li ><a href="{{ url('acc_stm_ct') }}" >เทียบ STM มะเร็ง</a></li> 
                             </ul>
-                        </li> --}}
+                        </li>
 
                     </ul>
                 </div>

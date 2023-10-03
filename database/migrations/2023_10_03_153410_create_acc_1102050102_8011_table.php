@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     { 
-        if (!Schema::hasTable('acc_1102050101_209'))
+        if (!Schema::hasTable('acc_1102050102_8011'))
         {
-            Schema::create('acc_1102050101_209', function (Blueprint $table) {
-                $table->bigIncrements('acc_1102050101_209_id'); 
+            Schema::create('acc_1102050102_8011', function (Blueprint $table) {
+                $table->bigIncrements('acc_1102050102_8011_id'); 
                 $table->string('vn')->nullable();// รหัส
                 $table->string('an')->nullable();// 
                 $table->string('hn')->nullable();// 
@@ -35,19 +35,15 @@ return new class extends Migration
                 $table->string('income')->nullable();// 
                 $table->string('uc_money')->nullable();// 
                 $table->string('discount_money')->nullable();//  
-                $table->string('rcpt_money')->nullable();//              paid_money
+                $table->string('rcpt_money')->nullable();//  paid_money
                 $table->string('rcpno')->nullable();//  
                 $table->string('debit')->nullable();// 
-                $table->string('debit_drug')->nullable();//               เฉพาะรายการยา
-                $table->string('debit_instument')->nullable();//          เฉพาะรอวัยวะเทียม
-                $table->string('debit_refer')->nullable();//              เฉพาะ Refer
+                $table->string('debit_drug')->nullable();//เฉพาะรายการยา
+                $table->string('debit_instument')->nullable();// เฉพาะรอวัยวะเทียม
+                $table->string('debit_refer')->nullable();// เฉพาะ Refer
                 $table->string('debit_toa')->nullable();//
-                $table->string('debit_total')->nullable();//              
-                $table->string('max_debt_amount')->nullable();// 
-                $table->string('rw')->nullable();// 
-                $table->string('adjrw')->nullable();//                    adjrw
-                $table->string('total_adjrw_income')->nullable();//       = adjrw * 8350,9000
-                $table->string('sauntang')->nullable();//                 ส่วนต่าง
+                $table->string('debit_total')->nullable();//
+                $table->string('max_debt_amount')->nullable();//  
                 $table->string('acc_debtor_filename')->nullable();// 
                 $table->string('stm_rep')->nullable();//  
                 $table->string('stm_money')->nullable();//                
@@ -69,6 +65,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acc_1102050101_209');
+        Schema::dropIfExists('acc_1102050101_8011');
     }
 };

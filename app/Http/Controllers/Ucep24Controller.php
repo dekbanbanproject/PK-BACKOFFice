@@ -415,7 +415,7 @@ class Ucep24Controller extends Controller
                     $addof = new D_orf;  
                     $addof->HN             = $va4->HN;
                     $addof->CLINIC         = $va4->CLINIC;
-                    $addo->DATEOPD         = $va4->DATEOPD;
+                    $addof->DATEOPD         = $va4->DATEOPD;
                     $addof->REFER          = $va4->REFER;
                     $addof->SEQ            = $va4->SEQ;
                     $addof->REFERTYPE      = $va4->REFERTYPE; 
@@ -580,7 +580,6 @@ class Ucep24Controller extends Controller
                 'data_idx'         =>     $data_idx,
                 'data_ipd'         =>     $data_ipd,
                 'data_irf'         =>     $data_irf,
-
                 'data_aer'         =>     $data_aer,
             ]);
     }

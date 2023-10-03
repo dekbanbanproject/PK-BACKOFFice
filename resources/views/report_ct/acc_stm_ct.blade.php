@@ -1,4 +1,4 @@
-@extends('layouts.accountpk')
+@extends('layouts.report_font')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 @section('content')
     <style>
@@ -61,7 +61,7 @@
             @csrf
             <div class="row"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Dashboard Account </h4>
+                    <h4 class="card-title">Dashboard มะเร็งเทียบ STM </h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล </p>
                 </div>
                 <div class="col"></div>
@@ -86,7 +86,7 @@
             </div>
         </form> 
 
-        <div class="row ms-3 me-3">
+        <div class="row ">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">

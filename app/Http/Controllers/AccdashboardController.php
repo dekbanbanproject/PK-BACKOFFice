@@ -286,33 +286,46 @@ class AccdashboardController extends Controller
                 left outer join spclty s on s.spclty = o.spclty  
                 left outer join ovstist sti on sti.ovstist = o.ovstist  
                 left outer join ovstost st on st.ovstost = o.ovstost  
-                left outer join ovst_seq oq on oq.vn = o.vn  
-                left outer join opduser ou1 on ou1.loginname = oq.pttype_check_staff  
-                left outer join ovst_nhso_send oo1 on oo1.vn = o.vn  
-                left outer join kskdepartment k on k.depcode = o.cur_dep  
-                left outer join kskdepartment k2 on k2.depcode = oq.register_depcode  
-                left outer join kskdepartment kk3 on kk3.depcode = o.main_dep  
-                left outer join hospital_department hd on hd.id = oq.hospital_department_id  
-                left outer join sub_spclty ssp on ssp.sub_spclty_id = oq.sub_spclty_id  
-                left outer join pt_walk pw on pw.walk_id = oc.walk_id  
-                left outer join patient_opd_file pf on pf.hn = o.hn  
-                left outer join kskdepartment k3 on k3.depcode = pf.last_depcode  
-                left outer join visit_type vt on vt.visit_type = o.visit_type  
+                left outer join ovst_seq oq on oq.vn = o.vn 
+               
+
+                left outer join kskdepartment k on k.depcode = o.cur_dep 
+
+
+
+                
+
                 left outer join ipt i3  on i3.vn = o.vn  
                 left outer join opduser ou on ou.loginname = o.staff  
-                left outer join pt_priority p3 on p3.id = o.pt_priority  
-                left outer join pt_subtype ps1 on ps1.pt_subtype = o.pt_subtype  
-                left outer join pttype_check_status pcs on pcs.pttype_check_status_id = oq.pttype_check_status_id  
-                left outer join ovst_eclaim oe on oe.vn = o.vn  
-                left outer join visit_pttype vpt on vpt.vn = o.vn and vpt.pttype = o.pttype
+
+               
+
                 left outer join pkbackoffice.acc_stm_ucs s ON s.hn = v.hn AND s.vstdate = v.vstdate
-                WHERE o.vstdate BETWEEN "'. $newDate.'" AND "'. $date.'"
+                WHERE o.vstdate BETWEEN "'. $newweek.'" AND "'. $date.'"
                 
                 AND i.code like "c%" AND t.hipdata_code = "UCS"
                 order by o.vn
           '); 
       }
+      // left outer join opduser ou1 on ou1.loginname = oq.pttype_check_staff  
+      // left outer join ovst_nhso_send oo1 on oo1.vn = o.vn  
+
+      // left outer join kskdepartment k2 on k2.depcode = oq.register_depcode  
+      // left outer join kskdepartment kk3 on kk3.depcode = o.main_dep  
+      // left outer join hospital_department hd on hd.id = oq.hospital_department_id  
+      // left outer join sub_spclty ssp on ssp.sub_spclty_id = oq.sub_spclty_id  
+      // left outer join pt_walk pw on pw.walk_id = oc.walk_id  
+      // left outer join patient_opd_file pf on pf.hn = o.hn  
+      // left outer join kskdepartment k3 on k3.depcode = pf.last_depcode  
+      // left outer join visit_type vt on vt.visit_type = o.visit_type /
        
+      
+
+      // left outer join pt_priority p3 on p3.id = o.pt_priority  
+      // left outer join pt_subtype ps1 on ps1.pt_subtype = o.pt_subtype  
+      // left outer join pttype_check_status pcs on pcs.pttype_check_status_id = oq.pttype_check_status_id  
+      // left outer join ovst_eclaim oe on oe.vn = o.vn  
+      // left outer join visit_pttype vpt on vpt.vn = o.vn and vpt.pttype = o.pttype
       
     return view('report_ct.acc_stm_ct', [ 
       'datashow'          =>  $datashow,

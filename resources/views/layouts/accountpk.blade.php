@@ -304,6 +304,13 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             </li>
                                         </ul>
                                     </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">209-ลูกหนี้ค่ารักษา OP(P&P)</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_pkucs209_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_pkucs209_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">216-ลูกหนี้ค่ารักษา UC-OP บริการเฉพาะ(CR)</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkucs216_dash') }}">dashboard</a>
@@ -473,7 +480,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         @endif
 
                         @if ($permiss_ti != 0)
-                            <li>
+                            {{-- <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="fa-brands fa-btc text-primary"></i> 
                                     <span>ไต</span>
@@ -485,25 +492,65 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <li><a href="{{ url('account_pkti2166_dash') }}">UCS-2166</a></li>
                                     <li><a href="{{ url('account_pkti3099_dash') }}">SSS-3099</a></li>
                                 </ul>
+                            </li> --}}
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="fa-brands fa-btc" style="color: rgb(253, 124, 38)"></i>
+                                    <span>ไต</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="javascript: void(0);" class="has-arrow">4011-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง.OP</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_pkti4011_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_pkti4011_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">4022-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง.IP</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_pkti4022_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_pkti4022_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">8011-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.รูปแบบพิเศษ.OP</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_pkti8011_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_pkti8011_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">2166-ลูกหนี้ค่ารักษา-บริการเฉพาะ(CR)(ฟอกไต) OP</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_pkti2166_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_pkti2166_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="javascript: void(0);" class="has-arrow">3099-ลูกหนี้ค่ารักษา-ประกันสังคม(ค่าใช้จ่ายสูง)(ฟอกไต) OP</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_pkti3099_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_pkti3099_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </li>
                         @endif
 
                         @if ($permiss_setting_upstm != 0)
                             <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    {{-- <i class="fa-solid fa-file-invoice-dollar text-warning"></i> --}}
+                                <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                     <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
                                     <span>UP STM</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true">
                                     <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
-                                    <li><a href="{{ url('upstm_ofcexcel') }}">OFC-BKK(Excel)OK</a></li>
-
-                                    <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>
-                                    {{-- <li><a href="{{ url('upstm_lgoipexcel') }}">LGO-IP(Excel)</a></li> --}}
-
+                                    <li><a href="{{ url('upstm_ofcexcel') }}">OFC-BKK(Excel)OK</a></li> 
+                                    <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  
                                     <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
                                     <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
+                                    <li><a href="{{ url('upstm_lgotiexcel') }}">LGO(Excel-ไต)OK</a></li>
                                     <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)OK</a></li>
                                 </ul>
                             </li>

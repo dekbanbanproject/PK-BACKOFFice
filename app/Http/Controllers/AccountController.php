@@ -1978,8 +1978,11 @@ class AccountController extends Controller
         $enddate = $request->enddate; 
 
         $datashow = DB::connection('mysql2')->select(' 
-                SELECT v.vn, v.income,v.cid, v.paid_money, v.hn, v.vstdate, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname
+                SELECT v.vn, v.income,v.cid, v.paid_money, v.hn, v.vstdate, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
+                ,r.bill_date_time
+                ,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
                 FROM vn_stat v
+                left outer join hos.ovst o on o.vn = v.vn
                 LEFT JOIN patient p on p.hn=v.hn
                 LEFT JOIN pttype t on t.pttype=v.pttype
                 left outer join hos.rcpt_print r on v.vn = r.vn
@@ -2058,7 +2061,7 @@ class AccountController extends Controller
         $datashow = DB::connection('mysql2')->select(' 
             SELECT a.an, a.income,p.cid, a.paid_money, a.hn
             , a.dchdate, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,r.bill_date_time
-            ,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
+            ,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,i.staff
             FROM an_stat a
             LEFT JOIN patient p on p.hn=a.hn
             LEFT JOIN pttype t on t.pttype=a.pttype

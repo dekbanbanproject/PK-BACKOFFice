@@ -36,7 +36,7 @@ use App\Models\Acc_1102050102_803;
 use App\Models\Acc_1102050102_804;
 use App\Models\Acc_1102050101_4022;
 use App\Models\Acc_1102050102_602;
-use App\Models\Acc_1102050102_603;
+use App\Models\Acc_1102050101_209;
 use App\Models\Acc_stm_prb;
 use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
@@ -85,9 +85,9 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 date_default_timezone_set("Asia/Bangkok");
 
 
-class Account216Controller extends Controller
+class Account209Controller extends Controller
  { 
-    public function account_pkucs216_dash(Request $request)
+    public function account_pkucs209_dash(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -114,7 +114,7 @@ class Account216Controller extends Controller
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
-                    and account_code="1102050101.216"
+                    and account_code="1102050101.209"
                     group by month(a.vstdate) order by a.vstdate desc limit 3;
             ');
             // and stamp = "N"
@@ -131,19 +131,19 @@ class Account216Controller extends Controller
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.216"
+                    and account_code="1102050101.209"
                     group by month(a.vstdate) order by a.vstdate desc;
             ');
         }
 
-        return view('account_216.account_pkucs216_dash',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'    =>     $datashow,
+        return view('account_209.account_pkucs209_dash',[
+            'startdate'        =>  $startdate,
+            'enddate'          =>  $enddate,
+            'datashow'         =>  $datashow,
             'leave_month_year' =>  $leave_month_year,
         ]);
     }
-    public function account_pkucs216_pull(Request $request)
+    public function account_pkucs209_pull(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
@@ -159,19 +159,12 @@ class Account216Controller extends Controller
                 from acc_debtor a
                 left outer join checksit_hos c on c.vn = a.vn
                
-                WHERE a.account_code="1102050101.216"
+                WHERE a.account_code="1102050101.209"
                 AND a.stamp = "N" 
                 group by a.vn
                 order by a.vstdate desc;
             ');
-            // AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            // AND a.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
-            // SELECT a.*,c.subinscl from acc_debtor a
-            // left outer join check_sit_auto c on c.cid = a.cid and c.vstdate = a.vstdate
-            // WHERE a.account_code="1102050101.217"
-            // AND a.stamp = "N"
-            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
-            // order by a.dchdate asc;
+            
         } else {
             $acc_debtor = DB::select('
             SELECT a.acc_debtor_id,a.vn,a.hn,a.cid,a.vstdate,a.ptname,a.pttype,a.income,a.debit_total,a.debit_instument
@@ -179,47 +172,40 @@ class Account216Controller extends Controller
              from acc_debtor a
                 left join checksit_hos c on c.vn = a.vn
 
-                WHERE a.account_code="1102050101.216"
+                WHERE a.account_code="1102050101.209"
                 AND a.stamp = "N" 
                 group by a.vn
                 order by a.vstdate desc;
             ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
-        return view('account_216.account_pkucs216_pull',[
+        return view('account_209.account_pkucs209_pull',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'    =>     $acc_debtor,
         ]);
     }
-    public function account_pkucs216_pulldata(Request $request)
+    public function account_pkucs209_pulldata(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         $acc_debtor = DB::connection('mysql2')->select(' 
-                 SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
+                SELECT 
+                v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                 ,v.vstdate,v.hospmain 
+                ,vp.pttype 
+                ,e.code as acc_code
+                ,e.ar_opd as account_code 
+                ,e.`name` as account_name
+                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 								
+                ,v.income-v.discount_money-v.rcpt_money
+                -sum(if(op.income="02",sum_price,0))
+                -sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015"),sum_price,0))
+                -sum(if(op.icode IN("3001412","3001417"),sum_price,0))
+                -sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit
                 
-                ,vp.pttype,"03" as acc_code
-                ,"1102050101.216" as account_code ,"ลูกหนี้ค่ารักษา UC-OP บริการเฉพาะ (CR)" as account_name
-                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                 
-                ,CASE 
-                WHEN vp.pttype = "49" THEN v.income
-                WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN v.income	
-                WHEN  vp.pttype_number ="2" AND vp.pttype NOT IN ("31","36","39") AND vp.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
-                (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))     
-                WHEN vp.pttype_number ="2" AND vp.pttype NOT IN ("31","36","39") AND vp.max_debt_amount <> "" THEN vp.max_debt_amount  		
-                ELSE                 
-                (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","3001412","3001417","3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))   
-                END as debit
-                                                
-                ,v.income-v.discount_money-v.rcpt_money as debit2
-                 
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
@@ -230,26 +216,24 @@ class Account216Controller extends Controller
                 left outer join visit_pttype vp on vp.vn = v.vn
                 left outer join hos.patient pt on pt.hn=o.hn
                 left outer join hos.pttype ptt on o.pttype=ptt.pttype
-                left outer join hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+                left outer join hos.pttype_eclaim e on e.code = ptt.pttype_eclaim_id
                 left outer join hos.opitemrece op ON op.vn = o.vn
                 left outer join s_drugitems s on s.icode = op.icode
-
+                
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND v.income-v.discount_money-v.rcpt_money <> 0
-                AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.216"))
+                AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.209"))
                 
                 AND op.icode NOT like "c%" 
                 AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
                 AND (o.an="" or o.an is null)
-                GROUP BY v.vn 
+                GROUP BY v.vn  
                 
         ');
-        // AND s.nhso_adp_code NOT IN("3001","3002","2501","2502","3001","3002","9214","8901","8902","8904","8608","9001","8903","9211","9212","020700")
-        // AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
-        // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
+   
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
-                $check = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.216')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                $check = Acc_debtor::where('vn', $value->vn)->where('account_code', '1102050101.209')->whereBetween('vstdate', [$startdate, $enddate])->count();
                 if ($check == 0) {
                     Acc_debtor::insert([
                         'hn'                 => $value->hn,
@@ -291,18 +275,18 @@ class Account216Controller extends Controller
             'status'    => '200'
         ]);
     } 
-    public function account_pkucs216_stam(Request $request)
+    public function account_pkucs209_stam(Request $request)
     {
         $id = $request->ids;
         $iduser = Auth::user()->id;
-        // Acc_1102050101_217_stam::truncate();
+        
         $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
             Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
                     ->update([
                         'stamp' => 'Y'
                     ]);
         foreach ($data as $key => $value) {
-            Acc_1102050101_216::insert([
+            Acc_1102050101_209::insert([
                 'vn'                => $value->vn,
                 'hn'                => $value->hn,
                 'an'                => $value->an,
@@ -336,7 +320,7 @@ class Account216Controller extends Controller
         ]);
     } 
     
-    public function account_pkucs216_detail(Request $request,$months,$year)
+    public function account_pkucs209_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -345,17 +329,11 @@ class Account216Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT *  from acc_1102050101_216 
-            WHERE month(vstdate) = "'.$months.'" and year(vstdate) = "'.$year.'"
-
-            
-            
+            SELECT *  from acc_1102050101_209 
+            WHERE month(vstdate) = "'.$months.'" and year(vstdate) = "'.$year.'" 
         ');
-        // SELECT *  from acc_1102050101_216 a
-            // left outer join acc_opitemrece ao ON ao.vn = a.vn
-            // WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
-        // AND status = "N"
-        return view('account_216.account_pkucs216_detail', $data, [
+         
+        return view('account_209.account_pkucs209_detail', $data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'data'          =>     $data,
@@ -364,7 +342,7 @@ class Account216Controller extends Controller
         ]);
     }
     
-    public function account_pkucs216_stm(Request $request,$months,$year)
+    public function account_pkucs209_stm(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -372,23 +350,21 @@ class Account216Controller extends Controller
         // dd($id);
         $data['users'] = User::get();
 
-        $datashow = DB::select('
-        
-
+        $datashow = DB::select(' 
             SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
             ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
-            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm216
+            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217,s.pp,s.fs
             ,s.total_approve STM_TOTAL
-            from acc_1102050101_216 a
+            from acc_1102050101_209 a
             LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
             WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
             
-            AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+            AND s.pp > 0
             group by a.vn
         ');
         // AND s.rep IS NOT NULL
        
-            return view('account_216.account_pkucs216_stm', $data, [
+            return view('account_209.account_pkucs209_stm', $data, [
                 'startdate'         =>     $startdate,
                 'enddate'           =>     $enddate,
                 'datashow'          =>     $datashow,
@@ -396,7 +372,7 @@ class Account216Controller extends Controller
                 'year'              =>     $year, 
             ]);
     }
-    public function account_pkucs216_stmnull(Request $request,$months,$year)
+    public function account_pkucs209_stmnull(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -406,18 +382,18 @@ class Account216Controller extends Controller
 
         $data = DB::select('
                 SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
-                ,s.inst + s.hc + s.hc_drug + s.ae + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm216
-                from acc_1102050101_216 a
+                ,s.inst + s.hc + s.hc_drug + s.ae + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217,s.pp,s.fs
+                from acc_1102050101_209 a
                 LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
                 WHERE a.status ="N"
                 AND month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'"
              
-                AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
+                AND (s.pp is null or s.pp = "0.00")
                 group by a.vn
         ');
-          
+       
 
-        return view('account_216.account_pkucs216_stmnull', $data, [
+        return view('account_209.account_pkucs209_stmnull', $data, [
             'startdate'         =>     $startdate,
             'enddate'           =>     $enddate,
             'data'              =>     $data,
@@ -425,6 +401,33 @@ class Account216Controller extends Controller
             'year'              =>     $year, 
         ]);
     }
-    
+    // public function account_pkucs217_stmnull_all(Request $request,$months,$year)
+    // {
+    //     $datenow = date('Y-m-d');
+    //     $startdate = $request->startdate;
+    //     $enddate = $request->enddate;
+    //     // dd($id);
+    //     $data['users'] = User::get();
+    //     $mototal = $months + 1;
+    //     $datashow = DB::connection('mysql')->select('
+    //             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,au.STMdoc
+    //                 from acc_1102050101_217 a
+    //                 LEFT JOIN acc_stm_ucs au ON au.an = a.an
+    //                 WHERE a.status ="N"
+    //                 AND month(a.dchdate) < "'.$mototal.'"
+    //                 and year(a.dchdate) = "'.$year.'"
+    //                 AND au.ip_paytrue IS NULL
+    //                 GROUP BY a.an
+
+    //         ');
+    //     return view('account_217.account_pkucs217_stmnull_all', $data, [
+    //         'startdate'         =>     $startdate,
+    //         'enddate'           =>     $enddate,
+    //         'datashow'          =>     $datashow,
+    //         'months'            =>     $months,
+    //         'year'              =>     $year,
+    //     ]);
+    // }
+ 
 
  }
