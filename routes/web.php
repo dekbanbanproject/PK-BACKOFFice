@@ -2197,6 +2197,8 @@ Route::match(['get','post'],'ucep24_an/{an}',[App\Http\Controllers\Ucep24Control
 Route::match(['get','post'],'ucep24_income/{an}/{income}',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_income'])->name('data.ucep24_income');//  UCEP24
 Route::match(['get','post'],'ucep24_claim',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim'])->name('data.ucep24_claim');//  UCEP24
 Route::match(['get','post'],'ucep24_claim_process',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim_process'])->name('data.ucep24_claim_process');//  UCEP24
+Route::match(['get','post'],'ucep24_claim_upucep',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim_upucep'])->name('data.ucep24_claim_upucep');//  UCEP24
+Route::match(['get','post'],'ucep24_claim_export',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim_export'])->name('data.ucep24_claim_export');//  UCEP24
 
 Route::match(['get','post'],'imc',[App\Http\Controllers\ImcController::class, 'imc'])->name('data.imc');//  IMC
 

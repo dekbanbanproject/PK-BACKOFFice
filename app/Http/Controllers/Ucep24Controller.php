@@ -52,19 +52,14 @@ use Illuminate\Support\Facades\Storage;
 use Auth;
 use Http;
 use SoapClient;
-// use File;
-// use SplFileObject;
 use Arr;
-// use Storage;
 use GuzzleHttp\Client;
-
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
 use App\Imports\ImportAcc_stm_lgoexcel_import;
 use App\Models\Acc_1102050101_217_stam;
 use App\Models\Acc_opitemrece_stm;
-
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -73,7 +68,12 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\IOFactory; 
+use ZipArchive;  
+use Illuminate\Support\Facades\Redirect;
+use PhpParser\Node\Stmt\If_;
+use Stevebauman\Location\Facades\Location; 
+use Illuminate\Filesystem\Filesystem;
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -1251,11 +1251,523 @@ class Ucep24Controller extends Controller
         return back();
     }
 
-            // $s_con_icode_pang = "SELECT pang_icode FROM pang_icode WHERE pang_id='$pang' LIMIT 1000";
-            // $q_con_icode_pang = mysqli_query($con_money, $s_con_icode_pang) or die(nl2br($s_con_icode_pang)."|s_con_icode_pang|pang_opd_sql|");
-            // $concat_pang_icode = "";
-            // while($r_con_icode_pang=mysqli_fetch_array($q_con_icode_pang)){
-            //   $concat_pang_icode.="'".$r_con_icode_pang['pang_icode']."',";
-    
+    public function ucep24_claim_upucep(Request $request)
+    {   
+            $data_ = DB::connection('mysql')->select('  
+                    select vn,an,hn,vstdate,dchdate,icode
+                    from d_ucep24  
+            '); 
+            foreach ($data_ as $key => $val) {
+                
+                D_adp::where('an',$val->an)->where('vstdate',$val->vstdate)
+                ->update([
+                    'SP_ITEM' => '01'
+                ]);
+            }
+
+            return response()->json([
+                'status'    => '200'
+            ]);
+    }
+
+    public function ucep24_claim_export(Request $request)
+    {
+        $sss_date_now = date("Y-m-d");
+        $sss_time_now = date("H:i:s");
+
+        #ตัดขีด, ตัด : ออก
+        $pattern_date = '/-/i';
+        $sss_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        $pattern_time = '/:/i';
+        $sss_time_now_preg = preg_replace($pattern_time, '', $sss_time_now);
+        #ตัดขีด, ตัด : ออก
+
+         #delete file in folder ทั้งหมด
+        $file = new Filesystem;
+        $file->cleanDirectory('Export'); //ทั้งหมด
+        // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
+        $folder='UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+
+         mkdir ('Export/'.$folder, 0777, true);  //Web
+        //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
+
+        header("Content-type: text/txt");
+        header("Cache-Control: no-store, no-cache");
+        header('Content-Disposition: attachment; filename="content.txt"');
+
+        //ins.txt
+        $file_d_ins = "Export/".$folder."/INS.txt";
+        $objFopen_opd1 = fopen($file_d_ins, 'w');
+        $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
+        fwrite($objFopen_opd1, $opd_head);
+        $ins = DB::connection('mysql')->select('
+            SELECT * from d_ins
+        ');
+        foreach ($ins as $key => $value1) {
+            $a1 = $value1->HN;
+            $a2 = $value1->INSCL;
+            $a3 = $value1->SUBTYPE;
+            $a4 = $value1->CID;
+            $a5 = $value1->DATEIN;
+            $a6 = $value1->DATEEXP;
+            $a7 = $value1->HOSPMAIN;
+            $a8 = $value1->HOSPSUB;
+            $a9 = $value1->GOVCODE;
+            $a10 = $value1->GOVNAME;
+            $a11 = $value1->PERMITNO;
+            $a12 = $value1->DOCNO;
+            $a13 = $value1->OWNRPID;
+            $a14= $value1->OWNRNAME;
+            $a15 = $value1->AN;
+            $a16= $value1->SEQ;
+            $a17= $value1->SUBINSCL;
+            $a18 = $value1->RELINSCL;
+            $a19 = $value1->HTYPE;
+            $strText1="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
+            $ansitxt_pat1 = iconv('UTF-8', 'TIS-620', $strText1);
+            fwrite($objFopen_opd1, $ansitxt_pat1);
+        }
+        fclose($objFopen_opd1);
+     
+        //iop.txt
+        $file_d_iop = "Export/".$folder."/IOP.txt";
+        $objFopen_opd2 = fopen($file_d_iop, 'w');
+        $opd_head2 = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
+        fwrite($objFopen_opd2, $opd_head2);
+        $iop = DB::connection('mysql')->select('
+            SELECT * from d_iop
+        ');
+        foreach ($iop as $key => $value2) {
+            $b1 = $value2->AN;
+            $b2 = $value2->OPER;
+            $b3 = $value2->OPTYPE;
+            $b4 = $value2->DROPID;
+            $b5 = $value2->DATEIN;
+            $b6 = $value2->TIMEIN;
+            $b7 = $value2->DATEOUT;
+            $b8 = $value2->TIMEOUT;
+           
+            $strText2="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
+            $ansitxt_pat2 = iconv('UTF-8', 'TIS-620', $strText2);
+            fwrite($objFopen_opd2, $ansitxt_pat2);
+        }
+        fclose($objFopen_opd2);
+
+         //adp.txt
+        $file_d_adp = "Export/".$folder."/ADP.txt";
+        $objFopen_opd3 = fopen($file_d_adp, 'w');
+        $opd_head3 = 'HN|AN|DATEOPD|BILLMAUD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
+        fwrite($objFopen_opd3, $opd_head3);
+        $adp = DB::connection('mysql')->select('
+            SELECT * from d_adp
+        ');
+        foreach ($adp as $key => $value3) {
+            $c1 = $value3->HN;
+            $c2 = $value3->AN;
+            $c3 = $value3->DATEOPD;
+            $c4 = $value3->TYPE;
+            $c5 = $value3->CODE;
+            $c6 = $value3->QTY;
+            $c7 = $value3->RATE;
+            $c8 = $value3->SEQ;
+            $c9 = $value3->CAGCODE;
+            $c10 = $value3->DOSE;
+            $c11 = $value3->CA_TYPE;
+            $c12 = $value3->SERIALNO;
+            $c13 = $value3->TOTCOPAY;
+            $c14 = $value3->USE_STATUS;
+            $c15 = $value3->TOTAL;
+            $c16 = $value3->QTYDAY;
+            $c17 = $value3->TMLTCODE;
+            $c18 = $value3->STATUS1;
+            $c19 = $value3->BI;
+            $c20 = $value3->CLINIC;
+            $c21 = $value3->ITEMSRC;
+            $c22 = $value3->PROVIDER;
+            $c23 = $value3->GLAVIDA;
+            $c24 = $value3->GA_WEEK;
+            $c25 = $value3->DCIP;
+            $c26 = $value3->LMP;
+            $c27 = $value3->SP_ITEM;           
+            $strText3="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
+            $ansitxt_pat3 = iconv('UTF-8', 'TIS-620', $strText3);
+            fwrite($objFopen_opd3, $ansitxt_pat3);
+        }
+        fclose($objFopen_opd3);
+
+        //aer.txt
+        $file_d_aer = "Export/".$folder."/AER.txt";
+        $objFopen_opd4 = fopen($file_d_aer, 'w');
+        $opd_head4 = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
+        fwrite($objFopen_opd4, $opd_head4);
+        $aer = DB::connection('mysql')->select('
+            SELECT * from d_aer
+        ');
+        foreach ($aer as $key => $value4) {
+            $d1 = $value4->HN;
+            $d2 = $value4->AN;
+            $d3 = $value4->DATEOPD;
+            $d4 = $value4->AUTHAE;
+            $d5 = $value4->AEDATE;
+            $d6 = $value4->AETIME;
+            $d7 = $value4->AETYPE;
+            $d8 = $value4->REFER_NO;
+            $d9 = $value4->REFMAINI;
+            $d10 = $value4->IREFTYPE;
+            $d11 = $value4->REFMAINO;
+            $d12 = $value4->OREFTYPE;
+            $d13 = $value4->UCAE;
+            $d14 = $value4->EMTYPE;
+            $d15 = $value4->SEQ;
+            $d16 = $value4->AESTATUS;
+            $d17 = $value4->DALERT;
+            $d18 = $value4->TALERT;        
+            $strText4="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
+            $ansitxt_pat4 = iconv('UTF-8', 'TIS-620', $strText4);
+            fwrite($objFopen_opd4, $ansitxt_pat4);
+        }
+        fclose($objFopen_opd4);
+
+        //cha.txt
+        $file_d_cha = "Export/".$folder."/CHA.txt";
+        $objFopen_opd5 = fopen($file_d_cha, 'w');
+        $opd_head5 = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
+        fwrite($objFopen_opd5, $opd_head5);
+        $cha = DB::connection('mysql')->select('
+            SELECT * from d_cha
+        ');
+        foreach ($cha as $key => $value5) {
+            $e1 = $value5->HN;
+            $e2 = $value5->AN;
+            $e3 = $value5->DATE;
+            $e4 = $value5->CHRGITEM;
+            $e5 = $value5->AMOUNT;
+            $e6 = $value5->PERSON_ID;
+            $e7 = $value5->SEQ; 
+            $strText5="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
+            $ansitxt_pat5 = iconv('UTF-8', 'TIS-620', $strText5);
+            fwrite($objFopen_opd5, $ansitxt_pat5);
+        }
+        fclose($objFopen_opd5);
+
+        //cht.txt
+        $file_d_cht = "Export/".$folder."/CHT.txt";
+        $objFopen_opd6 = fopen($file_d_cht, 'w');
+        $opd_head6 = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
+        fwrite($objFopen_opd6, $opd_head6);
+        $cht = DB::connection('mysql')->select('
+            SELECT * from d_cht
+        ');
+        foreach ($cht as $key => $value6) {
+            $f1 = $value6->HN;
+            $f2 = $value6->AN;
+            $f3 = $value6->DATE;
+            $f4 = $value6->TOTAL;
+            $f5 = $value6->PAID;
+            $f6 = $value6->PTTYPE;
+            $f7 = $value6->PERSON_ID; 
+            $f8 = $value6->SEQ;
+            $strText6="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
+            $ansitxt_pat6 = iconv('UTF-8', 'TIS-620', $strText6);
+            fwrite($objFopen_opd6, $ansitxt_pat6);
+        }
+        fclose($objFopen_opd6);
+
+        //dru.txt
+        $file_d_dru = "Export/".$folder."/DRU.txt";
+        $objFopen_opd7 = fopen($file_d_dru, 'w');
+        $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL';
+        fwrite($objFopen_opd7, $opd_head7);
+        $dru = DB::connection('mysql')->select('
+            SELECT * from d_dru
+        ');
+        foreach ($dru as $key => $value7) {
+            $g1 = $value7->HCODE;
+            $g2 = $value7->HN;
+            $g3 = $value7->AN;
+            $g4 = $value7->CLINIC;
+            $g5 = $value7->PERSON_ID;
+            $g6 = $value7->DATE_SERV;
+            $g7 = $value7->DID;
+            $g8 = $value7->DIDNAME;
+            $g9 = $value7->AMOUNT;
+            $g10 = $value7->DRUGPRIC;
+            $g11 = $value7->DRUGCOST;
+            $g12 = $value7->DIDSTD;
+            $g13 = $value7->UNIT;
+            $g14 = $value7->UNIT_PACK;
+            $g15 = $value7->SEQ;
+            $g16 = $value7->DRUGREMARK;
+            $g17 = $value7->PA_NO;
+            $g18 = $value7->TOTCOPAY;
+            $g19 = $value7->USE_STATUS;
+            $g20 = $value7->TOTAL;
+            $g21 = $value7->SIGCODE;
+            $g22 = $value7->SIGTEXT;        
+            $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22;
+            $ansitxt_pat7 = iconv('UTF-8', 'TIS-620', $strText7);
+            fwrite($objFopen_opd7, $ansitxt_pat7);
+        }
+        fclose($objFopen_opd7);
+
+        //idx.txt
+        $file_d_idx = "Export/".$folder."/IDX.txt";
+        $objFopen_opd8 = fopen($file_d_idx, 'w');
+        $opd_head8 = 'AN|DIAG|DXTYPE|DRDX';
+        fwrite($objFopen_opd8, $opd_head8);
+        $idx = DB::connection('mysql')->select('
+            SELECT * from d_idx
+        ');
+        foreach ($idx as $key => $value8) {
+            $h1 = $value8->AN;
+            $h2 = $value8->DIAG;
+            $h3 = $value8->DXTYPE;
+            $h4 = $value8->DRDX; 
+            $strText8="\n".$h1."|".$h2."|".$h3."|".$h4;
+            $ansitxt_pat8 = iconv('UTF-8', 'TIS-620', $strText8);
+            fwrite($objFopen_opd8, $ansitxt_pat8);
+        }
+        fclose($objFopen_opd8);
+
+        //pat.txt
+        $file_pat = "Export/".$folder."/PAT.txt";
+        $objFopen_opd9 = fopen($file_pat, 'w');
+        $opd_head9 = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
+        fwrite($objFopen_opd9, $opd_head9);
+        $pat = DB::connection('mysql')->select('
+            SELECT * from d_pat
+        ');
+        foreach ($pat as $key => $value9) {
+            $i1 = $value9->HCODE;
+            $i2 = $value9->HN;
+            $i3 = $value9->CHANGWAT;
+            $i4 = $value9->AMPHUR;
+            $i5 = $value9->DOB;
+            $i6 = $value9->SEX;
+            $i7 = $value9->MARRIAGE;
+            $i8 = $value9->OCCUPA;
+            $i9 = $value9->NATION;
+            $i10 = $value9->PERSON_ID;
+            $i11 = $value9->NAMEPAT;
+            $i12 = $value9->TITLE;
+            $i13 = $value9->FNAME;
+            $i14 = $value9->LNAME;
+            $i15 = $value9->IDTYPE;      
+            $strText9="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
+            $ansitxt_pat9 = iconv('UTF-8', 'TIS-620', $strText9);
+            fwrite($objFopen_opd9, $ansitxt_pat9);
+        }
+        fclose($objFopen_opd9);
+
+        //ipd.txt
+        $file_d_ipd = "Export/".$folder."/IPD.txt";
+        $objFopen_opd10 = fopen($file_d_ipd, 'w');
+        $opd_head10 = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
+        fwrite($objFopen_opd10, $opd_head10);
+        $ipd = DB::connection('mysql')->select('
+            SELECT * from d_ipd
+        ');
+        foreach ($ipd as $key => $value10) {
+            $j1 = $value10->HN;
+            $j2 = $value10->AN;
+            $j3 = $value10->DATEADM;
+            $j4 = $value10->TIMEADM;
+            $j5 = $value10->DATEDSC;
+            $j6 = $value10->TIMEDSC;
+            $j7 = $value10->DISCHS;
+            $j8 = $value10->DISCHT;
+            $j9 = $value10->WARDDSC;
+            $j10 = $value10->DEPT;
+            $j11 = $value10->ADM_W;
+            $j12 = $value10->UUC;
+            $j13 = $value10->SVCTYPE;    
+            $strText10="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
+            $ansitxt_pat10 = iconv('UTF-8', 'TIS-620', $strText10);
+            fwrite($objFopen_opd10, $ansitxt_pat10);
+        }
+        fclose($objFopen_opd10);
+
+        //irf.txt
+        $file_d_irf = "Export/".$folder."/IRF.txt";
+        $objFopen_opd11 = fopen($file_d_irf, 'w');
+        $opd_head11 = 'AN|REFER|REFERTYPE';
+        fwrite($objFopen_opd11, $opd_head11);
+        $irf = DB::connection('mysql')->select('
+            SELECT * from d_irf
+        ');
+        foreach ($irf as $key => $value11) {
+            $k1 = $value11->AN;
+            $k2 = $value11->REFER;
+            $k3 = $value11->REFERTYPE; 
+            $strText11="\n".$k1."|".$k2."|".$k3;
+            $ansitxt_pat11 = iconv('UTF-8', 'TIS-620', $strText11);
+            fwrite($objFopen_opd11, $ansitxt_pat11);
+        }
+        fclose($objFopen_opd11);
+
+        //lvd.txt
+        $file_d_lvd = "Export/".$folder."/LVD.txt";
+        $objFopen_opd12 = fopen($file_d_lvd, 'w');
+        $opd_head12 = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
+        fwrite($objFopen_opd12, $opd_head12);
+        $lvd = DB::connection('mysql')->select('
+            SELECT * from d_lvd
+        ');
+        foreach ($lvd as $key => $value12) {
+            $L1 = $value12->SEQLVD;
+            $L2 = $value12->AN;
+            $L3 = $value12->DATEOUT; 
+            $L4 = $value12->TIMEOUT; 
+            $L5 = $value12->DATEIN; 
+            $L6 = $value12->TIMEIN; 
+            $L7 = $value12->QTYDAY; 
+            $strText12="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
+            $ansitxt_pat12 = iconv('UTF-8', 'TIS-620', $strText12);
+            fwrite($objFopen_opd12, $ansitxt_pat12);
+        }
+        fclose($objFopen_opd12);
+
+        //odx.txt
+        $file_d_odx = "Export/".$folder."/ODX.txt";
+        $objFopen_opd13 = fopen($file_d_odx, 'w');
+        $opd_head13 = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
+        fwrite($objFopen_opd13, $opd_head13);
+        $odx = DB::connection('mysql')->select('
+            SELECT * from d_odx
+        ');
+        foreach ($odx as $key => $value13) {
+            $m1 = $value13->HN;
+            $m2 = $value13->DATEDX;
+            $m3 = $value13->CLINIC; 
+            $m4 = $value13->DIAG; 
+            $m5 = $value13->DXTYPE; 
+            $m6 = $value13->DRDX; 
+            $m7 = $value13->PERSON_ID; 
+            $m8 = $value13->SEQ; 
+            $strText13="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
+            $ansitxt_pat13 = iconv('UTF-8', 'TIS-620', $strText13);
+            fwrite($objFopen_opd13, $ansitxt_pat13);
+        }
+        fclose($objFopen_opd13);
+
+        //oop.txt
+        $file_d_oop = "Export/".$folder."/OOP.txt";
+        $objFopen_opd14 = fopen($file_d_oop, 'w');
+        $opd_head14 = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
+        fwrite($objFopen_opd14, $opd_head14);
+        $oop = DB::connection('mysql')->select('
+            SELECT * from d_oop
+        ');
+        foreach ($oop as $key => $value14) {
+            $n1 = $value14->HN;
+            $n2 = $value14->DATEOPD;
+            $n3 = $value14->CLINIC; 
+            $n4 = $value14->OPER; 
+            $n5 = $value14->DROPID; 
+            $n6 = $value14->PERSON_ID; 
+            $n7 = $value14->SEQ;  
+            $strText14="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
+            $ansitxt_pat14 = iconv('UTF-8', 'TIS-620', $strText14);
+            fwrite($objFopen_opd14, $ansitxt_pat14);
+        }
+        fclose($objFopen_opd14);
+
+        //opd.txt
+        $file_d_opd = "Export/".$folder."/OPD.txt";
+        $objFopen_opd15 = fopen($file_d_opd, 'w');
+        $opd_head15 = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
+        fwrite($objFopen_opd15, $opd_head15);
+        $opd = DB::connection('mysql')->select('
+            SELECT * from d_opd
+        ');
+        foreach ($opd as $key => $value15) {
+            $o1 = $value15->HN;
+            $o2 = $value15->CLINIC;
+            $o3 = $value15->DATEOPD; 
+            $o4 = $value15->TIMEOPD; 
+            $o5 = $value15->SEQ; 
+            $o6 = $value15->UUC;  
+            $strText15="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
+            $ansitxt_pat15 = iconv('UTF-8', 'TIS-620', $strText15);
+            fwrite($objFopen_opd15, $ansitxt_pat15);
+        }
+        fclose($objFopen_opd15);
+
+        //orf.txt
+        $file_d_orf = "Export/".$folder."/ORF.txt";
+        $objFopen_opd16 = fopen($file_d_orf, 'w');
+        $opd_head16 = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
+        fwrite($objFopen_opd16, $opd_head16);
+        $orf = DB::connection('mysql')->select('
+            SELECT * from d_orf
+        ');
+        foreach ($orf as $key => $value16) {
+            $p1 = $value16->HN;
+            $p2 = $value16->DATEOPD;
+            $p3 = $value16->CLINIC; 
+            $p4 = $value16->REFER; 
+            $p5 = $value16->REFERTYPE; 
+            $p6 = $value16->SEQ;  
+            $strText16="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
+            $ansitxt_pat16 = iconv('UTF-8', 'TIS-620', $strText16);
+            fwrite($objFopen_opd16, $ansitxt_pat16);
+        }
+        fclose($objFopen_opd16);
+
+
+         //lab.txt
+         $file_d_lab = "Export/".$folder."/LAB.txt";
+         $objFopen_opd17 = fopen($file_d_lab, 'w');
+         $opd_head17 = 'HCODE|HN|PERSON_ID|DATESERV|SEQ|LABTEST|LABRESULT';
+         fwrite($objFopen_opd17, $opd_head17);
+
+         fclose($objFopen_opd17);
+
+
+
+        $pathdir =  "Export/".$folder."/";
+        $zipcreated = $folder.".zip";
+
+        $newzip = new ZipArchive;
+        if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        $dir = opendir($pathdir);
+        
+        while($file = readdir($dir)) {
+            if(is_file($pathdir.$file)) {
+                $newzip -> addFile($pathdir.$file, $file);
+            }
+        }
+        $newzip ->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated);
+                    //// delete file
+                    unlink($zipcreated);                    
+                    //// Get the list of all of file names ลบไฟล์ในโฟลเดอทั้งหมด ทิ้งก่อน
+                    //// in the folder. 
+                    $files = glob($pathdir . '/*');                     
+                    //// Loop through the file list 
+                    foreach($files as $file) {                         
+                        //// Check for file 
+                        if(is_file($file)) {                             
+                            //// Use unlink function to  
+                            //// delete the file. 
+                            // unlink($file); 
+                        } 
+                    }                     
+                    // if(rmdir($pathdir)){ // ลบ folder ใน export                    
+                    // }                    
+                    return redirect()->route('data.ucep24_claim');                    
+                }
+        }
+
+
+            return redirect()->route('data.six');
+
+    }
+          
    
  }
