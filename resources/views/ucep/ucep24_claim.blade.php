@@ -101,10 +101,10 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button> 
-                    <a href="{{url('ucep24_claim_process')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
-                    </a>
+                    </button>
                     <a href="{{url('ucep24_claim_export')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
@@ -757,13 +757,70 @@ $pos = strrpos($url, '/') + 1;
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $("#spinner-div").hide(); //Request is complete so hide spinner
+
+        $('#Processdata').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
+                        text: "You Warn Process Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('data.ucep24_claim_process') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ประมวลผลข้อมูลสำเร็จ',
+                                                text: "You Process data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
+
         $('.Updatedata').click(function() {  
                 var months = $('#months').val();
                 var year = $('#year').val();
                 // alert(months);
                 Swal.fire({
-                        title: 'ต้องการอัพเดทข้อมูลใช่ไหม ?',
-                        text: "You Update Data!",
+                        title: 'ต้องการอัพเดท UCEP24 ใช่ไหม ?',
+                        text: "You Update UCEP24 Data!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',

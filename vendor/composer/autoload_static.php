@@ -1127,6 +1127,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\Com_tec' => __DIR__ . '/../..' . '/app/Models/Com_tec.php',
         'App\\Models\\Cradle' => __DIR__ . '/../..' . '/app/Models/Cradle.php',
         'App\\Models\\CrudEvents' => __DIR__ . '/../..' . '/app/Models/CrudEvents.php',
+        'App\\Models\\D_12001' => __DIR__ . '/../..' . '/app/Models/D_12001.php',
         'App\\Models\\D_aer' => __DIR__ . '/../..' . '/app/Models/D_aer.php',
         'App\\Models\\D_anaconda' => __DIR__ . '/../..' . '/app/Models/D_anaconda.php',
         'App\\Models\\D_cha' => __DIR__ . '/../..' . '/app/Models/D_cha.php',

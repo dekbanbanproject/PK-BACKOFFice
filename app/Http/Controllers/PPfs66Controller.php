@@ -71,7 +71,7 @@ use App\Models\D_odx;
 use App\Models\D_cht;
 use App\Models\D_cha;
 use App\Models\D_oop;
-use App\Models\Tempexport;
+use App\Models\D_claim;
 use App\Models\D_adp;
 use App\Models\D_dru;
 use App\Models\D_idx;
@@ -142,10 +142,12 @@ class PPfs66Controller extends Controller
             D_12001::truncate();
             // D_ucep24::truncate();
             $data_main_ = DB::connection('mysql2')->select(' 
-                    SELECT v.vn,v.hn,o.an  
-                        from hos.ovst o
-                        join hos.vn_stat v on v.vn=o.vn
-                        join hos.patient pt on pt.hn=o.hn    
+                        SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.qty,op.sum_price
+                        FROM hos.ovst o
+                        LEFT OUTER JOIN hos.vn_stat v on v.vn=o.vn
+                        LEFT OUTER JOIN hos.patient pt on pt.hn=o.hn 
+                        LEFT OUTER JOIN hos.pttype p ON p.pttype = v.pttype
+                        LEFT OUTER JOIN opitemrece op ON op.vn = v.vn   
                         where o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")
                         and (o.an=" " or o.an is null)
@@ -167,6 +169,27 @@ class PPfs66Controller extends Controller
                         'hn'                => $value->hn,
                         'an'                => $value->an 
                     ]);
+                    $check = D_claim::where('vn',$value->vn)->where('hipdata_code',$value->hipdata_code)->count();
+                    if ($check > 0) {
+                        # code...
+                    } else {
+                        D_claim::insert([
+                            'vn'                => $value->vn,
+                            'hn'                => $value->hn,
+                            'an'                => $value->an,
+                            'cid'               => $value->cid,
+                            'pttype'            => $value->pttype,
+                            'ptname'            => $value->ptname,
+                            'vstdate'           => $value->vstdate,
+                            'hipdata_code'      => $value->hipdata_code,
+                            'qty'               => $value->qty,
+                            'sum_price'          => $value->sum_price,
+                            'type'              => 'PPFS',
+                            'claimdate'         => $date, 
+                            'userid'            => $iduser, 
+                        ]);
+                    }                   
+                    
                 }
                 $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12001');  
                 $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
@@ -836,7 +859,8 @@ class PPfs66Controller extends Controller
                     ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
                     ,"" GOVCODE
                     ,"" GOVNAME
-                    ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
+                    
+                    ,c.claimcode PERMITNO
                     ,"" DOCNO
                     ,"" OWNRPID 
                     ,"" OWNRNAME
@@ -853,8 +877,10 @@ class PPfs66Controller extends Controller
                     left join visit_pttype vp on vp.vn = v.vn
                     LEFT JOIN rcpt_debt r on r.vn = v.vn
                     left join patient px on px.hn = v.hn 
+                    LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = v.cid AND c.vstdate = v.vstdate
                     WHERE v.vn IN("'.$va1->vn.'")   
                 ');
+                // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
                 foreach ($data_ins_ as $va17) {
                     D_ins::insert([
                         'HN'                => $va17->HN,
@@ -1091,7 +1117,7 @@ class PPfs66Controller extends Controller
         //dru.txt
         $file_d_dru = "Export/".$folder."/DRU.txt";
         $objFopen_opd7 = fopen($file_d_dru, 'w');
-        $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL';
+        $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
             SELECT * from d_dru
@@ -1118,8 +1144,9 @@ class PPfs66Controller extends Controller
             $g19 = $value7->USE_STATUS;
             $g20 = $value7->TOTAL;
             $g21 = $value7->SIGCODE;
-            $g22 = $value7->SIGTEXT;        
-            $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22;
+            $g22 = $value7->SIGTEXT;  
+            $g23 = $value7->SIGTEXT;      
+            $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
             $ansitxt_pat7 = iconv('UTF-8', 'TIS-620', $strText7);
             fwrite($objFopen_opd7, $ansitxt_pat7);
         }

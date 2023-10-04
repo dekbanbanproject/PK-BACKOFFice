@@ -17,7 +17,7 @@ use App\Models\Acc_debtor_sendmoney;
 use App\Models\Pttype;
 use App\Models\Pttype_acc;
 use App\Models\D_export_ucep;
-use App\Models\D_claim;
+use App\Models\Dtemp_hosucep;
 use App\Models\D_ucep;
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -293,7 +293,15 @@ class Ucep24Controller extends Controller
                 $iduser = Auth::user()->id;
                 D_ucep24_main::truncate();
                 D_ucep24::truncate();
-               
+                // D_opd::where('user_id','=',$iduser)->delete();
+                // D_orf::where('user_id','=',$iduser)->delete();
+                // D_oop::where('user_id','=',$iduser)->delete();
+                // D_odx::where('user_id','=',$iduser)->delete();
+                // D_idx::where('user_id','=',$iduser)->delete();
+                // D_ipd::where('user_id','=',$iduser)->delete();
+                // D_irf::where('user_id','=',$iduser)->delete();
+                
+
                 $data_opitem = DB::connection('mysql')->select('   
                         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                         ,i.dchdate,ii.pttype
@@ -336,7 +344,7 @@ class Ucep24Controller extends Controller
                 }
 
                 $data_main_ = DB::connection('mysql')->select('   
-                    SELECT a.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,i.dchdate,ptt.hipdata_code,o.qty,o.sum_price
+                        SELECT a.vn,o.an,o.hn 
                         FROM hos.ipt i
                         LEFT JOIN hos.opitemrece o on i.an = o.an 
                         LEFT JOIN hos.ovst a on a.an = o.an
@@ -362,27 +370,194 @@ class Ucep24Controller extends Controller
                         'hn'                => $value2->hn,
                         'an'                => $value2->an 
                     ]);
-                    $check = D_claim::where('an',$value2->an)->where('hipdata_code',$value2->hipdata_code)->count();
-                    if ($check > 0) {
-                        # code...
-                    } else {
-                        D_claim::insert([
-                            'vn'                => $value2->vn,
-                            'hn'                => $value2->hn,
-                            'an'                => $value2->an,
-                            'cid'               => $value2->cid,
-                            'pttype'            => $value2->pttype,
-                            'ptname'            => $value2->ptname,
-                            'dchdate'           => $value2->dchdate,
-                            'hipdata_code'      => $value2->hipdata_code,
-                            'qty'               => $value2->qty,
-                            'sum_price'          => $value2->sum_price,
-                            'type'              => 'UCEP24',
-                            'claimdate'         => $date, 
-                            'userid'            => $iduser, 
-                        ]);
-                    }  
-                }         
+                }
+
+                //  //D_opd
+                // $data_opd = DB::connection('mysql')->select('
+                //     SELECT  v.hn HN
+                //     ,v.spclty CLINIC
+                //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //     ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
+                //     ,v.vn SEQ
+                //     ,"1" UUC 
+                //     from hos.vn_stat v
+                //     LEFT OUTER JOIN hos.ovst o on o.vn = v.vn
+                //     LEFT OUTER JOIN hos.pttype p on p.pttype = v.pttype
+                //     LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
+                //     LEFT OUTER JOIN hos.patient pt on pt.hn = v.hn
+                //     WHERE v.vn IN(SELECT vn from pkbackoffice.d_ucep24_main)                    
+                // ');
+                // // LEFT JOIN d_export_ucep x on x.vn = v.vn
+                // //         where x.active="N";
+                // foreach ($data_opd as $val3) {            
+                //     $addo = new D_opd;  
+                //     $addo->HN             = $val3->HN;
+                //     $addo->CLINIC         = $val3->CLINIC;
+                //     $addo->DATEOPD        = $val3->DATEOPD;
+                //     $addo->TIMEOPD        = $val3->TIMEOPD;
+                //     $addo->SEQ            = $val3->SEQ;
+                //     $addo->UUC            = $val3->UUC; 
+                //     $addo->user_id        = $iduser;
+                //     $addo->save();
+                // }
+                // //D_orf
+                // $data_orf_ = DB::connection('mysql2')->select('
+                //     SELECT v.hn HN
+                //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //     ,v.spclty CLINIC
+                //     ,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
+                //     ,"0100" REFERTYPE
+                //     ,v.vn SEQ 
+                //     from hos.vn_stat v 
+                //     LEFT OUTER JOIN hos.referin r1 on r1.vn = v.vn
+                //     LEFT OUTER JOIN hos.referout r2 on r2.vn = v.vn
+                //     WHERE v.vn IN(SELECT vn from pkbackoffice.d_ucep24_main)
+                //     and (r1.vn is not null or r2.vn is not null);
+                // ');                
+                // foreach ($data_orf_ as $va4) {              
+                //     $addof = new D_orf;  
+                //     $addof->HN             = $va4->HN;
+                //     $addof->CLINIC         = $va4->CLINIC;
+                //     $addof->DATEOPD         = $va4->DATEOPD;
+                //     $addof->REFER          = $va4->REFER;
+                //     $addof->SEQ            = $va4->SEQ;
+                //     $addof->REFERTYPE      = $va4->REFERTYPE; 
+                //     $addof->user_id        = $iduser;
+                //     $addof->save();
+                // }
+                // //D_oop
+                // $data_oop_ = DB::connection('mysql2')->select('
+                //     SELECT v.hn HN
+                //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //     ,v.spclty CLINIC
+                //     ,o.icd10 OPER
+                //     ,if(d.licenseno="","-99999",d.licenseno) DROPID
+                //     ,pt.cid PERSON_ID
+                //     ,v.vn SEQ 
+                //     from hos.vn_stat v
+                //     LEFT OUTER JOIN hos.ovstdiag o on o.vn = v.vn
+                //     LEFT OUTER JOIN hos.patient pt on v.hn=pt.hn
+                //     LEFT OUTER JOIN hos.doctor d on d.`code` = o.doctor
+                //     LEFT OUTER JOIN hos.icd9cm1 i on i.code = o.icd10
+                //     WHERE v.vn IN(SELECT vn from pkbackoffice.d_ucep24_main) 
+                // ');
+                // foreach ($data_oop_ as $va6) {
+                //     $addoop = new D_oop;  
+                //     $addoop->HN             = $va6->HN;
+                //     $addoop->CLINIC         = $va6->CLINIC;
+                //     $addoop->DATEOPD        = $va6->DATEOPD;
+                //     $addoop->OPER           = $va6->OPER;
+                //     $addoop->DROPID         = $va6->DROPID;
+                //     $addoop->PERSON_ID      = $va6->PERSON_ID; 
+                //     $addoop->SEQ            = $va6->SEQ; 
+                //     $addoop->user_id        = $iduser;
+                //     $addoop->save();
+                    
+                // }
+                // // D_odx
+                // $data_odx_ = DB::connection('mysql2')->select('
+                //     SELECT v.hn HN
+                //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
+                //     ,v.spclty CLINIC
+                //     ,o.icd10 DIAG
+                //     ,o.diagtype DXTYPE
+                //     ,if(d.licenseno="","-99999",d.licenseno) DRDX
+                //     ,v.cid PERSON_ID
+                //     ,v.vn SEQ 
+                //     from vn_stat v
+                //     LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
+                //     LEFT OUTER JOIN doctor d on d.`code` = o.doctor
+                //     LEFT OUTER JOIN icd101 i on i.code = o.icd10
+                //     WHERE v.vn IN(SELECT vn from pkbackoffice.d_ucep24_main) 
+                // ');
+                // foreach ($data_odx_ as $va5) {
+                //     $adddx = new D_odx;  
+                //     $adddx->HN             = $va5->HN;
+                //     $adddx->CLINIC         = $va5->CLINIC;
+                //     $adddx->DATEDX         = $va5->DATEDX;
+                //     $adddx->DIAG           = $va5->DIAG;
+                //     $adddx->DXTYPE         = $va5->DXTYPE;
+                //     $adddx->DRDX           = $va5->DRDX; 
+                //     $adddx->PERSON_ID      = $va5->PERSON_ID; 
+                //     $adddx->SEQ            = $va5->SEQ; 
+                //     $adddx->user_id        = $iduser;
+                //     $adddx->save();
+                    
+                // }
+                // //D_idx
+                // $data_idx_ = DB::connection('mysql2')->select('
+                //     SELECT i2.AN,i1.icd10 as DIAG,i1.diagtype as DXTYPE , d.licenseno as DRDX,dx.nhso_code as dx_type_code  
+                //     FROM hos.ipt i2  
+                //     LEFT OUTER JOIN hos.iptdiag i1 on i1.an= i2.an  
+                //     LEFT OUTER JOIN hos.diagtype dx on dx.diagtype = i1.diagtype  
+                //     LEFT OUTER JOIN hos.doctor d on d.code=i1.doctor  
+                //     WHERE  i2.an IN(SELECT an from pkbackoffice.d_ucep24_main)
+                // ');
+                // foreach ($data_idx_ as $va7) {
+                //     $addidrx = new D_idx; 
+                //     $addidrx->AN             = $va7->AN;
+                //     $addidrx->DIAG           = $va7->DIAG;
+                //     $addidrx->DXTYPE         = $va7->DXTYPE;
+                //     $addidrx->DRDX           = $va7->DRDX; 
+                //     $addidrx->user_id        = $iduser;
+                //     $addidrx->save();
+                            
+                // }
+                // //D_ipd
+                // $data_ipd_ = DB::connection('mysql2')->select('
+                //     SELECT a.hn HN,a.an AN
+                //     ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
+                //     ,Time_format(o.regtime,"%H%i") TIMEADM
+                //     ,DATE_FORMAT(o.dchdate,"%Y%m%d") DATEDSC
+                //     ,Time_format(o.dchtime,"%H%i")  TIMEDSC
+                //     ,right(o.dchstts,1) DISCHS
+                //     ,right(o.dchtype,1) DISCHT
+                //     ,o.ward WARDDSC,o.spclty DEPT
+                //     ,format(o.bw/1000,3) ADM_W
+                //     ,"1" UUC ,"I" SVCTYPE 
+                //     FROM hos.an_stat a
+                //     LEFT OUTER JOIN hos.ipt o on o.an = a.an
+                //     LEFT OUTER JOIN hos.pttype p on p.pttype = a.pttype
+                //     LEFT OUTER JOIN hos.patient pt on pt.hn = a.hn 
+                //     WHERE  a.an IN(SELECT an from pkbackoffice.d_ucep24_main) 
+                // ');
+                // foreach ($data_ipd_ as $va10) {                
+                //     $addipd = new D_ipd; 
+                //     $addipd->AN             = $va10->AN;
+                //     $addipd->HN             = $va10->HN;
+                //     $addipd->DATEADM        = $va10->DATEADM;
+                //     $addipd->TIMEADM        = $va10->TIMEADM; 
+                //     $addipd->DATEDSC        = $va10->DATEDSC; 
+                //     $addipd->TIMEDSC        = $va10->TIMEDSC; 
+                //     $addipd->DISCHS         = $va10->DISCHS; 
+                //     $addipd->DISCHT         = $va10->DISCHT; 
+                //     $addipd->DEPT           = $va10->DEPT; 
+                //     $addipd->ADM_W          = $va10->ADM_W; 
+                //     $addipd->UUC            = $va10->UUC; 
+                //     $addipd->SVCTYPE        = $va10->SVCTYPE; 
+                //     $addipd->user_id        = $iduser;
+                //     $addipd->save();
+                // }
+                // //D_irf
+                // $data_irf_ = DB::connection('mysql2')->select('
+                //     SELECT a.an AN
+                //     ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
+                //     ,"0100" REFERTYPE 
+                //     FROM hos.an_stat a
+                //     LEFT OUTER JOIN hos.referout o on o.vn =a.an
+                //     LEFT OUTER JOIN hos.referin oo on oo.vn =a.an
+                //     LEFT OUTER JOIN hos.ipt ip on ip.an = a.an 
+                //     WHERE a.an IN(SELECT an from pkbackoffice.d_ucep24_main)  
+                //     and (a.an in(select vn from hos.referin where vn = oo.vn) or a.an in(select vn from hos.referout where vn = o.vn)); 
+                // ');
+                // foreach ($data_irf_ as $va11) {
+                //     D_irf::insert([
+                //         'AN'                 => $va11->AN,
+                //         'REFER'              => $va11->REFER,
+                //         'REFERTYPE'          => $va11->REFERTYPE,
+                //         'user_id'            => $iduser,
+                //     ]);
+                // }
 
                 $data_main = DB::connection('mysql')->select('SELECT * from d_ucep24_main');  
                 $data = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
@@ -828,10 +1003,9 @@ class Ucep24Controller extends Controller
                     LEFT JOIN hos.drugitems d on d.icode = v.icode
                     LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
                     LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-               
                     WHERE v.vn IN("'.$va1->vn.'")
                     and d.did is not null 
-                    GROUP BY v.vn,did,d.icode
+                    GROUP BY v.vn,did
 
                     UNION all
 
@@ -860,12 +1034,10 @@ class Ucep24Controller extends Controller
                     LEFT JOIN hos.patient pt  on v.hn = pt.hn
                     inner JOIN hos.ipt v1 on v1.an = v.an
                     LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-                 
                     WHERE v1.vn IN("'.$va1->vn.'")
                     and d.did is not null AND v.qty<>"0"
                     GROUP BY v.an,d.icode,USE_STATUS;               
                 ');
-                // LEFT OUTER JOIN pkbackoffice.d_ucep24 dc ON dc.an = v.an AND dc.icode = v.icode
                 foreach ($data_dru_ as $va11) {
                     D_dru::insert([ 
                         'HN'             => $va11->HN,
@@ -886,10 +1058,8 @@ class Ucep24Controller extends Controller
                         'DRUGREMARK'     => $va11->DRUGREMARK,
                         'PA_NO'          => $va11->PA_NO,
                         'TOTCOPAY'       => $va11->TOTCOPAY,
-                        // 'TOTCOPAY'       => '01',
                         'USE_STATUS'     => $va11->USE_STATUS,
                         'TOTAL'          => $va11->TOTAL,  
-                        // 'TOTAL'          => '01',
                         'SIGCODE'        => $va11->SIGCODE,                      
                         'SIGTEXT'        => $va11->SIGTEXT,
                         'PROVIDER'        => $va11->PROVIDER,  
@@ -1031,8 +1201,7 @@ class Ucep24Controller extends Controller
                     ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
                     ,"" GOVCODE
                     ,"" GOVNAME
-                    
-                    ,c.claimcode PERMITNO
+                    ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
                     ,"" DOCNO
                     ,"" OWNRPID 
                     ,"" OWNRNAME
@@ -1049,10 +1218,8 @@ class Ucep24Controller extends Controller
                     left join visit_pttype vp on vp.vn = v.vn
                     LEFT JOIN rcpt_debt r on r.vn = v.vn
                     left join patient px on px.hn = v.hn 
-                    LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = v.cid AND c.vstdate = v.vstdate
                     WHERE v.vn IN("'.$va1->vn.'")   
                 ');
-                // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
                 foreach ($data_ins_ as $va17) {
                     D_ins::insert([
                         'HN'                => $va17->HN,
@@ -1079,60 +1246,23 @@ class Ucep24Controller extends Controller
                 }
          }
          
-        D_adp::where('CODE','=','XXXXXX')->delete();
+         d_adp::where('CODE','=','XXXXXX')->delete();
        
-        // return back();
-        return response()->json([
-            'status'    => '200'
-        ]);
+        return back();
     }
 
     public function ucep24_claim_upucep(Request $request)
     {   
-            $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode FROM d_ucep24'); 
-            foreach ($data_ as $key => $val) {                
+            $data_ = DB::connection('mysql')->select('  
+                    select vn,an,hn,vstdate,dchdate,icode
+                    from d_ucep24  
+            '); 
+            foreach ($data_ as $key => $val) {
+                
                 D_adp::where('an',$val->an)->where('vstdate',$val->vstdate)
                 ->update([
                     'SP_ITEM' => '01'
                 ]);
-
-                // D_dru::where('AN',$val->an)->where('DID',$val->icode)
-                // ->update([
-                //     'SIGCODE' => '01',
-                //     'SIGTEXT' => '01'
-                // ]);
-                // D_dru::insert([
-                //     'HN'             => $val->hn, 
-                //     'AN'             => $val->an, 
-                //     'DATEOPD'        => $val->vstdate,  
-                //     'TYPE'           => '5', 
-                //     'CODE'           => 'UCEP24', 
-                //     'RATE'           => '0', 
-                //     'TOTCOPAY'       => '0', 
-                //     'TOTAL'          => '0',  
-                // ]);
-            }
-            D_adp::where('SP_ITEM','=','')->delete();
-
-            $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24');
-            $iduser = Auth::user()->id;
-            foreach ($dataucep_ as $key => $value) {
-                $check = D_adp::where('AN',$value->an)->where('CODE','UCEP24')->count();
-                if ($check > 0) {
-                    # code...
-                } else {
-                    D_adp::insert([
-                        'HN'             => $value->hn, 
-                        'AN'             => $value->an, 
-                        'DATEOPD'        => $value->vstdate,  
-                        'TYPE'           => '5', 
-                        'CODE'           => 'UCEP24', 
-                        'RATE'           => '0', 
-                        'TOTCOPAY'       => '0', 
-                        'TOTAL'          => '0', 
-                        'user_id'        => $iduser,
-                    ]);
-                }    
             }
 
             return response()->json([
@@ -1258,7 +1388,7 @@ class Ucep24Controller extends Controller
             $c24 = $value3->GA_WEEK;
             $c25 = $value3->DCIP;
             $c26 = $value3->LMP;
-            $c27 = $value3->SP_ITEM;        
+            $c27 = $value3->SP_ITEM;           
             $strText3="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
             $ansitxt_pat3 = iconv('UTF-8', 'TIS-620', $strText3);
             fwrite($objFopen_opd3, $ansitxt_pat3);
@@ -1346,7 +1476,7 @@ class Ucep24Controller extends Controller
         //dru.txt
         $file_d_dru = "Export/".$folder."/DRU.txt";
         $objFopen_opd7 = fopen($file_d_dru, 'w');
-        $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
+        $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
             SELECT * from d_dru
@@ -1373,9 +1503,8 @@ class Ucep24Controller extends Controller
             $g19 = $value7->USE_STATUS;
             $g20 = $value7->TOTAL;
             $g21 = $value7->SIGCODE;
-            $g22 = $value7->SIGTEXT;  
-            $g23 = $value7->PROVIDER;      
-            $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
+            $g22 = $value7->SIGTEXT;        
+            $strText7="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22;
             $ansitxt_pat7 = iconv('UTF-8', 'TIS-620', $strText7);
             fwrite($objFopen_opd7, $ansitxt_pat7);
         }

@@ -467,6 +467,7 @@ return array(
     'App\\Models\\Com_tec' => $baseDir . '/app/Models/Com_tec.php',
     'App\\Models\\Cradle' => $baseDir . '/app/Models/Cradle.php',
     'App\\Models\\CrudEvents' => $baseDir . '/app/Models/CrudEvents.php',
+    'App\\Models\\D_12001' => $baseDir . '/app/Models/D_12001.php',
     'App\\Models\\D_aer' => $baseDir . '/app/Models/D_aer.php',
     'App\\Models\\D_anaconda' => $baseDir . '/app/Models/D_anaconda.php',
     'App\\Models\\D_cha' => $baseDir . '/app/Models/D_cha.php',

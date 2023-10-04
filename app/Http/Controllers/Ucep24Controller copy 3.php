@@ -803,67 +803,30 @@ class Ucep24Controller extends Controller
                     ]);
                 }
                 //D_dru
-                $data_dru_ = DB::connection('mysql2')->select('
-                    SELECT vv.hcode HCODE
-                    ,v.hn HN
-                    ,v.an AN
-                    ,vv.spclty CLINIC
-                    ,vv.cid PERSON_ID
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+                $data_dru_ = DB::connection('mysql')->select('
+                    SELECT  
+                    m.hn HN ,m.an AN,""CLINIC,""HCODE,""PERSON_ID,""USE_STATUS
+                    ,DATE_FORMAT(dc.vstdate,"%Y%m%d") DATE_SERV
                     ,d.icode DID
                     ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-                    ,sum(v.qty) AMOUNT
-                    ,round(v.unitprice,2) DRUGPRIC
+                    ,SUM(dc.qty) AMOUNT
+                    ,round(d.unitprice,2) DRUGPRIC  
                     ,"0.00" DRUGCOST
                     ,d.did DIDSTD
                     ,d.units UNIT
                     ,concat(d.packqty,"x",d.units) UNIT_PACK
-                    ,v.vn SEQ
+                    ,m.vn SEQ
                     ,oo.presc_reason DRUGREMARK
                     ,"" PA_NO
-                    ,"" TOTCOPAY
-                    ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
-                    from hos.opitemrece v
-                    LEFT JOIN hos.drugitems d on d.icode = v.icode
-                    LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
-                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-               
-                    WHERE v.vn IN("'.$va1->vn.'")
-                    and d.did is not null 
-                    GROUP BY v.vn,did,d.icode
-
-                    UNION all
-
-                    SELECT pt.hcode HCODE
-                    ,v.hn HN
-                    ,v.an AN
-                    ,v1.spclty CLINIC
-                    ,pt.cid PERSON_ID
-                    ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                    ,d.icode DID
-                    ,concat(d.`name`,"",d.strength," ",d.units) DIDNAME
-                    ,sum(v.qty) AMOUNT
-                    ,round(v.unitprice,2) DRUGPRIC
-                    ,"0.00" DRUGCOST
-                    ,d.did DIDSTD
-                    ,d.units UNIT
-                    ,concat(d.packqty,"x",d.units) UNIT_PACK
-                    ,ifnull(v.vn,v.an) SEQ
-                    ,oo.presc_reason DRUGREMARK
-                    ,"" PA_NO
-                    ,"" TOTCOPAY
-                    ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
-                    from hos.opitemrece v
-                    LEFT JOIN hos.drugitems d on d.icode = v.icode
-                    LEFT JOIN hos.patient pt  on v.hn = pt.hn
-                    inner JOIN hos.ipt v1 on v1.an = v.an
-                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-                 
-                    WHERE v1.vn IN("'.$va1->vn.'")
-                    and d.did is not null AND v.qty<>"0"
-                    GROUP BY v.an,d.icode,USE_STATUS;               
+                    ,"" TOTCOPAY                    
+                    ,(SUM(dc.qty)*round(d.unitprice,2)) TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER                    
+                    from d_ucep24_main m
+                    LEFT OUTER JOIN d_ucep24 dc on dc.vn = m.vn 
+                    LEFT OUTER JOIN hos.drugitems d on d.icode = dc.icode
+                    LEFT OUTER JOIN hos.ovst_presc_ned oo on oo.vn = m.vn and oo.icode=dc.icode 
+                    WHERE  m.vn IN("'.$va1->vn.'")
+                    AND d.did is not null 
+                    group by m.an,d.icode              
                 ');
                 // LEFT OUTER JOIN pkbackoffice.d_ucep24 dc ON dc.an = v.an AND dc.icode = v.icode
                 foreach ($data_dru_ as $va11) {
@@ -1079,7 +1042,7 @@ class Ucep24Controller extends Controller
                 }
          }
          
-        D_adp::where('CODE','=','XXXXXX')->delete();
+         d_adp::where('CODE','=','XXXXXX')->delete();
        
         // return back();
         return response()->json([
@@ -1112,8 +1075,7 @@ class Ucep24Controller extends Controller
                 //     'TOTAL'          => '0',  
                 // ]);
             }
-            D_adp::where('SP_ITEM','=','')->delete();
-
+            
             $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24');
             $iduser = Auth::user()->id;
             foreach ($dataucep_ as $key => $value) {
