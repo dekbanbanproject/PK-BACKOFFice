@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('ssop_dispensing'))
         {
-            Schema::connection('mysql7')->create('ssop_dispensing', function (Blueprint $table) {
+            Schema::connection('mysql')->create('ssop_dispensing', function (Blueprint $table) {
                 $table->bigIncrements('ssop_dispensing_id');
                 $table->string('ProviderID')->nullable();//   
                 $table->string('DispID')->nullable();// 

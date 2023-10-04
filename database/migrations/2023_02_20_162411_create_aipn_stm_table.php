@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('aipn_stm'))
         {
-            Schema::connection('mysql7')->create('aipn_stm', function (Blueprint $table) {
+            Schema::connection('mysql')->create('aipn_stm', function (Blueprint $table) {
                 $table->bigIncrements('aipn_stm_id');
                 $table->string('rep_no')->nullable();// 
                 $table->string('tran_id')->nullable();// 

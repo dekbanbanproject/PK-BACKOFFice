@@ -12,7 +12,7 @@ class Aipn_ipop extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'aipn_ipop';
     protected $primaryKey = 'aipn_ipop_id';
     protected $fillable = [  

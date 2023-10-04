@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('aipn_session'))
         {
-            Schema::connection('mysql7')->create('aipn_session', function (Blueprint $table) {
+            Schema::connection('mysql')->create('aipn_session', function (Blueprint $table) {
                 $table->bigIncrements('aipn_session_id'); 
                 $table->string('aipn_session_no')->nullable();// รหัส
                 $table->date('aipn_session_date')->nullable();//  

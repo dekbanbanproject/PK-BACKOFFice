@@ -8,17 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Aipn_stm extends Authenticatable
+class Acc_1102050102_106 extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
-    protected $connection = 'mysql';
-    protected $table = 'aipn_stm';
-    protected $primaryKey = 'aipn_stm_id';
-    protected $fillable = [  
-        'rep_no',  
-        'tran_id',  
-    ];
 
-  
+    protected $table = 'acc_1102050102_106';
+    protected $primaryKey = 'acc_1102050102_106_id';
+    protected $fillable = [
+        'vn',
+        'an',
+        'hn'         
+    ];
+ 
 }

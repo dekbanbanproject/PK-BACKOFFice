@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('aipn_ipdx'))
         {
-            Schema::connection('mysql7')->create('aipn_ipdx', function (Blueprint $table) {
+            Schema::connection('mysql')->create('aipn_ipdx', function (Blueprint $table) {
                 $table->bigIncrements('aipn_ipdx_id'); 
                 $table->string('an')->nullable();// 
                 $table->string('sequence')->nullable();// รหัส

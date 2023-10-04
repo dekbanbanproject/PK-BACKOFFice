@@ -87,24 +87,12 @@ class AipnController extends Controller
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
         // dd($datestart);    
-        $aipn_data = DB::connection('mysql7')->select('   
-            SELECT * FROM aipn_ipadt 
-        '); 
-        $aipn_billitems = DB::connection('mysql7')->select('   
-            SELECT * FROM aipn_billitems   
-        ');
-        $ssop_dispensing = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_dispensing   
-        ');   
-        $ssop_dispenseditems = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_dispenseditems   
-        ');  
-        $aipn_ipop = DB::connection('mysql7')->select('   
-            SELECT * FROM aipn_ipop   
-        ');
-        $aipn_ipdx = DB::connection('mysql7')->select('   
-            SELECT * FROM aipn_ipdx   
-        ');
+        $aipn_data = DB::connection('mysql')->select('SELECT * FROM aipn_ipadt'); 
+        $aipn_billitems = DB::connection('mysql')->select('SELECT * FROM aipn_billitems');
+        $ssop_dispensing = DB::connection('mysql')->select('SELECT * FROM ssop_dispensing');   
+        $ssop_dispenseditems = DB::connection('mysql')->select('SELECT * FROM ssop_dispenseditems');  
+        $aipn_ipop = DB::connection('mysql')->select('SELECT * FROM aipn_ipop');
+        $aipn_ipdx = DB::connection('mysql')->select('SELECT * FROM aipn_ipdx');
         
         return view('claim.aipn',$data,[
             'start'                => $datestart,

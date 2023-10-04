@@ -555,6 +555,30 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 </ul>
                             </li>
                         @endif
+ 
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(150, 72, 240)"></i>
+                                <span>รายการลงค้าง</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">106-ลูกหนี้ค่ารักษา-ขำระเงิน OP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('stayed_down_opddashboard') }}">dashboard</a>
+                                        <li><a href="{{ url('stayed_down_opd_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {{-- <li><a href="javascript: void(0);" class="has-arrow">107-ลูกหนี้ค่ารักษา-ขำระเงิน IP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('stayed_down_ipddashboard') }}">dashboard</a>
+                                        <li><a href="{{ url('stayed_down_ipd_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li> --}} 
+                            </ul>
+                        </li>
+                        
 
                         @if ($permiss_rep_money != 0)
                             <li>
@@ -590,6 +614,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 </ul>
                             </li>
                         @endif
+                       
                         @if ($permiss_ucs != 0)
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">

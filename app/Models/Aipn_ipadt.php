@@ -12,7 +12,7 @@ class Aipn_ipadt extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'aipn_ipadt';
     protected $primaryKey = 'aipn_ipadt_id';
     protected $fillable = [  

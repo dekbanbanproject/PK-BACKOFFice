@@ -12,7 +12,7 @@ class Aipn_billitems extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'aipn_billitems';
     protected $primaryKey = 'aipn_billitems_id';
     protected $fillable = [  

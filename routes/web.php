@@ -247,6 +247,23 @@ Route::match(['get','post'],'uprep_money_plb',[App\Http\Controllers\UpstmControl
 Route::match(['get','post'],'uprep_money_plbop',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbop'])->name('acc.uprep_money_plbop');//
 Route::match(['get','post'],'uprep_money_plbip',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbip'])->name('acc.uprep_money_plbip');//
 Route::match(['get','post'],'uprep_money_plbhn',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbhn'])->name('acc.uprep_money_plbhn');//
+
+Route::match(['get','post'],'stayed_down_opddashboard',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opddashboard'])->name('acc.stayed_down_opddashboard');//
+Route::match(['get','post'],'stayed_down_opd_pull',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_pull'])->name('acc.stayed_down_opd_pull');//
+Route::match(['get','post'],'stayed_down_opd_pulldata',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_pulldata'])->name('acc.stayed_down_opd_pulldata');//
+Route::match(['get','post'],'stayed_down_opd_stam',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stam'])->name('acc.stayed_down_opd_stam');//
+Route::match(['get','post'],'stayed_down_opd_detail/{months}/{year}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_detail'])->name('acc.stayed_down_opd_detail');//
+Route::match(['get','post'],'stayed_down_opd_detail_date/{startdate}/{enddate}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_detail_date'])->name('acc.stayed_down_opd_detail_date');//
+Route::match(['get','post'],'stayed_down_opd_stm',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stm'])->name('acc.stayed_down_opd_stm');//
+Route::match(['get','post'],'stayed_down_opd_stm_date/{startdate}/{enddate}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stm_date'])->name('acc.stayed_down_opd_stm_date');//
+Route::match(['get','post'],'stayed_down_opd_stmnull',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stmnull'])->name('acc.stayed_down_opd_stmnull');//
+Route::match(['get','post'],'stayed_down_opd_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stmnull_date'])->name('acc.stayed_down_opd_stmnull_date');//
+ 
+
+Route::match(['get','post'],'stayed_down_ipddashboard',[App\Http\Controllers\StayeddownController::class, 'stayed_down_ipddashboard'])->name('acc.stayed_down_ipddashboard');//
+
+
+
 // ********************************* นักโทษ  *****************************************
 Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438
 Route::match(['get','post'],'prisoner_opd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail'])->name('prisoner.prisoner_opd_detail');  //นักโทษ 438
