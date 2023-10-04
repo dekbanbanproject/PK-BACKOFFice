@@ -1521,7 +1521,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//
 
-    
+    Route::match(['get','post'],'phthisis_opd',[App\Http\Controllers\ReportOrtherController::class, 'phthisis_opd'])->name('rep.phthisis_opd');//
+    Route::match(['get','post'],'phthisis_ipd',[App\Http\Controllers\ReportOrtherController::class, 'phthisis_ipd'])->name('rep.phthisis_ipd');//
 
     Route::match(['get','post'],'upstm_tixml',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml'])->name('acc.upstm_tixml');// ไต
     Route::match(['get','post'],'upstm_tixml_import',[App\Http\Controllers\AccountPKController::class, 'upstm_tixml_import'])->name('acc.upstm_tixml_import');// ไต

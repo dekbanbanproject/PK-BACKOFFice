@@ -95,8 +95,9 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th> 
                                     <th class="text-center">vstdate</th> 
+                                    <th class="text-center">vsttime</th> 
                                     <th class="text-center">pttype</th> 
-                                    <th class="text-center">ICD</th>
+                                    <th class="text-center">แผนก</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th> 
                                     <th class="text-center">ต้องชำระ</th> 
                                     <th class="text-center">Finance No.</th> 
@@ -112,19 +113,20 @@ $pos = strrpos($url, '/') + 1;
                                    
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                                    <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item->hn }}</td>   
-                                                    <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                    <td class="p-2" >{{ $item->ptname }}</td>  
-                                                    <td class="text-center" width="8%">{{ $item->vstdate }}</td>    
-                                                    <td class="text-center" width="5%">{{ $item->pttype }}</td> 
-                                                    <td class="text-center" width="5%">{{ $item->pdx }}</td> 
+                                                    <td class="text-center" width="6%">{{ $item->vn }}</td> 
+                                                    <td class="text-center" width="4%">{{ $item->hn }}</td>   
+                                                    <td class="text-center" width="6%">{{ $item->cid }}</td>  
+                                                    <td class="p-2">{{ $item->ptname }}</td>  
+                                                    <td class="text-center" width="6%">{{ $item->vstdate }}</td>  
+                                                    <td class="text-center" width="4%">{{ $item->vsttime }}</td>   
+                                                    <td class="text-center" width="4%">{{ $item->pttype }}</td> 
+                                                    <td class="p-2" width="10%">{{ $item->department }}</td> 
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->income,2)}}</td> 
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->paid_money,2)}}</td> 
                                                     <td class="text-center" width="7%">{{ $item->finance_number }}</td>
                                                     <td class="text-center" width="7%">{{ $item->book_number }}</td>
                                                     <td class="text-center" width="7%">{{ $item->total_amount }}</td>
-                                                    <td class="text-center" width="5%">{{ $item->staff }}</td>
+                                                    <td class="p-2" width="5%">{{ $item->staff }}</td>
                                                 </td>
                                         </tr> 
                                 @endforeach

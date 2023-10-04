@@ -1978,17 +1978,17 @@ class AccountController extends Controller
         $enddate = $request->enddate; 
 
         $datashow = DB::connection('mysql2')->select(' 
-                SELECT v.vn, v.income,v.cid, v.paid_money, v.hn, v.vstdate, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
-                ,r.bill_date_time
-                ,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
+                SELECT v.vn, v.income,v.cid, v.paid_money, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
+                ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
                 FROM vn_stat v
                 left outer join hos.ovst o on o.vn = v.vn
+                left outer join hos.kskdepartment k on k.depcode = o.main_dep
                 LEFT JOIN patient p on p.hn=v.hn
                 LEFT JOIN pttype t on t.pttype=v.pttype
                 left outer join hos.rcpt_print r on v.vn = r.vn
-                WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '"
-                
+                WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '" 
                 AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
+                GROUP BY o.vsttime 
         ');
         return view('account.account_nopaid_sub', [
             'datashow'   =>  $datashow, 
@@ -2060,15 +2060,18 @@ class AccountController extends Controller
 
         $datashow = DB::connection('mysql2')->select(' 
             SELECT a.an, a.income,p.cid, a.paid_money, a.hn
-            , a.dchdate, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,r.bill_date_time
-            ,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,i.staff
-            FROM an_stat a
-            LEFT JOIN patient p on p.hn=a.hn
-            LEFT JOIN pttype t on t.pttype=a.pttype
-            left outer join hos.ipt i on i.an = a.an
-            left outer join hos.rcpt_print r on r.vn = i.vn
-            WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
-            AND (a.paid_money > 0 and a.rcpt_money = 0 )
+            , a.dchdate,i.dchtime, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,i.staff,o.main_dep,k.department
+            ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
+                FROM an_stat a
+                left outer join patient p on p.hn=a.hn
+                left outer join pttype t on t.pttype=a.pttype
+                left outer join hos.ipt i on i.an = a.an
+                left outer join hos.rcpt_print r on r.vn = i.vn
+                left outer join ovst o on o.an = a.an
+                left outer join hos.kskdepartment k on k.depcode = o.main_dep
+                WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
+                AND (a.paid_money > 0 and a.rcpt_money = 0 )
+                GROUP BY i.dchtime 
         ');
         // AND a.paid_money > 0 and a.rcpt_money =0 
         return view('account.account_nopaid_sub_ip', [
