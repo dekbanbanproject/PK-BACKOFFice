@@ -235,13 +235,13 @@
                                 <li><a href="{{ url('ssop') }}">SSOP</a></li>
                                 <li><a href="{{ url('ssop_recheck') }}">SSOP RECHECK</a></li>
                                 <li><a href="{{ url('aipn') }}">AIPN</a></li>
-                                <li><a href="{{ url('aipn_plb') }}">AIPN พรบ</a></li>
-                                <li><a href="{{ url('aipn_disability') }}">AIPN ทุภพพลภาพ </a></li>
+                                {{-- <li><a href="{{ url('aipn_plb') }}">AIPN พรบ</a></li> --}}
+                                {{-- <li><a href="{{ url('aipn_disability') }}">AIPN ทุภพพลภาพ </a></li> --}}
                                 <li><a href="{{ url('aipn_equipdev') }}">SSIP-Equipdev</a></li>
                                 {{-- <li><a href="{{ url('free_schedule') }}">PPFS-Fre Schedule</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">PPFS-Fre Schedule</a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('prb_repipd') }}">sss</a></li>
+                                        <li><a href="{{ url('ppfs_12001') }}">202-คัดกรองสุขภาพจิต 15-34ปี</a></li>
                                         {{-- <li><a href="{{ url('prb_repipdpay') }}">ผู้ป่วยใน พรบ.ที่จำหน่าย(ชำระเงิน)</a></li> --}}
                                         {{-- <li><a href="{{ url('prb_repipdover') }}">Admit อยู่แต่วงเงินเกิน 30000</a></li> --}}
                                     </ul>

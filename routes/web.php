@@ -262,7 +262,11 @@ Route::match(['get','post'],'stayed_down_opd_stmnull_date/{startdate}/{enddate}'
 
 Route::match(['get','post'],'stayed_down_ipddashboard',[App\Http\Controllers\StayeddownController::class, 'stayed_down_ipddashboard'])->name('acc.stayed_down_ipddashboard');//
 
+// ********************************* PPFS 2566  *****************************************
 
+Route::match(['get','post'],'ppfs_12001',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001'])->name('claim.ppfs_12001');//
+Route::match(['get','post'],'ppfs_12001_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001_process'])->name('claim.ppfs_12001_process');//
+Route::match(['get','post'],'ppfs_12001_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001_export'])->name('claim.ppfs_12001_export');//
 
 // ********************************* นักโทษ  *****************************************
 Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438

@@ -157,6 +157,7 @@ return array(
     'App\\Http\\Controllers\\P4pController' => $baseDir . '/app/Http/Controllers/P4pController.php',
     'App\\Http\\Controllers\\P4puserController' => $baseDir . '/app/Http/Controllers/P4puserController.php',
     'App\\Http\\Controllers\\PPFSController' => $baseDir . '/app/Http/Controllers/PPFSController.php',
+    'App\\Http\\Controllers\\PPfs66Controller' => $baseDir . '/app/Http/Controllers/PPfs66Controller.php',
     'App\\Http\\Controllers\\PctController' => $baseDir . '/app/Http/Controllers/PctController.php',
     'App\\Http\\Controllers\\PermissController' => $baseDir . '/app/Http/Controllers/PermissController.php',
     'App\\Http\\Controllers\\PersonController' => $baseDir . '/app/Http/Controllers/PersonController.php',

@@ -817,6 +817,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\P4pController' => __DIR__ . '/../..' . '/app/Http/Controllers/P4pController.php',
         'App\\Http\\Controllers\\P4puserController' => __DIR__ . '/../..' . '/app/Http/Controllers/P4puserController.php',
         'App\\Http\\Controllers\\PPFSController' => __DIR__ . '/../..' . '/app/Http/Controllers/PPFSController.php',
+        'App\\Http\\Controllers\\PPfs66Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/PPfs66Controller.php',
         'App\\Http\\Controllers\\PctController' => __DIR__ . '/../..' . '/app/Http/Controllers/PctController.php',
         'App\\Http\\Controllers\\PermissController' => __DIR__ . '/../..' . '/app/Http/Controllers/PermissController.php',
         'App\\Http\\Controllers\\PersonController' => __DIR__ . '/../..' . '/app/Http/Controllers/PersonController.php',
