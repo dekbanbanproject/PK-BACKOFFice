@@ -293,6 +293,21 @@ class Ucep24Controller extends Controller
                 $iduser = Auth::user()->id;
                 D_ucep24_main::truncate();
                 D_ucep24::truncate();
+                D_ins::where('user_id','=',$iduser)->delete();
+                D_pat::where('user_id','=',$iduser)->delete();
+                D_opd::where('user_id','=',$iduser)->delete();
+                D_orf::where('user_id','=',$iduser)->delete();
+                D_odx::where('user_id','=',$iduser)->delete();
+                D_oop::where('user_id','=',$iduser)->delete();
+                D_ipd::where('user_id','=',$iduser)->delete();
+                D_irf::where('user_id','=',$iduser)->delete();
+                D_idx::where('user_id','=',$iduser)->delete();
+                D_iop::where('user_id','=',$iduser)->delete();
+                D_cht::where('user_id','=',$iduser)->delete();
+                D_cha::where('user_id','=',$iduser)->delete();
+                D_aer::where('user_id','=',$iduser)->delete();
+                D_adp::where('user_id','=',$iduser)->delete(); 
+                D_dru::where('user_id','=',$iduser)->delete();
                
                 $data_opitem = DB::connection('mysql')->select('   
                         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
@@ -419,23 +434,27 @@ class Ucep24Controller extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_ucep24_main');
         $iduser = Auth::user()->id;
-       
+        D_ins::where('user_id','=',$iduser)->delete();
+        D_pat::where('user_id','=',$iduser)->delete();
         D_opd::where('user_id','=',$iduser)->delete();
         D_orf::where('user_id','=',$iduser)->delete();
-        D_oop::where('user_id','=',$iduser)->delete();
         D_odx::where('user_id','=',$iduser)->delete();
-        D_idx::where('user_id','=',$iduser)->delete();
+        D_oop::where('user_id','=',$iduser)->delete();
         D_ipd::where('user_id','=',$iduser)->delete();
         D_irf::where('user_id','=',$iduser)->delete();
-        D_aer::where('user_id','=',$iduser)->delete();
+        D_idx::where('user_id','=',$iduser)->delete();
         D_iop::where('user_id','=',$iduser)->delete();
-        D_adp::where('user_id','=',$iduser)->delete();   
-        D_dru::where('user_id','=',$iduser)->delete();   
-        D_pat::where('user_id','=',$iduser)->delete();
         D_cht::where('user_id','=',$iduser)->delete();
         D_cha::where('user_id','=',$iduser)->delete();
-        D_ins::where('user_id','=',$iduser)->delete();
+        D_aer::where('user_id','=',$iduser)->delete();
+        D_adp::where('user_id','=',$iduser)->delete(); 
+        D_dru::where('user_id','=',$iduser)->delete();
 
+      
+        // D_lvd::where('user_id','=',$iduser)->delete();
+         // D_labfu::where('user_id','=',$iduser)->delete();
+         
+          
          foreach ($data_vn_1 as $key => $va1) {
                  //D_irf
                  $data_irf_ = DB::connection('mysql2')->select('
@@ -823,7 +842,7 @@ class Ucep24Controller extends Controller
                     ,"" PA_NO
                     ,"" TOTCOPAY
                     ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
+                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
                     from hos.opitemrece v
                     LEFT JOIN hos.drugitems d on d.icode = v.icode
                     LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
@@ -854,7 +873,7 @@ class Ucep24Controller extends Controller
                     ,"" PA_NO
                     ,"" TOTCOPAY
                     ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
+                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
                     from hos.opitemrece v
                     LEFT JOIN hos.drugitems d on d.icode = v.icode
                     LEFT JOIN hos.patient pt  on v.hn = pt.hn
@@ -892,7 +911,8 @@ class Ucep24Controller extends Controller
                         // 'TOTAL'          => '01',
                         'SIGCODE'        => $va11->SIGCODE,                      
                         'SIGTEXT'        => $va11->SIGTEXT,
-                        'PROVIDER'        => $va11->PROVIDER,  
+                        'PROVIDER'       => $va11->PROVIDER,
+                        'vstdate'        => $va11->vstdate,   
                         'user_id'        => $iduser
                     ]);
                 }
@@ -1078,9 +1098,8 @@ class Ucep24Controller extends Controller
                     ]);
                 }
          }
-         
-        D_adp::where('CODE','=','XXXXXX')->delete();
-       
+               
+         D_adp::where('CODE','=','XXXXXX')->delete();
         // return back();
         return response()->json([
             'status'    => '200'
@@ -1089,11 +1108,17 @@ class Ucep24Controller extends Controller
 
     public function ucep24_claim_upucep(Request $request)
     {   
-            $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode FROM d_ucep24'); 
+            $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24'); 
             foreach ($data_ as $key => $val) {                
-                D_adp::where('an',$val->an)->where('vstdate',$val->vstdate)
+                D_adp::where('AN',$val->an)->where('vstdate',$val->vstdate)
                 ->update([
                     'SP_ITEM' => '01'
+                ]);
+                D_dru::where('AN',$val->an)->where('DID',$val->icode)
+                // D_dru::where('AN',$val->an)->where('DID',$val->icode)->where('vstdate',$val->vstdate)
+                ->update([
+                    'SP_ITEM'     => '01',
+                    'AMOUNT'      => $val->qty
                 ]);
 
                 // D_dru::where('AN',$val->an)->where('DID',$val->icode)
@@ -1113,6 +1138,7 @@ class Ucep24Controller extends Controller
                 // ]);
             }
             D_adp::where('SP_ITEM','=','')->delete();
+            D_dru::where('SP_ITEM',NULL)->delete();
 
             $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24');
             $iduser = Auth::user()->id;

@@ -472,6 +472,7 @@ return array(
     'App\\Models\\D_anaconda' => $baseDir . '/app/Models/D_anaconda.php',
     'App\\Models\\D_cha' => $baseDir . '/app/Models/D_cha.php',
     'App\\Models\\D_cht' => $baseDir . '/app/Models/D_cht.php',
+    'App\\Models\\D_claim' => $baseDir . '/app/Models/D_claim.php',
     'App\\Models\\D_dru' => $baseDir . '/app/Models/D_dru.php',
     'App\\Models\\D_export' => $baseDir . '/app/Models/D_export.php',
     'App\\Models\\D_export_ofc401' => $baseDir . '/app/Models/D_export_ofc401.php',

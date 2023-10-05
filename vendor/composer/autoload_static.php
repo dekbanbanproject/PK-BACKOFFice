@@ -1132,6 +1132,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\D_anaconda' => __DIR__ . '/../..' . '/app/Models/D_anaconda.php',
         'App\\Models\\D_cha' => __DIR__ . '/../..' . '/app/Models/D_cha.php',
         'App\\Models\\D_cht' => __DIR__ . '/../..' . '/app/Models/D_cht.php',
+        'App\\Models\\D_claim' => __DIR__ . '/../..' . '/app/Models/D_claim.php',
         'App\\Models\\D_dru' => __DIR__ . '/../..' . '/app/Models/D_dru.php',
         'App\\Models\\D_export' => __DIR__ . '/../..' . '/app/Models/D_export.php',
         'App\\Models\\D_export_ofc401' => __DIR__ . '/../..' . '/app/Models/D_export_ofc401.php',
