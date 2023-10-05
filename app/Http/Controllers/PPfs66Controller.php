@@ -140,6 +140,22 @@ class PPfs66Controller extends Controller
         } else {
             $iduser = Auth::user()->id;
             D_12001::truncate();
+            D_opd::where('user_id','=',$iduser)->delete();
+            D_orf::where('user_id','=',$iduser)->delete();
+            D_oop::where('user_id','=',$iduser)->delete();
+            D_odx::where('user_id','=',$iduser)->delete();
+            D_idx::where('user_id','=',$iduser)->delete();
+            D_ipd::where('user_id','=',$iduser)->delete();
+            D_irf::where('user_id','=',$iduser)->delete();
+            D_aer::where('user_id','=',$iduser)->delete();
+            D_iop::where('user_id','=',$iduser)->delete();
+            D_adp::where('user_id','=',$iduser)->delete();   
+            D_dru::where('user_id','=',$iduser)->delete();   
+            D_pat::where('user_id','=',$iduser)->delete();
+            D_cht::where('user_id','=',$iduser)->delete();
+            D_cha::where('user_id','=',$iduser)->delete();
+            D_ins::where('user_id','=',$iduser)->delete();
+            
             // D_ucep24::truncate();
             $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.qty,op.sum_price

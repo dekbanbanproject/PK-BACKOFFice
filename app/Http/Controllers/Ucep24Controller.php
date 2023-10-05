@@ -434,21 +434,21 @@ class Ucep24Controller extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_ucep24_main');
         $iduser = Auth::user()->id;
-        D_ins::where('user_id','=',$iduser)->delete();
-        D_pat::where('user_id','=',$iduser)->delete();
-        D_opd::where('user_id','=',$iduser)->delete();
-        D_orf::where('user_id','=',$iduser)->delete();
-        D_odx::where('user_id','=',$iduser)->delete();
-        D_oop::where('user_id','=',$iduser)->delete();
-        D_ipd::where('user_id','=',$iduser)->delete();
-        D_irf::where('user_id','=',$iduser)->delete();
-        D_idx::where('user_id','=',$iduser)->delete();
-        D_iop::where('user_id','=',$iduser)->delete();
-        D_cht::where('user_id','=',$iduser)->delete();
-        D_cha::where('user_id','=',$iduser)->delete();
-        D_aer::where('user_id','=',$iduser)->delete();
-        D_adp::where('user_id','=',$iduser)->delete(); 
-        D_dru::where('user_id','=',$iduser)->delete();
+        // D_ins::where('user_id','=',$iduser)->delete();
+        // D_pat::where('user_id','=',$iduser)->delete();
+        // D_opd::where('user_id','=',$iduser)->delete();
+        // D_orf::where('user_id','=',$iduser)->delete();
+        // D_odx::where('user_id','=',$iduser)->delete();
+        // D_oop::where('user_id','=',$iduser)->delete();
+        // D_ipd::where('user_id','=',$iduser)->delete();
+        // D_irf::where('user_id','=',$iduser)->delete();
+        // D_idx::where('user_id','=',$iduser)->delete();
+        // D_iop::where('user_id','=',$iduser)->delete();
+        // D_cht::where('user_id','=',$iduser)->delete();
+        // D_cha::where('user_id','=',$iduser)->delete();
+        // D_aer::where('user_id','=',$iduser)->delete();
+        // D_adp::where('user_id','=',$iduser)->delete(); 
+        // D_dru::where('user_id','=',$iduser)->delete();
 
       
         // D_lvd::where('user_id','=',$iduser)->delete();
@@ -1137,8 +1137,10 @@ class Ucep24Controller extends Controller
                 //     'TOTAL'          => '0',  
                 // ]);
             }
-            D_adp::where('SP_ITEM','=','')->delete();
-            D_dru::where('SP_ITEM',NULL)->delete();
+            D_adp::where('SP_ITEM','=',NULL)->delete();
+            // D_adp::where('SP_ITEM','=','')->delete();
+            // D_dru::where('SP_ITEM',NULL)->delete();
+            D_dru::where('SP_ITEM','=','')->delete();
 
             $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24');
             $iduser = Auth::user()->id;
