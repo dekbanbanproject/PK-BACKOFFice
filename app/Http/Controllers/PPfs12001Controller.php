@@ -161,14 +161,14 @@ class PPfs12001Controller extends Controller
                         GROUP BY v.vn;    
                 ');                 
                 foreach ($data_main_ as $key => $value) {    
-                    D_12001::insert([
-                        'vn'                => $value->vn,
-                        'hn'                => $value->hn,
-                        'an'                => $value->an, 
-                        'icode'             => $value->icode,
-                        'sum_price'         => $value->sum_price 
-                    ]);
-                    $check = D_claim::where('vn',$value->vn)->where('hipdata_code',$value->hipdata_code)->count();
+                        D_12001::insert([
+                            'vn'                => $value->vn,
+                            'hn'                => $value->hn,
+                            'an'                => $value->an, 
+                            'icode'             => $value->icode,
+                            'sum_price'         => $value->sum_price 
+                        ]);
+                    $check = D_claim::where('vn',$value->vn)->where('type','PPFS')->count();
                     if ($check > 0) {
                         # code...
                     } else {
@@ -184,6 +184,7 @@ class PPfs12001Controller extends Controller
                             'qty'               => $value->qty,
                             'sum_price'          => $value->sum_price,
                             'type'              => 'PPFS',
+                            'nhso_adp_code'     => '12001',
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);

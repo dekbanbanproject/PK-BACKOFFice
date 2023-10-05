@@ -83,7 +83,7 @@ $pos = strrpos($url, '/') + 1;
         </div>
 
     </div>
-    <form action="{{ url('ppfs_12002') }}" method="POST">
+    <form action="{{ url('ppfs_12004') }}" method="POST">
             @csrf
     <div class="row"> 
             <div class="col"></div>
@@ -109,7 +109,7 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    <a href="{{url('ppfs_12002_export')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{url('ppfs_12004_export')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
                     </a>
@@ -122,7 +122,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">
-                    บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย/สุขภาพจิต 35-59 ปี
+                    บริการเจาะเลือดจากหลอดเลือดดำภายหลังอดอาหาร8ชั่วโมง-12004 45-59 ปี
                     <div class="btn-actions-pane-right">
                         {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
                             <i class="fa-solid fa-spinner text-info me-2"></i> 
@@ -138,7 +138,7 @@ $pos = strrpos($url, '/') + 1;
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                    <span class="d-none d-sm-block">PPFS-12002</span>    
+                                    <span class="d-none d-sm-block">PPFS-12004</span>    
                                 </a>
                             </li>   
                             <li class="nav-item">
@@ -829,7 +829,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ppfs_12002_process') }}",
+                                    url: "{{ route('claim.ppfs_12004_process') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

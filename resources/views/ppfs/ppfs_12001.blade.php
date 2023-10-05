@@ -867,78 +867,7 @@ $pos = strrpos($url, '/') + 1;
                             }
                 })
         });
-        $('.Updatedata').click(function() {  
-                var months = $('#months').val();
-                var year = $('#year').val();
-                // alert(months);
-                Swal.fire({
-                        title: 'ต้องการอัพเดทข้อมูลใช่ไหม ?',
-                        text: "You Update Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Update it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show();  
-                                
-                                $.ajax({
-                                    url: "{{ url('ucep24_claim_upucep') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {months,year},
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'อัพเดทข้อมูลสำเร็จ',
-                                                text: "You Update data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-
-                                        } else if (data.status == 100) { 
-                                            // Swal.fire({
-                                            //     title: 'ยังไม่ได้ลงเลขที่หนังสือ',
-                                            //     text: "Please enter the number of the book.",
-                                            //     icon: 'warning',
-                                            //     showCancelButton: false,
-                                            //     confirmButtonColor: '#06D177',
-                                            //     confirmButtonText: 'เรียบร้อย'
-                                            // }).then((result) => {
-                                            //     if (result
-                                            //         .isConfirmed) {
-                                            //         console.log(
-                                            //             data);
-                                            //         window.location.reload();
-                                                   
-                                            //     }
-                                            // })
-                                            
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                    })
-            });
-
+        
     });
 </script>
 @endsection

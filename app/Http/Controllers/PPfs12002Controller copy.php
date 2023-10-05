@@ -169,7 +169,7 @@ class PPfs12002Controller extends Controller
                             'icode'             => $value->icode,
                             'sum_price'         => $value->sum_price 
                         ]);
-                    $check = D_claim::where('vn',$value->vn)->where('type','PPFS')->count(); 
+                    $check = D_claim::where('vn',$value->vn)->where('hipdata_code',$value->hipdata_code)->count();
                     if ($check > 0) {
                         # code...
                     } else {
@@ -507,7 +507,56 @@ class PPfs12002Controller extends Controller
                         'user_id'           => $iduser,
                     ]);
                 }
-                
+                //D_adp
+                // $data_adp_ = DB::connection('mysql2')->select('
+                //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //     ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //     from
+                //     (SELECT v.hn HN
+                //     ,if(v.an is null,"",v.an) AN
+                //     ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                //     ,n.nhso_adp_type_id TYPE
+                //     ,n.nhso_adp_code CODE 
+                //     ,sum(v.QTY) QTY
+                //     ,round(v.unitprice,2) RATE
+                //     ,if(v.an is null,v.vn,"") SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
+                //     ,"" PROVIDER ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                //     from hos.opitemrece v
+                //     inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                //     left join hos.ipt i on i.an = v.an
+                //     AND i.an is not NULL 
+                //     WHERE i.vn IN("'.$va1->vn.'")
+                //     GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                //     GROUP BY an,CODE,rate
+                //     UNION
+                //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //     ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //     from
+                //     (SELECT v.hn HN
+                //     ,if(v.an is null,"",v.an) AN
+                //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //     ,n.nhso_adp_type_id TYPE
+                //     ,n.nhso_adp_code CODE 
+                //     ,sum(v.QTY) QTY
+                //     ,round(v.unitprice,2) RATE
+                //     ,if(v.an is null,v.vn,"") SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //     ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                //     from hos.opitemrece v
+                //     inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                //     left join hos.vn_stat vv on vv.vn = v.vn
+                //     WHERE vv.vn IN("'.$va1->vn.'")
+                //     AND v.an is NULL
+                //     GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                //     GROUP BY seq,CODE,rate;                
+                // ');
                 $data_adp_ = DB::connection('mysql2')->select('
                     SELECT HN,AN,DATEOPD,TYPE,CODE,QTY,RATE,SEQ
                     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -518,9 +567,9 @@ class PPfs12002Controller extends Controller
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
                     ,"4" TYPE
-                    ,"12002" CODE 
+                    ,"12001" CODE 
                     ,"1" QTY
-                    ,"150" RATE
+                    ,"100" RATE
                     ,if(v.an is null,v.vn,"") SEQ
                     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
@@ -542,9 +591,9 @@ class PPfs12002Controller extends Controller
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                     ,"4" TYPE
-                    ,"12002" CODE 
+                    ,"12001" CODE 
                     ,"1" QTY
-                    ,"150" RATE
+                    ,"100" RATE
                     ,if(v.an is null,v.vn,"") SEQ
                     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
@@ -885,7 +934,7 @@ class PPfs12002Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='12002_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='12001_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost

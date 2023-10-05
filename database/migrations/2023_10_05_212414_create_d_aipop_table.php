@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     { 
-        if (!Schema::hasTable('aipn_ipop'))
+        if (!Schema::hasTable('d_aipop'))
         {
-            Schema::connection('mysql')->create('aipn_ipop', function (Blueprint $table) {
-                $table->bigIncrements('aipn_ipop_id'); 
+            Schema::connection('mysql')->create('d_aipop', function (Blueprint $table) {
+                $table->bigIncrements('d_aipop_id'); 
                 $table->string('an')->nullable();//   
                 $table->string('sequence')->nullable();//   
                 $table->string('CodeSys')->nullable();//  
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aipn_ipop');
+        Schema::dropIfExists('d_aipop');
     }
 };

@@ -60,7 +60,7 @@ use App\Models\Building;
 use App\Models\Product_budget;
 use App\Models\Product_method;
 use App\Models\Product_buy;
-use App\Models\Users_prefix;
+use App\Models\D_12003;
 use App\Models\D_12002;
 use App\Models\D_12001;
 use App\Models\D_ins;
@@ -108,9 +108,9 @@ use PhpParser\Node\Stmt\If_;
 use Stevebauman\Location\Facades\Location; 
 use Illuminate\Filesystem\Filesystem;
 
-class PPfs12002Controller extends Controller
+class PPfs12003Controller extends Controller
 { 
-    public function ppfs_12002(Request $request)
+    public function ppfs_12003(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -125,7 +125,7 @@ class PPfs12002Controller extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
-            $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12002');  
+            $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12003');  
             // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
@@ -143,7 +143,7 @@ class PPfs12002Controller extends Controller
             $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
         } else {
             $iduser = Auth::user()->id;
-            D_12002::truncate();
+            D_12003::truncate();
              
             $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.icode,op.qty,op.sum_price
@@ -157,19 +157,19 @@ class PPfs12002Controller extends Controller
                         and v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")
                         and (o.an=" " or o.an is null)
                         and pt.nationality="99" 
-                        and v.age_y between "35" and "59" AND pt.sex=2 
-                        AND d.nhso_adp_code ="12002"  
+                        and v.age_y between "35" and "59" 
+                        AND d.nhso_adp_code ="12003"  
                         group by v.vn;    
                 ');                 
                 foreach ($data_main_ as $key => $value) {    
-                        D_12002::insert([
+                        D_12003::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
                             'an'                => $value->an, 
                             'icode'             => $value->icode,
                             'sum_price'         => $value->sum_price 
                         ]);
-                    $check = D_claim::where('vn',$value->vn)->where('type','PPFS')->count(); 
+                    $check = D_claim::where('vn',$value->vn)->where('type','PPFS')->count();
                     if ($check > 0) {
                         # code...
                     } else {
@@ -185,14 +185,14 @@ class PPfs12002Controller extends Controller
                             'qty'               => $value->qty,
                             'sum_price'          => $value->sum_price,
                             'type'              => 'PPFS',
-                            'nhso_adp_code'     => '12002',
+                            'nhso_adp_code'     => '12003',
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
                     }                   
                     
                 }
-                $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12002');  
+                $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12003');  
                 // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
                 $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
                 $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
@@ -210,14 +210,14 @@ class PPfs12002Controller extends Controller
                 $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
         }
 
-        return view('ppfs.ppfs_12002',$data,[
+        return view('ppfs.ppfs_12003',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
     }
-    public function ppfs_12002_process(Request $request)
+    public function ppfs_12003_process(Request $request)
     { 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_12002');
+        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_12003');
         $iduser = Auth::user()->id;
        
         D_opd::where('user_id','=',$iduser)->delete();
@@ -869,7 +869,7 @@ class PPfs12002Controller extends Controller
              'status'    => '200'
          ]);
     }
-    public function ppfs_12002_export(Request $request)
+    public function ppfs_12003_export(Request $request)
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");
@@ -885,7 +885,7 @@ class PPfs12002Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='12002_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='12003_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost

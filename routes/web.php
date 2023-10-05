@@ -2266,6 +2266,8 @@ Route::match(['get','post'],'ofc_send',[App\Http\Controllers\Ofcopd401Controller
 
 //********************* */ Claim  ***********************************
 Route::match(['get','post'],'aipn',[App\Http\Controllers\AipnController::class, 'aipn'])->name('claim.aipn');//
+Route::match(['get','post'],'aipn_main',[App\Http\Controllers\AipnController::class, 'aipn_main'])->name('claim.aipn_main');//
+Route::match(['get','post'],'aipn_process',[App\Http\Controllers\AipnController::class, 'aipn_process'])->name('claim.aipn_process');//
 Route::match(['get','post'],'aipnsearch',[App\Http\Controllers\AipnController::class, 'aipnsearch'])->name('claim.aipnsearch');//
 
 Route::match(['get','post'],'aipn_plb',[App\Http\Controllers\AipnController::class, 'aipn_plb'])->name('claim.aipn_plb');//
