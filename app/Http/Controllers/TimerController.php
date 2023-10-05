@@ -1541,7 +1541,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE = CURDATE()   
                                 AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID  
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC 
                 '); 
         } else {
                 $datashow_ = DB::connection('mysql6')->select(' 
@@ -1561,7 +1561,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
                                 AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC
                          
                 '); 
         }
@@ -1601,7 +1601,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE = CURDATE()                            
                                 AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsup.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC
                 '); 
         } else {
                 $export = DB::connection('mysql6')->select('  
@@ -1621,7 +1621,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
                                 AND hs.HR_DEPARTMENT_SUB_ID = "'.$debsup.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC 
  
                 '); 
         } 
@@ -1662,7 +1662,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE = CURDATE()   
                                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID  
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC
                 '); 
         } else {
                 $datashow_ = DB::connection('mysql6')->select(' 
@@ -1682,7 +1682,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
                                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC
                          
                 '); 
         }
@@ -1722,7 +1722,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE = CURDATE()                            
                                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC
                 '); 
         } else {
                 $export = DB::connection('mysql6')->select('  
@@ -1742,7 +1742,7 @@ class TimerController extends Controller
                                 WHERE c.CHEACKIN_DATE BETWEEN "'.$startdate.'" and "'.$enddate.'"                           
                                 AND d.HR_DEPARTMENT_SUB_SUB_ID = "'.$debsubsub.'"
                                 GROUP BY p.ID,ot.OPERATE_TYPE_ID,c.CHEACKIN_DATE
-                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID 
+                                ORDER BY c.CHEACKIN_DATE,p.ID,ot.OPERATE_TYPE_ID DESC
  
                 '); 
         } 

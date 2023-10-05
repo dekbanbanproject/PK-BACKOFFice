@@ -140,50 +140,46 @@ class PPfs66Controller extends Controller
         } else {
             $iduser = Auth::user()->id;
             D_12001::truncate();
-            D_opd::where('user_id','=',$iduser)->delete();
-            D_orf::where('user_id','=',$iduser)->delete();
-            D_oop::where('user_id','=',$iduser)->delete();
-            D_odx::where('user_id','=',$iduser)->delete();
-            D_idx::where('user_id','=',$iduser)->delete();
-            D_ipd::where('user_id','=',$iduser)->delete();
-            D_irf::where('user_id','=',$iduser)->delete();
-            D_aer::where('user_id','=',$iduser)->delete();
-            D_iop::where('user_id','=',$iduser)->delete();
-            D_adp::where('user_id','=',$iduser)->delete();   
-            D_dru::where('user_id','=',$iduser)->delete();   
-            D_pat::where('user_id','=',$iduser)->delete();
-            D_cht::where('user_id','=',$iduser)->delete();
-            D_cha::where('user_id','=',$iduser)->delete();
-            D_ins::where('user_id','=',$iduser)->delete();
-            
+            // D_opd::where('user_id','=',$iduser)->delete();
+            // D_orf::where('user_id','=',$iduser)->delete();
+            // D_oop::where('user_id','=',$iduser)->delete();
+            // D_odx::where('user_id','=',$iduser)->delete();
+            // D_idx::where('user_id','=',$iduser)->delete();
+            // D_ipd::where('user_id','=',$iduser)->delete();
+            // D_irf::where('user_id','=',$iduser)->delete();
+            // D_aer::where('user_id','=',$iduser)->delete();
+            // D_iop::where('user_id','=',$iduser)->delete();
+            // D_adp::where('user_id','=',$iduser)->delete();   
+            // D_dru::where('user_id','=',$iduser)->delete();   
+            // D_pat::where('user_id','=',$iduser)->delete();
+            // D_cht::where('user_id','=',$iduser)->delete();
+            // D_cha::where('user_id','=',$iduser)->delete();
+            // D_ins::where('user_id','=',$iduser)->delete();
+
             // D_ucep24::truncate();
             $data_main_ = DB::connection('mysql2')->select(' 
-                        SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.qty,op.sum_price
+                        SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.icode,op.qty,op.sum_price
                         FROM hos.ovst o
                         LEFT OUTER JOIN hos.vn_stat v on v.vn=o.vn
                         LEFT OUTER JOIN hos.patient pt on pt.hn=o.hn 
                         LEFT OUTER JOIN hos.pttype p ON p.pttype = v.pttype
                         LEFT OUTER JOIN opitemrece op ON op.vn = v.vn   
+                        LEFT OUTER JOIN s_drugitems d on d.icode = op.icode
                         where o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")
-                        and (o.an=" " or o.an is null)
-                        and pt.nationality="99" 
-                        and v.age_y between "15" and "34" 
-                        and v.pdx not between "E110" and "E149"
-                        and v.dx0 not between "I10" and "I159" and v.dx0 not between "E110" and "E149"
-                        and v.dx1 not between "I10" and "I159" and v.dx1 not between "E110" and "E149"
-                        and v.dx2 not between "I10" and "I159" and v.dx2 not between "E110" and "E149" 
-                        and v.pdx not between "Z340" and "Z349"
-                        and v.pdx not between "S000" and "S9999"
-                        and v.pdx not between "O000" and "O999"
-                        and v.pdx not between "C000" and "C999" 
-                        group by v.vn;   
+                        AND v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")
+                        AND (o.an=" " or o.an is null)
+                        AND pt.nationality="99" 
+                        AND v.age_y between "15" and "34" AND pt.sex=2 
+                        AND d.nhso_adp_code ="12001"  
+                        GROUP BY v.vn;    
                 ');                 
                 foreach ($data_main_ as $key => $value) {    
                     D_12001::insert([
                         'vn'                => $value->vn,
                         'hn'                => $value->hn,
-                        'an'                => $value->an 
+                        'an'                => $value->an, 
+                        'icode'             => $value->icode,
+                        'sum_price'         => $value->sum_price 
                     ]);
                     $check = D_claim::where('vn',$value->vn)->where('hipdata_code',$value->hipdata_code)->count();
                     if ($check > 0) {
@@ -923,9 +919,11 @@ class PPfs66Controller extends Controller
                 }
          }
          
-         d_adp::where('CODE','=','XXXXXX')->delete();
-       
-        return back();
+         D_adp::where('CODE','=','XXXXXX')->delete();
+         // return back();
+         return response()->json([
+             'status'    => '200'
+         ]);
     }
     public function ppfs_12001_export(Request $request)
     {

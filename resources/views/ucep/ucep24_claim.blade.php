@@ -812,7 +812,7 @@ $pos = strrpos($url, '/') + 1;
                                 
                             }
                 })
-            });
+        });
 
         $('.Updatedata').click(function() {  
                 var months = $('#months').val();

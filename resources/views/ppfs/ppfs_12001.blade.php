@@ -101,10 +101,14 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button> 
-                    <a href="{{url('ppfs_12001_process')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                    {{-- <a href="{{url('ppfs_12001_process')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" >
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
-                    </a>
+                    </a> --}}
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
+                        <i class="fa-solid fa-spinner text-success me-2"></i>
+                        ประมวลผล
+                    </button>
                     <a href="{{url('ppfs_12001_export')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
@@ -755,6 +759,61 @@ $pos = strrpos($url, '/') + 1;
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+        $("#spinner-div").hide(); //Request is complete so hide spinner
+        $('#Processdata').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
+                        text: "You Warn Process Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('claim.ppfs_12001_process') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ประมวลผลข้อมูลสำเร็จ',
+                                                text: "You Process data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
         });
         $('.Updatedata').click(function() {  
                 var months = $('#months').val();
