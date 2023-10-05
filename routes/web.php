@@ -263,15 +263,30 @@ Route::match(['get','post'],'stayed_down_opd_stmnull_date/{startdate}/{enddate}'
 Route::match(['get','post'],'stayed_down_ipddashboard',[App\Http\Controllers\StayeddownController::class, 'stayed_down_ipddashboard'])->name('acc.stayed_down_ipddashboard');//
 
 // ********************************* PPFS 2566  *****************************************
-// *******************2001 บริการคัดกรองสุขภาพจิต 15-34 ปี*******************
-Route::match(['get','post'],'ppfs_12001',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001'])->name('claim.ppfs_12001');//
-Route::match(['get','post'],'ppfs_12001_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001_process'])->name('claim.ppfs_12001_process');//
-Route::match(['get','post'],'ppfs_12001_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001_export'])->name('claim.ppfs_12001_export');//
+// *******************2001 บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย-สุขภาพจิต(SCR)-12001*******************
+Route::match(['get','post'],'ppfs_12001',[App\Http\Controllers\PPfs12001Controller::class, 'ppfs_12001'])->name('claim.ppfs_12001');//
+Route::match(['get','post'],'ppfs_12001_process',[App\Http\Controllers\PPfs12001Controller::class, 'ppfs_12001_process'])->name('claim.ppfs_12001_process');//
+Route::match(['get','post'],'ppfs_12001_export',[App\Http\Controllers\PPfs12001Controller::class, 'ppfs_12001_export'])->name('claim.ppfs_12001_export');//
+
+// *******************2002 บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย-สุขภาพจิต(SCR)-12002*******************
+Route::match(['get','post'],'ppfs_12002',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002'])->name('claim.ppfs_12002');//
+Route::match(['get','post'],'ppfs_12002_process',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002_process'])->name('claim.ppfs_12002_process');//
+Route::match(['get','post'],'ppfs_12002_export',[App\Http\Controllers\PPfs12002Controller::class, 'ppfs_12002_export'])->name('claim.ppfs_12002_export');//
+
+// *******************2003 บริการเจาะเลือดจากหลอดเลือดดำภายหลังอดอาหาร8ชั่วโมง-12003*******************
+Route::match(['get','post'],'ppfs_12003',[App\Http\Controllers\PPfs12003Controller::class, 'ppfs_12003'])->name('claim.ppfs_12003');//
+Route::match(['get','post'],'ppfs_12003_process',[App\Http\Controllers\PPfs12003Controller::class, 'ppfs_12003_process'])->name('claim.ppfs_12003_process');//
+Route::match(['get','post'],'ppfs_12003_export',[App\Http\Controllers\PPfs12003Controller::class, 'ppfs_12003_export'])->name('claim.ppfs_12003_export');//
+
+// *******************2004 4บริการเจาะเลือดจากหลอดเลือดดำภายหลังอดอาหาร8ชั่วโมง-12004*******************
+Route::match(['get','post'],'ppfs_12004',[App\Http\Controllers\PPfs12004Controller::class, 'ppfs_12004'])->name('claim.ppfs_12004');//
+Route::match(['get','post'],'ppfs_12004_process',[App\Http\Controllers\PPfs6PPfs12004Controller6Controller::class, 'ppfs_12004_process'])->name('claim.ppfs_12004_process');//
+Route::match(['get','post'],'ppfs_12004_export',[App\Http\Controllers\PPfs12004Controller::class, 'ppfs_12004_export'])->name('claim.ppfs_12004_export');//
 
 // *******************30101 บริการคัดกรองการขาดธาตุเหล็ก 13-45 ปี*******************
-Route::match(['get','post'],'ppfs_12001',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001'])->name('claim.ppfs_12001');//
-Route::match(['get','post'],'ppfs_12001_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001_process'])->name('claim.ppfs_12001_process');//
-Route::match(['get','post'],'ppfs_12001_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_12001_export'])->name('claim.ppfs_12001_export');//
+Route::match(['get','post'],'ppfs_30101',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101'])->name('claim.ppfs_30101');//
+Route::match(['get','post'],'ppfs_30101_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_process'])->name('claim.ppfs_30101_process');//
+Route::match(['get','post'],'ppfs_30101_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_export'])->name('claim.ppfs_30101_export');//
 
 // ********************************* นักโทษ  *****************************************
 Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438

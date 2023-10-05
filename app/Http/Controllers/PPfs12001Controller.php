@@ -108,7 +108,7 @@ use PhpParser\Node\Stmt\If_;
 use Stevebauman\Location\Facades\Location; 
 use Illuminate\Filesystem\Filesystem;
 
-class PPfs66Controller extends Controller
+class PPfs12001Controller extends Controller
 { 
     public function ppfs_12001(Request $request)
     {
@@ -137,27 +137,14 @@ class PPfs66Controller extends Controller
             $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer');
             $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop');
             $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
         } else {
             $iduser = Auth::user()->id;
-            D_12001::truncate();
-            // D_opd::where('user_id','=',$iduser)->delete();
-            // D_orf::where('user_id','=',$iduser)->delete();
-            // D_oop::where('user_id','=',$iduser)->delete();
-            // D_odx::where('user_id','=',$iduser)->delete();
-            // D_idx::where('user_id','=',$iduser)->delete();
-            // D_ipd::where('user_id','=',$iduser)->delete();
-            // D_irf::where('user_id','=',$iduser)->delete();
-            // D_aer::where('user_id','=',$iduser)->delete();
-            // D_iop::where('user_id','=',$iduser)->delete();
-            // D_adp::where('user_id','=',$iduser)->delete();   
-            // D_dru::where('user_id','=',$iduser)->delete();   
-            // D_pat::where('user_id','=',$iduser)->delete();
-            // D_cht::where('user_id','=',$iduser)->delete();
-            // D_cha::where('user_id','=',$iduser)->delete();
-            // D_ins::where('user_id','=',$iduser)->delete();
-
-            // D_ucep24::truncate();
-            $data_main_ = DB::connection('mysql2')->select(' 
+            D_12001::truncate(); 
+                $data_main_ = DB::connection('mysql2')->select(' 
                         SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.icode,op.qty,op.sum_price
                         FROM hos.ovst o
                         LEFT OUTER JOIN hos.vn_stat v on v.vn=o.vn
@@ -215,6 +202,10 @@ class PPfs66Controller extends Controller
                 $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer');
                 $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop');
                 $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp');
+                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat');
+                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht');
+                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha');
+                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
         }
 
         return view('ppfs.ppfs_12001',$data,[

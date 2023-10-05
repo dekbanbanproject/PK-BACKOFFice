@@ -83,7 +83,7 @@ $pos = strrpos($url, '/') + 1;
         </div>
 
     </div>
-    <form action="{{ url('ppfs_12001') }}" method="POST">
+    <form action="{{ url('ppfs_12002') }}" method="POST">
             @csrf
     <div class="row"> 
             <div class="col"></div>
@@ -122,7 +122,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">
-                     บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย/สุขภาพจิต 15-34 ปี
+                    บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย/สุขภาพจิต 35-59 ปี
                     <div class="btn-actions-pane-right">
                         {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
                             <i class="fa-solid fa-spinner text-info me-2"></i> 
@@ -138,7 +138,7 @@ $pos = strrpos($url, '/') + 1;
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                    <span class="d-none d-sm-block">PPFS-12001</span>    
+                                    <span class="d-none d-sm-block">PPFS-12002</span>    
                                 </a>
                             </li>   
                             <li class="nav-item">
@@ -779,8 +779,7 @@ $pos = strrpos($url, '/') + 1;
                         </div>
                     </div>
                        
-
-                   
+                                         
                 </div>
             </div>
         </div>
