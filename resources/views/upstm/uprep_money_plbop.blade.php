@@ -135,7 +135,7 @@
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">ลูกหนี้</th>
                                     <th class="text-center">ยอดชดเชย</th>
-                                    <th class="text-center" width="5%">req_no</th>
+                                    <th class="text-center" width="5%">ส่วนต่าง</th>
                                     <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>  
                                     <th class="text-center">จัดการ STM</th> 
                                 </tr>
@@ -153,7 +153,8 @@
                                         <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
                                         <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">{{ number_format($item->payprice,2)}}</td>
-                                        <td class="text-center" width="10%">{{ $item->req_no }}</td> 
+                                        <td class="text-center" width="10%">{{ number_format(($item->debit_total-$item->payprice),2)}}</td> 
+
                                         <td class="text-center" width="10%">{{ $item->money_billno }}</td> 
                                         <td class="text-center" width="5%">
                                             <div class="dropdown d-inline-block">
@@ -284,7 +285,7 @@
                         </div>
                     </div>
 
-                    <div class="row mt-2">
+                    {{-- <div class="row mt-2">
                         <div class="col-md-3">
                             <label for="">รับแจ้ง</label>
                             <div class="form-group">
@@ -304,13 +305,13 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> --}}
 
-                    <div class="row mt-2">
+                    {{-- <div class="row mt-2">
                         <div class="col-md-3">
-                            <label for="" style="color: red">เลขที่ใบเสร็จรับเงิน</label>
+                            <label for="">ครั้งที่</label>
                             <div class="form-group">
-                                <input id="money_billno" type="text" class="form-control form-control-sm">
+                                <input id="no" type="text" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -320,18 +321,19 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            {{-- <label for="">ผู้ประสบภัย</label>
+                            <label for="">ผู้ประสบภัย</label>
                             <div class="form-group">
                                 <input id="ptname" type="text" class="form-control form-control-sm" >
-                            </div> --}}
+                            </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="row mt-2">
+                       
                         <div class="col-md-3">
-                            <label for="">ครั้งที่</label>
+                            <label for="" style="color: red">เลขที่ใบเสร็จรับเงิน</label>
                             <div class="form-group">
-                                <input id="no" type="text" class="form-control form-control-sm">
+                                <input id="money_billno" type="text" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -355,6 +357,16 @@
                         </div>
                     </div>
 
+                    <div class="row mt-2">
+                       
+                        <div class="col-md-12">
+                            <label for="" style="color: red">หมายเหตุ</label>
+                            <div class="form-group">
+                                <textarea name="dd" id="ddd" cols="30" rows="5" class="form-control form-control-sm"></textarea>
+                         
+                            </div>
+                        </div> 
+                    </div>
 
                 </div>
                 <div class="modal-footer">
@@ -464,7 +476,7 @@
 
             $(document).on('click', '.edit_data', function() {
                 var acc_1102050102_602_id = $(this).val();
-                alert(acc_1102050102_602_id);
+                // alert(acc_1102050102_602_id);
                 $('#updteModal').modal('show');
                 $.ajax({
                     type: "GET",

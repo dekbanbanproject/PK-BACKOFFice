@@ -335,10 +335,10 @@ class Account602Controller extends Controller
     }
     public function account_602_edit(Request $request, $id)
     {
-        $acc602 = Acc_1102050102_602::find($id);
+        // $acc602 = Acc_1102050102_602::find($id);
 
-        // $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
-        // ->find($id);
+        $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
+        ->find($id);
 
         return response()->json([
             'status'      => '200',
