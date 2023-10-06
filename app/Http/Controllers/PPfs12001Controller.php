@@ -168,7 +168,7 @@ class PPfs12001Controller extends Controller
                             'icode'             => $value->icode,
                             'sum_price'         => $value->sum_price 
                         ]);
-                    $check = D_claim::where('vn',$value->vn)->where('type','PPFS')->count();
+                    $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','12001')->count();
                     if ($check > 0) {
                         # code...
                     } else {

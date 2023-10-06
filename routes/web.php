@@ -2269,8 +2269,12 @@ Route::match(['get','post'],'aipn',[App\Http\Controllers\AipnController::class, 
 Route::match(['get','post'],'aipn_main',[App\Http\Controllers\AipnController::class, 'aipn_main'])->name('claim.aipn_main');//
 Route::match(['get','post'],'aipn_process',[App\Http\Controllers\AipnController::class, 'aipn_process'])->name('claim.aipn_process');//
 Route::match(['get','post'],'aipn_export',[App\Http\Controllers\AipnController::class, 'aipn_export'])->name('claim.aipn_export');//
+
 Route::match(['get','post'],'aipn_zip',[App\Http\Controllers\AipnController::class, 'aipn_zip'])->name('claim.aipn_zip');//
 
+Route::match(['get','post'],'aipn_main_an',[App\Http\Controllers\AipnController::class, 'aipn_main_an'])->name('claim.aipn_main_an');//
+Route::match(['get','post'],'aipn_process_an',[App\Http\Controllers\AipnController::class, 'aipn_process_an'])->name('claim.aipn_process_an');//
+Route::match(['get','post'],'aipn_export_an',[App\Http\Controllers\AipnController::class, 'aipn_export_an'])->name('claim.aipn_export_an');//
 
 Route::match(['get','post'],'aipnsearch',[App\Http\Controllers\AipnController::class, 'aipnsearch'])->name('claim.aipnsearch');//
 Route::match(['get','post'],'aipn_plb',[App\Http\Controllers\AipnController::class, 'aipn_plb'])->name('claim.aipn_plb');//

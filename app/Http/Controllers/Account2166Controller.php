@@ -103,20 +103,22 @@ class Account2166Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
-        $yearold = date('Y')-1;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
+        // dd($end);
         // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
-        if ($acc_trimart_id == '') {
-            $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
-            $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
-        } else {
-            // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();
-            $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
-            $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
-        }
+        // if ($acc_trimart_id == '') {
+        //     $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
+        //     $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
+        // } else {
+        //     // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();
+        //     $data_trimart = DB::table('acc_trimart')->where('acc_trimart_id','=',$acc_trimart_id)->orderBy('acc_trimart_id','desc')->get();
+        //     $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
+        // }
+
         if ($startdate == '') {
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
@@ -158,9 +160,9 @@ class Account2166Controller extends Controller
         return view('account_2166.account_pkti2166_dash',[
             'startdate'        =>  $startdate,
             'enddate'          =>  $enddate,
-            'trimart'          =>  $trimart,
+            // 'trimart'          =>  $trimart,
             'leave_month_year' =>  $leave_month_year,
-            'data_trimart'     =>  $data_trimart,
+            // 'data_trimart'     =>  $data_trimart,
             'datashow'         =>  $datashow,
         ]);
     }
@@ -230,12 +232,13 @@ class Account2166Controller extends Controller
                 LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                 WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.2166"))
-               
+             
                 AND v.income-v.discount_money-v.rcpt_money <> 0
                 and (o.an="" or o.an is null)
                 GROUP BY v.vn 
             
         ');
+        // 
         // AND vp.pttype IN("M3","M4") 
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.2166')->whereBetween('vstdate', [$startdate, $enddate])->count();

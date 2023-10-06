@@ -117,7 +117,7 @@
             </div>
  
             <div class="row">
-                <div class="col-md-2 text-end">วันที่</div>
+                <div class="col-md-2 text-end">เลือกตาม วันที่</div>
                 <div class="col-md-6 text-center">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
@@ -131,8 +131,8 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                             ดึงข้อมูล
                         </button>
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Processdata">
-                            <i class="fa-solid fa-spinner text-info me-2"></i>
+                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata">
+                            <i class="fa-solid fa-spinner text-primary me-2"></i>
                             ประมวลผล
                         </button>
                         <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata">
@@ -146,26 +146,51 @@
                         </button>  --}}
                        
                     </div>
-                </div>
-                {{-- <div class="col"></div> --}}
+                </div> 
             </div>
+ 
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-2 text-end">เลือกตาม AN</div>
+                <div class="col-md-6 text-center">
+                    <div class="input-group" id="datepicker1">
+                        <input type="text" class="form-control" name="AN" id="AN" placeholder="AN" required>
+                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Searchdata_an">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            ดึงข้อมูล AN
+                        </button>
+                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata_an">
+                            <i class="fa-solid fa-spinner text-primary me-2"></i>
+                            ประมวลผล AN
+                        </button>
+                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata_an">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>
+                            ส่งออก AN
+                        </button> 
+                        <a href="{{ url('aipn_zip') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
+                        {{-- <a href="{{ url('aipn_send_an') }}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a> --}}
+                        {{-- <a href="{{ url('aipn_zip') }}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}  
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>  
+            
  
         <div class="row mt-3">
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body">
- 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h4 class="card-title">Detail AIPN</h4>
-                                <p class="card-title-desc">รายละเอียดประกันสังคมผู้ป่วยใน</p>
-                            </div>
-                            <div class="col"></div>
-                            <div class="col-md-2 text-end">
-                                {{-- <button class="btn btn-secondary" id="Changbillitems"><i class="fa-solid fa-wand-magic-sparkles me-3"></i>ปรับ bilitems</button>  --}}
-
-                            </div>
+                <div class="main-card mb-3 card">
+                    <div class="card-header">
+                        <h4 class="card-title">รายละเอียดประกันสังคมผู้ป่วยใน AIPN</h4>
+                        {{-- <p class="card-title-desc">รายละเอียดประกันสังคมผู้ป่วยใน</p> --}}
+                        <div class="btn-actions-pane-right">
+                            {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                                <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
+                                Sync Data All 
+                            </button> --}}
                         </div>
+                    </div>
+                    <div class="card-body"> 
 
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
@@ -216,7 +241,9 @@
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">an</th>
                                                     <th class="text-center">hn</th>
+                                                    <th class="text-center">cid</th>
                                                     <th class="text-center">dchdate</th>
+                                                    <th class="text-center">ptname</th>
                                                     <th class="text-center">debit</th>   
                                                 </tr>
                                             </thead>
@@ -224,12 +251,14 @@
                                                 <?php $i = 1; ?>
                                                 @foreach ($d_aipn_main as $ite) 
                                                     <tr id="sidb{{$ite->d_aipn_main_id }}">   
-                                                        <td class="text-center">{{ $i++ }}</td>  
-                                                        <td class="text-center">{{ $ite->vn }} </td>
-                                                        <td class="text-center">{{ $ite->an }}</td>
-                                                        <td class="text-center">{{ $ite->hn }} </td>
-                                                        <td class="text-center">{{ $ite->dchdate }} </td>    
-                                                        <td class="text-center">{{ number_format($ite->debit, 2) }}</td> 
+                                                        <td class="text-center" width="5%">{{ $i++ }}</td>  
+                                                        <td class="text-center" width="8%">{{ $ite->vn }} </td>
+                                                        <td class="text-center" width="8%">{{ $ite->an }}</td>
+                                                        <td class="text-center" width="5%">{{ $ite->hn }} </td>
+                                                        <td class="text-center" width="5%">{{ $ite->cid }} </td>
+                                                        <td class="text-center" width="8%">{{ $ite->dchdate }} </td>  
+                                                        <td class="text-start">{{ $ite->ptname }} </td>   
+                                                        <td class="text-center" width="8%">{{ number_format($ite->debit, 2) }}</td> 
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -286,7 +315,7 @@
                                                     <td class="text-center">{{ $item->DOB }}</td>
                                                     <td class="text-center">{{ $item->SEX }}</td>
                                                     <td class="text-center">{{ $item->MARRIAGE }}</td>
-                                                    <td class="p-2">{{ $item->CHANGWAT }}</td>
+                                                    <td class="text-start">{{ $item->CHANGWAT }}</td>
                                                     {{-- <td class="text-center">{{ number_format($item->Amount, 2) }}</td>  --}}
                                                     <td class="text-center">{{ $item->AMPHUR }}</td>
                                                     <td class="text-center">{{ $item->NATION }}</td>
@@ -339,7 +368,7 @@
                                                     <td class="text-center">{{ $item3->DxType }} </td>
                                                     <td class="text-center">{{ $item3->CodeSys }} </td>
                                                     <td class="text-center">{{ $item3->Dcode }} </td>
-                                                    <td class="p-2">{{ $item3->DiagTerm }}</td>
+                                                    <td class="text-start">{{ $item3->DiagTerm }}</td>
                                                     <td class="text-center">{{ $item3->DR }}</td>
                                                     <td class="text-center">{{ $item3->datediag }}</td>
                                                 </tr>
@@ -378,10 +407,10 @@
                                                     <td class="text-center">{{ $item4->sequence }} </td>
                                                     <td class="text-center">{{ $item4->CodeSys }} </td>
                                                     <td class="text-center">{{ $item4->Code }} </td>
-                                                    <td class="p-2">{{ $item4->Procterm }}</td>
-                                                    <td class="p-2">{{ $item4->DR }}</td>
+                                                    <td class="text-start">{{ $item4->Procterm }}</td>
+                                                    <td class="text-start">{{ $item4->DR }}</td>
                                                     <td class="text-center">{{ $item4->DateIn }}</td>
-                                                    <td class="p-2" width="15%">{{ $item4->DateOut }}</td>
+                                                    <td class="text-start" width="15%">{{ $item4->DateOut }}</td>
                                                     <td class="text-center">{{ $item4->Location }}</td>
 
                                                 </tr>
@@ -402,14 +431,19 @@
         <div class="row mt-2">
 
             <div class="col-xl-12">
-                <div class="card">
+                <div class="main-card mb-3 card">
+                    <div class="card-header">
+                        <h4 class="card-title">รายละเอียด BillItems ผู้ป่วยใน</h4> 
+                        <div class="btn-actions-pane-right"> 
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <div class="row mt-2 ms-3">
+                        {{-- <div class="row mt-2 ms-3">
                             <div class="col-md-4">
                                 <h4 class="card-title">Detail BillItems</h4>
                                 <p class="card-title-desc">รายละเอียด BillItems ผู้ป่วยใน</p>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
@@ -431,10 +465,7 @@
                                                 <th class="text-center">Descript</th>
                                                 <th class="text-center">QTY</th>
                                                 <th class="text-center">UnitPrice</th>
-                                                <th class="text-center">ChargeAmt</th>
-                                                {{-- <th class="text-center">Discount</th> 
-                                                <th class="text-center">ClaimUP</th> 
-                                                <th class="text-center">ClaimAmt</th>  --}}
+                                                <th class="text-center">ChargeAmt</th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -455,19 +486,12 @@
                                                         <td class="text-center" style="background-color: rgb(252, 2, 44)"
                                                             width="5%">{{ $item2->CodeSys }} </td>
                                                     @else
-                                                        <td class="text-center" width="5%">{{ $item2->CodeSys }}
-                                                        </td>
+                                                        <td class="text-center" width="5%">{{ $item2->CodeSys }} </td>
                                                     @endif
                                                     <td class="text-center" width="5%">{{ $item2->CSCode }}</td>
                                                     <td class="text-center" width="5%">{{ $item2->STDCode }} </td>
                                                     <td class="text-center" width="5%">{{ $item2->ClaimCat }} </td>
-                                                    <td class="text-center" width="10%">
-                                                        {{-- <a href="javascript:void(0)" onclick="aipn_billitems_destroy({{ $item2->aipn_billitems_id }})" 
-                                                            data-bs-toggle="tooltip" data-bs-placement="left" title="ลบ" 
-                                                            class="btn btn-outline-danger btn-sm"> 
-                                                            <i class="fa-solid fa-trash-can text-danger me-2"></i> 
-                                                            {{ $item2->LCCode }} 
-                                                        </a>   --}}
+                                                    <td class="text-center" width="10%"> 
                                                         <a href="{{ url('aipn_billitems_destroy/' . $item2->d_abillitems_id) }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="ลบ" class="btn btn-outline-danger btn-sm">
@@ -475,15 +499,12 @@
                                                             {{ $item2->LCCode }}
                                                         </a>
                                                     </td>
-                                                    <td class="p-2">{{ $item2->Descript }}</td>
+                                                    <td class="text-start">{{ $item2->Descript }}</td>
                                                     <td class="text-center" width="5%">{{ $item2->QTY }}</td>
                                                     <td class="text-center" width="5%">
                                                         {{ number_format($item2->UnitPrice, 2) }}</td>
                                                     <td class="text-center" width="5%">
-                                                        {{ number_format($item2->ChargeAmt, 2) }}</td>
-                                                    {{-- <td class="text-center" width="5%">{{ number_format($item2->Discount, 2) }}</td> 
-                                                    <td class="text-center" width="5%">{{ number_format($item2->ClaimUP, 2) }}</td>
-                                                    <td class="text-center" width="5%">{{ number_format($item2->ClaimAmt, 2) }}</td>  --}}
+                                                        {{ number_format($item2->ChargeAmt, 2) }}</td> 
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -712,6 +733,169 @@
                                                 Swal.fire({
                                                     title: 'สร้างไฟล์ Zip สำเร็จ',
                                                     text: "You Create Zip File success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                            setTimeout(function(){
+                                                                $("#overlay").fadeOut(300);
+                                                            },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                        },
+                                    });
+                                    
+                                }
+                    })
+            });
+
+            // *************** AN *******************
+            $('#Searchdata_an').click(function() {
+                    var AN = $('#AN').val();  
+                    Swal.fire({
+                            title: 'ต้องการดึงข้อมูลใช่ไหม ?',
+                            text: "You Warn Pull Data!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, pull it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+                                    
+                                    $.ajax({
+                                        url: "{{ route('claim.aipn_main_an') }}",
+                                        type: "POST",
+                                        dataType: 'json',
+                                        data: {
+                                            AN                        
+                                        },
+                                        success: function(data) {
+                                            if (data.status == 200) { 
+                                                Swal.fire({
+                                                    title: 'ดึงข้อมูลสำเร็จ',
+                                                    text: "You Pull data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                            setTimeout(function(){
+                                                                $("#overlay").fadeOut(300);
+                                                            },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                        },
+                                    });
+                                    
+                                }
+                    })
+            });
+            $('#Processdata_an').click(function() {
+                    var datepicker = $('#datepicker').val(); 
+                    var datepicker2 = $('#datepicker2').val(); 
+                    Swal.fire({
+                            title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
+                            text: "You Warn Process Data!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, pull it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+                                    
+                                    $.ajax({
+                                        url: "{{ route('claim.aipn_process_an') }}",
+                                        type: "POST",
+                                        dataType: 'json',
+                                        data: {
+                                            datepicker,
+                                            datepicker2                        
+                                        },
+                                        success: function(data) {
+                                            if (data.status == 200) { 
+                                                Swal.fire({
+                                                    title: 'ประมวลผลข้อมูลสำเร็จ',
+                                                    text: "You Process data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                            setTimeout(function(){
+                                                                $("#overlay").fadeOut(300);
+                                                            },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                        },
+                                    });
+                                    
+                                }
+                    })
+            });
+
+            $('#Exportdata_an').click(function() {
+                    var datepicker = $('#datepicker').val(); 
+                    var datepicker2 = $('#datepicker2').val(); 
+                    Swal.fire({
+                            title: 'ต้องการส่งออกข้อมูลใช่ไหม ?',
+                            text: "You Warn Export Data!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, pull it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+                                    
+                                    $.ajax({
+                                        url: "{{ route('claim.aipn_export_an') }}",
+                                        type: "POST",
+                                        dataType: 'json',
+                                        data: {
+                                            datepicker,
+                                            datepicker2                        
+                                        },
+                                        success: function(data) {
+                                            if (data.status == 200) { 
+                                                Swal.fire({
+                                                    title: 'ส่งออกข้อมูลสำเร็จ',
+                                                    text: "You Export data success",
                                                     icon: 'success',
                                                     showCancelButton: false,
                                                     confirmButtonColor: '#06D177',

@@ -183,7 +183,7 @@ class Account602Controller extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2; 
-        $acc_debtor = DB::connection('mysql3')->select('
+        $acc_debtor = DB::connection('mysql2')->select('
             SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                 ,o.vstdate,o.vsttime 
@@ -288,7 +288,7 @@ class Account602Controller extends Controller
                             'debit_instument'   => $value->debit_instument,
                             'debit_refer'       => $value->debit_refer,
                             'debit_toa'         => $value->debit_toa,
-                            'debit_total'       => $value->debit,
+                            'debit_total'       => $value->debit_total,
                             'max_debt_amount'   => $value->max_debt_amount,
                             'acc_debtor_userid' => $iduser
                     ]);

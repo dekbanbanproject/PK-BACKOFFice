@@ -183,7 +183,7 @@ class Account603Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql3')->select('
+        $acc_debtor = DB::connection('mysql')->select('
             SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
                     ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                     ,a.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
@@ -236,7 +236,7 @@ class Account603Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
                             'fokliad'            => $value->fokliad,
-                            'debit_total'        => $value->debit,
+                            'debit_total'        => $value->debit_total,
                             'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
