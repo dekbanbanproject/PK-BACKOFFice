@@ -1031,7 +1031,7 @@ class AipnController extends Controller
         $an = $an_->AN;
         $ip = $request->ip(); 
         // dd($an);
-        $sss_date_now = date("Y-m-d");
+        $aipn_date_now = date("Y-m-d");
         $aipn_time_now = date("H:i:s");
         $sesid_status = 'new'; #ส่งค่าสำหรับเงื่อนไขการบันทึกsession
 
@@ -1045,7 +1045,7 @@ class AipnController extends Controller
 
         #ตัดขีด, ตัด : ออก
         $pattern_date = '/-/i';
-        $aipn_date_now_preg = preg_replace($pattern_date, '', $sss_date_now);
+        $aipn_date_now_preg = preg_replace($pattern_date, '', $aipn_date_now);
         $pattern_time = '/:/i';
         $aipn_time_now_preg = preg_replace($pattern_time, '', $aipn_time_now);
         #ตัดขีด, ตัด : ออก
@@ -1055,7 +1055,7 @@ class AipnController extends Controller
   
         $add = new Aipn_session();
         $add->aipn_session_no = $aipn_session_no;
-        $add->aipn_session_date = $sss_date_now;
+        $add->aipn_session_date = $aipn_date_now;
         $add->aipn_session_time = $aipn_time_now;
         $add->aipn_session_filename = $folder;
         $add->aipn_session_ststus = "Send";

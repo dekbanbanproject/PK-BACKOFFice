@@ -2264,34 +2264,33 @@ Route::match(['get','post'],'ofc_send',[App\Http\Controllers\Ofcopd401Controller
 
 
 
-//********************* */ Claim  ***********************************
+//********************* */ Claim  AIPN ***********************************
 Route::match(['get','post'],'aipn',[App\Http\Controllers\AipnController::class, 'aipn'])->name('claim.aipn');//
 Route::match(['get','post'],'aipn_main',[App\Http\Controllers\AipnController::class, 'aipn_main'])->name('claim.aipn_main');//
 Route::match(['get','post'],'aipn_process',[App\Http\Controllers\AipnController::class, 'aipn_process'])->name('claim.aipn_process');//
-Route::match(['get','post'],'aipnsearch',[App\Http\Controllers\AipnController::class, 'aipnsearch'])->name('claim.aipnsearch');//
+Route::match(['get','post'],'aipn_export',[App\Http\Controllers\AipnController::class, 'aipn_export'])->name('claim.aipn_export');//
+Route::match(['get','post'],'aipn_zip',[App\Http\Controllers\AipnController::class, 'aipn_zip'])->name('claim.aipn_zip');//
 
+
+Route::match(['get','post'],'aipnsearch',[App\Http\Controllers\AipnController::class, 'aipnsearch'])->name('claim.aipnsearch');//
 Route::match(['get','post'],'aipn_plb',[App\Http\Controllers\AipnController::class, 'aipn_plb'])->name('claim.aipn_plb');//
 Route::match(['get','post'],'aipn_plb_search',[App\Http\Controllers\AipnController::class, 'aipn_plb_search'])->name('claim.aipn_plb_search');//
 Route::match(['get','post'],'aipn_plb_send_anplb',[App\Http\Controllers\AipnController::class, 'aipn_plb_send_anplb'])->name('claim.aipn_plb_send_anplb');//
-
 Route::match(['get','post'],'checkdata',[App\Http\Controllers\AipnController::class, 'checkdata'])->name('claim.checkdata');//
-
 Route::match(['get','post'],'aipn_disability',[App\Http\Controllers\AipnController::class, 'aipn_disability'])->name('claim.aipn_disability');// 06
 Route::match(['get','post'],'aipn_disability_search',[App\Http\Controllers\AipnController::class, 'aipn_disability_search'])->name('claim.aipn_disability_search');// 06
 Route::match(['get','post'],'aipn_disability_an',[App\Http\Controllers\AipnController::class, 'aipn_disability_an'])->name('claim.aipn_disability_an');// 06
-
 Route::match(['get','post'],'aipn_equipdev',[App\Http\Controllers\AipnController::class, 'aipn_equipdev'])->name('claim.aipn_equipdev');//
 Route::match(['get','post'],'aipn_equipdevsearch',[App\Http\Controllers\AipnController::class, 'aipn_equipdevsearch'])->name('claim.aipn_equipdevsearch');//
 Route::match(['get','post'],'aipn_equipdev_send',[App\Http\Controllers\AipnController::class, 'aipn_equipdev_send'])->name('claim.aipn_equipdev_send');//
 Route::match(['get','post'],'aipn_equipdev_zip',[App\Http\Controllers\AipnController::class, 'aipn_equipdev_zip'])->name('claim.aipn_equipdev_zip');//
-
 Route::match(['get','post'],'aipn_billitems_destroy/{id}',[App\Http\Controllers\AipnController::class, 'aipn_billitems_destroy'])->name('claim.aipn_billitems_destroy');//
-
 Route::match(['get','post'],'aipn_send',[App\Http\Controllers\AipnController::class, 'aipn_send'])->name('claim.aipn_send');//
 Route::match(['get','post'],'aipn_send_an',[App\Http\Controllers\AipnController::class, 'aipn_send_an'])->name('claim.aipn_send_an');//
 Route::match(['get','post'],'aipn_send_all',[App\Http\Controllers\AipnController::class, 'aipn_send_all'])->name('claim.aipn_send_all');//
 Route::match(['get','post'],'aipn_send_chang',[App\Http\Controllers\AipnController::class, 'aipn_send_chang'])->name('claim.aipn_send_chang');//
-Route::match(['get','post'],'aipn_zip',[App\Http\Controllers\AipnController::class, 'aipn_zip'])->name('claim.aipn_zip');//
+
+//********************* */END  Claim  AIPN ***********************************
 
 Route::match(['get','post'],'acc_checksit',[App\Http\Controllers\ClaimController::class, 'acc_checksit'])->name('claim.acc_checksit');//
 Route::match(['get','post'],'acc_checksit_spsch',[App\Http\Controllers\ClaimController::class, 'acc_checksit_spsch'])->name('claim.acc_checksit_spsch');//

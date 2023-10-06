@@ -139,6 +139,12 @@
                             <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>
                             ส่งออก
                         </button> 
+                        <a href="{{ url('aipn_zip') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
+                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Zipdata">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-danger me-2"></i>
+                            ZipFile
+                        </button>  --}}
+                       
                     </div>
                 </div>
                 {{-- <div class="col"></div> --}}
@@ -571,7 +577,7 @@
                     var datepicker = $('#datepicker').val(); 
                     var datepicker2 = $('#datepicker2').val(); 
                     Swal.fire({
-                            title: 'ต้องการส่งออกข้อมูลสำเร็จใช่ไหม ?',
+                            title: 'ต้องการส่งออกข้อมูลใช่ไหม ?',
                             text: "You Warn Export Data!",
                             icon: 'warning',
                             showCancelButton: true,
@@ -584,7 +590,7 @@
                                     $("#spinner").show(); //Load button clicked show spinner 
                                     
                                     $.ajax({
-                                        url: "{{ route('claim.aipn_send_all') }}",
+                                        url: "{{ route('claim.aipn_export') }}",
                                         type: "POST",
                                         dataType: 'json',
                                         data: {
@@ -651,6 +657,61 @@
                                                 Swal.fire({
                                                     title: 'ประมวลผลข้อมูลสำเร็จ',
                                                     text: "You Process data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                            setTimeout(function(){
+                                                                $("#overlay").fadeOut(300);
+                                                            },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                        },
+                                    });
+                                    
+                                }
+                    })
+            });
+
+            $('#Zipdata').click(function() {
+                    var datepicker = $('#datepicker').val(); 
+                    var datepicker2 = $('#datepicker2').val(); 
+                    Swal.fire({
+                            title: 'ต้องการสร้างไฟล์ Zip ใช่ไหม ?',
+                            text: "You Warn Create Zip File!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, pull it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+                                    
+                                    $.ajax({
+                                        url: "{{ route('claim.aipn_zip') }}",
+                                        type: "POST",
+                                        dataType: 'json',
+                                        data: {
+                                            datepicker,
+                                            datepicker2                        
+                                        },
+                                        success: function(data) {
+                                            if (data.status == 200) { 
+                                                Swal.fire({
+                                                    title: 'สร้างไฟล์ Zip สำเร็จ',
+                                                    text: "You Create Zip File success",
                                                     icon: 'success',
                                                     showCancelButton: false,
                                                     confirmButtonColor: '#06D177',
