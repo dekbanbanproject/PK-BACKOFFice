@@ -183,31 +183,35 @@ class Account603Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql')->select('
+        $acc_debtor = DB::connection('mysql2')->select('
             SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) fullname
                     ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                     ,a.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
                     ,ec.name as account_name,ifnull(ec.ar_ipd,"") pang_debit
                     ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
-                    ,a.income-a.rcpt_money-a.discount_money as debit
+                  
+                    ,sum(if(d.name like "CT%",sum_price,0)) as CT
                     ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
-                    ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
-                    from ipt ip
+                    ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+                    ,a.income-a.rcpt_money-a.discount_money as debit
+
+                    from hos.ipt ip
                     LEFT JOIN hos.an_stat a ON ip.an = a.an
-                    LEFT JOIN patient pt on pt.hn=a.hn
-                    LEFT JOIN pttype ptt on a.pttype=ptt.pttype
-                    LEFT JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT JOIN hos.patient pt on pt.hn=a.hn
+                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                    LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
                     LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
                     LEFT JOIN hos.opitemrece op ON ip.an = op.an
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND a.pttype IN("31","36","37","38","39")
+                  
                     GROUP BY a.an;            
         ');
-
+        //   AND d.name NOT like "CT%"
         foreach ($acc_debtor as $key => $value) {
             $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.603')->whereBetween('dchdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
@@ -236,7 +240,7 @@ class Account603Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
                             'fokliad'            => $value->fokliad,
-                            'debit_total'        => $value->debit_total,
+                            'debit_total'        => $value->debit,
                             'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
@@ -438,21 +442,28 @@ class Account603Controller extends Controller
             'recieve_user'     => $iduser
            
         ]);
+
+        $check = Acc_stm_prb::where('acc_1102050102_603_sid',$id)->count();
+        if ($check > 0) {
+            # code...
+        } else {
+            $add = new Acc_stm_prb();
+            $add->acc_1102050102_603_sid = $id;
+            $add->req_no           = $request->req_no;
+            $add->pid              = $request->cid;
+            $add->fullname           = $request->ptname;
+            $add->claim_no         = $request->claim_no;
+            $add->vendor           = $request->vendor;
+            $add->money_billno     = $request->money_billno;
+            $add->paytype          = $request->paytype;
+            $add->no               = $request->no;
+            $add->payprice         = $request->payprice;
+            $add->paydate          = $request->paydate;
+            $add->savedate         = $request->savedate;
+            $add->save();
+        }
  
-        $add = new Acc_stm_prb();
-        $add->acc_1102050102_603_sid = $id;
-        $add->req_no           = $request->req_no;
-        $add->pid              = $request->cid;
-        $add->fullname           = $request->ptname;
-        $add->claim_no         = $request->claim_no;
-        $add->vendor           = $request->vendor;
-        $add->money_billno     = $request->money_billno;
-        $add->paytype          = $request->paytype;
-        $add->no               = $request->no;
-        $add->payprice         = $request->payprice;
-        $add->paydate          = $request->paydate;
-        $add->savedate         = $request->savedate;
-        $add->save();
+     
         return response()->json([
             'status'      => '200'
         ]);

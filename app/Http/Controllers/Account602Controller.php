@@ -198,15 +198,16 @@ class Account602Controller extends Controller
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,ptt.max_debt_money
-            from vn_stat v
-            left join ovst o on v.vn=o.vn
-            left join patient pt on pt.hn=v.hn
-            LEFT JOIN visit_pttype vp on vp.vn = v.vn
-            LEFT JOIN pttype ptt on v.pttype=ptt.pttype
-            LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
-            LEFT JOIN opitemrece op ON op.vn = o.vn
+            from hos.vn_stat v
+            left join hos.ovst o on v.vn=o.vn
+            left join hos.patient pt on pt.hn=v.hn
+            LEFT JOIN hos.visit_pttype vp on vp.vn = v.vn
+            LEFT JOIN hos.pttype ptt on v.pttype=ptt.pttype
+            LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
+            LEFT JOIN hos.opitemrece op ON op.vn = o.vn
             WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"        
             AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.602" AND opdipd ="OPD"))
+            AND op.icode NOT like "c%" 
             and (o.an="" or o.an is null)
             GROUP BY v.vn
         ');
@@ -368,21 +369,27 @@ class Account602Controller extends Controller
         ]);
 
         // Acc_stm_prb::whereIn('acc_1102050102_602_sid',explode(",",$id))->delete();
-
-        $add = new Acc_stm_prb();
-        $add->acc_1102050102_602_sid = $id;
-        $add->req_no           = $request->req_no;
-        $add->pid              = $request->cid;
-        $add->fullname           = $request->ptname;
-        $add->claim_no         = $request->claim_no;
-        $add->vendor           = $request->vendor;
-        $add->money_billno     = $request->money_billno;
-        $add->paytype          = $request->paytype;
-        $add->no               = $request->no;
-        $add->payprice         = $request->payprice;
-        $add->paydate          = $request->paydate;
-        $add->savedate         = $request->savedate;
-        $add->save();
+        $check = Acc_stm_prb::where('acc_1102050102_602_sid',$id)->count();
+        if ($check > 0) {
+            # code...
+        } else {
+            $add = new Acc_stm_prb();
+            $add->acc_1102050102_602_sid = $id;
+            $add->req_no           = $request->req_no;
+            $add->pid              = $request->cid;
+            $add->fullname           = $request->ptname;
+            $add->claim_no         = $request->claim_no;
+            $add->vendor           = $request->vendor;
+            $add->money_billno     = $request->money_billno;
+            $add->paytype          = $request->paytype;
+            $add->no               = $request->no;
+            $add->payprice         = $request->payprice;
+            $add->paydate          = $request->paydate;
+            $add->savedate         = $request->savedate;
+            $add->save();
+        }
+        
+       
         return response()->json([
             'status'      => '200'
         ]);
