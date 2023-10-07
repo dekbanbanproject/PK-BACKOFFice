@@ -377,7 +377,7 @@ class Ucep24Controller extends Controller
                         'hn'                => $value2->hn,
                         'an'                => $value2->an 
                     ]);
-                    $check = D_claim::where('an',$value2->an)->where('hipdata_code',$value2->hipdata_code)->count();
+                    $check = D_claim::where('an',$value2->an)->where('nhso_adp_code','=','UCEP24')->count();
                     if ($check > 0) {
                         # code...
                     } else {
@@ -392,7 +392,8 @@ class Ucep24Controller extends Controller
                             'hipdata_code'      => $value2->hipdata_code,
                             'qty'               => $value2->qty,
                             'sum_price'          => $value2->sum_price,
-                            'type'              => 'UCEP24',
+                            'type'              => 'IPD',
+                            'nhso_adp_code'     => 'UCEP24',
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
