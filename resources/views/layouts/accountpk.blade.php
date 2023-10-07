@@ -594,7 +594,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                             <li><a href="javascript: void(0);" class="has-arrow">พรบ.</a>
                                                     <ul class="sub-menu" aria-expanded="true">
                                                         <li><a href="{{ url('uprep_money_plbop') }}">พรบ.-OP</a></li> 
-                                                        <li><a href="{{ url('uprep_money_plbip') }}">พรบ.-OP</a></li> 
+                                                        <li><a href="{{ url('uprep_money_plbip') }}">พรบ.-IP</a></li> 
                                                     </ul>
                                                
                                             </li>

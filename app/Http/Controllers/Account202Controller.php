@@ -418,7 +418,7 @@ class Account202Controller extends Controller
         //  $end = (''.$yearnew.'-09-30'); 
 
          $yearnew = date('Y')+1;
-         $yearold = date('Y');
+         $yearold = date('Y')-1;
          $start = (''.$yearold.'-10-01');
          $end = (''.$yearnew.'-09-30'); 
  

@@ -367,7 +367,10 @@ class Account217Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {
             $datashow = DB::select('
                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -380,7 +383,7 @@ class Account217Controller extends Controller
                     ,sum(a.debit) as debit
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                    WHERE a.dchdate between "'.$newyear.'" and "'.$date.'"
+                    WHERE a.dchdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.217"
                     group by month(a.dchdate) order by month(a.dchdate) desc limit 3;
             ');

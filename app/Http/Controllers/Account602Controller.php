@@ -100,7 +100,7 @@ class Account602Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
+        $yearnew = date('Y')+1;
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
@@ -335,10 +335,13 @@ class Account602Controller extends Controller
     }
     public function account_602_edit(Request $request, $id)
     {
-        // $acc602 = Acc_1102050102_602::find($id);
+        $acc602 = Acc_1102050102_602::find($id);
 
-        $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
-        ->find($id);
+        // $acc602 = Acc_1102050102_602::LEFTJOIN('acc_stm_prb','acc_stm_prb.acc_1102050102_602_sid','=','acc_1102050102_602.acc_1102050102_602_id')
+        // ->where('acc_1102050102_602_id',$id)
+        // ->first();
+        // ->find($id);
+        // $acc602->all();
 
         return response()->json([
             'status'      => '200',
@@ -347,14 +350,24 @@ class Account602Controller extends Controller
     }
     public function account_602_update(Request $request)
     {
+        $iduser = Auth::user()->id;
         $id = $request->acc_1102050102_602_id;
-
+        $sauntang_ = Acc_1102050102_602::where('acc_1102050102_602_id','=',$id)->first();
+        $sauntang  = $sauntang_->debit_total;
         Acc_1102050102_602::whereIn('acc_1102050102_602_id',explode(",",$id))
         ->update([
-            'status' => 'Y'
+            'status'           => 'Y',
+            'recieve_true'     => $request->payprice,
+            'recieve_no'       => $request->money_billno,
+            'recieve_date'     => $request->paydate,
+            'savedate'         => $request->savedate,
+            'difference'       => $sauntang - $request->payprice,
+            'comment'          => $request->comment,
+            'recieve_user'     => $iduser
+           
         ]);
 
-        Acc_stm_prb::whereIn('acc_1102050102_602_sid',explode(",",$id))->delete();
+        // Acc_stm_prb::whereIn('acc_1102050102_602_sid',explode(",",$id))->delete();
 
         $add = new Acc_stm_prb();
         $add->acc_1102050102_602_sid = $id;
@@ -374,31 +387,7 @@ class Account602Controller extends Controller
             'status'      => '200'
         ]);
     }
-    // public function account_602_stmnull(Request $request,$months,$year)
-    // {
-    //     $datenow = date('Y-m-d');
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     // dd($id);
-    //     $data['users'] = User::get();
-
-    //     $datashow = DB::connection('mysql')->select('
-    //             SELECT U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice
-    //             from acc_1102050102_602 U1
-    //             LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
-    //             WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-    //             AND U1.status ="N"
-    //         ');
-
-
-    //     return view('account_602.account_602_stmnull', $data, [
-    //         'startdate'         =>     $startdate,
-    //         'enddate'           =>     $enddate,
-    //         'datashow'          =>     $datashow,
-    //         'months'            =>     $months,
-    //         'year'              =>     $year,
-    //     ]);
-    // }
+    
     public function account_602_stmnull_all(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');

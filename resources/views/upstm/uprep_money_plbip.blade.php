@@ -1,24 +1,24 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
 @section('content')
-<script>
-    function TypeAdmin() {
-        window.location.href = '{{ route('index') }}';
-    }
-</script>
-    <?php
-        if (Auth::check()) {
-            $type = Auth::user()->type;
-            $iduser = Auth::user()->id;
-        } else {
-            echo "<body onload=\"TypeAdmin()\"></body>";
-            exit();
+    <script>
+        function TypeAdmin() {
+            window.location.href = '{{ route('index') }}';
         }
-        $url = Request::url();
-        $pos = strrpos($url, '/') + 1;
-        $datenow = date('Y-m-d');
-        $ynow = date('Y')+543;
-        $yb =  date('Y')+542;
+    </script>
+    <?php
+    if (Auth::check()) {
+        $type = Auth::user()->type;
+        $iduser = Auth::user()->id;
+    } else {
+        echo "<body onload=\"TypeAdmin()\"></body>";
+        exit();
+    }
+    $url = Request::url();
+    $pos = strrpos($url, '/') + 1;
+    $datenow = date('Y-m-d');
+    $ynow = date('Y') + 543;
+    $yb = date('Y') + 542;
     ?>
     <style>
         #button {
@@ -74,48 +74,56 @@
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
-            </div> 
+            </div>
         </div>
 
-        <form action="{{ url('uprep_money_plb') }}" method="GET">
+        <form action="{{ url('uprep_money_plbip') }}" method="GET">
             @csrf
-            <div class="row"> 
+            <div class="row">
                 <div class="col"></div>
                 <div class="col-md-2 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end">
-                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            data-date-language="th-th" value="{{ $startdate }}" required/>
-                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            data-date-language="th-th" value="{{ $enddate }}"/>  
-                    </div> 
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $startdate }}" required />
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            data-date-language="th-th" value="{{ $enddate }}" />
+                    </div>
                 </div>
-                <div class="col-md-4"> 
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> 
+                <div class="col-md-3">
+                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                         <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>
-                        ค้นหาข้อมูล</button>    
-                    
+                        ค้นหาข้อมูล
+                    </button>
+                    <a href="{{url('uprep_money_plbhn')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" target="_blank">
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา HN
+                    </a>
                 </div>
                 <div class="col"></div>
             </div>
-        </form>  
+        </form>
 
-        <div class="row mt-2">
+        <div class="row mt-2"> 
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050102.602
+                        รายละเอียด 1102050102.603
                         <div class="btn-actions-pane-right">
-                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                            {{-- <button type="button"
+                                class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll">
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
-                                Sync Data All 
-                        </button>
+                                Sync Data All
+                            </button> --}}
                         </div>
                     </div>
                     <div class="card-body">
-                            {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
@@ -126,8 +134,9 @@
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">ลูกหนี้</th>
+                                    <th class="text-center">nhso_ownright_pid</th>
                                     <th class="text-center">ยอดชดเชย</th>
-                                    <th class="text-center" width="5%">req_no</th>
+                                    <th class="text-center" width="5%">ส่วนต่าง</th>
                                     <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>  
                                     <th class="text-center">จัดการ STM</th> 
                                 </tr>
@@ -136,38 +145,49 @@
                                 <?php $number = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                  
-                                        <tr height="20" style="font-size: 14px;">
-                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
-                                            <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="10%">{{ $item->hn }}</td> 
-                                            <td class="text-center" width="10%">{{ $item->cid }}</td>   
-                                            <td class="p-2" >{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
-                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">{{ number_format($item->payprice,2)}}</td>
-                                            <td class="text-center" width="10%">{{ $item->req_no }}</td> 
-                                            <td class="text-center" width="10%">{{ $item->money_billno }}</td> 
-                                            <td class="text-center" width="5%">
-                                                <div class="dropdown d-inline-block">
-                                                    <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
-                                                        ทำรายการ
-                                                    </button>
-                                                    <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
-                                                        {{-- @if ($item->money_billno == '') --}}
-                                                            <button type="button"class="dropdown-item menu edit_data text-success" 
-                                                                value="{{ $item->acc_1102050102_602_id }}" 
-                                                                data-bs-toggle="tooltip" data-bs-placement="left"
-                                                                title="ตัด STM"> 
-                                                                <i class="fa-solid fa-clipboard-check me-2 text-success" style="font-size:13px"></i>
-                                                                <span>ตัด STM</span>
-                                                            </button>
-                                                      
-                                                    </div>
+                                    <tr height="20" style="font-size: 13px;">
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
+                                        <td class="text-center" width="10%">{{ $item->vn }}</td> 
+                                        <td class="text-center" width="10%">{{ $item->hn }}</td> 
+                                        <td class="text-center" width="10%">{{ $item->cid }}</td>   
+                                        <td class="p-2" >{{ $item->ptname }}</td>  
+                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
+                                        <td class="text-end" width="10%" style="color:rgb(226, 63, 248)">{{ number_format($item->nhso_ownright_pid,2)}}</td>
+                                        <td class="text-end" width="10%" style="color:rgb(14, 216, 165)">{{ number_format($item->recieve_true,2)}}</td>
+                                        {{-- <td class="text-center" width="10%">{{ number_format(($item->debit_total-$item->payprice),2)}}</td>  --}}
+                                        @if ($item->difference == '0')
+                                        <td class="text-center" width="10%">{{ number_format(($item->difference),2)}}</td> 
+                                        @else
+                                        <td class="text-center" width="10%" style="color:rgb(248, 44, 7)">{{ number_format(($item->difference),2)}}</td> 
+                                        @endif
+                                       
+                                        <td class="text-center" width="10%">{{ $item->recieve_no }}</td> 
+                                        <td class="text-center" width="5%">
+                                            <div class="dropdown d-inline-block">
+                                                <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
+                                                    ทำรายการ
+                                                </button>
+                                                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu"> 
+                                                    {{-- @if ($item->money_billno == '') --}}
+                                                        <button type="button"class="dropdown-item menu edit_data text-success" 
+                                                            value="{{ $item->acc_1102050102_603_id }}" 
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="ตัด STM"> 
+                                                            <i class="fa-solid fa-clipboard-check me-2 text-success" style="font-size:13px"></i>
+                                                            <span>ตัด STM</span>
+                                                        </button>
+                                                    {{-- @else --}}
+                                                        
+                                                    {{-- @endif --}}
+                                                    
+                                                    
                                                 </div>
-                                            </td> 
-                                        </tr>
-                                         
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                
                                 @endforeach
 
                             </tbody>
@@ -175,12 +195,12 @@
                     </div>
                 </div>
             </div>
-
+            
         </div>
     </div>
 
-     <!--  Modal content Updte -->
-     <div class="modal fade" id="updteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!--  Modal content Updte -->
+    <div class="modal fade" id="updteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -188,7 +208,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input id="editacc_1102050102_602_id" type="hidden" class="form-control form-control-sm">
+                    <input id="editacc_1102050102_603_id" type="hidden" class="form-control form-control-sm">
                     <div class="row">
                         <div class="col-md-3">
                             <label for="">vn</label>
@@ -214,78 +234,46 @@
                                 <input id="editptname" type="text" class="form-control form-control-sm" readonly>
                             </div>
                         </div>
-                    </div>
-
+                    </div> 
                     <div class="row mt-2">
-                        <div class="col-md-3">
-                            <label for="" style="color: red">รับแจ้ง</label>
-                            <div class="form-group">
-                                <input id="req_no" type="text" class="form-control form-control-sm" >
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="" style="color: red">เคลม</label>
-                            <div class="form-group">
-                                <input id="claim_no" type="text" class="form-control form-control-sm" >
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">บริษัทประกันภัย</label>
-                            <div class="form-group">
-                                <input id="vendor" type="text" class="form-control form-control-sm" >
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div class="row mt-2">
+                       
                         <div class="col-md-3">
                             <label for="" style="color: red">เลขที่ใบเสร็จรับเงิน</label>
                             <div class="form-group">
-                                <input id="money_billno" type="text" class="form-control form-control-sm" >
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">ประเภทการจ่าย</label>
-                            <div class="form-group">
-                                <input id="paytype" type="text" class="form-control form-control-sm" >
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            {{-- <label for="">ผู้ประสบภัย</label>
-                            <div class="form-group">
-                                <input id="ptname" type="text" class="form-control form-control-sm" >
-                            </div> --}}
-                        </div>                        
-                    </div>
-
-                    <div class="row mt-2">
-                        <div class="col-md-3">
-                            <label for="">ครั้งที่</label>
-                            <div class="form-group">
-                                <input id="no" type="text" class="form-control form-control-sm" >
+                                <input id="money_billno" type="text" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color: red">จำนวนเงิน</label>
                             <div class="form-group">
-                                <input id="payprice" type="text" class="form-control form-control-sm" >
+                                <input id="payprice" type="text" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label for="" style="color: red">วันที่จ่าย</label>
                             <div class="form-group">
-                                <input id="paydate" type="date" class="form-control form-control-sm" >
+                                <input id="paydate" type="date" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="" style="color: red">วันที่บันทึก</label>
+                            <label for="">วันที่บันทึก</label>
                             <div class="form-group">
-                                <input id="savedate" type="date" class="form-control form-control-sm" value="{{$datenow}}">
+                                <input id="savedate" type="date" class="form-control form-control-sm"
+                                    value="{{ $datenow }}">
                             </div>
                         </div>
                     </div>
 
+                    <div class="row mt-2">
+                       
+                        <div class="col-md-12">
+                            <label for="" style="color: red">หมายเหตุ</label>
+                            <div class="form-group">
+                                <textarea name="comment" id="comment" cols="30" rows="5" class="form-control form-control-sm"></textarea>
+                         
+                            </div>
+                        </div> 
+                    </div>
 
                 </div>
                 <div class="modal-footer">
@@ -337,8 +325,10 @@
             });
 
             $('#updateBtn').click(function() {
-                var acc_1102050102_602_id = $('#editacc_1102050102_602_id').val();
-                var cid = $('#editcid').val();
+                var acc_1102050102_603_id = $('#editacc_1102050102_603_id').val();
+                var vn = $('#editvn').val();
+                var hn = $('#edithn').val();
+                var cid = $('#editcid').val(); 
                 var ptname = $('#editptname').val();
                 var req_no = $('#req_no').val();
                 var claim_no = $('#claim_no').val();
@@ -349,12 +339,25 @@
                 var payprice = $('#payprice').val();
                 var paydate = $('#paydate').val();
                 var savedate = $('#savedate').val();
+                var comment = $('#comment').val();
                 $.ajax({
-                    url: "{{ route('acc.account_602_update') }}",
+                    url: "{{ route('acc.account_603_update') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        acc_1102050102_602_id,cid,ptname,req_no,claim_no,vendor,money_billno,paytype,no,payprice,paydate,savedate
+                        acc_1102050102_603_id,vn,hn,
+                        cid,
+                        ptname,
+                        req_no,
+                        claim_no,
+                        vendor,
+                        money_billno,
+                        paytype,
+                        no,
+                        payprice,
+                        paydate,
+                        savedate,
+                        comment
                     },
                     success: function(data) {
                         if (data.status == 200) {
@@ -368,7 +371,7 @@
                             }).then((result) => {
                                 if (result
                                     .isConfirmed) {
-                                    console.log(data); 
+                                    console.log(data);
                                     window.location.reload();
                                 }
                             })
@@ -381,30 +384,29 @@
             });
 
             $(document).on('click', '.edit_data', function() {
-            var acc_1102050102_602_id = $(this).val();
-            // alert(acc_1102050102_602_id);
-            $('#updteModal').modal('show');
-            $.ajax({
-                type: "GET",
-                url: "{{ url('account_602_edit') }}" + '/' + acc_1102050102_602_id,
-                success: function(data) {
-                    $('#editvn').val(data.acc602.vn)
-                    $('#edithn').val(data.acc602.hn)
-                    $('#editcid').val(data.acc602.cid)
-                    $('#editptname').val(data.acc602.ptname)
-                    $('#editacc_1102050102_602_id').val(data.acc602.acc_1102050102_602_id)
+                var acc_1102050102_603_id = $(this).val(); 
+                $('#updteModal').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('account_603_edit') }}" + '/' + acc_1102050102_603_id,
+                    success: function(data) {
+                        $('#editvn').val(data.acc603.vn)
+                        $('#edithn').val(data.acc603.hn)
+                        $('#editcid').val(data.acc603.cid)
+                        $('#editptname').val(data.acc603.ptname)
+                        $('#editacc_1102050102_603_id').val(data.acc603.acc_1102050102_603_id)
 
-                    $('#no').val(data.acc602.no)
-                    $('#req_no').val(data.acc602.req_no)
-                    $('#vendor').val(data.acc602.vendor)
-                    $('#money_billno').val(data.acc602.money_billno)
-                    $('#paytype').val(data.acc602.paytype)
-                    $('#payprice').val(data.acc602.payprice)
-                    $('#paydate').val(data.acc602.paydate)
-                    // $('#savedate').val(data.acc602.savedate)
-                },
+                        $('#no').val(data.acc603.no)
+                        $('#req_no').val(data.acc603.req_no)
+                        $('#vendor').val(data.acc603.vendor)
+                        $('#money_billno').val(data.acc603.recieve_no)
+                        $('#comment').val(data.acc603.comment)
+                        $('#payprice').val(data.acc603.recieve_true)
+                        $('#paydate').val(data.acc603.recieve_date)
+                        // $('#savedate').val(data.acc603.savedate)
+                    },
+                });
             });
-        });
 
         });
     </script>

@@ -1742,6 +1742,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_603_pull',[App\Http\Controllers\Account603Controller::class, 'account_603_pull'])->name('acc.account_603_pull');//
     Route::match(['get','post'],'account_603_pulldata',[App\Http\Controllers\Account603Controller::class, 'account_603_pulldata'])->name('acc.account_603_pulldata');//
     Route::match(['get','post'],'account_603/{months}/{year}',[App\Http\Controllers\Account603Controller::class, 'account_603'])->name('acc.account_603');//
+    Route::match(['get','post'],'account_603_edit/{id}',[App\Http\Controllers\Account603Controller::class, 'account_603_edit'])->name('acc.account_603_edit');//
+    Route::match(['get','post'],'account_603_update',[App\Http\Controllers\Account603Controller::class, 'account_603_update'])->name('acc.account_603_update');//
     Route::match(['get','post'],'account_603_detail/{months}/{year}',[App\Http\Controllers\Account603Controller::class, 'account_603_detail'])->name('acc.account_603_detail');//
     Route::match(['get','post'],'account_603_stm/{months}/{year}',[App\Http\Controllers\Account603Controller::class, 'account_603_stm'])->name('acc.account_603_stm');//
     Route::match(['get','post'],'account_603_stmnull/{months}/{year}',[App\Http\Controllers\Account603Controller::class, 'account_603_stmnull'])->name('acc.account_603_stmnull');//

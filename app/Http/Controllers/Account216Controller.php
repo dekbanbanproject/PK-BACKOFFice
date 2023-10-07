@@ -100,6 +100,10 @@ class Account216Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
 
         if ($startdate == '') {
             $datashow = DB::select('
@@ -113,7 +117,7 @@ class Account216Controller extends Controller
                     ,sum(a.debit) as debit
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$newyear.'" and "'.$date.'"
+                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.216"
                     group by month(a.vstdate) order by a.vstdate desc limit 3;
             ');

@@ -99,7 +99,7 @@ class Account603Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
+        $yearnew = date('Y')+1;
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
@@ -408,6 +408,53 @@ class Account603Controller extends Controller
             'months'            =>     $months,
             'year'              =>     $year,
 
+        ]);
+    }
+
+    public function account_603_edit(Request $request, $id)
+    {
+        $acc603 = Acc_1102050102_603::find($id); 
+
+        return response()->json([
+            'status'      => '200',
+            'acc603'      =>  $acc603,
+        ]);
+    }
+    public function account_603_update(Request $request)
+    {
+        $iduser = Auth::user()->id;
+        $id = $request->acc_1102050102_603_id;
+        $sauntang_ = Acc_1102050102_603::where('acc_1102050102_603_id','=',$id)->first();
+        $sauntang  = $sauntang_->debit_total;
+        Acc_1102050102_603::whereIn('acc_1102050102_603_id',explode(",",$id))
+        ->update([
+            'status'           => 'Y',
+            'recieve_true'     => $request->payprice,
+            'recieve_no'       => $request->money_billno,
+            'recieve_date'     => $request->paydate,
+            'savedate'         => $request->savedate,
+            'difference'       => $sauntang - $request->payprice,
+            'comment'          => $request->comment,
+            'recieve_user'     => $iduser
+           
+        ]);
+ 
+        $add = new Acc_stm_prb();
+        $add->acc_1102050102_603_sid = $id;
+        $add->req_no           = $request->req_no;
+        $add->pid              = $request->cid;
+        $add->fullname           = $request->ptname;
+        $add->claim_no         = $request->claim_no;
+        $add->vendor           = $request->vendor;
+        $add->money_billno     = $request->money_billno;
+        $add->paytype          = $request->paytype;
+        $add->no               = $request->no;
+        $add->payprice         = $request->payprice;
+        $add->paydate          = $request->paydate;
+        $add->savedate         = $request->savedate;
+        $add->save();
+        return response()->json([
+            'status'      => '200'
         ]);
     }
     // public function account_602_edit(Request $request, $id)

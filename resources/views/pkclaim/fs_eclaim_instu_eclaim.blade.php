@@ -189,6 +189,8 @@
             $('#Tabledit').Tabledit({
                 url:'{{route("claim.fs_eclaim_editable")}}',
                 dataType:"json",
+                // editButton: true,
+                removeButton: false,
                 columns:{
                     identifier:[0,'icode'],
                     // editable:[[1,'group2'],[2,'fbillcode'],[3,'nbillcode'],[4,'dname'],[5,'pay_rate'],[6,'price'],[7,'price2'],[8,'price3']]

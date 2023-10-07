@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <form action="{{ url('uprep_money_plb') }}" method="GET">
+        <form action="{{ url('uprep_money_plbop') }}" method="GET">
             @csrf
             <div class="row">
                 <div class="col"></div>
@@ -113,11 +113,11 @@
                     <div class="card-header">
                         รายละเอียด 1102050102.602
                         <div class="btn-actions-pane-right">
-                            <button type="button"
+                            {{-- <button type="button"
                                 class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll">
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
                                 Sync Data All
-                            </button>
+                            </button> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -134,6 +134,7 @@
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">ลูกหนี้</th>
+                                    <th class="text-center">nhso_ownright_pid</th>
                                     <th class="text-center">ยอดชดเชย</th>
                                     <th class="text-center" width="5%">ส่วนต่าง</th>
                                     <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>  
@@ -152,10 +153,16 @@
                                         <td class="p-2" >{{ $item->ptname }}</td>  
                                         <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                        <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">{{ number_format($item->payprice,2)}}</td>
-                                        <td class="text-center" width="10%">{{ number_format(($item->debit_total-$item->payprice),2)}}</td> 
-
-                                        <td class="text-center" width="10%">{{ $item->money_billno }}</td> 
+                                        <td class="text-end" width="10%" style="color:rgb(226, 63, 248)">{{ number_format($item->nhso_ownright_pid,2)}}</td>
+                                        <td class="text-end" width="10%" style="color:rgb(14, 216, 165)">{{ number_format($item->recieve_true,2)}}</td>
+                                        {{-- <td class="text-center" width="10%">{{ number_format(($item->debit_total-$item->payprice),2)}}</td>  --}}
+                                        @if ($item->difference == '0')
+                                        <td class="text-center" width="10%">{{ number_format(($item->difference),2)}}</td> 
+                                        @else
+                                        <td class="text-center" width="10%" style="color:rgb(248, 44, 7)">{{ number_format(($item->difference),2)}}</td> 
+                                        @endif
+                                       
+                                        <td class="text-center" width="10%">{{ $item->recieve_no }}</td> 
                                         <td class="text-center" width="5%">
                                             <div class="dropdown d-inline-block">
                                                 <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
@@ -362,7 +369,7 @@
                         <div class="col-md-12">
                             <label for="" style="color: red">หมายเหตุ</label>
                             <div class="form-group">
-                                <textarea name="dd" id="ddd" cols="30" rows="5" class="form-control form-control-sm"></textarea>
+                                <textarea name="comment" id="comment" cols="30" rows="5" class="form-control form-control-sm"></textarea>
                          
                             </div>
                         </div> 
@@ -432,6 +439,7 @@
                 var payprice = $('#payprice').val();
                 var paydate = $('#paydate').val();
                 var savedate = $('#savedate').val();
+                var comment = $('#comment').val();
                 $.ajax({
                     url: "{{ route('acc.account_602_update') }}",
                     type: "POST",
@@ -448,7 +456,8 @@
                         no,
                         payprice,
                         paydate,
-                        savedate
+                        savedate,
+                        comment
                     },
                     success: function(data) {
                         if (data.status == 200) {
@@ -491,10 +500,10 @@
                         $('#no').val(data.acc602.no)
                         $('#req_no').val(data.acc602.req_no)
                         $('#vendor').val(data.acc602.vendor)
-                        $('#money_billno').val(data.acc602.money_billno)
-                        $('#paytype').val(data.acc602.paytype)
-                        $('#payprice').val(data.acc602.payprice)
-                        $('#paydate').val(data.acc602.paydate)
+                        $('#money_billno').val(data.acc602.recieve_no)
+                        $('#comment').val(data.acc602.comment)
+                        $('#payprice').val(data.acc602.recieve_true)
+                        $('#paydate').val(data.acc602.recieve_date)
                         // $('#savedate').val(data.acc602.savedate)
                     },
                 });
