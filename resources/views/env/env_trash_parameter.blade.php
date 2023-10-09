@@ -81,7 +81,7 @@ if (Auth::check()) {
     
         <div class="main-card mb-3 card">
             <div class="card-header">
-                รายการประเภทขยะติดเชื้อ
+                รายการประเภทขยะ
                 
                 <div class="btn-actions-pane-right">
                     <div class="nav">
@@ -104,8 +104,9 @@ if (Auth::check()) {
                                     <thead>
                                         <tr>
                                             <th class="text-center">ลำดับ</th> 
-                                            <th class="text-center">ประเภทขยะติดเชื้อ</th>
+                                            <th class="text-center">ประเภทขยะ</th>
                                             <th class="text-center">หน่วย</th>
+                                            <th class="text-center">สถานะ</th>
                                             <th class="text-center">ตั้งค่า</th> 
                                         </tr>
                                     </thead>
@@ -118,6 +119,14 @@ if (Auth::check()) {
                                                 <td class="text-center" width="4%">{{ $i++ }}</td>
                                                 <td class="p-2" width="18%">{{ $item->trash_parameter_name }} </td>
                                                 <td class="text-center" width="5%">{{ $item->trash_parameter_unit }}</td>
+                                                <td class="text-center" width="7%">
+                                                    @if($item-> trash_parameter_active == 'TRUE' )
+                                                        <input type="checkbox" id="{{ $item-> trash_parameter_id }}" name="{{ $item-> trash_parameter_id }}" switch="none" onchange="switchactive({{ $item-> trash_parameter_id }});" checked />
+                                                        @else
+                                                        <input type="checkbox" id="{{ $item-> trash_parameter_id }}" name="{{ $item-> trash_parameter_id }}" switch="none" onchange="switchactive({{ $item-> trash_parameter_id }});" />
+                                                        @endif
+                                                        <label for="{{ $item-> trash_parameter_id }}" data-on-label="On" data-off-label="Off"></label>
+                                                </td>
                                                 <td class="text-center" width="7%">
     
                                                     {{-- <div class="dropdown">
@@ -184,6 +193,26 @@ if (Auth::check()) {
       
 @endsection
 @section('footer')
+<script>
+    function switchactive(idfunc){
+            // var nameVar = document.getElementById("name").value;
+            var checkBox = document.getElementById(idfunc);
+            var onoff;
+            
+            if (checkBox.checked == true){
+                onoff = "TRUE";
+            } else {
+                onoff = "FALSE";
+            }
+ 
+            var _token=$('input[name="_token"]').val();
+                $.ajax({
+                        url:"{{route('env.env_trash_parameter_switchactive')}}",
+                        method:"GET",
+                        data:{onoff:onoff,idfunc:idfunc,_token:_token}
+                })
+       }
+</script>
 
 <script>
     

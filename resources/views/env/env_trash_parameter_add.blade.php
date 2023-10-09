@@ -63,7 +63,7 @@ $count_service = StaticController::count_service();
                         <div class="card-header">
                             <div class="d-flex">
                                 <div class="">
-                                    <label for="">เพิ่มประเภทขยะติดเชื้อ</label>
+                                    <label for="">เพิ่มประเภทขยะ</label>
                                 </div>
                                 <div class="ms-auto">
     
@@ -88,7 +88,7 @@ $count_service = StaticController::count_service();
     
                                         <div class="row">
                                             <div class="col-md-2 text-end">
-                                                <label for="trash_parameter_name">ประเภทขยะติดเชื้อ :</label>
+                                                <label for="trash_parameter_name">ประเภทขยะ :</label>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
