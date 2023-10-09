@@ -271,8 +271,8 @@ class Account201Controller extends Controller
                 } else {
                     Acc_1102050101_201::insert([
                             'vn'                => $value->vn,
-                            'hn'                => $value->hn,
                             'an'                => $value->an,
+                            'hn'                => $value->hn,                          
                             'cid'               => $value->cid,
                             'ptname'            => $value->ptname,
                             'vstdate'           => $value->vstdate,
