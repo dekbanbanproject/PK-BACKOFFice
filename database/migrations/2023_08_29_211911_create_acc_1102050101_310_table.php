@@ -60,6 +60,8 @@ return new class extends Migration
                 $table->string('recieve_no')->nullable();//เลขที่ใบเสร็จ
                 $table->string('recieve_date')->nullable();//ลงวันที่
                 $table->string('recieve_user')->nullable();//ผู้ลง
+                $table->string('comment')->nullable();// 
+                $table->string('date_req')->nullable();// 
                 $table->timestamps();
             });
         }

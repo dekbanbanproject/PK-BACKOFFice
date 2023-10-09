@@ -250,10 +250,14 @@
                                             <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="{{url('account_201_stm/'.$item->months.'/'.$item->year)}}" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
-                                                                {{-- {{ number_format($sum_stm, 2) }} --}}
+                                                        {{-- <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
+                                                                {{ number_format($sum_stm, 2) }}
                                                                 <i class="fa-brands fa-btc text-success ms-2"></i>
-                                                        </p>
+                                                        </p> --}}
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement 0 Visit">
+                                                           0.00
+                                                            <i class="fa-brands fa-btc text-success ms-2"></i>
+                                                    </p>
                                                     </div>
                                                 {{-- </a> --}}
                                             </div>
@@ -272,8 +276,8 @@
                                             <div class="col-md-5 text-end me-2">
                                                 {{-- <a href="{{url('account_201_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">
-                                                                {{ number_format($yokpai, 2) }}
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$count_Y}} Visit">
+                                                                {{ number_format($sum_Y, 2) }}
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>

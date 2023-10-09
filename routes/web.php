@@ -1595,6 +1595,13 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_dash_save',[App\Http\Controllers\AccdashboardController::class, 'account_dash_save'])->name('acc.account_dash_save');//
     Route::match(['get','post'],'account_dashline',[App\Http\Controllers\AccdashboardController::class, 'account_dashline'])->name('acc.account_dashline');//
   
+    Route::match(['get','post'],'chang_pttype_IPD',[App\Http\Controllers\MoveaccountController::class, 'chang_pttype_IPD'])->name('acc.chang_pttype_IPD');//ย้ายผัง
+    Route::match(['get','post'],'chang_pttype_OPD',[App\Http\Controllers\MoveaccountController::class, 'chang_pttype_OPD'])->name('acc.chang_pttype_OPD');//ย้ายผัง
+    Route::delete('pttypeopd_destroy/{id}',[App\Http\Controllers\MoveaccountController::class, 'pttypeopd_destroy'])->name('acc.pttypeopd_destroy');//ย้ายผัง
+    Route::match(['get','post'],'chang_pttype_opdstamp',[App\Http\Controllers\MoveaccountController::class, 'chang_pttype_opdstamp'])->name('acc.chang_pttype_opdstamp');//ย้ายผัง
+    Route::match(['get','post'],'move_pang/{id}',[App\Http\Controllers\MoveaccountController::class, 'move_pang'])->name('acc.move_pang');//ย้ายผัง
+    Route::match(['get','post'],'move_pang_save',[App\Http\Controllers\MoveaccountController::class, 'move_pang_save'])->name('acc.move_pang_save');//ย้ายผัง
+    // Route::match(['get','post'],'chang_pttype_OPD',[App\Http\Controllers\MoveaccountController::class, 'chang_pttype_OPD'])->name('acc.chang_pttype_OPD');//ย้ายผัง
 
     Route::match(['get','post'],'account_pk_ipd',[App\Http\Controllers\AccountPKController::class, 'account_pk_ipd'])->name('acc.account_pk_ipd');//
     Route::match(['get','post'],'account_pk_ipdsave',[App\Http\Controllers\AccountPKController::class, 'account_pk_ipdsave'])->name('acc.account_pk_ipdsave');//

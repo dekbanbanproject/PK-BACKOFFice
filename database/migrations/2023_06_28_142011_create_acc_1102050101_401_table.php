@@ -53,7 +53,8 @@ return new class extends Migration
                 $table->string('stm_rw')->nullable();// 
                 $table->string('acc_debtor_userid')->nullable();// 
                 $table->enum('status', ['Y', 'N'])->default('N');
-                $table->timestamps();
+                $table->string('comment')->nullable();// 
+                $table->date('date_req')->nullable();// 
             });
         }
     }

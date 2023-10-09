@@ -307,7 +307,7 @@ class EnvController extends Controller
         $data_loob = Env_water_sub::where('water_id','=',$waterid)->get();
         // $name = User::where('id','=',$iduser)->first();
         $data_users = User::where('id','=',$request->water_user)->first();
-        $name = $data_users->fname.''.$data_users->lname;
+        $name = $data_users->fname.' '.$data_users->lname;
 
         $mMessage = array();
         foreach ($data_loob as $key => $value) { 
@@ -750,7 +750,7 @@ class EnvController extends Controller
                 $data_loob = Env_trash_sub::where('trash_id','=',$trash_id)->get();
                 // $name = User::where('id','=',$iduser)->first();
                 $data_users = User::where('id','=',$request->trash_user)->first();
-                $name = $data_users->fname.''.$data_users->lname;
+                $name = $data_users->fname.' '.$data_users->lname;
 
                 $mMessage = array();
                 foreach ($data_loob as $key => $value) { 
@@ -769,15 +769,15 @@ class EnvController extends Controller
                     $header = "ข้อมูลขยะ";
                     $message =  $header. 
                             "\n"."วันที่บันทึก : "      . $request->input('trash_date'). 
-                        "\n"."ผู้บันทึก  : "        . $name . 
-                        "\n"."เวลา : "           . $request->input('trash_time'); 
+                            "\n"."ผู้บันทึก  : "        . $name . 
+                            "\n"."เวลา : "           . $request->input('trash_time'); 
         
                     foreach ($mMessage as $key => $smes) {
                         $na_mesage           = $smes['trash_sub_name'];
                         $qt_mesage           = $smes['trash_sub_qty'];
                         $unit_mesage         = $smes['unit'];
 
-                        $message.="\n"."ประเภทขยะ" . $na_mesage .
+                        $message.="\n"."ประเภทขยะ : " . $na_mesage .
                                 "\n"."ปริมาณ : " . $qt_mesage . " ". $unit_mesage;
                                 // "\n"."หน่วย : "   . $unit_mesage;
                                   
