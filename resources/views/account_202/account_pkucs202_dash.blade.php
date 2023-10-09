@@ -140,7 +140,7 @@
                                                 }
                                                 // ตั้งลูกหนี้
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(an) as Cvit
+                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
                                                             from acc_1102050101_202
                                                             WHERE month(dchdate) = "'.$item->months.'"
                                                             and year(dchdate) = "'.$item->year.'"

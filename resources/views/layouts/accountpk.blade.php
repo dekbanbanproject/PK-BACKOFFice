@@ -297,6 +297,13 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <span>UCS</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
+                                    <li><a href="javascript: void(0);" class="has-arrow">201-ลูกหนี้ค่ารักษา UC-OP</a>
+                                        <ul class="sub-menu" aria-expanded="true"> 
+                                            <li><a href="{{ url('account_201_dash') }}">dashboard</a>
+                                            <li><a href="{{ url('account_201_pull') }}">ดึงลูกหนี้</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">202-ลูกหนี้ค่ารักษา UC-IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('account_pkucs202_dash') }}">dashboard</a>

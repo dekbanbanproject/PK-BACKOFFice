@@ -31,6 +31,11 @@ return new class extends Migration
             $table->string('orginfo_tel',255)->nullable();// 
             $table->binary('orginfo_img')->nullable();//
             $table->binary('orginfo_img_name')->nullable();//
+            $table->string('host',255)->nullable();// 
+            $table->string('port',255)->nullable();// 
+            $table->string('username',255)->nullable();// 
+            $table->string('password',255)->nullable();// 
+            $table->string('dbname',255)->nullable();// 
             $table->timestamps();
         });
     }

@@ -38,7 +38,7 @@ use App\Models\Acc_1102050101_4022;
 use App\Models\Acc_1102050102_602;
 use App\Models\Acc_1102050102_603;
 use App\Models\Acc_stm_prb;
-use App\Models\Acc_stm_ti_totalhead;
+use App\Models\Orginfo;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
@@ -179,7 +179,10 @@ class Account603Controller extends Controller
 
     public function account_603_pulldata(Request $request)
     {
+        $db_ = Orginfo::where('orginfo_id','=','1')->first();
+        $db  = $db_->dbname;
         $datenow = date('Y-m-d');
+        // dd($db);
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
@@ -196,16 +199,18 @@ class Account603Controller extends Controller
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+
                     ,a.income-a.rcpt_money-a.discount_money as debit
 
                     from hos.ipt ip
-                    LEFT JOIN hos.an_stat a ON ip.an = a.an
-                    LEFT JOIN hos.patient pt on pt.hn=a.hn
-                    LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
-                    LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                    LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
-                    LEFT JOIN hos.opitemrece op ON ip.an = op.an
-                    LEFT JOIN hos.vn_stat v on v.vn = a.vn
+                    LEFT OUTER JOIN hos.an_stat a ON ip.an = a.an
+                    LEFT OUTER JOIN hos.patient pt on pt.hn=a.hn
+                    LEFT OUTER JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                    LEFT OUTER JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                    LEFT OUTER JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                    LEFT OUTER JOIN hos.opitemrece op ON ip.an = op.an
+                    LEFT OUTER JOIN hos.s_drugitems d on d.icode = op.icode 
+                    LEFT OUTER JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND a.pttype IN("31","36","37","38","39")
                   
