@@ -269,7 +269,8 @@ class Account201Controller extends Controller
                 if ($check > 0) {
                 # code...
                 } else {
-                    Acc_1102050101_201::insert([
+                    if ($value->debit_total > 0) {
+                        Acc_1102050101_201::insert([
                             'vn'                => $value->vn,
                             'an'                => $value->an,
                             'hn'                => $value->hn,                          
@@ -300,6 +301,8 @@ class Account201Controller extends Controller
                             'total_adjrw_income'=> $value->total_adjrw_income,
                             'acc_debtor_userid' => $value->acc_debtor_userid
                     ]);
+                    }
+                   
                 }
 
         }
