@@ -307,40 +307,30 @@ class Account201Controller extends Controller
             'status'    => '200'
         ]);
     }
-    // public function account_602_detail(Request $request,$months,$year)
-    // {
-    //     $datenow = date('Y-m-d');
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     // dd($id);
-    //     $data['users'] = User::get();
+    public function account_201_detail(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
 
-    //     $data = DB::select('
+        $data = DB::select('
        
-    //         SELECT U1.acc_1102050102_602_id,U2.req_no,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-    //         ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U2.money_billno,U2.payprice
-    //         from acc_1102050102_602 U1 
-    //         LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
-    //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"           
-    //         GROUP BY U1.vn
-    //     ');
-
-    //     // $data = DB::select('
-    //     // //     SELECT U1.acc_1102050102_602_id,U2.req_no,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.money_billno,U2.payprice
-    //     // //         from acc_1102050102_602 U1
-    //     // //         LEFT JOIN acc_stm_prb U2 ON U2.acc_1102050102_602_sid = U1.acc_1102050102_602_id
-    //     // //         WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-    //     // //         GROUP BY U1.vn
-    //     // //     ');
-    //     // AND U1.recieve_no is not null
-    //     return view('account_602.account_602_detail', $data, [
-    //         'startdate'     =>     $startdate,
-    //         'enddate'       =>     $enddate,
-    //         'data'          =>     $data,
-    //         'months'        =>     $months,
-    //         'year'          =>     $year
-    //     ]);
-    // }
+            SELECT *
+            from acc_1102050101_201 
+            WHERE month(vstdate) = "'.$months.'" AND year(vstdate) = "'.$year.'"           
+            GROUP BY vn
+        ');
+  
+        return view('account_201.account_201_detail', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data,
+            'months'        =>     $months,
+            'year'          =>     $year
+        ]);
+    }
     // public function account_602_edit(Request $request, $id)
     // {
     //     $acc602 = Acc_1102050102_602::find($id);
