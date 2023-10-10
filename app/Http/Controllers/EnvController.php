@@ -674,7 +674,7 @@ class EnvController extends Controller
          $refmax = Env_trash::where('trash_bill_on','=',$maxnum)->first();
 
          if($refmax->trash_bill_on != '' ||  $refmax->trash_bill_on != null){
-         $maxpo = substr($refmax->trash_bill_on, -2)+1;
+         $maxpo = substr($refmax->trash_bill_on, 4)+1;
          }else{
          $maxref = 1;
          }
