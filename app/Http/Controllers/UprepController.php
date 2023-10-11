@@ -109,17 +109,18 @@ class UprepController extends Controller
     
     function uprep_eclaim_save(Request $request)
     { 
-        // $this->validate($request, [
-        //     'file' => 'required|file|mimes:xls,xlsx'
-        // ]);
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-        // dd($file_);
+        // dd($the_file);
             try{                
-                // Cheet 2
+                // Cheet 2  originalName
                 // $spreadsheet = IOFactory::createReader($the_file);
-                // $spreadsheet = IOFactory::load($the_file->getRealPath()); 
-                $spreadsheet = IOFactory::load($file_); 
+                // $spreadsheet = IOFactory::load($the_file->getRealPath());
+                // $spreadsheet = IOFactory::load($the_file->originalName()); 
+                $spreadsheet = IOFactory::load($the_file); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
@@ -227,8 +228,8 @@ class UprepController extends Controller
                         'ap'                  =>$del_ap,
                         'aq'                  =>$del_aq,
                         'ar'                  =>$del_ar,
-                        'as'                  =>$sheet->getCell( 'AS' . $row )->getValue(), 
-                        'at'                  =>$sheet->getCell( 'AT' . $row )->getValue(), 
+                        'ass'                 =>$sheet->getCell( 'AS' . $row )->getValue(), 
+                        'att'                 =>$sheet->getCell( 'AT' . $row )->getValue(), 
                         'au'                  =>$sheet->getCell( 'AU' . $row )->getValue(), 
                         'av'                  =>$sheet->getCell( 'AV' . $row )->getValue(), 
                         'aw'                  =>$sheet->getCell( 'AW' . $row )->getValue(), 
@@ -259,7 +260,7 @@ class UprepController extends Controller
                         'bv'                  =>$sheet->getCell( 'BV' . $row )->getValue(), 
                         'bw'                  =>$sheet->getCell( 'BW' . $row )->getValue(), 
                         'bx'                  =>$sheet->getCell( 'BX' . $row )->getValue(), 
-                        'by'                  =>$del_by,
+                        'byy'                 =>$del_by,
                         'bz'                  =>$del_bz,
                         'ca'                  =>$sheet->getCell( 'CA' . $row )->getValue(), 
                         'cb'                  =>$sheet->getCell( 'CB' . $row )->getValue(), 
@@ -303,10 +304,21 @@ class UprepController extends Controller
                 }
                 // DB::table('acc_stm_ucs_excel')->insert($data); 
 
-                $for_insert = array_chunk($data, length:1000);
-                foreach ($for_insert as $key => $data_) {
-                    D_rep_eclaim_excel::insert($data_); 
+                // $for_insert = array_chunk($data, length:1000);
+                // foreach ($for_insert as $key => $data_) {
+                //     D_rep_eclaim_excel::insert($data_); 
+                // }
+
+                foreach (array_chunk($data,500) as $t)  
+                {
+                    // DB::table('table_name')->insert($t);
+                    // D_rep_eclaim_excel::insert($t);  
+                    DB::table('d_rep_eclaim_excel')->insert($t);
                 }
+
+                
+
+
                 
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
@@ -374,8 +386,8 @@ class UprepController extends Controller
                                 'ap'                  =>$value->ap,
                                 'aq'                  =>$value->aq,
                                 'ar'                  =>$value->ar,
-                                'as'                  =>$value->as, 
-                                'at'                  =>$value->at, 
+                                'ass'                 =>$value->ass, 
+                                'att'                 =>$value->att, 
                                 'au'                  =>$value->au, 
                                 'av'                  =>$value->av, 
                                 'aw'                  =>$value->aw, 
@@ -406,7 +418,7 @@ class UprepController extends Controller
                                 'bv'                  =>$value->bv, 
                                 'bw'                  =>$value->bw, 
                                 'bx'                  =>$value->bx, 
-                                'by'                  =>$value->by,
+                                'byy'                 =>$value->byy,
                                 'bz'                  =>$value->bz,
                                 'ca'                  =>$value->ca, 
                                 'cb'                  =>$value->cb, 
