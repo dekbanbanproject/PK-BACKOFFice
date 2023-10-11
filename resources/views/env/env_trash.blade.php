@@ -130,7 +130,7 @@ if (Auth::check()) {
                                             <th class="text-center"width="10%">TRASH NO</th>
                                             <th class="text-center"width="10%">วันที่บันทึก</th>
                                             <th class="text-center"width="8%">เวลา</th> 
-                                            <th class="text-center"width="12%">บริษัท</th>
+                                            {{-- <th class="text-center"width="12%">บริษัท</th> --}}
                                             {{-- <th class="text-center"width="8%">ขยะติดเชื้อ(kg)</th>
                                             <th class="text-center"width="8%">ขยะทั่วไป(kg)</th>   --}}
                                             <th class="text-center"width="20%">ผู้บันทึก</th>
@@ -147,7 +147,7 @@ if (Auth::check()) {
                                                 <td class="text-center" width="7%">{{ $item->trash_bill_on }}</td>
                                                 <td class="text-center" width="7%">{{DateThai( $item->trash_date )}}</td>
                                                 <td class="text-center" width="5%">{{ $item->trash_time }}</td>
-                                                <td class="p-2" width="18%">{{ $item->vendor_name }}</td>
+                                                {{-- <td class="p-2" width="18%">{{ $item->vendor_name }}</td> --}}
                                                 <td class="text-center" width="5%">{{ $item->trash_user }}</td>
                                                 <td class="text-center" width="7%">    
                                                     

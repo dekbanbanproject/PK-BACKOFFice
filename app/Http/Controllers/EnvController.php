@@ -334,7 +334,7 @@ class EnvController extends Controller
                 $qt_mesage           = $smes['water_qty'];
                 $status_mesage       = $smes['status'];
 
-                $message.="\n"."รายการพารามิเตอร์" . $na_mesage .
+                $message.="\n"."รายการพารามิเตอร์  : " . $na_mesage .
                           "\n"."ผลการวิเคราะห์ : " . $qt_mesage . 
                           "\n"."สถานะ : "       . $status_mesage;  
             } 
@@ -699,7 +699,7 @@ class EnvController extends Controller
 
     public function env_trash_save (Request $request)
     {
-        // dd($request->trash_parameter_id);
+        // dd($request->trash_bill_on);
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
         $iduser = Auth::user()->id;
@@ -769,8 +769,8 @@ class EnvController extends Controller
                     $header = "ข้อมูลขยะ";
                     $message =  $header. 
                             "\n"."วันที่บันทึก : "      . $request->input('trash_date'). 
-                            "\n"."ผู้บันทึก  : "        . $name . 
-                            "\n"."เวลา : "           . $request->input('trash_time'); 
+                        "\n"."ผู้บันทึก  : "        . $name . 
+                        "\n"."เวลา : "           . $request->input('trash_time'); 
         
                     foreach ($mMessage as $key => $smes) {
                         $na_mesage           = $smes['trash_sub_name'];

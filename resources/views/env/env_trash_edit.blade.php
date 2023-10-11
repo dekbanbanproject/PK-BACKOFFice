@@ -116,6 +116,10 @@ $count_service = StaticController::count_service();
                                                     </div>
                                                 </div>
 
+                                                
+                                            </div>
+        
+                                            <div class="row mt-2">
                                                 <div class="col-md-1 text-end">
                                                     <label for="trash_time">เวลาบันทึก :</label>
                                                 </div>
@@ -124,9 +128,27 @@ $count_service = StaticController::count_service();
                                                         <input type="time" id="trash_time" name="trash_time" class="form-control" value="{{$trash->trash_time}}" placeholder=""/>
                                                     </div>
                                                 </div>
-                                            </div>
-        
-                                            <div class="row mt-2">
+
+                                                <div class="col-md-2 text-end">
+                                                    <label for="trash_user">ผู้บันทึกข้อมูล :</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        {{-- <input id="trash_user" type="date"
+                                                            class="form-control form-control-sm" name="trash_user"> --}}
+                                                            <select id="water_user2" name="trash_user"
+                                                                class="form-control form-control-sm" style="width: 100%">
+                                                                <option value="">--เลือก--</option>
+                                                                @foreach ($users as $ue)    
+                                                                @if ($trash->trash_user ==  $ue->id) 
+                                                                <option value="{{ $ue->id }}" selected> {{ $ue->fname }}  {{ $ue->lname }} </option>    
+                                                                @else
+                                                                <option value="{{ $ue->id }}"> {{ $ue->fname }}  {{ $ue->lname }} </option>    
+                                                                @endif                                                                                                             
+                                                                @endforeach
+                                                            </select>
+                                                    </div>
+                                                </div>
                                                 {{-- <div class="col-md-2 text-end">
                                                     <label for="trash_time">เวลาบันทึก :</label>
                                                 </div>
@@ -137,14 +159,14 @@ $count_service = StaticController::count_service();
                                                     </div>
                                                 </div> --}}
                                                 
-                                                <div class="col-md-1 text-end">
+                                                {{-- <div class="col-md-1 text-end">
                                                     <label for="trash_sub">บริษัท :</label>
-                                                </div>
-                                                <div class="col-md-3">
+                                                </div> --}}
+                                                {{-- <div class="col-md-3">
                                                     <div class="form-group">
                                                         {{-- <input id="trash_sub" type="text"
                                                             class="form-control form-control-sm" name="trash_sub"> --}}
-                                                            <select id="trash_sub" name="trash_sub"
+                                                            {{-- <select id="trash_sub" name="trash_sub"
                                                                     class="form-control form-control-sm" style="width: 100%">
                                                                     <option value="">--เลือก--</option>
                                                                     @foreach ($products_vendor as $vendor)    
@@ -155,31 +177,12 @@ $count_service = StaticController::count_service();
                                                                                      @endif                          
                                                                                                                   
                                                                     @endforeach
-                                                            </select>
-                                                    </div>
-                                                </div> 
+                                                            </select> --}}
+                                                    {{-- </div> --}}
+                                                {{-- </div>  --}}
                                                 
                                                 {{-- <div class="row mt-1"> --}}
-                                                    <div class="col-md-1 text-end">
-                                                        <label for="trash_user">ผู้บันทึกข้อมูล :</label>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <div class="form-group">
-                                                            {{-- <input id="trash_user" type="date"
-                                                                class="form-control form-control-sm" name="trash_user"> --}}
-                                                                <select id="water_user2" name="trash_user"
-                                                                    class="form-control form-control-sm" style="width: 100%">
-                                                                    <option value="">--เลือก--</option>
-                                                                    @foreach ($users as $ue)    
-                                                                    @if ($trash->trash_user ==  $ue->id) 
-                                                                    <option value="{{ $ue->id }}" selected> {{ $ue->fname }}  {{ $ue->lname }} </option>    
-                                                                    @else
-                                                                    <option value="{{ $ue->id }}"> {{ $ue->fname }}  {{ $ue->lname }} </option>    
-                                                                    @endif                                                                                                             
-                                                                    @endforeach
-                                                                </select>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 {{-- </div> --}}
                                             </div>                       
                                            
@@ -238,7 +241,8 @@ $count_service = StaticController::count_service();
                                 </div>    
                             </div>
                         </div>
-                        </form>
+                        
+                    </form>
                     
                 </div>
             </div>

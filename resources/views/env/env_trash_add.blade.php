@@ -115,6 +115,10 @@ $count_service = StaticController::count_service();
                                         </div>
                                     </div>
 
+                                    
+                                </div>
+
+                                <div class="row mt-2">
                                     <div class="col-md-1 text-end">
                                         <label for="trash_time">เวลาบันทึก :</label>
                                     </div>
@@ -124,39 +128,8 @@ $count_service = StaticController::count_service();
                                                 placeholder="" />
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row mt-2">
-                                    {{-- <div class="col-md-2 text-end">
-                                        <label for="trash_time">เวลาบันทึก :</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input id="trash_time" type="text" class="form-control form-control-sm"
-                                                name="trash_time">
-                                        </div>
-                                    </div> --}}
-
-                                    <div class="col-md-1 text-end">
-                                        <label for="trash_sub">บริษัท :</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            {{-- <input id="trash_sub" type="text" class="form-control form-control-sm"
-                                                name="trash_sub"> --}}
-                                            <select id="trash_sub" name="trash_sub" class="form-control form-control-sm"
-                                                style="width: 100%">
-                                                <option value="">--เลือก--</option>
-                                                @foreach ($products_vendor as $vendor)
-                                                <option value="{{ $vendor->vendor_id }}" selected> {{
-                                                    $vendor->vendor_name }} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {{-- <div class="row mt-1"> --}}
-                                        <div class="col-md-1 text-end">
+                                    
+                                    <div class="col-md-2 text-end">
                                             <label for="trash_user">ผู้บันทึกข้อมูล :</label>
                                         </div>
                                         <div class="col-md-3">
@@ -172,13 +145,9 @@ $count_service = StaticController::count_service();
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div>
-                                        {{--
-                                    </div> --}}
+                                        </div>                                    
+                                    
                                 </div>
-
-
-
 
                                 <div class="row">
                                     <label for="">รายการขยะ</label>
