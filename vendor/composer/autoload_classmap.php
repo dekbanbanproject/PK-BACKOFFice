@@ -151,6 +151,7 @@ return array(
     'App\\Http\\Controllers\\MoveaccountController' => $baseDir . '/app/Http/Controllers/MoveaccountController.php',
     'App\\Http\\Controllers\\NeweclaimController' => $baseDir . '/app/Http/Controllers/NeweclaimController.php',
     'App\\Http\\Controllers\\OccuController' => $baseDir . '/app/Http/Controllers/OccuController.php',
+    'App\\Http\\Controllers\\Ofc401Controller' => $baseDir . '/app/Http/Controllers/Ofc401Controller.php',
     'App\\Http\\Controllers\\Ofcopd401Controller' => $baseDir . '/app/Http/Controllers/Ofcopd401Controller.php',
     'App\\Http\\Controllers\\OperateController' => $baseDir . '/app/Http/Controllers/OperateController.php',
     'App\\Http\\Controllers\\OpipController' => $baseDir . '/app/Http/Controllers/OpipController.php',

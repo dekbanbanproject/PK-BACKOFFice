@@ -811,6 +811,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\MoveaccountController' => __DIR__ . '/../..' . '/app/Http/Controllers/MoveaccountController.php',
         'App\\Http\\Controllers\\NeweclaimController' => __DIR__ . '/../..' . '/app/Http/Controllers/NeweclaimController.php',
         'App\\Http\\Controllers\\OccuController' => __DIR__ . '/../..' . '/app/Http/Controllers/OccuController.php',
+        'App\\Http\\Controllers\\Ofc401Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Ofc401Controller.php',
         'App\\Http\\Controllers\\Ofcopd401Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Ofcopd401Controller.php',
         'App\\Http\\Controllers\\OperateController' => __DIR__ . '/../..' . '/app/Http/Controllers/OperateController.php',
         'App\\Http\\Controllers\\OpipController' => __DIR__ . '/../..' . '/app/Http/Controllers/OpipController.php',

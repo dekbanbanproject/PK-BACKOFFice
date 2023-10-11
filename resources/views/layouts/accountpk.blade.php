@@ -626,10 +626,10 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(28, 218, 161)"></i>
-                                    <span>ทะเบียนเปลี่ยนสิทธิ์</span>
+                                    <span>ทะเบียนเปลี่ยนสิทธิ</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true">
-                                    <li><a href="{{ url('chang_pttype_OPD') }}">เปลี่ยนสิทธิ์-ปรับผัง</a></li>
+                                    <li><a href="{{ url('chang_pttype_OPD') }}">เปลี่ยนสิทธิ-ปรับผัง</a></li>
                                     {{-- <li><a href="{{ url('chang_pttype_IPD') }}">เปลี่ยนสิทธิ์ IP</a></li> --}}
                                     {{-- <li><a href="javascript: void(0);" class="has-arrow">ลงใบเสร็จรับเงินรายตัว</a>
                                         <ul class="sub-menu" aria-expanded="true"> 

@@ -220,8 +220,15 @@
                                 <li><a href="{{ url('ucep24_claim') }}">UCEP 24-Claim</a></li>
                                 
                                 <li><a href="{{ url('imc') }}">IMC</a></li>
-                                <li><a href="{{ url('ofc') }}">OFC 401</a></li>
-
+                                {{-- <li><a href="{{ url('ofc') }}">OFC 401</a></li> --}}
+                                <li><a href="javascript: void(0);" class="has-arrow">OFC</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('ofc_401') }}">OFC-401 </a></li>
+                                        {{-- <li><a href="{{ url('ktb_spawn') }}">การตรวจหลังคลอด ANC</a></li> --}}
+                                        {{-- <li><a href="{{ url('ktb_ferrofolic') }}">บริการยาเสริมธาตุเหล็ก </a></li> --}}
+                                        {{-- <li><a href="{{ url('ktb_kids_glasses') }}">แว่นตาเด็ก </a></li> --}}
+                                    </ul>
+                                </li>
                                 {{-- <li><a href="{{ url('six') }}">ส่งออก 16 แฟ้ม</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
                                     <ul class="sub-menu" aria-expanded="true">
@@ -498,7 +505,7 @@
             </div>
         </div>
         <!-- Left Sidebar End -->
-<br><br><br>
+ 
 
 
         <!-- ============================================================== -->

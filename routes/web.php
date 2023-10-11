@@ -262,6 +262,11 @@ Route::match(['get','post'],'stayed_down_opd_stmnull_date/{startdate}/{enddate}'
 
 Route::match(['get','post'],'stayed_down_ipddashboard',[App\Http\Controllers\StayeddownController::class, 'stayed_down_ipddashboard'])->name('acc.stayed_down_ipddashboard');//
 
+// *******************OFC *******************
+Route::match(['get','post'],'ofc_401',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401'])->name('claim.ofc_401');//
+Route::match(['get','post'],'ofc_401_process',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_process'])->name('claim.ofc_401_process');//
+Route::match(['get','post'],'ofc_401_export',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_export'])->name('claim.ofc_401_export');//
+
 // ********************************* PPFS 2566  *****************************************
 // *******************2001 บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย-สุขภาพจิต(SCR)-12001*******************
 Route::match(['get','post'],'ppfs_12001',[App\Http\Controllers\PPfs12001Controller::class, 'ppfs_12001'])->name('claim.ppfs_12001');//

@@ -142,38 +142,7 @@ class Ofcopd401Controller extends Controller
                     'send_date'                => $date,
                 ]);
             }
-            // UCEP
-            // $data_opitemrece = DB::connection('mysql3')->select('
-            //     SELECT "" dtemp_hosucep_id,o.an,o.hn,o.icode,o.rxdate,o.rxtime,a.vstdate,a.vsttime,DATEDIFF(o.rxdate,a.vstdate)<="1" as date_x,TIMEDIFF(o.rxtime,a.vsttime)<="24" time_x
-            //     ,"" created_at,"" updated_at
-            //     from opitemrece o
-            //     LEFT JOIN ipt i on i.an = o.an
-            //     LEFT JOIN ovst a on a.an = o.an
-            //     left JOIN er_regist e on e.vn = i.vn
-            //     LEFT JOIN ipt_pttype ii on ii.an = i.an
-            //     LEFT JOIN pttype p on p.pttype = ii.pttype
-            //     where i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-            //     and o.an is not null
-            //     and p.hipdata_code ="ucs"
-            //     and DATEDIFF(o.rxdate,a.vstdate)<="1"
-            //     and TIMEDIFF(o.rxtime,a.vsttime)<="24"
-            //     AND e.er_emergency_level_id IN("1","2")
-
-            //     ORDER BY icode;
-            // ');
-            // foreach ($data_opitemrece as $va3) {
-            //     Dtemp_hosucep::insert([
-            //         'an'                => $va3->an,
-            //         'hn'                => $va3->hn,
-            //         'icode'             => $va3->icode,
-            //         'rxdate'            => $va3->rxdate,
-            //         'vstdate'           => $va3->vstdate,
-            //         'rxtime'            => $va3->rxtime,
-            //         'vsttime'           => $va3->vsttime,
-            //         'date_x'            => $va3->date_x,
-            //         'time_x'            => $va3->time_x,
-            //     ]);
-            // }
+            
             //INS
             $data = DB::connection('mysql3')->select('
                     SELECT
