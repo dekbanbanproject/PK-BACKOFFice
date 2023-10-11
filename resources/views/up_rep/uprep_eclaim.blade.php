@@ -96,7 +96,8 @@
             <div class="col-xl-8 col-md-6">
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
-                        <form action="{{ route('claim.uprep_eclaim_save') }}" method="POST" enctype="multipart/form-data" id="upstmdata">
+                        <form action="{{ route('claim.uprep_eclaim_save') }}" method="POST" enctype="multipart/form-data">
+                            {{-- id="upstmdata" --}}
                             @csrf
                             <div class="row">
 

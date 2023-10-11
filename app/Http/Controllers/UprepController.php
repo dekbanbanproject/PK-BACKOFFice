@@ -109,15 +109,17 @@ class UprepController extends Controller
     
     function uprep_eclaim_save(Request $request)
     { 
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
+        // $this->validate($request, [
+        //     'file' => 'required|file|mimes:xls,xlsx'
+        // ]);
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
- 
+        // dd($file_);
             try{                
                 // Cheet 2
-                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                // $spreadsheet = IOFactory::createReader($the_file);
+                // $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $spreadsheet = IOFactory::load($file_); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
                 $column_limit = $sheet->getHighestDataColumn();
@@ -310,10 +312,10 @@ class UprepController extends Controller
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
-            
-            return response()->json([
-            'status'    => '200',
-        ]);
+            return redirect()->back();
+            // return response()->json([
+            //     'status'    => '200',
+            // ]);
     }
 
     public function uprep_eclaim_send(Request $request)
