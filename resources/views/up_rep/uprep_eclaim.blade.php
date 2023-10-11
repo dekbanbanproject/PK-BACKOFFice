@@ -217,33 +217,33 @@
 
             var bar = $('.bar');
             var percent = $('.percent');
-            // $('form').ajaxForm({
-            //     beforeSend: function() {
-            //         var percentVal = '0%';
-            //         bar.width(percentVal);
-            //         percent.html(percentVal);
-            //     },
-            //     uploadProgress: function(event, position, total, percentComplete) {
-            //         var percentVal = percentComplete+'%';
-            //         bar.width(percentVal);
-            //         percent.html(percentVal);
-            //     },
-            //     complete: function(xhr) { 
-            //         Swal.fire({
-            //             title: 'UP STM สำเร็จ',
-            //             text: "You UP STM success",
-            //             icon: 'success',
-            //             showCancelButton: false,
-            //             confirmButtonColor: '#06D177',
-            //             // cancelButtonColor: '#d33',
-            //             confirmButtonText: 'เรียบร้อย'
-            //         }).then((result) => {
-            //             if (result.isConfirmed) {
-            //                 window.location = "{{ url('uprep_eclaim') }}";
-            //             }
-            //         })
-            //     }
-            // })
+            $('form').ajaxForm({
+                beforeSend: function() {
+                    var percentVal = '0%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete+'%';
+                    bar.width(percentVal);
+                    percent.html(percentVal);
+                },
+                complete: function(xhr) { 
+                    Swal.fire({
+                        title: 'UP STM สำเร็จ',
+                        text: "You UP STM success",
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#06D177',
+                        // cancelButtonColor: '#d33',
+                        confirmButtonText: 'เรียบร้อย'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location = "{{ url('uprep_eclaim') }}";
+                        }
+                    })
+                }
+            })
 
             $('#Upstmti').on('submit', function(e) {
                 e.preventDefault();

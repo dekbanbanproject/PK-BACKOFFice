@@ -183,17 +183,18 @@ class Account217Controller extends Controller
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 from hos.ipt ip
-                LEFT JOIN hos.an_stat a ON ip.an = a.an
-                LEFT JOIN hos.patient pt on pt.hn=a.hn
-                LEFT JOIN hos.pttype ptt on a.pttype=ptt.pttype
-                LEFT JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
-                LEFT JOIN hos.ipt_pttype ipt ON ipt.an = a.an
-                LEFT JOIN hos.opitemrece op ON ip.an = op.an
-                LEFT JOIN hos.vn_stat v on v.vn = ip.vn
+                LEFT OUTER JOIN hos.an_stat a ON ip.an = a.an
+                LEFT OUTER JOIN hos.patient pt on pt.hn=a.hn
+                LEFT OUTER JOIN hos.pttype ptt on a.pttype=ptt.pttype
+                LEFT OUTER JOIN hos.pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
+                LEFT OUTER JOIN hos.ipt_pttype ipt ON ipt.an = a.an
+                LEFT OUTER JOIN hos.opitemrece op ON ip.an = op.an
+                LEFT OUTER JOIN s_drugitems s on s.icode = op.icode
+                LEFT OUTER JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE ip.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
                 
-                AND d.name NOT like "CT%"
+                AND s.name NOT like "CT%"
                 AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353","3009703","3010348")
                 GROUP BY ip.an;
                 

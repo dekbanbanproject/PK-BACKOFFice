@@ -109,17 +109,16 @@ class UprepController extends Controller
     
     function uprep_eclaim_save(Request $request)
     { 
-        $this->validate($request, [
-            'file' => 'required|file|mimes:xls,xlsx'
-        ]);
+        // $this->validate($request, [
+        //     'file' => 'required|file|mimes:xls,xlsx'
+        // ]);
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-        // dd($the_file);
+        // dd($file_);
             try{                
                 // Cheet 2  originalName
                 // $spreadsheet = IOFactory::createReader($the_file);
-                // $spreadsheet = IOFactory::load($the_file->getRealPath());
-                // $spreadsheet = IOFactory::load($the_file->originalName()); 
+                // $spreadsheet = IOFactory::load($the_file->getRealPath()); 
                 $spreadsheet = IOFactory::load($the_file); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
@@ -309,29 +308,94 @@ class UprepController extends Controller
                 //     D_rep_eclaim_excel::insert($data_); 
                 // }
 
+
+
                 foreach (array_chunk($data,500) as $t)  
-                {
-                    // DB::table('table_name')->insert($t);
-                    // D_rep_eclaim_excel::insert($t);  
+                { 
                     DB::table('d_rep_eclaim_excel')->insert($t);
                 }
 
+               
+                 
+                // $the_file->delete('public/File_eclaim/'.$file_); 
+                $the_file->storeAs('Import/',$file_);   // ย้าย ไฟล์   
+                Storage::delete('File_eclaim/'.$file_);   // ลบไฟล์  
+                // ลบไฟล์   
+                if(file_exists(public_path('File_eclaim/'.$file_))){
+                    unlink(public_path('File_eclaim/'.$file_));
+                    // Storage::delete('File_eclaim/'.$file_);   // ลบไฟล์  
+                }else{
+                    dd('File does not exists.');
+                }
                 
+                // $the_file->storeAs('Import/',$file_);   // ย้าย ไฟล์   
+                // foreach (array_chunk($data,500) as $t)  
+                // {
+                //     // DB::table('table_name')->insert($t);
+                //     // D_rep_eclaim_excel::insert($t);  
+                //     DB::table('d_rep_eclaim_excel')->insert($t);
+                // }
+                // $folder = 'OP';
+                // mkdir('Import/' . $folder, 0777, true);  //Web  
+              
+                // File::move('Import/OP'.$file_, 'Import_New/'.$file_);
+                // storeAs('article',$file_,'public');
+                  
+                // Storage::move('Import/'.$file_, $the_file);
+                // File::move(public_path('exist/test.png'), public_path('move/test_move.png'));  
+                // $the_file->storeAs('Import/'.$file_, '/Import'.$file_); 
+                // $pathdir = public_path('Import/'.$file_);
+                // File::move("File_eclaim/".$file_, $pathdir);
+                // $description = "File_eclaim/".$file_;
+                // if (File::exists($description))
+                // {
+                //     File::delete($description);
+                // }
 
-
+                // if(File::exists(public_path('File_eclaim/',$file_)))
+                // { 
+                //     File::delete(public_path('File_eclaim/',$file_)); 
+                // }
+                // else
+                // { 
+                //     dd('File does not exists.');
+                // } 
+                // if (file_exists($pathdir)) {
+                //     // header('Content-Type: application/zip');
+                //     // header('Content-Disposition: attachment; filename="'.basename($pathdir).'"');
+                //     // header('Content-Length: ' . filesize($pathdir));
+                //     // flush();
+                //     // readfile($pathdir);
+                //     //// delete file
+                //     unlink($pathdir);        
+                //     $files = glob($pathdir . '/*');     
+                //     foreach($files as $file) {                         
+                //         //// Check for file 
+                //         if(is_file($file)) {    
+                //             unlink($file); 
+                //         } 
+                //     }                     
+                //     // if(rmdir($pathdir)){ // ลบ folder ใน export                    
+                //     // }                    
+                //     // return redirect()->route('data.ucep24_claim');                    
+                // }
+                // $filepath = public_path('Import/'.$file_);
+                // unlink($filepath);
+                
                 
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
-            return redirect()->back();
-            // return response()->json([
-            //     'status'    => '200',
-            // ]);
+            // return redirect()->back();
+            return response()->json([
+                'status'    => '200',
+            ]);
     }
 
     public function uprep_eclaim_send(Request $request)
     {
+
         try{
             $data_ = DB::connection('mysql')->select('
                 SELECT *
@@ -467,6 +531,8 @@ class UprepController extends Controller
                 return back()->withErrors('There was a problem uploading the data!');
             }
             D_rep_eclaim_excel::truncate();
+
+
         return redirect()->back();
     }
     

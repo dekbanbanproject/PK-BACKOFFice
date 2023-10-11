@@ -186,7 +186,7 @@ class Account202Controller extends Controller
                         (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
                         (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
                         (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
-                    WHEN sum(if(op.icode IN ("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353"),sum_price,0)) > 0 THEN a.income
+                   
                     ELSE 
                         (a.income-a.rcpt_money-a.discount_money)-
                         (sum(if(op.income="02",sum_price,0))) -
@@ -212,7 +212,8 @@ class Account202Controller extends Controller
                 AND op.icode NOT IN("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417")
                 
                 GROUP BY a.an;
-         ');
+        ');
+        //  WHEN sum(if(op.icode IN ("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353"),sum_price,0)) > 0 THEN a.income
         //  AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
         //  AND ec.ar_ipd = "1102050101.202"
          foreach ($acc_debtor as $key => $value) {
@@ -556,39 +557,46 @@ class Account202Controller extends Controller
  
          foreach ($data as $key => $value) {
                  $date = date('Y-m-d H:m:s');
-                     Acc_1102050101_202::insert([
-                         'vn'                => $value->vn,
-                         'hn'                => $value->hn,
-                         'an'                => $value->an,
-                         'cid'               => $value->cid,
-                         'ptname'            => $value->ptname,
-                         'vstdate'           => $value->vstdate,
-                         'regdate'           => $value->regdate,
-                         'dchdate'           => $value->dchdate,
-                         'pttype'            => $value->pttype,
-                         'pttype_nhso'       => $value->pttype_spsch,
-                         'acc_code'          => $value->acc_code,
-                         'account_code'      => $value->account_code,
-                         'income_group'      => $value->income_group,
-                         'income'            => $value->income,
-                         'uc_money'          => $value->uc_money,
-                         'discount_money'    => $value->discount_money,
-                         'rcpt_money'        => $value->rcpt_money,
-                         'debit'             => $value->debit,
-                         'debit_drug'        => $value->debit_drug,
-                         'debit_instument'   => $value->debit_instument,
-                         'debit_refer'       => $value->debit_refer,
-                         'debit_toa'         => $value->debit_toa,
-                        //  'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
-                         'debit_total'       => $value->debit_total,
-                         'max_debt_amount'   => $value->max_debt_amount,
-                         'rw'                => $value->rw,
-                         'adjrw'             => $value->adjrw,
-                         'total_adjrw_income'=> $value->total_adjrw_income,
-                         'acc_debtor_userid' => $value->acc_debtor_userid
+                 $check = Acc_1102050101_202::where('an', $value->an)->count();
+                 if ($check>0) {
+                    # code...
+                 } else {
+                    Acc_1102050101_202::insert([
+                        'vn'                => $value->vn,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an,
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'vstdate'           => $value->vstdate,
+                        'regdate'           => $value->regdate,
+                        'dchdate'           => $value->dchdate,
+                        'pttype'            => $value->pttype,
+                        'pttype_nhso'       => $value->pttype_spsch,
+                        'acc_code'          => $value->acc_code,
+                        'account_code'      => $value->account_code,
+                        'income_group'      => $value->income_group,
+                        'income'            => $value->income,
+                        'uc_money'          => $value->uc_money,
+                        'discount_money'    => $value->discount_money,
+                        'rcpt_money'        => $value->rcpt_money,
+                        'debit'             => $value->debit,
+                        'debit_drug'        => $value->debit_drug,
+                        'debit_instument'   => $value->debit_instument,
+                        'debit_refer'       => $value->debit_refer,
+                        'debit_toa'         => $value->debit_toa,
+                       //  'debit_total'       => $value->debit - $value->debit_drug - $value->debit_instument - $value->debit_refer - $value->debit_toa,
+                        'debit_total'       => $value->debit_total,
+                        'max_debt_amount'   => $value->max_debt_amount,
+                        'rw'                => $value->rw,
+                        'adjrw'             => $value->adjrw,
+                        'total_adjrw_income'=> $value->total_adjrw_income,
+                        'acc_debtor_userid' => $value->acc_debtor_userid
 
-                           
-                     ]);
+                          
+                    ]);
+                 }
+                 
+                    
                     //  $acc_opitemrece_ = DB::connection('mysql')->select('
                     //          SELECT a.stamp,ao.an,ao.vn,ao.hn,ao.vstdate,ao.pttype,ao.paidst,ao.finance_number,ao.income,ao.icode,ao.name as dname,ao.qty,ao.unitprice,ao.cost,ao.discount,ao.sum_price
                     //          FROM acc_opitemrece ao

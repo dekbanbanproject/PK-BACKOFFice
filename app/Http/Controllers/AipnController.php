@@ -533,7 +533,7 @@ class AipnController extends Controller
 
             $file_pat = "Export/" . $foldertxt . "/10978-AIPN-" . $an . '-' . $aipn_date_now_preg . '' . $aipn_time_now_preg . ".txt";
             $objFopen_opd = fopen($file_pat, 'w');
-        // }
+   
 
             $opd_head = '<CIPN>';
             fwrite($objFopen_opd, $opd_head);
@@ -778,16 +778,12 @@ class AipnController extends Controller
             $mdup = strtoupper($md5file);
  
             // ********************HASH MD5********************
-
-        // }
-        // $datamain2 = DB::connection('mysql')->select('SELECT an FROM d_aipn_main');
-        // foreach ($datamain2 as $key => $aii) {
-        //     $an2 = $aii->an;
+ 
             // ********************File 2  ********************
             $file_pat2 = "Export/" . $folder . "/10978-AIPN-" .$an.'-'. $aipn_date_now_preg . '' . $aipn_time_now_preg . ".xml";
             $objFopen_opd2 = fopen($file_pat2, 'w'); 
 
-        // }
+     
             $opd_head2 = '<?xml version="1.0" encoding="windows-874"?>';
             fwrite($objFopen_opd2, $opd_head2);
 
