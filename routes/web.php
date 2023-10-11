@@ -1281,6 +1281,12 @@ Route::middleware(['type'])->group(function(){
 
 
     // ******************** PKClaim ***********************
+    Route::match(['get','post'],'uprep_eclaim',[App\Http\Controllers\UprepController::class, 'uprep_eclaim'])->name('claim.uprep_eclaim');// PKClaim
+    Route::match(['get','post'],'uprep_eclaim_save',[App\Http\Controllers\UprepController::class, 'uprep_eclaim_save'])->name('claim.uprep_eclaim_save');// 
+    Route::match(['get','post'],'uprep_eclaim_send',[App\Http\Controllers\UprepController::class, 'uprep_eclaim_send'])->name('claim.uprep_eclaim_send');// 
+
+
+
     Route::match(['get','post'],'pkclaim/pkclaim_info',[App\Http\Controllers\PkclaimController::class, 'pkclaim_info'])->name('claim.pkclaim_info');// PKClaim
     Route::match(['get','post'],'bk_getbar',[App\Http\Controllers\PkclaimController::class, 'bk_getbar'])->name('claim.bk_getbar');// get ค่า ajax bar
     Route::match(['get','post'],'bk_getline',[App\Http\Controllers\PkclaimController::class, 'bk_getline'])->name('claim.bk_getline');// get ค่า ajax line

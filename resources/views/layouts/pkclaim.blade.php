@@ -191,7 +191,7 @@
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
-                    <ul class="metismenu list-unstyled" id="side-menu">
+                    <ul class="metismenu list-unstyled mb-5" id="side-menu">
 
                         <li class="menu-title">Menu</li>
                         <li>
@@ -480,16 +480,25 @@
 
                             </ul>
                         </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-cloud-arrow-up text-primary"></i>
+                                <span>Up-rep New-Eclaim</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('uprep_eclaim') }}">Up Rep</a></li>
+                            </ul>
+                        </li>
 
 
 
                     </ul>
-                </div>
+                </div >
                 <!-- Sidebar -->
             </div>
         </div>
         <!-- Left Sidebar End -->
-
+<br><br><br>
 
 
         <!-- ============================================================== -->

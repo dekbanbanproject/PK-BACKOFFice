@@ -6408,7 +6408,7 @@ class AccountPKController extends Controller
                         'STMdoc'          => @$STMdoc,
                         'dateStart'       => @$dateStart,
                         'dateEnd'         => @$dateEnd,
-                        'datedue'        => @$datedue,
+                        'dateData'        => @$datedue,
                         'dateIssue'       => @$dateIssue,
                         'amount'          => @$amount,
                         'thamount'        => @$thamount

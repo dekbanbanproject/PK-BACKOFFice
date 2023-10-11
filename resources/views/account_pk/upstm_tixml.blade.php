@@ -100,14 +100,13 @@
                 <div class="main-card mb-3 card">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
-                            <form action="{{ route('acc.upstm_tixml_import') }}" method="POST"
-                                enctype="multipart/form-data">
+                            <form action="{{ route('acc.upstm_tixml_import') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="col-sm-12">
                                     <div class="widget-chart widget-chart-hover">
                                         <div class="mb-3">
-                                            <label for="formFileLg" class="form-label">UP STM XML</label>
-                                            <input class="form-control form-control-lg" id="formFileLg" name="file"
+                                            <label for="file" class="form-label">UP STM XML</label>
+                                            <input class="form-control form-control-lg" id="file" name="file"
                                                 type="file" required>
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         </div>
@@ -273,20 +272,25 @@
                     bar.width(percentVal);
                     percent.html(percentVal);
                 },
-                complete: function(xhr) { 
-                    Swal.fire({
-                        title: 'UP STM สำเร็จ',
-                        text: "You UP STM success",
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#06D177',
-                        // cancelButtonColor: '#d33',
-                        confirmButtonText: 'เรียบร้อย'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location = "{{ url('upstm_tixml') }}";
-                        }
-                    })
+                complete: function(data) { 
+                    if (data.status == '200') {
+                            Swal.fire({
+                            title: 'UP STM สำเร็จ',
+                            text: "You UP STM success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location = "{{ url('upstm_tixml') }}";
+                            }
+                        })
+                    } else {
+                        
+                    }
+                    
                 }
             })
 

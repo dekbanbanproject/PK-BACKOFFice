@@ -97,7 +97,7 @@ class Auto_authenController extends Controller
                 JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate = CURDATE()
                 AND o.main_dep NOT IN("011","036","107")
-                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7")
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
                 AND p.nationality = "99"
                 AND p.birthday <> CURDATE()
                 group by o.vn
