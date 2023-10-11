@@ -1202,7 +1202,7 @@ class Ucep24Controller extends Controller
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_opd1, $opd_head);
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins
+            SELECT * from d_ins where d_anaconda_id = "UCEP24"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -1236,7 +1236,7 @@ class Ucep24Controller extends Controller
         $opd_head2 = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_opd2, $opd_head2);
         $iop = DB::connection('mysql')->select('
-            SELECT * from d_iop
+            SELECT * from d_iop where d_anaconda_id = "UCEP24"
         ');
         foreach ($iop as $key => $value2) {
             $b1 = $value2->AN;
@@ -1260,7 +1260,7 @@ class Ucep24Controller extends Controller
         $opd_head3 = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_opd3, $opd_head3);
         $adp = DB::connection('mysql')->select('
-            SELECT * from d_adp
+            SELECT * from d_adp where d_anaconda_id = "UCEP24"
         ');
         foreach ($adp as $key => $value3) {
             $c1 = $value3->HN;
@@ -1302,7 +1302,7 @@ class Ucep24Controller extends Controller
         $opd_head4 = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_opd4, $opd_head4);
         $aer = DB::connection('mysql')->select('
-            SELECT * from d_aer
+            SELECT * from d_aer where d_anaconda_id = "UCEP24"
         ');
         foreach ($aer as $key => $value4) {
             $d1 = $value4->HN;
@@ -1335,7 +1335,7 @@ class Ucep24Controller extends Controller
         $opd_head5 = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_opd5, $opd_head5);
         $cha = DB::connection('mysql')->select('
-            SELECT * from d_cha
+            SELECT * from d_cha where d_anaconda_id = "UCEP24"
         ');
         foreach ($cha as $key => $value5) {
             $e1 = $value5->HN;
@@ -1357,7 +1357,7 @@ class Ucep24Controller extends Controller
         $opd_head6 = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_opd6, $opd_head6);
         $cht = DB::connection('mysql')->select('
-            SELECT * from d_cht
+            SELECT * from d_cht where d_anaconda_id = "UCEP24"
         ');
         foreach ($cht as $key => $value6) {
             $f1 = $value6->HN;
@@ -1380,7 +1380,7 @@ class Ucep24Controller extends Controller
         $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru
+            SELECT * from d_dru where d_anaconda_id = "UCEP24"
         ');
         foreach ($dru as $key => $value7) {
             $g1 = $value7->HCODE;
@@ -1418,7 +1418,7 @@ class Ucep24Controller extends Controller
         $opd_head8 = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_opd8, $opd_head8);
         $idx = DB::connection('mysql')->select('
-            SELECT * from d_idx
+            SELECT * from d_idx where d_anaconda_id = "UCEP24"
         ');
         foreach ($idx as $key => $value8) {
             $h1 = $value8->AN;
@@ -1437,7 +1437,7 @@ class Ucep24Controller extends Controller
         $opd_head9 = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_opd9, $opd_head9);
         $pat = DB::connection('mysql')->select('
-            SELECT * from d_pat
+            SELECT * from d_pat where d_anaconda_id = "UCEP24"
         ');
         foreach ($pat as $key => $value9) {
             $i1 = $value9->HCODE;
@@ -1467,7 +1467,7 @@ class Ucep24Controller extends Controller
         $opd_head10 = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_opd10, $opd_head10);
         $ipd = DB::connection('mysql')->select('
-            SELECT * from d_ipd
+            SELECT * from d_ipd where d_anaconda_id = "UCEP24"
         ');
         foreach ($ipd as $key => $value10) {
             $j1 = $value10->HN;
@@ -1495,7 +1495,7 @@ class Ucep24Controller extends Controller
         $opd_head11 = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_opd11, $opd_head11);
         $irf = DB::connection('mysql')->select('
-            SELECT * from d_irf
+            SELECT * from d_irf where d_anaconda_id = "UCEP24"
         ');
         foreach ($irf as $key => $value11) {
             $k1 = $value11->AN;
@@ -1513,7 +1513,7 @@ class Ucep24Controller extends Controller
         $opd_head12 = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_opd12, $opd_head12);
         $lvd = DB::connection('mysql')->select('
-            SELECT * from d_lvd
+            SELECT * from d_lvd where d_anaconda_id = "UCEP24"
         ');
         foreach ($lvd as $key => $value12) {
             $L1 = $value12->SEQLVD;
@@ -1535,7 +1535,7 @@ class Ucep24Controller extends Controller
         $opd_head13 = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_opd13, $opd_head13);
         $odx = DB::connection('mysql')->select('
-            SELECT * from d_odx
+            SELECT * from d_odx where d_anaconda_id = "UCEP24"
         ');
         foreach ($odx as $key => $value13) {
             $m1 = $value13->HN;
@@ -1558,7 +1558,7 @@ class Ucep24Controller extends Controller
         $opd_head14 = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_opd14, $opd_head14);
         $oop = DB::connection('mysql')->select('
-            SELECT * from d_oop
+            SELECT * from d_oop where d_anaconda_id = "UCEP24"
         ');
         foreach ($oop as $key => $value14) {
             $n1 = $value14->HN;
@@ -1580,7 +1580,7 @@ class Ucep24Controller extends Controller
         $opd_head15 = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd15, $opd_head15);
         $opd = DB::connection('mysql')->select('
-            SELECT * from d_opd
+            SELECT * from d_opd where d_anaconda_id = "UCEP24"
         ');
         foreach ($opd as $key => $value15) {
             $o1 = $value15->HN;
@@ -1601,7 +1601,7 @@ class Ucep24Controller extends Controller
         $opd_head16 = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_opd16, $opd_head16);
         $orf = DB::connection('mysql')->select('
-            SELECT * from d_orf
+            SELECT * from d_orf where d_anaconda_id = "UCEP24"
         ');
         foreach ($orf as $key => $value16) {
             $p1 = $value16->HN;
@@ -1667,7 +1667,7 @@ class Ucep24Controller extends Controller
         }
 
 
-            return redirect()->route('data.six');
+            return redirect()->route('data.ucep24_claim');
 
     }
           
