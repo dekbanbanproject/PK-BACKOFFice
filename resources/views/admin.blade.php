@@ -820,7 +820,7 @@ $pos = strrpos($url, '/') + 1;
                 </div>
             </div> --}}
             <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(155, 230, 243)">
+                <div class="main-card mb-3 card shadow-lg" style="background-color: rgb(93, 218, 114)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
