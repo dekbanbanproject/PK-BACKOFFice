@@ -937,7 +937,7 @@ class Ofc401Controller extends Controller
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_opd1, $opd_head);
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins where d_anaconda_id = "OFC_401")
+            SELECT * from d_ins where d_anaconda_id = "OFC_401"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
