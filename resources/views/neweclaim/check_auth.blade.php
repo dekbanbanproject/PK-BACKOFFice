@@ -128,7 +128,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="AuthSave">
+                    <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="AuthSave">
                         <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
                     </button>
                 </div>

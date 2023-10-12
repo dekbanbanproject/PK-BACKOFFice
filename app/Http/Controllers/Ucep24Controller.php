@@ -1159,6 +1159,7 @@ class Ucep24Controller extends Controller
                         'TOTAL'          => '0', 
                         'SP_ITEM'        => '01', 
                         'user_id'        => $iduser,
+                        'd_anaconda_id'  => 'UCEP24'
                     ]);
                 }    
             }

@@ -61,7 +61,7 @@ use App\Models\Product_budget;
 use App\Models\Product_method;
 use App\Models\Product_buy;
 use App\Models\Users_prefix;
-use App\Models\D_12002;
+use App\Models\Acc_1102050102_106;
 use App\Models\D_12001;
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -79,7 +79,7 @@ use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
 use App\Models\D_irf;
-use App\Models\D_query;
+use App\Models\D_ofc_401;
 use App\Models\D_ucep24_main;
 use App\Models\D_ucep24;
 use App\Models\Acc_ucep24;
@@ -108,9 +108,9 @@ use PhpParser\Node\Stmt\If_;
 use Stevebauman\Location\Facades\Location; 
 use Illuminate\Filesystem\Filesystem;
 
-class PPfs12002Controller extends Controller
+class Ofc401Controller extends Controller
 { 
-    public function ppfs_12002(Request $request)
+    public function ofc_401(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -120,12 +120,12 @@ class PPfs12002Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
+        $yearnew = date('Y')+1;
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
-            $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12002');  
+            $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401'); 
             // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
@@ -142,34 +142,44 @@ class PPfs12002Controller extends Controller
             $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha');
             $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
         } else {
-            $iduser = Auth::user()->id;
-            D_12002::truncate();
-             
-            $data_main_ = DB::connection('mysql2')->select(' 
-                        SELECT v.vn,v.hn,o.an,v.cid,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.vstdate,p.hipdata_code,op.icode,op.qty,op.sum_price
-                        FROM hos.ovst o
-                        LEFT OUTER JOIN hos.vn_stat v on v.vn=o.vn
-                        LEFT OUTER JOIN hos.patient pt on pt.hn=o.hn 
-                        LEFT OUTER JOIN hos.pttype p ON p.pttype = v.pttype
-                        LEFT OUTER JOIN opitemrece op ON op.vn = v.vn   
-                        LEFT OUTER JOIN s_drugitems d on d.icode = op.icode
-                        where o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")
-                        and (o.an=" " or o.an is null)
-                        and pt.nationality="99" 
-                        and v.age_y between "35" and "59" AND pt.sex=2 
-                        AND d.nhso_adp_code ="12002"  
-                        group by v.vn;    
+                $iduser = Auth::user()->id;
+                D_ofc_401::truncate(); 
+                $data_main_ = DB::connection('mysql2')->select(' 
+                        SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                        ,v.vstdate,v.pttype  ,rd.sss_approval_code AS "Apphos",v.inc04 as xray
+                        ,rd.amount AS price_ofc,v.income,ptt.hipdata_code 
+                        ,group_concat(distinct hh.appr_code,":",hh.transaction_amount,"/") AS AppKTB 
+                        ,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10 
+                        FROM hos.vn_stat v
+                        LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn
+                        LEFT OUTER JOIN hos.ovstdiag ov ON v.vn=ov.vn
+                        LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn
+                        LEFT OUTER JOIN hos.opdscreen op ON v.vn = op.vn
+                        LEFT OUTER JOIN hos.pttype ptt ON v.pttype=ptt.pttype 
+                        LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn=rd.vn
+                        LEFT OUTER JOIN hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                        LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
+                        
+                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND v.pttype in ("O1","O2","O3","O4","O5")
+                        AND v.pttype not in ("OF","FO") 
+                        and v.uc_money >"0"
+                        AND o.an is null
+                        AND v.pdx <> ""
+                        GROUP BY v.vn; 
                 ');                 
                 foreach ($data_main_ as $key => $value) {    
-                        D_12002::insert([
-                            'vn'                => $value->vn,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an, 
-                            'icode'             => $value->icode,
-                            'sum_price'         => $value->sum_price 
+                    D_ofc_401::insert([
+                            'vn'                 => $value->vn,
+                            'hn'                 => $value->hn,
+                            'an'                 => $value->an, 
+                            'pttype'             => $value->pttype,
+                            'vstdate'            => $value->vstdate,
+                            'Apphos'             => $value->Apphos,
+                            'Appktb'             => $value->AppKTB,
+                            'price_ofc'          => $value->price_ofc, 
                         ]);
-                    $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','12002')->count();
+                    $check = D_claim::where('vn',$value->vn)->count();
                     if ($check > 0) {
                         # code...
                     } else {
@@ -182,17 +192,17 @@ class PPfs12002Controller extends Controller
                             'ptname'            => $value->ptname,
                             'vstdate'           => $value->vstdate,
                             'hipdata_code'      => $value->hipdata_code,
-                            'qty'               => $value->qty,
-                            'sum_price'          => $value->sum_price,
-                            'type'              => 'PPFS',
-                            'nhso_adp_code'     => '12002',
+                            // 'qty'               => $value->qty,
+                            'sum_price'          => $value->price_ofc,
+                            'type'              => 'OPD',
+                            'nhso_adp_code'     => 'OFC',
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
                     }                   
                     
                 }
-                $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12002');  
+                $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401');  
                 // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
                 $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
                 $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
@@ -210,31 +220,30 @@ class PPfs12002Controller extends Controller
                 $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
         }
 
-        return view('ppfs.ppfs_12002',$data,[
+        return view('ofc.ofc_401',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
     }
-    public function ppfs_12002_process(Request $request)
+    public function ofc_401_process(Request $request)
     { 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_12002');
-        $iduser = Auth::user()->id;
-       
-        D_opd::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_orf::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_oop::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_odx::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_idx::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_ipd::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_irf::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_aer::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_iop::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_adp::where('d_anaconda_id','=','PPFS_12002')->delete();  
-        D_dru::where('d_anaconda_id','=','PPFS_12002')->delete();  
-        D_pat::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_cht::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_cha::where('d_anaconda_id','=','PPFS_12002')->delete();
-        D_ins::where('d_anaconda_id','=','PPFS_12002')->delete();
+        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_ofc_401');
+        $iduser = Auth::user()->id; 
+        D_opd::where('d_anaconda_id','=','OFC_401')->delete();
+        D_orf::where('d_anaconda_id','=','OFC_401')->delete();
+        D_oop::where('d_anaconda_id','=','OFC_401')->delete();
+        D_odx::where('d_anaconda_id','=','OFC_401')->delete();
+        D_idx::where('d_anaconda_id','=','OFC_401')->delete();
+        D_ipd::where('d_anaconda_id','=','OFC_401')->delete();
+        D_irf::where('d_anaconda_id','=','OFC_401')->delete();
+        D_aer::where('d_anaconda_id','=','OFC_401')->delete();
+        D_iop::where('d_anaconda_id','=','OFC_401')->delete();
+        D_adp::where('d_anaconda_id','=','OFC_401')->delete();   
+        D_dru::where('d_anaconda_id','=','OFC_401')->delete();   
+        D_pat::where('d_anaconda_id','=','OFC_401')->delete();
+        D_cht::where('d_anaconda_id','=','OFC_401')->delete();
+        D_cha::where('d_anaconda_id','=','OFC_401')->delete();
+        D_ins::where('d_anaconda_id','=','OFC_401')->delete();
 
          foreach ($data_vn_1 as $key => $va1) {
                  //D_irf
@@ -255,8 +264,9 @@ class PPfs12002Controller extends Controller
                         'REFER'              => $va12->REFER,
                         'REFERTYPE'          => $va12->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'PPFS_12002',
+                        'd_anaconda_id'      => 'OFC_401',
                     ]);
+                     
                 }
                  //D_ipd
                  $data_ipd_ = DB::connection('mysql2')->select('
@@ -277,22 +287,38 @@ class PPfs12002Controller extends Controller
                     WHERE  a.an IN("'.$va1->an.'")
                 ');
                 foreach ($data_ipd_ as $va13) {                
-                    $addipd = new D_ipd; 
-                    $addipd->AN             = $va13->AN;
-                    $addipd->HN             = $va13->HN;
-                    $addipd->DATEADM        = $va13->DATEADM;
-                    $addipd->TIMEADM        = $va13->TIMEADM; 
-                    $addipd->DATEDSC        = $va13->DATEDSC; 
-                    $addipd->TIMEDSC        = $va13->TIMEDSC; 
-                    $addipd->DISCHS         = $va13->DISCHS; 
-                    $addipd->DISCHT         = $va13->DISCHT; 
-                    $addipd->DEPT           = $va13->DEPT; 
-                    $addipd->ADM_W          = $va13->ADM_W; 
-                    $addipd->UUC            = $va13->UUC; 
-                    $addipd->SVCTYPE        = $va13->SVCTYPE; 
-                    $addipd->user_id        = $iduser;
-                    $addipd->d_anaconda_id  = 'PPFS_12002'; 
-                    $addipd->save();
+                    // $addipd = new D_ipd; 
+                    // $addipd->AN             = $va13->AN;
+                    // $addipd->HN             = $va13->HN;
+                    // $addipd->DATEADM        = $va13->DATEADM;
+                    // $addipd->TIMEADM        = $va13->TIMEADM; 
+                    // $addipd->DATEDSC        = $va13->DATEDSC; 
+                    // $addipd->TIMEDSC        = $va13->TIMEDSC; 
+                    // $addipd->DISCHS         = $va13->DISCHS; 
+                    // $addipd->DISCHT         = $va13->DISCHT; 
+                    // $addipd->DEPT           = $va13->DEPT; 
+                    // $addipd->ADM_W          = $va13->ADM_W; 
+                    // $addipd->UUC            = $va13->UUC; 
+                    // $addipd->SVCTYPE        = $va13->SVCTYPE; 
+                    // $addipd->user_id        = $iduser;
+                    // $addipd->d_anaconda_id  = 'OFC_401'; 
+                    // $addipd->save();
+                    D_ipd::insert([
+                        'AN'                => $va13->AN,
+                        'HN'                => $va13->HN,
+                        'DATEADM'           => $va13->DATEADM,
+                        'TIMEADM'           => $va13->TIMEADM,
+                        'DATEDSC'           => $va13->DATEDSC,
+                        'TIMEDSC'           => $va13->TIMEDSC,
+                        'DISCHS'            => $va13->DISCHS,
+                        'DISCHT'            => $va13->DISCHT, 
+                        'DEPT'              => $va13->DEPT, 
+                        'ADM_W'             => $va13->ADM_W, 
+                        'UUC'               => $va13->UUC, 
+                        'SVCTYPE'           => $va13->SVCTYPE, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                 }
                 //D_idx
                 $data_idx_ = DB::connection('mysql2')->select('
@@ -304,14 +330,22 @@ class PPfs12002Controller extends Controller
                     WHERE  i2.an IN("'.$va1->an.'")
                 ');
                 foreach ($data_idx_ as $va7) {
-                    $addidrx = new D_idx; 
-                    $addidrx->AN             = $va7->AN;
-                    $addidrx->DIAG           = $va7->DIAG;
-                    $addidrx->DXTYPE         = $va7->DXTYPE;
-                    $addidrx->DRDX           = $va7->DRDX; 
-                    $addidrx->user_id        = $iduser;
-                    $addidrx->d_anaconda_id  = 'PPFS_12002';
-                    $addidrx->save();
+                    // $addidrx = new D_idx; 
+                    // $addidrx->AN             = $va7->AN;
+                    // $addidrx->DIAG           = $va7->DIAG;
+                    // $addidrx->DXTYPE         = $va7->DXTYPE;
+                    // $addidrx->DRDX           = $va7->DRDX; 
+                    // $addidrx->user_id        = $iduser;
+                    // $addidrx->d_anaconda_id  = 'OFC_401';
+                    // $addidrx->save();
+                    D_idx::insert([
+                        'AN'                => $va7->AN,  
+                        'DIAG'              => $va7->DIAG,
+                        'DXTYPE'            => $va7->DXTYPE,
+                        'DRDX'              => $va7->DRDX, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                             
                 }
                 // D_odx
@@ -337,18 +371,30 @@ class PPfs12002Controller extends Controller
                     GROUP BY v.vn
                 ');
                 foreach ($data_odx_ as $va5) {
-                    $adddx = new D_odx;  
-                    $adddx->HN             = $va5->HN;
-                    $adddx->CLINIC         = $va5->CLINIC;
-                    $adddx->DATEDX         = $va5->DATEDX;
-                    $adddx->DIAG           = $va5->DIAG;
-                    $adddx->DXTYPE         = $va5->DXTYPE;
-                    $adddx->DRDX           = $va5->DRDX; 
-                    $adddx->PERSON_ID      = $va5->PERSON_ID; 
-                    $adddx->SEQ            = $va5->SEQ; 
-                    $adddx->user_id        = $iduser;
-                    $adddx->d_anaconda_id  = 'PPFS_12002';
-                    $adddx->save();
+                    // $adddx = new D_odx;  
+                    // $adddx->HN             = $va5->HN;
+                    // $adddx->CLINIC         = $va5->CLINIC;
+                    // $adddx->DATEDX         = $va5->DATEDX;
+                    // $adddx->DIAG           = $va5->DIAG;
+                    // $adddx->DXTYPE         = $va5->DXTYPE;
+                    // $adddx->DRDX           = $va5->DRDX; 
+                    // $adddx->PERSON_ID      = $va5->PERSON_ID; 
+                    // $adddx->SEQ            = $va5->SEQ; 
+                    // $adddx->user_id        = $iduser;
+                    // $adddx->d_anaconda_id  = 'OFC_401';
+                    // $adddx->save();
+                    D_odx::insert([
+                        'HN'                => $va5->HN,
+                        'CLINIC'            => $va5->CLINIC,
+                        'DATEDX'            => $va5->DATEDX,
+                        'DIAG'              => $va5->DIAG,
+                        'DXTYPE'            => $va5->DXTYPE,
+                        'DRDX'              => $va5->DRDX,
+                        'PERSON_ID'         => $va5->PERSON_ID, 
+                        'SEQ'               => $va5->SEQ, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                     
                 }
                 //D_oop
@@ -374,17 +420,28 @@ class PPfs12002Controller extends Controller
                     GROUP BY v.vn
                 ');
                 foreach ($data_oop_ as $va6) {
-                    $addoop = new D_oop;  
-                    $addoop->HN             = $va6->HN;
-                    $addoop->CLINIC         = $va6->CLINIC;
-                    $addoop->DATEOPD        = $va6->DATEOPD;
-                    $addoop->OPER           = $va6->OPER;
-                    $addoop->DROPID         = $va6->DROPID;
-                    $addoop->PERSON_ID      = $va6->PERSON_ID; 
-                    $addoop->SEQ            = $va6->SEQ; 
-                    $addoop->user_id        = $iduser;
-                    $addoop->d_anaconda_id  = 'PPFS_12002';
-                    $addoop->save();
+                    // $addoop = new D_oop;  
+                    // $addoop->HN             = $va6->HN;
+                    // $addoop->CLINIC         = $va6->CLINIC;
+                    // $addoop->DATEOPD        = $va6->DATEOPD;
+                    // $addoop->OPER           = $va6->OPER;
+                    // $addoop->DROPID         = $va6->DROPID;
+                    // $addoop->PERSON_ID      = $va6->PERSON_ID; 
+                    // $addoop->SEQ            = $va6->SEQ; 
+                    // $addoop->user_id        = $iduser;
+                    // $addoop->d_anaconda_id  = 'OFC_401';
+                    // $addoop->save();
+                    D_oop::insert([
+                        'HN'                => $va6->HN,
+                        'CLINIC'            => $va6->CLINIC,
+                        'DATEOPD'           => $va6->DATEOPD,
+                        'OPER'              => $va6->OPER,
+                        'DROPID'            => $va6->DROPID,
+                        'PERSON_ID'         => $va6->PERSON_ID, 
+                        'SEQ'               => $va6->SEQ, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                     
                 }
                 //D_orf
@@ -402,16 +459,26 @@ class PPfs12002Controller extends Controller
                     and (r1.vn is not null or r2.vn is not null);
                 ');                
                 foreach ($data_orf_ as $va4) {              
-                    $addof = new D_orf;  
-                    $addof->HN             = $va4->HN;
-                    $addof->CLINIC         = $va4->CLINIC;
-                    $addof->DATEOPD         = $va4->DATEOPD;
-                    $addof->REFER          = $va4->REFER;
-                    $addof->SEQ            = $va4->SEQ;
-                    $addof->REFERTYPE      = $va4->REFERTYPE; 
-                    $addof->user_id        = $iduser;
-                    $addof->d_anaconda_id  = 'PPFS_12002';
-                    $addof->save();
+                    // $addof = new D_orf;  
+                    // $addof->HN             = $va4->HN;
+                    // $addof->CLINIC         = $va4->CLINIC;
+                    // $addof->DATEOPD         = $va4->DATEOPD;
+                    // $addof->REFER          = $va4->REFER;
+                    // $addof->SEQ            = $va4->SEQ;
+                    // $addof->REFERTYPE      = $va4->REFERTYPE; 
+                    // $addof->user_id        = $iduser;
+                    // $addof->d_anaconda_id  = 'OFC_401';
+                    // $addof->save();
+                    D_orf::insert([
+                        'HN'                => $va4->HN,
+                        'CLINIC'            => $va4->CLINIC,
+                        'DATEOPD'           => $va4->DATEOPD,
+                        'REFER'             => $va4->REFER,
+                        'SEQ'               => $va4->SEQ,
+                        'REFERTYPE'         => $va4->REFERTYPE, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                 }
                 //D_opd
                 $data_opd = DB::connection('mysql')->select('
@@ -429,16 +496,26 @@ class PPfs12002Controller extends Controller
                     WHERE v.vn IN("'.$va1->vn.'")                  
                 '); 
                 foreach ($data_opd as $val3) {            
-                    $addo = new D_opd;  
-                    $addo->HN             = $val3->HN;
-                    $addo->CLINIC         = $val3->CLINIC;
-                    $addo->DATEOPD        = $val3->DATEOPD;
-                    $addo->TIMEOPD        = $val3->TIMEOPD;
-                    $addo->SEQ            = $val3->SEQ;
-                    $addo->UUC            = $val3->UUC; 
-                    $addo->user_id        = $iduser;
-                    $addo->d_anaconda_id  = 'PPFS_12002';
-                    $addo->save();
+                    // $addo = new D_opd;  
+                    // $addo->HN             = $val3->HN;
+                    // $addo->CLINIC         = $val3->CLINIC;
+                    // $addo->DATEOPD        = $val3->DATEOPD;
+                    // $addo->TIMEOPD        = $val3->TIMEOPD;
+                    // $addo->SEQ            = $val3->SEQ;
+                    // $addo->UUC            = $val3->UUC; 
+                    // $addo->user_id        = $iduser;
+                    // $addo->d_anaconda_id  = 'OFC_401';
+                    // $addo->save();
+                    D_opd::insert([
+                        'HN'                => $val3->HN,
+                        'CLINIC'            => $val3->CLINIC,
+                        'DATEOPD'           => $val3->DATEOPD,
+                        'TIMEOPD'           => $val3->TIMEOPD,
+                        'SEQ'               => $val3->SEQ,
+                        'UUC'               => $val3->UUC, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                 }
                  //D_aer
                 $data_aer_ = DB::connection('mysql2')->select('
@@ -477,7 +554,7 @@ class PPfs12002Controller extends Controller
                         'DALERT'            => $va8->DALERT,
                         'TALERT'            => $va8->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_12002'
+                        'd_anaconda_id'     => 'OFC_401'
                     ]);
                 }
                  //D_iop 
@@ -513,7 +590,7 @@ class PPfs12002Controller extends Controller
                         'DATEOUT'           => $va9->DATEOUT,
                         'TIMEOUT'           => $va9->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_12002'
+                        'd_anaconda_id'     => 'OFC_401'
                     ]);
                 }
                 
@@ -526,10 +603,11 @@ class PPfs12002Controller extends Controller
                     (SELECT v.hn HN
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                    ,"4" TYPE
-                    ,"12002" CODE 
-                    ,"1" QTY
-                    ,"150" RATE
+                       ,n.nhso_adp_type_id TYPE
+                        ,n.nhso_adp_code CODE 
+                         ,sum(v.QTY) QTY
+                       ,round(v.unitprice,2) RATE 
+                 
                     ,if(v.an is null,v.vn,"") SEQ
                     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
@@ -550,11 +628,11 @@ class PPfs12002Controller extends Controller
                     (SELECT v.hn HN
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,"4" TYPE
-                    ,"12002" CODE 
-                    ,"1" QTY
-                    ,"150" RATE
-                    ,if(v.an is null,v.vn,"") SEQ
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE 
+                     ,sum(v.QTY) QTY
+                   ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ 
                     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
                     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
@@ -566,6 +644,10 @@ class PPfs12002Controller extends Controller
                     GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                     GROUP BY seq,CODE,rate;                
                 ');
+                // ,"4" TYPE
+                // ,"12001" CODE 
+                // ,"1" QTY
+                // ,"100" RATE
                 foreach ($data_adp_ as $va10) {
                     d_adp::insert([
                         'HN'                   => $va10->HN,
@@ -598,98 +680,107 @@ class PPfs12002Controller extends Controller
                         'icode'                => $va10->icode,
                         'vstdate'              => $va10->vstdate,
                         'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_12002'
+                        'd_anaconda_id'        => 'OFC_401'
                     ]);
                 }
-                //D_dru
-                // $data_dru_ = DB::connection('mysql2')->select('
-                //     SELECT vv.hcode HCODE
-                //     ,v.hn HN
-                //     ,v.an AN
-                //     ,vv.spclty CLINIC
-                //     ,vv.cid PERSON_ID
-                //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                //     ,d.icode DID
-                //     ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-                //     ,sum(v.qty) AMOUNT
-                //     ,round(v.unitprice,2) DRUGPRIC
-                //     ,"0.00" DRUGCOST
-                //     ,d.did DIDSTD
-                //     ,d.units UNIT
-                //     ,concat(d.packqty,"x",d.units) UNIT_PACK
-                //     ,v.vn SEQ
-                //     ,oo.presc_reason DRUGREMARK
-                //     ,"" PA_NO
-                //     ,"" TOTCOPAY
-                //     ,if(v.item_type="H","2","1") USE_STATUS
-                //     ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
-                //     from hos.opitemrece v
-                //     LEFT JOIN hos.drugitems d on d.icode = v.icode
-                //     LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
-                //     LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-                //     WHERE v.vn IN("'.$va1->vn.'")
-                //     and d.did is not null 
-                //     GROUP BY v.vn,did
 
-                //     UNION all
+                 //D_dru
+                 $data_dru_ = DB::connection('mysql2')->select('
+                    SELECT vv.hcode HCODE
+                    ,v.hn HN
+                    ,v.an AN
+                    ,vv.spclty CLINIC
+                    ,vv.cid PERSON_ID
+                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+                    ,d.icode DID
+                    ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+                    ,sum(v.qty) AMOUNT
+                    ,round(v.unitprice,2) DRUGPRIC
+                    ,"0.00" DRUGCOST
+                    ,d.did DIDSTD
+                    ,d.units UNIT
+                    ,concat(d.packqty,"x",d.units) UNIT_PACK
+                    ,v.vn SEQ
+                    ,oo.presc_reason DRUGREMARK
+                    ,"" PA_NO
+                    ,"" TOTCOPAY
+                    ,if(v.item_type="H","2","1") USE_STATUS
+                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
+                    from hos.opitemrece v
+                    LEFT JOIN hos.drugitems d on d.icode = v.icode
+                    LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
+                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                
+                    WHERE v.vn IN("'.$va1->vn.'")
+                    and d.did is not null 
+                    GROUP BY v.vn,did,d.icode
 
-                //     SELECT pt.hcode HCODE
-                //     ,v.hn HN
-                //     ,v.an AN
-                //     ,v1.spclty CLINIC
-                //     ,pt.cid PERSON_ID
-                //     ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                //     ,d.icode DID
-                //     ,concat(d.`name`,"",d.strength," ",d.units) DIDNAME
-                //     ,sum(v.qty) AMOUNT
-                //     ,round(v.unitprice,2) DRUGPRIC
-                //     ,"0.00" DRUGCOST
-                //     ,d.did DIDSTD
-                //     ,d.units UNIT
-                //     ,concat(d.packqty,"x",d.units) UNIT_PACK
-                //     ,ifnull(v.vn,v.an) SEQ
-                //     ,oo.presc_reason DRUGREMARK
-                //     ,"" PA_NO
-                //     ,"" TOTCOPAY
-                //     ,if(v.item_type="H","2","1") USE_STATUS
-                //     ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
-                //     from hos.opitemrece v
-                //     LEFT JOIN hos.drugitems d on d.icode = v.icode
-                //     LEFT JOIN hos.patient pt  on v.hn = pt.hn
-                //     inner JOIN hos.ipt v1 on v1.an = v.an
-                //     LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-                //     WHERE v1.vn IN("'.$va1->vn.'")
-                //     and d.did is not null AND v.qty<>"0"
-                //     GROUP BY v.an,d.icode,USE_STATUS;               
-                // ');
-                // foreach ($data_dru_ as $va11) {
-                //     D_dru::insert([ 
-                //         'HN'             => $va11->HN,
-                //         'CLINIC'         => $va11->CLINIC,
-                //         'HCODE'          => $va11->HCODE,
-                //         'AN'             => $va11->AN,
-                //         'PERSON_ID'      => $va11->PERSON_ID,
-                //         'DATE_SERV'      => $va11->DATE_SERV,
-                //         'DID'            => $va11->DID,
-                //         'DIDNAME'        => $va11->DIDNAME, 
-                //         'AMOUNT'         => $va11->AMOUNT,
-                //         'DRUGPRIC'       => $va11->DRUGPRIC,
-                //         'DRUGCOST'       => $va11->DRUGCOST,
-                //         'DIDSTD'         => $va11->DIDSTD,
-                //         'UNIT'           => $va11->UNIT,
-                //         'UNIT_PACK'      =>$va11->UNIT_PACK,
-                //         'SEQ'            => $va11->SEQ,
-                //         'DRUGREMARK'     => $va11->DRUGREMARK,
-                //         'PA_NO'          => $va11->PA_NO,
-                //         'TOTCOPAY'       => $va11->TOTCOPAY,
-                //         'USE_STATUS'     => $va11->USE_STATUS,
-                //         'TOTAL'          => $va11->TOTAL,  
-                //         'SIGCODE'        => $va11->SIGCODE,                      
-                //         'SIGTEXT'        => $va11->SIGTEXT,
-                //         'PROVIDER'        => $va11->PROVIDER,  
-                //         'user_id'        => $iduser
-                //     ]);
-                // }
+                    UNION all
+
+                    SELECT pt.hcode HCODE
+                    ,v.hn HN
+                    ,v.an AN
+                    ,v1.spclty CLINIC
+                    ,pt.cid PERSON_ID
+                    ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+                    ,d.icode DID
+                    ,concat(d.`name`,"",d.strength," ",d.units) DIDNAME
+                    ,sum(v.qty) AMOUNT
+                    ,round(v.unitprice,2) DRUGPRIC
+                    ,"0.00" DRUGCOST
+                    ,d.did DIDSTD
+                    ,d.units UNIT
+                    ,concat(d.packqty,"x",d.units) UNIT_PACK
+                    ,ifnull(v.vn,v.an) SEQ
+                    ,oo.presc_reason DRUGREMARK
+                    ,"" PA_NO
+                    ,"" TOTCOPAY
+                    ,if(v.item_type="H","2","1") USE_STATUS
+                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
+                    from hos.opitemrece v
+                    LEFT JOIN hos.drugitems d on d.icode = v.icode
+                    LEFT JOIN hos.patient pt  on v.hn = pt.hn
+                    inner JOIN hos.ipt v1 on v1.an = v.an
+                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                
+                    WHERE v1.vn IN("'.$va1->vn.'")
+                    and d.did is not null AND v.qty<>"0"
+                    GROUP BY v.an,d.icode,USE_STATUS;               
+                ');
+             // LEFT OUTER JOIN pkbackoffice.d_ucep24 dc ON dc.an = v.an AND dc.icode = v.icode
+             foreach ($data_dru_ as $va11) {
+                 D_dru::insert([ 
+                     'HN'             => $va11->HN,
+                     'CLINIC'         => $va11->CLINIC,
+                     'HCODE'          => $va11->HCODE,
+                     'AN'             => $va11->AN,
+                     'PERSON_ID'      => $va11->PERSON_ID,
+                     'DATE_SERV'      => $va11->DATE_SERV,
+                     'DID'            => $va11->DID,
+                     'DIDNAME'        => $va11->DIDNAME, 
+                     'AMOUNT'         => $va11->AMOUNT,
+                     'DRUGPRIC'       => $va11->DRUGPRIC,
+                     'DRUGCOST'       => $va11->DRUGCOST,
+                     'DIDSTD'         => $va11->DIDSTD,
+                     'UNIT'           => $va11->UNIT,
+                     'UNIT_PACK'      =>$va11->UNIT_PACK,
+                     'SEQ'            => $va11->SEQ,
+                     'DRUGREMARK'     => $va11->DRUGREMARK,
+                     'PA_NO'          => $va11->PA_NO,
+                     'TOTCOPAY'       => $va11->TOTCOPAY,
+                     // 'TOTCOPAY'       => '01',
+                     'USE_STATUS'     => $va11->USE_STATUS,
+                     'TOTAL'          => $va11->TOTAL,  
+                     // 'TOTAL'          => '01',
+                     'SIGCODE'        => $va11->SIGCODE,                      
+                     'SIGTEXT'        => $va11->SIGTEXT,
+                     'PROVIDER'       => $va11->PROVIDER,
+                     'vstdate'        => $va11->vstdate,   
+                     'user_id'        => $iduser,
+                     'd_anaconda_id'   => 'OFC_401'
+                 ]);
+             }
+               
                 //D_pat
                 $data_pat_ = DB::connection('mysql2')->select('
                     SELECT v.hcode HCODE
@@ -731,7 +822,7 @@ class PPfs12002Controller extends Controller
                         'LNAME'              => $va14->LNAME,
                         'IDTYPE'             => $va14->IDTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'PPFS_12002'
+                        'd_anaconda_id'      => 'OFC_401'
                     ]);
                 }
                  //D_cht
@@ -764,7 +855,7 @@ class PPfs12002Controller extends Controller
                         'PERSON_ID'         => $va15->PERSON_ID,
                         'SEQ'               => $va15->SEQ,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_12002'
+                        'd_anaconda_id'     => 'OFC_401'
                     ]);
                 }
                  //D_cha
@@ -813,7 +904,7 @@ class PPfs12002Controller extends Controller
                         'PERSON_ID'         => $va16->PERSON_ID,
                         'SEQ'               => $va16->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_12002'
+                        'd_anaconda_id'     => 'OFC_401'
                     ]);
                 }
                 //D_ins
@@ -872,7 +963,7 @@ class PPfs12002Controller extends Controller
                         'RELINSCL'          => $va17->RELINSCL,
                         'HTYPE'             => $va17->HTYPE,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_12002'
+                        'd_anaconda_id'     => 'OFC_401'
                     ]);
                 }
          }
@@ -883,7 +974,7 @@ class PPfs12002Controller extends Controller
              'status'    => '200'
          ]);
     }
-    public function ppfs_12002_export(Request $request)
+    public function ofc_401_export(Request $request)
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");
@@ -899,7 +990,7 @@ class PPfs12002Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='12002_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='12001_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -914,7 +1005,7 @@ class PPfs12002Controller extends Controller
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_opd1, $opd_head);
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_ins where d_anaconda_id = "OFC_401"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -948,7 +1039,7 @@ class PPfs12002Controller extends Controller
         $opd_head2 = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_opd2, $opd_head2);
         $iop = DB::connection('mysql')->select('
-            SELECT * from d_iop WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_iop where d_anaconda_id = "OFC_401"
         ');
         foreach ($iop as $key => $value2) {
             $b1 = $value2->AN;
@@ -972,7 +1063,7 @@ class PPfs12002Controller extends Controller
         $opd_head3 = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_opd3, $opd_head3);
         $adp = DB::connection('mysql')->select('
-            SELECT * from d_adp WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_adp where d_anaconda_id = "OFC_401"
         ');
         foreach ($adp as $key => $value3) {
             $c1 = $value3->HN;
@@ -1014,7 +1105,7 @@ class PPfs12002Controller extends Controller
         $opd_head4 = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_opd4, $opd_head4);
         $aer = DB::connection('mysql')->select('
-            SELECT * from d_aer WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_aer where d_anaconda_id = "OFC_401"
         ');
         foreach ($aer as $key => $value4) {
             $d1 = $value4->HN;
@@ -1047,7 +1138,7 @@ class PPfs12002Controller extends Controller
         $opd_head5 = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_opd5, $opd_head5);
         $cha = DB::connection('mysql')->select('
-            SELECT * from d_cha WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_cha where d_anaconda_id = "OFC_401"
         ');
         foreach ($cha as $key => $value5) {
             $e1 = $value5->HN;
@@ -1069,7 +1160,7 @@ class PPfs12002Controller extends Controller
         $opd_head6 = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_opd6, $opd_head6);
         $cht = DB::connection('mysql')->select('
-            SELECT * from d_cht WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_cht where d_anaconda_id = "OFC_401"
         ');
         foreach ($cht as $key => $value6) {
             $f1 = $value6->HN;
@@ -1092,7 +1183,7 @@ class PPfs12002Controller extends Controller
         $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_dru where d_anaconda_id = "OFC_401"
         ');
         foreach ($dru as $key => $value7) {
             $g1 = $value7->HCODE;
@@ -1130,7 +1221,7 @@ class PPfs12002Controller extends Controller
         $opd_head8 = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_opd8, $opd_head8);
         $idx = DB::connection('mysql')->select('
-            SELECT * from d_idx WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_idx where d_anaconda_id = "OFC_401"
         ');
         foreach ($idx as $key => $value8) {
             $h1 = $value8->AN;
@@ -1149,7 +1240,7 @@ class PPfs12002Controller extends Controller
         $opd_head9 = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_opd9, $opd_head9);
         $pat = DB::connection('mysql')->select('
-            SELECT * from d_pat WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_pat where d_anaconda_id = "OFC_401"
         ');
         foreach ($pat as $key => $value9) {
             $i1 = $value9->HCODE;
@@ -1179,7 +1270,7 @@ class PPfs12002Controller extends Controller
         $opd_head10 = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_opd10, $opd_head10);
         $ipd = DB::connection('mysql')->select('
-            SELECT * from d_ipd WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_ipd where d_anaconda_id = "OFC_401"
         ');
         foreach ($ipd as $key => $value10) {
             $j1 = $value10->HN;
@@ -1207,7 +1298,7 @@ class PPfs12002Controller extends Controller
         $opd_head11 = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_opd11, $opd_head11);
         $irf = DB::connection('mysql')->select('
-            SELECT * from d_irf WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_irf where d_anaconda_id = "OFC_401"
         ');
         foreach ($irf as $key => $value11) {
             $k1 = $value11->AN;
@@ -1225,7 +1316,7 @@ class PPfs12002Controller extends Controller
         $opd_head12 = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_opd12, $opd_head12);
         $lvd = DB::connection('mysql')->select('
-            SELECT * from d_lvd WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_lvd where d_anaconda_id = "OFC_401"
         ');
         foreach ($lvd as $key => $value12) {
             $L1 = $value12->SEQLVD;
@@ -1247,7 +1338,7 @@ class PPfs12002Controller extends Controller
         $opd_head13 = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_opd13, $opd_head13);
         $odx = DB::connection('mysql')->select('
-            SELECT * from d_odx WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_odx where d_anaconda_id = "OFC_401"
         ');
         foreach ($odx as $key => $value13) {
             $m1 = $value13->HN;
@@ -1270,7 +1361,7 @@ class PPfs12002Controller extends Controller
         $opd_head14 = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_opd14, $opd_head14);
         $oop = DB::connection('mysql')->select('
-            SELECT * from d_oop WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_oop where d_anaconda_id = "OFC_401"
         ');
         foreach ($oop as $key => $value14) {
             $n1 = $value14->HN;
@@ -1292,7 +1383,7 @@ class PPfs12002Controller extends Controller
         $opd_head15 = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd15, $opd_head15);
         $opd = DB::connection('mysql')->select('
-            SELECT * from d_opd WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_opd where d_anaconda_id = "OFC_401"
         ');
         foreach ($opd as $key => $value15) {
             $o1 = $value15->HN;
@@ -1313,7 +1404,7 @@ class PPfs12002Controller extends Controller
         $opd_head16 = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_opd16, $opd_head16);
         $orf = DB::connection('mysql')->select('
-            SELECT * from d_orf WHERE d_anaconda_id ="PPFS_12002"
+            SELECT * from d_orf where d_anaconda_id = "OFC_401"
         ');
         foreach ($orf as $key => $value16) {
             $p1 = $value16->HN;
@@ -1374,12 +1465,12 @@ class PPfs12002Controller extends Controller
                     }                     
                     // if(rmdir($pathdir)){ // ลบ folder ใน export                    
                     // }                    
-                    return redirect()->route('data.ucep24_claim');                    
+                    return redirect()->route('claim.ofc_401');                    
                 }
         }
 
 
-            return redirect()->route('data.six');
+            return redirect()->route('claim.ofc_401');
 
     }
     

@@ -126,7 +126,7 @@ class PPfs12001Controller extends Controller
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
             $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12001');  
-            $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
+            // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop');
@@ -192,7 +192,7 @@ class PPfs12001Controller extends Controller
                     
                 }
                 $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12001');  
-                $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
+                // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
                 $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
                 $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
                 $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop');
@@ -219,21 +219,21 @@ class PPfs12001Controller extends Controller
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_12001');
         $iduser = Auth::user()->id;
        
-        D_opd::where('user_id','=',$iduser)->delete();
-        D_orf::where('user_id','=',$iduser)->delete();
-        D_oop::where('user_id','=',$iduser)->delete();
-        D_odx::where('user_id','=',$iduser)->delete();
-        D_idx::where('user_id','=',$iduser)->delete();
-        D_ipd::where('user_id','=',$iduser)->delete();
-        D_irf::where('user_id','=',$iduser)->delete();
-        D_aer::where('user_id','=',$iduser)->delete();
-        D_iop::where('user_id','=',$iduser)->delete();
-        D_adp::where('user_id','=',$iduser)->delete();   
-        D_dru::where('user_id','=',$iduser)->delete();   
-        D_pat::where('user_id','=',$iduser)->delete();
-        D_cht::where('user_id','=',$iduser)->delete();
-        D_cha::where('user_id','=',$iduser)->delete();
-        D_ins::where('user_id','=',$iduser)->delete();
+        D_opd::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_orf::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_oop::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_odx::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_idx::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_ipd::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_irf::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_aer::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_iop::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_adp::where('d_anaconda_id','=','PPFS_12001')->delete();  
+        D_dru::where('d_anaconda_id','=','PPFS_12001')->delete();  
+        D_pat::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_cht::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_cha::where('d_anaconda_id','=','PPFS_12001')->delete();
+        D_ins::where('d_anaconda_id','=','PPFS_12001')->delete();
 
          foreach ($data_vn_1 as $key => $va1) {
                  //D_irf
@@ -254,6 +254,7 @@ class PPfs12001Controller extends Controller
                         'REFER'              => $va12->REFER,
                         'REFERTYPE'          => $va12->REFERTYPE,
                         'user_id'            => $iduser,
+                        'd_anaconda_id'      => 'PPFS_12001',
                     ]);
                 }
                  //D_ipd
@@ -289,6 +290,7 @@ class PPfs12001Controller extends Controller
                     $addipd->UUC            = $va13->UUC; 
                     $addipd->SVCTYPE        = $va13->SVCTYPE; 
                     $addipd->user_id        = $iduser;
+                    $addipd->d_anaconda_id  = 'PPFS_12001'; 
                     $addipd->save();
                 }
                 //D_idx
@@ -307,6 +309,7 @@ class PPfs12001Controller extends Controller
                     $addidrx->DXTYPE         = $va7->DXTYPE;
                     $addidrx->DRDX           = $va7->DRDX; 
                     $addidrx->user_id        = $iduser;
+                    $addidrx->d_anaconda_id  = 'PPFS_12001';
                     $addidrx->save();
                             
                 }
@@ -343,6 +346,7 @@ class PPfs12001Controller extends Controller
                     $adddx->PERSON_ID      = $va5->PERSON_ID; 
                     $adddx->SEQ            = $va5->SEQ; 
                     $adddx->user_id        = $iduser;
+                    $adddx->d_anaconda_id  = 'PPFS_12001';
                     $adddx->save();
                     
                 }
@@ -378,6 +382,7 @@ class PPfs12001Controller extends Controller
                     $addoop->PERSON_ID      = $va6->PERSON_ID; 
                     $addoop->SEQ            = $va6->SEQ; 
                     $addoop->user_id        = $iduser;
+                    $addoop->d_anaconda_id  = 'PPFS_12001';
                     $addoop->save();
                     
                 }
@@ -404,6 +409,7 @@ class PPfs12001Controller extends Controller
                     $addof->SEQ            = $va4->SEQ;
                     $addof->REFERTYPE      = $va4->REFERTYPE; 
                     $addof->user_id        = $iduser;
+                    $addof->d_anaconda_id  = 'PPFS_12001';
                     $addof->save();
                 }
                 //D_opd
@@ -430,6 +436,7 @@ class PPfs12001Controller extends Controller
                     $addo->SEQ            = $val3->SEQ;
                     $addo->UUC            = $val3->UUC; 
                     $addo->user_id        = $iduser;
+                    $addo->d_anaconda_id  = 'PPFS_12001';
                     $addo->save();
                 }
                  //D_aer
@@ -469,6 +476,7 @@ class PPfs12001Controller extends Controller
                         'DALERT'            => $va8->DALERT,
                         'TALERT'            => $va8->TALERT,
                         'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'PPFS_12001'
                     ]);
                 }
                  //D_iop 
@@ -504,6 +512,7 @@ class PPfs12001Controller extends Controller
                         'DATEOUT'           => $va9->DATEOUT,
                         'TIMEOUT'           => $va9->TIMEOUT,
                         'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'PPFS_12001'
                     ]);
                 }
                 //D_adp
@@ -637,6 +646,7 @@ class PPfs12001Controller extends Controller
                         'icode'                => $va10->icode,
                         'vstdate'              => $va10->vstdate,
                         'user_id'              => $iduser,
+                        'd_anaconda_id'        => 'PPFS_12001'
                     ]);
                 }
                 //D_dru
@@ -769,6 +779,7 @@ class PPfs12001Controller extends Controller
                         'LNAME'              => $va14->LNAME,
                         'IDTYPE'             => $va14->IDTYPE,
                         'user_id'            => $iduser,
+                        'd_anaconda_id'      => 'PPFS_12001'
                     ]);
                 }
                  //D_cht
@@ -801,6 +812,7 @@ class PPfs12001Controller extends Controller
                         'PERSON_ID'         => $va15->PERSON_ID,
                         'SEQ'               => $va15->SEQ,
                         'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'PPFS_12001'
                     ]);
                 }
                  //D_cha
@@ -849,6 +861,7 @@ class PPfs12001Controller extends Controller
                         'PERSON_ID'         => $va16->PERSON_ID,
                         'SEQ'               => $va16->SEQ, 
                         'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'PPFS_12001'
                     ]);
                 }
                 //D_ins
@@ -907,6 +920,7 @@ class PPfs12001Controller extends Controller
                         'RELINSCL'          => $va17->RELINSCL,
                         'HTYPE'             => $va17->HTYPE,
                         'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'PPFS_12001'
                     ]);
                 }
          }

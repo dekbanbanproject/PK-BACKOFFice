@@ -266,6 +266,7 @@ class Ofc401Controller extends Controller
                         'user_id'            => $iduser,
                         'd_anaconda_id'      => 'OFC_401',
                     ]);
+                     
                 }
                  //D_ipd
                  $data_ipd_ = DB::connection('mysql2')->select('
@@ -285,23 +286,23 @@ class Ofc401Controller extends Controller
                     LEFT OUTER JOIN hos.patient pt on pt.hn = a.hn 
                     WHERE  a.an IN("'.$va1->an.'")
                 ');
-                foreach ($data_ipd_ as $va13) {                
-                    $addipd = new D_ipd; 
-                    $addipd->AN             = $va13->AN;
-                    $addipd->HN             = $va13->HN;
-                    $addipd->DATEADM        = $va13->DATEADM;
-                    $addipd->TIMEADM        = $va13->TIMEADM; 
-                    $addipd->DATEDSC        = $va13->DATEDSC; 
-                    $addipd->TIMEDSC        = $va13->TIMEDSC; 
-                    $addipd->DISCHS         = $va13->DISCHS; 
-                    $addipd->DISCHT         = $va13->DISCHT; 
-                    $addipd->DEPT           = $va13->DEPT; 
-                    $addipd->ADM_W          = $va13->ADM_W; 
-                    $addipd->UUC            = $va13->UUC; 
-                    $addipd->SVCTYPE        = $va13->SVCTYPE; 
-                    $addipd->user_id        = $iduser;
-                    $addipd->d_anaconda_id  = 'OFC_401'; 
-                    $addipd->save();
+                foreach ($data_ipd_ as $va13) {     
+                    D_ipd::insert([
+                        'AN'                => $va13->AN,
+                        'HN'                => $va13->HN,
+                        'DATEADM'           => $va13->DATEADM,
+                        'TIMEADM'           => $va13->TIMEADM,
+                        'DATEDSC'           => $va13->DATEDSC,
+                        'TIMEDSC'           => $va13->TIMEDSC,
+                        'DISCHS'            => $va13->DISCHS,
+                        'DISCHT'            => $va13->DISCHT, 
+                        'DEPT'              => $va13->DEPT, 
+                        'ADM_W'             => $va13->ADM_W, 
+                        'UUC'               => $va13->UUC, 
+                        'SVCTYPE'           => $va13->SVCTYPE, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                 }
                 //D_idx
                 $data_idx_ = DB::connection('mysql2')->select('
@@ -312,15 +313,15 @@ class Ofc401Controller extends Controller
                     LEFT OUTER JOIN hos.doctor d on d.code=i1.doctor  
                     WHERE  i2.an IN("'.$va1->an.'")
                 ');
-                foreach ($data_idx_ as $va7) {
-                    $addidrx = new D_idx; 
-                    $addidrx->AN             = $va7->AN;
-                    $addidrx->DIAG           = $va7->DIAG;
-                    $addidrx->DXTYPE         = $va7->DXTYPE;
-                    $addidrx->DRDX           = $va7->DRDX; 
-                    $addidrx->user_id        = $iduser;
-                    $addidrx->d_anaconda_id  = 'OFC_401';
-                    $addidrx->save();
+                foreach ($data_idx_ as $va7) { 
+                    D_idx::insert([
+                        'AN'                => $va7->AN,  
+                        'DIAG'              => $va7->DIAG,
+                        'DXTYPE'            => $va7->DXTYPE,
+                        'DRDX'              => $va7->DRDX, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                             
                 }
                 // D_odx
@@ -345,19 +346,19 @@ class Ofc401Controller extends Controller
                     WHERE v.vn IN("'.$va1->vn.'")
                     GROUP BY v.vn
                 ');
-                foreach ($data_odx_ as $va5) {
-                    $adddx = new D_odx;  
-                    $adddx->HN             = $va5->HN;
-                    $adddx->CLINIC         = $va5->CLINIC;
-                    $adddx->DATEDX         = $va5->DATEDX;
-                    $adddx->DIAG           = $va5->DIAG;
-                    $adddx->DXTYPE         = $va5->DXTYPE;
-                    $adddx->DRDX           = $va5->DRDX; 
-                    $adddx->PERSON_ID      = $va5->PERSON_ID; 
-                    $adddx->SEQ            = $va5->SEQ; 
-                    $adddx->user_id        = $iduser;
-                    $adddx->d_anaconda_id  = 'OFC_401';
-                    $adddx->save();
+                foreach ($data_odx_ as $va5) { 
+                    D_odx::insert([
+                        'HN'                => $va5->HN,
+                        'CLINIC'            => $va5->CLINIC,
+                        'DATEDX'            => $va5->DATEDX,
+                        'DIAG'              => $va5->DIAG,
+                        'DXTYPE'            => $va5->DXTYPE,
+                        'DRDX'              => $va5->DRDX,
+                        'PERSON_ID'         => $va5->PERSON_ID, 
+                        'SEQ'               => $va5->SEQ, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                     
                 }
                 //D_oop
@@ -382,18 +383,18 @@ class Ofc401Controller extends Controller
                     WHERE v.vn IN("'.$va1->vn.'")
                     GROUP BY v.vn
                 ');
-                foreach ($data_oop_ as $va6) {
-                    $addoop = new D_oop;  
-                    $addoop->HN             = $va6->HN;
-                    $addoop->CLINIC         = $va6->CLINIC;
-                    $addoop->DATEOPD        = $va6->DATEOPD;
-                    $addoop->OPER           = $va6->OPER;
-                    $addoop->DROPID         = $va6->DROPID;
-                    $addoop->PERSON_ID      = $va6->PERSON_ID; 
-                    $addoop->SEQ            = $va6->SEQ; 
-                    $addoop->user_id        = $iduser;
-                    $addoop->d_anaconda_id  = 'OFC_401';
-                    $addoop->save();
+                foreach ($data_oop_ as $va6) { 
+                    D_oop::insert([
+                        'HN'                => $va6->HN,
+                        'CLINIC'            => $va6->CLINIC,
+                        'DATEOPD'           => $va6->DATEOPD,
+                        'OPER'              => $va6->OPER,
+                        'DROPID'            => $va6->DROPID,
+                        'PERSON_ID'         => $va6->PERSON_ID, 
+                        'SEQ'               => $va6->SEQ, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                     
                 }
                 //D_orf
@@ -410,17 +411,17 @@ class Ofc401Controller extends Controller
                     WHERE v.vn IN("'.$va1->vn.'") 
                     and (r1.vn is not null or r2.vn is not null);
                 ');                
-                foreach ($data_orf_ as $va4) {              
-                    $addof = new D_orf;  
-                    $addof->HN             = $va4->HN;
-                    $addof->CLINIC         = $va4->CLINIC;
-                    $addof->DATEOPD         = $va4->DATEOPD;
-                    $addof->REFER          = $va4->REFER;
-                    $addof->SEQ            = $va4->SEQ;
-                    $addof->REFERTYPE      = $va4->REFERTYPE; 
-                    $addof->user_id        = $iduser;
-                    $addof->d_anaconda_id  = 'OFC_401';
-                    $addof->save();
+                foreach ($data_orf_ as $va4) {       
+                    D_orf::insert([
+                        'HN'                => $va4->HN,
+                        'CLINIC'            => $va4->CLINIC,
+                        'DATEOPD'           => $va4->DATEOPD,
+                        'REFER'             => $va4->REFER,
+                        'SEQ'               => $va4->SEQ,
+                        'REFERTYPE'         => $va4->REFERTYPE, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                 }
                 //D_opd
                 $data_opd = DB::connection('mysql')->select('
@@ -437,17 +438,17 @@ class Ofc401Controller extends Controller
                     LEFT OUTER JOIN hos.patient pt on pt.hn = v.hn
                     WHERE v.vn IN("'.$va1->vn.'")                  
                 '); 
-                foreach ($data_opd as $val3) {            
-                    $addo = new D_opd;  
-                    $addo->HN             = $val3->HN;
-                    $addo->CLINIC         = $val3->CLINIC;
-                    $addo->DATEOPD        = $val3->DATEOPD;
-                    $addo->TIMEOPD        = $val3->TIMEOPD;
-                    $addo->SEQ            = $val3->SEQ;
-                    $addo->UUC            = $val3->UUC; 
-                    $addo->user_id        = $iduser;
-                    $addo->d_anaconda_id  = 'OFC_401';
-                    $addo->save();
+                foreach ($data_opd as $val3) {       
+                    D_opd::insert([
+                        'HN'                => $val3->HN,
+                        'CLINIC'            => $val3->CLINIC,
+                        'DATEOPD'           => $val3->DATEOPD,
+                        'TIMEOPD'           => $val3->TIMEOPD,
+                        'SEQ'               => $val3->SEQ,
+                        'UUC'               => $val3->UUC, 
+                        'user_id'           => $iduser,
+                        'd_anaconda_id'     => 'OFC_401'
+                    ]);
                 }
                  //D_aer
                 $data_aer_ = DB::connection('mysql2')->select('
@@ -575,11 +576,7 @@ class Ofc401Controller extends Controller
                     AND v.an is NULL
                     GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                     GROUP BY seq,CODE,rate;                
-                ');
-                // ,"4" TYPE
-                // ,"12001" CODE 
-                // ,"1" QTY
-                // ,"100" RATE
+                '); 
                 foreach ($data_adp_ as $va10) {
                     d_adp::insert([
                         'HN'                   => $va10->HN,
@@ -614,105 +611,103 @@ class Ofc401Controller extends Controller
                         'user_id'              => $iduser,
                         'd_anaconda_id'        => 'OFC_401'
                     ]);
-                }
-
+                } 
                  //D_dru
                  $data_dru_ = DB::connection('mysql2')->select('
-                 SELECT vv.hcode HCODE
-                 ,v.hn HN
-                 ,v.an AN
-                 ,vv.spclty CLINIC
-                 ,vv.cid PERSON_ID
-                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                 ,d.icode DID
-                 ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-                 ,sum(v.qty) AMOUNT
-                 ,round(v.unitprice,2) DRUGPRIC
-                 ,"0.00" DRUGCOST
-                 ,d.did DIDSTD
-                 ,d.units UNIT
-                 ,concat(d.packqty,"x",d.units) UNIT_PACK
-                 ,v.vn SEQ
-                 ,oo.presc_reason DRUGREMARK
-                 ,"" PA_NO
-                 ,"" TOTCOPAY
-                 ,if(v.item_type="H","2","1") USE_STATUS
-                 ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
-                 from hos.opitemrece v
-                 LEFT JOIN hos.drugitems d on d.icode = v.icode
-                 LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
-                 LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-            
-                 WHERE v.vn IN("'.$va1->vn.'")
-                 and d.did is not null 
-                 GROUP BY v.vn,did,d.icode
+                    SELECT vv.hcode HCODE
+                    ,v.hn HN
+                    ,v.an AN
+                    ,vv.spclty CLINIC
+                    ,vv.cid PERSON_ID
+                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+                    ,d.icode DID
+                    ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+                    ,sum(v.qty) AMOUNT
+                    ,round(v.unitprice,2) DRUGPRIC
+                    ,"0.00" DRUGCOST
+                    ,d.did DIDSTD
+                    ,d.units UNIT
+                    ,concat(d.packqty,"x",d.units) UNIT_PACK
+                    ,v.vn SEQ
+                    ,oo.presc_reason DRUGREMARK
+                    ,"" PA_NO
+                    ,"" TOTCOPAY
+                    ,if(v.item_type="H","2","1") USE_STATUS
+                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
+                    from hos.opitemrece v
+                    LEFT JOIN hos.drugitems d on d.icode = v.icode
+                    LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
+                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                
+                    WHERE v.vn IN("'.$va1->vn.'")
+                    and d.did is not null 
+                    GROUP BY v.vn,did,d.icode
 
-                 UNION all
+                    UNION all
 
-                 SELECT pt.hcode HCODE
-                 ,v.hn HN
-                 ,v.an AN
-                 ,v1.spclty CLINIC
-                 ,pt.cid PERSON_ID
-                 ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                 ,d.icode DID
-                 ,concat(d.`name`,"",d.strength," ",d.units) DIDNAME
-                 ,sum(v.qty) AMOUNT
-                 ,round(v.unitprice,2) DRUGPRIC
-                 ,"0.00" DRUGCOST
-                 ,d.did DIDSTD
-                 ,d.units UNIT
-                 ,concat(d.packqty,"x",d.units) UNIT_PACK
-                 ,ifnull(v.vn,v.an) SEQ
-                 ,oo.presc_reason DRUGREMARK
-                 ,"" PA_NO
-                 ,"" TOTCOPAY
-                 ,if(v.item_type="H","2","1") USE_STATUS
-                 ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
-                 from hos.opitemrece v
-                 LEFT JOIN hos.drugitems d on d.icode = v.icode
-                 LEFT JOIN hos.patient pt  on v.hn = pt.hn
-                 inner JOIN hos.ipt v1 on v1.an = v.an
-                 LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
-              
-                 WHERE v1.vn IN("'.$va1->vn.'")
-                 and d.did is not null AND v.qty<>"0"
-                 GROUP BY v.an,d.icode,USE_STATUS;               
-             ');
-             // LEFT OUTER JOIN pkbackoffice.d_ucep24 dc ON dc.an = v.an AND dc.icode = v.icode
-             foreach ($data_dru_ as $va11) {
-                 D_dru::insert([ 
-                     'HN'             => $va11->HN,
-                     'CLINIC'         => $va11->CLINIC,
-                     'HCODE'          => $va11->HCODE,
-                     'AN'             => $va11->AN,
-                     'PERSON_ID'      => $va11->PERSON_ID,
-                     'DATE_SERV'      => $va11->DATE_SERV,
-                     'DID'            => $va11->DID,
-                     'DIDNAME'        => $va11->DIDNAME, 
-                     'AMOUNT'         => $va11->AMOUNT,
-                     'DRUGPRIC'       => $va11->DRUGPRIC,
-                     'DRUGCOST'       => $va11->DRUGCOST,
-                     'DIDSTD'         => $va11->DIDSTD,
-                     'UNIT'           => $va11->UNIT,
-                     'UNIT_PACK'      =>$va11->UNIT_PACK,
-                     'SEQ'            => $va11->SEQ,
-                     'DRUGREMARK'     => $va11->DRUGREMARK,
-                     'PA_NO'          => $va11->PA_NO,
-                     'TOTCOPAY'       => $va11->TOTCOPAY,
-                     // 'TOTCOPAY'       => '01',
-                     'USE_STATUS'     => $va11->USE_STATUS,
-                     'TOTAL'          => $va11->TOTAL,  
-                     // 'TOTAL'          => '01',
-                     'SIGCODE'        => $va11->SIGCODE,                      
-                     'SIGTEXT'        => $va11->SIGTEXT,
-                     'PROVIDER'       => $va11->PROVIDER,
-                     'vstdate'        => $va11->vstdate,   
-                     'user_id'        => $iduser,
-                     'd_anaconda_id'   => 'OFC_401'
-                 ]);
-             }
-               
+                    SELECT pt.hcode HCODE
+                    ,v.hn HN
+                    ,v.an AN
+                    ,v1.spclty CLINIC
+                    ,pt.cid PERSON_ID
+                    ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+                    ,d.icode DID
+                    ,concat(d.`name`,"",d.strength," ",d.units) DIDNAME
+                    ,sum(v.qty) AMOUNT
+                    ,round(v.unitprice,2) DRUGPRIC
+                    ,"0.00" DRUGCOST
+                    ,d.did DIDSTD
+                    ,d.units UNIT
+                    ,concat(d.packqty,"x",d.units) UNIT_PACK
+                    ,ifnull(v.vn,v.an) SEQ
+                    ,oo.presc_reason DRUGREMARK
+                    ,"" PA_NO
+                    ,"" TOTCOPAY
+                    ,if(v.item_type="H","2","1") USE_STATUS
+                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
+                    from hos.opitemrece v
+                    LEFT JOIN hos.drugitems d on d.icode = v.icode
+                    LEFT JOIN hos.patient pt  on v.hn = pt.hn
+                    inner JOIN hos.ipt v1 on v1.an = v.an
+                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                
+                    WHERE v1.vn IN("'.$va1->vn.'")
+                    and d.did is not null AND v.qty<>"0"
+                    GROUP BY v.an,d.icode,USE_STATUS;               
+                ');
+                // LEFT OUTER JOIN pkbackoffice.d_ucep24 dc ON dc.an = v.an AND dc.icode = v.icode
+                foreach ($data_dru_ as $va11) {
+                    D_dru::insert([ 
+                        'HN'             => $va11->HN,
+                        'CLINIC'         => $va11->CLINIC,
+                        'HCODE'          => $va11->HCODE,
+                        'AN'             => $va11->AN,
+                        'PERSON_ID'      => $va11->PERSON_ID,
+                        'DATE_SERV'      => $va11->DATE_SERV,
+                        'DID'            => $va11->DID,
+                        'DIDNAME'        => $va11->DIDNAME, 
+                        'AMOUNT'         => $va11->AMOUNT,
+                        'DRUGPRIC'       => $va11->DRUGPRIC,
+                        'DRUGCOST'       => $va11->DRUGCOST,
+                        'DIDSTD'         => $va11->DIDSTD,
+                        'UNIT'           => $va11->UNIT,
+                        'UNIT_PACK'      =>$va11->UNIT_PACK,
+                        'SEQ'            => $va11->SEQ,
+                        'DRUGREMARK'     => $va11->DRUGREMARK,
+                        'PA_NO'          => $va11->PA_NO,
+                        'TOTCOPAY'       => $va11->TOTCOPAY,
+                        // 'TOTCOPAY'       => '01',
+                        'USE_STATUS'     => $va11->USE_STATUS,
+                        'TOTAL'          => $va11->TOTAL,  
+                        // 'TOTAL'          => '01',
+                        'SIGCODE'        => $va11->SIGCODE,                      
+                        'SIGTEXT'        => $va11->SIGTEXT,
+                        'PROVIDER'       => $va11->PROVIDER,
+                        'vstdate'        => $va11->vstdate,   
+                        'user_id'        => $iduser,
+                        'd_anaconda_id'   => 'OFC_401'
+                    ]);
+                } 
                 //D_pat
                 $data_pat_ = DB::connection('mysql2')->select('
                     SELECT v.hcode HCODE
