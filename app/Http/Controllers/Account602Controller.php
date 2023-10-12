@@ -200,7 +200,14 @@ class Account602Controller extends Controller
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                ,ptt.max_debt_money,v.income-v.discount_money-v.rcpt_money as debit
+                ,ptt.max_debt_money
+               
+                ,CASE 
+                    WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money
+                    WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN vp.max_debt_amount  
+                    ELSE v.income-v.discount_money-v.rcpt_money  
+                    END as debit
+
             from hos.vn_stat v
             LEFT OUTER JOIN hos.ovst o on v.vn=o.vn
             LEFT OUTER JOIN hos.patient pt on pt.hn=v.hn
@@ -215,7 +222,7 @@ class Account602Controller extends Controller
             and (o.an="" or o.an is null)
             GROUP BY v.vn
         ');
-
+        // ,v.income-v.discount_money-v.rcpt_money as debit
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.602')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($check == 0) {

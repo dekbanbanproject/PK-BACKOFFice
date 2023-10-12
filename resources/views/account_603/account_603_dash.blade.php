@@ -196,11 +196,11 @@
                                                 
                                         ?>
                                         <div class="row">
-                                            <div class="col-md-5 text-start mt-4 ms-4">
+                                            <div class="col-md-6 text-start mt-4 ms-2">
                                                 <h5 >เดือน {{$item->MONTH_NAME}} {{$ynew}}</h5>
                                             </div>
-                                            <div class="col"></div>
-                                            <div class="col-md-3 text-end mt-2 me-4">
+                                            {{-- <div class="col"></div> --}}
+                                            <div class="col-md-5 text-end mt-2 me-2">
                                                 <a href="{{url('account_603_pull')}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                         <h6 class="text-end">{{$count_N}} Visit</h6>
@@ -209,17 +209,17 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
+                                            <div class="col-md-1 text-start ms-2">
                                                 <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                             </div>
-                                            <div class="col-md-4 text-start mt-3">
+                                            <div class="col-md-5 text-start mt-3">
                                                 <p class="text-muted mb-0">
                                                     {{-- <span class="text-secondary fw-bold font-size-15 me-2" style="font-family: sans-serif">ลูกหนี้ทั้งหมด</span> --}}
                                                     ลูกหนี้ที่ต้องตั้ง
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-4 text-end me-2">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
@@ -231,16 +231,16 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
+                                            <div class="col-md-1 text-start ms-2">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
                                             </div>
-                                            <div class="col-md-4 text-start mt-3">
+                                            <div class="col-md-5 text-start mt-3">
                                                 <p class="text-muted mb-0" >
                                                     ตั้งลูกหนี้
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-4 text-end me-2">
                                                 <a href="{{url('account_603_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
@@ -252,16 +252,16 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
+                                            <div class="col-md-1 text-start ms-2">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
                                             </div>
-                                            <div class="col-md-4 text-start mt-3">
+                                            <div class="col-md-5 text-start mt-3">
                                                 <p class="text-muted mb-0">
                                                         Statement
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-4 text-end me-2">
                                                 <a href="{{url('account_603_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$stm_count}} Visit">
@@ -275,16 +275,16 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
+                                            <div class="col-md-1 text-start ms-2">
                                                 <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
                                             </div>
-                                            <div class="col-md-4 text-start mt-3">
+                                            <div class="col-md-5 text-start mt-3">
                                                 <p class="text-muted mb-0">
                                                         ยกยอดไปเดือนนี้
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-end me-4">
+                                            <div class="col-md-4 text-end me-2">
                                                 <a href="{{url('account_603_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         {{-- <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">
@@ -302,28 +302,7 @@
                                             </div>
                                         </div>
 
-                                        {{-- <div class="row">
-                                            <div class="col-md-1 text-start ms-4">
-                                                <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(10, 124, 201)"></i>
-                                            </div>
-                                            <div class="col-md-4 text-start mt-3">
-                                                <p class="text-muted mb-0">
-                                                        ยกยอดไปรวมทั้งหมด
-                                                </p>
-                                            </div>
-                                            <div class="col"></div>
-                                            <div class="col-md-5 text-end me-4">
-                                                <a href="{{url('account_602_stmnull_all/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                    <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma_all}} Visit">
-                                                                {{ number_format($total_yokma_all, 2) }}
-                                                                <i class="fa-brands fa-btc ms-2" style="color: rgb(10, 124, 201)"></i>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div> --}}
-
+                                       
 
                                     </div>
                                 </div>

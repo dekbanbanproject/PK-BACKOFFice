@@ -193,7 +193,7 @@ class Account603Controller extends Controller
                     ,ec.name as account_name 
                     ,CASE 
                     WHEN a.income-a.rcpt_money-a.discount_money < 30000 THEN a.income-a.rcpt_money-a.discount_money
-                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36","39")  THEN ipt.max_debt_amount  
+                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36","37","38","39")  THEN ipt.max_debt_amount  
                     ELSE a.income-a.rcpt_money-a.discount_money  
                     END as debit
 
@@ -303,7 +303,7 @@ class Account603Controller extends Controller
                         'debit_instument'   => $value->debit_instument,
                         'debit_refer'       => $value->debit_refer,
                         'debit_toa'         => $value->debit_toa,
-                        'debit_total'       => $value->debit,
+                        'debit_total'       => $value->debit_total,
                         'max_debt_amount'   => $value->max_debt_amount,
                         'acc_debtor_userid' => $iduser
                     ]);
