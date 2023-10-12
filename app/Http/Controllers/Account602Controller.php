@@ -119,7 +119,7 @@ class Account602Controller extends Controller
                     and account_code="1102050102.602"
                     and income <> 0
                     group by month(a.vstdate) 
-                    order by a.vstdate desc limit 3;
+                    order by a.vstdate desc limit 6;
             ');
 
         } else {
