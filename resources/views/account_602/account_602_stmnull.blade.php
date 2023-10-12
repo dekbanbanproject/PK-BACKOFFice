@@ -75,7 +75,7 @@ $pos = strrpos($url, '/') + 1;
 
         </div>
 
-        <div class="row ms-3 me-3">
+        <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -92,21 +92,16 @@ $pos = strrpos($url, '/') + 1;
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    {{-- <th class="text-center" width="5%">repno</th> --}} 
-                                    <th class="text-center" >vn</th>
-                                    {{-- <th class="text-center">an</th>  --}}
-                                    <th class="text-center" >hn</th>
-                                    <th class="text-center" >cid</th>
+                                    <th class="text-center">vn</th>
+                                    <th class="text-center">hn</th>
+                                    <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
-                                   
-                                  
                                     <th class="text-center">vstdate</th>
-                                    {{-- <th class="text-center">dchdate</th> --}}
-                                    <th class="text-center">pttype</th>
-                                   
                                     <th class="text-center">ลูกหนี้</th>
-                                    <th class="text-center">รับจริง Hos</th>
-                                    <th class="text-center">Sync Data / เลขหนังสือ </th>
+                                    <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>
+                                    <th class="text-center">ยอดชดเชย</th> 
+                                    <th class="text-center" width="5%">เลขที่ Hos</th>
+                                    <th class="text-center">เลขที่หนังสือ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,37 +119,35 @@ $pos = strrpos($url, '/') + 1;
                                     
                                     ?>
                                    
-                                        <tr height="20" style="font-size: 14px;">
-                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                            {{-- <td class="text-center" width="10%">{{ $item->repno }}</td>   --}}
-                                                    <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                                    {{-- <td class="text-center" width="10%">{{ $item->an }}</td>  --}}
-                                                    <td class="text-center" width="10%">{{ $item->hn }}</td>   
-                                                    <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                    <td class="p-2" >{{ $item->ptname }}</td>  
-                                                   
-                                                   
-                                                    <td class="text-center" width="10%">{{ $item->vstdate }}</td>  
-                                                    {{-- <td class="text-center" width="10%">{{ $item->dchdate }}</td>    --}}
-                                                    <td class="text-center" width="10%">{{ $item->pttype }}</td> 
-                                                   
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>  
-                                                    <td class="text-end text-success" width="10%">{{ number_format($item->nhso_ownright_pid,2)}}</td>  
-                                                    <td class="text-center" width="5%">
-                                                        @if ($item->nhso_docno != '' )
-                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                                                <i class="fa-solid fa-book-open text-success me-2"></i> 
-                                                                {{$item->nhso_docno}}  
-                                                            </button> 
-                                                        @else
-                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
-                                                                <i class="fa-solid fa-book-open text-warning me-2"></i> 
-                                                            ยังไม่ได้ลงเลขหนังสือ
-                                                            </button> 
-                                                        @endif 
-                                                    </td>                                                  
-                                                </td>
-                                        </tr>
+                                   <tr height="20" style="font-size: 14px;">
+                                    <td class="text-font" style="text-align: center;" width="4%">{{ $number }}
+                                    </td>
+                                    <td class="text-center" width="10%">{{ $item->vn }}</td>
+                                    <td class="text-center" width="10%">{{ $item->hn }}</td>
+                                    <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                    <td class="p-2">{{ $item->ptname }}</td>
+                                    <td class="text-center" width="10%">{{ $item->vstdate }}</td>
+                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>
+                                    <td class="text-center" width="10%">{{ $item->recieve_no }}</td>
+                                    <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->recieve_true, 2) }}</td>
+                                  
+                                    <td class="text-center" width="10%">{{ $item->nhso_ownright_pid }}</td>
+                                    <td class="text-center" width="5%">
+                                        @if ($item->nhso_docno != '')
+                                            <button type="button"
+                                                class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                <i class="fa-solid fa-book-open text-success me-2"></i>
+                                                {{ $item->nhso_docno }}
+                                            </button>
+                                        @else
+                                            <button type="button"
+                                                class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
+                                                <i class="fa-solid fa-book-open text-warning me-2"></i>
+                                                ยังไม่ได้ลงเลขหนังสือ
+                                            </button>
+                                        @endif 
+                                    </td>
+                                </tr>
                                         
                                     
  

@@ -502,6 +502,7 @@ return array(
     'App\\Models\\D_ktb_b17' => $baseDir . '/app/Models/D_ktb_b17.php',
     'App\\Models\\D_lvd' => $baseDir . '/app/Models/D_lvd.php',
     'App\\Models\\D_odx' => $baseDir . '/app/Models/D_odx.php',
+    'App\\Models\\D_ofc_401' => $baseDir . '/app/Models/D_ofc_401.php',
     'App\\Models\\D_oop' => $baseDir . '/app/Models/D_oop.php',
     'App\\Models\\D_opd' => $baseDir . '/app/Models/D_opd.php',
     'App\\Models\\D_orf' => $baseDir . '/app/Models/D_orf.php',

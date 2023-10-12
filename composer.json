@@ -8,7 +8,7 @@
         "php": "^8.0.2",
         "akaunting/laravel-apexcharts": "^3.0",
         "barryvdh/laravel-dompdf": "^2.0",
-        "guzzlehttp/guzzle": "^7.5",
+        "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",

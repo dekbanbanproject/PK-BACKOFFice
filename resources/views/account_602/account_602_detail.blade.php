@@ -78,7 +78,7 @@
 
         </div>
 
-        <div class="row mb-5 ms-3 me-3 mt-2">
+        <div class="row mb-5 mt-2">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -92,6 +92,8 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <input type="hidden" name="year" id="year" value="{{$year}}">
+                        <input type="hidden" name="months" id="months" value="{{$months}}">
                         {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
@@ -105,9 +107,9 @@
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th>
                                     <th class="text-center">ลูกหนี้</th>
-                                    <th class="text-center">ยอดชดเชย</th>
-                                    <th class="text-center" width="5%">req_no</th>
                                     <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>
+                                    <th class="text-center">ยอดชดเชย</th> 
+                                    <th class="text-center" width="5%">เลขที่ Hos</th>
                                     <th class="text-center">เลขที่หนังสือ</th>
                                 </tr>
                             </thead>
@@ -115,19 +117,7 @@
                                 <?php $number = 0; ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
-                                    {{-- @if ($item->debit_total != $item->payprice)
-                                        <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                            <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->repno }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>   
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->cid }}</td>  
-                                            <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vstdate }}</td>    
-                                            <td class="text-end" style="color:rgb(248, 12, 12)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(243, 12, 12)">{{ number_format($item->pricereq_all,2)}}</td>
-                                        </tr>
-                                    @else --}}
+                                
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}
                                         </td>
@@ -136,12 +126,11 @@
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
                                         <td class="text-center" width="10%">{{ $item->vstdate }}</td>
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">
-                                            {{ number_format($item->debit_total, 2) }}</td>
-                                        <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">
-                                            {{ number_format($item->payprice, 2) }}</td>
-                                        <td class="text-center" width="10%">{{ $item->req_no }}</td>
-                                        <td class="text-center" width="10%">{{ $item->money_billno }}</td>
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>
+                                        <td class="text-center" width="10%">{{ $item->recieve_no }}</td>
+                                        <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->recieve_true, 2) }}</td>
+                                      
+                                        <td class="text-center" width="10%">{{ $item->nhso_ownright_pid }}</td>
                                         <td class="text-center" width="5%">
                                             @if ($item->nhso_docno != '')
                                                 <button type="button"
@@ -155,8 +144,7 @@
                                                     <i class="fa-solid fa-book-open text-warning me-2"></i>
                                                     ยังไม่ได้ลงเลขหนังสือ
                                                 </button>
-                                            @endif
-                                        </td>
+                                            @endif 
                                         </td>
                                     </tr>
 

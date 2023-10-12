@@ -187,18 +187,11 @@ class Account603Controller extends Controller
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
         $acc_debtor = DB::connection('mysql2')->select('
-                SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                    ,a.regdate,a.dchdate as dchdate,v.vstdate 
+            SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                    ,a.regdate as admdate,a.dchdate as dchdate,v.vstdate,op.income as income_group
                     ,a.pttype,ptt.max_debt_money,ec.code,ec.ar_ipd as account_code
-                    ,ec.name as account_name 
-                    ,CASE 
-                    WHEN a.income-a.rcpt_money-a.discount_money < 30000 THEN a.income-a.rcpt_money-a.discount_money
-                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36","39")  THEN ipt.max_debt_amount  
-                    ELSE a.income-a.rcpt_money-a.discount_money  
-                    END as debit
-
+                    ,ec.name as account_name,ifnull(ec.ar_ipd,"") pang_debit
                     ,a.income,a.uc_money,a.rcpt_money,a.discount_money,a.paid_money
-                    ,ipt.pttype_number ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
                   
                     ,sum(if(d.name like "CT%",sum_price,0)) as CT
                     ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
@@ -206,7 +199,9 @@ class Account603Controller extends Controller
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
- 
+
+                    ,a.income-a.rcpt_money-a.discount_money as debit
+
                     from hos.ipt ip
                     LEFT OUTER JOIN hos.an_stat a ON ip.an = a.an
                     LEFT OUTER JOIN hos.patient pt on pt.hn=a.hn
@@ -233,7 +228,7 @@ class Account603Controller extends Controller
                             'ptname'             => $value->ptname,
                             'pttype'             => $value->pttype,
                             'vstdate'            => $value->vstdate,
-                            'regdate'            => $value->regdate,
+                            'regdate'            => $value->admdate,
                             'dchdate'            => $value->dchdate,
                             'acc_code'           => $value->code,
                             'account_code'       => $value->account_code,

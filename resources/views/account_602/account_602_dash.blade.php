@@ -156,15 +156,15 @@
                                             // AND status = "N"
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select('
-                                                SELECT count(DISTINCT U1.vn) as Apvit ,sum(U1.nhso_ownright_pid) as nhso_ownright_pid
+                                                SELECT count(DISTINCT U1.vn) as Apvit ,sum(U1.recieve_true) as recieve_true
                                                 from acc_1102050102_602 U1 
                                                 WHERE month(U1.vstdate) = "'.$item->months.'" AND year(U1.vstdate) = "'.$item->year.'"
-                                                AND U1.nhso_ownright_pid is not null
+                                                AND U1.recieve_true is not null
                                                 ');
                                              
                                                 foreach ($sumapprove_ as $key => $value3) {
                                                     $stm_count    = $value3->Apvit;
-                                                    $sum_stm      = $value3->nhso_ownright_pid;
+                                                    $sum_stm      = $value3->recieve_true;
                                                 }
   
 
@@ -173,7 +173,7 @@
                                                         from acc_1102050102_602 a 
                                                         where month(vstdate) = "'.$item->months.'"
                                                         AND year(vstdate) = "'.$item->year.'"
-                                                        AND nhso_ownright_pid is null
+                                                        AND recieve_true is null
                                                 ');                                           
                                                 foreach ($yokpai_data as $key => $value4) {
                                                     $yokpai = $value4->debit_total; 
@@ -207,14 +207,14 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="" target="_blank">
+                                                {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
                                                                 {{ number_format($sum_N, 2) }}
                                                                 <i class="fa-brands fa-btc text-secondary ms-2"></i>
                                                         </p>
                                                     </div>
-                                                </a>
+                                                {{-- </a> --}}
                                             </div>
                                         </div>
                                         <div class="row">

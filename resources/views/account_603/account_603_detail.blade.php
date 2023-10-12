@@ -75,7 +75,7 @@ $pos = strrpos($url, '/') + 1;
 
         </div>
 
-        <div class="row ms-3 me-3">
+        <div class="row ">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -94,17 +94,17 @@ $pos = strrpos($url, '/') + 1;
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th> 
+                                    <th class="text-center">ลำดับ</th>
                                     <th class="text-center">vn</th>
-                                    <th class="text-center" >hn</th>
-                                    <th class="text-center" >cid</th>
+                                    <th class="text-center">hn</th>
+                                    <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
-                                    <th class="text-center">vstdate</th> 
+                                    <th class="text-center">vstdate</th>
                                     <th class="text-center">ลูกหนี้</th>
-                                    <th class="text-center">ยอดชดเชย</th>
-                                    <th class="text-center" width="5%">req_no</th>
-                                    <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>  
-                                    <th class="text-center">จัดการ STM</th> 
+                                    <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>
+                                    <th class="text-center">ยอดชดเชย</th> 
+                                    <th class="text-center" width="5%">เลขที่ Hos</th>
+                                    <th class="text-center">เลขที่หนังสือ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,8 +121,38 @@ $pos = strrpos($url, '/') + 1;
                                         }
                                     
                                     ?>
-                                   
+
                                         <tr height="20" style="font-size: 14px;">
+                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}
+                                            </td>
+                                            <td class="text-center" width="10%">{{ $item->vn }}</td>
+                                            <td class="text-center" width="10%">{{ $item->hn }}</td>
+                                            <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                            <td class="p-2">{{ $item->ptname }}</td>
+                                            <td class="text-center" width="10%">{{ $item->vstdate }}</td>
+                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>
+                                            <td class="text-center" width="10%">{{ $item->recieve_no }}</td>
+                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->recieve_true, 2) }}</td>
+                                        
+                                            <td class="text-center" width="10%">{{ $item->nhso_ownright_pid }}</td>
+                                            <td class="text-center" width="5%">
+                                                @if ($item->nhso_docno != '')
+                                                    <button type="button"
+                                                        class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                        <i class="fa-solid fa-book-open text-success me-2"></i>
+                                                        {{ $item->nhso_docno }}
+                                                    </button>
+                                                @else
+                                                    <button type="button"
+                                                        class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
+                                                        <i class="fa-solid fa-book-open text-warning me-2"></i>
+                                                        ยังไม่ได้ลงเลขหนังสือ
+                                                    </button>
+                                                @endif 
+                                            </td>
+                                        </tr>
+                                   
+                                        {{-- <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
                                             <td class="text-center" width="10%">{{ $item->vn }}</td> 
                                             <td class="text-center" width="10%">{{ $item->hn }}</td> 
@@ -133,20 +163,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">{{ number_format($item->payprice,2)}}</td>
                                             <td class="text-center" width="10%">{{ $item->req_no }}</td> 
                                            <td class="text-center" width="10%">{{ $item->money_billno }}</td> 
-                                                {{--      <td class="text-center" width="5%">
-                                                        @if ($item->nhso_docno != '' )
-                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
-                                                                <i class="fa-solid fa-book-open text-success me-2"></i> 
-                                                                {{$item->nhso_docno}}  
-                                                            </button> 
-                                                        @else
-                                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
-                                                                <i class="fa-solid fa-book-open text-warning me-2"></i> 
-                                                            ยังไม่ได้ลงเลขหนังสือ
-                                                            </button> 
-                                                        @endif 
-                                                    </td>                                                 
-                                                </td> --}}
+                                              
                                                 <td class="text-center" width="5%">
                                                     <div class="dropdown d-inline-block">
                                                         <button type="button" aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown" class="me-2 dropdown-toggle btn btn-outline-secondary btn-sm">
@@ -163,7 +180,7 @@ $pos = strrpos($url, '/') + 1;
                                                         </div>
                                                     </div>
                                                 </td> 
-                                        </tr>
+                                        </tr> --}}
                                         
                                     
  

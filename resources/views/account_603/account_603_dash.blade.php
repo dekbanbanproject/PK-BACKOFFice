@@ -157,17 +157,17 @@
                                             // สีเขียว STM
                                          
                                             $sumapprove_ = DB::select('
-                                                    SELECT count(DISTINCT U1.an) as Apvit,sum(U1.nhso_ownright_pid) as amountpay
+                                                    SELECT count(DISTINCT U1.an) as Apvit,sum(U1.recieve_true) as recieve_true
                                                         from acc_1102050102_603 U1
                                                         
                                                         WHERE month(U1.dchdate) = "'.$item->months.'"
                                                         and year(U1.dchdate) = "'.$item->year.'"
-                                                        AND U1.nhso_ownright_pid IS NOT NULL
+                                                        AND U1.recieve_true IS NOT NULL
                                                        
                                             ');
                                             // count(DISTINCT U1.an) as Apvit,
                                                 foreach ($sumapprove_ as $key => $value3) {
-                                                    $sum_stm = $value3->amountpay;
+                                                    $sum_stm = $value3->recieve_true;
                                                     $stm_count = $value3->Apvit;
                                                 }
 
@@ -176,7 +176,7 @@
                                                         from acc_1102050102_603 
                                                         WHERE month(dchdate) = "'.$item->months.'"
                                                         and year(dchdate) = "'.$item->year.'"
-                                                        AND nhso_ownright_pid IS NULL 
+                                                        AND recieve_true IS NULL 
                                             ');
                                              foreach ($data_null as $key => $valnull) {
                                                 $countyokpia = $valnull->yokpai_an;

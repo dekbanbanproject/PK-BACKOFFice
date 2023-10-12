@@ -147,31 +147,28 @@ class NeweclaimController extends Controller
     {
         $username        = $request->username;
         $password        = $request->password; 
-        $ch = curl_init();
-        $headers  = [
-                    'User-Agent:<platform>/<version> <10978>',
-                    'Content-Type: application/json'
-                ];
-        $postData = [
-            'username' => $username,
-            'password' => $password
-        ];
-        curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");
-        // curl_setopt($ch, CURLOPT_URL,"https://uat-fdh.inet.co.th/hospital/");
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $response     = curl_exec ($ch);
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200
-        $content = $response;
+        // $ch = curl_init();
+        // $headers  = [
+        //             'User-Agent:<platform>/<version> <10978>',
+        //             'Content-Type: application/json'
+        //         ];
+        // $postData = [
+        //     'username' => $username,
+        //     'password' => $password
+        // ];
+        // curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth");
+        // // curl_setopt($ch, CURLOPT_URL,"https://uat-fdh.inet.co.th/hospital/");
+        // curl_setopt($ch, CURLOPT_POST, 1);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        // $response     = curl_exec ($ch);
+        // $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); //200
+        // $contents = $response;
 
-        $result = json_decode($content, true);
-        
-         @$status = $result['status'];
-        @$message = $result['message'];
-        @$token = $result['token'];
-        dd(@$token);
+        // $result = json_decode($contents, true);
+        // @$content = $result['content'];
+        // // dd($content);
         // $client = new \GuzzleHttp\Client();
         // $url = "https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth";
        
@@ -226,41 +223,38 @@ class NeweclaimController extends Controller
         //     ]);
 
 
-
-
-
-
-        //Create Client object to deal with
-        // $client = new Client();
-
-        // // Define the request parameters
-        // $url = 'https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth';
-        // // dd($url);
-        // $headers = [
-        //     'User-Agent:<platform>/<version> <10978>',
-        //     'Content-Type' => 'application/json',
-        // ];
-
-        // $data = [
-        //     'username' => $request->input('username'),
-        //     'password' => $request->input('password'),
-        // ];
         
-        // // POST request using the created object
-        // $postResponse = $client->post($url, [
-        //     'headers'   => $headers,
-        //     'json'      => $data,
-        // ]);
+        //Create Client object to deal with
+        $client = new Client();
 
-        // // Get the response
-        // dd($postResponse)->json();
+        // Define the request parameters
+        $url = 'https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth';
+        // dd($url);
+        $headers = [
+            'User-Agent:<platform>/<version> <10978>',
+            'Content-Type' => 'application/json',
+        ];
 
-        // // Get the response code
-        // $responseCode = $postResponse->getStatusCode();
-        // // Get OK
-        // $responsebody = $postResponse->getReasonPhrase();
+        $data = [
+            'username' => $request->input('username'),
+            'password' => $request->input('password'),
+        ];
+        
+        // POST request using the created object
+        $postResponse = $client->post($url, [
+            'headers'   => $headers,
+            'json'      => $data,
+        ]);
 
-        // $responseheeader = $postResponse->getheaders();
+        // Get the response
+        dd($postResponse)->json();
+
+        // Get the response code
+        $responseCode = $postResponse->getStatusCode();
+        // Get OK
+        $responsebody = $postResponse->getReasonPhrase();
+
+        $responseheeader = $postResponse->getheaders();
         // $responsetoken = $postResponse->json_decode();
          
         return response()->json([
