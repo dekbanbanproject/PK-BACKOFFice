@@ -24,13 +24,15 @@ return new class extends Migration
                 $table->string('TIMEOPD')->nullable();//  
                 $table->string('SEQ')->nullable(); //             
                 $table->string('UUC')->nullable(); // 
-                // $table->string('DETAIL')->nullable(); //  
-                // $table->string('BTEMP')->nullable(); // 
-                // $table->string('SBP')->nullable(); //  
-                // $table->string('DBP')->nullable(); //  
-                // $table->string('PR')->nullable(); // 
-                // $table->string('RR')->nullable(); //   
-                // $table->string('OPTYPE')->nullable(); // 
+                $table->string('DETAIL')->nullable(); //  
+                $table->decimal('BTEMP',3,1)->nullable(); // 
+                $table->decimal('SBP',3)->nullable(); //  
+                $table->decimal('DBP',3)->nullable(); //  
+                $table->decimal('PR',3)->nullable(); // 
+                $table->decimal('RR',3)->nullable(); //   
+                $table->text('OPTYPE',2)->nullable(); // 
+                $table->text('TYPEIN',1)->nullable(); // 
+                $table->text('TYPEOUT',1)->nullable(); // 
                 $table->string('d_anaconda_id')->nullable(); // 
                 $table->string('user_id')->nullable(); //        
                 $table->timestamps();
