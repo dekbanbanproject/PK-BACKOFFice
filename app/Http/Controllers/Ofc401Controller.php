@@ -750,7 +750,7 @@ class Ofc401Controller extends Controller
                     ]);
                 }
                  
-                
+                //D_adp
                 $data_adp_ = DB::connection('mysql2')->select('
                     SELECT HN,AN,DATEOPD,TYPE,CODE,QTY,RATE,SEQ
                     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -836,70 +836,70 @@ class Ofc401Controller extends Controller
                         'd_anaconda_id'        => 'OFC_401'
                     ]);
                 } 
-                 //D_dru
+                 //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE
-                    ,v.hn HN
-                    ,v.an AN
-                    ,vv.spclty CLINIC
-                    ,vv.cid PERSON_ID
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID
-                    ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
-                    ,sum(v.qty) AMOUNT
-                    ,round(v.unitprice,2) DRUGPRIC
-                    ,"0.00" DRUGCOST
-                    ,d.did DIDSTD
-                    ,d.units UNIT
-                    ,concat(d.packqty,"x",d.units) UNIT_PACK
-                    ,v.vn SEQ
-                    ,oo.presc_reason DRUGREMARK
-                    ,"" PA_NO
-                    ,"" TOTCOPAY
-                    ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
-                    from hos.opitemrece v
-                    LEFT JOIN hos.drugitems d on d.icode = v.icode
-                    LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
-                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                        ,v.hn HN
+                        ,v.an AN
+                        ,vv.spclty CLINIC
+                        ,vv.cid PERSON_ID
+                        ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+                        ,d.icode DID
+                        ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+                        ,v.qty AMOUNT
+                        ,round(v.unitprice,2) DRUGPRIC
+                        ,"0.00" DRUGCOST
+                        ,d.did DIDSTD
+                        ,d.units UNIT
+                        ,concat(d.packqty,"x",d.units) UNIT_PACK
+                        ,v.vn SEQ
+                        ,oo.presc_reason DRUGREMARK
+                        ,"" PA_NO
+                        ,"" TOTCOPAY
+                        ,if(v.item_type="H","2","1") USE_STATUS
+                        ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
+                        FROM opitemrece v
+                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
                 
                     WHERE v.vn IN("'.$va1->vn.'")
-                    and d.did is not null 
-                    GROUP BY v.vn,did,d.icode
+                    AND d.did is not null 
+                    GROUP BY v.vn,did
 
                     UNION all
 
                     SELECT pt.hcode HCODE
-                    ,v.hn HN
-                    ,v.an AN
-                    ,v1.spclty CLINIC
-                    ,pt.cid PERSON_ID
-                    ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                    ,d.icode DID
-                    ,concat(d.`name`,"",d.strength," ",d.units) DIDNAME
-                    ,sum(v.qty) AMOUNT
-                    ,round(v.unitprice,2) DRUGPRIC
-                    ,"0.00" DRUGCOST
-                    ,d.did DIDSTD
-                    ,d.units UNIT
-                    ,concat(d.packqty,"x",d.units) UNIT_PACK
-                    ,ifnull(v.vn,v.an) SEQ
-                    ,oo.presc_reason DRUGREMARK
-                    ,"" PA_NO
-                    ,"" TOTCOPAY
-                    ,if(v.item_type="H","2","1") USE_STATUS
-                    ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
-                    from hos.opitemrece v
-                    LEFT JOIN hos.drugitems d on d.icode = v.icode
-                    LEFT JOIN hos.patient pt  on v.hn = pt.hn
-                    inner JOIN hos.ipt v1 on v1.an = v.an
-                    LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                        ,v.hn HN
+                        ,v.an AN
+                        ,v1.spclty CLINIC
+                        ,pt.cid PERSON_ID
+                        ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+                        ,d.icode DID
+                        ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+                        ,sum(v.qty) AMOUNT
+                        ,round(v.unitprice,2) DRUGPRIC
+                        ,"0.00" DRUGCOST
+                        ,d.did DIDSTD
+                        ,d.units UNIT
+                        ,concat(d.packqty,"x",d.units) UNIT_PACK
+                        ,v.vn SEQ
+                        ,oo.presc_reason DRUGREMARK
+                        ,"" PA_NO
+                        ,"" TOTCOPAY
+                        ,if(v.item_type="H","2","1") USE_STATUS
+                        ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER,v.vstdate
+                        FROM opitemrece v
+                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                        LEFT OUTER JOIN patient pt  on v.hn = pt.hn
+                        INNER JOIN ipt v1 on v1.an = v.an
+                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
                 
                     WHERE v1.vn IN("'.$va1->vn.'")
-                    and d.did is not null AND v.qty<>"0"
-                    GROUP BY v.an,d.icode,USE_STATUS;               
+                    AND d.did is not null AND v.qty<>"0"
+                    GROUP BY v.an,d.icode,USE_STATUS;              
                 ');
-                // LEFT OUTER JOIN pkbackoffice.d_ucep24 dc ON dc.an = v.an AND dc.icode = v.icode
+              
                 foreach ($data_dru_ as $va11) {
                     D_dru::insert([ 
                         'HN'             => $va11->HN,
@@ -915,7 +915,7 @@ class Ofc401Controller extends Controller
                         'DRUGCOST'       => $va11->DRUGCOST,
                         'DIDSTD'         => $va11->DIDSTD,
                         'UNIT'           => $va11->UNIT,
-                        'UNIT_PACK'      =>$va11->UNIT_PACK,
+                        'UNIT_PACK'      => $va11->UNIT_PACK,
                         'SEQ'            => $va11->SEQ,
                         'DRUGREMARK'     => $va11->DRUGREMARK,
                         'PA_NO'          => $va11->PA_NO,
@@ -929,7 +929,7 @@ class Ofc401Controller extends Controller
                         'PROVIDER'       => $va11->PROVIDER,
                         'vstdate'        => $va11->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'   => 'OFC_401'
+                        'd_anaconda_id'  => 'OFC_401'
                     ]);
                 } 
                 
