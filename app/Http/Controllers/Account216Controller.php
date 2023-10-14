@@ -429,6 +429,73 @@ class Account216Controller extends Controller
             'year'              =>     $year, 
         ]);
     }
-    
+
+    public function account_pkucs216_stm_date(Request $request,$startdate,$enddate)
+    {
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+        
+
+            SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
+            ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
+            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm216
+            ,s.total_approve STM_TOTAL
+            from acc_1102050101_216 a
+            LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
+            WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+            
+            AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+            group by a.vn
+        ');
+        // AND s.rep IS NOT NULL
+       
+            return view('account_216.account_pkucs216_stm_date', $data, [
+                'startdate'         =>     $startdate,
+                'enddate'           =>     $enddate,
+                'datashow'          =>     $datashow, 
+            ]);
+    }
+    public function account_pkucs216_detail_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT *  from acc_1102050101_216 
+            WHERE vstdate between "'.$startdate.'" and  "'.$enddate.'" 
+        '); 
+        return view('account_216.account_pkucs216_detail_date', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data, 
+        ]);
+    }
+    public function account_pkucs216_stmnull_date(Request $request,$startdate,$enddate)
+    { 
+        $data['users'] = User::get();
+
+        $data = DB::select('
+                SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
+                ,s.inst + s.hc + s.hc_drug + s.ae + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm216
+                from acc_1102050101_216 a
+                LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate
+                WHERE a.status ="N"
+                AND a.vstdate between "'.$startdate.'" and  "'.$enddate.'" 
+             
+                AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
+                group by a.vn
+        ');
+          
+
+        return view('account_216.account_pkucs216_stmnull_date', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'data'              =>     $data, 
+        ]);
+    }
 
  }
