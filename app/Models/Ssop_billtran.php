@@ -12,7 +12,7 @@ class Ssop_billtran extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'ssop_billtran';
     protected $primaryKey = 'ssop_billtran_id';
     protected $fillable = [  

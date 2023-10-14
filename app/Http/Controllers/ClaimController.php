@@ -87,34 +87,22 @@ class ClaimController extends Controller
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
         // dd($datestart);    
-        $ssop_billtran = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_billtran 
-        '); 
-        $ssop_billitems = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_billitems   
-        ');
-        $ssop_dispensing = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_dispensing   
-        ');   
-        $ssop_dispenseditems = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_dispenseditems   
-        ');  
-        $ssop_opservices = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_opservices   
-        ');
-        $ssop_opdx_ = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_opdx   
-        ');
+        $ssop_billtran = DB::connection('mysql7')->select('SELECT * FROM ssop_billtran'); 
+        $ssop_billitems = DB::connection('mysql7')->select('SELECT * FROM ssop_billitems');
+        $ssop_dispensing = DB::connection('mysql7')->select('SELECT * FROM ssop_dispensing');   
+        $ssop_dispenseditems = DB::connection('mysql7')->select('SELECT * FROM ssop_dispenseditems');  
+        $ssop_opservices = DB::connection('mysql7')->select('SELECT * FROM ssop_opservices');
+        $ssop_opdx_ = DB::connection('mysql7')->select('SELECT * FROM ssop_opdx');
  
         return view('claim.ssop',$data,[
-            'start'            => $datestart,
-            'end'              => $dateend,
-            'ssop_billtran'    => $ssop_billtran,
-            'ssop_billitems'   => $ssop_billitems,
-            'ssop_dispensing'  => $ssop_dispensing,
+            'start'                => $datestart,
+            'end'                  => $dateend,
+            'ssop_billtran'        => $ssop_billtran,
+            'ssop_billitems'       => $ssop_billitems,
+            'ssop_dispensing'      => $ssop_dispensing,
             'ssop_dispenseditems'  => $ssop_dispenseditems,
-            'ssop_opservices'  => $ssop_opservices,
-            'ssop_opdx_'  => $ssop_opdx_,
+            'ssop_opservices'      => $ssop_opservices,
+            'ssop_opdx_'           => $ssop_opdx_,
         ]);
     }
     public function ssop_recheck(Request $request)
@@ -932,8 +920,8 @@ class ClaimController extends Controller
         return view('claim.ssop_recheck_new',[
             'start'            => $datestart,
             'end'              => $dateend,
-            'stm_data'         => $stm_data, 
-            'ssop_recheck'     => $ssop_recheck,
+            // 'stm_data'         => $stm_data, 
+            // 'ssop_recheck'     => $ssop_recheck,
             'ssop_billtran'    => $ssop_billtran,
             'ssop_billitems'   => $ssop_billitems,
             'ssop_dispensing'  => $ssop_dispensing,
@@ -987,7 +975,7 @@ class ClaimController extends Controller
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
         // dd($datestart);
-        $ssop_data = DB::connection('mysql3')->select('   
+        $ssop_data = DB::connection('mysql2')->select('   
                 SELECT v.hn as HN
                 ,v.spclty as CLINIC
                 ,DATE_FORMAT(v.vstdate, "%Y%m%d") as DATEOPD

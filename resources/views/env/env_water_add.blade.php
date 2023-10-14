@@ -118,8 +118,13 @@ $count_service = StaticController::count_service();
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <input id="water_location" type="text"
-                                                        class="form-control form-control-sm" name="water_location">
+                                                        <select id="env_pond" name="env_pond"
+                                                        class="form-control form-control-sm" style="width: 100%">
+                                                        <option value="">--เลือก--</option>
+                                                        @foreach ($env_pond as $ue)                                               
+                                                            <option value="{{ $ue->pond_id }}"> {{ $ue->pond_name }}</option>                                             
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 text-end">
@@ -283,7 +288,7 @@ $count_service = StaticController::count_service();
                 allowClear: true
             });
         // ช่องค้นหาชื่อ
-            $('#water_user2').select2({
+            $('#env_pond').select2({
             placeholder: "--เลือก--",
             allowClear: true
         }); 

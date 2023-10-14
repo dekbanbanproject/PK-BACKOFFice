@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('claim_ssop'))
         {
-            Schema::connection('mysql7')->create('claim_ssop', function (Blueprint $table) {
+            Schema::connection('mysql')->create('claim_ssop', function (Blueprint $table) {
                 $table->bigIncrements('claim_ssop_id');
                 $table->string('session_id')->nullable();//  
                 $table->date('sss_date')->nullable();//  

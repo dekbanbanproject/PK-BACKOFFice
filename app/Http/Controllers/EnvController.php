@@ -42,7 +42,7 @@ use App\Models\Leave_leader_sub;
 use App\Models\Book_type;
 use App\Models\Book_import_fam;
 use App\Models\Book_signature;
-use App\Models\Bookrep;
+use App\Models\Env_pond;
 use App\Models\Book_objective;
 use App\Models\Book_senddep;
 use App\Models\Book_senddep_sub;
@@ -149,6 +149,7 @@ class EnvController extends Controller
         $enddate = $request->enddate;
         $iduser = Auth::user()->id;
         $data['users'] = User::get();
+        $data['env_pond'] = DB::table('env_pond')->get();
         $data['leave_month'] = DB::table('leave_month')->get();
         $data['users_group'] = DB::table('users_group')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
@@ -194,6 +195,7 @@ class EnvController extends Controller
         $add->water_location        = $request->input('water_location');
         $add->water_group_excample  = $request->input('water_group_excample');
         $add->water_comment         = $request->input('water_comment');
+        $add->pond_id               = $request->input('env_pond');
         $add->save();        
 
         $waterid =  Env_water::max('water_id');        
@@ -296,7 +298,12 @@ class EnvController extends Controller
                     } else {
                         $status = 'ปกติ';
                     }
-                    
+                    if ($idwater->water_parameter_id == 16 || $water_qty[$count]  == 0.5 || $water_qty[$count]  == 0.6 || $water_qty[$count]  == 0.7 || $water_qty[$count]  == 0.8 || $water_qty[$count]  == 0.9 || $water_qty[$count]  == 1.0 ) {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+
                     $add_sub->status                         = $status;
                     $add_sub->water_parameter_short_name     = $water_parameter_short_name[$count];
                     $add_sub->save();        
@@ -384,12 +391,17 @@ class EnvController extends Controller
         $dateend = $request->enddate;
         $iduser = Auth::user()->id;
         $data['users'] = User::get();
+
+        $data['env_pond'] = DB::table('env_pond')->get();
+
         $data['leave_month'] = DB::table('leave_month')->get();
         $data['users_group'] = DB::table('users_group')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
  
-        $water = DB::table('env_water')->where('water_id','=',$id)->first();
-
+        $water = DB::table('env_water')
+        ->leftJoin('env_pond','env_pond.pond_id','=','env_water.pond_id')
+        ->where('water_id','=',$id)->first();
+        // pond_id
         $data['env_water_sub']  = DB::table('env_water_sub')->where('water_id','=',$id)->get();
   
         $data['water_parameter']  = DB::table('env_water_parameter')->get();
@@ -411,12 +423,16 @@ class EnvController extends Controller
         // $ff = $request->trash_bill_on;
         // dd($ff);
         $update = Env_water::find($id);
+        $idpon =  $request->env_pond;
+        $namepond = Env_pond::where('pond_id','=', $idpon)->first();
         
         $update->water_date             = $request->water_date;
         $update->water_user             = $request->water_user; 
-        $update->water_location         = $request->water_location; 
+        $update->pond_id                = $namepond->pond_id;
+        $update->water_location         = $namepond->pond_name; 
         $update->water_group_excample   = $request->water_group_excample; 
         $update->water_comment          = $request->water_comment; 
+       
         $update->save();
         
         Env_water_sub::where('water_id','=',$id)->delete();

@@ -12,7 +12,7 @@ class Ssop_opdx extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'ssop_opdx';
     protected $primaryKey = 'ssop_opdx_id';
     protected $fillable = [  

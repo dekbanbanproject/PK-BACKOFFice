@@ -229,6 +229,11 @@
                                         {{-- <li><a href="{{ url('ktb_kids_glasses') }}">แว่นตาเด็ก </a></li> --}}
                                     </ul>
                                 </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">LGO</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('lgo_801') }}">LGO-801 </a></li> 
+                                    </ul>
+                                </li>
                                 {{-- <li><a href="{{ url('six') }}">ส่งออก 16 แฟ้ม</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
                                     <ul class="sub-menu" aria-expanded="true">

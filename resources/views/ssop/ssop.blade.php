@@ -63,12 +63,13 @@
            }
 </style>
     <div class="tabs-animation">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
                 </div>
             </div>
+    
         </div>
         
                 <form action="{{ route('claim.ssop_data_vn') }}" method="POST">
@@ -92,7 +93,8 @@
 
                     </form>
                     <br>
-                    <form action="{{ route('claim.ssop_data') }}" method="POST">
+                    {{-- <form action="{{ route('claim.ssop_data') }}" method="POST"> --}}
+                    <form action="{{ route('claim.ssop') }}" method="POST">
                     @csrf
                     <div class="row"> 
                         <div class="col-md-2 text-end"></div>
@@ -100,79 +102,39 @@
                         <div class="col-md-6 text-center">
                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                             <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
-                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $start }}"/>
+                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
                             <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
-                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $end }}"/>
-                            <button type="submit" class="btn btn-info">
+                            data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
+                            {{-- <button type="submit" class="btn btn-info">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 ดึงข้อมูล 
-                            </button>
-                            <a href="{{url('ssop_send')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>    
-                            <a href="{{url('ssop_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> 
-                            {{-- <a href="{{url('aipn_send')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>      --}}
+                            </button> --}}
+                            {{-- <a href="{{url('ssop_send')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>     --}}
                             {{-- <a href="{{url('ssop_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>  --}}
+                            
+                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                                ค้นหา
+                            </button> 
+                            {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                <i class="fa-solid fa-spinner text-success me-2"></i>
+                                ประมวลผล
+                            </button>  --}}
+                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
+                                <i class="fa-solid fa-spinner text-success me-2"></i>
+                                ประมวลผล
+                            </button>
+                            <a href="{{url('ssop_send')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                <i class="fa-solid fa-file-export text-danger me-2"></i>
+                                Export
+                            </a>
                         </div>
                     </div>
-                        {{-- <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" name="startdate" id="datepicker"  data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                    value="{{ $start }}">
-
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-1 text-center">ถึงวันที่</div>
-                        <div class="col-md-2 text-center">
-                            <div class="input-group" id="datepicker1">
-                                <input type="text" class="form-control" name="enddate" id="datepicker2" data-date-container='#datepicker1'
-                                    data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th"
-                                    value="{{ $end }}">
-
-                                <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>                         
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                ค้นหา 
-                            </button> 
-                            <a href="{{url('ssop_send')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>    
-                            <a href="{{url('ssop_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>                            
-                        </div> --}}
+                        
                         <div class="col"></div>
                     </div> 
                 </form>
-                {{-- <div class="col-md-1"> --}}
-                    {{-- <form action="{{ route('claim.ssop_save16') }}" method="POST">
-                        @csrf
-                        @foreach ($ssop_data as $item)
-                            <input type="hidden" name="Invno[]" id="Invno" value="{{$item->Invno}}">
-                            <input type="hidden" name="HN[]" id="HN" value="{{ $item->HN }}">
-                        @endforeach
-                    </form> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-md-2">
-                    <form action="{{ route('claim.ssop_save16') }}" method="POST">
-                        @csrf
-                        @foreach ($ssop_data as $item)
-                            <input type="hidden" name="Invno[]" id="Invno" value="{{$item->Invno}}">
-                            <input type="hidden" name="HN[]" id="HN" value="{{ $item->HN }}">
-                        @endforeach
-                        <input type="hidden" name="startdate" id="startdate" value="{{ $start }}">
-                        <input type="hidden" name="enddate" id="enddate" value="{{ $end }}">
-
-                        <button type="submit" class="btn btn-warning">
-                            <i class="fa-solid fa-hand-holding-dollar me-2"></i>
-                            Export 16 แฟ้ม
-                        </button>
-                    </form>
-                </div>
-                <div class="col-md-1">
-                    <a href="{{url('ssop_detail')}}" class="btn btn-info">Detail</a>
-                </div>    --}}
-         
-       
+               
 
         <div class="row mt-3">
             <div class="col-xl-12">
@@ -186,14 +148,7 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-3 text-end">
-                                {{-- <a href="{{url('ssop_prescb_update')}}" class="btn btn-outline-info btn-sm">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    Update Prescb
-                                </a>
-                                <a href="{{url('ssop_svpid_update')}}" class="btn btn-outline-info btn-sm">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    Update SvPID
-                                </a> --}}
+                               
                                 <button type="button" class="btn btn-outline-danger btn-sm Updateprescb" data-url="{{url('ssop_prescb_update')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     Update Prescb
@@ -573,7 +528,7 @@
                                             </thead>
                                             <tbody>
                                                 <?php $i = 1; ?>
-                                                @foreach ($ssop_opdx_ as $item6) 
+                                                @foreach ($ssop_opdx as $item6) 
                                                     <tr>   
                                                         <td class="text-center">{{ $i++ }}</td>    
                                                         <td class="text-center">{{ $item6->Class }}</td>
@@ -777,6 +732,62 @@
 
             }
         }); 
+
+        $("#spinner-div").hide(); //Request is complete so hide spinner
+        $('#Processdata').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการประมวลผลข้อมูลใช่ไหม ?',
+                        text: "You Warn Process Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('claim.ssop_process') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ประมวลผลข้อมูลสำเร็จ',
+                                                text: "You Process data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+        });
     });
     $(document).on('click', '.Edit_prescb', function() {
             var ssop_dispensing_id = $(this).val();  

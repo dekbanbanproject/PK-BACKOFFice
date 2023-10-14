@@ -15,7 +15,7 @@ return new class extends Migration
     { 
         if (!Schema::hasTable('ssop_billtran'))
         {
-            Schema::connection('mysql7')->create('ssop_billtran', function (Blueprint $table) {
+            Schema::connection('mysql')->create('ssop_billtran', function (Blueprint $table) {
                 $table->bigIncrements('ssop_billtran_id');
                 $table->string('Station')->nullable();//   
                 $table->string('Authencode')->nullable();// 

@@ -267,6 +267,11 @@ Route::match(['get','post'],'ofc_401',[App\Http\Controllers\Ofc401Controller::cl
 Route::match(['get','post'],'ofc_401_process',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_process'])->name('claim.ofc_401_process');//
 Route::match(['get','post'],'ofc_401_export',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_export'])->name('claim.ofc_401_export');//
 
+// ******************* LGO *******************
+Route::match(['get','post'],'lgo_801',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801'])->name('claim.lgo_801');//
+Route::match(['get','post'],'lgo_801_process',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_process'])->name('claim.lgo_801_process');//
+Route::match(['get','post'],'lgo_801_export',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_export'])->name('claim.lgo_801_export');//
+
 // ********************************* PPFS 2566  *****************************************
 // *******************2001 บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย-สุขภาพจิต(SCR)-12001*******************
 Route::match(['get','post'],'ppfs_12001',[App\Http\Controllers\PPfs12001Controller::class, 'ppfs_12001'])->name('claim.ppfs_12001');//
@@ -2332,6 +2337,10 @@ Route::match(['get','post'],'acc_checksit_spsch',[App\Http\Controllers\ClaimCont
 Route::match(['get','post'],'acc_checksit_spsch_pangstamp',[App\Http\Controllers\ClaimController::class, 'acc_checksit_spsch_pangstamp'])->name('claim.acc_checksit_spsch_pangstamp');//
 Route::match(['get','post'],'acc_checksit_process',[App\Http\Controllers\ClaimController::class, 'acc_checksit_process'])->name('claim.acc_checksit_process');//
 
+//********************* */Start  Claim  SSOP ***********************************
+Route::match(['get','post'],'ssop',[App\Http\Controllers\SsopController::class, 'ssop'])->name('claim.ssop');//
+Route::match(['get','post'],'ssop_process',[App\Http\Controllers\SsopController::class, 'ssop_process'])->name('claim.ssop_process');//
+Route::match(['get','post'],'ssop_export',[App\Http\Controllers\SsopController::class, 'ssop_export'])->name('claim.ssop_export');//
 
 Route::match(['get','post'],'ssop_data',[App\Http\Controllers\ClaimController::class, 'ssop_data'])->name('claim.ssop_data');//
 Route::match(['get','post'],'ssop_check',[App\Http\Controllers\ClaimController::class, 'ssop_check'])->name('claim.ssop_check');//
@@ -2342,8 +2351,7 @@ Route::match(['get','post'],'ssop_data_vn',[App\Http\Controllers\ClaimController
 
 Route::match(['get','post'],'ssop_edit_svpid/{id}',[App\Http\Controllers\ClaimController::class, 'ssop_edit_svpid'])->name('claim.ssop_edit_svpid');//
 Route::match(['get','post'],'ssop_edit_prescb/{id}',[App\Http\Controllers\ClaimController::class, 'ssop_edit_prescb'])->name('claim.ssop_edit_prescb');//
-
-Route::match(['get','post'],'ssop',[App\Http\Controllers\ClaimController::class, 'ssop'])->name('claim.ssop');//
+ 
 Route::match(['get','post'],'ssop_search',[App\Http\Controllers\ClaimController::class, 'ssop_search'])->name('claim.ssop_search');//
 Route::match(['get','post'],'ssop_save16',[App\Http\Controllers\ClaimController::class, 'ssop_save16'])->name('claim.ssop_save16');//
 Route::match(['get','post'],'ssop_detail',[App\Http\Controllers\ClaimController::class, 'ssop_detail'])->name('claim.ssop_detail');//

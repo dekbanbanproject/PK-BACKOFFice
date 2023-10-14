@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Ssop_dispenseditems extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $connection = 'mysql7';
+    protected $connection = 'mysql';
     protected $table = 'ssop_dispenseditems';
     protected $primaryKey = 'ssop_dispenseditems_id';
     protected $fillable = [ 

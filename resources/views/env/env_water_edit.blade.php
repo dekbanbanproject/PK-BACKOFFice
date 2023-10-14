@@ -125,9 +125,18 @@ $count_service = StaticController::count_service();
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <input id="water_location" type="text"
-                                                                class="form-control form-control-sm" name="water_location" value="{{$water->water_location}}">
-                                                        </div>
+                                                            <select id="env_pond" name="env_pond"
+                                                            class="form-control form-control-sm" style="width: 100%">
+                                                            <option value="">--เลือก--</option>
+                                                            @foreach ($env_pond as $ue)
+                                                            @if ($water->pond_id == $ue->pond_id)
+                                                                <option value="{{ $ue->pond_id }}" selected> {{ $ue->pond_name }} </option>    
+                                                            @else
+                                                                <option value="{{ $ue->pond_id }}"> {{ $ue->pond_name }} </option>    
+                                                            @endif                                         
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                     </div>
                                                     <div class="col-md-2 text-end">
                                                         <label for="water_group_excample">ลักษณะตัวอย่าง :</label>

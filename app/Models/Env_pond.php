@@ -8,20 +8,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Ssop_billitems extends Authenticatable
+class Env_pond extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    
-    protected $connection = 'mysql';
-    protected $table = 'ssop_billitems';
-    protected $primaryKey = 'ssop_billitems_id';
-    protected $fillable = [  
-        'Invno',  
-        'SvDate',  
-        'BillMuad',
-        'LCCode', 
-        'STDCode', 
-        'Desc' 
+
+    protected $table = 'env_pond';
+    protected $primaryKey = 'pond_id';
+    // public $timestamps = false;  
+    protected $fillable = [
+        'pond_name'
+        // 'trash_set_unit'
+              
     ];
 
   
