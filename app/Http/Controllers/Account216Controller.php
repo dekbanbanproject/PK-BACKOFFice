@@ -488,7 +488,7 @@ class Account216Controller extends Controller
              
                 AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
                 group by a.vn
-        ');
+        '); 
           
 
         return view('account_216.account_pkucs216_stmnull_date', $data, [
