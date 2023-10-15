@@ -72,7 +72,7 @@
     
         </div>
         
-                <form action="{{ route('claim.ssop_data_vn') }}" method="POST">
+                <form action="{{ route('claim.ssop') }}" method="POST">
                     @csrf
                         <div class="row">
                             {{-- <div class="col"></div> --}}
@@ -80,12 +80,19 @@
                             <div class="col-md-6 text-center">
                                 <div class="input-group" id="datepicker1">
                                     <input type="text" class="form-control" name="VN" id="VN" placeholder="VN" required> 
-                                    <button type="submit" class="btn btn-info">
+                                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                         <i class="fa-solid fa-magnifying-glass"></i>
-                                        ดึงข้อมูล 
+                                        ค้นหา 
                                     </button> 
-                                    <a href="{{url('ssop_send')}}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a>    
-                                    <a href="{{url('ssop_zip')}}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>   
+                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata">
+                                        <i class="fa-solid fa-spinner text-primary me-2"></i>
+                                        ประมวลผล
+                                    </button>
+                                    <a href="{{url('ssop_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                        <i class="fa-solid fa-file-export text-danger me-2"></i>
+                                        Export
+                                    </a>
+                                    <a href="{{url('ssop_zipfile')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-success"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
                                 </div>
                             </div>    
                             <div class="col"></div>
@@ -120,8 +127,8 @@
                                 <i class="fa-solid fa-spinner text-success me-2"></i>
                                 ประมวลผล
                             </button>  --}}
-                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
-                                <i class="fa-solid fa-spinner text-success me-2"></i>
+                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata">
+                                <i class="fa-solid fa-spinner text-primary me-2"></i>
                                 ประมวลผล
                             </button>
                             <a href="{{url('ssop_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
@@ -166,7 +173,13 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#BillTran" role="tab">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#ssop" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                    <span class="d-none d-sm-block">SSOP</span>    
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#BillTran" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
                                     <span class="d-none d-sm-block">BillTran</span>    
                                 </a>
@@ -207,7 +220,40 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content p-3 text-muted">
-                            <div class="tab-pane active" id="BillTran" role="tabpanel">
+                            <div class="tab-pane active" id="ssop" role="tabpanel">
+                                <p class="mb-0">
+                                    <div class="table-responsive">
+                                            <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%" class="text-center">ลำดับ</th>  
+                                                    <th class="text-center">vn</th>
+                                                    <th class="text-center" >hn</th>
+                                                    <th class="text-center" >pttype</th>
+                                                    <th class="text-center">vstdate</th>
+                                                    <th class="text-center">total</th>  
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $i = 1; ?>
+                                                @foreach ($d_ssop_main as $item_main) 
+                                                    <tr>   
+                                                        <td class="text-center">{{ $i++ }}</td>   
+                                                        <td class="text-center">{{ $item_main->vn }}</td>  
+                                                        <td class="text-center">{{ $item_main->hn }}</td>  
+                                                        <td class="text-center">{{ $item_main->pttype }}</td> 
+                                                        <td class="text-center">{{ $item_main->vstdate }}</td>   
+                                                        <td class="text-center">{{ number_format($item_main->price_ssop, 2) }}</td>  
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </p>
+                            </div>
+
+                            <div class="tab-pane" id="BillTran" role="tabpanel">
                                 <p class="mb-0">
                                     <div class="table-responsive">
                                             <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap"

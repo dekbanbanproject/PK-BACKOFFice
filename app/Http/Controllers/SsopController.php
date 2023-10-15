@@ -82,20 +82,14 @@ class SsopController extends Controller
 {
     public function ssop(Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        $vn            = $request->VN;
         $data['users'] = User::get();
   
         if ($startdate =='') {
-            $data['d_ssop_main'] = DB::connection('mysql')->select('SELECT * from d_ssop_main');  
-            $data['ssop_billtran'] = DB::connection('mysql')->select('SELECT * from ssop_billtran');  
-            $data['ssop_billitems'] = DB::connection('mysql')->select('SELECT * from ssop_billitems'); 
-            $data['ssop_dispensing'] = DB::connection('mysql')->select('SELECT * from ssop_dispensing'); 
-            $data['ssop_dispenseditems'] = DB::connection('mysql')->select('SELECT * from ssop_dispenseditems');
-            $data['ssop_opservices'] = DB::connection('mysql')->select('SELECT * from ssop_opservices');
-            $data['ssop_opdx'] = DB::connection('mysql')->select('SELECT * from ssop_opdx');
-        } else {
             
+        } else { 
             $date = date('Y-m-d');
             $iduser = Auth::user()->id;
             D_ssop_main::truncate(); 
@@ -110,8 +104,7 @@ class SsopController extends Controller
                 AND p.pcode ="A7" AND o.an is null
                 GROUP BY v.vn; 
                 
-            ');   
-                    
+            ');      
             foreach ($data_main_ as $key => $value) {    
                 D_ssop_main::insert([
                         'vn'                 => $value->vn,
@@ -143,32 +136,86 @@ class SsopController extends Controller
                     ]);
                 }                   
                 
-            }
-
-            $data['d_ssop_main'] = DB::connection('mysql')->select('SELECT * from d_ssop_main');  
-            $data['ssop_billtran'] = DB::connection('mysql')->select('SELECT * from ssop_billtran');  
-            $data['ssop_billitems'] = DB::connection('mysql')->select('SELECT * from ssop_billitems'); 
-            $data['ssop_dispensing'] = DB::connection('mysql')->select('SELECT * from ssop_dispensing'); 
-            $data['ssop_dispenseditems'] = DB::connection('mysql')->select('SELECT * from ssop_dispenseditems');
-            $data['ssop_opservices'] = DB::connection('mysql')->select('SELECT * from ssop_opservices');
-            $data['ssop_opdx'] = DB::connection('mysql')->select('SELECT * from ssop_opdx');
-            
+            } 
         }
+        if ($vn =='') {
+            
+        } else { 
+            $date = date('Y-m-d');
+            $iduser = Auth::user()->id;
+            D_ssop_main::truncate();
+            Ssop_billtran::truncate(); 
+            Ssop_billitems::truncate();
+            Ssop_dispensing::truncate();
+            Ssop_dispenseditems::truncate();
+            Ssop_opservices::truncate();
+            Ssop_opdx::truncate(); 
+            $data_main_ = DB::connection('mysql2')->select(' 
+                SELECT v.hn,v.vn,i.an,v.cid,v.vstdate,v.pttype,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.income,p.hipdata_code 
+                from vn_stat v
+                LEFT OUTER JOIN ovst o on o.vn = v.vn
+                LEFT OUTER JOIN pttype p on p.pttype = v.pttype
+                LEFT OUTER JOIN ipt i on i.vn = v.vn 
+                LEFT OUTER JOIN patient pt on pt.hn = v.hn
+                WHERE v.vn = "'.$vn.'"   
+            ');      
+            foreach ($data_main_ as $key => $value) {    
+                D_ssop_main::insert([
+                        'vn'                 => $value->vn,
+                        'hn'                 => $value->hn,
+                        'an'                 => $value->an, 
+                        'pttype'             => $value->pttype,
+                        'vstdate'            => $value->vstdate, 
+                        'price_ssop'         => $value->income, 
+                    ]);
+                $check = D_claim::where('vn',$value->vn)->count();
+                if ($check > 0) {
+                    # code...
+                } else {
+                    D_claim::insert([
+                        'vn'                => $value->vn,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an,
+                        'cid'               => $value->cid,
+                        'pttype'            => $value->pttype,
+                        'ptname'            => $value->ptname,
+                        'vstdate'           => $value->vstdate,
+                        'hipdata_code'      => $value->hipdata_code,
+                        // 'qty'               => $value->qty,
+                        'sum_price'          => $value->income,
+                        'type'              => 'OPD',
+                        'nhso_adp_code'     => 'SSOP',
+                        'claimdate'         => $date, 
+                        'userid'            => $iduser, 
+                    ]);
+                }                   
+                
+            } 
+        }
+
+        $data['d_ssop_main'] = DB::connection('mysql')->select('SELECT * from d_ssop_main');  
+        $data['ssop_billtran'] = DB::connection('mysql')->select('SELECT * from ssop_billtran');  
+        $data['ssop_billitems'] = DB::connection('mysql')->select('SELECT * from ssop_billitems'); 
+        $data['ssop_dispensing'] = DB::connection('mysql')->select('SELECT * from ssop_dispensing'); 
+        $data['ssop_dispenseditems'] = DB::connection('mysql')->select('SELECT * from ssop_dispenseditems');
+        $data['ssop_opservices'] = DB::connection('mysql')->select('SELECT * from ssop_opservices');
+        $data['ssop_opdx'] = DB::connection('mysql')->select('SELECT * from ssop_opdx');
         return view('ssop.ssop',$data,[
             'startdate'            => $startdate,
             'enddate'              => $enddate, 
         ]);
     }
+    
     public function ssop_process(Request $request)
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ssop_main');
         $iduser = Auth::user()->id; 
-        Ssop_billtran::truncate(); 
-        Ssop_billitems::truncate();
-        Ssop_dispensing::truncate();
-        Ssop_dispenseditems::truncate();
-        Ssop_opservices::truncate();
-        Ssop_opdx::truncate();
+        // Ssop_billtran::truncate(); 
+        // Ssop_billitems::truncate();
+        // Ssop_dispensing::truncate();
+        // Ssop_dispenseditems::truncate();
+        // Ssop_opservices::truncate();
+        // Ssop_opdx::truncate();
 
         foreach ($data_vn_1 as $key => $va1) {
             $ssop_billtran_ = DB::connection('mysql2')->select('  
@@ -458,351 +505,8 @@ class SsopController extends Controller
         return response()->json([
             'status'    => '200'
         ]);
-   }
-   
-  
-    public function ssop_pull_new(Request $request,$start,$end)
-    {
-        
-                $ssop_billtran_ = DB::connection('mysql7')->select('   
-                        SELECT vn as Invno,hn as HN,an,vstdate,vsttime,hcode as Hcode,pttype,pdx as Diag,dx0,dx1,dx2,dx3,dx4,dx5,sex,uc_money
-                        ,icode,qty,unitprice,income,paidst,sum_price,fullname AS "Name" 
-                        ,doctorname,licenseno
-                        ,"01" AS "Station", "" AS "Authencode", CONCAT(vstdate,"T",vsttime) AS "DTtran","" AS "Billno"
-                        , "" AS "MemberNo",uc_money AS "Amount","0.00" AS "Paid"
-                        ,"" AS "VerCode", "A" AS "Tflag",Pid
-                        ,hospmain AS "HMain", "80" AS "PayPlan"
-                        ,uc_money AS "ClaimAmt"										
-                        ,"" AS "OtherPayplan"
-                        ,"0.00" AS "OtherPay" 
-                    FROM ssop_stm_claim 
-                    group by vn;
-                ');          
-                Ssop_billtran::truncate();
-                foreach ($ssop_billtran_ as $key => $value) {           
-                    $add= new Ssop_billtran();
-                    $add->Station = $value->Station ;
-                    $add->Authencode = $value->Authencode; 
-                    $add->vstdate = $value->vstdate; 
-                    $add->DTtran = $value->DTtran;          
-                    $add->Hcode = "10978";                      
-                    $add->Invno = $value->Invno;
-                    $add->VerCode = $value->VerCode;
-                    $add->Tflag = $value->Tflag;
-                    $add->HMain = $value->HMain;
-                    $add->HN = $value->HN;
-                    $add->Pid = $value->Pid;
-                    $add->Name = $value->Name;
-                    $add->Amount = $value->Amount;
-                    $add->Paid = $value->Paid;
-                    $add->ClaimAmt = $value->ClaimAmt;
-                    $add->PayPlan = $value->PayPlan;
-                    $add->OtherPay = $value->OtherPay;
-                    $add->OtherPayplan = $value->OtherPayplan;
-                    $add->pttype = $value->pttype;
-                    $add->Diag = $value->Diag;
-                    $add->save();
-
-                    $check_vn = Stm::where('VN','=',$value->Invno)->count();
-                    $datenow = date('Y-m-d H:m:s');
-                    
-                    if ($check_vn > 0) {
-                        // Stm::where('VN', $value->Invno) 
-                                // ->update([  
-                                //     'VN'                => $value->Invno,
-                                //     'HN'                => $value->HN,
-                                //     'PID'               => $value->Pid,
-                                //     'VSTDATE'           => $value->vstdate,
-                                //     'FULLNAME'          => $value->Name,  
-                                //     'MAININSCL'         => "SSS",
-                                //     'created_at'        => $datenow, 
-                                //     'ClaimAmt'          =>$value->ClaimAmt
-                                // ]);
-                    } else {
-                        Stm::insert([                        
-                            // 'AN'                => $value->AN, 
-                            'VN'                => $value->Invno,
-                            'HN'                => $value->HN,
-                            'PID'               => $value->Pid,
-                            'VSTDATE'           => $value->vstdate,
-                            'FULLNAME'          => $value->Name,  
-                            'MAININSCL'         => "SSS",
-                            'created_at'        => $datenow, 
-                            'ClaimAmt'          =>$value->ClaimAmt
-                        ]);
-                    }
-                    
-                } 
-
-                $ssop_billitems_ = DB::connection('mysql3')->select('   
-                    SELECT ss.vn AS "Invno"
-                        ,ss.vstdate AS "SvDate"
-                        , i.income_group AS "BillMuad"
-                        , op.icode AS "LCCode"
-                        ,ifnull(if(i.income in (03,04),sk.tmt_tmlt,sd.nhso_adp_code),sd.nhso_adp_code) AS STDCode
-                        ,sd.name AS "Desc"        
-                        ,op.qty AS "QTY"
-                        , ROUND(op.unitprice,2) AS "UnitPrice"
-                        , ROUND(op.sum_price,2) AS "ChargeAmt"
-                        , ROUND(op.unitprice,2) AS "ClaimUP"
-                        , ROUND(op.sum_price,2)  AS "ClaimAmount"
-                        , ss.vn AS "SvRefID"
-                        , "OP1" AS "ClaimCat"
-                        ,"02" As "paidst"
-                        FROM opitemrece op
-                    LEFT JOIN claim.ssop_stm_claim ss ON ss.vn=op.vn 
-                    LEFT JOIN s_drugitems sd ON sd.icode=op.icode  
-                    LEFT JOIN claim.income i ON i.income=op.income
-                    LEFT JOIN claim.aipn_drugcat_labcat sk ON sk.icode=op.icode
-                    WHERE ss.VSTDATE BETWEEN "'.$start.'" and "'.$end.'"
-                    AND op.qty <> 0 AND op.unitprice <> 0
-                    AND op.paidst="02"	 
-                ');  
-                Ssop_billitems::truncate();
-                foreach ($ssop_billitems_ as $key => $value2) {           
-                    $add2= new Ssop_billitems();
-                    $add2->Invno = $value2->Invno ; 
-                    $add2->SvDate = $value2->SvDate; 
-                    $add2->BillMuad = $value2->BillMuad;
-                    $add2->LCCode = $value2->LCCode;
-                    if ($value2->STDCode == 'XXXXXX') {
-                        $add2->STDCode = '';
-                    } else {
-                        $add2->STDCode = $value2->STDCode;
-                    }                        
-                    $add2->Desc = $value2->Desc;
-                    $add2->QTY = $value2->QTY;
-                    $add2->UnitPrice = $value2->UnitPrice;
-                    $add2->ChargeAmt = $value2->ChargeAmt;
-                    $add2->ClaimUP = $value2->ClaimUP;
-                    $add2->ClaimAmount = $value2->ClaimAmount;
-                    $add2->SvRefID = $value2->SvRefID;
-                    $add2->ClaimCat = $value2->ClaimCat;
-                    $add2->paidst = $value2->paidst; 
-                    $add2->save();
-                } 
-
-                $ssop_dispensing_ = DB::connection('mysql3')->select('   
-                        SELECT "10978" AS "ProviderID" , o.vn AS "DispID" , o.vn AS "Invno", o.hn AS "HN", v.cid AS "PID"
-                        ,CONCAT(o.vstdate,"T",o.vsttime) AS "Prescdt" , CONCAT(o.vstdate,"T",o.vsttime) AS "Dispdt"
-                        ,IFNULL( (SELECT licenseno FROM doctor WHERE code=o.doctor) ,"ว64919") AS "Prescb"
-                        ,SUM(IF(op.income IN ("03","17","05"),"1","")) AS "Itemcnt"
-                        ,ROUND( SUM(IF(op.income IN ("03","17","05"),op.sum_price,0)) ,2) AS "ChargeAmt"
-                        ,ROUND( SUM(IF(op.income IN ("03","17","05"),op.sum_price,0)) ,2) AS "ClaimAmt"
-                        ,"0.00" AS "Paid" ,"0.00" AS "OtherPay" , "HP" AS "Reimburser" , "SS" AS "BenefitPlan" , "1" AS "DispeStat" , " " AS "SvID"," " AS "DayCover"				
-                        FROM ovst o 
-                        LEFT JOIN vn_stat v ON o.vn=v.vn
-                        LEFT JOIN opitemrece op ON o.vn=op.vn
-                        LEFT JOIN pttype pt on pt.pttype = o.pttype 
-                        LEFT JOIN claim.ssop_stm_claim ss ON ss.vn=o.vn
-                         
-                        WHERE ss.VSTDATE BETWEEN "'.$start.'" and "'.$end.'" 
-                        AND op.income IN ("03","17","05") 
-                        AND op.qty<>0 
-                        AND op.paidst="02"
-                        AND pt.pttype ="A7"
-                        GROUP BY o.vn 
-                        
-                ');  
-                Ssop_dispensing::truncate();
-                foreach ($ssop_dispensing_ as $key => $value3) {           
-                    $add3= new Ssop_dispensing();
-                    $add3->ProviderID = $value3->ProviderID ; 
-                    $add3->DispID = $value3->DispID; 
-                    $add3->Invno = $value3->Invno;
-                    $add3->HN = $value3->HN;
-                    $add3->PID = $value3->PID;
-                    $add3->Prescdt = $value3->Prescdt;
-                    $add3->Dispdt = $value3->Dispdt;
-                    $add3->Prescb = $value3->Prescb;
-                    $add3->Itemcnt = $value3->Itemcnt;
-                    $add3->ChargeAmt = $value3->ChargeAmt;
-                    $add3->ClaimAmt = $value3->ClaimAmt;
-                    $add3->Paid = $value3->Paid;
-                    $add3->OtherPay = $value3->OtherPay;
-                    $add3->Reimburser = $value3->Reimburser; 
-                    $add3->BenefitPlan = $value3->BenefitPlan; 
-                    $add3->DispeStat = $value3->DispeStat; 
-                    $add3->SvID = $value3->SvID; 
-                    $add3->DayCover = $value3->DayCover; 
-                    $add3->save();
-                } 
-                
-                $ssop_dispenseditems_ = DB::connection('mysql3')->select('   
-                    SELECT  ss.vn AS "DispID", IF(di.icode<>"",di.sks_product_category_id, di.sks_product_category_id) AS "PrdCat"
-                        ,op.icode AS "HospDrgID", IF(di.sks_drug_code!="",di.sks_drug_code,"") AS "DrgID" 
-                        ,di.name AS "dfsText", di.units AS "Packsize"
-                        ,IF(op.sp_use!="",op.sp_use,op.drugusage) AS "sigCode"
-                        ,IF(op.sp_use!=" "
-                        ,(SELECT CONCAT( ifnull(name1,""), ifnull(name2," "), ifnull(name3,"") ) FROM sp_use where sp_use=op.sp_use )
-                        ,(SELECT CONCAT( ifnull(name1,""), ifnull(name2," "), ifnull(name3,"") ) FROM drugusage WHERE drugusage=op.drugusage )
-                        ) AS "sigText"
-                        , op.qty AS "Quantity", ROUND(op.unitprice,2) AS "UnitPrice", ROUND(op.sum_price,2) AS "ChargeAmt", ROUND(op.unitprice,2) AS "ReimbPrice", ROUND(op.sum_price,2) AS 					"ReimbAmt","" AS "PrdSeCode"
-                        ,"OD" AS "Claimcont", "OP1" AS "ClaimCat"              
-                        ,"02" AS "paidst"
-                    FROM ovst o 
-                    LEFT JOIN claim.ssop_stm_claim ss ON ss.vn=o.vn
-                    LEFT JOIN opitemrece op ON o.vn=op.vn
-                    LEFT JOIN pttype pt on pt.pttype = o.pttype 
-                    LEFT JOIN s_drugitems di ON di.icode=op.icode
-                    WHERE ss.VSTDATE BETWEEN "'.$start.'" and "'.$end.'" 
-                    AND op.income IN ("03","17","05") 
-                    AND op.qty<>0 
-                    AND op.paidst="02"
-                    AND pt.pttype ="A7"               
-                ');  
-                Ssop_dispenseditems::truncate();
-                foreach ($ssop_dispenseditems_ as $key => $value4) {           
-                    $add4= new Ssop_dispenseditems();
-                    $add4->DispID = $value4->DispID ; 
-                    $add4->PrdCat = $value4->PrdCat; 
-                    $add4->HospDrgID = $value4->HospDrgID;
-                    $add4->DrgID = $value4->DrgID;
-                    $add4->dfsText = $value4->dfsText;
-                    
-
-                    if ($value4->Packsize == '') {
-                        $add4->Packsize = "Unit";
-                    } else {
-                        $add4->Packsize = $value4->Packsize;
-                    }
-                    if ($value4->sigCode == '') {
-                        $add4->sigCode = "0004";
-                    } else {
-                        $add4->sigCode = $value4->sigCode;
-                    }
-                    if ($value4->sigText == '') {
-                        $add4->sigText = "ใช้ตามแพทย์สั่ง";
-                    } else {
-                        $add4->sigText = $value4->sigText;
-                    }
-                    
-                    $add4->Quantity = $value4->Quantity;
-                    $add4->UnitPrice = $value4->UnitPrice;
-                    $add4->ChargeAmt = $value4->ChargeAmt;
-                    $add4->ReimbPrice = $value4->ReimbPrice;
-                    $add4->ReimbAmt = $value4->ReimbAmt;
-                    $add4->PrdSeCode = $value4->PrdSeCode; 
-                    $add4->Claimcont = $value4->Claimcont; 
-                    $add4->ClaimCat = $value4->ClaimCat; 
-                    $add4->paidst = $value4->paidst;  
-                    $add4->save();
-                } 
-
-                $ssop_opservices_ = DB::connection('mysql3')->select('   
-                    SELECT o.vn AS "Invno", o.vn AS "SvID", "EC" AS "Class", "10978" AS "Hcode", o.hn AS "HN", v.cid AS "PID"
-                    ,"1" AS "CareAccount", "01" AS "TypeServ", "1" AS "TypeIn", "1" AS "TypeOut", "" AS "DTAppoint"
-                    ,IFNULL( (SELECT licenseno FROM doctor WHERE code=o.doctor) ,"ว64919") AS "SvPID"
-                
-                    ,IF(o.spclty NOT IN ("01","02","03","04","05","06","07","08","09","10","11","12"),"99",o.spclty) AS "Clinic"
-                    , CONCAT(o.vstdate,"T",o.vsttime) AS "BegDT", CONCAT(o.vstdate,"T",o.vsttime) AS "EndDT"
-                    ,"" AS "LcCode", "" AS "CodeSet", "" AS "STDCode", "0.00" AS "SvCharge", "Y" AS "Completion", "" AS "SvTxCode", "OP1" AS "ClaimCat"
-
-                    FROM ovst o 
-                    LEFT JOIN claim.ssop_stm_claim ss ON ss.vn=o.vn
-                    LEFT JOIN vn_stat v ON o.vn=v.vn
-                    WHERE ss.VSTDATE BETWEEN "'.$start.'" and "'.$end.'" 
-                    AND v.pttype ="A7"
-                    GROUP BY ss.vn
-                    
-                ');  
-                Ssop_opservices::truncate();
-                foreach ($ssop_opservices_ as $key => $value5) {           
-                    $add5= new Ssop_opservices();
-                    $add5->Invno = $value5->Invno ; 
-                    $add5->SvID = $value5->SvID; 
-                    $add5->Class = $value5->Class;
-                    $add5->Hcode = $value5->Hcode;
-                    $add5->HN = $value5->HN; 
-                    $add5->PID = $value5->PID;
-                    $add5->CareAccount = $value5->CareAccount;
-                    $add5->TypeServ = $value5->TypeServ;
-                    $add5->TypeIn = $value5->TypeIn;
-                    $add5->TypeOut = $value5->TypeOut;
-                    $add5->DTAppoint = $value5->DTAppoint; 
-                    $add5->SvPID = $value5->SvPID; 
-                    $add5->Clinic = $value5->Clinic; 
-                    $add5->BegDT = $value5->BegDT;
-                    $add5->EndDT = $value5->EndDT;
-                    $add5->LcCode = $value5->LcCode;
-                    $add5->CodeSet = $value5->CodeSet;
-                    $add5->STDCode = $value5->STDCode;
-                    $add5->SvCharge = $value5->SvCharge;
-                    $add5->Completion = $value5->Completion;
-                    $add5->SvTxCode = $value5->SvTxCode;
-                    $add5->ClaimCat = $value5->ClaimCat;  
-                    $add5->save();
-                } 
-
-                $ssop_opdx_ = DB::connection('mysql3')->select('   
-                    SELECT "EC" AS "Class", o.vn AS "SvID", od.diagtype AS "SL"
-                    
-                    ,CASE 
-                    WHEN od.icd10 BETWEEN "U000" AND "U99999" THEN "TT"
-                    ELSE "IT" end CodeSet
-
-                    ,IF(od.icd10 like "M%", SUBSTR(od.icd10,1,4) ,IF(od.icd10 like "Z%", SUBSTR(od.icd10,1,4) ,od.icd10)) as code
-                    ," " as "Desc"
-
-                    FROM ovst o 
-                    LEFT JOIN claim.ssop_stm_claim ss ON ss.vn=o.vn
-                    LEFT JOIN ovstdiag od ON o.vn=od.vn
-                    WHERE ss.VSTDATE BETWEEN "'.$start.'" and "'.$end.'" 
-                    AND od.icd10 NOT BETWEEN "0000" AND "9999"            
-                '); 
-                Ssop_opdx::truncate();
-                foreach ($ssop_opdx_ as $key => $valueop) {           
-                    $addop= new Ssop_opdx();
-                    $addop->Class = $valueop->Class ; 
-                    $addop->SvID = $valueop->SvID; 
-                    $addop->SL = $valueop->SL;
-                    $addop->CodeSet = $valueop->CodeSet;
-                    $addop->code = $valueop->code; 
-                    $addop->Desc = $valueop->Desc; 
-                    $addop->save();
-                } 
-      
-        $ssop_recheck = DB::connection('mysql7')->select('  
-            SELECT 
-            s.HN,s.VN,s.AN,s.PID,s.VSTDATE,s.FULLNAME,s.ClaimAmt,s.total_back_stm
-             from ssop_stm_claim ss
-            LEFT JOIN stm s on s.VN = ss.vn
-            group by ss.vn;
-             
-        ');
-
-        $ssop_billtran = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_billtran 
-        '); 
-        $ssop_billitems = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_billitems   
-        ');
-        $ssop_dispensing = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_dispensing   
-        ');   
-        $ssop_dispenseditems = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_dispenseditems   
-        ');  
-        $ssop_opservices = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_opservices   
-        ');
-        $ssop_opdx_ = DB::connection('mysql7')->select('   
-            SELECT * FROM ssop_opdx   
-        ');
-      
-        return view('claim.ssop_recheck_new',[
-            'start'            => $start,
-            'end'              => $end,
-            // 'stm_data'         => $stm_data, 
-            'ssop_recheck'     => $ssop_recheck,
-            'ssop_billtran'    => $ssop_billtran,
-            'ssop_billitems'   => $ssop_billitems,
-            'ssop_dispensing'  => $ssop_dispensing,
-            'ssop_dispenseditems'  => $ssop_dispenseditems,
-            'ssop_opservices'  => $ssop_opservices,
-            'ssop_opdx_'  => $ssop_opdx_,
-        ]);
     }
+    
     
     public function ssop_prescb_update(Request $request)
     {
