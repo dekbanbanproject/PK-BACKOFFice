@@ -16,7 +16,7 @@ return new class extends Migration
        
         if (!Schema::hasTable('ssop_session'))
         {
-            Schema::connection('mysql7')->create('ssop_session', function (Blueprint $table) {
+            Schema::connection('mysql')->create('ssop_session', function (Blueprint $table) {
                 $table->bigIncrements('ssop_session_id'); 
                 $table->string('ssop_session_no')->nullable();// รหัส
                 $table->date('ssop_session_date')->nullable();//  

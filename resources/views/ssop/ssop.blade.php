@@ -101,9 +101,9 @@
                         <div class="col-md-1 text-end">วันที่</div>
                         <div class="col-md-6 text-center">
                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
+                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                              data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
-                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
+                            <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
                             {{-- <button type="submit" class="btn btn-info">
                                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -124,10 +124,11 @@
                                 <i class="fa-solid fa-spinner text-success me-2"></i>
                                 ประมวลผล
                             </button>
-                            <a href="{{url('ssop_send')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                            <a href="{{url('ssop_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                 <i class="fa-solid fa-file-export text-danger me-2"></i>
                                 Export
                             </a>
+                            <a href="{{url('ssop_zipfile')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-success"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
                         </div>
                     </div>
                         

@@ -2341,6 +2341,7 @@ Route::match(['get','post'],'acc_checksit_process',[App\Http\Controllers\ClaimCo
 Route::match(['get','post'],'ssop',[App\Http\Controllers\SsopController::class, 'ssop'])->name('claim.ssop');//
 Route::match(['get','post'],'ssop_process',[App\Http\Controllers\SsopController::class, 'ssop_process'])->name('claim.ssop_process');//
 Route::match(['get','post'],'ssop_export',[App\Http\Controllers\SsopController::class, 'ssop_export'])->name('claim.ssop_export');//
+Route::match(['get','post'],'ssop_zipfile',[App\Http\Controllers\SsopController::class, 'ssop_zipfile'])->name('claim.ssop_zipfile');//
 
 Route::match(['get','post'],'ssop_data',[App\Http\Controllers\ClaimController::class, 'ssop_data'])->name('claim.ssop_data');//
 Route::match(['get','post'],'ssop_check',[App\Http\Controllers\ClaimController::class, 'ssop_check'])->name('claim.ssop_check');//
