@@ -88,28 +88,26 @@ $pos = strrpos($url, '/') + 1;
     <div class="row"> 
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-6 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div> 
-            </div>
-            <div class="col-md-3"> 
-                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+               
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button> 
-                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    <a href="{{url('ucep24_claim_export')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{url('ucep24_claim_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
                     </a>
-                  
+                </div>
             </div>
           
         </div>
