@@ -125,22 +125,7 @@ class Ofc401Controller extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
-            $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401'); 
-            // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
-            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
-            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
-            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop');
-            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx');
-            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx');
-            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd');
-            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf');
-            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer');
-            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop');
-            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp');
-            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat');
-            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht');
-            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha');
-            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
+            
         } else {
                 $iduser = Auth::user()->id;
                 D_ofc_401::truncate(); 
@@ -202,23 +187,24 @@ class Ofc401Controller extends Controller
                     }                   
                     
                 }
-                $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401');  
-                // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
-                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
-                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf'); 
-                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop');
-                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx');
-                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx');
-                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd');
-                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf');
-                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer');
-                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop');
-                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp');
-                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat');
-                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht');
-                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha');
-                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins');
+                
         }
+            $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401');  
+            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_401"'); 
+            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="OFC_401"'); 
+            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="OFC_401"');
+            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="OFC_401"');
+            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="OFC_401"');
+            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="OFC_401"');
+            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="OFC_401"');
+            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="OFC_401"');
+            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="OFC_401"');
+            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="OFC_401"');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="OFC_401"');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="OFC_401"');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="OFC_401"');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="OFC_401"');
+            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="OFC_401"');
 
         return view('ofc.ofc_401',$data,[
             'startdate'     =>     $startdate,

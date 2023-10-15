@@ -277,18 +277,7 @@ class Ucep24Controller extends Controller
 
             if ($startdate == '') {  
 
-                $data_main = DB::connection('mysql')->select('SELECT * from d_ucep24_main');  
-                $data = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
-                $data_opd = DB::connection('mysql')->select('SELECT * from d_opd'); 
-                $data_orf = DB::connection('mysql')->select('SELECT * from d_orf'); 
-                $data_oop = DB::connection('mysql')->select('SELECT * from d_oop');
-                $data_odx = DB::connection('mysql')->select('SELECT * from d_odx');
-                $data_idx = DB::connection('mysql')->select('SELECT * from d_idx');
-                $data_ipd = DB::connection('mysql')->select('SELECT * from d_ipd');
-                $data_irf = DB::connection('mysql')->select('SELECT * from d_irf');
-                $data_aer = DB::connection('mysql')->select('SELECT * from d_aer');
-                $data_iop = DB::connection('mysql')->select('SELECT * from d_iop');
-                $data_adp = DB::connection('mysql')->select('SELECT * from d_adp');
+                
             } else {
                 $iduser = Auth::user()->id;
                 D_ucep24_main::truncate();
@@ -398,37 +387,32 @@ class Ucep24Controller extends Controller
                             'userid'            => $iduser, 
                         ]);
                     }  
-                }         
-
-                $data_main = DB::connection('mysql')->select('SELECT * from d_ucep24_main');  
-                $data = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
-                $data_opd = DB::connection('mysql')->select('SELECT * from d_opd');  
-                $data_orf = DB::connection('mysql')->select('SELECT * from d_orf'); 
-                $data_oop = DB::connection('mysql')->select('SELECT * from d_oop'); 
-                $data_odx = DB::connection('mysql')->select('SELECT * from d_odx');
-                $data_idx = DB::connection('mysql')->select('SELECT * from d_idx');
-                $data_ipd = DB::connection('mysql')->select('SELECT * from d_ipd');
-                $data_irf = DB::connection('mysql')->select('SELECT * from d_irf');
-                $data_aer = DB::connection('mysql')->select('SELECT * from d_aer');
-                $data_iop = DB::connection('mysql')->select('SELECT * from d_iop');
-                $data_adp = DB::connection('mysql')->select('SELECT * from d_adp');
+                }    
             }
+            $data_main = DB::connection('mysql')->select('SELECT * from d_ucep24_main');  
+            $data = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
+            $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="UCEP24"'); 
+            $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="UCEP24"'); 
+            $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="UCEP24"');
+            $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="UCEP24"');
+            $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="UCEP24"');
+            $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="UCEP24"');
+            $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="UCEP24"');
+            $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="UCEP24"');
+            $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="UCEP24"');
+            $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="UCEP24"');
+            $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="UCEP24"');
+            $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="UCEP24"');
+            $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="UCEP24"');
+            $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="UCEP24"');
+            $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="UCEP24"');
                   
-            return view('ucep.ucep24_claim',[
+            return view('ucep.ucep24_claim',$data,[
                 'startdate'        =>     $startdate,
                 'enddate'          =>     $enddate, 
                 'data'             =>     $data, 
                 'data_main'        =>     $data_main,
-                'data_opd'         =>     $data_opd,
-                'data_orf'         =>     $data_orf,
-                'data_oop'         =>     $data_oop,
-                'data_odx'         =>     $data_odx,
-                'data_idx'         =>     $data_idx,
-                'data_ipd'         =>     $data_ipd,
-                'data_irf'         =>     $data_irf,
-                'data_aer'         =>     $data_aer,
-                'data_iop'         =>     $data_iop,
-                'data_adp'         =>     $data_adp,
+               
             ]);
     }
     public function ucep24_claim_process(Request $request)

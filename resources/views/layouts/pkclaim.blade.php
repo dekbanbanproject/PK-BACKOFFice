@@ -249,7 +249,7 @@
                                 <li><a href="{{ url('aipn') }}">AIPN</a></li>
                                 {{-- <li><a href="{{ url('aipn_plb') }}">AIPN พรบ</a></li> --}}
                                 {{-- <li><a href="{{ url('aipn_disability') }}">AIPN ทุภพพลภาพ </a></li> --}}
-                                <li><a href="{{ url('aipn_equipdev') }}">SSIP-Equipdev</a></li>
+                                {{-- <li><a href="{{ url('aipn_equipdev') }}">SSIP-Equipdev</a></li> --}}
                                 {{-- <li><a href="{{ url('free_schedule') }}">PPFS-Fre Schedule</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">PPFS-66</a>
                                     <ul class="sub-menu" aria-expanded="true">
@@ -644,6 +644,8 @@
             $('#example14').DataTable();
             $('#example15').DataTable();
             $('#example16').DataTable();
+            $('#example17').DataTable();
+            $('#example18').DataTable();
             $('#example_user').DataTable();
 
             $.ajaxSetup({
