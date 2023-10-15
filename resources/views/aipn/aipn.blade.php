@@ -117,8 +117,9 @@
             </div>
  
             <div class="row">
+                <div class="col"></div>
                 <div class="col-md-2 text-end">เลือกตาม วันที่</div>
-                <div class="col-md-6 text-center">
+                <div class="col-md-7 text-center">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -127,23 +128,20 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' autocomplete="off" data-provide="datepicker" 
                             data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}" />
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Searchdata">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Searchdata">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>
                             ดึงข้อมูล
                         </button>
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata">
+                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata">
                             <i class="fa-solid fa-spinner text-primary me-2"></i>
                             ประมวลผล
                         </button>
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata">
+                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata">
                             <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>
                             ส่งออก
                         </button> 
-                        <a href="{{ url('aipn_zip') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
-                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="Zipdata">
-                            <i class="fa-solid fa-arrow-up-right-from-square text-danger me-2"></i>
-                            ZipFile
-                        </button>  --}}
+                        <a href="{{ url('aipn_zip') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
+                        
                        
                     </div>
                 </div> 
@@ -152,28 +150,29 @@
             <br>
             <br>
             <div class="row">
+                <div class="col"></div>
                 <div class="col-md-2 text-end">เลือกตาม AN</div>
-                <div class="col-md-6 text-center">
+                <div class="col-md-7 text-center">
                     <div class="input-group" id="datepicker1">
                         <input type="text" class="form-control" name="AN" id="AN" placeholder="AN" required>
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Searchdata_an">
+                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Searchdata_an">
                             <i class="fa-solid fa-magnifying-glass"></i>
                             ดึงข้อมูล AN
                         </button>
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata_an">
+                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Processdata_an">
                             <i class="fa-solid fa-spinner text-primary me-2"></i>
                             ประมวลผล AN
                         </button>
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata_an">
+                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata_an">
                             <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>
                             ส่งออก AN
                         </button> 
-                        <a href="{{ url('aipn_zip') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
+                        <a href="{{ url('aipn_zip') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
                         {{-- <a href="{{ url('aipn_send_an') }}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a> --}}
                         {{-- <a href="{{ url('aipn_zip') }}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}  
                     </div>
                 </div>
-                <div class="col"></div>
+                {{-- <div class="col"></div> --}}
             </div>  
             
  
