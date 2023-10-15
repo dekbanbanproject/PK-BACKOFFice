@@ -117,7 +117,7 @@
             </div>
  
             <div class="row">
-                <div class="col"></div>
+                <div class="col"></div>  
                 <div class="col-md-2 text-end">เลือกตาม วันที่</div>
                 <div class="col-md-7 text-center">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
