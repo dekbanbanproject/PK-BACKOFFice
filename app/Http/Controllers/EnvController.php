@@ -187,15 +187,19 @@ class EnvController extends Controller
             SELECT count(*) as I from users u
             left join p4p_workload l on l.p4p_workload_user=u.id
             group by u.dep_subsubtrueid;
-        ');        
+        ');      
+        
+        $idpon =  $request->env_pond;
+        $namepond = Env_pond::where('pond_id','=', $idpon)->first();
        
         $add = new Env_water();
         $add->water_date            = $request->input('water_date');
         $add->water_user            = $request->input('water_user');
-        $add->water_location        = $request->input('water_location');
+        $add->pond_id               = $namepond->pond_id;
+        $add->water_location        = $namepond->pond_name; 
         $add->water_group_excample  = $request->input('water_group_excample');
         $add->water_comment         = $request->input('water_comment');
-        $add->pond_id               = $request->input('env_pond');
+       
         $add->save();        
 
         $waterid =  Env_water::max('water_id');        
@@ -334,7 +338,7 @@ class EnvController extends Controller
             $message =  $header. 
                     "\n"."วันที่บันทึก : "      . $request->input('water_date'). 
                    "\n"."ผู้บันทึก  : "        . $name . 
-                   "\n"."สถานที่เก็บตัวอย่าง : " . $request->input('water_location'); 
+                   "\n"."สถานที่เก็บตัวอย่าง : " . $namepond->pond_name; 
  
             foreach ($mMessage as $key => $smes) {
                 $na_mesage           = $smes['water_parameter_short_name'];

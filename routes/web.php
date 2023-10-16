@@ -274,6 +274,11 @@ Route::match(['get','post'],'acc_107_stm_date/{startdate}/{enddate}',[App\Http\C
 Route::match(['get','post'],'acc_107_stmnull',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull'])->name('acc.acc_107_stmnull');//
 Route::match(['get','post'],'acc_107_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull_date'])->name('acc.acc_107_stmnull_date');//
 
+// *******************FDC *******************
+Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::class, 'fdh_data'])->name('claim.fdh_data');//
+Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
+Route::match(['get','post'],'fdh_data_export',[App\Http\Controllers\FdhController::class, 'fdh_data_export'])->name('claim.fdh_data_export');//
+
 // *******************OFC *******************
 Route::match(['get','post'],'ofc_401',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401'])->name('claim.ofc_401');//
 Route::match(['get','post'],'ofc_401_process',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_process'])->name('claim.ofc_401_process');//
@@ -1309,7 +1314,7 @@ Route::middleware(['type'])->group(function(){
 
 
 
-    Route::match(['get','post'],'pkclaim/pkclaim_info',[App\Http\Controllers\PkclaimController::class, 'pkclaim_info'])->name('claim.pkclaim_info');// PKClaim
+    Route::match(['get','post'],'pkclaim_info',[App\Http\Controllers\PkclaimController::class, 'pkclaim_info'])->name('claim.pkclaim_info');// PKClaim
     Route::match(['get','post'],'bk_getbar',[App\Http\Controllers\PkclaimController::class, 'bk_getbar'])->name('claim.bk_getbar');// get ค่า ajax bar
     Route::match(['get','post'],'bk_getline',[App\Http\Controllers\PkclaimController::class, 'bk_getline'])->name('claim.bk_getline');// get ค่า ajax line
     Route::match(['get','post'],'sss_in',[App\Http\Controllers\SssController::class, 'sss_in'])->name('claim.sss_in');//
@@ -2448,7 +2453,6 @@ Route::match(['get','post'],'opdtoipd_subsub/{vn}/{income}',[App\Http\Controller
 
 
 
- 
 //********************* */ ENV  ***********************************
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 
@@ -2489,6 +2493,7 @@ Route::match(['get','post'],'env_trash_parameter_save',[App\Http\Controllers\Env
 Route::match(['get','post'],'env_trash_parameter_edit/{id}',[App\Http\Controllers\EnvController::class, 'env_trash_parameter_edit'])->name('env.env_trash_parameter_edit');//แก้ไข
 Route::match(['get','post'],'env_trash_parameter_update',[App\Http\Controllers\EnvController::class, 'env_trash_parameter_update'])->name('env.env_trash_parameter_update');//อัพเดท
 Route::match(['get','post'],'env_trash_parameter_delete/{id}',[App\Http\Controllers\EnvController::class, 'env_trash_parameter_delete'])->name('env.env_trash_parameter_delete');//ลบข้อมูล
+Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Controllers\EnvController::class, 'env_trash_parameter_switchactive'])->name('env.env_trash_parameter_switchactive');//สถานะ
 
 //ตั่งค่าตัวแทนจำหน่าย
 Route::match(['get','post'],'env_vendor',[App\Http\Controllers\EnvController::class, 'env_vendor'])->name('env.env_vendor');//หน้าหลักแสดงข้อมูล
@@ -2497,5 +2502,4 @@ Route::match(['get','post'],'env_vendor_save',[App\Http\Controllers\EnvControlle
 Route::match(['get','post'],'env_vendor_edit/{id}',[App\Http\Controllers\EnvController::class, 'env_env_vendor_edit'])->name('env.env_vendor_edit');//แก้ไข
 Route::match(['get','post'],'env_vendor_update',[App\Http\Controllers\EnvController::class, 'env_env_vendor_update'])->name('env.env_vendor_update');//อัพเดท
 Route::match(['get','post'],'env_vendor_destroy/{id}',[App\Http\Controllers\EnvController::class, 'env_env_vendor_destroy'])->name('env.env_vendor_destroy');//ลบข้อมูล
-
 });

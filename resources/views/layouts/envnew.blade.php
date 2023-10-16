@@ -115,14 +115,14 @@
                                 <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
                             </span>
                             <span class="logo-lg">
-                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
+                                <h5 style="color:rgb(93, 218, 114)" class="mt-4">PK-BACKOFFice</h5> 
                             </span>
                         </a>
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: black"></i>
-                    </button>
+                    </button>                    
                     <?php  
                         $org = DB::connection('mysql')->select(                                                            '   
                                 select * from orginfo 
@@ -132,7 +132,7 @@
                     <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(93, 218, 114)" class="mt-2">ENV</h4>
                             @endforeach
                             
                         </div>
@@ -243,8 +243,8 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('env_water_parameter') }}">ตั้งค่า Parameter น้ำ</a></li>
-                                <li><a href="{{ url('env_trash_parameter') }}">ตั้งค่าประเภทขยะ</a></li>
-                                <li><a href="{{ url('env_vendor') }}">ตั้งค่าบริษัท</a></li>
+                                <li><a href="{{ url('env_trash_parameter') }}">ตั้งค่า ประเภทขยะ</a></li>
+                                {{-- <li><a href="{{ url('env_vendor') }}">ตั้งค่าบริษัท</a></li> --}}
                             </ul>
                         </li>
                         @endif

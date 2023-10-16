@@ -202,6 +202,12 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ url('fdh_data') }}"> 
+                                <i class="fa-solid fa-notes-medical text-primary"></i>
+                                <span>FDH</span> 
+                            </a>
+                        </li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
                                 <span>FS EClaim</span>
