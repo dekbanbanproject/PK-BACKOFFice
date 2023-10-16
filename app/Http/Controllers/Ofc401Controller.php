@@ -238,14 +238,14 @@ class Ofc401Controller extends Controller
                     ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL
                     ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE
                     ,v.cid CID
-                    ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d")  DATEIN
-                    ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d")   DATEEXP
+                    ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d") DATEIN
+                    ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d") DATEEXP
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN
                     ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
                     ,"" GOVCODE
                     ,"" GOVNAME
                     
-                    ,c.claimcode PERMITNO
+                    ,rd.sss_approval_code PERMITNO
                     ,"" DOCNO
                     ,"" OWNRPID 
                     ,"" OWNRNAME
@@ -254,17 +254,18 @@ class Ofc401Controller extends Controller
                     ,"" SUBINSCL 
                     ,"" RELINSCL
                     ,"2" HTYPE
-                    from vn_stat v
-                    LEFT JOIN pttype p on p.pttype = v.pttype
-                    LEFT JOIN ipt i on i.vn = v.vn 
-                    LEFT JOIN pttype pp on pp.pttype = i.pttype
-                    left join ipt_pttype ap on ap.an = i.an
-                    left join visit_pttype vp on vp.vn = v.vn
-                    LEFT JOIN rcpt_debt r on r.vn = v.vn
-                    left join patient px on px.hn = v.hn 
-                    LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = v.cid AND c.vstdate = v.vstdate
+                    FROM vn_stat v
+                    LEFT OUTER JOIN pttype p on p.pttype = v.pttype
+                    LEFT OUTER JOIN ipt i on i.vn = v.vn 
+                    LEFT OUTER JOIN pttype pp on pp.pttype = i.pttype
+                    LEFT OUTER JOIN ipt_pttype ap on ap.an = i.an
+                    LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
+                    LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
+                    LEFT OUTER JOIN patient px on px.hn = v.hn 
+                    LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn = rd.vn 
                     WHERE v.vn IN("'.$va1->vn.'")   
                 ');
+                // ,c.claimcode PERMITNO
                 // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
                 foreach ($data_ins_ as $va17) {
                     D_ins::insert([

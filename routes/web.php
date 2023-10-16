@@ -248,19 +248,31 @@ Route::match(['get','post'],'uprep_money_plbop',[App\Http\Controllers\UpstmContr
 Route::match(['get','post'],'uprep_money_plbip',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbip'])->name('acc.uprep_money_plbip');//
 Route::match(['get','post'],'uprep_money_plbhn',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbhn'])->name('acc.uprep_money_plbhn');//
 
-Route::match(['get','post'],'stayed_down_opddashboard',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opddashboard'])->name('acc.stayed_down_opddashboard');//
-Route::match(['get','post'],'stayed_down_opd_pull',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_pull'])->name('acc.stayed_down_opd_pull');//
-Route::match(['get','post'],'stayed_down_opd_pulldata',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_pulldata'])->name('acc.stayed_down_opd_pulldata');//
-Route::match(['get','post'],'stayed_down_opd_stam',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stam'])->name('acc.stayed_down_opd_stam');//
-Route::match(['get','post'],'stayed_down_opd_detail/{months}/{year}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_detail'])->name('acc.stayed_down_opd_detail');//
-Route::match(['get','post'],'stayed_down_opd_detail_date/{startdate}/{enddate}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_detail_date'])->name('acc.stayed_down_opd_detail_date');//
-Route::match(['get','post'],'stayed_down_opd_stm',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stm'])->name('acc.stayed_down_opd_stm');//
-Route::match(['get','post'],'stayed_down_opd_stm_date/{startdate}/{enddate}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stm_date'])->name('acc.stayed_down_opd_stm_date');//
-Route::match(['get','post'],'stayed_down_opd_stmnull',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stmnull'])->name('acc.stayed_down_opd_stmnull');//
-Route::match(['get','post'],'stayed_down_opd_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\StayeddownController::class, 'stayed_down_opd_stmnull_date'])->name('acc.stayed_down_opd_stmnull_date');//
- 
+// ************106 OPD**********************
 
-Route::match(['get','post'],'stayed_down_ipddashboard',[App\Http\Controllers\StayeddownController::class, 'stayed_down_ipddashboard'])->name('acc.stayed_down_ipddashboard');//
+Route::match(['get','post'],'acc_106_dashboard',[App\Http\Controllers\Account106Controller::class, 'acc_106_dashboard'])->name('acc.acc_106_dashboard');//
+Route::match(['get','post'],'acc_106_pull',[App\Http\Controllers\Account106Controller::class, 'acc_106_pull'])->name('acc.acc_106_pull');//
+Route::match(['get','post'],'acc_106_pulldata',[App\Http\Controllers\Account106Controller::class, 'acc_106_pulldata'])->name('acc.acc_106_pulldata');//
+Route::match(['get','post'],'acc_106_stam',[App\Http\Controllers\Account106Controller::class, 'acc_106_stam'])->name('acc.acc_106_stam');//
+Route::match(['get','post'],'acc_106_detail/{months}/{year}',[App\Http\Controllers\Account106Controller::class, 'acc_106_detail'])->name('acc.acc_106_detail');//
+Route::match(['get','post'],'acc_106_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account106Controller::class, 'acc_106_detail_date'])->name('acc.acc_106_detail_date');//
+Route::match(['get','post'],'acc_106_stm',[App\Http\Controllers\Account106Controller::class, 'acc_106_stm'])->name('acc.acc_106_stm');//
+Route::match(['get','post'],'acc_106_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account106Controller::class, 'acc_106_stm_date'])->name('acc.acc_106_stm_date');//
+Route::match(['get','post'],'acc_106_stmnull',[App\Http\Controllers\Account106Controller::class, 'acc_106_stmnull'])->name('acc.acc_106_stmnull');//
+Route::match(['get','post'],'acc_106_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account106Controller::class, 'acc_106_stmnull_date'])->name('acc.acc_106_stmnull_date');//
+ 
+// ************107 IPD**********************
+
+Route::match(['get','post'],'acc_107_dashboard',[App\Http\Controllers\Account107Controller::class, 'acc_107_dashboard'])->name('acc.acc_107_dashboard');//
+Route::match(['get','post'],'acc_107_pull',[App\Http\Controllers\Account107Controller::class, 'acc_107_pull'])->name('acc.acc_107_pull');//
+Route::match(['get','post'],'acc_107_pulldata',[App\Http\Controllers\Account107Controller::class, 'acc_107_pulldata'])->name('acc.acc_107_pulldata');//
+Route::match(['get','post'],'acc_107_stam',[App\Http\Controllers\Account107Controller::class, 'acc_107_stam'])->name('acc.acc_107_stam');//
+Route::match(['get','post'],'acc_107_detail/{months}/{year}',[App\Http\Controllers\Account107Controller::class, 'acc_107_detail'])->name('acc.acc_107_detail');//
+Route::match(['get','post'],'acc_107_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account107Controller::class, 'acc_107_detail_date'])->name('acc.acc_107_detail_date');//
+Route::match(['get','post'],'acc_107_stm',[App\Http\Controllers\Account107Controller::class, 'acc_107_stm'])->name('acc.acc_107_stm');//
+Route::match(['get','post'],'acc_107_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account107Controller::class, 'acc_107_stm_date'])->name('acc.acc_107_stm_date');//
+Route::match(['get','post'],'acc_107_stmnull',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull'])->name('acc.acc_107_stmnull');//
+Route::match(['get','post'],'acc_107_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull_date'])->name('acc.acc_107_stmnull_date');//
 
 // *******************OFC *******************
 Route::match(['get','post'],'ofc_401',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401'])->name('claim.ofc_401');//

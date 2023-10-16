@@ -544,24 +544,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 </ul>
                             </li>
                         @endif
-
-                        @if ($permiss_setting_upstm != 0)
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect"> 
-                                    <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
-                                    <span>UP STM</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="true">
-                                    <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
-                                    <li><a href="{{ url('upstm_ofcexcel') }}">OFC-BKK(Excel)OK</a></li> 
-                                    <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  
-                                    <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
-                                    <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
-                                    <li><a href="{{ url('upstm_lgotiexcel') }}">LGO(Excel-ไต)OK</a></li>
-                                    <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)OK</a></li>
-                                </ul>
-                            </li>
-                        @endif
+                      
  
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -571,20 +554,38 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="javascript: void(0);" class="has-arrow">106-ลูกหนี้ค่ารักษา-ขำระเงิน OP</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('stayed_down_opddashboard') }}">dashboard</a>
-                                        <li><a href="{{ url('stayed_down_opd_pull') }}">ดึงลูกหนี้</a>
+                                        <li><a href="{{ url('acc_106_dashboard') }}">dashboard</a>
+                                        <li><a href="{{ url('acc_106_pull') }}">ดึงลูกหนี้</a>
                                         </li>
                                     </ul>
                                 </li>
-                                {{-- <li><a href="javascript: void(0);" class="has-arrow">107-ลูกหนี้ค่ารักษา-ขำระเงิน IP</a>
+                                 <li><a href="javascript: void(0);" class="has-arrow">107-ลูกหนี้ค่ารักษา-ขำระเงิน IP</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('stayed_down_ipddashboard') }}">dashboard</a>
-                                        <li><a href="{{ url('stayed_down_ipd_pull') }}">ดึงลูกหนี้</a>
+                                        <li><a href="{{ url('acc_107_dashboard') }}">dashboard</a>
+                                        <li><a href="{{ url('acc_107_pull') }}">ดึงลูกหนี้</a>
                                         </li>
                                     </ul>
-                                </li> --}} 
+                                </li> 
                             </ul>
                         </li>
+
+                        @if ($permiss_setting_upstm != 0)
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect"> 
+                                <i class="fa-solid fa-cloud-arrow-up text-warning"></i>
+                                <span>UP STM</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
+                                <li><a href="{{ url('upstm_ofcexcel') }}">OFC-BKK(Excel)OK</a></li> 
+                                <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  
+                                <li><a href="{{ url('upstm_ti') }}">UCS(Excel-ไต)OK</a></li>
+                                <li><a href="{{ url('upstm_tixml') }}">OFC(Xml-ไต)OK</a></li>
+                                <li><a href="{{ url('upstm_lgotiexcel') }}">LGO(Excel-ไต)OK</a></li>
+                                <li><a href="{{ url('upstm_tixml_sss') }}">SSS(Xml-ไต)OK</a></li>
+                            </ul>
+                        </li>
+                    @endif
                         
 
                         @if ($permiss_rep_money != 0)

@@ -105,12 +105,12 @@
                       
                         <div class="row">
                             <div class="col-md-4">
-                                <h4 class="card-title">Detail Account ผัง 1102050102.106</h4>
+                                <h4 class="card-title">Detail Account ผัง 1102050102.107</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('stayed_down_opd_stam')}}">
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('acc_107_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -131,7 +131,7 @@
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">vstdate</th>  
+                                            <th class="text-center">dchdate</th>  
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
                                             <th class="text-center">ลูกหนี้</th>  
@@ -156,7 +156,7 @@
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->vstdate }}</td>   
+                                                <td class="text-center" width="10%">{{ $item->dchdate }}</td>   
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
@@ -306,7 +306,7 @@
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('acc.stayed_down_opd_pulldata') }}",
+                                    url: "{{ route('acc.acc_107_pulldata') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

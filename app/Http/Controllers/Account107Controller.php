@@ -60,19 +60,18 @@ use App\Models\Building;
 use App\Models\Product_budget;
 use App\Models\Product_method;
 use App\Models\Product_buy;
-use App\Models\Users_prefix;
+use App\Models\Acc_1102050102_107;
 use App\Models\Acc_1102050102_106;
 use App\Models\Acc_debtor;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
-class StayeddownController extends Controller
+class Account107Controller extends Controller
 {
-    public function stayed_down_opddashboard(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
+     // ************ OPD 107******************
+    public function acc_107_dashboard(Request $request)
+    { 
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
         $date = date('Y-m-d');
@@ -80,7 +79,7 @@ class StayeddownController extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
+        $yearnew = date('Y')+1;
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
@@ -89,37 +88,35 @@ class StayeddownController extends Controller
         $data['enddate'] = $request->enddate;
         if ($data['startdate'] == '') {
             $data['datashow'] = DB::connection('mysql')->select('
-                SELECT month(o.vstdate) as months,year(o.vstdate) as year,l.MONTH_NAME
-                    ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
+                SELECT month(a.dchdate) as months,year(a.dchdate) as year ,l.MONTH_NAME
+                ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
                     from hos.rcpt_arrear r  
-                    LEFT OUTER JOIN hos.ovst o on o.vn=r.vn  
-                    LEFT OUTER JOIN hos.patient p on p.hn=r.hn  
-                    LEFT OUTER JOIN hos.pttype t on t.pttype = o.pttype
-                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(o.vstdate)
-                    WHERE o.vstdate BETWEEN "'.$newDate.'" and "'.$date.'"
-                    AND r.paid ="N"
-                    GROUP BY month(o.vstdate)
-                    ORDER BY o.vstdate desc limit 6; 
+                    LEFT OUTER JOIN hos.an_stat a ON r.vn = a.an  
+                    LEFT OUTER JOIN hos.patient p ON p.hn = a.hn   
+                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate BETWEEN "'.$newDate.'" and "'.$date.'"
+                    AND r.paid ="N" AND r.pt_type="IPD"
+                    GROUP BY month(a.dchdate)
+                    ORDER BY a.dchdate desc limit 6; 
             '); 
         } else {
             $data['datashow'] = DB::connection('mysql')->select('
-                SELECT month(o.vstdate) as months,year(o.vstdate) as year,l.MONTH_NAME
-                        ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year ,l.MONTH_NAME
+                    ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
                         from hos.rcpt_arrear r  
-                        LEFT OUTER JOIN hos.ovst o on o.vn=r.vn  
-                        LEFT OUTER JOIN hos.patient p on p.hn=r.hn  
-                        LEFT OUTER JOIN hos.pttype t on t.pttype = o.pttype
-                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(o.vstdate)
-                        WHERE o.vstdate BETWEEN "'.$data['startdate'].'" and "'.$data['enddate'].'" 
-                        AND r.paid ="N"
-                        ORDER BY o.vstdate desc limit 6;  
+                        LEFT OUTER JOIN hos.an_stat a ON r.vn = a.an  
+                        LEFT OUTER JOIN hos.patient p ON p.hn = a.hn   
+                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+                        WHERE a.dchdate BETWEEN "'.$data['startdate'].'" and "'.$data['enddate'].'" 
+                        AND r.paid ="N" AND r.pt_type="IPD"
+                        ORDER BY a.dchdate desc limit 6;  
             '); 
         }
         
         
-        return view('account_stayeddown.stayed_down_opddashboard', $data );
+        return view('account_107.acc_107_dashboard', $data );
     }
-    public function stayed_down_opd_pull(Request $request)
+    public function acc_107_pull(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
@@ -131,11 +128,11 @@ class StayeddownController extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT a.*,c.subinscl from acc_debtor a
-                left join checksit_hos c on c.vn = a.vn  
-                WHERE a.account_code="1102050102.106"
+                left join checksit_hos c on c.an = a.an  
+                WHERE a.account_code="1102050102.107"
                 AND a.stamp = "N"
                 group by a.vn
-                order by a.vstdate asc;
+                order by a.dchdate asc;
 
             ');
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
@@ -143,62 +140,52 @@ class StayeddownController extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
 
-        return view('account_stayeddown.stayed_down_opd_pull',[
+        return view('account_107.acc_107_pull',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'    =>     $acc_debtor,
         ]);
     }
-    public function stayed_down_opd_pulldata(Request $request)
+    public function acc_107_pulldata(Request $request)
     { 
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2; 
         $acc_debtor = DB::connection('mysql2')->select(' 
-            SELECT r.vn,r.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname
-                ,v.pttype,v.vstdate,r.arrear_date,r.arrear_time,rp.book_number,rp.bill_number,r.amount,rp.total_amount,r.paid
-                ,o.vsttime,t.name as pttype_name,"27" as acc_code,"1102050102.106" as account_code,"ชำระเงิน" as account_name,r.staff
+                SELECT a.vn,a.an,r.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname
+                ,a.pttype,a.dchdate,r.arrear_date,r.arrear_time,rp.book_number,rp.bill_number,r.amount,r.paid 
+                ,"" as acc_code,"1102050102.107" as account_code,"ชำระเงิน" as account_name
                 ,r.rcpno,r.finance_number,r.receive_money_date,r.receive_money_staff
 
                 FROM hos.rcpt_arrear r  
                 LEFT OUTER JOIN hos.rcpt_print rp on r.vn = rp.vn 
                 LEFT OUTER JOIN hos.ovst o on o.vn= r.vn  
-                LEFT OUTER JOIN hos.vn_stat v on v.vn= r.vn  
+                LEFT OUTER JOIN an_stat a ON r.vn = a.an  
                 LEFT OUTER JOIN hos.patient p on p.hn=r.hn  
                 LEFT OUTER JOIN hos.pttype t on t.pttype = o.pttype
                 LEFT OUTER JOIN hos.pttype_eclaim e on e.code = t.pttype_eclaim_id
-                WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND r.paid ="N"
-                GROUP BY r.vn
+                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
+                AND r.paid ="N" AND r.pt_type="IPD"
+                GROUP BY a.an
         ');
         // LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(o.vstdate)
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.106')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.107')->whereBetween('dchdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
-                            // 'an'                 => $value->an,
+                            'an'                 => $value->an,
                             'vn'                 => $value->vn,
                             'cid'                => $value->cid,
                             'ptname'             => $value->ptname,
                             'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
+                            'dchdate'            => $value->dchdate,
+                            'vstdate'            => $value->arrear_date,
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            // 'income_group'       => $value->income_group,
-                            // 'income'             => $value->income,
-                            // 'uc_money'           => $value->uc_money,
-                            // 'discount_money'     => $value->discount_money,
-                            // 'paid_money'         => $value->paid_money,
-                            // 'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->amount,
-                            // 'debit_drug'         => $value->debit_drug,
-                            // 'debit_instument'    => $value->debit_instument,
-                            // 'debit_toa'          => $value->debit_toa,
-                            // 'debit_refer'        => $value->debit_refer,
+                            'account_name'       => $value->account_name, 
+                            'debit'              => $value->amount, 
                             'debit_total'        => $value->amount,
-                            'rcpno'              => $value->rcpno,
-                            // 'max_debt_amount'    => $value->max_debt_money,
+                            'rcpno'              => $value->rcpno, 
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }
@@ -208,7 +195,7 @@ class StayeddownController extends Controller
                 'status'    => '200'
             ]);
     }
-    public function stayed_down_opd_stam(Request $request)
+    public function acc_107_stam(Request $request)
     {
         $id = $request->ids;
         $iduser = Auth::user()->id;
@@ -219,11 +206,11 @@ class StayeddownController extends Controller
                     ]);
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
-             $check = Acc_1102050102_106::where('vn', $value->vn)->count(); 
+             $check = Acc_1102050102_107::where('an', $value->an)->count(); 
                 if ($check > 0) {
                 # code...
                 } else {
-                    Acc_1102050102_106::insert([
+                    Acc_1102050102_107::insert([
                             'vn'                => $value->vn,
                             'hn'                => $value->hn,
                             'an'                => $value->an,
@@ -257,7 +244,7 @@ class StayeddownController extends Controller
             'status'    => '200'
         ]);
     }
-    public function stayed_down_opd_detail(Request $request,$months,$year)
+    public function acc_107_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
@@ -265,68 +252,35 @@ class StayeddownController extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-            from acc_1102050102_106 U1
-            WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-            GROUP BY U1.vn
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
+            from acc_1102050102_107 U1
+            WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
+            GROUP BY U1.an
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_stayeddown.stayed_down_opd_detail', $data, [ 
+        return view('account_107.acc_107_detail', $data, [ 
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
         ]);
     }
-    public function stayed_down_opd_detail_date(Request $request,$startdate,$enddate)
+    public function acc_107_detail_date(Request $request,$startdate,$enddate)
     { 
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-            from acc_1102050102_106 U1
-            WHERE U1.vstdate  BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-            GROUP BY U1.vn
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
+            from acc_1102050102_107 U1
+            WHERE U1.dchdate  BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+            GROUP BY U1.an
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_stayeddown.stayed_down_opd_detail_date', $data, [ 
+        return view('account_107.acc_107_detail_date', $data, [ 
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
         ]);
     }
-    // public function phthisis_ipd(Request $request)
-    // {
-    //     $date = date('Y-m-d');
-    //     $y = date('Y') + 543;
-    //     $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-    //     $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
-
-    //     $data['startdate'] = $request->startdate;
-    //     $data['enddate'] = $request->enddate;
-    //     if ($data['startdate'] == '') {
-    //         $data['phthisis_ipd'] = DB::connection('mysql2')->select('
-    //             SELECT i.pttype,pt.name,COUNT(DISTINCT i.an) countan 
-    //                 from ipt i
-    //                 left outer join an_stat a on a.an = i.an
-    //                 left outer join pttype pt on pt.pttype = i.pttype 
-    //                 where i.dchdate BETWEEN "'.$newDate.'" and "'.$date.'"
-    //                 AND a.pdx BETWEEN "A150" AND "A199" 
-    //                 GROUP BY i.pttype 
-    //         '); 
-    //     } else {
-    //         $data['phthisis_ipd'] = DB::connection('mysql2')->select('
-    //             SELECT i.pttype,pt.name,COUNT(DISTINCT i.an) countan 
-    //                     from ipt i
-    //                     left outer join an_stat a on a.an = i.an
-    //                     left outer join pttype pt on pt.pttype = i.pttype 
-    //                     where i.dchdate BETWEEN "'.$data['startdate'].'" and "'.$data['enddate'].'"
-    //                     AND a.pdx BETWEEN "A150" AND "A199" 
-    //                     GROUP BY i.pttype 
-    //         '); 
-    //     } 
-        
-    //     return view('report_orther.phthisis_ipd', $data );
-    // }
-     
+    
  
 }

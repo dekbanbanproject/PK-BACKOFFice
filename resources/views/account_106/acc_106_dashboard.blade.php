@@ -85,12 +85,12 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('acc.stayed_down_opddashboard') }}" method="GET">
+        <form action="{{ route('acc.acc_106_dashboard') }}" method="GET">
             @csrf
             <div class="row ms-2 me-2 mt-2">
                 <div class="col-md-3">
-                    <h5 class="card-title">Detail 1102050102.106</h5>
-                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.106</p>
+                    <h5 class="card-title">Detail 1102050102.107</h5>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.107</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -201,7 +201,7 @@
                                                     </div>
                                                     <div class="col"></div>
                                                     <div class="col-md-5 text-end me-2">
-                                                        <a href="{{url('stayed_down_opd_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                        <a href="{{url('acc_106_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                             <div class="widget-chart widget-chart-hover">
                                                                 <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                         {{ number_format($sum_Y, 2) }}
@@ -344,7 +344,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('stayed_down_opd_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
+                                                    <a href="{{url('acc_106_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                     {{ number_format($sum_Y, 2) }}
