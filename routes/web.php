@@ -307,7 +307,7 @@ Route::match(['get','post'],'ppfs_12003_export',[App\Http\Controllers\PPfs12003C
 
 // *******************2004 4บริการเจาะเลือดจากหลอดเลือดดำภายหลังอดอาหาร8ชั่วโมง-12004*******************
 Route::match(['get','post'],'ppfs_12004',[App\Http\Controllers\PPfs12004Controller::class, 'ppfs_12004'])->name('claim.ppfs_12004');//
-Route::match(['get','post'],'ppfs_12004_process',[App\Http\Controllers\PPfs6PPfs12004Controller6Controller::class, 'ppfs_12004_process'])->name('claim.ppfs_12004_process');//
+Route::match(['get','post'],'ppfs_12004_process',[App\Http\Controllers\PPfs12004Controller::class, 'ppfs_12004_process'])->name('claim.ppfs_12004_process');//
 Route::match(['get','post'],'ppfs_12004_export',[App\Http\Controllers\PPfs12004Controller::class, 'ppfs_12004_export'])->name('claim.ppfs_12004_export');//
 
 // *******************30101 บริการคัดกรองการขาดธาตุเหล็ก 13-45 ปี*******************
@@ -315,6 +315,10 @@ Route::match(['get','post'],'ppfs_30101',[App\Http\Controllers\PPfs66Controller:
 Route::match(['get','post'],'ppfs_30101_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_process'])->name('claim.ppfs_30101_process');//
 Route::match(['get','post'],'ppfs_30101_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_export'])->name('claim.ppfs_30101_export');//
 
+// *******************30011 บริการดูแลและฝากครรภ์*******************
+Route::match(['get','post'],'ppfs_30011',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011'])->name('claim.ppfs_30011');//
+Route::match(['get','post'],'ppfs_30011_process',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_process'])->name('claim.ppfs_30011_process');//
+Route::match(['get','post'],'ppfs_30011_export',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_export'])->name('claim.ppfs_30011_export');//
 // ********************************* นักโทษ  *****************************************
 Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438
 Route::match(['get','post'],'prisoner_opd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail'])->name('prisoner.prisoner_opd_detail');  //นักโทษ 438

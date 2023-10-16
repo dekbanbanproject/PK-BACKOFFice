@@ -271,6 +271,7 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="javascript: void(0);" class="has-arrow">ANC-หญิงตั้งครรภ์</a>
                                     <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('ppfs_30011') }}">บริการดูแลและฝากครรภ์</a></li>
                                         <li><a href="{{ url('anc_dent') }}">ตรวจฟัน+ขัดฟัน</a></li>
                                         <li><a href="{{ url('anc_14001') }}">บริการยาเม็ดเสริมธาตุเหล็ก</a></li>
                                     </ul>
