@@ -103,7 +103,7 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{url('fdh_data_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
                     </a>
@@ -127,11 +127,17 @@ $pos = strrpos($url, '/') + 1;
                              <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#Main_opd" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">Financial Data Hub </span>    
+                                        <span class="d-none d-sm-block">Financial Data Hub OPD</span>    
                                     </a>
                                 </li>   
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#Main_ipd" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                        <span class="d-none d-sm-block">Financial Data Hub IPD</span>    
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-bs-toggle="tab" href="#OPD" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
@@ -232,7 +238,7 @@ $pos = strrpos($url, '/') + 1;
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content p-3 text-muted">
-                                <div class="tab-pane active" id="Main" role="tabpanel">
+                                <div class="tab-pane active" id="Main_opd" role="tabpanel">
                                     <p class="mb-0">
                                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                             <thead>
@@ -240,7 +246,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">ลำดับ</th>
                                                     <th class="text-center">vn</th>
                                                     <th class="text-center">hn</th>
-                                                    <th class="text-center">an</th>  
+                                                    {{-- <th class="text-center">an</th>   --}}
                                                     <th class="text-center">cid</th> 
                                                     <th class="text-center">ptname</th> 
                                                     <th class="text-center">pttype</th> 
@@ -249,18 +255,56 @@ $pos = strrpos($url, '/') + 1;
                                             </thead>
                                             <tbody>
                                                 <?php $number = 0; ?>
-                                                @foreach ($d_fdh as $item1)
+                                                @foreach ($d_fdh_opd as $item1)
                                                 <?php $number++; ?>
                     
                                                     <tr height="20" style="font-size: 12px;">
                                                         <td class="text-font" style="text-align: center;" width="5%">{{ $number }}</td>
                                                         <td class="text-center" width="10%">  {{ $item1->vn }}  </td>
                                                         <td class="text-center" width="5%">{{ $item1->hn }}</td>
-                                                        <td class="text-center" width="10%">{{ $item1->an }}</td>  
+                                                        {{-- <td class="text-center" width="10%">{{ $item1->an }}</td>   --}}
                                                         <td class="text-center" width="10%">{{ $item1->cid }}</td> 
                                                         <td class="text-start" >{{ $item1->ptname }}</td> 
                                                         <td class="text-center" width="5%">{{ $item1->pttype }}</td> 
                                                         <td class="text-center" width="10%">{{ $item1->vstdate }}</td>                                                     
+                                                    </tr>
+                                        
+                    
+                                                @endforeach
+                    
+                                            </tbody>
+                                        </table>
+                                    </p>
+                                </div>
+                                <div class="tab-pane" id="Main_ipd" role="tabpanel">
+                                    <p class="mb-0">
+                                        <table id="example17" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr style="font-size: 13px">
+                                                    <th class="text-center">ลำดับ</th>
+                                                    <th class="text-center">an</th>
+                                                    <th class="text-center">hn</th>
+                                                    {{-- <th class="text-center">an</th>   --}}
+                                                    <th class="text-center">cid</th> 
+                                                    <th class="text-center">ptname</th> 
+                                                    <th class="text-center">pttype</th> 
+                                                    <th class="text-center">vstdate</th>  
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $number2 = 0; ?>
+                                                @foreach ($d_fdh_ipd as $itemipd)
+                                                <?php $number2++; ?>
+                    
+                                                    <tr height="20" style="font-size: 12px;">
+                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $number2 }}</td>
+                                                        <td class="text-center" width="10%">  {{ $itemipd->an }}  </td>
+                                                        <td class="text-center" width="5%">{{ $itemipd->hn }}</td>
+                                                        {{-- <td class="text-center" width="10%">{{ $item1->an }}</td>   --}}
+                                                        <td class="text-center" width="10%">{{ $itemipd->cid }}</td> 
+                                                        <td class="text-start" >{{ $itemipd->ptname }}</td> 
+                                                        <td class="text-center" width="5%">{{ $itemipd->pttype }}</td> 
+                                                        <td class="text-center" width="10%">{{ $itemipd->vstdate }}</td>                                                     
                                                     </tr>
                                         
                     
@@ -1038,7 +1082,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ofc_401_process') }}",
+                                    url: "{{ route('claim.fdh_data_process') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

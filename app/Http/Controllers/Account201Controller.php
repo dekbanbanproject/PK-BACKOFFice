@@ -96,7 +96,7 @@ class Account201Controller extends Controller
         $date = date('Y-m-d');
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
         $yearold = date('Y')-1;
@@ -113,11 +113,11 @@ class Account201Controller extends Controller
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+                    WHERE a.vstdate between "'.$newweek.'" and "'.$date.'"
                     and account_code="1102050101.201"
                     and income <> 0
                     group by month(a.vstdate) 
-                    order by a.vstdate desc limit 3;
+                    order by a.vstdate desc limit 1;
             ');
 
         } else {
@@ -145,6 +145,7 @@ class Account201Controller extends Controller
             'datashow'         => $datashow,
             'newyear'          => $newyear,
             'date'             => $date,
+            'newweek'          => $newweek,
         ]);
     }
     public function account_201_pull(Request $request)

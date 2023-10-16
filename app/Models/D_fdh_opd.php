@@ -8,14 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class D_fdh extends Authenticatable
+class D_fdh_opd extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable; 
-    protected $table = 'd_fdh';
-    protected $primaryKey = 'd_fdh_id';
+    protected $table = 'd_fdh_opd';
+    protected $primaryKey = 'd_fdh_opd_id';
     protected $fillable = [ 
-        'vn', 
-        'an',  
+        'vn',  
         'hn',   
     ];
     public $timestamps = false; 

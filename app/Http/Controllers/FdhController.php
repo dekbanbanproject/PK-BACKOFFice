@@ -61,7 +61,8 @@ use App\Models\Product_budget;
 use App\Models\Product_method;
 use App\Models\Product_buy;
 use App\Models\Users_prefix;
-use App\Models\D_fdh;
+use App\Models\D_fdh_opd;
+use App\Models\D_fdh_ipd;
 use App\Models\D_12001;
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -112,35 +113,71 @@ class FdhController extends Controller
 { 
     public function fdh_data(Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-  
-        if ($startdate == '') {  
-            
-        } else { 
-                D_fdh::truncate(); 
-                $data_main_ = DB::connection('mysql2')->select(' 
-                    SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname,v.pttype,v.vstdate  
-                    FROM hos.vn_stat v
-                    LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn 
-                    LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn  
-                    WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                    GROUP BY v.vn  
-                ');                 
-                foreach ($data_main_ as $key => $value) {    
-                    D_fdh::insert([
-                            'vn'                 => $value->vn,
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an, 
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate 
-                        ]); 
-                }
-                
-        }
-            $data['d_fdh'] = DB::connection('mysql')->select('SELECT * from d_fdh');  
+            $startdate = $request->startdate;
+            $enddate = $request->enddate;
+    
+            if ($startdate == '') {                  
+            } else { 
+                D_fdh_opd::truncate(); 
+                D_fdh_ipd::truncate(); 
+                    $data_main_ = DB::connection('mysql2')->select(' 
+                        SELECT v.vn,v.cid,v.hn,concat(p.pname,p.fname," ",p.lname) ptname,v.vstdate,v.pttype  
+                        FROM hos.vn_stat v 
+                        LEFT OUTER JOIN hos.patient p ON v.hn = p.hn  
+                        WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        GROUP BY v.vn  
+                    ');                 
+                    foreach ($data_main_ as $key => $value) {    
+                        D_fdh_opd::insert([
+                                'vn'                 => $value->vn,
+                                'hn'                 => $value->hn, 
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate 
+                            ]); 
+                    }
+
+                    $data_mainipd_ = DB::connection('mysql2')->select(' 
+                        SELECT a.an,p.cid,a.hn,concat(p.pname,p.fname," ",p.lname) ptname,a.dchdate,a.pttype  
+                        FROM hos.an_stat a 
+                        LEFT OUTER JOIN hos.patient p ON a.hn = p.hn
+                        WHERE a.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        GROUP BY a.an  
+                    ');                 
+                    foreach ($data_mainipd_ as $key => $value2) {    
+                        D_fdh_ipd::insert([
+                                'an'                 => $value2->an,
+                                'hn'                 => $value2->hn, 
+                                'cid'                => $value2->cid,
+                                'ptname'             => $value2->ptname,
+                                'pttype'             => $value2->pttype,
+                                'dchdate'            => $value2->dchdate 
+                            ]); 
+                    }
+ 
+
+                    D_opd::truncate();
+                    D_orf::truncate();
+                    D_oop::truncate();
+                    D_odx::truncate();
+                    D_idx::truncate();
+                    D_ipd::truncate();
+                    D_irf::truncate();
+                    D_aer::truncate();
+                    D_iop::truncate();
+                    D_adp::truncate();   
+                    D_dru::truncate();   
+                    D_pat::truncate();
+                    D_cht::truncate();
+                    D_cha::truncate();
+                    D_ins::truncate();
+                    
+            }
+
+
+            $data['d_fdh_opd'] = DB::connection('mysql')->select('SELECT * from d_fdh_opd');  
+            $data['d_fdh_ipd'] = DB::connection('mysql')->select('SELECT * from d_fdh_ipd');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="FDH"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="FDH"'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="FDH"');
@@ -162,25 +199,25 @@ class FdhController extends Controller
             'enddate'       =>     $enddate, 
         ]);
     }
-    public function ofc_401_process(Request $request)
+    public function fdh_data_process(Request $request)
     { 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_ofc_401');
+        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an,hn,cid from d_fdh');
         $iduser = Auth::user()->id; 
-        D_opd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_orf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_oop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_odx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_idx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ipd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_irf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_aer::where('d_anaconda_id','=','OFC_401')->delete();
-        D_iop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_adp::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_dru::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_pat::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cht::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cha::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ins::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_opd::where('d_anaconda_id','=','FDH')->delete();
+        // D_orf::where('d_anaconda_id','=','FDH')->delete();
+        // D_oop::where('d_anaconda_id','=','FDH')->delete();
+        // D_odx::where('d_anaconda_id','=','FDH')->delete();
+        // D_idx::where('d_anaconda_id','=','FDH')->delete();
+        // D_ipd::where('d_anaconda_id','=','FDH')->delete();
+        // D_irf::where('d_anaconda_id','=','FDH')->delete();
+        // D_aer::where('d_anaconda_id','=','FDH')->delete();
+        // D_iop::where('d_anaconda_id','=','FDH')->delete();
+        // D_adp::where('d_anaconda_id','=','FDH')->delete();   
+        // D_dru::where('d_anaconda_id','=','FDH')->delete();   
+        // D_pat::where('d_anaconda_id','=','FDH')->delete();
+        // D_cht::where('d_anaconda_id','=','FDH')->delete();
+        // D_cha::where('d_anaconda_id','=','FDH')->delete();
+        // D_ins::where('d_anaconda_id','=','FDH')->delete();
 
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
@@ -214,7 +251,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
                     LEFT OUTER JOIN patient px on px.hn = v.hn 
                     LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn = rd.vn 
-                    WHERE v.vn IN("'.$va1->vn.'")   
+                    WHERE v.vn IN("'.$va1->vn.'")    
                 ');
                 // ,c.claimcode PERMITNO
                 // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
@@ -240,31 +277,30 @@ class FdhController extends Controller
                         'RELINSCL'          => $va17->RELINSCL,
                         'HTYPE'             => $va17->HTYPE,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 }
                 //D_pat OK
                 $data_pat_ = DB::connection('mysql2')->select('
-                    SELECT v.hcode HCODE
-                        ,v.hn HN
-                        ,pt.chwpart CHANGWAT
-                        ,pt.amppart AMPHUR
-                        ,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
-                        ,pt.sex SEX
-                        ,pt.marrystatus MARRIAGE 
-                        ,pt.occupation OCCUPA
-                        ,lpad(pt.nationality,3,0) NATION
-                        ,pt.cid PERSON_ID
-                        ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
-                        ,pt.pname TITLE
-                        ,pt.fname FNAME 
-                        ,pt.lname LNAME
-                        ,"1" IDTYPE
-                        from vn_stat v
-                        LEFT JOIN pttype p on p.pttype = v.pttype
-                        LEFT JOIN ipt i on i.vn = v.vn 
-                        LEFT JOIN patient pt on pt.hn = v.hn 
-                        WHERE v.vn IN("'.$va1->vn.'")
+                    SELECT 
+                        (SELECT hcode FROM opdconfig) as HCODE
+                        ,p.hn as HN
+                        ,p.chwpart as CHANGWAT
+                        ,p.amppart as AMPHUR
+                        ,DATE_FORMAT(p.birthday,"%Y%m%d") as DOB
+                        ,p.sex as SEX
+                        ,p.marrystatus as MARRIAGE
+                        ,p.occupation as OCCUPA
+                        ,p.nationality as NATION
+                        ,p.cid as PERSON_ID 
+                        ,concat(p.fname," ",p.lname,",",p.pname) NAMEPAT
+                        ,p.pname as TITLE
+                        ,p.fname as FNAME
+                        ,p.lname as LNAME
+                        ,"1" as IDTYPE
+                        FROM patient p  
+                        LEFT OUTER JOIN nationality n1 on n1.nationality = p.nationality  
+                        WHERE  p.hn IN("'.$va1->hn.'") 
                 ');
                 foreach ($data_pat_ as $va14) {
                     D_pat::insert([
@@ -284,7 +320,7 @@ class FdhController extends Controller
                         'LNAME'              => $va14->LNAME,
                         'IDTYPE'             => $va14->IDTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'OFC_401'
+                        'd_anaconda_id'      => 'FDH'
                     ]);
                 }
                 //D_opd OK
@@ -320,7 +356,7 @@ class FdhController extends Controller
                         'TYPEIN'            => $val3->TYPEIN, 
                         'TYPEOUT'           => $val3->TYPEOUT, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 }
                 //D_orf _OK
@@ -347,11 +383,11 @@ class FdhController extends Controller
                         'REFERTYPE'         => $va4->REFERTYPE, 
                         'REFERDATE'         => $va4->REFERDATE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 }
                  // D_odx OK
-                 $data_odx_ = DB::connection('mysql2')->select('
+                $data_odx_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
                         ,v.spclty CLINIC
@@ -383,12 +419,12 @@ class FdhController extends Controller
                         'PERSON_ID'         => $va5->PERSON_ID, 
                         'SEQ'               => $va5->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                     
                 }
                  //D_oop OK
-                 $data_oop_ = DB::connection('mysql2')->select('
+                $data_oop_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,v.spclty CLINIC
@@ -420,7 +456,7 @@ class FdhController extends Controller
                         'SEQ'               => $va6->SEQ, 
                         'SERVPRICE'         => $va6->SERVPRICE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                     
                 }
@@ -457,7 +493,7 @@ class FdhController extends Controller
                         'UUC'               => $va13->UUC, 
                         'SVCTYPE'           => $va13->SVCTYPE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 }
                 
@@ -479,7 +515,7 @@ class FdhController extends Controller
                         'REFER'              => $va12->REFER,
                         'REFERTYPE'          => $va12->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'OFC_401',
+                        'd_anaconda_id'      => 'FDH',
                     ]);                     
                 }                 
                 //D_idx OK 
@@ -506,7 +542,7 @@ class FdhController extends Controller
                         'DXTYPE'            => $va7->DXTYPE,
                         'DRDX'              => $va7->DRDX, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                             
                 }
@@ -543,7 +579,7 @@ class FdhController extends Controller
                         'DATEOUT'           => $va9->DATEOUT,
                         'TIMEOUT'           => $va9->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 }
                 //D_cht OK
@@ -579,7 +615,7 @@ class FdhController extends Controller
                         'INVOICE_NO'        => $va15->INVOICE_NO,
                         'INVOICE_LT'        => $va15->INVOICE_LT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 }
                 //D_cha OK
@@ -628,7 +664,7 @@ class FdhController extends Controller
                         'PERSON_ID'         => $va16->PERSON_ID,
                         'SEQ'               => $va16->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 } 
                  //D_aer OK
@@ -684,7 +720,7 @@ class FdhController extends Controller
                         'DALERT'            => $va8->DALERT,
                         'TALERT'            => $va8->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'OFC_401'
+                        'd_anaconda_id'     => 'FDH'
                     ]);
                 }
                  
@@ -776,7 +812,7 @@ class FdhController extends Controller
                         'icode'                => $va10->icode,
                         'vstdate'              => $va10->vstdate,
                         'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'OFC_401'
+                        'd_anaconda_id'        => 'FDH'
                     ]);
                 } 
                  //D_dru OK
@@ -806,7 +842,7 @@ class FdhController extends Controller
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
                 
-                    WHERE v.vn IN("'.$va1->vn.'")
+                    WHERE vv.vn IN("'.$va1->vn.'")
                     AND d.did is not null 
                     GROUP BY v.vn,did
 
@@ -872,7 +908,7 @@ class FdhController extends Controller
                         'PROVIDER'       => $va11->PROVIDER,
                         'vstdate'        => $va11->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'OFC_401'
+                        'd_anaconda_id'  => 'FDH'
                     ]);
                 } 
                 
@@ -887,7 +923,7 @@ class FdhController extends Controller
              'status'    => '200'
          ]);
     }
-    public function ofc_401_export(Request $request)
+    public function fdh_data_export(Request $request)
     {
         $sss_date_now = date("Y-m-d");
         $sss_time_now = date("H:i:s");
@@ -918,7 +954,7 @@ class FdhController extends Controller
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_opd1, $opd_head);
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins where d_anaconda_id = "OFC_401"
+            SELECT * from d_ins where d_anaconda_id = "FDH"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -952,7 +988,7 @@ class FdhController extends Controller
         $opd_head2 = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_opd2, $opd_head2);
         $iop = DB::connection('mysql')->select('
-            SELECT * from d_iop where d_anaconda_id = "OFC_401"
+            SELECT * from d_iop where d_anaconda_id = "FDH"
         ');
         foreach ($iop as $key => $value2) {
             $b1 = $value2->AN;
@@ -976,7 +1012,7 @@ class FdhController extends Controller
         $opd_head3 = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_opd3, $opd_head3);
         $adp = DB::connection('mysql')->select('
-            SELECT * from d_adp where d_anaconda_id = "OFC_401"
+            SELECT * from d_adp where d_anaconda_id = "FDH"
         ');
         foreach ($adp as $key => $value3) {
             $c1 = $value3->HN;
@@ -1018,7 +1054,7 @@ class FdhController extends Controller
         $opd_head4 = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_opd4, $opd_head4);
         $aer = DB::connection('mysql')->select('
-            SELECT * from d_aer where d_anaconda_id = "OFC_401"
+            SELECT * from d_aer where d_anaconda_id = "FDH"
         ');
         foreach ($aer as $key => $value4) {
             $d1 = $value4->HN;
@@ -1051,7 +1087,7 @@ class FdhController extends Controller
         $opd_head5 = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_opd5, $opd_head5);
         $cha = DB::connection('mysql')->select('
-            SELECT * from d_cha where d_anaconda_id = "OFC_401"
+            SELECT * from d_cha where d_anaconda_id = "FDH"
         ');
         foreach ($cha as $key => $value5) {
             $e1 = $value5->HN;
@@ -1073,7 +1109,7 @@ class FdhController extends Controller
         $opd_head6 = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_opd6, $opd_head6);
         $cht = DB::connection('mysql')->select('
-            SELECT * from d_cht where d_anaconda_id = "OFC_401"
+            SELECT * from d_cht where d_anaconda_id = "FDH"
         ');
         foreach ($cht as $key => $value6) {
             $f1 = $value6->HN;
@@ -1096,7 +1132,7 @@ class FdhController extends Controller
         $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru where d_anaconda_id = "OFC_401"
+            SELECT * from d_dru where d_anaconda_id = "FDH"
         ');
         foreach ($dru as $key => $value7) {
             $g1 = $value7->HCODE;
@@ -1134,7 +1170,7 @@ class FdhController extends Controller
         $opd_head8 = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_opd8, $opd_head8);
         $idx = DB::connection('mysql')->select('
-            SELECT * from d_idx where d_anaconda_id = "OFC_401"
+            SELECT * from d_idx where d_anaconda_id = "FDH"
         ');
         foreach ($idx as $key => $value8) {
             $h1 = $value8->AN;
@@ -1153,7 +1189,7 @@ class FdhController extends Controller
         $opd_head9 = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_opd9, $opd_head9);
         $pat = DB::connection('mysql')->select('
-            SELECT * from d_pat where d_anaconda_id = "OFC_401"
+            SELECT * from d_pat where d_anaconda_id = "FDH"
         ');
         foreach ($pat as $key => $value9) {
             $i1 = $value9->HCODE;
@@ -1183,7 +1219,7 @@ class FdhController extends Controller
         $opd_head10 = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_opd10, $opd_head10);
         $ipd = DB::connection('mysql')->select('
-            SELECT * from d_ipd where d_anaconda_id = "OFC_401"
+            SELECT * from d_ipd where d_anaconda_id = "FDH"
         ');
         foreach ($ipd as $key => $value10) {
             $j1 = $value10->HN;
@@ -1211,7 +1247,7 @@ class FdhController extends Controller
         $opd_head11 = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_opd11, $opd_head11);
         $irf = DB::connection('mysql')->select('
-            SELECT * from d_irf where d_anaconda_id = "OFC_401"
+            SELECT * from d_irf where d_anaconda_id = "FDH"
         ');
         foreach ($irf as $key => $value11) {
             $k1 = $value11->AN;
@@ -1229,7 +1265,7 @@ class FdhController extends Controller
         $opd_head12 = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_opd12, $opd_head12);
         $lvd = DB::connection('mysql')->select('
-            SELECT * from d_lvd where d_anaconda_id = "OFC_401"
+            SELECT * from d_lvd where d_anaconda_id = "FDH"
         ');
         foreach ($lvd as $key => $value12) {
             $L1 = $value12->SEQLVD;
@@ -1251,7 +1287,7 @@ class FdhController extends Controller
         $opd_head13 = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_opd13, $opd_head13);
         $odx = DB::connection('mysql')->select('
-            SELECT * from d_odx where d_anaconda_id = "OFC_401"
+            SELECT * from d_odx where d_anaconda_id = "FDH"
         ');
         foreach ($odx as $key => $value13) {
             $m1 = $value13->HN;
@@ -1274,7 +1310,7 @@ class FdhController extends Controller
         $opd_head14 = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_opd14, $opd_head14);
         $oop = DB::connection('mysql')->select('
-            SELECT * from d_oop where d_anaconda_id = "OFC_401"
+            SELECT * from d_oop where d_anaconda_id = "FDH"
         ');
         foreach ($oop as $key => $value14) {
             $n1 = $value14->HN;
@@ -1296,7 +1332,7 @@ class FdhController extends Controller
         $opd_head15 = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd15, $opd_head15);
         $opd = DB::connection('mysql')->select('
-            SELECT * from d_opd where d_anaconda_id = "OFC_401"
+            SELECT * from d_opd where d_anaconda_id = "FDH"
         ');
         foreach ($opd as $key => $value15) {
             $o1 = $value15->HN;
@@ -1317,7 +1353,7 @@ class FdhController extends Controller
         $opd_head16 = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_opd16, $opd_head16);
         $orf = DB::connection('mysql')->select('
-            SELECT * from d_orf where d_anaconda_id = "OFC_401"
+            SELECT * from d_orf where d_anaconda_id = "FDH"
         ');
         foreach ($orf as $key => $value16) {
             $p1 = $value16->HN;
@@ -1378,12 +1414,12 @@ class FdhController extends Controller
                     }                     
                     // if(rmdir($pathdir)){ // ลบ folder ใน export                    
                     // }                    
-                    return redirect()->route('claim.ofc_401');                    
+                    return redirect()->route('claim.fdh_data');                    
                 }
         }
 
 
-            return redirect()->route('claim.ofc_401');
+            return redirect()->route('claim.fdh_data');
 
     }
     
