@@ -59,6 +59,8 @@ return new class extends Migration
                 $table->enum('status', ['Y', 'N'])->default('N');
                 $table->string('comment')->nullable();// 
                 $table->date('date_req')->nullable();// 
+                $table->enum('file_active', ['Y', 'N'])->default('N');
+                $table->string('file_name')->nullable();// 
                 $table->timestamps();
             });
         }

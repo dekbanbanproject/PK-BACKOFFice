@@ -1120,6 +1120,16 @@ class MoveaccountController extends Controller
                             'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.202') { 
                 $check = Acc_1102050101_202::where('an', $an)->count(); 
                 if ($check > 0) {
@@ -1141,6 +1151,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050101.209') { 
                 $check = Acc_1102050101_209::where('vn', $vn)->count(); 
@@ -1164,6 +1184,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.216') { 
                 $check = Acc_1102050101_216::where('vn', $vn)->count(); 
                 if ($check > 0) {
@@ -1185,6 +1215,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050101.217') {  
                 $check = Acc_1102050101_217::where('an', $an)->count(); 
@@ -1208,6 +1248,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.301') { 
                 $check = Acc_1102050101_301::where('vn', $vn)->count(); 
                 if ($check > 0) {
@@ -1229,6 +1279,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050101.302') { 
                 $check = Acc_1102050101_302::where('an', $an)->count(); 
@@ -1252,6 +1312,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.304') { 
                 $check = Acc_1102050101_304::where('an', $an)->count(); 
                 if ($check > 0) {
@@ -1273,6 +1343,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050101.307') { 
                 $check = Acc_1102050101_307::where('vn', $vn)->count(); 
@@ -1296,6 +1376,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.308') { 
                 $check = Acc_1102050101_308::where('an', $an)->count(); 
                 if ($check > 0) {
@@ -1317,6 +1407,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050101.309') { 
                 $check = Acc_1102050101_309::where('vn', $vn)->count(); 
@@ -1340,6 +1440,16 @@ class MoveaccountController extends Controller
                     'acc_debtor_userid' => Auth::user()->id
                    ]);
                }
+               $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.310') { 
                $check = Acc_1102050101_310::where('an', $an)->count(); 
                if ($check > 0) {
@@ -1362,6 +1472,16 @@ class MoveaccountController extends Controller
                     'acc_debtor_userid' => Auth::user()->id
                    ]);
                }
+               $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.401') { 
                 $check = Acc_1102050101_401::where('vn', $vn)->count(); 
                 if ($check > 0) {
@@ -1384,6 +1504,18 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
+                
+
             }elseif ($pang =='1102050101.402') { 
                 $check = Acc_1102050101_402::where('an', $an)->count(); 
                if ($check > 0) {
@@ -1406,6 +1538,16 @@ class MoveaccountController extends Controller
                     'acc_debtor_userid' => Auth::user()->id
                    ]);
                }
+               $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.2166') { 
                 $check = Acc_1102050101_2166::where('vn', $vn)->count(); 
                if ($check > 0) {
@@ -1428,6 +1570,16 @@ class MoveaccountController extends Controller
                     'acc_debtor_userid' => Auth::user()->id
                    ]);
                }
+               $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.3099') { 
                 $check = Acc_1102050101_3099::where('vn', $vn)->count(); 
                if ($check > 0) {
@@ -1450,6 +1602,16 @@ class MoveaccountController extends Controller
                     'acc_debtor_userid' => Auth::user()->id
                    ]);
                }
+               $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.4011') { 
                $check = Acc_1102050101_4011::where('vn', $vn)->count(); 
                if ($check > 0) {
@@ -1472,6 +1634,16 @@ class MoveaccountController extends Controller
                     'acc_debtor_userid' => Auth::user()->id
                    ]);
                }
+               $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050101.4022') {
                
                $check = Acc_1102050101_4022::where('an', $an)->count(); 
@@ -1495,6 +1667,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050102.602') { 
                 $check = Acc_1102050102_602::where('vn', $vn)->count(); 
                 if ($check > 0) {
@@ -1516,6 +1698,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050102.603') { 
                 $check = Acc_1102050102_603::where('an', $an)->count(); 
@@ -1539,6 +1731,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050102.801') { 
                 $check = Acc_1102050102_801::where('vn', $vn)->count(); 
                 if ($check > 0) {
@@ -1560,6 +1762,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050102.802') { 
                 $check = Acc_1102050102_802::where('an', $an)->count(); 
@@ -1583,6 +1795,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050102.803') { 
                 $check = Acc_1102050102_803::where('vn', $vn)->count(); 
                 if ($check > 0) {
@@ -1604,6 +1826,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             }elseif ($pang =='1102050102.804') {                        
                 $check = acc_1102050102_804::where('an', $an)->count(); 
@@ -1627,6 +1859,16 @@ class MoveaccountController extends Controller
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
                 }
+                $check_acc = Acc_debtor::where('an', $an)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('an',$an)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
+                }
             }elseif ($pang =='1102050102.8011') { 
                 $check = Acc_1102050102_8011::where('vn', $vn)->count(); 
                 if ($check > 0) {
@@ -1648,6 +1890,16 @@ class MoveaccountController extends Controller
                         'date_req'          => $date_req,
                         'acc_debtor_userid' => Auth::user()->id
                     ]);
+                }
+                $check_acc = Acc_debtor::where('vn', $vn)->count();
+                if ($check_acc > 0) {
+                    Acc_debtor::where('vn',$vn)->update([  
+                        'account_code'         => $pang,
+                        'pttype'               => $pttype_new, 
+                        'debit'                => $debit_total_new, 
+                        'debit_total'          => $debit_total_new,
+                    ]);
+                } else { 
                 }
             } else {
                 # code...

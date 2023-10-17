@@ -106,7 +106,7 @@ class Account302Controller extends Controller
         
             // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
             if ($acc_trimart_id == '') {
-                $data_trimart = DB::table('acc_trimart')->limit(6)->orderBy('acc_trimart_id','desc')->get();
+                $data_trimart = DB::table('acc_trimart')->limit(12)->orderBy('acc_trimart_id','desc')->get();
                 $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
             } else {
                 // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();

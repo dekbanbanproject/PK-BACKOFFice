@@ -54,8 +54,7 @@
                                     <th class="text-center">cc</th>
                                     <th class="text-center">approve_code HOSxP</th>
                                     <th class="text-center">approve_code KTB</th>
-                                    <th class="text-center">อายุ</th>
-                                    <th class="text-center">สถานะ</th>
+                                    <th class="text-center">อายุ</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,12 +79,7 @@
                                             <td class="text-center">{{$item2->apphoscode }}</td>
                                             <td class="text-center">{{$item2->appktb }}</td>
                                             <td class="text-center">{{$item2->age_y }}</td>
-
-                                            @if ($item2->scheck == 'check')
-                                                <td class="text-center"><button type="button" class="btn btn-success">CHECK</button></td>
-                                            @else
-                                                <td class="text-center"><button type="button" class="btn btn-warning">ออก stm</button></td>
-                                            @endif
+ 
 
                                         </tr>
                                 @endforeach

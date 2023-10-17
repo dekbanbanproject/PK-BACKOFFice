@@ -109,7 +109,7 @@ class Account301Controller extends Controller
         // dd($data_trimart);
         
        if ($acc_trimart_id == '') {
-            $data_trimart = DB::table('acc_trimart')->where('active','Y')->limit(6)->orderBy('acc_trimart_id','desc')->get();
+            $data_trimart = DB::table('acc_trimart')->where('active','Y')->limit(12)->orderBy('acc_trimart_id','desc')->get();
             $trimart = DB::table('acc_trimart')->orderBy('acc_trimart_id','desc')->get();
        } else {
             // $data_trimart = DB::table('acc_trimart')->whereBetween('dchdate', [$startdate, $enddate])->orderBy('acc_trimart_id','desc')->get();

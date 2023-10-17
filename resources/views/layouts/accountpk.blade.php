@@ -536,9 +536,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">3099-ลูกหนี้ค่ารักษา-ประกันสังคม(ค่าใช้จ่ายสูง)(ฟอกไต) OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkti3099_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkti3099_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkti3099_dash') }}">dashboard</a> </li>
+                                            <li><a href="{{ url('account_pkti3099_pull') }}">ดึงลูกหนี้</a> </li>
+                                           
                                         </ul>
                                     </li>
                                 </ul>
@@ -554,16 +554,16 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="javascript: void(0);" class="has-arrow">106-ลูกหนี้ค่ารักษา-ขำระเงิน OP</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('acc_106_dashboard') }}">dashboard</a>
-                                        <li><a href="{{ url('acc_106_pull') }}">ดึงลูกหนี้</a>
-                                        </li>
+                                        <li><a href="{{ url('acc_106_dashboard') }}">dashboard</a> </li>
+                                        <li><a href="{{ url('acc_106_pull') }}">ดึงลูกหนี้</a> </li>
+                                        <li><a href="{{ url('acc_106_file') }}">แนบไฟล์</a> </li>
                                     </ul>
                                 </li>
                                  <li><a href="javascript: void(0);" class="has-arrow">107-ลูกหนี้ค่ารักษา-ขำระเงิน IP</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('acc_107_dashboard') }}">dashboard</a>
-                                        <li><a href="{{ url('acc_107_pull') }}">ดึงลูกหนี้</a>
-                                        </li>
+                                        <li><a href="{{ url('acc_107_dashboard') }}">dashboard</a> </li>
+                                        <li><a href="{{ url('acc_107_pull') }}">ดึงลูกหนี้</a> </li>
+                                        <li><a href="{{ url('acc_107_file') }}">แนบไฟล์</a> </li>
                                     </ul>
                                 </li> 
                             </ul>

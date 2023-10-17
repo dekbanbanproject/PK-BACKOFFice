@@ -202,21 +202,26 @@ class AccountController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
 
-        $datashow = DB::connection('mysql3')->select('
+        $datashow = DB::connection('mysql10')->select('
                 select year(v.vstdate) as monyear ,month(v.vstdate) as months ,count(distinct v.vn) as vn 
                 from hos.vn_stat v
                 left outer join hos.ipt i on i.vn = v.vn
                 LEFT JOIN hos.patient p on p.hn = v.hn
                 left outer join hos.rcpt_print r on r.vn =v.vn
-                left outer join hos.rcpt_debt rr on rr.vn = v.vn 
+                inner join hos.rcpt_debt rr on rr.vn = v.vn 
                 where v.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and v.pttype in("o1","o2","o3","o4","o5") 
-                and (i.an ="" or i.an is null)
+        
                 and v.uc_money > 1
-                group by year(v.vstdate),month(v.vstdate)
+
+                and (rr.sss_approval_code is null or rr.sss_approval_code ="") 
+              
+                group by month(v.vstdate)
  
             
         ');
+        
+
         // select year(a.vstdate) as monyear
         // ,month(a.vstdate) as months
         // ,count(distinct a.vn) as vn
@@ -283,7 +288,7 @@ class AccountController extends Controller
 
         // dd($enddateadmit);
 
-        $datashow3 = DB::connection('mysql2')->select('
+        $datashow3 = DB::connection('mysql10')->select('
                 select left(DATEADM,4) as monyear,mid(dateadm,5,2) as months,count(distinct m.opdseq) as errorc
                 from eclaimdb.m_registerdata m
                 LEFT JOIN hshooterdb.m_stm s on s.vn = m.opdseq
@@ -309,9 +314,9 @@ class AccountController extends Controller
             'enddateadmit'  => $enddateadmit,
         ]);
     }
-    public function account_info_vn(Request $request, $year, $months, $startdate, $enddate)
+    public function account_info_vn(Request $request, $startdate, $enddate)
     {
-        $datashow = DB::connection('mysql3')->select('
+        $datashow = DB::connection('mysql10')->select('
             select e.hn,p.cid,e.pdx,e.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname
                 ,e.uc_money,e.paid_money,r.rcpno,format(e.income,2) as hincome,
                 format(rr.amount,2) as rramont,
@@ -319,8 +324,8 @@ class AccountController extends Controller
                 oo.cc,
                 group_concat(distinct rr.sss_approval_code,":",rr.amount,"/") as apphoscode,
                 group_concat(distinct k.approval_code,":",k.amount,"/") as appktb,
-                e.age_y,
-                (select if(group_concat(status) like "%4%","ออก stm","check") from eclaimdb.m_registerdata where hn=m.hn and dateadm=m.dateadm ) as scheck
+                e.age_y
+               
                 from hos.vn_stat e
                 left outer join hos.ovst o on o.vn = e.vn
                 left outer join hos.patient p on p.hn = e.hn
@@ -329,15 +334,15 @@ class AccountController extends Controller
                 left outer join hos.rcpt_debt rr on rr.vn = e.vn
                 left outer join hos.ktb_edc_transaction k on k.vn = e.vn
                 left outer join eclaimdb.m_registerdata m on m.opdseq = e.vn and m.status in("0","1","4")
-                where year(e.vstdate) = "' . $year . '" and month(e.vstdate) = "' . $months . '"  
+                where e.vstdate between "' . $startdate . '" AND "' . $enddate . '"
                 and e.pttype in("o1","o2","o3","o4","o5")
                 and (o.an ="" or o.an is null)
                 and e.uc_money > 0
                 and (rr.sss_approval_code is null or rr.sss_approval_code =" ")
-                and e.vn not in(select opdseq from eclaimdb.m_registerdata  where opdseq = m.opdseq)
+               
                 and e.hn <> ""
-                group by e.vn,e.vstdate
-                order by e.vstdate
+                group by rr.vn 
+                 
         ');
 
         // and o.an =""
@@ -1977,7 +1982,7 @@ class AccountController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
 
-        $datashow = DB::connection('mysql2')->select(' 
+        $datashow = DB::connection('mysql10')->select(' 
                 SELECT v.vn, v.income,v.cid, v.paid_money, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
                 ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
                 FROM vn_stat v
@@ -2058,7 +2063,7 @@ class AccountController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
 
-        $datashow = DB::connection('mysql2')->select(' 
+        $datashow = DB::connection('mysql10')->select(' 
             SELECT a.an, a.income,p.cid, a.paid_money, a.hn
             , a.dchdate,i.dchtime, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,i.staff,o.main_dep,k.department
             ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount

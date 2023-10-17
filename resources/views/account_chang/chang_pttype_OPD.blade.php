@@ -59,6 +59,7 @@
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
+    $datenow = date('Y-m-d');
     ?>
     <style>
         #button{
@@ -331,7 +332,7 @@
                             <div class="col-md-3">
                                 <label for="pangname" class="form-label" style="color: red">วันที่ขอเปลี่ยน</label>
                                 <div class="input-group input-group-sm"> 
-                                    <input type="date" class="form-control" id="date_req" name="date_req" >  
+                                    <input type="date" class="form-control" id="date_req" name="date_req" value="{{$datenow}}">  
                                 </div>
                             </div> 
                         </div> 
@@ -483,6 +484,10 @@
                         $('#debit_total').val(data.data_pang.debit_total)
                         $('#pttype').val(data.data_pang.pttype)
                         $('#acc_debtor_id').val(data.data_pang.acc_debtor_id)
+
+                        $('#account_code_new').val(data.data_pang.account_code)
+                        $('#pttype_new').val(data.data_pang.pttype)
+                        $('#debit_total_new').val(data.data_pang.debit_total)
                     },
                 });
             });

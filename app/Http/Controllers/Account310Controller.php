@@ -197,7 +197,7 @@ class Account310Controller extends Controller
                     ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
                     ,a.income-a.rcpt_money-a.discount_money as debit
                     ,sum(if(op.icode IN ("3001758"),sum_price,0)) as tr
-				    ,sum(if(op.icode IN ("3001758"),n.ipd_price3,0)) as looknee
+				    ,sum(if(op.icode IN ("3001758"),"1000",0)) as looknee
                     ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
                     ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
@@ -215,11 +215,13 @@ class Account310Controller extends Controller
                     LEFT JOIN hos.iptoprt io on io.an = ip.an
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND opdipd ="IPD"))
+                    AND ipt.pttype IN("A7","15")
                     AND v.hospmain = "10702"
                     and io.icd9 like "%6632%"
                 GROUP BY a.an; 
             ');
+            // AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND opdipd ="IPD"))
+            // ,sum(if(op.icode IN ("3001758"),"1000",0)) as looknee
             // AND ipt.pttype IN("A7","15")
             foreach ($acc_debtor as $key => $value) { 
                 $check =  Acc_debtor::where('an', $value->an)->where('account_code','1102050101.310')->whereBetween('dchdate', [$startdate, $enddate])->count();   

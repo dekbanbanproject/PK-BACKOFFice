@@ -260,7 +260,10 @@ Route::match(['get','post'],'acc_106_stm',[App\Http\Controllers\Account106Contro
 Route::match(['get','post'],'acc_106_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account106Controller::class, 'acc_106_stm_date'])->name('acc.acc_106_stm_date');//
 Route::match(['get','post'],'acc_106_stmnull',[App\Http\Controllers\Account106Controller::class, 'acc_106_stmnull'])->name('acc.acc_106_stmnull');//
 Route::match(['get','post'],'acc_106_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account106Controller::class, 'acc_106_stmnull_date'])->name('acc.acc_106_stmnull_date');//
- 
+Route::match(['get','post'],'acc_106_file',[App\Http\Controllers\Account106Controller::class, 'acc_106_file'])->name('acc.acc_106_file');//
+Route::match(['get','post'],'acc_106_file_updatefile',[App\Http\Controllers\Account106Controller::class, 'acc_106_file_updatefile'])->name('acc.acc_106_file_updatefile');//
+Route::match(['get','post'],'acc106destroy/{id}',[App\Http\Controllers\Account106Controller::class, 'acc106destroy'])->name('acc.acc106destroy');//
+
 // ************107 IPD**********************
 
 Route::match(['get','post'],'acc_107_dashboard',[App\Http\Controllers\Account107Controller::class, 'acc_107_dashboard'])->name('acc.acc_107_dashboard');//
@@ -273,7 +276,7 @@ Route::match(['get','post'],'acc_107_stm',[App\Http\Controllers\Account107Contro
 Route::match(['get','post'],'acc_107_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account107Controller::class, 'acc_107_stm_date'])->name('acc.acc_107_stm_date');//
 Route::match(['get','post'],'acc_107_stmnull',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull'])->name('acc.acc_107_stmnull');//
 Route::match(['get','post'],'acc_107_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull_date'])->name('acc.acc_107_stmnull_date');//
-
+Route::match(['get','post'],'acc_107_file',[App\Http\Controllers\Account107Controller::class, 'acc_107_file'])->name('acc.acc_107_file');//
 // *******************FDC *******************
 Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::class, 'fdh_data'])->name('claim.fdh_data');//
 Route::match(['get','post'],'fdh_data_process',[App\Http\Controllers\FdhController::class, 'fdh_data_process'])->name('claim.fdh_data_process');//
@@ -2037,7 +2040,7 @@ Route::middleware(['type'])->group(function(){
 
   // **************************** บัญชี ***********************
   Route::match(['get','post'],'account_info',[App\Http\Controllers\AccountController::class, 'account_info'])->name('acc.account_info');//
-  Route::match(['get','post'],'account_info_vn/{year}/{months}/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vn'])->name('acc.account_info_vn');//
+  Route::match(['get','post'],'account_info_vn/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vn'])->name('acc.account_info_vn');//
   Route::match(['get','post'],'account_info_vnall/{year}/{months}/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vnall'])->name('acc.account_info_vnall');//
   Route::match(['get','post'],'account_info_vnstmx/{cid}/{startdate}/{enddate}',[App\Http\Controllers\AccountController::class, 'account_info_vnstmx'])->name('acc.account_info_vnstmx');//
 
