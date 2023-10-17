@@ -867,7 +867,7 @@ class PPfs30011Controller extends Controller
                         GROUP BY seq,CODE,rate; 
                 ');
                 foreach ($data_adp_ as $va10) {
-                    d_adp::insert([
+                    D_adp::insert([
                         'HN'                   => $va10->HN,
                         'AN'                   => $va10->AN,
                         'DATEOPD'              => $va10->DATEOPD,
@@ -1004,6 +1004,10 @@ class PPfs30011Controller extends Controller
          }
          
          D_adp::where('CODE','=','XXXXXX')->delete();
+         D_adp::where('GA_WEEK','<>','0')->update([
+            'STATUS1' => '1'
+         ]            
+        );
          // return back();
          return response()->json([
              'status'    => '200'
