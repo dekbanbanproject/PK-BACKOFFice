@@ -294,7 +294,7 @@ class EnvController extends Controller
                         $status = 'ผิดปกติ';
                     }
                    
-                    dd($status);
+                    // dd($status);
                    
                     if ($idwater->water_parameter_id == '8' || $qty  <= '1.0') {
                         $status = 'ผิดปกติ';
