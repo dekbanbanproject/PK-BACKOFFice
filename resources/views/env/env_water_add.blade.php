@@ -1,6 +1,22 @@
 @extends('layouts.envnew')
 @section('title', 'PK-BACKOFFice || ENV')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
 <style>
     #button{
            display:block;
@@ -49,6 +65,7 @@ use App\Http\Controllers\StaticController;
 $refnumber = SuppliesController::refnumber();
 $count_product = StaticController::count_product();
 $count_service = StaticController::count_service();
+$datenow = date('Y-m-d');
 ?>
 
 @section('content')
@@ -93,7 +110,7 @@ $count_service = StaticController::count_service();
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <input id="water_date" type="date"
-                                                        class="form-control form-control-sm" name="water_date">
+                                                        class="form-control form-control-sm" name="water_date" value="{{$datenow}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-2 text-end">
@@ -104,8 +121,12 @@ $count_service = StaticController::count_service();
                                                         <select id="water_user1" name="water_user"
                                                         class="form-control form-control-sm" style="width: 100%">
                                                         <option value="">--เลือก--</option>
-                                                        @foreach ($users as $ue)                                               
-                                                            <option value="{{ $ue->id }}"> {{ $ue->fname }}  {{ $ue->lname }} </option>                                             
+                                                        @foreach ($users as $ue) 
+                                                            @if ($iduser == $ue->id )
+                                                            <option value="{{ $ue->id }}" selected> {{ $ue->fname }}  {{ $ue->lname }} </option>  
+                                                            @else
+                                                            <option value="{{ $ue->id }}"> {{ $ue->fname }}  {{ $ue->lname }} </option>  
+                                                            @endif                                     
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -120,7 +141,7 @@ $count_service = StaticController::count_service();
                                                 <div class="form-group">
                                                         <select id="env_pond" name="env_pond"
                                                         class="form-control form-control-sm" style="width: 100%">
-                                                        <option value="">--เลือก--</option>
+                                                        {{-- <option value="">--เลือก--</option> --}}
                                                         @foreach ($env_pond as $ue)                                               
                                                             <option value="{{ $ue->pond_id }}"> {{ $ue->pond_name }}</option>                                             
                                                         @endforeach

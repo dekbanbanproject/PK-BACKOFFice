@@ -107,35 +107,40 @@ class EnvController extends Controller
 
     public function env_water (Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $iduser = Auth::user()->id; 
-        // dd( $datestart);
-        if ($startdate == '') {
-                $datashow = DB::connection('mysql')->select('
-                    SELECT DISTINCT(w.water_id),w.water_date,w.water_location,water_group_excample,w.water_comment,CONCAT(u.fname," ",u.lname) as water_user
-                    from env_water w
-                    LEFT JOIN env_water_sub ws on ws.water_id = w.water_id
-                    LEFT JOIN users u on u.id = w.water_user 
-                    ORDER BY w.water_id DESC limit 10
-                ');
-        } else {
-            $datashow = DB::connection('mysql')->select('
-                SELECT DISTINCT(w.water_id),w.water_date,w.water_location,water_group_excample,w.water_comment,CONCAT(u.fname," ",u.lname) as water_user
-                from env_water w
-                LEFT JOIN env_water_sub ws on ws.water_id = w.water_id
-                LEFT JOIN users u on u.id = w.water_user 
-                WHERE w.water_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                ORDER BY w.water_id DESC  
-            ');
-        }
-        
-        
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $iduser = Auth::user()->id;
+        // $data['users'] = User::get();
+        // $data['leave_month'] = DB::table('leave_month')->get();
+        // $data['users_group'] = DB::table('users_group')->get();
+        // $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
          
+        // $acc_debtors = DB::select('
+        //     SELECT count(*) as I from users u
+        //     left join p4p_workload l on l.p4p_workload_user=u.id
+        //     group by u.dep_subsubtrueid;
+        // ');
+
+        // $water = DB::table('env_water')
+        //     ->leftjoin('users','env_water.water_user','=','users.id')
+        //     ->leftjoin('env_water_sub','env_water.water_id','=','env_water_sub.water_id')
+        //     ->orderByRaw('env_water.water_id DESC')
+        //     ->limit(10); 
+        
+        $datashow = DB::connection('mysql')->select('
+            SELECT DISTINCT(w.water_id),w.water_date,w.water_location,water_group_excample,w.water_comment,CONCAT(u.fname," ",u.lname) as water_user
+            from env_water w
+            LEFT JOIN env_water_sub ws on ws.water_id = w.water_id
+            LEFT JOIN users u on u.id = w.water_user 
+            ORDER BY w.water_id DESC limit 10
+        ');
+         
+
         return view('env.env_water',[
-            'startdate' => $startdate,
-            'enddate'   => $enddate, 
-            'datashow'  => $datashow, 
+            'startdate' => $datestart,
+            'enddate'   => $dateend, 
+            'datashow'  => $datashow,
+            // 'water'     => $water,
         ]);
     }
 
@@ -150,11 +155,11 @@ class EnvController extends Controller
         $data['users_group'] = DB::table('users_group')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
 
-        // $acc_debtors = DB::select('
-        //     SELECT count(*) as I from users u
-        //     left join p4p_workload l on l.p4p_workload_user=u.id
-        //     group by u.dep_subsubtrueid;
-        // ');
+        $acc_debtors = DB::select('
+            SELECT count(*) as I from users u
+            left join p4p_workload l on l.p4p_workload_user=u.id
+            group by u.dep_subsubtrueid;
+        ');
 
 
         $data_parameter = DB::table('env_water_parameter')->where('water_parameter_active','=','TRUE')->get();

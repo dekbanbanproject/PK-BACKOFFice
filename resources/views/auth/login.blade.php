@@ -194,6 +194,7 @@
                         เข้าสู่ระบบ
                     </button> --}}
                         <a href="{{ url('check_dashboard') }}" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a>
+                         {{-- <a href="#login"><i class="fa-solid fa-fingerprint me-2"></i>Login</a>  --}}
                     </li> 
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle d-none"></i>
@@ -442,6 +443,32 @@
         </section>
         <!-- End About Section -->
 
+          {{-- <section id="login" class="login">
+            <div class="container" data-aos="zoom-out">
+
+                <div class="clients-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+                        <div class="swiper-slide"><img src="assets/img/clients/client-1.png" class="img-fluid"
+                                alt=""></div>
+                        <div class="swiper-slide"><img src="assets/img/clients/client-2.png" class="img-fluid"
+                                alt=""></div>
+                        <div class="swiper-slide"><img src="assets/img/clients/client-3.png" class="img-fluid"
+                                alt=""></div>
+                        <div class="swiper-slide"><img src="assets/img/clients/client-4.png" class="img-fluid"
+                                alt=""></div>
+                        <div class="swiper-slide"><img src="assets/img/clients/client-5.png" class="img-fluid"
+                                alt=""></div>
+                        <div class="swiper-slide"><img src="assets/img/clients/client-6.png" class="img-fluid"
+                                alt=""></div>
+                        <div class="swiper-slide"><img src="assets/img/clients/client-7.png" class="img-fluid"
+                                alt=""></div>
+                        <div class="swiper-slide"><img src="assets/img/clients/client-8.png" class="img-fluid"
+                                alt=""></div>
+                    </div>
+                </div>
+
+            </div>
+        </section> --}}
         <!-- ======= Clients Section ======= -->
         {{-- <section id="clients" class="clients">
             <div class="container" data-aos="zoom-out">

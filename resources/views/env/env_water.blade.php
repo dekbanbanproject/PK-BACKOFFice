@@ -94,7 +94,7 @@ if (Auth::check()) {
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
                         <p> 
-                            <form action="{{ route('env.env_water') }}" method="POST">
+                            <form action="{{ route('env.env_water') }}" method="GET">
                                 @csrf
                                 <div class="row">
                                     {{-- <div class="col"></div> --}}
@@ -103,10 +103,10 @@ if (Auth::check()) {
                                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                                                 data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                                                 <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                     data-date-language="th-th" value="{{ $startdate }}" required/>
                                                 <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                     data-date-language="th-th" value="{{ $enddate }}" required/> 
                                         </div>
                                         {{-- <div class="input-group" id="datepicker1">
