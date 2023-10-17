@@ -621,7 +621,7 @@ $pos = strrpos($url, '/') + 1;
                                                 <h5 class="text-start mb-2">งานประกัน</h5>
                                             </div>
                                             <div class="avatar-sm me-2">
-                                                <a href="{{ url('pkclaim/pkclaim_info') }}" target="_blank">
+                                                <a href="{{ url('pkclaim_info') }}" target="_blank">
                                                     <span class="avatar-title bg-white text-primary rounded-3">
                                                         <p style="font-size: 10px;">
                                                             <button class="mt-5 mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-3">
