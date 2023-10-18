@@ -501,7 +501,7 @@
                 var vstdate = $('#vstdate').val();
                 var dchdate = $('#dchdate').val();
                 var comment = $('#comment').val();
-                var ptname = $('#ptname').val();
+                var ptname = $('#ptname').val(); 
                 var account_code_new = $('#account_code_new').val();
                 var pttype_new = $('#pttype_new').val();
                 var debit_total_new = $('#debit_total_new').val();

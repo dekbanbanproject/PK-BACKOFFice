@@ -248,11 +248,11 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">cid</th>   
                                                     <th class="text-center">vstdate</th> 
                                                     <th class="text-center">ptname</th> 
-                                                    <th class="text-center">preg_no</th> 
-                                                    <th class="text-center">gaNOW</th> 
-                                                    <th class="text-center">lmp</th> 
-                                                    <th class="text-center">labor_date</th> 
-                                                    <th class="text-center">sum_price</th> 
+                                                    {{-- <th class="text-center">preg_no</th>  --}}
+                                                    {{-- <th class="text-center">gaNOW</th>  --}}
+                                                    {{-- <th class="text-center">lmp</th>  --}}
+                                                    {{-- <th class="text-center">labor_date</th>  --}}
+                                                    {{-- <th class="text-center">sum_price</th>  --}}
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -267,11 +267,11 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="text-center" width="10%">{{ $item1->cid }}</td>  
                                                     <td class="text-center" width="10%">{{ $item1->vstdate }}</td> 
                                                     <td class="text-start" >{{ $item1->ptname }}</td>  
-                                                    <td class="text-center" width="10%">{{ $item1->preg_no }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->gaNOW }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->lmp }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->labor_date }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item1->sum_price }}</td> 
+                                                    {{-- <td class="text-center" width="10%">{{ $item1->preg_no }}</td>  --}}
+                                                    {{-- <td class="text-center" width="10%">{{ $item1->gaNOW }}</td>  --}}
+                                                    {{-- <td class="text-center" width="10%">{{ $item1->lmp }}</td>  --}}
+                                                    {{-- <td class="text-center" width="10%">{{ $item1->labor_date }}</td>  --}}
+                                                    {{-- <td class="text-center" width="10%">{{ $item1->sum_price }}</td>  --}}
                                                 </tr>
                     
                     

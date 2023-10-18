@@ -79,12 +79,10 @@ use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
 use App\Models\D_irf;
+use App\Models\D_query;
+use App\Models\D_ucep24_main;
 use App\Models\D_anc_main;
-use App\Models\D_30010;
 use App\Models\D_30011;
-use App\Models\D_30012;
-use App\Models\D_30013;
-
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
@@ -120,36 +118,55 @@ class PPfs30011Controller extends Controller
         if ($startdate == '') {             
         } else {
             $iduser = Auth::user()->id;
-            D_anc_main::truncate();
-            D_30010::truncate();
             D_30011::truncate();
-            D_30012::truncate();
-            D_30013::truncate();
                 $data_main_ = DB::connection('mysql2')->select(' 
-                    SELECT v.vn,""an,v.hn,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,v.hn,v.pttype,v.vstdate,t.hipdata_code 
+                    SELECT v.vn,""an,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,v.hn,v.pttype,v.vstdate,t.hipdata_code 
                         ,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
                         FROM vn_stat v
                         LEFT OUTER JOIN patient p on p.hn=v.hn 
                         LEFT OUTER JOIN ovstdiag ob on ob.vn = v.vn
                         LEFT OUTER JOIN pttype t on t.pttype=v.pttype 
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and p.nationality="99" AND v.income <> "0"
-                        AND (v.pdx BETWEEN "Z340" AND "Z359" OR v.dx0 BETWEEN "Z340" AND "Z359" OR v.dx1 BETWEEN "Z340" AND "Z359" OR v.dx2 BETWEEN "Z340" AND "Z359" OR v.dx3 BETWEEN "Z340" AND "Z359" OR v.dx4 BETWEEN "Z340" AND "Z359"  OR v.dx5 BETWEEN "Z340" AND "Z359")
-                        
+                        and p.nationality="99" 
+                        AND (v.pdx BETWEEN "Z340" AND "Z359" OR v.dx0 BETWEEN "Z340" AND "Z359" OR v.dx1 BETWEEN "Z340" AND "Z359" OR v.dx2 BETWEEN "Z340" AND "Z359" OR v.dx3 BETWEEN "Z340" AND "Z359" OR v.dx4 BETWEEN "Z340" AND "Z359"  OR v.dx5 BETWEEN "Z340" AND "Z359" OR ob.icd10 like "o24%")
                         GROUP BY v.vn
                 ');      
-              
+                // $data_main_ = DB::connection('mysql2')->select(' 
+                //     SELECT v.vn,oc.an,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,v.hn,v.pttype,t.hipdata_code
+                //         ,v.vstdate ,n.nhso_adp_code,oc.qty,oc.sum_price
+                //         ,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
+                //         ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate
+                        
+                //         FROM vn_stat v
+                //         LEFT OUTER JOIN ovst os on os.vn=v.vn 
+                //         JOIN opitemrece oc on oc.vn=v.vn
+                //         JOIN nondrugitems n on n.icode=oc.icode  
+                //         LEFT OUTER JOIN patient p on p.hn=v.hn 
+                //         LEFT OUTER JOIN person_anc_service s on s.vn=v.vn
+                //         LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
+                //         LEFT OUTER JOIN pttype t on t.pttype=v.pttype
+                //         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                //         and p.nationality="99"
+                //         AND (v.pdx BETWEEN "Z340" AND "Z359" OR v.dx0 BETWEEN "Z340" AND "Z359")
+                //         GROUP BY s.vn
+                //         ORDER BY v.hn,v.vn 
+                // ');      
+                // JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30011")            
                 foreach ($data_main_ as $key => $value) {    
-                    D_anc_main::insert([
-                            'vn'                 => $value->vn,
-                            'hn'                 => $value->hn,
-                            'cid'                => $value->cid, 
-                            'ptname'             => $value->ptname,
-                            'vstdate'            => $value->vstdate,
-                            'nhso_adp_code'      => "PPFS_ANC",
-                            'pttype'             => $value->pttype,  
-                        ]); 
-                    $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','PPFS_ANC')->count();
+                    // D_30011::insert([
+                    //         'vn'                 => $value->vn,
+                    //         'hn'                 => $value->hn,
+                    //         'cid'                => $value->cid, 
+                    //         'ptname'             => $value->ptname,
+                    //         'vstdate'            => $value->vstdate,
+                    //         'nhso_adp_code'      => $value->nhso_adp_code,
+                    //         'preg_no'            => $value->preg_no, 
+                    //         'gaNOW'              => $value->gaNOW, 
+                    //         'lmp'                => $value->lmp,
+                    //         'labor_date'         => $value->labor_date,  
+                    //         'sum_price'          => $value->sum_price 
+                    //     ]);
+                    $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','30011')->count();
                     if ($check > 0) {
                         # code...
                     } else {
@@ -162,116 +179,33 @@ class PPfs30011Controller extends Controller
                             'ptname'            => $value->ptname,
                             'vstdate'           => $value->vstdate,
                             'hipdata_code'      => $value->hipdata_code,
-                            // 'qty'               => $value->qty,
-                            // 'sum_price'         => $value->sum_price,
-                            'type'              => 'ANC',
-                            'nhso_adp_code'     => 'PPFS_ANC',
+                            'qty'               => $value->qty,
+                            'sum_price'         => $value->sum_price,
+                            'type'              => 'PPFS',
+                            'nhso_adp_code'     => '30011',
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
-                    }  
-
-                    $data_30010 = DB::connection('mysql2')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
-                            ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
-                            FROM person_anc_service s  
-                            LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
-                            JOIN opitemrece oc on oc.vn=s.vn 
-                            JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30010") 
-                            WHERE s.vn IN("'.$value->vn.'")
-                    ');  
-                    foreach ($data_30010 as $key => $value2) {
-                        D_30010::insert([
-                            'vn'                 => $value2->vn,
-                            'hn'                 => $value2->hn, 
-                            'preg_no'            => $value2->preg_no, 
-                            'gaNOW'              => $value2->gaNOW, 
-                            'lmp'                => $value2->lmp,
-                            'labor_date'         => $value2->labor_date,  
-                        ]); 
-                    }
-                    
-                    $data_30011 = DB::connection('mysql2')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
-                            ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
-                            FROM person_anc_service s  
-                            LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
-                            JOIN opitemrece oc on oc.vn=s.vn 
-                            JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30011") 
-                            WHERE s.vn IN("'.$value->vn.'")
-                    ');  
-                    foreach ($data_30011 as $key => $value3) {
-                        D_30011::insert([
-                            'vn'                 => $value3->vn,
-                            'hn'                 => $value3->hn, 
-                            'preg_no'            => $value3->preg_no, 
-                            'gaNOW'              => $value3->gaNOW, 
-                            'lmp'                => $value3->lmp,
-                            'labor_date'         => $value3->labor_date,   
-                        ]); 
-                    }
-                     
-                    $data_30012 = DB::connection('mysql2')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
-                            ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
-                            FROM person_anc_service s  
-                            LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
-                            JOIN opitemrece oc on oc.vn=s.vn 
-                            JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30012") 
-                            WHERE s.vn IN("'.$value->vn.'")
-                    ');  
-                    foreach ($data_30012 as $key => $value4) {
-                        D_30012::insert([
-                            'vn'                 => $value4->vn,
-                            'hn'                 => $value4->hn, 
-                            'preg_no'            => $value4->preg_no, 
-                            'gaNOW'              => $value4->gaNOW, 
-                            'lmp'                => $value4->lmp,
-                            'labor_date'         => $value4->labor_date,  
-                            'anc_service_date'   => $value4->anc_service_date 
-                        ]); 
-                    }
-                    $data_30013 = DB::connection('mysql2')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
-                            ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
-                            FROM person_anc_service s  
-                            LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
-                            JOIN opitemrece oc on oc.vn=s.vn 
-                            JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30013") 
-                            WHERE s.vn IN("'.$value->vn.'")
-                    ');  
-                    foreach ($data_30013 as $key => $value5) {
-                        D_30013::insert([
-                            'vn'                 => $value5->vn,
-                            'hn'                 => $value5->hn, 
-                            'preg_no'            => $value5->preg_no, 
-                            'gaNOW'              => $value5->gaNOW, 
-                            'lmp'                => $value5->lmp,
-                            'labor_date'         => $value5->labor_date,  
-                            'anc_service_date'   => $value5->anc_service_date 
-                        ]); 
-                    }
+                    }                   
                     
                 } 
- 
         }
-
-                $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_anc_main');   
-                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="PPFS_ANC"'); 
-                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="PPFS_ANC"'); 
-                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="PPFS_ANC"');
+                $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_30011');   
+                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="PPFS_3011"'); 
+                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="PPFS_3011"'); 
+                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="PPFS_3011"');
+                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="PPFS_3011"');
 
         return view('ppfs.ppfs_30011',$data,[
             'startdate'     =>     $startdate,
@@ -280,38 +214,23 @@ class PPfs30011Controller extends Controller
     }
     public function ppfs_30011_process(Request $request)
     { 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_anc_main');
+        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_30011');
         $iduser = Auth::user()->id; 
-        // D_opd::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_orf::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_oop::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_odx::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_idx::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_ipd::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_irf::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_aer::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_iop::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_adp::where('d_anaconda_id','=','PPFS_ANC')->delete();   
-        // D_dru::where('d_anaconda_id','=','PPFS_ANC')->delete();   
-        // D_pat::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_cht::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_cha::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_ins::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        D_opd::truncate();
-        D_orf::truncate();
-        D_oop::truncate();
-        D_odx::truncate();
-        D_idx::truncate();
-        D_ipd::truncate();
-        D_irf::truncate();
-        D_aer::truncate();
-        D_iop::truncate();
-        D_adp::truncate();  
-        D_dru::truncate();   
-        D_pat::truncate();
-        D_cht::truncate();
-        D_cha::truncate();
-        D_ins::truncate();
+        D_opd::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_orf::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_oop::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_odx::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_idx::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_ipd::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_irf::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_aer::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_iop::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_adp::where('d_anaconda_id','=','PPFS_3011')->delete();   
+        D_dru::where('d_anaconda_id','=','PPFS_3011')->delete();   
+        D_pat::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_cht::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_cha::where('d_anaconda_id','=','PPFS_3011')->delete();
+        D_ins::where('d_anaconda_id','=','PPFS_3011')->delete();
 
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
@@ -372,7 +291,7 @@ class PPfs30011Controller extends Controller
                         'RELINSCL'          => $va17->RELINSCL,
                         'HTYPE'             => $va17->HTYPE,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 }
                 //D_pat OK
@@ -416,7 +335,7 @@ class PPfs30011Controller extends Controller
                         'LNAME'              => $va14->LNAME,
                         'IDTYPE'             => $va14->IDTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'PPFS_ANC'
+                        'd_anaconda_id'      => 'PPFS_3011'
                     ]);
                 }
                 //D_opd OK
@@ -452,7 +371,7 @@ class PPfs30011Controller extends Controller
                         'TYPEIN'            => $val3->TYPEIN, 
                         'TYPEOUT'           => $val3->TYPEOUT, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 }
                 //D_orf _OK
@@ -479,7 +398,7 @@ class PPfs30011Controller extends Controller
                         'REFERTYPE'         => $va4->REFERTYPE, 
                         'REFERDATE'         => $va4->REFERDATE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 }
                  // D_odx OK
@@ -520,7 +439,7 @@ class PPfs30011Controller extends Controller
                         'PERSON_ID'         => $va5->PERSON_ID, 
                         'SEQ'               => $va5->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                     
                 }
@@ -557,7 +476,7 @@ class PPfs30011Controller extends Controller
                         'SEQ'               => $va6->SEQ, 
                         'SERVPRICE'         => $va6->SERVPRICE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                     
                 }
@@ -594,7 +513,7 @@ class PPfs30011Controller extends Controller
                         'UUC'               => $va13->UUC, 
                         'SVCTYPE'           => $va13->SVCTYPE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 }
                 
@@ -616,7 +535,7 @@ class PPfs30011Controller extends Controller
                         'REFER'              => $va12->REFER,
                         'REFERTYPE'          => $va12->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'PPFS_ANC',
+                        'd_anaconda_id'      => 'PPFS_3011',
                     ]);                     
                 }                 
                 //D_idx OK 
@@ -643,7 +562,7 @@ class PPfs30011Controller extends Controller
                         'DXTYPE'            => $va7->DXTYPE,
                         'DRDX'              => $va7->DRDX, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                             
                 }
@@ -680,7 +599,7 @@ class PPfs30011Controller extends Controller
                         'DATEOUT'           => $va9->DATEOUT,
                         'TIMEOUT'           => $va9->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 }
                 //D_cht OK
@@ -716,7 +635,7 @@ class PPfs30011Controller extends Controller
                         'INVOICE_NO'        => $va15->INVOICE_NO,
                         'INVOICE_LT'        => $va15->INVOICE_LT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 }
                 //D_cha OK
@@ -765,7 +684,7 @@ class PPfs30011Controller extends Controller
                         'PERSON_ID'         => $va16->PERSON_ID,
                         'SEQ'               => $va16->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 } 
                  //D_aer OK
@@ -821,10 +740,170 @@ class PPfs30011Controller extends Controller
                         'DALERT'            => $va8->DALERT,
                         'TALERT'            => $va8->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'PPFS_3011'
                     ]);
                 }
                  
+                //D_adp
+                // $data_adp_ = DB::connection('mysql2')->select('
+                //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                                                                
+                //         FROM (SELECT v.hn HN
+                //         ,if(v.an is null,"",v.an) AN
+                //         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                //         ,n.nhso_adp_type_id TYPE
+                //         ,n.nhso_adp_code CODE 
+                //         ,sum(v.QTY) QTY 
+                //         ,round(v.unitprice,2) RATE
+                //         ,if(v.an is null,v.vn,"") SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
+                //         ,"0000-00-00" LMP
+                //         ,"" SP_ITEM
+                //         ,v.icode ,v.vstdate
+                //         FROM opitemrece v
+                //         INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                //         LEFT OUTER JOIN ipt i on i.an = v.an
+                //         AND i.an is not NULL 
+                //         where i.vn IN("'.$va1->vn.'")
+                //         GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                //         GROUP BY an,CODE,rate
+                //         UNION
+                //         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //         FROM
+                //         (SELECT v.hn HN
+                //         ,if(v.an is null,"",v.an) AN
+                //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //         ,n.nhso_adp_type_id TYPE
+                //         ,n.nhso_adp_code CODE 
+                //         ,sum(v.QTY) QTY
+                //         ,round(v.unitprice,2) RATE
+                //         ,if(v.an is null,v.vn,"") SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
+                //         ,"0000-00-00" LMP
+                //         ,"" SP_ITEM
+                //         ,v.icode ,v.vstdate
+                //         FROM opitemrece v
+                //         INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                //         LEFT OUTER JOIN ipt i on i.an = v.an 
+                //         WHERE v.vn IN("'.$va1->vn.'")
+                //         AND i.an is NULL
+                //         GROUP BY v.vn,n.nhso_adp_code,rate) b 
+                //         GROUP BY seq,CODE,rate; 
+                // '); 
+                $data_adp_ = DB::connection('mysql2')->select('
+                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                        ,GRAVIDA 
+                        ,GA_WEEK 
+                        ,DCIP 
+                        ,LMP
+                        ,""SP_ITEM,icode ,vstdate
+                                                                            
+                        FROM (SELECT v.hn HN
+                        ,if(v.an is null,"",v.an) AN
+                        ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                        ,n.nhso_adp_type_id TYPE
+                        ,n.nhso_adp_code CODE 
+                        ,sum(v.QTY) QTY 
+                        ,round(v.unitprice,2) RATE
+                        ,if(v.an is null,v.vn,"") SEQ
+                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                        ,(SELECT preg_no from pkbackoffice.d_30011 where vn = v.vn ) GRAVIDA  
+                        ,(SELECT gaNOW from pkbackoffice.d_30011 where vn = i.vn ) GA_WEEK 
+                        ,"" DCIP	
+                        ,(SELECT lmp from pkbackoffice.d_30011 where vn = i.vn ) LMP 
+                        ,"" SP_ITEM
+                        ,v.icode ,v.vstdate
+                        FROM opitemrece v
+                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30011") 
+                        LEFT OUTER JOIN ipt i on i.an = v.an
+                        AND i.an is not NULL
+                        where i.vn IN("'.$va1->vn.'")  
+                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                        GROUP BY an,CODE,rate
+
+                        UNION
+
+                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                    ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                    ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                    ,GRAVIDA 
+                    ,GA_WEEK 
+                    ,DCIP  
+                    ,LMP	
+                    ,""SP_ITEM,icode ,vstdate
+                    FROM
+                    (SELECT v.hn HN
+                    ,if(v.an is null,"",v.an) AN
+                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                    ,n.nhso_adp_type_id TYPE
+                    ,n.nhso_adp_code CODE 
+                    ,sum(v.QTY) QTY
+                    ,round(v.unitprice,2) RATE
+                    ,if(v.an is null,v.vn,"") SEQ
+                    ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                    ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                    ,(SELECT preg_no from pkbackoffice.d_30011 where vn = v.vn ) GRAVIDA 
+                    ,(SELECT gaNOW from pkbackoffice.d_30011 where vn = v.vn ) GA_WEEK 
+                    ,"" DCIP
+                    ,(SELECT lmp from pkbackoffice.d_30011 where vn = v.vn) LMP
+                    ,"" SP_ITEM
+                    ,v.icode ,v.vstdate
+                    FROM opitemrece v
+                    INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30011") 
+                    LEFT OUTER JOIN ipt i on i.an = v.an  
+                        WHERE v.vn IN("'.$va1->vn.'") 
+                        AND i.an is NULL
+                        GROUP BY v.vn,n.nhso_adp_code,rate) b 
+                        GROUP BY seq,CODE,rate; 
+                ');
+                foreach ($data_adp_ as $va10) {
+                    D_adp::insert([
+                        'HN'                   => $va10->HN,
+                        'AN'                   => $va10->AN,
+                        'DATEOPD'              => $va10->DATEOPD,
+                        'TYPE'                 => $va10->TYPE,
+                        'CODE'                 => $va10->CODE,
+                        'QTY'                  => $va10->QTY,
+                        'RATE'                 => $va10->RATE,
+                        'SEQ'                  => $va10->SEQ,
+                        'CAGCODE'              => $va10->CAGCODE,
+                        'DOSE'                 => $va10->DOSE,
+                        'CA_TYPE'              => $va10->CA_TYPE,
+                        'SERIALNO'             => $va10->SERIALNO,
+                        'TOTCOPAY'             => $va10->TOTCOPAY,
+                        'USE_STATUS'           => $va10->USE_STATUS,
+                        'TOTAL'                => $va10->TOTAL,
+                        'QTYDAY'               => $va10->QTYDAY,
+                        'TMLTCODE'             => $va10->TMLTCODE,
+                        'STATUS1'              => $va10->STATUS1,
+                        'BI'                   => $va10->BI,
+                        'CLINIC'               => $va10->CLINIC,
+                        'ITEMSRC'              => $va10->ITEMSRC,
+                        'PROVIDER'             => $va10->PROVIDER,
+                        'GRAVIDA'              => $va10->GRAVIDA,
+                        'GA_WEEK'              => $va10->GA_WEEK,
+                        'DCIP'                 => $va10->DCIP,
+                        'LMP'                  => $va10->LMP,
+                        'SP_ITEM'              => $va10->SP_ITEM,
+                        'icode'                => $va10->icode,
+                        'vstdate'              => $va10->vstdate,
+                        'user_id'              => $iduser,
+                        'd_anaconda_id'        => 'PPFS_3011'
+                    ]);
+                } 
                  //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE
@@ -918,247 +997,13 @@ class PPfs30011Controller extends Controller
                         'PROVIDER'       => $va11->PROVIDER,
                         'vstdate'        => $va11->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'PPFS_ANC'
+                        'd_anaconda_id'  => 'PPFS_3011'
                     ]);
                 } 
-
-                $data_30011_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN
-                        ,if(v.an is null,"",v.an) AN
-                        ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
-                        ,n.nhso_adp_code CODE 
-                        ,sum(v.QTY) QTY 
-                        ,round(v.unitprice,2) RATE
-                        ,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,(SELECT preg_no from pkbackoffice.d_30011 where vn = v.vn ) GRAVIDA  
-                        ,(SELECT gaNOW from pkbackoffice.d_30011 where vn = i.vn ) GA_WEEK 
-                        ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30011 where vn = i.vn ) LMP 
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30011") 
-                        LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
-                        WHERE i.vn IN("'.$va1->vn.'")  
-                        GROUP BY v.vn  
-                ');
-                foreach ($data_30011_ as $va10) {
-                    D_adp::insert([
-                        'HN'                   => $va10->HN,
-                        'AN'                   => $va10->AN,
-                        'DATEOPD'              => $va10->DATEOPD,
-                        'TYPE'                 => $va10->TYPE,
-                        'CODE'                 => $va10->CODE,
-                        'QTY'                  => $va10->QTY,
-                        'RATE'                 => $va10->RATE,
-                        'SEQ'                  => $va10->SEQ,
-                        'CAGCODE'              => $va10->CAGCODE,
-                        'DOSE'                 => $va10->DOSE,
-                        'CA_TYPE'              => $va10->CA_TYPE,
-                        'SERIALNO'             => $va10->SERIALNO,
-                        'TOTCOPAY'             => $va10->TOTCOPAY,
-                        'USE_STATUS'           => $va10->USE_STATUS,
-                        'TOTAL'                => $va10->TOTAL,
-                        'QTYDAY'               => $va10->QTYDAY,
-                        'TMLTCODE'             => $va10->TMLTCODE,
-                        'STATUS1'              => $va10->STATUS1,
-                        'BI'                   => $va10->BI,
-                        'CLINIC'               => $va10->CLINIC,
-                        'ITEMSRC'              => $va10->ITEMSRC,
-                        'PROVIDER'             => $va10->PROVIDER,
-                        'GRAVIDA'              => $va10->GRAVIDA,
-                        'GA_WEEK'              => $va10->GA_WEEK,
-                        'DCIP'                 => $va10->DCIP,
-                        'LMP'                  => $va10->LMP,
-                        'SP_ITEM'              => $va10->SP_ITEM,
-                        'icode'                => $va10->icode,
-                        'vstdate'              => $va10->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
-                    ]);
-                } 
- 
-         }
-        
-         $data_vn_12 = DB::connection('mysql')->select('SELECT vn from d_30012');
-         foreach ($data_vn_12 as $key => $value_12) {
-                $data_30010_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN
-                        ,if(v.an is null,"",v.an) AN
-                        ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
-                        ,n.nhso_adp_code CODE 
-                        ,sum(v.QTY) QTY 
-                        ,round(v.unitprice,2) RATE
-                        ,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,(SELECT preg_no from pkbackoffice.d_30010 where vn = v.vn ) GRAVIDA  
-                        ,(SELECT gaNOW from pkbackoffice.d_30010 where vn = i.vn ) GA_WEEK 
-                        ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30010 where vn = i.vn ) LMP 
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30010") 
-                        LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
-                        WHERE v.vn IN("'.$value_12->vn.'")  
-                        GROUP BY v.vn  
-                ');
-                foreach ($data_30010_ as $va30110) {
-                    D_adp::insert([
-                        'HN'                   => $va30110->HN,
-                        'AN'                   => $va30110->AN,
-                        'DATEOPD'              => $va30110->DATEOPD,
-                        'TYPE'                 => $va30110->TYPE,
-                        'CODE'                 => $va30110->CODE,
-                        'QTY'                  => $va30110->QTY,
-                        'RATE'                 => $va30110->RATE,
-                        'SEQ'                  => $va30110->SEQ,
-                        'CAGCODE'              => $va30110->CAGCODE,
-                        'DOSE'                 => $va30110->DOSE,
-                        'CA_TYPE'              => $va30110->CA_TYPE,
-                        'SERIALNO'             => $va30110->SERIALNO,
-                        'TOTCOPAY'             => $va30110->TOTCOPAY,
-                        'USE_STATUS'           => $va30110->USE_STATUS,
-                        'TOTAL'                => $va30110->TOTAL,
-                        'QTYDAY'               => $va30110->QTYDAY,
-                        'TMLTCODE'             => $va30110->TMLTCODE,
-                        'STATUS1'              => $va30110->STATUS1,
-                        'BI'                   => $va30110->BI,
-                        'CLINIC'               => $va30110->CLINIC,
-                        'ITEMSRC'              => $va30110->ITEMSRC,
-                        'PROVIDER'             => $va30110->PROVIDER,
-                        'GRAVIDA'              => $va30110->GRAVIDA,
-                        'GA_WEEK'              => $va30110->GA_WEEK,
-                        'DCIP'                 => $va30110->DCIP,
-                        'LMP'                  => $va30110->LMP,
-                        'SP_ITEM'              => $va30110->SP_ITEM,
-                        'icode'                => $va30110->icode,
-                        'vstdate'              => $va30110->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
-                    ]);
-                } 
-                $data_30012_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN
-                        ,if(v.an is null,"",v.an) AN
-                        ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
-                        ,n.nhso_adp_code CODE 
-                        ,sum(v.QTY) QTY 
-                        ,round(v.unitprice,2) RATE
-                        ,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,(SELECT preg_no from pkbackoffice.d_30012 where vn = v.vn ) GRAVIDA  
-                        ,(SELECT gaNOW from pkbackoffice.d_30012 where vn = i.vn ) GA_WEEK 
-                        ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30012 where vn = i.vn ) LMP 
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30012") 
-                        LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
-                        WHERE v.vn IN("'.$value_12->vn.'")  
-                        GROUP BY v.vn  
-                ');
-                foreach ($data_30012_ as $va30112) {
-                    D_adp::insert([
-                        'HN'                   => $va30112->HN,
-                        'AN'                   => $va30112->AN,
-                        'DATEOPD'              => $va30112->DATEOPD,
-                        'TYPE'                 => $va30112->TYPE,
-                        'CODE'                 => $va30112->CODE,
-                        'QTY'                  => $va30112->QTY,
-                        'RATE'                 => $va30112->RATE,
-                        'SEQ'                  => $va30112->SEQ,
-                        'CAGCODE'              => $va30112->CAGCODE,
-                        'DOSE'                 => $va30112->DOSE,
-                        'CA_TYPE'              => $va30112->CA_TYPE,
-                        'SERIALNO'             => $va30112->SERIALNO,
-                        'TOTCOPAY'             => $va30112->TOTCOPAY,
-                        'USE_STATUS'           => $va30112->USE_STATUS,
-                        'TOTAL'                => $va30112->TOTAL,
-                        'QTYDAY'               => $va30112->QTYDAY,
-                        'TMLTCODE'             => $va30112->TMLTCODE,
-                        'STATUS1'              => $va30112->STATUS1,
-                        'BI'                   => $va30112->BI,
-                        'CLINIC'               => $va30112->CLINIC,
-                        'ITEMSRC'              => $va30112->ITEMSRC,
-                        'PROVIDER'             => $va30112->PROVIDER,
-                        'GRAVIDA'              => $va30112->GRAVIDA,
-                        'GA_WEEK'              => $va30112->GA_WEEK,
-                        'DCIP'                 => $va30112->DCIP,
-                        'LMP'                  => $va30112->LMP,
-                        'SP_ITEM'              => $va30112->SP_ITEM,
-                        'icode'                => $va30112->icode,
-                        'vstdate'              => $va30112->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
-                    ]);
-                } 
-                $data_30013_ = DB::connection('mysql2')->select('
-                        SELECT v.hn HN
-                        ,if(v.an is null,"",v.an) AN
-                        ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
-                        ,n.nhso_adp_code CODE 
-                        ,sum(v.QTY) QTY 
-                        ,round(v.unitprice,2) RATE
-                        ,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,(SELECT preg_no from pkbackoffice.d_30013 where vn = v.vn ) GRAVIDA  
-                        ,(SELECT gaNOW from pkbackoffice.d_30013 where vn = i.vn ) GA_WEEK 
-                        ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30013 where vn = i.vn ) LMP 
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30013") 
-                        LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
-                        WHERE v.vn IN("'.$value_12->vn.'")  
-                        GROUP BY v.vn  
-                ');
-                foreach ($data_30013_ as $va30113) {
-                    D_adp::insert([
-                        'HN'                   => $va30113->HN,
-                        'AN'                   => $va30113->AN,
-                        'DATEOPD'              => $va30113->DATEOPD,
-                        'TYPE'                 => $va30113->TYPE,
-                        'CODE'                 => $va30113->CODE,
-                        'QTY'                  => $va30113->QTY,
-                        'RATE'                 => $va30113->RATE,
-                        'SEQ'                  => $va30113->SEQ,
-                        'CAGCODE'              => $va30113->CAGCODE,
-                        'DOSE'                 => $va30113->DOSE,
-                        'CA_TYPE'              => $va30113->CA_TYPE,
-                        'SERIALNO'             => $va30113->SERIALNO,
-                        'TOTCOPAY'             => $va30113->TOTCOPAY,
-                        'USE_STATUS'           => $va30113->USE_STATUS,
-                        'TOTAL'                => $va30113->TOTAL,
-                        'QTYDAY'               => $va30113->QTYDAY,
-                        'TMLTCODE'             => $va30113->TMLTCODE,
-                        'STATUS1'              => $va30113->STATUS1,
-                        'BI'                   => $va30113->BI,
-                        'CLINIC'               => $va30113->CLINIC,
-                        'ITEMSRC'              => $va30113->ITEMSRC,
-                        'PROVIDER'             => $va30113->PROVIDER,
-                        'GRAVIDA'              => $va30113->GRAVIDA,
-                        'GA_WEEK'              => $va30113->GA_WEEK,
-                        'DCIP'                 => $va30113->DCIP,
-                        'LMP'                  => $va30113->LMP,
-                        'SP_ITEM'              => $va30113->SP_ITEM,
-                        'icode'                => $va30113->icode,
-                        'vstdate'              => $va30113->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
-                    ]);
-                } 
+                
+                 
+                 
+              
          }
          
          D_adp::where('CODE','=','XXXXXX')->delete();
@@ -1171,7 +1016,674 @@ class PPfs30011Controller extends Controller
              'status'    => '200'
          ]);
     }
-    
+    // public function ppfs_30011_process(Request $request)
+    // { 
+    //     $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_30011');
+    //     $iduser = Auth::user()->id;
+        
+    //     D_opd::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_orf::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_oop::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_odx::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_idx::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_ipd::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_irf::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_aer::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_iop::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_adp::where('d_anaconda_id','=','PPFS_3011')->delete();  
+    //     D_dru::where('d_anaconda_id','=','PPFS_3011')->delete();  
+    //     D_pat::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_cht::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_cha::where('d_anaconda_id','=','PPFS_3011')->delete();
+    //     D_ins::where('d_anaconda_id','=','PPFS_3011')->delete();
+
+    //      foreach ($data_vn_1 as $key => $va1) {
+    //              //D_irf
+    //              $data_irf_ = DB::connection('mysql2')->select('
+    //                 SELECT a.an AN
+    //                 ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
+    //                 ,"0100" REFERTYPE 
+    //                 FROM hos.an_stat a
+    //                 LEFT OUTER JOIN hos.referout o on o.vn =a.an
+    //                 LEFT OUTER JOIN hos.referin oo on oo.vn =a.an
+    //                 LEFT OUTER JOIN hos.ipt ip on ip.an = a.an 
+    //                 WHERE a.an IN("'.$va1->an.'")  
+    //                 and (a.an in(select vn from hos.referin where vn = oo.vn) or a.an in(select vn from hos.referout where vn = o.vn)); 
+    //             ');
+    //             foreach ($data_irf_ as $va12) {
+    //                 D_irf::insert([
+    //                     'AN'                 => $va12->AN,
+    //                     'REFER'              => $va12->REFER,
+    //                     'REFERTYPE'          => $va12->REFERTYPE,
+    //                     'user_id'            => $iduser,
+    //                     'd_anaconda_id'      => 'PPFS_3011',
+    //                 ]);
+    //             }
+    //              //D_ipd
+    //              $data_ipd_ = DB::connection('mysql2')->select('
+    //                 SELECT a.hn HN,a.an AN
+    //                 ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
+    //                 ,Time_format(o.regtime,"%H%i") TIMEADM
+    //                 ,DATE_FORMAT(o.dchdate,"%Y%m%d") DATEDSC
+    //                 ,Time_format(o.dchtime,"%H%i")  TIMEDSC
+    //                 ,right(o.dchstts,1) DISCHS
+    //                 ,right(o.dchtype,1) DISCHT
+    //                 ,o.ward WARDDSC,o.spclty DEPT
+    //                 ,format(o.bw/1000,3) ADM_W
+    //                 ,"1" UUC ,"I" SVCTYPE 
+    //                 FROM hos.an_stat a
+    //                 LEFT OUTER JOIN hos.ipt o on o.an = a.an
+    //                 LEFT OUTER JOIN hos.pttype p on p.pttype = a.pttype
+    //                 LEFT OUTER JOIN hos.patient pt on pt.hn = a.hn 
+    //                 WHERE  a.an IN("'.$va1->an.'")
+    //             ');
+    //             foreach ($data_ipd_ as $va13) {                
+    //                 $addipd = new D_ipd; 
+    //                 $addipd->AN             = $va13->AN;
+    //                 $addipd->HN             = $va13->HN;
+    //                 $addipd->DATEADM        = $va13->DATEADM;
+    //                 $addipd->TIMEADM        = $va13->TIMEADM; 
+    //                 $addipd->DATEDSC        = $va13->DATEDSC; 
+    //                 $addipd->TIMEDSC        = $va13->TIMEDSC; 
+    //                 $addipd->DISCHS         = $va13->DISCHS; 
+    //                 $addipd->DISCHT         = $va13->DISCHT; 
+    //                 $addipd->DEPT           = $va13->DEPT; 
+    //                 $addipd->ADM_W          = $va13->ADM_W; 
+    //                 $addipd->UUC            = $va13->UUC; 
+    //                 $addipd->SVCTYPE        = $va13->SVCTYPE; 
+    //                 $addipd->user_id        = $iduser;
+    //                 $addipd->d_anaconda_id  = 'PPFS_3011'; 
+    //                 $addipd->save();
+    //             }
+    //             //D_idx
+    //             $data_idx_ = DB::connection('mysql2')->select('
+    //                 SELECT i2.AN,i1.icd10 as DIAG,i1.diagtype as DXTYPE , d.licenseno as DRDX,dx.nhso_code as dx_type_code  
+    //                 FROM hos.ipt i2  
+    //                 LEFT OUTER JOIN hos.iptdiag i1 on i1.an= i2.an  
+    //                 LEFT OUTER JOIN hos.diagtype dx on dx.diagtype = i1.diagtype  
+    //                 LEFT OUTER JOIN hos.doctor d on d.code=i1.doctor  
+    //                 WHERE  i2.an IN("'.$va1->an.'")
+    //             ');
+    //             foreach ($data_idx_ as $va7) {
+    //                 $addidrx = new D_idx; 
+    //                 $addidrx->AN             = $va7->AN;
+    //                 $addidrx->DIAG           = $va7->DIAG;
+    //                 $addidrx->DXTYPE         = $va7->DXTYPE;
+    //                 $addidrx->DRDX           = $va7->DRDX; 
+    //                 $addidrx->user_id        = $iduser;
+    //                 $addidrx->d_anaconda_id  = 'PPFS_12004';
+    //                 $addidrx->save();
+                            
+    //             }
+    //             // D_odx
+    //             $data_odx_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hn HN
+    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
+    //                 ,v.spclty CLINIC
+    //                 ,"Z133" DIAG
+    //                 ,"1" DXTYPE 
+    //                 ,CASE 
+    //                 WHEN d.licenseno IS NULL THEN "ว33980"
+    //                 WHEN d.licenseno LIKE "-%" THEN "ว69577"
+    //                 WHEN d.licenseno LIKE "พ%" THEN "ว33985" 
+    //                 ELSE "ว33985" 
+    //                 END as DRDX
+    //                 ,v.cid PERSON_ID
+    //                 ,v.vn SEQ 
+    //                 from vn_stat v
+    //                 LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
+    //                 LEFT OUTER JOIN doctor d on d.`code` = o.doctor
+    //                 LEFT OUTER JOIN icd101 i on i.code = o.icd10
+    //                 WHERE v.vn IN("'.$va1->vn.'")
+    //                 GROUP BY v.vn
+    //             ');
+    //             foreach ($data_odx_ as $va5) {
+    //                 $adddx = new D_odx;  
+    //                 $adddx->HN             = $va5->HN;
+    //                 $adddx->CLINIC         = $va5->CLINIC;
+    //                 $adddx->DATEDX         = $va5->DATEDX;
+    //                 $adddx->DIAG           = $va5->DIAG;
+    //                 $adddx->DXTYPE         = $va5->DXTYPE;
+    //                 $adddx->DRDX           = $va5->DRDX; 
+    //                 $adddx->PERSON_ID      = $va5->PERSON_ID; 
+    //                 $adddx->SEQ            = $va5->SEQ; 
+    //                 $adddx->user_id        = $iduser;
+    //                 $adddx->d_anaconda_id  = 'PPFS_3011';
+    //                 $adddx->save();
+                    
+    //             }
+    //             //D_oop
+    //             $data_oop_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hn HN
+    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+    //                 ,v.spclty CLINIC
+    //                 ,"" OPER 
+    //                 ,CASE 
+    //                 WHEN d.licenseno IS NULL THEN "ว33980"
+    //                 WHEN d.licenseno LIKE "-%" THEN "ว69577"
+    //                 WHEN d.licenseno LIKE "พ%" THEN "ว33985" 
+    //                 ELSE "ว33985" 
+    //                 END as DROPID
+    //                 ,pt.cid PERSON_ID
+    //                 ,v.vn SEQ 
+    //                 from hos.vn_stat v
+    //                 LEFT OUTER JOIN hos.ovstdiag o on o.vn = v.vn
+    //                 LEFT OUTER JOIN hos.patient pt on v.hn=pt.hn
+    //                 LEFT OUTER JOIN hos.doctor d on d.`code` = o.doctor
+    //                 LEFT OUTER JOIN hos.icd9cm1 i on i.code = o.icd10
+    //                 WHERE v.vn IN("'.$va1->vn.'")
+    //                 GROUP BY v.vn
+    //             ');
+    //             foreach ($data_oop_ as $va6) {
+    //                 $addoop = new D_oop;  
+    //                 $addoop->HN             = $va6->HN;
+    //                 $addoop->CLINIC         = $va6->CLINIC;
+    //                 $addoop->DATEOPD        = $va6->DATEOPD;
+    //                 $addoop->OPER           = $va6->OPER;
+    //                 $addoop->DROPID         = $va6->DROPID;
+    //                 $addoop->PERSON_ID      = $va6->PERSON_ID; 
+    //                 $addoop->SEQ            = $va6->SEQ; 
+    //                 $addoop->user_id        = $iduser;
+    //                 $addoop->d_anaconda_id  = 'PPFS_3011';
+    //                 $addoop->save();
+                    
+    //             }
+    //             //D_orf
+    //             $data_orf_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hn HN
+    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+    //                 ,v.spclty CLINIC
+    //                 ,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
+    //                 ,"0100" REFERTYPE
+    //                 ,v.vn SEQ 
+    //                 from hos.vn_stat v 
+    //                 LEFT OUTER JOIN hos.referin r1 on r1.vn = v.vn
+    //                 LEFT OUTER JOIN hos.referout r2 on r2.vn = v.vn
+    //                 WHERE v.vn IN("'.$va1->vn.'") 
+    //                 and (r1.vn is not null or r2.vn is not null);
+    //             ');                
+    //             foreach ($data_orf_ as $va4) {              
+    //                 $addof = new D_orf;  
+    //                 $addof->HN             = $va4->HN;
+    //                 $addof->CLINIC         = $va4->CLINIC;
+    //                 $addof->DATEOPD         = $va4->DATEOPD;
+    //                 $addof->REFER          = $va4->REFER;
+    //                 $addof->SEQ            = $va4->SEQ;
+    //                 $addof->REFERTYPE      = $va4->REFERTYPE; 
+    //                 $addof->user_id        = $iduser;
+    //                 $addof->d_anaconda_id  = 'PPFS_3011';
+    //                 $addof->save();
+    //             }
+    //             //D_opd
+    //             $data_opd = DB::connection('mysql')->select('
+    //                 SELECT  v.hn HN
+    //                 ,v.spclty CLINIC
+    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+    //                 ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
+    //                 ,v.vn SEQ
+    //                 ,"1" UUC 
+    //                 from hos.vn_stat v
+    //                 LEFT OUTER JOIN hos.ovst o on o.vn = v.vn
+    //                 LEFT OUTER JOIN hos.pttype p on p.pttype = v.pttype
+    //                 LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
+    //                 LEFT OUTER JOIN hos.patient pt on pt.hn = v.hn
+    //                 WHERE v.vn IN("'.$va1->vn.'")                  
+    //             '); 
+    //             foreach ($data_opd as $val3) {            
+    //                 $addo = new D_opd;  
+    //                 $addo->HN             = $val3->HN;
+    //                 $addo->CLINIC         = $val3->CLINIC;
+    //                 $addo->DATEOPD        = $val3->DATEOPD;
+    //                 $addo->TIMEOPD        = $val3->TIMEOPD;
+    //                 $addo->SEQ            = $val3->SEQ;
+    //                 $addo->UUC            = $val3->UUC; 
+    //                 $addo->user_id        = $iduser;
+    //                 $addo->d_anaconda_id  = 'PPFS_3011';
+    //                 $addo->save();
+    //             }
+    //              //D_aer
+    //             $data_aer_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hn HN
+    //                 ,i.an AN
+    //                 ,v.vstdate DATEOPD
+    //                 ,vv.claim_code AUTHAE
+    //                 ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI
+    //                 ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ
+    //                 ,"" AESTATUS,"" DALERT,"" TALERT
+    //                 from hos.vn_stat v
+    //                 left outer join hos.ipt i on i.vn = v.vn
+    //                 left outer join hos.visit_pttype vv on vv.vn = v.vn
+    //                 left outer join hos.pttype pt on pt.pttype =v.pttype
+    //                 WHERE v.vn IN("'.$va1->vn.'")
+    //                 and i.an is null
+    //                 GROUP BY v.vn 
+    //             ');
+    //             foreach ($data_aer_ as $va8) {
+    //                 D_aer::insert([
+    //                     'HN'                => $va8->HN,
+    //                     'AN'                => $va8->AN,
+    //                     'DATEOPD'           => $va8->DATEOPD,
+    //                     'AUTHAE'            => $va8->AUTHAE,
+    //                     'AEDATE'            => $va8->AEDATE,
+    //                     'AETIME'            => $va8->AETIME,
+    //                     'AETYPE'            => $va8->AETYPE,
+    //                     'REFER_NO'          => $va8->REFER_NO,
+    //                     'REFMAINI'          => $va8->REFMAINI,
+    //                     'IREFTYPE'          => $va8->IREFTYPE,
+    //                     'REFMAINO'          => $va8->REFMAINO,
+    //                     'OREFTYPE'          => $va8->OREFTYPE,
+    //                     'UCAE'              => $va8->UCAE,
+    //                     'SEQ'               => $va8->SEQ,
+    //                     'AESTATUS'          => $va8->AESTATUS,
+    //                     'DALERT'            => $va8->DALERT,
+    //                     'TALERT'            => $va8->TALERT,
+    //                     'user_id'           => $iduser,
+    //                     'd_anaconda_id'     => 'PPFS_3011'
+    //                 ]);
+    //             }
+    //              //D_iop 
+    //             $data_iop_ = DB::connection('mysql2')->select('
+    //                 SELECT v.an AN
+    //                 ,o.icd9 OPER
+    //                 ,o.oper_type as OPTYPE 
+    //                 ,CASE 
+    //                 WHEN d.licenseno IS NULL THEN "ว33980"
+    //                 WHEN d.licenseno LIKE "-%" THEN "ว69577"
+    //                 WHEN d.licenseno LIKE "พ%" THEN "ว33985" 
+    //                 ELSE "ว33985" 
+    //                 END as DROPID
+    //                 ,DATE_FORMAT(o.opdate,"%Y%m%d") DATEIN
+    //                 ,Time_format(o.optime,"%H%i") TIMEIN
+    //                 ,DATE_FORMAT(o.enddate,"%Y%m%d") DATEOUT
+    //                 ,Time_format(o.endtime,"%H%i") TIMEOUT
+    //                 FROM an_stat v
+    //                 left outer join iptoprt o on o.an = v.an
+    //                 left outer join doctor d on d.`code` = o.doctor
+    //                 left outer join icd9cm1 i on i.code = o.icd9
+    //                 left outer join ipt ip on ip.an = v.an
+    //                 WHERE v.vn IN("'.$va1->vn.'")
+    //             ');
+    //             foreach ($data_iop_ as $va9) {
+    //                 D_iop::insert([
+    //                     'AN'                => $va9->AN,
+    //                     'OPER'              => $va9->OPER,
+    //                     'OPTYPE'            => $va9->OPTYPE,
+    //                     'DROPID'            => $va9->DROPID,
+    //                     'DATEIN'            => $va9->DATEIN,
+    //                     'TIMEIN'            => $va9->TIMEIN,
+    //                     'DATEOUT'           => $va9->DATEOUT,
+    //                     'TIMEOUT'           => $va9->TIMEOUT,
+    //                     'user_id'           => $iduser,
+    //                     'd_anaconda_id'     => 'PPFS_3011'
+    //                 ]);
+    //             }
+                
+    //             $data_adp_ = DB::connection('mysql2')->select('
+    //                 SELECT HN,AN,DATEOPD,TYPE,CODE,QTY,RATE,SEQ
+    //                 ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+    //                 ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+    //                 ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+    //                 from
+    //                 (SELECT v.hn HN
+    //                 ,if(v.an is null,"",v.an) AN
+    //                 ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+    //                 ,"4" TYPE
+    //                 ,"12004" CODE 
+    //                 ,"1" QTY
+    //                 ,"160" RATE
+    //                 ,if(v.an is null,v.vn,"") SEQ
+    //                 ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+    //                 ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
+    //                 ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+    //                 from hos.opitemrece v
+    //                 inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+    //                 left join hos.ipt i on i.an = v.an
+    //                 AND i.an is not NULL 
+    //                 WHERE i.vn IN("'.$va1->vn.'")
+    //                 GROUP BY i.vn,n.nhso_adp_code,rate) a 
+    //                 GROUP BY an,CODE,rate
+    //                 UNION ALL
+    //                 SELECT HN,AN,DATEOPD,TYPE,CODE,QTY,RATE,SEQ
+    //                 ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+    //                 ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+    //                 ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+    //                 from
+    //                 (SELECT v.hn HN
+    //                 ,if(v.an is null,"",v.an) AN
+    //                 ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+    //                 ,"4" TYPE
+    //                 ,"12004" CODE 
+    //                 ,"1" QTY
+    //                 ,"160" RATE
+    //                 ,if(v.an is null,v.vn,"") SEQ
+    //                 ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+    //                 ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+    //                 ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+    //                 from hos.opitemrece v
+    //                 inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+    //                 left join hos.vn_stat vv on vv.vn = v.vn
+    //                 WHERE vv.vn IN("'.$va1->vn.'")
+    //                 AND v.an is NULL
+    //                 GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+    //                 GROUP BY seq,CODE,rate;                
+    //             ');
+    //             foreach ($data_adp_ as $va10) {
+    //                 d_adp::insert([
+    //                     'HN'                   => $va10->HN,
+    //                     'AN'                   => $va10->AN,
+    //                     'DATEOPD'              => $va10->DATEOPD,
+    //                     'TYPE'                 => $va10->TYPE,
+    //                     'CODE'                 => $va10->CODE,
+    //                     'QTY'                  => $va10->QTY,
+    //                     'RATE'                 => $va10->RATE,
+    //                     'SEQ'                  => $va10->SEQ,
+    //                     'CAGCODE'              => $va10->CAGCODE,
+    //                     'DOSE'                 => $va10->DOSE,
+    //                     'CA_TYPE'              => $va10->CA_TYPE,
+    //                     'SERIALNO'             => $va10->SERIALNO,
+    //                     'TOTCOPAY'             => $va10->TOTCOPAY,
+    //                     'USE_STATUS'           => $va10->USE_STATUS,
+    //                     'TOTAL'                => $va10->TOTAL,
+    //                     'QTYDAY'               => $va10->QTYDAY,
+    //                     'TMLTCODE'             => $va10->TMLTCODE,
+    //                     'STATUS1'              => $va10->STATUS1,
+    //                     'BI'                   => $va10->BI,
+    //                     'CLINIC'               => $va10->CLINIC,
+    //                     'ITEMSRC'              => $va10->ITEMSRC,
+    //                     'PROVIDER'             => $va10->PROVIDER,
+    //                     'GRAVIDA'              => $va10->GRAVIDA,
+    //                     'GA_WEEK'              => $va10->GA_WEEK,
+    //                     'DCIP'                 => $va10->DCIP,
+    //                     'LMP'                  => $va10->LMP,
+    //                     'SP_ITEM'              => $va10->SP_ITEM,
+    //                     'icode'                => $va10->icode,
+    //                     'vstdate'              => $va10->vstdate,
+    //                     'user_id'              => $iduser,
+    //                     'd_anaconda_id'        => 'PPFS_3011'
+    //                 ]);
+    //             }
+    //             //D_dru
+    //             // $data_dru_ = DB::connection('mysql2')->select('
+    //             //     SELECT vv.hcode HCODE
+    //             //     ,v.hn HN
+    //             //     ,v.an AN
+    //             //     ,vv.spclty CLINIC
+    //             //     ,vv.cid PERSON_ID
+    //             //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+    //             //     ,d.icode DID
+    //             //     ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME
+    //             //     ,sum(v.qty) AMOUNT
+    //             //     ,round(v.unitprice,2) DRUGPRIC
+    //             //     ,"0.00" DRUGCOST
+    //             //     ,d.did DIDSTD
+    //             //     ,d.units UNIT
+    //             //     ,concat(d.packqty,"x",d.units) UNIT_PACK
+    //             //     ,v.vn SEQ
+    //             //     ,oo.presc_reason DRUGREMARK
+    //             //     ,"" PA_NO
+    //             //     ,"" TOTCOPAY
+    //             //     ,if(v.item_type="H","2","1") USE_STATUS
+    //             //     ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
+    //             //     from hos.opitemrece v
+    //             //     LEFT JOIN hos.drugitems d on d.icode = v.icode
+    //             //     LEFT JOIN hos.vn_stat vv on vv.vn = v.vn
+    //             //     LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+    //             //     WHERE v.vn IN("'.$va1->vn.'")
+    //             //     and d.did is not null 
+    //             //     GROUP BY v.vn,did
+
+    //             //     UNION all
+
+    //             //     SELECT pt.hcode HCODE
+    //             //     ,v.hn HN
+    //             //     ,v.an AN
+    //             //     ,v1.spclty CLINIC
+    //             //     ,pt.cid PERSON_ID
+    //             //     ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+    //             //     ,d.icode DID
+    //             //     ,concat(d.`name`,"",d.strength," ",d.units) DIDNAME
+    //             //     ,sum(v.qty) AMOUNT
+    //             //     ,round(v.unitprice,2) DRUGPRIC
+    //             //     ,"0.00" DRUGCOST
+    //             //     ,d.did DIDSTD
+    //             //     ,d.units UNIT
+    //             //     ,concat(d.packqty,"x",d.units) UNIT_PACK
+    //             //     ,ifnull(v.vn,v.an) SEQ
+    //             //     ,oo.presc_reason DRUGREMARK
+    //             //     ,"" PA_NO
+    //             //     ,"" TOTCOPAY
+    //             //     ,if(v.item_type="H","2","1") USE_STATUS
+    //             //     ,"" TOTAL,""SIGCODE,"" SIGTEXT,""  PROVIDER
+    //             //     from hos.opitemrece v
+    //             //     LEFT JOIN hos.drugitems d on d.icode = v.icode
+    //             //     LEFT JOIN hos.patient pt  on v.hn = pt.hn
+    //             //     inner JOIN hos.ipt v1 on v1.an = v.an
+    //             //     LEFT JOIN hos.ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+    //             //     WHERE v1.vn IN("'.$va1->vn.'")
+    //             //     and d.did is not null AND v.qty<>"0"
+    //             //     GROUP BY v.an,d.icode,USE_STATUS;               
+    //             // ');
+    //             // foreach ($data_dru_ as $va11) {
+    //             //     D_dru::insert([ 
+    //             //         'HN'             => $va11->HN,
+    //             //         'CLINIC'         => $va11->CLINIC,
+    //             //         'HCODE'          => $va11->HCODE,
+    //             //         'AN'             => $va11->AN,
+    //             //         'PERSON_ID'      => $va11->PERSON_ID,
+    //             //         'DATE_SERV'      => $va11->DATE_SERV,
+    //             //         'DID'            => $va11->DID,
+    //             //         'DIDNAME'        => $va11->DIDNAME, 
+    //             //         'AMOUNT'         => $va11->AMOUNT,
+    //             //         'DRUGPRIC'       => $va11->DRUGPRIC,
+    //             //         'DRUGCOST'       => $va11->DRUGCOST,
+    //             //         'DIDSTD'         => $va11->DIDSTD,
+    //             //         'UNIT'           => $va11->UNIT,
+    //             //         'UNIT_PACK'      =>$va11->UNIT_PACK,
+    //             //         'SEQ'            => $va11->SEQ,
+    //             //         'DRUGREMARK'     => $va11->DRUGREMARK,
+    //             //         'PA_NO'          => $va11->PA_NO,
+    //             //         'TOTCOPAY'       => $va11->TOTCOPAY,
+    //             //         'USE_STATUS'     => $va11->USE_STATUS,
+    //             //         'TOTAL'          => $va11->TOTAL,  
+    //             //         'SIGCODE'        => $va11->SIGCODE,                      
+    //             //         'SIGTEXT'        => $va11->SIGTEXT,
+    //             //         'PROVIDER'        => $va11->PROVIDER,  
+    //             //         'user_id'        => $iduser
+    //             //     ]);
+    //             // }
+    //             //D_pat
+    //             $data_pat_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hcode HCODE
+    //                     ,v.hn HN
+    //                     ,pt.chwpart CHANGWAT
+    //                     ,pt.amppart AMPHUR
+    //                     ,DATE_FORMAT(pt.birthday,"%Y%m%d") DOB
+    //                     ,pt.sex SEX
+    //                     ,pt.marrystatus MARRIAGE 
+    //                     ,pt.occupation OCCUPA
+    //                     ,lpad(pt.nationality,3,0) NATION
+    //                     ,pt.cid PERSON_ID
+    //                     ,concat(pt.fname," ",pt.lname,",",pt.pname) NAMEPAT
+    //                     ,pt.pname TITLE
+    //                     ,pt.fname FNAME 
+    //                     ,pt.lname LNAME
+    //                     ,"1" IDTYPE
+    //                     from vn_stat v
+    //                     LEFT JOIN pttype p on p.pttype = v.pttype
+    //                     LEFT JOIN ipt i on i.vn = v.vn 
+    //                     LEFT JOIN patient pt on pt.hn = v.hn 
+    //                     WHERE v.vn IN("'.$va1->vn.'")
+    //             ');
+    //             foreach ($data_pat_ as $va14) {
+    //                 D_pat::insert([
+    //                     'HCODE'              => $va14->HCODE,
+    //                     'HN'                 => $va14->HN,
+    //                     'CHANGWAT'           => $va14->CHANGWAT,
+    //                     'AMPHUR'             => $va14->AMPHUR,
+    //                     'DOB'                => $va14->DOB,
+    //                     'SEX'                => $va14->SEX,
+    //                     'MARRIAGE'           => $va14->MARRIAGE,
+    //                     'OCCUPA'             => $va14->OCCUPA,
+    //                     'NATION'             => $va14->NATION,
+    //                     'PERSON_ID'          => $va14->PERSON_ID,
+    //                     'NAMEPAT'            => $va14->NAMEPAT,
+    //                     'TITLE'              => $va14->TITLE,
+    //                     'FNAME'              => $va14->FNAME,
+    //                     'LNAME'              => $va14->LNAME,
+    //                     'IDTYPE'             => $va14->IDTYPE,
+    //                     'user_id'            => $iduser,
+    //                     'd_anaconda_id'      => 'PPFS_3011'
+    //                 ]);
+    //             }
+    //              //D_cht
+    //              $data_cht_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hn HN
+    //                 ,v.an AN
+    //                 ,DATE_FORMAT(if(a.an is null,v.vstdate,a.dchdate),"%Y%m%d") DATE
+    //                 ,round(if(a.an is null,vv.income,a.income),2) TOTAL
+    //                 ,round(if(a.an is null,vv.paid_money,a.paid_money),2) PAID
+    //                 ,if(vv.paid_money >"0" or a.paid_money >"0","10",pt.pcode) PTTYPE
+    //                 ,pp.cid PERSON_ID 
+    //                 ,v.vn SEQ
+    //                 from ovst v
+    //                 LEFT JOIN vn_stat vv on vv.vn = v.vn
+    //                 LEFT JOIN an_stat a on a.an = v.an
+    //                 LEFT JOIN patient pp on pp.hn = v.hn
+    //                 LEFT JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
+    //                 LEFT JOIN pttype p on p.pttype = a.pttype 
+    //                 WHERE v.vn IN("'.$va1->vn.'")  
+                    
+    //             ');
+    //             foreach ($data_cht_ as $va15) {
+    //                 D_cht::insert([
+    //                     'HN'                => $va15->HN,
+    //                     'AN'                => $va15->AN,
+    //                     'DATE'              => $va15->DATE,
+    //                     'TOTAL'             => $va15->TOTAL,
+    //                     'PAID'              => $va15->PAID,
+    //                     'PTTYPE'            => $va15->PTTYPE,
+    //                     'PERSON_ID'         => $va15->PERSON_ID,
+    //                     'SEQ'               => $va15->SEQ,
+    //                     'user_id'           => $iduser,
+    //                     'd_anaconda_id'     => 'PPFS_3011'
+    //                 ]);
+    //             }
+    //              //D_cha
+    //              $data_cha_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hn HN
+    //                     ,if(v1.an is null,"",v1.an) AN 
+    //                     ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
+    //                     ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
+    //                     ,round(sum(v.sum_price),2) AMOUNT
+    //                     ,p.cid PERSON_ID 
+    //                     ,ifnull(v.vn,v.an) SEQ
+    //                     from opitemrece v
+    //                     LEFT JOIN vn_stat vv on vv.vn = v.vn
+    //                     LEFT JOIN patient p on p.hn = v.hn
+    //                     LEFT JOIN ipt v1 on v1.an = v.an
+    //                     LEFT JOIN income i on v.income=i.income
+    //                     LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
+    //                     LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id  
+    //                     WHERE vv.vn IN("'.$va1->vn.'") 
+    //                     group by v.vn,CHRGITEM
+    //                     union all
+    //                     SELECT v.hn HN
+    //                     ,v1.an AN 
+    //                     ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
+    //                     ,if(v.paidst in("01","03"),dx.chrgitem_code2,dc.chrgitem_code1) CHRGITEM
+    //                     ,round(sum(v.sum_price),2) AMOUNT
+    //                     ,p.cid PERSON_ID 
+    //                     ,ifnull(v.vn,v.an) SEQ
+    //                     from opitemrece v
+    //                     LEFT JOIN vn_stat vv on vv.vn = v.vn
+    //                     LEFT JOIN patient p on p.hn = v.hn
+    //                     LEFT JOIN ipt v1 on v1.an = v.an
+    //                     LEFT JOIN income i on v.income=i.income
+    //                     LEFT JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
+    //                     LEFT JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id 
+    //                     WHERE v1.vn IN("'.$va1->vn.'")  
+    //                     group by v.an,CHRGITEM; 
+    //             ');
+    //             foreach ($data_cha_ as $va16) {
+    //                 D_cha::insert([
+    //                     'HN'                => $va16->HN,
+    //                     'AN'                => $va16->AN,
+    //                     'DATE'              => $va16->DATE,
+    //                     'CHRGITEM'          => $va16->CHRGITEM,
+    //                     'AMOUNT'            => $va16->AMOUNT, 
+    //                     'PERSON_ID'         => $va16->PERSON_ID,
+    //                     'SEQ'               => $va16->SEQ, 
+    //                     'user_id'           => $iduser,
+    //                     'd_anaconda_id'     => 'PPFS_3011'
+    //                 ]);
+    //             }
+    //             //D_ins
+    //             $data_ins_ = DB::connection('mysql2')->select('
+    //                 SELECT v.hn HN
+    //                 ,if(i.an is null,p.hipdata_code,pp.hipdata_code) INSCL
+    //                 ,if(i.an is null,p.pcode,pp.pcode) SUBTYPE
+    //                 ,v.cid CID
+    //                 ,DATE_FORMAT(if(i.an is null,v.pttype_begin,ap.begin_date), "%Y%m%d")  DATEIN
+    //                 ,DATE_FORMAT(if(i.an is null,v.pttype_expire,ap.expire_date), "%Y%m%d")   DATEEXP
+    //                 ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN
+    //                 ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
+    //                 ,"" GOVCODE
+    //                 ,"" GOVNAME
+                    
+    //                 ,c.claimcode PERMITNO
+    //                 ,"" DOCNO
+    //                 ,"" OWNRPID 
+    //                 ,"" OWNRNAME
+    //                 ,i.an AN
+    //                 ,v.vn SEQ
+    //                 ,"" SUBINSCL 
+    //                 ,"" RELINSCL
+    //                 ,"" HTYPE
+    //                 from vn_stat v
+    //                 LEFT JOIN pttype p on p.pttype = v.pttype
+    //                 LEFT JOIN ipt i on i.vn = v.vn 
+    //                 LEFT JOIN pttype pp on pp.pttype = i.pttype
+    //                 left join ipt_pttype ap on ap.an = i.an
+    //                 left join visit_pttype vp on vp.vn = v.vn
+    //                 LEFT JOIN rcpt_debt r on r.vn = v.vn
+    //                 left join patient px on px.hn = v.hn 
+    //                 LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = v.cid AND c.vstdate = v.vstdate
+    //                 WHERE v.vn IN("'.$va1->vn.'")   
+    //             ');
+    //             // ,ifnull(if(i.an is null,vp.claim_code or vp.auth_code,ap.claim_code),r.sss_approval_code) PERMITNO
+    //             foreach ($data_ins_ as $va17) {
+    //                 D_ins::insert([
+    //                     'HN'                => $va17->HN,
+    //                     'INSCL'             => $va17->INSCL,
+    //                     'SUBTYPE'           => $va17->SUBTYPE,
+    //                     'CID'               => $va17->CID,
+    //                     'DATEIN'            => $va17->DATEIN, 
+    //                     'DATEEXP'           => $va17->DATEEXP,
+    //                     'HOSPMAIN'          => $va17->HOSPMAIN, 
+    //                     'HOSPSUB'           => $va17->HOSPSUB,
+    //                     'GOVCODE'           => $va17->GOVCODE,
+    //                     'GOVNAME'           => $va17->GOVNAME,
+    //                     'PERMITNO'          => $va17->PERMITNO,
+    //                     'DOCNO'             => $va17->DOCNO,
+    //                     'OWNRPID'           => $va17->OWNRPID,
+    //                     'OWNRNAME'          => $va17->OWNRNAME,
+    //                     'AN'                => $va17->AN,
+    //                     'SEQ'               => $va17->SEQ,
+    //                     'SUBINSCL'          => $va17->SUBINSCL,
+    //                     'RELINSCL'          => $va17->RELINSCL,
+    //                     'HTYPE'             => $va17->HTYPE,
+    //                     'user_id'           => $iduser,
+    //                     'd_anaconda_id'     => 'PPFS_3011'
+    //                 ]);
+    //             }
+    //      }
+         
+    //      D_adp::where('CODE','=','XXXXXX')->delete();
+    //      // return back();
+    //      return response()->json([
+    //          'status'    => '200'
+    //      ]);
+    // }
     public function ppfs_30011_export(Request $request)
     {
         $sss_date_now = date("Y-m-d");
@@ -1203,7 +1715,7 @@ class PPfs30011Controller extends Controller
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_opd1, $opd_head);
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_ins WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -1237,7 +1749,7 @@ class PPfs30011Controller extends Controller
         $opd_head2 = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_opd2, $opd_head2);
         $iop = DB::connection('mysql')->select('
-            SELECT * from d_iop WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_iop WHERE d_anaconda_id ="PPFS_3011"
         '); 
         foreach ($iop as $key => $value2) {
             $b1 = $value2->AN;
@@ -1261,7 +1773,7 @@ class PPfs30011Controller extends Controller
         $opd_head3 = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_opd3, $opd_head3);
         $adp = DB::connection('mysql')->select('
-            SELECT * from d_adp WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_adp WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($adp as $key => $value3) {
             $c1 = $value3->HN;
@@ -1303,7 +1815,7 @@ class PPfs30011Controller extends Controller
         $opd_head4 = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_opd4, $opd_head4);
         $aer = DB::connection('mysql')->select('
-            SELECT * from d_aer WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_aer WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($aer as $key => $value4) {
             $d1 = $value4->HN;
@@ -1336,7 +1848,7 @@ class PPfs30011Controller extends Controller
         $opd_head5 = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_opd5, $opd_head5);
         $cha = DB::connection('mysql')->select('
-            SELECT * from d_cha WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_cha WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($cha as $key => $value5) {
             $e1 = $value5->HN;
@@ -1358,7 +1870,7 @@ class PPfs30011Controller extends Controller
         $opd_head6 = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_opd6, $opd_head6);
         $cht = DB::connection('mysql')->select('
-            SELECT * from d_cht WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_cht WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($cht as $key => $value6) {
             $f1 = $value6->HN;
@@ -1381,7 +1893,7 @@ class PPfs30011Controller extends Controller
         $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_dru WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($dru as $key => $value7) {
             $g1 = $value7->HCODE;
@@ -1419,7 +1931,7 @@ class PPfs30011Controller extends Controller
         $opd_head8 = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_opd8, $opd_head8);
         $idx = DB::connection('mysql')->select('
-            SELECT * from d_idx WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_idx WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($idx as $key => $value8) {
             $h1 = $value8->AN;
@@ -1438,7 +1950,7 @@ class PPfs30011Controller extends Controller
         $opd_head9 = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_opd9, $opd_head9);
         $pat = DB::connection('mysql')->select('
-            SELECT * from d_pat WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_pat WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($pat as $key => $value9) {
             $i1 = $value9->HCODE;
@@ -1468,7 +1980,7 @@ class PPfs30011Controller extends Controller
         $opd_head10 = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_opd10, $opd_head10);
         $ipd = DB::connection('mysql')->select('
-            SELECT * from d_ipd WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_ipd WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($ipd as $key => $value10) {
             $j1 = $value10->HN;
@@ -1496,7 +2008,7 @@ class PPfs30011Controller extends Controller
         $opd_head11 = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_opd11, $opd_head11);
         $irf = DB::connection('mysql')->select('
-            SELECT * from d_irf WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_irf WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($irf as $key => $value11) {
             $k1 = $value11->AN;
@@ -1514,7 +2026,7 @@ class PPfs30011Controller extends Controller
         $opd_head12 = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_opd12, $opd_head12);
         $lvd = DB::connection('mysql')->select('
-            SELECT * from d_lvd WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_lvd WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($lvd as $key => $value12) {
             $L1 = $value12->SEQLVD;
@@ -1536,7 +2048,7 @@ class PPfs30011Controller extends Controller
         $opd_head13 = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_opd13, $opd_head13);
         $odx = DB::connection('mysql')->select('
-            SELECT * from d_odx WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_odx WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($odx as $key => $value13) {
             $m1 = $value13->HN;
@@ -1559,7 +2071,7 @@ class PPfs30011Controller extends Controller
         $opd_head14 = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_opd14, $opd_head14);
         $oop = DB::connection('mysql')->select('
-            SELECT * from d_oop WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_oop WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($oop as $key => $value14) {
             $n1 = $value14->HN;
@@ -1581,7 +2093,7 @@ class PPfs30011Controller extends Controller
         $opd_head15 = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd15, $opd_head15);
         $opd = DB::connection('mysql')->select('
-            SELECT * from d_opd WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_opd WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($opd as $key => $value15) {
             $o1 = $value15->HN;
@@ -1602,7 +2114,7 @@ class PPfs30011Controller extends Controller
         $opd_head16 = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_opd16, $opd_head16);
         $orf = DB::connection('mysql')->select('
-            SELECT * from d_orf WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_orf WHERE d_anaconda_id ="PPFS_3011"
         ');
         foreach ($orf as $key => $value16) {
             $p1 = $value16->HN;
