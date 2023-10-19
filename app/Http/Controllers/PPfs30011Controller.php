@@ -125,7 +125,9 @@ class PPfs30011Controller extends Controller
             D_30011::truncate();
             D_30012::truncate();
             D_30013::truncate();
-                $data_main_ = DB::connection('mysql2')->select(' 
+
+           
+                $data_main_ = DB::connection('mysql10')->select(' 
                     SELECT v.vn,""an,v.hn,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,v.hn,v.pttype,v.vstdate,t.hipdata_code 
                         ,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
                         FROM vn_stat v
@@ -171,7 +173,7 @@ class PPfs30011Controller extends Controller
                         ]);
                     }  
 
-                    $data_30010 = DB::connection('mysql2')->select(' 
+                    $data_30010 = DB::connection('mysql10')->select(' 
                             SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
                             ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
                             FROM person_anc_service s  
@@ -191,7 +193,7 @@ class PPfs30011Controller extends Controller
                         ]); 
                     }
                     
-                    $data_30011 = DB::connection('mysql2')->select(' 
+                    $data_30011 = DB::connection('mysql10')->select(' 
                             SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
                             ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
                             FROM person_anc_service s  
@@ -211,7 +213,7 @@ class PPfs30011Controller extends Controller
                         ]); 
                     }
                      
-                    $data_30012 = DB::connection('mysql2')->select(' 
+                    $data_30012 = DB::connection('mysql10')->select(' 
                             SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
                             ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
                             FROM person_anc_service s  
@@ -231,7 +233,7 @@ class PPfs30011Controller extends Controller
                             'anc_service_date'   => $value4->anc_service_date 
                         ]); 
                     }
-                    $data_30013 = DB::connection('mysql2')->select(' 
+                    $data_30013 = DB::connection('mysql10')->select(' 
                             SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
                             ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
                             FROM person_anc_service s  
@@ -325,8 +327,7 @@ class PPfs30011Controller extends Controller
                     ,if(i.an is null,v.hospmain,ap.hospmain) HOSPMAIN
                     ,if(i.an is null,v.hospsub,ap.hospsub) HOSPSUB
                     ,"" GOVCODE
-                    ,"" GOVNAME
-                    
+                    ,"" GOVNAME                    
                     ,c.claimcode PERMITNO
                     ,"" DOCNO
                     ,"" OWNRPID 
@@ -376,7 +377,7 @@ class PPfs30011Controller extends Controller
                     ]);
                 }
                 //D_pat OK
-                $data_pat_ = DB::connection('mysql2')->select('
+                $data_pat_ = DB::connection('mysql10')->select('
                     SELECT v.hcode HCODE
                         ,v.hn HN
                         ,pt.chwpart CHANGWAT
@@ -420,7 +421,7 @@ class PPfs30011Controller extends Controller
                     ]);
                 }
                 //D_opd OK
-                $data_opd = DB::connection('mysql')->select('
+                $data_opd = DB::connection('mysql10')->select('
                         SELECT  v.hn HN
                         ,v.spclty CLINIC
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
@@ -456,7 +457,7 @@ class PPfs30011Controller extends Controller
                     ]);
                 }
                 //D_orf _OK
-                $data_orf_ = DB::connection('mysql2')->select('
+                $data_orf_ = DB::connection('mysql10')->select('
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,v.spclty CLINIC
@@ -483,7 +484,7 @@ class PPfs30011Controller extends Controller
                     ]);
                 }
                  // D_odx OK
-                 $data_odx_ = DB::connection('mysql2')->select('
+                 $data_odx_ = DB::connection('mysql10')->select('
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
                         ,v.spclty CLINIC
@@ -525,7 +526,7 @@ class PPfs30011Controller extends Controller
                     
                 }
                  //D_oop OK
-                 $data_oop_ = DB::connection('mysql2')->select('
+                 $data_oop_ = DB::connection('mysql10')->select('
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,v.spclty CLINIC
@@ -562,7 +563,7 @@ class PPfs30011Controller extends Controller
                     
                 }
                 //D_ipd OK
-                $data_ipd_ = DB::connection('mysql2')->select('
+                $data_ipd_ = DB::connection('mysql10')->select('
                         SELECT a.hn HN,a.an AN
                         ,DATE_FORMAT(o.regdate,"%Y%m%d") DATEADM
                         ,Time_format(o.regtime,"%H%i") TIMEADM
@@ -599,7 +600,7 @@ class PPfs30011Controller extends Controller
                 }
                 
                  //D_irf OK
-                 $data_irf_ = DB::connection('mysql2')->select('
+                 $data_irf_ = DB::connection('mysql10')->select('
                     SELECT a.an AN
                         ,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER
                         ,"0100" REFERTYPE 
@@ -620,7 +621,7 @@ class PPfs30011Controller extends Controller
                     ]);                     
                 }                 
                 //D_idx OK 
-                $data_idx_ = DB::connection('mysql2')->select('
+                $data_idx_ = DB::connection('mysql10')->select('
                     SELECT v.an AN,o.icd10 DIAG
                         ,o.diagtype DXTYPE 
                         ,CASE 
@@ -648,7 +649,7 @@ class PPfs30011Controller extends Controller
                             
                 }
                 //D_iop OK
-                $data_iop_ = DB::connection('mysql2')->select('
+                $data_iop_ = DB::connection('mysql10')->select('
                     SELECT v.an AN
                     ,o.icd9 OPER
                     ,o.oper_type as OPTYPE 
@@ -684,7 +685,7 @@ class PPfs30011Controller extends Controller
                     ]);
                 }
                 //D_cht OK
-                $data_cht_ = DB::connection('mysql2')->select('
+                $data_cht_ = DB::connection('mysql10')->select('
                     SELECT v.hn HN
                     ,v.an AN
                     ,DATE_FORMAT(if(a.an is null,v.vstdate,a.dchdate),"%Y%m%d") DATE
@@ -720,7 +721,7 @@ class PPfs30011Controller extends Controller
                     ]);
                 }
                 //D_cha OK
-                $data_cha_ = DB::connection('mysql2')->select('
+                $data_cha_ = DB::connection('mysql10')->select('
                     SELECT v.hn HN
                         ,if(v1.an is null,"",v1.an) AN 
                         ,if(v1.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(v1.dchdate,"%Y%m%d")) DATE
@@ -826,7 +827,7 @@ class PPfs30011Controller extends Controller
                 }
                  
                  //D_dru OK
-                 $data_dru_ = DB::connection('mysql2')->select('
+                 $data_dru_ = DB::connection('mysql10')->select('
                     SELECT vv.hcode HCODE
                         ,v.hn HN
                         ,v.an AN
@@ -996,8 +997,8 @@ class PPfs30011Controller extends Controller
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,(SELECT preg_no from pkbackoffice.d_30010 where vn = v.vn ) GRAVIDA  
-                        ,(SELECT gaNOW from pkbackoffice.d_30010 where vn = i.vn ) GA_WEEK 
+                        ,""GRAVIDA
+                        ,""GA_WEEK
                         ,"" DCIP	
                         ,(SELECT lmp from pkbackoffice.d_30010 where vn = i.vn ) LMP 
                         ,"" SP_ITEM
@@ -1008,6 +1009,8 @@ class PPfs30011Controller extends Controller
                         WHERE v.vn IN("'.$value_12->vn.'")  
                         GROUP BY v.vn  
                 ');
+                // ,(SELECT preg_no from pkbackoffice.d_30010 where vn = v.vn ) GRAVIDA  
+                // ,(SELECT gaNOW from pkbackoffice.d_30010 where vn = i.vn ) GA_WEEK 
                 foreach ($data_30010_ as $va30110) {
                     D_adp::insert([
                         'HN'                   => $va30110->HN,
@@ -1054,8 +1057,9 @@ class PPfs30011Controller extends Controller
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,(SELECT preg_no from pkbackoffice.d_30012 where vn = v.vn ) GRAVIDA  
-                        ,(SELECT gaNOW from pkbackoffice.d_30012 where vn = i.vn ) GA_WEEK 
+                     
+                        ,""GRAVIDA
+                        ,""GA_WEEK
                         ,"" DCIP	
                         ,(SELECT lmp from pkbackoffice.d_30012 where vn = i.vn ) LMP 
                         ,"" SP_ITEM
@@ -1066,6 +1070,8 @@ class PPfs30011Controller extends Controller
                         WHERE v.vn IN("'.$value_12->vn.'")  
                         GROUP BY v.vn  
                 ');
+                // ,(SELECT preg_no from pkbackoffice.d_30012 where vn = v.vn ) GRAVIDA  
+                // ,(SELECT gaNOW from pkbackoffice.d_30012 where vn = i.vn ) GA_WEEK 
                 foreach ($data_30012_ as $va30112) {
                     D_adp::insert([
                         'HN'                   => $va30112->HN,
@@ -1112,8 +1118,9 @@ class PPfs30011Controller extends Controller
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,(SELECT preg_no from pkbackoffice.d_30013 where vn = v.vn ) GRAVIDA  
-                        ,(SELECT gaNOW from pkbackoffice.d_30013 where vn = i.vn ) GA_WEEK 
+                        
+                        ,""GRAVIDA
+                        ,""GA_WEEK
                         ,"" DCIP	
                         ,(SELECT lmp from pkbackoffice.d_30013 where vn = i.vn ) LMP 
                         ,"" SP_ITEM
@@ -1124,6 +1131,8 @@ class PPfs30011Controller extends Controller
                         WHERE v.vn IN("'.$value_12->vn.'")  
                         GROUP BY v.vn  
                 ');
+                // ,(SELECT preg_no from pkbackoffice.d_30013 where vn = v.vn ) GRAVIDA  
+                //         ,(SELECT gaNOW from pkbackoffice.d_30013 where vn = i.vn ) GA_WEEK 
                 foreach ($data_30013_ as $va30113) {
                     D_adp::insert([
                         'HN'                   => $va30113->HN,

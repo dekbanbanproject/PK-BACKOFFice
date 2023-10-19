@@ -223,9 +223,8 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('ucep24') }}">UCEP 24</a></li>
-                                <li><a href="{{ url('ucep24_claim') }}">UCEP 24-Claim</a></li>
-                                
-                                <li><a href="{{ url('imc') }}">IMC</a></li>
+                                <li><a href="{{ url('ucep24_claim') }}">UCEP 24-Claim</a></li> 
+                                {{-- <li><a href="{{ url('imc') }}">IMC</a></li> --}}
                                 {{-- <li><a href="{{ url('ofc') }}">OFC 401</a></li> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">OFC</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
@@ -272,12 +271,11 @@
                                 <li><a href="javascript: void(0);" class="has-arrow">ANC-หญิงตั้งครรภ์</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('ppfs_30011') }}">บริการดูแลและฝากครรภ์</a></li>
-                                        <li><a href="{{ url('anc_dent') }}">ตรวจฟัน+ขัดฟัน</a></li>
-                                        <li><a href="{{ url('anc_14001') }}">บริการยาเม็ดเสริมธาตุเหล็ก</a></li>
+                                        {{-- <li><a href="{{ url('anc_dent') }}">ตรวจฟัน+ขัดฟัน</a></li> --}}
+                                        {{-- <li><a href="{{ url('anc_14001') }}">บริการยาเม็ดเสริมธาตุเหล็ก</a></li> --}}
                                     </ul>
                                 </li>
-                            </ul>
-
+                            </ul> 
                         </li>
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">

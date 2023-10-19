@@ -1940,7 +1940,7 @@ class AccountController extends Controller
         $end = (''.$yearnew.'-09-30'); 
 
         if ($startdate != '') {
-            $datashow = DB::connection('mysql')->select('
+            $datashow = DB::connection('mysql10')->select('
                 SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months 
                     ,SUM(v.paid_money) AS sum_paid_money
                     ,COUNT(DISTINCT v.vn) AS count_vn,l.MONTH_NAME
@@ -1955,7 +1955,7 @@ class AccountController extends Controller
             ');
             // AND (v.paid_money>0 and v.rcpt_money>0 )
         } else {
-            $datashow = DB::connection('mysql')->select('
+            $datashow = DB::connection('mysql10')->select('
                 SELECT YEAR(v.vstdate) as year,MONTH(v.vstdate) as months 
                     ,SUM(v.paid_money) AS sum_paid_money
                     ,COUNT(DISTINCT v.vn) AS count_vn,l.MONTH_NAME
@@ -1993,7 +1993,7 @@ class AccountController extends Controller
                 left outer join hos.rcpt_print r on v.vn = r.vn
                 WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '" 
                 AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
-                GROUP BY o.vsttime 
+           
         ');
         return view('account.account_nopaid_sub', [
             'datashow'   =>  $datashow, 
@@ -2018,7 +2018,7 @@ class AccountController extends Controller
         $end = (''.$yearnew.'-09-30'); 
 
         if ($startdate != '') {
-            $datashow = DB::connection('mysql')->select('
+            $datashow = DB::connection('mysql10')->select('
                 SELECT YEAR(a.dchdate) as year,MONTH(a.dchdate) as months 
                     ,SUM(a.paid_money) AS sum_paid_money
                     ,COUNT(DISTINCT a.an) AS count_an,l.MONTH_NAME
@@ -2036,7 +2036,7 @@ class AccountController extends Controller
             // AND a.rcpno_list = """"
             // AND (a.paid_money>0 and a.rcpt_money=0 and a.remain_money=0)
         } else {
-            $datashow = DB::connection('mysql')->select('
+            $datashow = DB::connection('mysql10')->select('
                 SELECT YEAR(a.dchdate) as year,MONTH(a.dchdate) as months 
                     ,SUM(a.paid_money) AS sum_paid_money
                     ,COUNT(DISTINCT a.an) AS count_an,l.MONTH_NAME
@@ -2076,7 +2076,7 @@ class AccountController extends Controller
                 left outer join hos.kskdepartment k on k.depcode = o.main_dep
                 WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
                 AND (a.paid_money > 0 and a.rcpt_money = 0 )
-                GROUP BY i.dchtime 
+              
         ');
         // AND a.paid_money > 0 and a.rcpt_money =0 
         return view('account.account_nopaid_sub_ip', [

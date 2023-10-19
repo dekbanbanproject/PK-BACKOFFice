@@ -520,7 +520,7 @@ class PPfs12001Controller extends Controller
                 //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
                 //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                 //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                //     ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
                 //     from
                 //     (SELECT v.hn HN
                 //     ,if(v.an is null,"",v.an) AN
@@ -532,7 +532,7 @@ class PPfs12001Controller extends Controller
                 //     ,if(v.an is null,v.vn,"") SEQ
                 //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                 //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
-                //     ,"" PROVIDER ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                //     ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                 //     from hos.opitemrece v
                 //     inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
                 //     left join hos.ipt i on i.an = v.an
@@ -544,7 +544,7 @@ class PPfs12001Controller extends Controller
                 //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
                 //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                 //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                //     ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
                 //     from
                 //     (SELECT v.hn HN
                 //     ,if(v.an is null,"",v.an) AN
@@ -556,7 +556,7 @@ class PPfs12001Controller extends Controller
                 //     ,if(v.an is null,v.vn,"") SEQ
                 //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                 //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                //     ,"" GLAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                //     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                 //     from hos.opitemrece v
                 //     inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
                 //     left join hos.vn_stat vv on vv.vn = v.vn

@@ -80,11 +80,10 @@ use SplFileObject;
 
 class Auto_authenController extends Controller
 {
-     
-    // ดึงข้อมูลมาไว้เช็คสิทธิ์
+    // ***************** Check_sit_auto   // ดึงข้อมูลมาไว้เช็คสิทธิ์***************************
+   
     public function pull_hosauto(Request $request)
-    {
-          
+    {          
             $data_sits = DB::connection('mysql3')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
                 ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
@@ -102,8 +101,7 @@ class Auto_authenController extends Controller
                 AND p.birthday <> CURDATE()
                 group by o.vn
                     
-            ');        
-        
+            ');  
             foreach ($data_sits as $key => $value) {
                 $check = Check_sit_auto::where('vn', $value->vn)->count();
 
@@ -138,7 +136,6 @@ class Auto_authenController extends Controller
                 }
 
             }
-
             $data_ti = DB::connection('mysql3')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
                     ,pt.nhso_code,o.hospmain,o.hospsub
@@ -183,23 +180,24 @@ class Auto_authenController extends Controller
                 }
 
             }
-           
             return view('auto.pull_hosauto');
     }
 
+    // ***************** Check_sit_auto   // เช็คสิทธิ์ สปสช ***************************
+ 
     public function checksit_auto(Request $request)
     {
         $datestart = $request->datestart;
         $dateend = $request->dateend;
         $date = date('Y-m-d');
-        $token_data = DB::connection('mysql')->select('
-            SELECT cid,token FROM ssop_token
-        ');
+        // $token_data = DB::connection('mysql')->select('
+        //     SELECT cid,token FROM ssop_token
+        // ');
        
-        foreach ($token_data as $key => $valuetoken) {
-            $cid_ = $valuetoken->cid;
-            $token_ = $valuetoken->token;
-        }
+        // foreach ($token_data as $key => $valuetoken) {
+        //     $cid_ = $valuetoken->cid;
+        //     $token_ = $valuetoken->token;
+        // }
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an
             FROM check_sit_auto
@@ -212,81 +210,88 @@ class Auto_authenController extends Controller
             $pids = $item->cid;
             $vn = $item->vn;
             $an = $item->an;
-            $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
-                array(
-                    "uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',
-                                    "trace"      => 1,
-                                    "exceptions" => 0,
-                                    "cache_wsdl" => 0
-                    )
-                );
-                $params = array(
-                    'sequence' => array(
-                        "user_person_id" => "$cid_",
-                        "smctoken" => "$token_",
-                        "person_id" => "$pids"
-                )
-            );
-            $contents = $client->__soapCall('searchCurrentByPID',$params);
-            foreach ($contents as $v) {
-                @$status = $v->status ;
-                @$maininscl = $v->maininscl;
-                @$startdate = $v->startdate;
-                @$hmain = $v->hmain ;
-                @$subinscl = $v->subinscl ;
-                @$person_id_nhso = $v->person_id;
+                $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
+                foreach ($token_data as $key => $value) { 
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array(
+                            "uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',
+                                            "trace"      => 1,
+                                            "exceptions" => 0,
+                                            "cache_wsdl" => 0
+                            )
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                // "user_person_id"   => "$cid_",
+                                // "smctoken"         => "$token_",
+                                "user_person_id" => "$value->cid",
+                                "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
 
-                @$hmain_op = $v->hmain_op;  //"10978"
-                @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
-                @$hsub = $v->hsub;    //"04047"
-                @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
-                @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
 
 
-                IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
-                    $date = date("Y-m-d");
-                    Check_sit_auto::where('vn', $vn)
-                        ->update([
-                            'status' => 'จำหน่าย/เสียชีวิต',
-                            'maininscl' => @$maininscl,
-                            'startdate' => @$startdate,
-                            'hmain' => @$hmain,
-                            'subinscl' => @$subinscl,
-                            'person_id_nhso' => @$person_id_nhso,
-                            'hmain_op' => @$hmain_op,
-                            'hmain_op_name' => @$hmain_op_name,
-                            'hsub' => @$hsub,
-                            'hsub_name' => @$hsub_name,
-                            'subinscl_name' => @$subinscl_name,
-                            'upsit_date'    => $date
-                    ]);
-                    
-                }elseif(@$maininscl !="" || @$subinscl !=""){
-                        $date2 = date("Y-m-d");
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
                             Check_sit_auto::where('vn', $vn)
-                            ->update([
-                                'status' => @$status,
-                                'maininscl' => @$maininscl,
-                                'startdate' => @$startdate,
-                                'hmain' => @$hmain,
-                                'subinscl' => @$subinscl,
-                                'person_id_nhso' => @$person_id_nhso,
-                                'hmain_op' => @$hmain_op,
-                                'hmain_op_name' => @$hmain_op_name,
-                                'hsub' => @$hsub,
-                                'hsub_name' => @$hsub_name,
-                                'subinscl_name' => @$subinscl_name,
-                                'upsit_date'    => $date2
+                                ->update([
+                                    'status' => 'จำหน่าย/เสียชีวิต',
+                                    'maininscl' => @$maininscl,
+                                    'startdate' => @$startdate,
+                                    'hmain' => @$hmain,
+                                    'subinscl' => @$subinscl,
+                                    'person_id_nhso' => @$person_id_nhso,
+                                    'hmain_op' => @$hmain_op,
+                                    'hmain_op_name' => @$hmain_op_name,
+                                    'hsub' => @$hsub,
+                                    'hsub_name' => @$hsub_name,
+                                    'subinscl_name' => @$subinscl_name,
+                                    'upsit_date'    => $date
                             ]);
                             
-                }
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                                $date2 = date("Y-m-d");
+                                    Check_sit_auto::where('vn', $vn)
+                                    ->update([
+                                        'status' => @$status,
+                                        'maininscl' => @$maininscl,
+                                        'startdate' => @$startdate,
+                                        'hmain' => @$hmain,
+                                        'subinscl' => @$subinscl,
+                                        'person_id_nhso' => @$person_id_nhso,
+                                        'hmain_op' => @$hmain_op,
+                                        'hmain_op_name' => @$hmain_op_name,
+                                        'hsub' => @$hsub,
+                                        'hsub_name' => @$hsub_name,
+                                        'subinscl_name' => @$subinscl_name,
+                                        'upsit_date'    => $date2
+                                    ]);
+                                    
+                        }
 
-            }
+                    }
+                }
         }
 
         return view('auto.checksit_auto');
 
     }
+
+
 
     public function pullauthen_spsch(Request $request)
     {
@@ -555,7 +560,7 @@ class Auto_authenController extends Controller
                 'Accept: application/json, text/plain, */*',
                 'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
                 'Connection: keep-alive',
-                'Cookie: SESSION=Y2NmNWZlMjctMmJlNC00MmQ0LWE4MDctYTc2NmIyZjZiMDE1; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
+                'Cookie: SESSION=N2RmODI4NmYtZTYwNy00MGI1LWFjYjAtOWM2NTRmNGU4YmM3; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
                 'Referer: https://authenservice.nhso.go.th/authencode/',
                 'Sec-Fetch-Dest: empty',
                 'Sec-Fetch-Mode: cors',

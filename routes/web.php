@@ -137,11 +137,17 @@ Route::match(['get','post'],'check_308',[App\Http\Controllers\AutoController::cl
 Route::match(['get','post'],'check_309',[App\Http\Controllers\AutoController::class, 'check_309'])->name('check.check_309');//
 Route::match(['get','post'],'inst_opitemrece',[App\Http\Controllers\AutoController::class, 'inst_opitemrece'])->name('check.inst_opitemrece');//
 
+
+// Checksit_hos   // เช็คสิทธิ์ สปสช เอาทุกสิทธิ์ 
 Route::match(['get','post'],'pull_Checksit_hosauto',[App\Http\Controllers\AutoController::class, 'pull_Checksit_hosauto'])->name('auto.pull_Checksit_hosauto');//
 Route::match(['get','post'],'checksit_hosauto',[App\Http\Controllers\AutoController::class, 'checksit_hosauto'])->name('auto.checksit_hosauto');//
 
-Route::match(['get','post'],'pull_hosauto',[App\Http\Controllers\Auto_authenController::class, 'pull_hosauto'])->name('auto.pull_hosauto');//
-Route::match(['get','post'],'checksit_auto',[App\Http\Controllers\Auto_authenController::class, 'checksit_auto'])->name('auto.checksit_auto');//
+// Check_sit_auto   // เช็คสิทธิ์ สปสช
+Route::match(['get','post'],'pull_hosauto',[App\Http\Controllers\AutoController::class, 'pull_hosauto'])->name('auto.pull_hosauto');//
+Route::match(['get','post'],'checksit_auto',[App\Http\Controllers\AutoController::class, 'checksit_auto'])->name('auto.checksit_auto');//
+
+ 
+
 Route::match(['get','post'],'pullauthen_spsch',[App\Http\Controllers\Auto_authenController::class, 'pullauthen_spsch'])->name('auto.pullauthen_spsch');//
 Route::match(['get','post'],'updaet_authen_to_checksitauto',[App\Http\Controllers\Auto_authenController::class, 'updaet_authen_to_checksitauto'])->name('auto.updaet_authen_to_checksitauto');//
 Route::match(['get','post'],'checksithos_auto',[App\Http\Controllers\Auto_authenController::class, 'checksithos_auto'])->name('auto.checksithos_auto');//

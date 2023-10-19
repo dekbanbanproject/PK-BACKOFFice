@@ -51,7 +51,7 @@ use App\Models\Claim_sixteen_odx;
 use App\Models\Claim_sixteen_orf;
 use App\Models\Claim_sixteen_pat;
 use App\Models\Claim_sixteen_ins;
-use App\Models\Claim_temp_ssop;
+use App\Models\Check_sit_tiauto;
 use App\Models\Acc_opitemrece;
 use App\Models\Dashboard_authen_day;
 use App\Models\Dashboard_department_authen;
@@ -135,49 +135,7 @@ class AutoController extends Controller
     {
         return view('authen.sit');
     }
-    public function repage(Request $request)
-    {
-        $date_now = date('Y-m-d');
-        // $date_start = "2023-05-04";
-        // $date_end = "2023-05-07";
-        // $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=100000";
-        $url = "https://authenservice.nhso.go.th/authencode/#/report/eclaim";
-
-        // dd($url);
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            // CURLOPT_URL => 'https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=2023-01-05&claimDateTo=2023-01-05&page=0&size=1000',
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'Accept: application/json, text/plain, */*',
-                'Accept-Language: th-TH,th;q=0.9,en-US;q=0.8,en;q=0.7',
-                'Connection: keep-alive',
-                'Cookie: SESSION=NWY1NjU4N2YtN2E2Zi00OGQ1LWEzYjUtYzYyY2Y3NWJkNmNk; TS01bfdc7f=013bd252cb2f635ea275a9e2adb4f56d3ff24dc90de5421d2173da01a971bc0b2d397ab2bfbe08ef0e379c3946b8487cf4049afe9f2b340d8ce29a35f07f94b37287acd9c2; _ga_B75N90LD24=GS1.1.1665019756.2.0.1665019757.0.0.0; _ga=GA1.3.1794349612.1664942850; TS01e88bc2=013bd252cb8ac81a003458f85ce451e7bd5f66e6a3930b33701914767e3e8af7b92898dd63a6258beec555bbfe4b8681911d19bf0c; SESSION=YmI4MjUyNjYtODY5YS00NWFmLTlmZGItYTU5OWYzZmJmZWNh; TS01bfdc7f=013bd252cbc4ce3230a1e9bdc06904807c8155bd7d0a8060898777cf88368faf4a94f2098f920d5bbd729fbf29d55a388f507d977a65a3dbb3b950b754491e7a240f8f72eb; TS01e88bc2=013bd252cbe2073feef8c43b65869a02b9b370d9108007ac6a34a07f6ae0a96b2967486387a6a0575c46811259afa688d09b5dfd21',
-                'Referer: https://authenservice.nhso.go.th/authencode/',
-                'Sec-Fetch-Dest: empty',
-                'Sec-Fetch-Mode: cors',
-                'Sec-Fetch-Site: same-origin',
-                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-                'sec-ch-ua: "Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
-                'sec-ch-ua-mobile: ?0',
-                'sec-ch-ua-platform: "Windows"'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        // dd($curl);
-        $contents = $response;
-        // dd($contents);
-        $result = json_decode($contents, true);
-
-        @$content = $result['content'];
-        return view('authen.repage');
-    }
+    
     // ดึงข้อมูลมาไว้เช็คสิทธิ์
     public function sit_pull_auto(Request $request)
     {
@@ -869,118 +827,7 @@ class AutoController extends Controller
 
     }
 
-    public function sit_pullacc_auto______(Request $request)
-    {
-            $datashow = DB::connection('mysql3')->select('
-                SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-                        ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                        ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
-                        ,v.hospmain
-                        ,o.vstdate as vstdatesave
-                        ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-                        ,ptt.pttype_eclaim_id
-                        ,o.pttype,e.name as pttype_acc_name
-                        ,e.gf_opd as gfmis,e.code as acc_code
-                        ,e.ar_opd as account_code
-                        ,e.name as account_name
-                        ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-                        ,v.rcpno_list as rcpno
-                        ,v.income-v.discount_money-v.rcpt_money as debit
-                    from ovst o
-                    left join vn_stat v on v.vn=o.vn
-                    left join patient pt on pt.hn=o.hn
-                    left join pttype_acc ptt on ptt.pttype=o.pttype
-                    left join pttype_eclaim e on e.code = ptt.pttype_eclaim_id
-                where o.vstdate = CURDATE()
-                and an IS NULL
-                group by o.vn
-            ');
-            // CURDATE()
-            // between "2023-01-08" and "2023-01-10"
-
-            foreach ($datashow as $key => $value) {
-                $check = Acc_debtor::where('vn', $value->vn)->count();
-                if ($check > 0) {
-                    // Acc_debtor::where('vn', $value->vn)
-                    // ->update([
-                        // 'hn'                => $value->hn,
-                        // 'an'                => $value->an,
-                        // 'cid'               => $value->cid,
-                        // 'ptname'            => $value->ptname,
-                        // 'ptsubtype'         => $value->ptsubtype,
-                        // 'pttype_eclaim_id'  => $value->pttype_eclaim_id,
-                        // 'hospmain'          => $value->hospmain,
-                        // 'pttype'            => $value->pttype,
-                        // 'pttypename'        => $value->pttype_acc_name,
-                        // 'vstdate'           => $value->vstdatesave,
-                        // 'vsttime'           => $value->vsttime,
-                        // 'gfmis'             => $value->gfmis,
-                        // 'acc_code'          => $value->acc_code,
-                        // 'account_code'      => $value->account_code,
-                        // 'account_name'      => $value->account_name,
-                        // 'income'            => $value->income,
-                        // 'uc_money'          => $value->uc_money,
-                        // 'discount_money'    => $value->discount_money,
-                        // 'paid_money'        => $value->paid_money,
-                        // 'rcpt_money'        => $value->rcpt_money,
-                        // 'rcpno'             => $value->rcpno,
-                        // 'debit'             => $value->debit
-                    // ]);
-                } else {
-                    Acc_debtor::insert([
-                        'vn' => $value->vn,
-                        'hn'                => $value->hn,
-                        'an'                => $value->an,
-                        'cid'               => $value->cid,
-                        'ptname'            => $value->ptname,
-                        'ptsubtype'         => $value->ptsubtype,
-                        'pttype_eclaim_id'  => $value->pttype_eclaim_id,
-                        'hospmain'          => $value->hospmain,
-                        'pttype'            => $value->pttype,
-                        'pttypename'        => $value->pttype_acc_name,
-                        'vstdate'           => $value->vstdatesave,
-                        'vsttime'           => $value->vsttime,
-                        'gfmis'             => $value->gfmis,
-                        'acc_code'          => $value->acc_code,
-                        'account_code'      => $value->account_code,
-                        'account_name'      => $value->account_name,
-                        'income'            => $value->income,
-                        'uc_money'          => $value->uc_money,
-                        'discount_money'    => $value->discount_money,
-                        'paid_money'        => $value->paid_money,
-                        'rcpt_money'        => $value->rcpt_money,
-                        'rcpno'             => $value->rcpno,
-                        'debit'             => $value->debit
-                    ]);
-                }
-
-            }
-            // $datashow = DB::connection('mysql3')->select('
-            //     SELECT o.vn,ifnull(o.an,"") as an,o.hn,showcid(pt.cid) as cid
-            //             ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-            //             ,setdate(o.vstdate) as vstdate,totime(o.vsttime) as vsttime
-            //             ,v.hospmain
-            //             ,o.vstdate as vstdatesave
-            //             ,seekname(o.pt_subtype,"pt_subtype") as ptsubtype
-            //             ,ptt.pttype_eclaim_id
-            //             ,o.pttype,e.name as pttype_acc_name
-            //             ,e.gf_opd as gfmis,e.code as acc_code
-            //             ,e.ar_opd as account_code
-            //             ,e.name as account_name
-            //             ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
-            //             ,v.rcpno_list as rcpno
-            //             ,v.income-v.discount_money-v.rcpt_money as debit
-            //         from ovst o
-            //         left join vn_stat v on v.vn=o.vn
-            //         left join patient pt on pt.hn=o.hn
-            //         left join pttype_acc ptt on ptt.pttype=o.pttype
-            //         left join pttype_eclaim e on e.code = ptt.pttype_eclaim_id
-            //     where o.vstdate = CURDATE()
-            //     and an IS NULL
-            //     group by o.vn
-            // ');
-            return view('auto.sit_pullacc_auto');
-    }
+   
 
     public function authen_auto_year(Request $request)
     {
@@ -1168,10 +1015,10 @@ class AutoController extends Controller
         return view('auto.sss_check_claimcode');
     }
 
-    // ดึงข้อมูลมาไว้เช็คสิทธิ์ เอาทุกสิทธิ์
+    // ***************** Checksit_hos   // ดึงข้อมูลมาไว้เช็คสิทธิ์ เอาทุกสิทธิ์ ***************************
     public function pull_Checksit_hosauto(Request $request)
     {           
-        $data_sits = DB::connection('mysql')->select('
+        $data_sits = DB::connection('mysql3')->select('
                 SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as ptname,op.name as staffname,p.hometel
                 ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
                 ,o.staff,op.name as sname
@@ -1182,8 +1029,7 @@ class AutoController extends Controller
                 LEFT JOIN hos.pttype pt on pt.pttype=o.pttype
                 LEFT JOIN hos.opduser op on op.loginname = o.staff
                 WHERE o.vstdate = CURDATE() 
-                AND p.nationality = "99"
-                
+                AND p.nationality = "99" 
                 group by o.vn
                     
         ');        
@@ -1216,38 +1062,32 @@ class AutoController extends Controller
         } 
         return view('auto.pull_Checksit_hosauto');
     }
+
+    // ***************** Checksit_hos   // เช็คสิทธิ์ สปสช เอาทุกสิทธิ์ ***************************
     public function checksit_hosauto(Request $request)
     {
         $datestart = $request->datestart;
         $dateend = $request->dateend;
-        $date = date('Y-m-d');
-        $token_data = DB::connection('mysql')->select('
-            SELECT cid,token FROM ssop_token
-        ');       
-        foreach ($token_data as $key => $valuetoken) {
-            $cid_   = $valuetoken->cid;
-            $token_ = $valuetoken->token;
-        }
-        // $token_data = DB::connection('mysql')->select('
-        //     SELECT cid,token FROM hos.nhso_token where token <> ""
-        // ');
+        $date = date('Y-m-d'); 
         $data_sitss = DB::connection('mysql')->select('
             SELECT cid,vn,an,vstdate
-            FROM checksit_hos
-            
+            FROM checksit_hos 
             WHERE vstdate = CURDATE()
             AND subinscl IS NULL
             ORDER BY vstdate desc
             LIMIT 100
-        ');
-        // WHERE vstdate BETWEEN "2023-09-15" AND "2023-09-19"
-        // WHERE vstdate = CURDATE()
-        // AND subinscl IS NULL 
+        '); 
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
             $vn = $item->vn;
             $an = $item->an;
-
+            // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
+            
             // foreach ($token_data as $key => $value) { 
                 $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                     array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace"=> 1,"exceptions"=> 0,"cache_wsdl"=> 0)
@@ -1256,105 +1096,302 @@ class AutoController extends Controller
                         'sequence' => array(
                             "user_person_id" => "$cid_",
                             "smctoken"       => "$token_",
+                            // "user_person_id" => "$value->cid",
+                            // "smctoken"       => "$value->token",
                             "person_id"      => "$pids"
-                    )
-                    // $params = array(
-                    //     'sequence' => array(
-                    //         "user_person_id" => "$value->cid",
-                    //         "smctoken"       => "$value->token",
-                    //         "person_id"      => "$pids"
-                    // )
-                );
-            // }
-            $contents = $client->__soapCall('searchCurrentByPID',$params);
-            foreach ($contents as $v) {
-                @$status = $v->status ;
-                @$maininscl = $v->maininscl;
-                @$startdate = $v->startdate;
-                @$hmain = $v->hmain ;
-                @$subinscl = $v->subinscl ;
-                @$person_id_nhso = $v->person_id;
+                    ) 
+                ); 
+                $contents = $client->__soapCall('searchCurrentByPID',$params);
+                foreach ($contents as $v) {
+                    @$status = $v->status ;
+                    @$maininscl = $v->maininscl;
+                    @$startdate = $v->startdate;
+                    @$hmain = $v->hmain ;
+                    @$subinscl = $v->subinscl ;
+                    @$person_id_nhso = $v->person_id;
 
-                @$hmain_op = $v->hmain_op;  //"10978"
-                @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
-                @$hsub = $v->hsub;    //"04047"
-                @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
-                @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+                    @$hmain_op = $v->hmain_op;  //"10978"
+                    @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                    @$hsub = $v->hsub;    //"04047"
+                    @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                    @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
 
 
-                IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
-                    $date = date("Y-m-d");
-                    Checksit_hos::where('vn', $vn)
-                            ->update([
-                                'status'         => @$status,
-                                'maininscl'      => @$maininscl,
-                                'startdate'      => @$startdate,
-                                'hmain'          => @$hmain,
-                                'subinscl'       => @$subinscl,
-                                'person_id_nhso' => @$person_id_nhso,
-                                'hmain_op'       => @$hmain_op,
-                                'hmain_op_name'  => @$hmain_op_name,
-                                'hsub'           => @$hsub,
-                                'hsub_name'      => @$hsub_name,
-                                'subinscl_name'  => @$subinscl_name,
-                                'upsit_date'     => $date
-                        ]);
-                        // Acc_debtor::where('vn', $vn)
-                        //     ->update([
-                        //         'status'          => @$status,
-                        //         'maininscl'       => @$maininscl,
-                        //         'hmain'           => @$hmain,
-                        //         'subinscl'        => @$subinscl,
-                        //         'pttype_spsch'    => @$subinscl,
-                        //         'hsub'            => @$hsub, 
-                        // ]);
-                    
-                }elseif(@$maininscl !="" || @$subinscl !=""){
-                        $date2 = date("Y-m-d");
+                    IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                        $date = date("Y-m-d");
                         Checksit_hos::where('vn', $vn)
-                            ->update([
-                                'status' => @$status,
-                                'maininscl' => @$maininscl,
-                                'startdate' => @$startdate,
-                                'hmain' => @$hmain,
-                                'subinscl' => @$subinscl,
-                                'person_id_nhso' => @$person_id_nhso,
-                                'hmain_op' => @$hmain_op,
-                                'hmain_op_name' => @$hmain_op_name,
-                                'hsub' => @$hsub,
-                                'hsub_name' => @$hsub_name,
-                                'subinscl_name' => @$subinscl_name,
-                                'upsit_date'    => $date2
+                                ->update([
+                                    'status'         => @$status,
+                                    'maininscl'      => @$maininscl,
+                                    'startdate'      => @$startdate,
+                                    'hmain'          => @$hmain,
+                                    'subinscl'       => @$subinscl,
+                                    'person_id_nhso' => @$person_id_nhso,
+                                    'hmain_op'       => @$hmain_op,
+                                    'hmain_op_name'  => @$hmain_op_name,
+                                    'hsub'           => @$hsub,
+                                    'hsub_name'      => @$hsub_name,
+                                    'subinscl_name'  => @$subinscl_name,
+                                    'upsit_date'     => $date
                             ]);
-                        // Acc_debtor::where('vn', $vn)
-                        //     ->update([
-                        //         'status' => @$status,
-                        //         'maininscl' => @$maininscl,
-                        //         'hmain' => @$hmain,
-                        //         'subinscl' => @$subinscl,
-                        //         'pttype_spsch' => @$subinscl,
-                        //         'hsub' => @$hsub,
+                            // Acc_debtor::where('vn', $vn)
+                            //     ->update([
+                            //         'status'          => @$status,
+                            //         'maininscl'       => @$maininscl,
+                            //         'hmain'           => @$hmain,
+                            //         'subinscl'        => @$subinscl,
+                            //         'pttype_spsch'    => @$subinscl,
+                            //         'hsub'            => @$hsub, 
+                            // ]);
+                        
+                    }elseif(@$maininscl !="" || @$subinscl !=""){
+                            $date2 = date("Y-m-d");
+                            Checksit_hos::where('vn', $vn)
+                                ->update([
+                                    'status' => @$status,
+                                    'maininscl' => @$maininscl,
+                                    'startdate' => @$startdate,
+                                    'hmain' => @$hmain,
+                                    'subinscl' => @$subinscl,
+                                    'person_id_nhso' => @$person_id_nhso,
+                                    'hmain_op' => @$hmain_op,
+                                    'hmain_op_name' => @$hmain_op_name,
+                                    'hsub' => @$hsub,
+                                    'hsub_name' => @$hsub_name,
+                                    'subinscl_name' => @$subinscl_name,
+                                    'upsit_date'    => $date2
+                                ]);
+                            // Acc_debtor::where('vn', $vn)
+                            //     ->update([
+                            //         'status' => @$status,
+                            //         'maininscl' => @$maininscl,
+                            //         'hmain' => @$hmain,
+                            //         'subinscl' => @$subinscl,
+                            //         'pttype_spsch' => @$subinscl,
+                            //         'hsub' => @$hsub,
 
-                        //     ]);
-                        // Acc_debtor::where('an', $an)
-                        //     ->update([
-                        //         'status' => @$status,
-                        //         'maininscl' => @$maininscl,
-                        //         'hmain' => @$hmain,
-                        //         'subinscl' => @$subinscl,
-                        //         'pttype_spsch' => @$subinscl,
-                        //         'hsub' => @$hsub,
+                            //     ]);
+                            // Acc_debtor::where('an', $an)
+                            //     ->update([
+                            //         'status' => @$status,
+                            //         'maininscl' => @$maininscl,
+                            //         'hmain' => @$hmain,
+                            //         'subinscl' => @$subinscl,
+                            //         'pttype_spsch' => @$subinscl,
+                            //         'hsub' => @$hsub,
 
-                        // ]);
-                            
+                            // ]);
+                                
+                    }
+
+                }
+            // }
+        } 
+        return view('auto.checksit_hosauto'); 
+    }
+
+    // ***************** Check_sit_auto   // ดึงข้อมูลมาไว้เช็คสิทธิ์***************************
+   
+    public function pull_hosauto(Request $request)
+    {          
+            $data_sits = DB::connection('mysql3')->select('
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,p.pname,p.fname,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
+                ,pt.nhso_code,o.hospmain,o.hospsub,p.birthday
+                ,o.staff,op.name as sname
+                ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                FROM ovst o
+                LEFT JOIN vn_stat v on v.vn = o.vn
+                join patient p on p.hn=o.hn
+                JOIN pttype pt on pt.pttype=o.pttype
+                JOIN opduser op on op.loginname = o.staff
+                WHERE o.vstdate = CURDATE()
+                AND o.main_dep NOT IN("011","036","107")
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10")
+                AND p.nationality = "99"
+                AND p.birthday <> CURDATE()
+                group by o.vn
+                    
+            ');  
+            foreach ($data_sits as $key => $value) {
+                $check = Check_sit_auto::where('vn', $value->vn)->count();
+
+                if ($check > 0) {
+                    // Check_sit_auto::where('vn', $value->vn)
+                    //     ->update([ 
+                    //         'hometel'       => $value->hometel, 
+                    //         'staff_name'    => $value->staffname,
+                    //         'main_dep'      => $value->main_dep,
+                    //         'staff'         => $value->staff,
+                    //         'debit'         => $value->debit
+                    //     ]);
+                } else {
+                    Check_sit_auto::insert([
+                        'vn'         => $value->vn,
+                        'an'         => $value->an,
+                        'hn'         => $value->hn,
+                        'cid'        => $value->cid,
+                        'vstdate'    => $value->vstdate,
+                        'hometel'    => $value->hometel,
+                        'vsttime'    => $value->vsttime,
+                        'fullname'   => $value->fullname,
+                        'pttype'     => $value->pttype,
+                        'hospmain'   => $value->hospmain,
+                        'hospsub'    => $value->hospsub,
+                        'main_dep'   => $value->main_dep,
+                        'staff'      => $value->staff,
+                        'staff_name' => $value->staffname,
+                        'debit'      => $value->debit
+                    ]);
+
                 }
 
             }
+            $data_ti = DB::connection('mysql3')->select('
+                SELECT o.an,o.vn,p.hn,p.cid,o.vstdate,o.vsttime,o.pttype,concat(p.pname,p.fname," ",p.lname) as fullname,op.name as staffname,p.hometel
+                    ,pt.nhso_code,o.hospmain,o.hospsub
+                    ,o.staff 
+                    ,o.main_dep,v.income-v.discount_money-v.rcpt_money debit
+                    FROM ovst o
+                    LEFT JOIN vn_stat v on v.vn = o.vn
+                    join patient p on p.hn=o.hn
+                    JOIN pttype pt on pt.pttype=o.pttype
+                    JOIN opduser op on op.loginname = o.staff
+                    WHERE o.vstdate = CURDATE() 
+                    AND o.pttype IN("M1","M2","M3","M4","M5","M6")
+                    AND p.nationality = "99"
+                    AND p.birthday <> CURDATE()
+                    group by o.vn
+                    
+            ');
+            foreach ($data_ti as $key => $val) {
+                $check = Check_sit_tiauto::where('vn', $val->vn)->count();
+
+                if ($check > 0) {
+                    
+                } else {
+                    Check_sit_tiauto::insert([
+                        'vn'         => $val->vn,
+                        'an'         => $val->an,
+                        'hn'         => $val->hn,
+                        'cid'        => $val->cid,
+                        'vstdate'    => $val->vstdate,
+                        'hometel'    => $val->hometel,
+                        'vsttime'    => $val->vsttime,
+                        'fullname'   => $val->fullname,
+                        'pttype'     => $val->pttype,
+                        'hospmain'   => $val->hospmain,
+                        'hospsub'    => $val->hospsub,
+                        'main_dep'   => $val->main_dep,
+                        'staff'      => $val->staff,
+                        'staff_name' => $val->staffname,
+                        'debit'      => $val->debit
+                    ]);
+
+                }
+
+            }
+            return view('auto.pull_hosauto');
+    }
+
+    // ***************** Check_sit_auto   // เช็คสิทธิ์ สปสช ***************************
+ 
+    public function checksit_auto(Request $request)
+    {
+        $datestart = $request->datestart;
+        $dateend = $request->dateend;
+        $date = date('Y-m-d');
+        
+        $data_sitss = DB::connection('mysql')->select('
+            SELECT cid,vn,an
+            FROM check_sit_auto
+            WHERE vstdate = CURDATE()
+            AND subinscl IS NULL
+            LIMIT 30
+        ');
+        // $token_data = DB::connection('mysql')->select('SELECT cid,token FROM ssop_token');
+        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+        foreach ($token_data as $key => $value) { 
+            $cid_    = $value->cid;
+            $token_  = $value->token;
+        }
+        foreach ($data_sitss as $key => $item) {
+            $pids = $item->cid;
+            $vn = $item->vn; 
+                // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
+                // foreach ($token_data as $key => $value) { 
+                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id"   => "$cid_",
+                                "smctoken"         => "$token_",
+                                // "user_person_id" => "$value->cid",
+                                // "smctoken"       => "$value->token",
+                                "person_id"        => "$pids"
+                        )
+                    );
+                    $contents = $client->__soapCall('searchCurrentByPID',$params);
+                    foreach ($contents as $v) {
+                        @$status = $v->status ;
+                        @$maininscl = $v->maininscl;
+                        @$startdate = $v->startdate;
+                        @$hmain = $v->hmain ;
+                        @$subinscl = $v->subinscl ;
+                        @$person_id_nhso = $v->person_id;
+
+                        @$hmain_op = $v->hmain_op;  //"10978"
+                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        @$hsub = $v->hsub;    //"04047"
+                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+
+                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                            $date = date("Y-m-d");
+                            Check_sit_auto::where('vn', $vn)
+                                ->update([
+                                    'status' => 'จำหน่าย/เสียชีวิต',
+                                    'maininscl' => @$maininscl,
+                                    'startdate' => @$startdate,
+                                    'hmain' => @$hmain,
+                                    'subinscl' => @$subinscl,
+                                    'person_id_nhso' => @$person_id_nhso,
+                                    'hmain_op' => @$hmain_op,
+                                    'hmain_op_name' => @$hmain_op_name,
+                                    'hsub' => @$hsub,
+                                    'hsub_name' => @$hsub_name,
+                                    'subinscl_name' => @$subinscl_name,
+                                    'upsit_date'    => $date 
+                            ]);
+                            
+                        }elseif(@$maininscl !="" || @$subinscl !=""){
+                                $date2 = date("Y-m-d");
+                                    Check_sit_auto::where('vn', $vn)
+                                    ->update([
+                                        'status' => @$status,
+                                        'maininscl' => @$maininscl,
+                                        'startdate' => @$startdate,
+                                        'hmain' => @$hmain,
+                                        'subinscl' => @$subinscl,
+                                        'person_id_nhso' => @$person_id_nhso,
+                                        'hmain_op' => @$hmain_op,
+                                        'hmain_op_name' => @$hmain_op_name,
+                                        'hsub' => @$hsub,
+                                        'hsub_name' => @$hsub_name,
+                                        'subinscl_name' => @$subinscl_name,
+                                        'upsit_date'    => $date2
+                                    ]);
+                                    
+                        }
+
+                    }
+                // }
         }
 
-        return view('auto.checksit_hosauto');
+        return view('auto.checksit_auto');
 
     }
+
     public function check_prb202(Request $request)
     {
         date_default_timezone_set("Asia/Bangkok");
