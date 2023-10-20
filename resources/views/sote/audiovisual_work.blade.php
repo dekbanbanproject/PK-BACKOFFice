@@ -51,12 +51,18 @@
     if (Auth::check()) {
         $type = Auth::user()->type;
         $iduser = Auth::user()->id;
+        $tel_ = Auth::user()->tel;
+        $debsubsub = Auth::user()->dep_subsubtrueid;
     } else {
         echo "<body onload=\"TypeAdmin()\"></body>";
         exit();
     }
     $url = Request::url();
     $pos = strrpos($url, '/') + 1;
+    $datenow = date('Y-m-d');
+    use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\SoteController; 
+$refnumber = SoteController::refnumber();
     ?>
     <style>
         #button {
@@ -142,11 +148,16 @@
                         <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                             <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                             ค้นหา
-                        </button>
-                         
+                        </button> 
                     </div>
                 </div>
-
+                <div class="col-md-1">
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#addicodeModal" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่มข้อมูล">
+                    
+                        <i class="fa-solid fa-square-plus me-2"></i>
+                     เพิ่มข้อมูล
+                    </button>
+                </div>
             </div>
         </form>
 
@@ -155,48 +166,36 @@
                 <div class="card">
                     <div class="card-body py-0 px-2 mt-2">
                         <div class="table-responsive">
-                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th width="5%" class="text-center">ลำดับ</th>
-                                        <th class="text-center" width="10%">วันที่</th>
+                                        <th width="5%" class="text-center">ลำดับ</th> 
                                         <th class="text-center" width="15%">ชื่อ-สกุล</th>
-                                        <th class="text-center" width="10%">รายมือชื่อ</th>
-                                        <th class="text-center" width="10%">เวลามา</th>
-                                        <th class="text-center" width="10%">รายมือชื่อ</th>
-                                        <th class="text-center" width="10%">เวลากลับ</th>
-                                        <th class="text-center" width="10%">ขั่วโมง</th>
-                                        <th class="p-2">หน้าที่ที่ปฏิบัติ</th>
-                                        <th class="p-2">หน่วยงาน</th>
+                                        <th class="text-center" width="7%">เบอร์โทร</th>
+                                        <th class="text-center" width="7%">วันที่สั่งงาน</th>
+                                        <th class="text-center" width="7%">วันที่ขอรับงาน</th>
+                                        <th class="text-center" width="12%">ชนิดของงาน</th> 
+                                        <th class="p-2">ชื่อชิ้นงาน</th>
+                                        <th class="p-2">รายละเอียดงาน</th>
+                                        <th class="p-2" width="10%">หน่วยงาน</th>
                                         <th class="text-center" width="7%">จัดการ</th>
                                     </tr>
                                 </thead>
-                                {{-- <tbody>
+                                <tbody>
                                     <?php $i = 1; ?>
-                                    @foreach ($ot_one as $item)
-                                        <?php
-                                        $start = strtotime($item->ot_one_starttime);
-                                        $end = strtotime($item->ot_one_endtime);
-                                        $tot = ($end - $start) / 3600;
-                                        $date1 = date_create($item->ot_one_starttime);
-                                        $date2 = date_create($item->ot_one_endtime);
-                                        
-                                        $diff = date_diff($date1, $date2);
-                                        $totalhr = $diff->format('%R%H ชม.');
-                                        
-                                        ?>
-                                        <tr id="sid{{ $item->ot_one_id }}">
+                                    @foreach ($audiovisual as $item) 
+                                        <tr id="sid{{ $item->audiovisual_id }}">
                                             <td class="text-center">{{ $i++ }}</td>
-                                            <td class="p-2">{{ $item->ot_one_date }}</td>
-                                            <td class="p-2">{{ $item->prefix_name }} {{ $item->fname }} {{ $item->lname }}</td>
-                                            <td class="p-2">{{ $item->ot_one_sign }} </td>
-                                            <td class="p-2">{{ $item->ot_one_starttime }}</td>
-                                            <td class="p-2">{{ $item->ot_one_sign2 }} </td>
-                                            <td class="p-2">{{ $item->ot_one_endtime }} </td>
+                                            <td class="p-2"> {{ $item->fname }} {{ $item->lname }}</td>
+                                            <td class="text-center">{{ $item->tel }}</td>
+                                            
+                                            <td class="text-center">{{ $item->work_order_date }} </td>
+                                            <td class="text-center">{{ $item->job_request_date }}</td>
+                                            <td class="p-2">{{ $item->audiovisual_typename }} </td>
+                                            <td class="p-2">{{ $item->audiovisual_name }} </td>
 
-                                            <td class="p-2">{{ $tot }} </td>
-                                            <td class="p-2">{{ $item->ot_one_detail }}</td>
+                                            <td class="p-2">{{ $audiovisual_detail }} </td>
                                             <td class="p-2">{{ $item->DEPARTMENT_SUB_SUB_NAME }}</td> 
 
                                             <td class="text-center" width="7%">
@@ -206,7 +205,7 @@
                                                         aria-expanded="false">ทำรายการ</button>
                                                     <ul class="dropdown-menu">
                                                         <button type="button"class="dropdown-item menu edit_data"
-                                                            value="{{ $item->ot_one_id }}" data-bs-toggle="tooltip"
+                                                            value="{{ $item->audiovisual_id }}" data-bs-toggle="tooltip"
                                                             data-bs-placement="left" title="แก้ไข">
                                                             <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"
                                                                 style="font-size:13px"></i>
@@ -215,7 +214,7 @@
                                                         </button>
 
                                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
-                                                            onclick="user_otone_destroy({{ $item->ot_one_id }})"
+                                                            onclick="user_otone_destroy({{ $item->audiovisual_id }})"
                                                             style="font-size:13px">
                                                             <i class="fa-solid fa-trash-can ms-2 me-2 text-danger"
                                                                 style="font-size:13px"></i>
@@ -226,7 +225,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody> --}}
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -234,115 +233,121 @@
             </div>
         </div>
     </div>
-    <!--  Modal content for the add_color example -->
-    {{-- <div class="modal fade" id="add_color" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+    <!-- addicodeModal Modal -->
+    <div class="modal fade" id="addicodeModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content ">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myExtraLargeModalLabel">เพิ่มสีที่ต้องการ</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title me-3" id="editModalLabel">รายละเอียดการขอใช้บริการ</h5> <h6 class="mt-2"> เลขที่ {{$refnumber}}</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="">สีที่ต้องการ</label>
-                            <div class="form-group">
-                                <input type="color" class="form-control form-control-color" id="color_ot" name="color_ot"
-                                    style="width: 100%">
-                            </div>
+                <div class="modal-body"> 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="ptname" class="form-label">ชื่อ-นามสกุล</label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm">  
+                                    <select class="form-control" id="ptname" name="ptname" style="width: 100%">
+                                        @foreach ($users as $item)
+                                        @if ($iduser == $item->id)
+                                        <option value="{{$item->id}}" selected>{{$item->fname}} {{$item->lname}}</option>
+                                        @else
+                                        <option value="">{{$item->fname}} {{$item->lname}}</option>
+                                        @endif                                            
+                                        @endforeach
+                                    </select>
+                                   
+                                </div>
+                            </div>  
+                            <div class="col-md-2">
+                                <label for="tel" class="form-label"> เบอร์โทร</label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm">  
+                                   
+                                        <input type="text" class="form-control" id="tel" name="tel" value="{{ $tel_}}">   
+                                       
+                                </div>
+                            </div> 
+                            <div class="col-md-2">
+                                <label for="work_order_date" class="form-label" >วันที่สั่งงาน </label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm"> 
+                                    
+                                    <input type="date" class="form-control" id="work_order_date" name="work_order_date" value="{{$datenow}}">  
+                                </div>
+                            </div> 
+                            <div class="col-md-2">
+                                <label for="job_request_date" class="form-label" >วันที่ขอรับงาน </label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="date" class="form-control" id="job_request_date" name="job_request_date" value="{{$datenow}}">  
+                                </div>
+                            </div> 
+                            
                         </div>
-                    </div>
-                </div>
-                <input id="user_id" name="user_id" type="hidden" class="form-control" value="{{ $iduser }}">
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <label for="department" class="form-label">หน่วยงาน</label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm">  
+                                    <select class="form-control" id="department" name="department" style="width: 100%">
+                                        @foreach ($department_sub_sub as $item2)
+                                        @if ($debsubsub == $item2->DEPARTMENT_SUB_SUB_ID)
+                                        <option value="{{$item2->DEPARTMENT_SUB_SUB_ID}}" selected>{{$item2->DEPARTMENT_SUB_SUB_NAME}} </option>
+                                        @else
+                                        <option value=""> {{$item2->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                        @endif                                            
+                                        @endforeach
+                                    </select>
+                                   
+                                </div>
+                            </div>  
+                            <div class="col-md-6">
+                                <label for="audiovisual_type" class="form-label" >ชนิดของงาน</label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm">  
+                                    <select class="form-control" id="audiovisual_type" name="audiovisual_type" style="width: 100%">
+                                        @foreach ($audiovisual_type as $item3)  
+                                        <option value="{{$item3->audiovisual_type_id}}"> {{$item3->audiovisual_typename}}</option> 
+                                        @endforeach
+                                    </select>
+                                   
+                                </div>
+                            </div>  
+                            
+                        </div> 
+        
+                        {{-- <hr style="color: red"> --}}
 
+                        <div class="row mt-2">
+                            <div class="col-md-10">
+                                <label for="audiovisual_name" class="form-label" >ชื่อชิ้นงาน </label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="text" class="form-control" id="audiovisual_name" name="audiovisual_name" >  
+                                </div>
+                            </div>  
+                            
+                            <div class="col-md-2">
+                                <label for="audiovisual_qty" class="form-label" >จำนวนชิ้นงาน</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="text" class="form-control" id="audiovisual_qty" name="audiovisual_qty" >  
+                                </div>
+                            </div> 
+                        </div> 
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <label for="audiovisual_detail" class="form-label" >รายละเอียดงาน (เช่นขนาดงาน สถานที่ )</label><label for="tel" class="form-label" style="color: red">*</label>
+                                <div class="input-group input-group-sm"> 
+                                    <textarea id="audiovisual_detail" name="audiovisual_detail" cols="30" rows="3" class="form-control form-control-sm" ></textarea> 
+                                </div>
+                            </div>  
+                        </div> 
+                    <input type="hidden" name="user_id" id="adduser_id"> 
+                    <input type="hidden" name="acc_debtor_id" id="acc_debtor_id"> 
+                </div>
                 <div class="modal-footer">
-                    <div class="col-md-12 text-end">
-                        <div class="form-group">
-                            <button type="button" id="saveBtn" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-floppy-disk me-2"></i>
-                                บันทึกข้อมูล
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
-                                    class="fa-solid fa-xmark me-2"></i>Close</button>
-
-                        </div>
-                    </div>
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
+                        <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                    </button>
                 </div>
             </div>
         </div>
-    </div> --}}
-
-    <!--  Modal content Updte -->
-    {{-- <div class="modal fade" id="updteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="invenModalLabel">แก้ไขลงเวลาโอที</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-md-2 mt-3">
-                            <label for="editot_one_detail">เหตุผล </label>
-                        </div>
-                        <div class="col-md-10 mt-3">
-                            <div class="form-outline">
-                                <input id="editot_one_detail" type="text" class="form-control input-rounded">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 mt-3">
-                            <label for="editot_one_date">วันที่ </label>
-                        </div>
-                        <div class="col-md-10 mt-3">
-                            <div class="form-outline">
-                                <input id="editot_one_date" type="date" class="form-control input-rounded">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-2 mt-3">
-                            <label for="editot_one_starttime">ตั้งแต่เวลา </label>
-                        </div>
-                        <div class="col-md-4 mt-3">
-                            <div class="form-group">
-                                <input id="editot_one_starttime" type="time" class="form-control input-rounded">
-                            </div>
-                        </div>
-                        <div class="col-md-2 mt-3">
-                            <label for="ot_one_endtime">ถึงเวลา </label>
-                        </div>
-                        <div class="col-md-4 mt-3">
-                            <div class="form-group">
-                                <input id="editot_one_endtime" type="time" class="form-control input-rounded">
-                            </div>
-                        </div>
-                    </div>
-
-                    <input id="editot_one_id" type="hidden" class="form-control form-control-sm">
-                    <input type="hidden" id="edituser_id" name="user_id" value=" {{ Auth::user()->id }}">
-                </div>
-
-                <div class="modal-footer">
-                    <div class="col-md-12 text-end">
-                        <div class="form-group">
-                            <button type="button" id="updateBtn" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-floppy-disk me-2"></i>
-                                แก้ไขข้อมูล
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal"><i
-                                    class="fa-solid fa-xmark me-2"></i>Close</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+    </div>
 
 @endsection
 @section('footer')
@@ -355,9 +360,16 @@
             $('#example3').DataTable();
 
             $('select').select2();
-            $('#ECLAIM_STATUS').select2({
-                dropdownParent: $('#detailclaim')
+            $('#ptname').select2({
+                dropdownParent: $('#addicodeModal')
             });
+            $('#department').select2({
+                dropdownParent: $('#addicodeModal')
+            });
+            $('#audiovisual_type').select2({
+                dropdownParent: $('#addicodeModal')
+            });
+            
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
@@ -451,31 +463,29 @@
                 });
             });
 
-            $('#updateBtn').click(function() {
-                var ot_one_starttime = $('#editot_one_starttime').val();
-                var ot_one_endtime = $('#editot_one_endtime').val();
-                var ot_one_date = $('#editot_one_date').val();
-                var ot_one_detail = $('#editot_one_detail').val();
-                var user_id = $('#edituser_id').val();
-                var ot_one_id = $('#editot_one_id').val();
-                // alert(ot_one_id);
+            $('#Insertdata').click(function() {
+                var ptname = $('#ptname').val();
+                var tel = $('#tel').val();
+                var work_order_date = $('#work_order_date').val();
+                var job_request_date = $('#job_request_date').val();
+                var department = $('#department').val();
+                var audiovisual_type = $('#audiovisual_type').val();
+                var audiovisual_name = $('#audiovisual_name').val();
+                var audiovisual_qty = $('#audiovisual_qty').val();
+                var audiovisual_detail = $('#audiovisual_detail').val();
+              
                 $.ajax({
-                    url: "{{ route('userot.user_otone_update') }}",
+                    url: "{{ route('user.audiovisual_work_save') }}",
                     type: "POST",
                     dataType: 'json',
                     data: {
-                        ot_one_id,
-                        ot_one_detail,
-                        ot_one_date,
-                        ot_one_starttime,
-                        ot_one_endtime,
-                        user_id
+                        ptname, tel,work_order_date, job_request_date,department,audiovisual_type,audiovisual_name,audiovisual_qty,audiovisual_detail 
                     },
                     success: function(data) {
                         if (data.status == 200) {
                             Swal.fire({
-                                title: 'แก้ไขข้อมูลสำเร็จ',
-                                text: "You edit data success",
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                text: "You Insert data success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',

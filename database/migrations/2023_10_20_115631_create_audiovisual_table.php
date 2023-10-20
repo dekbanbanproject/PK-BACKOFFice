@@ -17,6 +17,7 @@ return new class extends Migration
         {
             Schema::connection('mysql')->create('audiovisual', function (Blueprint $table) { 
                 $table->bigIncrements('audiovisual_id');//  
+                $table->string('billno')->nullable();// 
                 $table->string('ptname')->nullable();//   
                 $table->string('department')->nullable();//  
                 $table->string('tel')->nullable();//  
