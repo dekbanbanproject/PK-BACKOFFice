@@ -188,16 +188,13 @@ $refnumber = SoteController::refnumber();
                                         <tr id="sid{{ $item->audiovisual_id }}">
                                             <td class="text-center">{{ $i++ }}</td>
                                             <td class="p-2"> {{ $item->fname }} {{ $item->lname }}</td>
-                                            <td class="text-center">{{ $item->tel }}</td>
-                                            
+                                            <td class="text-center">{{ $item->tel }}</td>                                            
                                             <td class="text-center">{{ $item->work_order_date }} </td>
                                             <td class="text-center">{{ $item->job_request_date }}</td>
                                             <td class="p-2">{{ $item->audiovisual_typename }} </td>
                                             <td class="p-2">{{ $item->audiovisual_name }} </td>
-
-                                            <td class="p-2">{{ $audiovisual_detail }} </td>
+                                            <td class="p-2">{{ $item->audiovisual_detail }} </td>
                                             <td class="p-2">{{ $item->DEPARTMENT_SUB_SUB_NAME }}</td> 
-
                                             <td class="text-center" width="7%">
                                                 <div class="dropdown">
                                                     <button class="btn btn-outline-info dropdown-toggle menu btn-sm"
