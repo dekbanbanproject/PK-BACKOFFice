@@ -129,20 +129,29 @@ class PPfs30011Controller extends Controller
            
                 $data_main_ = DB::connection('mysql10')->select(' 
                     SELECT v.vn,""an,v.hn,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,v.hn,v.pttype,v.vstdate,t.hipdata_code 
-                        ,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                        ,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
+                        ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate,v.income
                         FROM vn_stat v
                         LEFT OUTER JOIN patient p on p.hn=v.hn 
                         LEFT OUTER JOIN ovstdiag ob on ob.vn = v.vn
                         LEFT OUTER JOIN pttype t on t.pttype=v.pttype 
+                        LEFT OUTER JOIN person_anc_service s on s.vn=v.vn
+                        LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
+
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        and p.nationality="99" AND v.income <> "0"
-                        AND (v.pdx BETWEEN "Z340" AND "Z359" OR v.dx0 BETWEEN "Z340" AND "Z359" OR v.dx1 BETWEEN "Z340" AND "Z359" OR v.dx2 BETWEEN "Z340" AND "Z359" OR v.dx3 BETWEEN "Z340" AND "Z359" OR v.dx4 BETWEEN "Z340" AND "Z359"  OR v.dx5 BETWEEN "Z340" AND "Z359")
-                        
+                        and p.nationality="99" 
+                        AND (v.pdx BETWEEN "Z340" AND "Z359" OR v.dx0 BETWEEN "Z340" AND "Z359" OR v.dx1 BETWEEN "Z340" AND "Z359" OR v.dx2 BETWEEN "Z340" AND "Z359" OR v.dx3 BETWEEN "Z340" AND "Z359" OR v.dx4 BETWEEN "Z340" AND "Z359"  
+                        OR v.dx5 BETWEEN "Z340" AND "Z359" 
+                        OR ob.icd10 like "o24%"
+                        )
                         GROUP BY v.vn
                 ');      
               
-                foreach ($data_main_ as $key => $value) {    
-                    D_anc_main::insert([
+                foreach ($data_main_ as $key => $value) { 
+                    if ($value->income == '0') {
+                        # code...
+                    } else {
+                        D_anc_main::insert([
                             'vn'                 => $value->vn,
                             'hn'                 => $value->hn,
                             'cid'                => $value->cid, 
@@ -150,7 +159,17 @@ class PPfs30011Controller extends Controller
                             'vstdate'            => $value->vstdate,
                             'nhso_adp_code'      => "PPFS_ANC",
                             'pttype'             => $value->pttype,  
+                            'pdx'                => $value->pdx, 
+                            'dx0'                => $value->dx0, 
+                            'preg_no'            => $value->preg_no, 
+                            'gaNOW'              => $value->gaNOW, 
+                            'lmp'                => $value->lmp, 
+                            'anc_service_date'   => $value->anc_service_date, 
+                            'sum_price'          => $value->income, 
                         ]); 
+                    }
+                       
+                   
                     $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','PPFS_ANC')->count();
                     if ($check > 0) {
                         # code...
@@ -489,10 +508,8 @@ class PPfs30011Controller extends Controller
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
                         ,v.spclty CLINIC
                         
-                        ,CASE 
-                        WHEN o.icd10 LIKE "O%" THEN "Z348"  
-                        ELSE o.icd10
-                        END as DIAG
+                        ,o.icd10 DIAG
+
                         ,o.diagtype DXTYPE
                         ,CASE 
                         WHEN d.licenseno IS NULL THEN ""
@@ -505,10 +522,14 @@ class PPfs30011Controller extends Controller
                         from vn_stat v
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
-                        LEFT OUTER JOIN icd101 i on i.code = o.icd10
+                        INNER JOIN icd101 i on i.code = o.icd10
                         WHERE v.vn IN("'.$va1->vn.'")
                         GROUP BY v.vn
                 ');
+                // ,CASE 
+                //         WHEN o.icd10 LIKE "O%" THEN "Z348"  
+                //         ELSE o.icd10
+                //         END as DIAG
                 // ,o.icd10 DIAG
                 foreach ($data_odx_ as $va5) { 
                     D_odx::insert([
@@ -984,8 +1005,8 @@ class PPfs30011Controller extends Controller
  
          }
         
-         $data_vn_12 = DB::connection('mysql')->select('SELECT vn from d_30012');
-         foreach ($data_vn_12 as $key => $value_12) {
+        $data_vn_10 = DB::connection('mysql')->select('SELECT vn from d_30010');
+        foreach ($data_vn_10 as $key => $value_10) {
                 $data_30010_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
@@ -1006,11 +1027,9 @@ class PPfs30011Controller extends Controller
                         FROM opitemrece v
                         INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30010") 
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
-                        WHERE v.vn IN("'.$value_12->vn.'")  
+                        WHERE v.vn IN("'.$value_10->vn.'")  
                         GROUP BY v.vn  
-                ');
-                // ,(SELECT preg_no from pkbackoffice.d_30010 where vn = v.vn ) GRAVIDA  
-                // ,(SELECT gaNOW from pkbackoffice.d_30010 where vn = i.vn ) GA_WEEK 
+                '); 
                 foreach ($data_30010_ as $va30110) {
                     D_adp::insert([
                         'HN'                   => $va30110->HN,
@@ -1046,6 +1065,10 @@ class PPfs30011Controller extends Controller
                         'd_anaconda_id'        => 'PPFS_ANC'
                     ]);
                 } 
+        } 
+
+        $data_vn_12 = DB::connection('mysql')->select('SELECT vn from d_30012');
+        foreach ($data_vn_12 as $key => $value_12) {
                 $data_30012_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
@@ -1069,44 +1092,46 @@ class PPfs30011Controller extends Controller
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
                         WHERE v.vn IN("'.$value_12->vn.'")  
                         GROUP BY v.vn  
-                ');
-                // ,(SELECT preg_no from pkbackoffice.d_30012 where vn = v.vn ) GRAVIDA  
-                // ,(SELECT gaNOW from pkbackoffice.d_30012 where vn = i.vn ) GA_WEEK 
-                foreach ($data_30012_ as $va30112) {
+                '); 
+                foreach ($data_30012_ as $va30012) {
                     D_adp::insert([
-                        'HN'                   => $va30112->HN,
-                        'AN'                   => $va30112->AN,
-                        'DATEOPD'              => $va30112->DATEOPD,
-                        'TYPE'                 => $va30112->TYPE,
-                        'CODE'                 => $va30112->CODE,
-                        'QTY'                  => $va30112->QTY,
-                        'RATE'                 => $va30112->RATE,
-                        'SEQ'                  => $va30112->SEQ,
-                        'CAGCODE'              => $va30112->CAGCODE,
-                        'DOSE'                 => $va30112->DOSE,
-                        'CA_TYPE'              => $va30112->CA_TYPE,
-                        'SERIALNO'             => $va30112->SERIALNO,
-                        'TOTCOPAY'             => $va30112->TOTCOPAY,
-                        'USE_STATUS'           => $va30112->USE_STATUS,
-                        'TOTAL'                => $va30112->TOTAL,
-                        'QTYDAY'               => $va30112->QTYDAY,
-                        'TMLTCODE'             => $va30112->TMLTCODE,
-                        'STATUS1'              => $va30112->STATUS1,
-                        'BI'                   => $va30112->BI,
-                        'CLINIC'               => $va30112->CLINIC,
-                        'ITEMSRC'              => $va30112->ITEMSRC,
-                        'PROVIDER'             => $va30112->PROVIDER,
-                        'GRAVIDA'              => $va30112->GRAVIDA,
-                        'GA_WEEK'              => $va30112->GA_WEEK,
-                        'DCIP'                 => $va30112->DCIP,
-                        'LMP'                  => $va30112->LMP,
-                        'SP_ITEM'              => $va30112->SP_ITEM,
-                        'icode'                => $va30112->icode,
-                        'vstdate'              => $va30112->vstdate,
+                        'HN'                   => $va30012->HN,
+                        'AN'                   => $va30012->AN,
+                        'DATEOPD'              => $va30012->DATEOPD,
+                        'TYPE'                 => $va30012->TYPE,
+                        'CODE'                 => $va30012->CODE,
+                        'QTY'                  => $va30012->QTY,
+                        'RATE'                 => $va30012->RATE,
+                        'SEQ'                  => $va30012->SEQ,
+                        'CAGCODE'              => $va30012->CAGCODE,
+                        'DOSE'                 => $va30012->DOSE,
+                        'CA_TYPE'              => $va30012->CA_TYPE,
+                        'SERIALNO'             => $va30012->SERIALNO,
+                        'TOTCOPAY'             => $va30012->TOTCOPAY,
+                        'USE_STATUS'           => $va30012->USE_STATUS,
+                        'TOTAL'                => $va30012->TOTAL,
+                        'QTYDAY'               => $va30012->QTYDAY,
+                        'TMLTCODE'             => $va30012->TMLTCODE,
+                        'STATUS1'              => $va30012->STATUS1,
+                        'BI'                   => $va30012->BI,
+                        'CLINIC'               => $va30012->CLINIC,
+                        'ITEMSRC'              => $va30012->ITEMSRC,
+                        'PROVIDER'             => $va30012->PROVIDER,
+                        'GRAVIDA'              => $va30012->GRAVIDA,
+                        'GA_WEEK'              => $va30012->GA_WEEK,
+                        'DCIP'                 => $va30012->DCIP,
+                        'LMP'                  => $va30012->LMP,
+                        'SP_ITEM'              => $va30012->SP_ITEM,
+                        'icode'                => $va30012->icode,
+                        'vstdate'              => $va30012->vstdate,
                         'user_id'              => $iduser,
                         'd_anaconda_id'        => 'PPFS_ANC'
                     ]);
                 } 
+        }
+
+        $data_vn_13 = DB::connection('mysql')->select('SELECT vn from d_30013');
+        foreach ($data_vn_13 as $key => $value_13) {    
                 $data_30013_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
@@ -1117,8 +1142,7 @@ class PPfs30011Controller extends Controller
                         ,round(v.unitprice,2) RATE
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER 
                         ,""GRAVIDA
                         ,""GA_WEEK
                         ,"" DCIP	
@@ -1128,11 +1152,10 @@ class PPfs30011Controller extends Controller
                         FROM opitemrece v
                         INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30013") 
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
-                        WHERE v.vn IN("'.$value_12->vn.'")  
+                        WHERE v.vn IN("'.$value_13->vn.'")  
                         GROUP BY v.vn  
                 ');
-                // ,(SELECT preg_no from pkbackoffice.d_30013 where vn = v.vn ) GRAVIDA  
-                //         ,(SELECT gaNOW from pkbackoffice.d_30013 where vn = i.vn ) GA_WEEK 
+                 
                 foreach ($data_30013_ as $va30113) {
                     D_adp::insert([
                         'HN'                   => $va30113->HN,
@@ -1175,7 +1198,8 @@ class PPfs30011Controller extends Controller
             'STATUS1' => '1'
          ]            
         );
-         // return back();
+
+        
          return response()->json([
              'status'    => '200'
          ]);

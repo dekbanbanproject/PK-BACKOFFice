@@ -23,10 +23,16 @@ return new class extends Migration
                 $table->string('cid')->nullable();// 
                 $table->string('pttype')->nullable();// 
                 $table->string('ptname')->nullable();// 
+                $table->string('pdx')->nullable();// 
+                $table->string('dx0')->nullable();// 
                 $table->date('vstdate')->nullable();// 
                 $table->string('nhso_adp_code')->nullable();// 
                 $table->string('qty')->nullable();//  
                 $table->string('sum_price')->nullable();// 
+                $table->string('preg_no')->nullable();// 
+                $table->string('gaNOW')->nullable();// 
+                $table->date('lmp')->nullable();// 
+                $table->date('anc_service_date')->nullable();// 
                 $table->timestamps();
             }); 
             

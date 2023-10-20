@@ -417,6 +417,8 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'admin_profile_update',[App\Http\Controllers\ProfileController::class, 'admin_profile_update'])->name('pro.admin_profile_update');//
   Route::match(['get','post'],'admin_password_update',[App\Http\Controllers\ProfileController::class, 'admin_password_update'])->name('pro.admin_password_update');//
 
+  Route::match(['get','post'],'audiovisual_work',[App\Http\Controllers\SoteController::class, 'audiovisual_work'])->name('user.audiovisual_work');//
+
   // ******************** ระบบลงเวลา Users ***********************
   Route::match(['get','post'],'user_timeindex',[App\Http\Controllers\UserstimerController::class, 'user_timeindex'])->name('usertime.user_timeindex');// ระบบลงเวลา
   // Route::match(['get','post'],'user_timeindex_excel',[App\Http\Controllers\UserstimerController::class, 'user_timeindex_excel'])->name('usertime.user_timeindex_excel');// ระบบลงเวลา

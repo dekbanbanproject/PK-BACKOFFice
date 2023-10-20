@@ -153,17 +153,23 @@ class Account401Controller extends Controller
         // dd($year);
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        if ($startdate == '') {
-            // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
-            $acc_debtor = DB::select('
-                SELECT a.*,c.subinscl from acc_debtor a
-                left join checksit_hos c on c.vn = a.vn  
-                WHERE a.account_code="1102050101.401"
-                AND a.stamp = "N"
-                group by a.vn
-                order by a.vstdate asc;
+        if ($startdate == '') { 
+            // $data_vn = DB::select(' SELECT vn FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N"');
+            // foreach ($data_vn as $key => $value) {
+                $acc_debtor = DB::select(' 
+                        SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl 
+                   
+                    from acc_debtor a
+                    left join checksit_hos c on c.vn = a.vn  
+                    WHERE a.account_code="1102050101.401"
+                    AND a.stamp = "N"
+                    GROUP BY a.vn
+                    order by a.vstdate asc;
 
-            ');
+                ');
+            // }
+            // a.*,c.subinscl 
+            
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
         } else {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();

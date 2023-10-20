@@ -159,7 +159,9 @@ class Account201Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT * from acc_debtor a
+            SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total 
+                 
+                from acc_debtor a
                 WHERE a.account_code="1102050101.201"
                 AND a.stamp = "N"
                 group by a.vn

@@ -94,9 +94,7 @@ $pos = strrpos($url, '/') + 1;
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                {{-- </div>  --}}
-            {{-- </div> --}}
-            {{-- <div class="col-md-4">  --}}
+                
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
@@ -118,12 +116,9 @@ $pos = strrpos($url, '/') + 1;
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">
-                     OFC ข้าราชการ
+                  หญิงตั้งครรภ์
                     <div class="btn-actions-pane-right">
-                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
-                            <i class="fa-solid fa-spinner text-info me-2"></i> 
-                            Update Ucep24
-                        </button> --}}
+                     
                     </div>
                 </div>
                 <div class="card-body">
@@ -247,12 +242,12 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">hn</th>
                                                     <th class="text-center">cid</th>   
                                                     <th class="text-center">vstdate</th> 
-                                                    <th class="text-center">ptname</th> 
-                                                    {{-- <th class="text-center">preg_no</th>  --}}
-                                                    {{-- <th class="text-center">gaNOW</th>  --}}
-                                                    {{-- <th class="text-center">lmp</th>  --}}
-                                                    {{-- <th class="text-center">labor_date</th>  --}}
-                                                    {{-- <th class="text-center">sum_price</th>  --}}
+                                                    <th class="text-center">ptname</th>   
+                                                    <th class="text-center">pdx</th> 
+                                                    <th class="text-center">dx0</th> 
+                                                    <th class="text-center">preg_no</th> 
+                                                    <th class="text-center">gaNOW</th> 
+                                                    <th class="text-center">lmp</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -266,16 +261,13 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="text-center" width="5%">{{ $item1->hn }}</td>
                                                     <td class="text-center" width="10%">{{ $item1->cid }}</td>  
                                                     <td class="text-center" width="10%">{{ $item1->vstdate }}</td> 
-                                                    <td class="text-start" >{{ $item1->ptname }}</td>  
-                                                    {{-- <td class="text-center" width="10%">{{ $item1->preg_no }}</td>  --}}
-                                                    {{-- <td class="text-center" width="10%">{{ $item1->gaNOW }}</td>  --}}
-                                                    {{-- <td class="text-center" width="10%">{{ $item1->lmp }}</td>  --}}
-                                                    {{-- <td class="text-center" width="10%">{{ $item1->labor_date }}</td>  --}}
-                                                    {{-- <td class="text-center" width="10%">{{ $item1->sum_price }}</td>  --}}
-                                                </tr>
-                    
-                    
-                    
+                                                    <td class="text-start" >{{ $item1->ptname }}</td>   
+                                                    <td class="text-start" width="5%">{{ $item1->pdx }}</td> 
+                                                    <td class="text-start" width="5%">{{ $item1->dx0 }}</td> 
+                                                    <td class="text-start" width="5%">{{ $item1->preg_no }}</td> 
+                                                    <td class="text-start" width="5%">{{ $item1->gaNOW }}</td> 
+                                                    <td class="text-start" width="5%">{{ $item1->lmp }}</td> 
+                                                </tr> 
                                                 @endforeach
                     
                                             </tbody>
