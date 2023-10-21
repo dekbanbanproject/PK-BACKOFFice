@@ -29,7 +29,7 @@ class SoteController extends Controller
     public function audiovisual_work(Request $request)
     {
         $data['startdate'] = $request->startdate;
-        $data['enddate'] = $request->enddate;  
+        $data['enddate'] = $request->enddate;
         $data['users'] = User::get();
         $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
         $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
@@ -46,47 +46,47 @@ class SoteController extends Controller
     public static function refnumber()
     {
         $year = date('Y');
-        $maxnumber = DB::table('audiovisual')->max('audiovisual_id');  
-        if($maxnumber != '' ||  $maxnumber != null){
-            $refmax = DB::table('audiovisual')->where('audiovisual_id','=',$maxnumber)->first();  
-            if($refmax->billno != '' ||  $refmax->billno != null){
-            $maxref = substr($refmax->billno, -4)+1;
-            }else{
-            $maxref = 1;
+        $maxnumber = DB::table('audiovisual')->max('audiovisual_id');
+        if ($maxnumber != '' ||  $maxnumber != null) {
+            $refmax = DB::table('audiovisual')->where('audiovisual_id', '=', $maxnumber)->first();
+            if ($refmax->billno != '' ||  $refmax->billno != null) {
+                $maxref = substr($refmax->billno, -4) + 1;
+            } else {
+                $maxref = 1;
             }
             $ref = str_pad($maxref, 5, "0", STR_PAD_LEFT);
-        }else{
+        } else {
             $ref = '00001';
         }
-        $ye = date('Y')+543;
+        $ye = date('Y') + 543;
         $y = substr($ye, -2);
-        $refnumber = 'SOTE'.'-'.$ref;
+        $refnumber = 'SOTE' . '-' . $ref;
         return $refnumber;
     }
-    
+
     public function audiovisual_work_add(Request $request)
     {
         $data['startdate'] = $request->startdate;
-        $data['enddate'] = $request->enddate;  
+        $data['enddate'] = $request->enddate;
         $data['users'] = User::get();
         $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
-        $data['audiovisual_type'] = DB::table('audiovisual_type')->get();        
-        
-        return view('sote.audiovisual_work_add', $data); 
+        $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
+
+        return view('sote.audiovisual_work_add', $data);
     }
     public function audiovisual_work_save(Request $request)
     {
         $add = new Audiovisual();
         $add->ptname                    = $request->input('ptname');
         $add->tel                       = $request->input('tel');
-        $add->work_order_date           = $request->input('work_order_date'); 
-        $add->job_request_date          = $request->input('job_request_date'); 
-        $add->department                = $request->input('department'); 
-        $add->audiovisual_type          = $request->input('audiovisual_type'); 
-        $add->audiovisual_name          = $request->input('audiovisual_name'); 
-        $add->audiovisual_qty           = $request->input('audiovisual_qty'); 
-        $add->audiovisual_detail        = $request->input('audiovisual_detail'); 
-        $add->billno                    = $request->input('billno'); 
+        $add->work_order_date           = $request->input('work_order_date');
+        $add->job_request_date          = $request->input('job_request_date');
+        $add->department                = $request->input('department');
+        $add->audiovisual_type          = $request->input('audiovisual_type');
+        $add->audiovisual_name          = $request->input('audiovisual_name');
+        $add->audiovisual_qty           = $request->input('audiovisual_qty');
+        $add->audiovisual_detail        = $request->input('audiovisual_detail');
+        $add->billno                    = $request->input('billno');
         $add->save();
 
         return response()->json([
@@ -94,10 +94,10 @@ class SoteController extends Controller
         ]);
     }
 
- public function audiovisual_work_edit(Request $request,$id)
+    public function audiovisual_work_edit(Request $request, $id)
     {
         $data['startdate'] = $request->startdate;
-        $data['enddate'] = $request->enddate;  
+        $data['enddate'] = $request->enddate;
         $data['users'] = User::get();
         $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
         $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
@@ -108,12 +108,12 @@ class SoteController extends Controller
             LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
             left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
         ');
-        $data['dataedit']  = Audiovisual::where('audiovisual_id','=',$id)->first();
+        $data['dataedit']  = Audiovisual::where('audiovisual_id', '=', $id)->first();
         // $data['work'] = Plan_strategic::leftjoin('plan_mission','plan_mission.plan_mission_id','=','plan_strategic.plan_mission_id')->get();
         // plan_taget
         // $data['plan_taget'] = Plan_taget::where('plan_strategic_id','=',$id)->get();
         // $work = Audiovisual::find($id);
-        return view('sote.audiovisual_work_edit', $data); 
+        return view('sote.audiovisual_work_edit', $data);
         // return response()->json([
         //     'status'     => '200',
         //     'work'       =>  $work,
@@ -125,13 +125,13 @@ class SoteController extends Controller
         $update = Audiovisual::find($id);
         $update->ptname                    = $request->input('ptname');
         $update->tel                       = $request->input('tel');
-        $update->work_order_date           = $request->input('work_order_date'); 
-        $update->job_request_date          = $request->input('job_request_date'); 
-        $update->department                = $request->input('department'); 
-        $update->audiovisual_type          = $request->input('audiovisual_type'); 
-        $update->audiovisual_name          = $request->input('audiovisual_name'); 
-        $update->audiovisual_qty           = $request->input('audiovisual_qty'); 
-        $update->audiovisual_detail        = $request->input('audiovisual_detail'); 
+        $update->work_order_date           = $request->input('work_order_date');
+        $update->job_request_date          = $request->input('job_request_date');
+        $update->department                = $request->input('department');
+        $update->audiovisual_type          = $request->input('audiovisual_type');
+        $update->audiovisual_name          = $request->input('audiovisual_name');
+        $update->audiovisual_qty           = $request->input('audiovisual_qty');
+        $update->audiovisual_detail        = $request->input('audiovisual_detail');
         // $update->billno                    = $request->input('billno'); 
         $update->save();
 
@@ -141,10 +141,10 @@ class SoteController extends Controller
     }
     public function audiovisual_work_cancel(Request $request, $id)
     {
-       
+
         $update = Audiovisual::find($id);
-       
-        $update->audiovisual_status        = 'CANCEL';  
+
+        $update->audiovisual_status        = 'CANCEL';
         $update->save();
 
         return response()->json([
@@ -152,10 +152,10 @@ class SoteController extends Controller
         ]);
     }
 
-    public function audiovisual_work_detail(Request $request,$id)
+    public function audiovisual_work_detail(Request $request, $id)
     {
         $data['startdate'] = $request->startdate;
-        $data['enddate'] = $request->enddate;  
+        $data['enddate'] = $request->enddate;
         $data['users'] = User::get();
         $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
         $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
@@ -167,45 +167,78 @@ class SoteController extends Controller
             left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
         ');
         // $data['dataedit']  = Audiovisual::where('audiovisual_id','=',$id)->first();
-        
+
         $work = Audiovisual::find($id);
-       
+
         return response()->json([
             'status'     => '200',
             'work'       =>  $work,
         ]);
     }
-
  
 
-    // ********************************************
+    // ************************ ผู้ดูแล ระบบงานโสต ********************
 
-    // public function plan_taget(Request $request,$id)
-    // {
-    //     $data_plan_strategic = Plan_strategic::where('plan_strategic_id','=',$id)->first();
-    //     $data['plan_strategic'] = Plan_strategic::leftjoin('plan_mission','plan_mission.plan_mission_id','=','plan_strategic.plan_mission_id')->get();
-    //     // plan_taget
-    //     $data['plan_taget'] = Plan_taget::where('plan_strategic_id','=',$id)->get();
+    public function audiovisual_admin(Request $request)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['users'] = User::get();
+        $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
+        $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
+        $data['audiovisual'] = DB::connection('mysql')->select('
+            SELECT * 
+            from audiovisual a
+            LEFT JOIN users i on i.id = a.ptname
+            LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
+            left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
+        ');
 
-    //     return view('plan.plan_taget', $data,[
-    //         'data_plan_strategic'       =>       $data_plan_strategic
-    //     ]);
-    // }
-   
-    // public function plan_taget_update(Request $request)
-    // { 
-    //     $id = $request->input('editplan_taget_id');
+        return view('sote_admin.audiovisual_admin', $data);
+    }
+    public function audiovisual_admin_check(Request $request, $id)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['users'] = User::get();
+        $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
+        $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
+        $data['audiovisual'] = DB::connection('mysql')->select('
+            SELECT * 
+            from audiovisual a
+            LEFT JOIN users i on i.id = a.ptname
+            LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
+            left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
+        ');
+        $data['dataedit']  = Audiovisual::where('audiovisual_id', '=', $id)->first();
+        
+        return view('sote_admin.audiovisual_admin_check', $data); 
+    }
 
-    //     $update = Plan_taget::find($id);
-    //     $update->plan_strategic_id = $request->input('editplan_strategic_id');
-    //     $update->plan_taget_code = $request->input('editplan_taget_code');
-    //     $update->plan_taget_name = $request->input('editplan_taget_name'); 
-    //     $update->save();
+    public function audiovisual_admin_save(Request $request)
+    {
+        $id = $request->audiovisual_id;
+        $update = Audiovisual::find($id);
 
-    //     return response()->json([
-    //         'status'     => '200',
-    //     ]);
-    // }
- 
-     
+        $update->audiovisual_status        = 'ACCEPTING';
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function audiovisual_admin_cancel(Request $request, $id)
+    {
+
+        $update = Audiovisual::find($id);
+
+        $update->audiovisual_status        = 'CONFIRM_CANCEL';
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+
+
 }
