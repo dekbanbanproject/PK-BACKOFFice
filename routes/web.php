@@ -418,9 +418,12 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'admin_password_update',[App\Http\Controllers\ProfileController::class, 'admin_password_update'])->name('pro.admin_password_update');//
 
   Route::match(['get','post'],'audiovisual_work',[App\Http\Controllers\SoteController::class, 'audiovisual_work'])->name('user.audiovisual_work');//
+  Route::match(['get','post'],'audiovisual_work_detail/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_work_detail'])->name('user.audiovisual_work_detail');//
+  Route::match(['get','post'],'audiovisual_work_add',[App\Http\Controllers\SoteController::class, 'audiovisual_work_add'])->name('user.audiovisual_work_add');//
+  Route::match(['get','post'],'audiovisual_work_edit/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_work_edit'])->name('user.audiovisual_work_edit');//
   Route::match(['get','post'],'audiovisual_work_save',[App\Http\Controllers\SoteController::class, 'audiovisual_work_save'])->name('user.audiovisual_work_save');//
   Route::match(['get','post'],'audiovisual_work_update',[App\Http\Controllers\SoteController::class, 'audiovisual_work_update'])->name('user.audiovisual_work_update');//
-  Route::match(['get','post'],'audiovisual_work_destroy',[App\Http\Controllers\SoteController::class, 'audiovisual_work_destroy'])->name('user.audiovisual_work_destroy');//
+  Route::match(['get','post'],'audiovisual_work_cancel/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_work_cancel'])->name('user.audiovisual_work_cancel');//
 
   // ******************** ระบบลงเวลา Users ***********************
   Route::match(['get','post'],'user_timeindex',[App\Http\Controllers\UserstimerController::class, 'user_timeindex'])->name('usertime.user_timeindex');// ระบบลงเวลา

@@ -28,7 +28,7 @@ return new class extends Migration
                 $table->string('audiovisual_detail')->nullable();// 
                 $table->string('audiovisual_qty')->nullable();//
                 $table->string('audiovisual_lineid')->nullable();//
-                $table->enum('audiovisual_status', ['REQUEST','ACCEPTING','INPROGRESS','VERIFY','FINISH'])->default('REQUEST')->nullable();
+                $table->enum('audiovisual_status', ['REQUEST','ACCEPTING','INPROGRESS','VERIFY','FINISH','CANCEL','CONFIRM_CANCEL'])->default('REQUEST')->nullable();
                 $table->timestamps();
             }); 
         }

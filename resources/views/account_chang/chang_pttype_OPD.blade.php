@@ -377,6 +377,7 @@
                 $(".sub_chk").prop('checked',false);  
             }  
             }); 
+            $("#spinner-div").hide(); //Request is complete so hide spinner
             
             $('.Savestamp').on('click', function(e) {
                 // alert('oo');
@@ -463,7 +464,7 @@
                 }
             });             
 
-            $("#spinner-div").hide(); //Request is complete so hide spinner
+           
 
             $(document).on('click', '.addicodeModal', function() {
                 var acc_debtor_id = $(this).val(); 
