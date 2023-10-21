@@ -20,7 +20,7 @@ use App\Models\Budget_year;
 use Illuminate\Support\Facades\File;
 use DataTables;
 use Intervention\Image\ImageManagerStatic as Image;
-
+use Auth;
 use App\Models\Audiovisual;
 use App\Models\Audiovisual_type;
 
@@ -28,6 +28,7 @@ class SoteController extends Controller
 {
     public function audiovisual_work(Request $request)
     {
+        $iduser = Auth::user()->id;
         $data['startdate'] = $request->startdate;
         $data['enddate'] = $request->enddate;
         $data['users'] = User::get();
@@ -39,6 +40,7 @@ class SoteController extends Controller
             LEFT JOIN users i on i.id = a.ptname
             LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
             left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
+            WHERE a.ptname = "'.$iduser.'"
         ');
 
         return view('sote.audiovisual_work', $data);
