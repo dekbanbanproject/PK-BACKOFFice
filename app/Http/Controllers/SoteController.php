@@ -239,6 +239,42 @@ class SoteController extends Controller
             'status'     => '200',
         ]);
     }
+    public function audiovisual_admin_going(Request $request, $id)
+    {
 
+        $update = Audiovisual::find($id);
+
+        $update->audiovisual_status        = 'INPROGRESS';
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function audiovisual_admin_sendcheck(Request $request, $id)
+    {
+
+        $update = Audiovisual::find($id);
+
+        $update->audiovisual_status        = 'VERIFY';
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function audiovisual_admin_finish(Request $request, $id)
+    {
+
+        $update = Audiovisual::find($id);
+
+        $update->audiovisual_status        = 'FINISH';
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    
 
 }

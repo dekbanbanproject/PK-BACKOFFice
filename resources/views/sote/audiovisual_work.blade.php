@@ -45,6 +45,46 @@
                 }
             })
         }
+
+        function audiovisual_admin_finish(audiovisual_id) {
+            Swal.fire({
+                title: 'ต้องการตรวจสอบงานใช่ไหม?',
+                text: "กรุณาตรวจสอบงาน !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ยกเลิกเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('audiovisual_admin_finish') }}" + '/' + audiovisual_id,
+                        type: 'POST',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ตรวจสอบงานสำเร็จ!',
+                                text: "You Cgeck Confirm data ",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + audiovisual_id).remove();
+                                    window.location.reload();
+                                    //   window.location = "/person/person_index"; //     
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
     </script>
 
     <?php
@@ -384,6 +424,13 @@ $refnumber = SoteController::refnumber();
                                                             <span class="text-info">รายละเอียด</span>
                                                         
                                                         </button>
+                                                        <a class="dropdown-item text-success" href="javascript:void(0)"
+                                                        onclick="audiovisual_admin_finish({{ $item->audiovisual_id }})"
+                                                        style="font-size:13px">
+                                                        <i class="fa-solid fa-file-pen ms-2 me-2 text-success"
+                                                            style="font-size:13px"></i>
+                                                        <span>ตรวจสอบงาน</span>
+                                                    </a>
                                                         
                                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
                                                             onclick="audiovisual_work_cancel({{ $item->audiovisual_id }})"

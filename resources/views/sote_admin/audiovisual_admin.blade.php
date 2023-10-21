@@ -9,7 +9,7 @@
         function audiovisual_admin_cancel(audiovisual_id) {
             Swal.fire({
                 title: 'ต้องการยกเลิกใช่ไหม?',
-                text: "กรุณารอการยืนยันการยกเลิก !!",
+                text: "ยืนยันการยกเลิก !!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -28,6 +28,86 @@
                             Swal.fire({
                                 title: 'ยืนยันการแจ้งยกเลิกสำเร็จ!',
                                 text: "You Cancel data ",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + audiovisual_id).remove();
+                                    window.location.reload();
+                                    //   window.location = "/person/person_index"; //     
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+
+        function audiovisual_admin_going(audiovisual_id) {
+            Swal.fire({
+                title: 'กำลังดำเนินการใช่ไหม?',
+                text: "กำลังดำเนินการ !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ดำเนินการเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ดำเนินการ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('audiovisual_admin_going') }}" + '/' + audiovisual_id,
+                        type: 'POST',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ยืนยันการแจ้งกำลังดำเนินการสำเร็จ!',
+                                text: "You Confirm Cancel data ",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + audiovisual_id).remove();
+                                    window.location.reload();
+                                    //   window.location = "/person/person_index"; //     
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+
+        function audiovisual_admin_sendcheck(audiovisual_id) {
+            Swal.fire({
+                title: 'ส่งงานตรวจสอบใช่ไหม?',
+                text: "ส่งงานตรวจสอบ !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ส่งงานตรวจสอบเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ส่งงานตรวจสอบ'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('audiovisual_admin_sendcheck') }}" + '/' + audiovisual_id,
+                        type: 'POST',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ยืนยันการส่งงานตรวจสอบสำเร็จ!',
+                                text: "You Confirm Cancel data ",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',
@@ -274,7 +354,20 @@
                                                             <span class="text-info">รายละเอียด</span>
                                                         
                                                         </button> --}}
-
+                                                        <a class="dropdown-item text-info" href="javascript:void(0)"
+                                                        onclick="audiovisual_admin_going({{ $item->audiovisual_id }})"
+                                                        style="font-size:13px">
+                                                        <i class="fa-solid fa-file-pen ms-2 me-2 text-info"
+                                                            style="font-size:13px"></i>
+                                                        <span>กำลังดำเนินการ</span>
+                                                    </a>
+                                                    <a class="dropdown-item text-success" href="javascript:void(0)"
+                                                    onclick="audiovisual_admin_sendcheck({{ $item->audiovisual_id }})"
+                                                    style="font-size:13px">
+                                                    <i class="fa-solid fa-file-penms-2 me-2 text-success"
+                                                        style="font-size:13px"></i>
+                                                    <span>ส่งงาน</span>
+                                                </a>
                                                         <a class="dropdown-item text-danger" href="javascript:void(0)"
                                                             onclick="audiovisual_admin_cancel({{ $item->audiovisual_id }})"
                                                             style="font-size:13px">

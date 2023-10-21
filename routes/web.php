@@ -429,9 +429,13 @@ Route::middleware(['type'])->group(function(){
 
  // ******************** Admin Sote ***********************
   Route::match(['get','post'],'audiovisual_admin',[App\Http\Controllers\SoteController::class, 'audiovisual_admin'])->name('user.audiovisual_admin');//
-  Route::match(['get','post'],'audiovisual_admin_check/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_check'])->name('user.audiovisual_admin_check');//
+  Route::match(['get','post'],'audiovisual_admin_check/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_check'])->name('user.audiovisual_admin_check');//รับทราบ
+  Route::match(['get','post'],'audiovisual_admin_going/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_going'])->name('user.audiovisual_admin_going');//กำลังดำเนินการ
+  Route::match(['get','post'],'audiovisual_admin_sendcheck/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_sendcheck'])->name('user.audiovisual_admin_sendcheck');//ส่งงานตรวจสอบ
+  Route::match(['get','post'],'audiovisual_admin_finish/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_finish'])->name('user.audiovisual_admin_finish');//
+
   Route::match(['get','post'],'audiovisual_admin_save',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_save'])->name('user.audiovisual_admin_save');//
-  Route::match(['get','post'],'audiovisual_admin_cancel/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_cancel'])->name('user.audiovisual_admin_cancel');//
+  Route::match(['get','post'],'audiovisual_admin_cancel/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_cancel'])->name('user.audiovisual_admin_cancel');//ยืนยันการตรวจสอบ
 
   Route::match(['get','post'],'audiovisual_admin_detail/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_detail'])->name('user.audiovisual_admin_detail');//
   Route::match(['get','post'],'audiovisual_admin_add',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_add'])->name('user.audiovisual_admin_add');//
