@@ -235,41 +235,169 @@ class EnvController extends Controller
                     //     $status = 'ผิดปกติ';
                     // }
                     if ($idwater->water_parameter_id == '1' && $qty <= '20' ) {
-                        $status = 'ปกติ';                    
-                    }elseif($idwater->water_parameter_id == '2' && $qty <= '120' ) {
-                        $status = 'ปกติ';                         
-                    }elseif($idwater->water_parameter_id == '3' && $qty <= '500' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '4' && $qty <= '30' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '5' && $qty <= '0.5' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '6' && $qty <= '35' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '7' && $qty >= '4.9' && $idwater->water_parameter_id == '7' && $qty <= '9') {
-                        $status = 'ปกติ';                     
-                    }elseif($idwater->water_parameter_id == '8' && $qty <= '1.0' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '9' && $qty <= '20' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '10' && $qty <= '5000' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '11' && $qty <= '1000' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '12' && $qty <= '1' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '13' && $qty <= '1000' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '14' && $qty >= '2' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '15' && $qty >= '400' ) {
-                        $status = 'ปกติ'; 
-                    }elseif($idwater->water_parameter_id == '16' && $qty >= '0.5' && $idwater->water_parameter_id == '16' && $qty <= '1') {
+                        $status = 'ปกติ';
+                    // }elseif($idwater->water_parameter_id == '1' && $qty <= '9' ) {
+                    //     $status = 'ปกติ'; 
+                    } else {
+                        $status = 'ผิดปกติ';
+                    }
+                    // dd($status);
+
+                    // if ($idwater->water_parameter_id == '1' || $qty <= '20') {
+                    //     $status = 'ผิดปกติ';
+                    // } else {
+                    //     $status = 'ปกติ';
+                    // }
+                    // if ($idwater->water_parameter_id == '2' && $qty >= '4.9' ) {
+                    //     $status = 'ผิดปกติ';
+                    // }elseif($idwater->water_parameter_id == '2' && $qty <= '9' ) {
+                    //     $status = 'ปกติ'; 
+                    // } else {
+                    //     $status = 'ผิดปกติ';
+                    // }
+
+                    if ($idwater->water_parameter_id == '2' && $qty <= '120') {
+                        $status2 = 'ปกติ';  
+                    // }elseif($idwater->water_parameter_id == '2' && $qty > '120' ) {
+                    //     $status2 = 'ผิดปกติ'; 
+                    } else {
+                        $status2 = 'ผิดปกติ'; 
+                    }
+                    // dd($status2);
+
+                    if ($idwater->water_parameter_id == '3' || $qty <= '500') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '4' || $qty <= '30') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '5' || $qty <= '0.5') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '6' || $qty <= '35') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }  
+
+                    if ($idwater->water_parameter_id == '7' && $qty <= '4.9' ) {
+                        $status = 'ผิดปกติ';
+                    }elseif($idwater->water_parameter_id == '7' && $qty <= '9' ) {
                         $status = 'ปกติ'; 
                     } else {
                         $status = 'ผิดปกติ';
                     }
-                    // dd($status); 
+                   
+                    // dd($status);
+                   
+                    if ($idwater->water_parameter_id == '8' || $qty  <= '1.0') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '9' || $qty  <= '20') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '10' || $qty <= '5000') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '11' || $qty <= '1000') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '12' || $qty <= '1') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '13' || $qty <= '1000') {
+                        $status = 'ผิดปกติ';
+                    } else {
+                        $status = 'ปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '14' && $qty .$idwater->water_parameter_icon. '2') {
+                        $status2 = 'ปกติ';
+                    } else {
+                        $status2 = 'ผิดปกติ';
+                    }
+                    if ($idwater->water_parameter_id == '15' && $qty >= '400') {
+                        $status = 'ปกติ';
+                    } else {
+                        $status = 'ผิดปกติ';
+                    }
+
+                   
+                    // $water_ = Env_water_parameter::where('water_parameter_id','=',$water_parameter_id[$count])->first();
+
+                    // if ($water_->water_parameter_id == 7 || $water_qty[$count]  == 5 || $water_qty[$count]  == 6 || $water_qty[$count]  == 7 || $water_qty[$count]  == 8 || $water_qty[$count]  == 9 ) {
+                    //     $status = 'ผิดปกติ';
+                    // } else {
+                    //     $status = 'ปกติ';
+                    // }
+
+                    // $collection = collect([
+                    //     ['water_parameter_id' => '7', $water_qty[$count] => 5.0],
+                    //     ['water_parameter_id' => '7', $water_qty[$count] => 9],
+                    //     // ['product' => 'Bookcase', 'price' => 150],
+                    //     // ['product' => 'Pencil', 'price' => 30],
+                    //     // ['product' => 'Door', 'price' => 100],
+                    // ]);
+                     
+                    // $filtered = $collection->whereBetween($water_qty[$count], [5, 9]);
+                    // dd($water_qty[$count]);
+                    // $filtered->all();
+                    // dd($filtered->all());
+                    // dd($water_qty[$count]);
+                    // if ($idwater->water_parameter_id == 7 && $water_qty[$count]  <= 5.0 ) {
+                    //     $status = 'ผิดปกติ';
+                    // }elseif($idwater->water_parameter_id == 7 && $water_qty[$count]  >= 5.1) {
+                    //     $status = 'ปกติ';
+                    // }elseif($idwater->water_parameter_id == 7 && $water_qty[$count]  >= 5.2) {
+                    //     $status = 'ปกติ';
+                    // }elseif($idwater->water_parameter_id == 7 && $water_qty[$count]  >= 5.3 ) {
+                    //     $status = 'ปกติ';
+                    // }elseif($idwater->water_parameter_id == 7 && $water_qty[$count]  >= 5.4 ) {
+                    //     $status = 'ปกติ';
+                    // // }elseif($idwater->water_parameter_id == 7 && $water_qty[$count]  == ['6.0','6.1','6.2','6.3','6.4','6.5','6.6','6.7','6.8','6.9']  ) {
+                    // //     $status = 'ปกติ';
+                    // }elseif($idwater->water_parameter_id == 7 && $water_qty[$count]  <= '9' ) {
+                    //     $status = 'ปกติ';
+                 
+                    // } else {
+                    //     $status = 'ผิดปกติ';
+                    // }
+
+                    if ($idwater->water_parameter_id == 16 && $water_qty[$count]  == '0.5' ) {
+                        $status = 'ปกติ';
+                    }elseif($idwater->water_parameter_id == 16 && $water_qty[$count]  == '0.6' ) {
+                        $status = 'ปกติ';
+                    }elseif($idwater->water_parameter_id == 16 && $water_qty[$count]  == '0.7' ) {
+                        $status = 'ปกติ';
+                    }elseif($idwater->water_parameter_id == 16 && $water_qty[$count]  == '0.8' ) {
+                        $status = 'ปกติ';
+                    }elseif($idwater->water_parameter_id == 16 && $water_qty[$count]  == '0.9' ) {
+                        $status = 'ปกติ';
+                    }elseif($idwater->water_parameter_id == 16 && $water_qty[$count]  == '1.0' ) {
+                        $status = 'ปกติ';
+                    } else {
+                        $status = 'ผิดปกติ';
+                    }
+                    // if ($water_->water_parameter_id == 16 && $water_qty[$count]  == 0.5 || $water_qty[$count]  == 0.6 || $water_qty[$count]  == 0.7 || $water_qty[$count]  == 0.8 || $water_qty[$count]  == 0.9 || $water_qty[$count]  == 1.0 ) {
+                    //     $status = 'ผิดปกติ';
+                    // } else {
+                    //     $status = 'ปกติ';
+                    // }
 
                     $add_sub->status                         = $status;
                     $add_sub->water_parameter_short_name     = $water_parameter_short_name[$count];

@@ -188,13 +188,28 @@ class SoteController extends Controller
         $data['users'] = User::get();
         $data['department_sub_sub'] = DB::table('department_sub_sub')->get();
         $data['audiovisual_type'] = DB::table('audiovisual_type')->get();
-        $data['audiovisual'] = DB::connection('mysql')->select('
-            SELECT * 
-            from audiovisual a
-            LEFT JOIN users i on i.id = a.ptname
-            LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
-            left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
-        ');
+
+        if ($data['startdate'] =='') {
+            $data['audiovisual'] = DB::connection('mysql')->select('
+                SELECT * 
+                from audiovisual a
+                LEFT JOIN users i on i.id = a.ptname
+                LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
+                left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
+                LIMIT 30
+            ');
+        } else {
+            $data['audiovisual'] = DB::connection('mysql')->select('
+                SELECT * 
+                from audiovisual a
+                LEFT JOIN users i on i.id = a.ptname
+                LEFT JOIN audiovisual_type b on b.audiovisual_type_id = a.audiovisual_type
+                left JOIN department_sub_sub d on d.DEPARTMENT_SUB_SUB_ID = a.department 
+                WHERE a.work_order_date BETWEEN "'.$data['startdate'].'" AND "'.$data['enddate'].'"
+            '); 
+        }
+        
+       
 
         return view('sote_admin.audiovisual_admin', $data);
     }

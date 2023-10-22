@@ -203,16 +203,15 @@
     </style>
     <div class="tabs-animation">
 
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+    
                 </div>
             </div>
-
         </div>
 
-        <form action="{{ url('ppfs_30011') }}" method="POST">
+        <form action="{{ url('audiovisual_admin') }}" method="GET">
             @csrf
             <div class="row">
                 <div class="col"></div>
@@ -364,7 +363,7 @@
                                                     <a class="dropdown-item text-success" href="javascript:void(0)"
                                                     onclick="audiovisual_admin_sendcheck({{ $item->audiovisual_id }})"
                                                     style="font-size:13px">
-                                                    <i class="fa-solid fa-file-penms-2 me-2 text-success"
+                                                    <i class="fa-solid fa-file-pen ms-2 me-2 text-success"
                                                         style="font-size:13px"></i>
                                                     <span>ส่งงาน</span>
                                                 </a>

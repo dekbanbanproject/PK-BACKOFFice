@@ -427,6 +427,13 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'audiovisual_work_update',[App\Http\Controllers\SoteController::class, 'audiovisual_work_update'])->name('user.audiovisual_work_update');//
   Route::match(['get','post'],'audiovisual_work_cancel/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_work_cancel'])->name('user.audiovisual_work_cancel');//
 
+  //  ******************** Admin Sote ***********************
+  //  Route::match(['get','post'],'prenatal_care',[App\Http\Controllers\AncController::class, 'prenatal_care'])->name('anc.prenatal_care');//
+  //  Route::match(['get','post'],'prenatal_care_/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_check'])->name('user.audiovisual_admin_check');//รับทราบ
+  //  Route::match(['get','post'],'prenatal_care/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_going'])->name('user.audiovisual_admin_going');//กำลังดำเนินการ
+  //  Route::match(['get','post'],'prenatal_care/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_sendcheck'])->name('user.audiovisual_admin_sendcheck');//ส่งงานตรวจสอบ
+  //  Route::match(['get','post'],'prenatal_care/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_finish'])->name('user.audiovisual_admin_finish');//
+
  // ******************** Admin Sote ***********************
   Route::match(['get','post'],'audiovisual_admin',[App\Http\Controllers\SoteController::class, 'audiovisual_admin'])->name('user.audiovisual_admin');//
   Route::match(['get','post'],'audiovisual_admin_check/{id}',[App\Http\Controllers\SoteController::class, 'audiovisual_admin_check'])->name('user.audiovisual_admin_check');//รับทราบ
@@ -2004,6 +2011,9 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'anc_14001_pull2',[App\Http\Controllers\PPFSController::class, 'anc_14001_pull2'])->name('claim.anc_14001_pull2');//
 
       // **************************** Anc  ***********************
+      Route::match(['get','post'],'prenatal_care',[App\Http\Controllers\AncController::class, 'prenatal_care'])->name('anc.prenatal_care');//
+      Route::match(['get','post'],'prenatal_care_sub/{ward}/{startdate}/{enddate}',[App\Http\Controllers\AncController::class, 'prenatal_care_sub'])->name('anc.prenatal_care_sub');//
+
      Route::match(['get','post'],'anc_dent',[App\Http\Controllers\AncController::class, 'anc_dent'])->name('claim.anc_dent');//
      Route::match(['get','post'],'anc_dent_search',[App\Http\Controllers\AncController::class, 'anc_dent_search'])->name('claim.anc_dent_search');//
      Route::match(['get','post'],'anc_dent_send16',[App\Http\Controllers\AncController::class, 'anc_dent_send16'])->name('claim.anc_dent_send16');//
