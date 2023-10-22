@@ -109,7 +109,7 @@
     $newweek = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
     $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
     ?>
- <div class="container-fluid">
+ <div class="tabs-animation">
 
     <div id="preloader">
         <div id="status">
@@ -167,7 +167,7 @@
                         </div>
 
                         <div class="col-md-1">
-                            <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                                 ค้นหา
                             </button>

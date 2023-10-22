@@ -243,7 +243,13 @@
            display:none;
            }
 </style>
-    <div class="container-fluid">
+<div class="tabs-animation">
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+            </div>
+        </div>
+    </div>
         <div class="row ">
             <div class="col-md-12">
                 <div class="main-card mb-3 card shadow">

@@ -53,7 +53,7 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('person/person_index') }}" target="_blank">   <h5 class="text-start mb-2">บุคคลากร</h5>   </a>
+                                                <a href="{{ url('person/person_index') }}" target="_blank">   <h5 class="text-start mb-2">PERSONNEL</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('person/person_index') }}" target="_blank"> 
@@ -69,32 +69,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2"> 
-                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('time_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">ระบบลงเวลา</h5>         </a>
-                                            </div>
-                                            <div class="avatar ms-2">
-                                                <a href="{{ url('time_dashboard') }}" target="_blank"> 
-                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-
-                                                                <i class="fa-regular fa-3x fa-clock font-size-25 " style="color: rgb(119, 218, 215)"></i>
-                                                            </button> 
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
             <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(199, 181, 240)">
                     <div class="grid-menu-col">
@@ -104,12 +79,13 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('otone') }}" target="_blank"> <h5 class="text-start mb-2">โอที</h5>      </a>
+                                                <a href="{{ url('otone') }}" target="_blank"> <h5 class="text-start mb-2">OT</h5>      </a>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('otone') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                                <i class="fa-solid fa-3x fa-people-line font-size-25" style="color: rgb(171, 149, 223)"></i>
+                                                                {{-- <i class="fa-solid fa-3x fa-people-line font-size-25" style="color: rgb(171, 149, 223)"></i> --}}
+                                                                <i class="fa-solid fa-3x fa-clock-rotate-left font-size-25" style="color: rgb(171, 149, 223)"></i>
                                                             </button> 
                                                 </a>
                                             </div>
@@ -120,31 +96,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgba(255, 255, 255, 0.452)"> 
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <h5 class="text-start mb-2">ระบบการลา</h5>
-                                            </div>
-                                            <div class="avatar ms-2">
-                                                <a>  
-                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                                 <i class="fa-solid fa-3x fa-hospital-user font-size-25" style="color: rgba(240, 161, 204, 0.945)"></i>
-                                                            </button> 
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      
             <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(245, 176, 250)">
                     <div class="grid-menu-col">
@@ -154,7 +106,7 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <h5 class="text-start mb-2">สารบรรณ</h5>
+                                                <h5 class="text-start mb-2">DOCUMENT</h5>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a > 
@@ -179,13 +131,19 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <h5 class="text-start mb-2">ยานพาหนะ</h5>    
+                                                <h5 class="text-start mb-2"> VEHICLE</h5>    
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar ">
+                           
+                           
                                                 <a > 
-                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                                <i class="fa-solid fa-3x fa-truck-medical font-size-25" style="color: rgb(152, 239, 248)"></i>
-                                                            </button> 
+                                                    {{-- <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <i class="fa-solid fa-3x fa-book-open-reader font-size-25" style="color: rgb(194, 137, 199)"></i>
+                                                    </button>  --}}
+                                                        <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                            
+                                                            <i class="fa-solid fa-3x fa-car-side font-size-25" style="color: rgb(152, 239, 248)"></i>
+                                                        </button> 
                                                 </a>
                                             </div>
                                         </div>
@@ -208,7 +166,7 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('plan') }}" target="_blank"><h5 class="text-start mb-2">แผนงาน</h5>     </a>
+                                                <a href="{{ url('plan') }}" target="_blank"><h5 class="text-start mb-2">PLAN</h5>     </a>
                                             </div>
                                             <div class="avatar ms-2"> 
                                                     <a href="{{ url('plan') }}" target="_blank"> 
@@ -233,7 +191,7 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('article/article_index') }}" target="_blank"> <h5 class="text-start mb-2">ทรัพย์สิน</h5>    </a>
+                                                <a href="{{ url('article/article_index') }}" target="_blank"> <h5 class="text-start mb-2">ASSET</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('article/article_index') }}" target="_blank"> 
@@ -258,12 +216,12 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('supplies/supplies_index') }}" target="_blank">  <h5 class="text-start mb-2">พัสดุ</h5>    </a>
+                                                <a href="{{ url('supplies/supplies_index') }}" target="_blank">  <h5 class="text-start mb-2">SUPPLIES</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('supplies/supplies_index') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                                 <i class="fa-solid fa-3x fa-paste font-size-25 " style="color: rgb(252, 212, 138)"></i>
+                                                                 <i class="fa-solid fa-3x fa-paste font-size-25 ms-2" style="color: rgb(252, 212, 138)"></i>
                                                             </button> 
                                                 </a>
                                             </div>
@@ -283,12 +241,12 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('computer/com_staff_calenda') }}" target="_blank"><h5 class="text-start mb-2">คอมพิวเตอร์</h5>    </a>
+                                                <a href="{{ url('computer/com_staff_calenda') }}" target="_blank"><h5 class="text-start mb-2">COMPUTER</h5>    </a>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('computer/com_staff_calenda') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                                <i class="fa-solid fa-3x fa-computer font-size-25" style="color: rgb(143, 145, 144)"></i>
+                                                                <i class="fa-solid fa-3x fa-computer font-size-25 " style="color: rgb(143, 145, 144)"></i>
                                                             </button> 
                                                 </a>
                                             </div>
@@ -308,7 +266,7 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('medical/med_calenda') }}" target="_blank"> <h6 class="text-start mb-2">เครื่องมือแพทย์</h6>        </a>
+                                                <a href="{{ url('medical/med_calenda') }}" target="_blank"> <h5 class="text-start mb-2">MEDICAL</h5> </a>
                                             </div>
                                             <div class="avatar">
                                                 <a href="{{ url('medical/med_calenda') }}" target="_blank"> 
@@ -333,7 +291,7 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('repaire_narmal') }}" target="_blank"> <h5 class="text-start mb-2">ซ่อมบำรุง</h5>      </a>
+                                                <a href="{{ url('repaire_narmal') }}" target="_blank"> <h5 class="text-start mb-2">MAINTAIN</h5>      </a>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('repaire_narmal') }}" target="_blank"> 
@@ -362,9 +320,9 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> <h5 class="text-start mb-2">คลังวัสดุ</h5>   </a>
+                                                <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> <h5 class="text-start mb-2">WAREHOUSE</h5>   </a>
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar">
                                                 <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                                 <i class="fa-solid fa-3x fa-warehouse font-size-25" style="color: rgb(107, 189, 202)"></i>
@@ -378,31 +336,7 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 178, 250)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">ห้องประชุม</h5>      </a>
-                                            </div>
-                                            <div class="avatar ms-2">
-                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank"> 
-                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                                 <i class="fa-solid fa-3x fa-house-laptop font-size-25" style="color: rgb(184, 147, 226)"></i>
-                                                            </button> 
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
 
             <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(141, 185, 218)">
@@ -413,9 +347,9 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('housing/housing_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">บ้านพัก</h5>    </a>
+                                                <a href="{{ url('housing/housing_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">HOUSE</h5>    </a>
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar">
                                                 <a href="{{ url('housing/housing_dashboard') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                                 <i class="fa-solid fa-3x fa-house-chimney-user font-size-25" style="color: rgb(103, 153, 192)"></i>
@@ -489,31 +423,7 @@ $pos = strrpos($url, '/') + 1;
                 </div>
             </div> --}}
 
-            <div class="col-xl-2 col-md-2">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 198, 176)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('pkclaim_info') }}" target="_blank"> <h5 class="text-start mb-2">งานประกัน</h5>     </a>
-                                            </div>
-                                            <div class="avatar ms-2">
-                                                <a href="{{ url('pkclaim_info') }}" target="_blank"> 
-                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                                 <i class="fa-solid fa-3x fa-sack-dollar font-size-25" style="color: rgb(245, 180, 150)"></i>
-                                                            </button> 
-                                                </a>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+         
             <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
                     <div class="grid-menu-col">
@@ -523,9 +433,9 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('account_info') }}" target="_blank"> <h5 class="text-start mb-2">การเงิน</h5>      </a>
+                                                <a href="{{ url('account_info') }}" target="_blank"> <h5 class="text-start mb-2">FINANCE</h5>      </a>
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar">
                                                 <a href="{{ url('account_info') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                                 <i class="fa-solid fa-3x fa-money-check-dollar font-size-25" style="color: rgb(223, 136, 173)"></i>
@@ -548,9 +458,9 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('account_pk_dash') }}" target="_blank"> <h5 class="text-start mb-2">การบัญชี</h5>    </a>
+                                                <a href="{{ url('account_pk_dash') }}" target="_blank"> <h5 class="text-start mb-2">ACCOUNTING</h5>    </a>
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar">
                                                 <a href="{{ url('account_pk_dash') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                                 <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-25" style="color: rgb(237, 199, 247, 0.781)"></i>
@@ -581,7 +491,7 @@ $pos = strrpos($url, '/') + 1;
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('p4p') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill" >
-                                                                <i class="fa-solid fa-p fa-3x text-danger font-size-25"></i> 
+                                                                <i class="fa-solid fa-p fa-3x text-danger font-size-25 ms-3"></i> 
                                                             </button> 
                                                 </a>
                                             </div>
@@ -603,7 +513,7 @@ $pos = strrpos($url, '/') + 1;
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
                                                 <a href="{{ url('audiovisual_admin') }}" target="_blank"><h5 class="text-start mb-2">งานโสต</h5>   </a>
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar">
                                                 <a href="{{ url('audiovisual_admin') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                                 <i class="fa-solid fa-3x fa-camera-retro font-size-25" style="color: rgb(123, 146, 250)"></i>
@@ -629,7 +539,7 @@ $pos = strrpos($url, '/') + 1;
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
                                                 <a href="{{ url('env_dashboard') }}" target="_blank"><h5 class="text-start mb-2">ENV</h5>   </a>
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar ">
                                                 <a href="{{ url('env_dashboard') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                                 <i class="fa-solid fa-3x fa-hand-holding-droplet font-size-25" style="color: rgb(90, 197, 215)"></i>
@@ -655,7 +565,7 @@ $pos = strrpos($url, '/') + 1;
                                                 <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
                                                 <a href="{{ url('dental') }}" target="_blank"> <h5 class="text-start mb-2">DENTAL</h5>   </a>
                                             </div>
-                                            <div class="avatar ms-2">
+                                            <div class="avatar">
                                                 <a href="{{ url('dental') }}" target="_blank"> 
                                                             <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                                 <i class="fa-solid fa-3x fa-tooth font-size-25" style="color: rgb(241, 188, 90)"></i>
@@ -726,6 +636,114 @@ $pos = strrpos($url, '/') + 1;
                 </div>
             </div>
           
+            {{-- big --}}
+            <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 178, 250)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">MEETING-ROOM</h5>      </a>
+                                            </div>
+                                            <div class="avatar">
+                                                <a href="{{ url('meetting/meettingroom_dashboard') }}" target="_blank"> 
+                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                                 <i class="fa-solid fa-3x fa-house-laptop font-size-25" style="color: rgb(184, 147, 226)"></i>
+                                                            </button> 
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-md-2"> 
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                <a href="{{ url('time_dashboard') }}" target="_blank"> <h5 class="text-start mb-2">TIME SYSTEM</h5>         </a>
+                                            </div>
+                                            <div class="avatar ms-2">
+                                                <a href="{{ url('time_dashboard') }}" target="_blank"> 
+                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+
+                                                                <i class="fa-solid fa-3x fa-clock font-size-25 ms-2" style="color: rgb(119, 218, 215)"></i>
+                                                            </button> 
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 198, 176)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                                <a href="{{ url('pkclaim_info') }}" target="_blank"> <h5 class="text-start mb-2">CLAIM CENTER</h5>     </a>
+                                            </div>
+                                            <div class="avatar">
+                                                <a href="{{ url('pkclaim_info') }}" target="_blank"> 
+                                                            <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                                 <i class="fa-solid fa-3x fa-sack-dollar font-size-25 ms-2" style="color: rgb(245, 180, 150)"></i>
+                                                            </button> 
+                                                </a>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-md-2"> 
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgba(255, 255, 255, 0.452)"> 
+                <div class="grid-menu-col">
+                    <div class="g-0 row">
+                        <div class="col-sm-12">
+                            <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="" target="_blank"> <h5 class="text-start mb-2">LEAVE SYSTEM</h5>         </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a > 
+                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-hospital-user font-size-25" style="color: rgba(240, 161, 204, 0.945)"></i>
+                                               </button> 
+                                            </a>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 
+            
+
+
+        </div>
 
         </div>
 

@@ -61,7 +61,54 @@ $pos = strrpos($url, '/') + 1;
 ?>
 
 <style>
-    @media (min-width: 950px) {
+    #button {
+        display: block;
+        margin: 20px auto;
+        padding: 30px 30px;
+        background-color: #eee;
+        border: solid #ccc 1px;
+        cursor: pointer;
+    }
+
+    #overlay {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .cv-spinner {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .spinner {
+        width: 250px;
+        height: 250px;
+        border: 10px #ddd solid;
+        border-top: 10px #d22cf3 solid;
+        border-radius: 50%;
+        animation: sp-anime 0.8s infinite linear;
+    }
+
+    @keyframes sp-anime {
+        100% {
+            transform: rotate(390deg);
+        }
+    }
+
+    .is-hide {
+        display: none;
+    }
+</style>
+
+<style>
+    /* @media (min-width: 950px) {
         .modal {
             --bs-modal-width: 950px;
         }
@@ -117,9 +164,15 @@ $pos = strrpos($url, '/') + 1;
     .hrow {
         height: 2px;
         margin-bottom: 9px;
-    }
+    } */
 </style>
-<div class="container-fluid">
+<div class="tabs-animation">
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+            </div>
+        </div>
+    </div>
         <div class="row ">
             <div class="col-md-12">
                 <div class="card shadow"> 
@@ -171,7 +224,7 @@ $pos = strrpos($url, '/') + 1;
                                     @foreach ($users as $mem)
                                         <tr id="sid{{ $mem->id }}">
                                             <td class="text-center" width="5%">{{ $i++ }}</td>
-                                            <td class="p-2" width="13%">{{ $mem->fname }} {{ $mem->lname }}</td>
+                                            <td class="p-2" width="13%">{{ $mem->prefix_name }}{{ $mem->fname }} {{ $mem->lname }}</td>
                                             <td class="p-2" width="15%">{{ $mem->POSITION_NAME }}</td>
                                             <td class="p-2" width="20%">{{$mem->DEPARTMENT_NAME}}</td>
                                             <td class="p-2">{{$mem->DEPARTMENT_SUB_NAME}}</td>

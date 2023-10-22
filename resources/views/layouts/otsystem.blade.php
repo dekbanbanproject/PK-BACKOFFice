@@ -48,21 +48,33 @@
    <!-- select2 -->
     <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ 
    <link rel="stylesheet"
-   href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-<!-- Plugins css -->
-{{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+        href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('disacc/vendors/linearicons-master/dist/web-font/style.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+    <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
 </head>
   <style>
      body{   
-        background:
+        background-color: rgb(245, 240, 240);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        /* background-size: cover; */
+        background-size: 100% 100%;
+        /* background:
             url(/pkbackoffice/public/images/bg7.png);
             /* url(/pkbackoffice/public/images/bg5.jpg); */
             /* -webkit-background-size: cover; */
-        background-repeat: no-repeat;
-		background-attachment: fixed;
+        /* background-repeat: no-repeat; */
+		/* background-attachment: fixed; */
 		/* background-size: cover; */
-        background-size: 100% 100%;
+        /* background-size: 100% 100%; */ */
         /* display: flex; */
         /* align-items: center; */
         /* justify-content: center; */
@@ -81,12 +93,12 @@
     <div id="layout-wrapper">
 
         <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)">
-              
+            {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
+                <div class="navbar-header shadow" style="background-color: rgba(199, 181, 240)">
 
                 <div class="d-flex">
                     <!-- LOGO -->
-                    <div class="navbar-brand-box">
+                    <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
@@ -97,42 +109,75 @@
                         </a>
 
                         <a href="" class="logo logo-light">
-                            <span class="logo-sm"> 
-                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40">
+                            <span class="logo-sm">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
+                                    height="40">
                             </span>
                             <span class="logo-lg">
-                                <h5 style="color:rgb(54, 53, 53)" class="mt-4">PK-BACKOFFice</h5> 
+                                <h4 style="color:rgba(199, 181, 240, 0.781)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        id="vertical-menu-btn">
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                     </button>
-                    <?php  
-                        $org = DB::connection('mysql')->select(                                                            '   
-                                select * from orginfo 
-                                where orginfo_id = 1                                                                                                                      ',
-                        ); 
+                    <a href="{{url('otone')}}">
+                        <h4 style="color:rgb(255, 255, 255)" class="mt-4">OT</h4>
+                    </a>
+                   
+                    <?php
+                    $org = DB::connection('mysql')->select('   
+                                                    select * from orginfo 
+                                                    where orginfo_id = 1                                                                                                                      ');
                     ?>
-                    <form class="app-search d-none d-lg-block">
+                    {{-- <form class="app-search d-none d-lg-block">
                         <div class="position-relative">
                             @foreach ($org as $item)
-                            <h4 style="color:rgb(48, 46, 46)" class="mt-2">{{$item->orginfo_name}}</h4>
+                            <h4 style="color:rgb(255, 255, 255)" class="mt-2">{{$item->orginfo_name}}</h4>
                             @endforeach
                             
                         </div>
-                    </form>                                         
+                    </form>                                          --}}
                 </div>
- 
+
                 <div class="d-flex">
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line" style="color: rgb(54, 53, 53)"></i>
                         </button>
                     </div>
- 
- 
+                    <div class="dropdown d-inline-block user-dropdown">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @if (Auth::user()->img == null)
+                                <img src="{{ asset('assets/images/default-image.jpg') }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @else
+                                <img src="{{ asset('storage/person/' . Auth::user()->img) }}" height="32px"
+                                    width="32px" alt="Header Avatar" class="rounded-circle header-profile-user">
+                            @endif
+                            <span class="d-none d-xl-inline-block ms-1" style="font-size: 12px;color:black">
+                                {{ Auth::user()->fname }} {{ Auth::user()->lname }}
+                            </span>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item" href="{{ url('profile_edit/' . Auth::user()->id) }}"
+                                style="font-size: 12px"><i class="ri-user-line align-middle me-1"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="{{ route('logout') }}" {{-- class="text-reset notification-item" --}}
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="ri-shut-down-line align-middle me-1 text-danger"></i>
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
@@ -144,7 +189,7 @@
         </style> --}}
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu Bgsidebar" >
+        <div class="vertical-menu " >
 
             <div data-simplebar class="h-100">
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
@@ -185,7 +230,7 @@
         <!-- ============================================================== -->
         <div class="main-content">
 
-            <div class="page-content">
+            <div class="page-content Backgroupbody">
 
                 @yield('content')
 
@@ -282,7 +327,7 @@
 
     <!-- App js -->
     <script src="{{ asset('pkclaim/js/app.js') }}"></script>
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
     @yield('footer')
 
     

@@ -71,9 +71,10 @@ public function person_index(Request $request)
 {   
     $store_id = Auth::user()->store_id;
     $data['q'] = $request->query('q');
-    $query = User::select('users.id','users.fname','users.lname','users.position_name','users.dep_name','store_id',
+    $query = User::select('users.id','users_prefix.prefix_name','users.fname','users.lname','users.position_name','users.dep_name','store_id',
     'users.dep_subname','users.dep_subsubname','users.type','position.POSITION_NAME','department.DEPARTMENT_NAME',
     'department_sub.DEPARTMENT_SUB_NAME','department_sub_sub.DEPARTMENT_SUB_SUB_NAME')
+    ->leftJoin('users_prefix', 'users_prefix.prefix_id', '=', 'users.pname')
     ->leftJoin('position', 'position.POSITION_ID', '=', 'users.position_id')
     ->leftJoin('department', 'department.DEPARTMENT_ID', '=', 'users.dep_id')
     ->leftJoin('department_sub', 'department_sub.DEPARTMENT_SUB_ID', '=', 'users.dep_subid')
