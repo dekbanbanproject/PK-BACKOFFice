@@ -75,11 +75,11 @@ if (Auth::check()) {
             <div class="col-xl-12">
                 <div class="card">   
                     <div class="card-header ">
-                        ข้อมูลแผนงานโครงการ
+                        ทะเบียนควบคุมแผนงานโครงการ
                         <div class="btn-actions-pane-right">
-                            <a href="{{ url('plan_project_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info"  > 
+                            <a href="{{ url('plan_control_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info"  > 
                                 <i class="fa-solid fa-folder-plus text-info me-2"></i>
-                                เขียนโครงการ
+                                เพิ่มทะเบียน
                                 </a> 
                         </div> 
                        

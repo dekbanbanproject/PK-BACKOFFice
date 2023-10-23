@@ -92,8 +92,8 @@ $refnumber = SoteController::refnumber();
 
         </div>
 
-        <form action="{{ route('user.audiovisual_work_save') }}" method="POST">
-            @csrf          
+        {{-- <form action="{{ route('user.audiovisual_work_save') }}" method="POST">
+            @csrf           --}}
                 <div class="row mt-2">
                     <div class="col"></div>
                     <div class="col-md-8">
@@ -219,7 +219,7 @@ $refnumber = SoteController::refnumber();
                     <div class="col"></div>
                 </div>
 
-        </form>
+        {{-- </form> --}}
     </div>
     
 @endsection

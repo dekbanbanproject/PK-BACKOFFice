@@ -46,8 +46,42 @@ class PlanController extends Controller
         return view('plan.plan_project_add', $data);
     }
 
+    public function plan_control(Request $request)
+    {
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
 
+        return view('plan.plan_control', $data);
+    }
+    public function plan_control_add(Request $request)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
 
+        return view('plan.plan_control_add', $data);
+    }
+    public static function refnumber()
+    {
+        $year = date('Y');
+        $maxnumber = DB::table('plan_control')->max('plan_control_id');
+        if ($maxnumber != '' ||  $maxnumber != null) {
+            $refmax = DB::table('plan_control')->where('plan_control_id', '=', $maxnumber)->first();
+            if ($refmax->billno != '' ||  $refmax->billno != null) {
+                $maxref = substr($refmax->billno, -4) + 1;
+            } else {
+                $maxref = 1;
+            }
+            $ref = str_pad($maxref, 5, "0", STR_PAD_LEFT);
+        } else {
+            $ref = '00001';
+        }
+        $ye = date('Y') + 543;
+        $y = substr($ye, -2);
+        $refnumber = 'PL' . '-' . $ref;
+        return $refnumber;
+    }
 
     public function plan_development(Request $request)
     {

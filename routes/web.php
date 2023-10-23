@@ -2129,6 +2129,8 @@ Route::middleware(['type'])->group(function(){
   Route::match(['get','post'],'plan_project',[App\Http\Controllers\PlanController::class, 'plan_project'])->name('p.plan_project');// แผนโครงการ
   Route::match(['get','post'],'plan_project_add',[App\Http\Controllers\PlanController::class, 'plan_project_add'])->name('p.plan_project_add');// แผนโครงการ
 
+  Route::match(['get','post'],'plan_control',[App\Http\Controllers\PlanController::class, 'plan_control'])->name('p.plan_control');//
+  Route::match(['get','post'],'plan_control_add',[App\Http\Controllers\PlanController::class, 'plan_control_add'])->name('p.plan_control_add');//
 
   Route::match(['get','post'],'plan_development',[App\Http\Controllers\PlanController::class, 'plan_development'])->name('p.plan_development');// แผนพัฒนาบุคลากร
   Route::match(['get','post'],'plan_procurement',[App\Http\Controllers\PlanController::class, 'plan_procurement'])->name('p.plan_procurement');// แผนจัดซื้อครุภัณฑ์
