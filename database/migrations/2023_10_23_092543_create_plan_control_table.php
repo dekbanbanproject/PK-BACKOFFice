@@ -26,6 +26,7 @@ return new class extends Migration
                 $table->date('plan_endtime')->nullable();//       ระยะเวลา  
                 $table->string('plan_reqtotal')->nullable();//   รวมเบิก
                 $table->string('department')->nullable();//              กลุ่มงาน
+                $table->string('user_id')->nullable();//         ผู้รับผิดชอบ
                 $table->string('comment')->nullable();//                 หมายเหตุ
                 $table->enum('status', ['REQUEST','ACCEPT','INPROGRESS','VERIFY','FINISH','CANCEL','CONFIRM_CANCEL'])->default('REQUEST')->nullable();
                 $table->timestamps();

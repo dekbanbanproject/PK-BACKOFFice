@@ -15,6 +15,8 @@ use App\Models\Plan_strategic;
 use App\Models\Plan_taget;
 use App\Models\Plan_kpi;
 use App\Models\Department_sub_sub;
+use App\Models\Plan_control_type;
+use App\Models\Plan_control;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -48,9 +50,14 @@ class PlanController extends Controller
 
     public function plan_control(Request $request)
     {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
-
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_control_type'] = Plan_control_type::get();
+        $data['plan_control'] = Plan_control::get();
+        
         return view('plan.plan_control', $data);
     }
     public function plan_control_add(Request $request)
@@ -82,6 +89,25 @@ class PlanController extends Controller
         $refnumber = 'PL' . '-' . $ref;
         return $refnumber;
     }
+    public function plan_control_save(Request $request)
+    {
+        $add = new Plan_control();
+        $add->billno            = $request->input('billno');
+        $add->plan_name         = $request->input('plan_name');
+        $add->plan_starttime    = $request->input('datepicker1');
+        $add->plan_endtime      = $request->input('datepicker2');
+        $add->plan_price        = $request->input('plan_price');
+        $add->department        = $request->input('department');
+        $add->plan_type         = $request->input('plan_type');
+        $add->user_id           = $request->input('user_id'); 
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+
+
 
     public function plan_development(Request $request)
     {
