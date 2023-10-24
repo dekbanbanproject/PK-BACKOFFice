@@ -170,38 +170,39 @@ class PPfs30011Controller extends Controller
                     }
                        
                    
-                    $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','PPFS_ANC')->count();
-                    if ($check > 0) {
-                        # code...
-                    } else {
-                        D_claim::insert([
-                            'vn'                => $value->vn,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an,
-                            'cid'               => $value->cid,
-                            'pttype'            => $value->pttype,
-                            'ptname'            => $value->ptname,
-                            'vstdate'           => $value->vstdate,
-                            'hipdata_code'      => $value->hipdata_code,
-                            // 'qty'               => $value->qty,
-                            // 'sum_price'         => $value->sum_price,
-                            'type'              => 'ANC',
-                            'nhso_adp_code'     => 'PPFS_ANC',
-                            'claimdate'         => $date, 
-                            'userid'            => $iduser, 
-                        ]);
-                    }  
+                    // $check = D_claim::where('vn',$value->vn)->where('nhso_adp_code','30011')->count();
+                    // if ($check > 0) { 
+                    // } else {
+                    //     D_claim::insert([
+                    //         'vn'                => $value->vn,
+                    //         'hn'                => $value->hn,
+                    //         'an'                => $value->an,
+                    //         'cid'               => $value->cid,
+                    //         'pttype'            => $value->pttype,
+                    //         'ptname'            => $value->ptname,
+                    //         'vstdate'           => $value->vstdate,
+                    //         'hipdata_code'      => $value->hipdata_code, 
+                    //         'type'              => 'ANC',
+                    //         'nhso_adp_code'     => '30011',
+                    //         'claimdate'         => $date, 
+                    //         'userid'            => $iduser, 
+                    //     ]);
+                    // }  
 
                     $data_30010 = DB::connection('mysql10')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
+                            SELECT s.vn,oc.hn,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,t.hipdata_code,v.vstdate,v.pttype,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
                             ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
                             FROM person_anc_service s  
                             LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
+                            LEFT OUTER JOIN vn_stat v ON v.vn = s.vn
+                            LEFT OUTER JOIN pttype t on t.pttype = v.pttype
+                            LEFT OUTER JOIN patient p on p.hn=v.hn 
                             JOIN opitemrece oc on oc.vn=s.vn 
                             JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30010") 
                             WHERE s.vn IN("'.$value->vn.'")
                     ');  
                     foreach ($data_30010 as $key => $value2) {
+                       
                         D_30010::insert([
                             'vn'                 => $value2->vn,
                             'hn'                 => $value2->hn, 
@@ -210,18 +211,44 @@ class PPfs30011Controller extends Controller
                             'lmp'                => $value2->lmp,
                             'labor_date'         => $value2->labor_date,  
                         ]); 
+                        $check10 = D_claim::where('vn',$value2->vn)->where('nhso_adp_code','30010')->count();
+                        if ($check10 > 0) { 
+                        } else {
+                            D_claim::insert([
+                                'vn'                => $value2->vn,
+                                'hn'                => $value2->hn, 
+                                'cid'               => $value2->cid,
+                                'pttype'            => $value2->pttype,
+                                'ptname'            => $value2->ptname,
+                                'vstdate'           => $value2->vstdate,
+                                'hipdata_code'      => $value2->hipdata_code, 
+                                'qty'               => '1',
+                                'sum_price'         => '400',
+                                'type'              => 'ANC',
+                                'nhso_adp_code'     => '30010',
+                                'claimdate'         => $date, 
+                                'userid'            => $iduser, 
+                            ]);
+                        }
+                        
+
+                       
                     }
                     
                     $data_30011 = DB::connection('mysql10')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
-                            ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
-                            FROM person_anc_service s  
-                            LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
-                            JOIN opitemrece oc on oc.vn=s.vn 
-                            JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30011") 
+                        SELECT s.vn,oc.hn,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,t.hipdata_code,v.vstdate,v.pttype,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
+                        ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
+                        FROM person_anc_service s  
+                        LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
+                        LEFT OUTER JOIN vn_stat v ON v.vn = s.vn
+                        LEFT OUTER JOIN pttype t on t.pttype = v.pttype
+                        LEFT OUTER JOIN patient p on p.hn=v.hn 
+                        JOIN opitemrece oc on oc.vn=s.vn 
+                        JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30011") 
                             WHERE s.vn IN("'.$value->vn.'")
                     ');  
                     foreach ($data_30011 as $key => $value3) {
+                       
                         D_30011::insert([
                             'vn'                 => $value3->vn,
                             'hn'                 => $value3->hn, 
@@ -230,13 +257,35 @@ class PPfs30011Controller extends Controller
                             'lmp'                => $value3->lmp,
                             'labor_date'         => $value3->labor_date,   
                         ]); 
+                        $check11 = D_claim::where('vn',$value3->vn)->where('nhso_adp_code','30011')->count();
+                        if ($check11 > 0) { 
+                        } else {
+                            D_claim::insert([
+                                'vn'                => $value3->vn,
+                                'hn'                => $value3->hn, 
+                                'cid'               => $value3->cid,
+                                'pttype'            => $value3->pttype,
+                                'ptname'            => $value3->ptname,
+                                'vstdate'           => $value3->vstdate,
+                                'hipdata_code'      => $value3->hipdata_code, 
+                                'qty'               => '1',
+                                'sum_price'         => '360',
+                                'type'              => 'ANC',
+                                'nhso_adp_code'     => '30011',
+                                'claimdate'         => $date, 
+                                'userid'            => $iduser, 
+                            ]);
+                        }
                     }
                      
                     $data_30012 = DB::connection('mysql10')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
+                            SELECT s.vn,oc.hn,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,t.hipdata_code,v.vstdate,v.pttype,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
                             ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
                             FROM person_anc_service s  
                             LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
+                            LEFT OUTER JOIN vn_stat v ON v.vn = s.vn
+                            LEFT OUTER JOIN pttype t on t.pttype = v.pttype
+                            LEFT OUTER JOIN patient p on p.hn=v.hn 
                             JOIN opitemrece oc on oc.vn=s.vn 
                             JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30012") 
                             WHERE s.vn IN("'.$value->vn.'")
@@ -251,12 +300,34 @@ class PPfs30011Controller extends Controller
                             'labor_date'         => $value4->labor_date,  
                             'anc_service_date'   => $value4->anc_service_date 
                         ]); 
+                        $check12 = D_claim::where('vn',$value4->vn)->where('nhso_adp_code','30012')->count();
+                        if ($check12 > 0) { 
+                        } else {
+                            D_claim::insert([
+                                'vn'                => $value4->vn,
+                                'hn'                => $value4->hn, 
+                                'cid'               => $value4->cid,
+                                'pttype'            => $value4->pttype,
+                                'ptname'            => $value4->ptname,
+                                'vstdate'           => $value4->vstdate,
+                                'hipdata_code'      => $value4->hipdata_code, 
+                                'qty'               => '1',
+                                'sum_price'         => '600',
+                                'type'              => 'ANC',
+                                'nhso_adp_code'     => '30012',
+                                'claimdate'         => $date, 
+                                'userid'            => $iduser, 
+                            ]);
+                        }
                     }
                     $data_30013 = DB::connection('mysql10')->select(' 
-                            SELECT s.vn,oc.hn,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
+                            SELECT s.vn,oc.hn,v.cid,CONCAT(p.pname,p.fname," ",p.lname) ptname,t.hipdata_code,v.vstdate,v.pttype,pa.preg_no, if(pa.labor_status_id<>1,round((datediff(pa.labor_date,lmp)/7),0),round((datediff(CURDATE(),lmp)/7),0)) as gaNOW
                             ,pa.lmp,pa.edc,pa.labor_date,s.anc_service_date,DATE_ADD(pa.lmp, INTERVAL 168 DAY) lastdate 
                             FROM person_anc_service s  
                             LEFT OUTER JOIN person_anc pa on pa.person_anc_id=s.person_anc_id
+                            LEFT OUTER JOIN vn_stat v ON v.vn = s.vn
+                            LEFT OUTER JOIN pttype t on t.pttype = v.pttype
+                            LEFT OUTER JOIN patient p on p.hn=v.hn 
                             JOIN opitemrece oc on oc.vn=s.vn 
                             JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30013") 
                             WHERE s.vn IN("'.$value->vn.'")
@@ -271,6 +342,25 @@ class PPfs30011Controller extends Controller
                             'labor_date'         => $value5->labor_date,  
                             'anc_service_date'   => $value5->anc_service_date 
                         ]); 
+                        $check13 = D_claim::where('vn',$value5->vn)->where('nhso_adp_code','30013')->count();
+                        if ($check13 > 0) { 
+                        } else {
+                            D_claim::insert([
+                                'vn'                => $value5->vn,
+                                'hn'                => $value5->hn, 
+                                'cid'               => $value5->cid,
+                                'pttype'            => $value5->pttype,
+                                'ptname'            => $value5->ptname,
+                                'vstdate'           => $value5->vstdate,
+                                'hipdata_code'      => $value5->hipdata_code, 
+                                'qty'               => '1',
+                                'sum_price'         => '190',
+                                'type'              => 'ANC',
+                                'nhso_adp_code'     => '30013',
+                                'claimdate'         => $date, 
+                                'userid'            => $iduser, 
+                            ]);
+                        }
                     }
                     
                 } 
@@ -1007,6 +1097,7 @@ class PPfs30011Controller extends Controller
         
         $data_vn_10 = DB::connection('mysql')->select('SELECT vn from d_30010');
         foreach ($data_vn_10 as $key => $value_10) {
+
                 $data_30010_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
@@ -1030,40 +1121,47 @@ class PPfs30011Controller extends Controller
                         WHERE v.vn IN("'.$value_10->vn.'")  
                         GROUP BY v.vn  
                 '); 
+
                 foreach ($data_30010_ as $va30110) {
-                    D_adp::insert([
-                        'HN'                   => $va30110->HN,
-                        'AN'                   => $va30110->AN,
-                        'DATEOPD'              => $va30110->DATEOPD,
-                        'TYPE'                 => $va30110->TYPE,
-                        'CODE'                 => $va30110->CODE,
-                        'QTY'                  => $va30110->QTY,
-                        'RATE'                 => $va30110->RATE,
-                        'SEQ'                  => $va30110->SEQ,
-                        'CAGCODE'              => $va30110->CAGCODE,
-                        'DOSE'                 => $va30110->DOSE,
-                        'CA_TYPE'              => $va30110->CA_TYPE,
-                        'SERIALNO'             => $va30110->SERIALNO,
-                        'TOTCOPAY'             => $va30110->TOTCOPAY,
-                        'USE_STATUS'           => $va30110->USE_STATUS,
-                        'TOTAL'                => $va30110->TOTAL,
-                        'QTYDAY'               => $va30110->QTYDAY,
-                        'TMLTCODE'             => $va30110->TMLTCODE,
-                        'STATUS1'              => $va30110->STATUS1,
-                        'BI'                   => $va30110->BI,
-                        'CLINIC'               => $va30110->CLINIC,
-                        'ITEMSRC'              => $va30110->ITEMSRC,
-                        'PROVIDER'             => $va30110->PROVIDER,
-                        'GRAVIDA'              => $va30110->GRAVIDA,
-                        'GA_WEEK'              => $va30110->GA_WEEK,
-                        'DCIP'                 => $va30110->DCIP,
-                        'LMP'                  => $va30110->LMP,
-                        'SP_ITEM'              => $va30110->SP_ITEM,
-                        'icode'                => $va30110->icode,
-                        'vstdate'              => $va30110->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
-                    ]);
+                    $check_30010 = D_claim::where('vn',$va30110->vn)->where('nhso_adp_code','30010')->count();
+                    if ($check_30010 > 1) {
+                        # code...
+                    } else {
+                        D_adp::insert([
+                            'HN'                   => $va30110->HN,
+                            'AN'                   => $va30110->AN,
+                            'DATEOPD'              => $va30110->DATEOPD,
+                            'TYPE'                 => $va30110->TYPE,
+                            'CODE'                 => $va30110->CODE,
+                            'QTY'                  => $va30110->QTY,
+                            'RATE'                 => $va30110->RATE,
+                            'SEQ'                  => $va30110->SEQ,
+                            'CAGCODE'              => $va30110->CAGCODE,
+                            'DOSE'                 => $va30110->DOSE,
+                            'CA_TYPE'              => $va30110->CA_TYPE,
+                            'SERIALNO'             => $va30110->SERIALNO,
+                            'TOTCOPAY'             => $va30110->TOTCOPAY,
+                            'USE_STATUS'           => $va30110->USE_STATUS,
+                            'TOTAL'                => $va30110->TOTAL,
+                            'QTYDAY'               => $va30110->QTYDAY,
+                            'TMLTCODE'             => $va30110->TMLTCODE,
+                            'STATUS1'              => $va30110->STATUS1,
+                            'BI'                   => $va30110->BI,
+                            'CLINIC'               => $va30110->CLINIC,
+                            'ITEMSRC'              => $va30110->ITEMSRC,
+                            'PROVIDER'             => $va30110->PROVIDER,
+                            'GRAVIDA'              => $va30110->GRAVIDA,
+                            'GA_WEEK'              => $va30110->GA_WEEK,
+                            'DCIP'                 => $va30110->DCIP,
+                            'LMP'                  => $va30110->LMP,
+                            'SP_ITEM'              => $va30110->SP_ITEM,
+                            'icode'                => $va30110->icode,
+                            'vstdate'              => $va30110->vstdate,
+                            'user_id'              => $iduser,
+                            'd_anaconda_id'        => 'PPFS_ANC'
+                        ]);
+                    }
+                     
                 } 
         } 
 
@@ -1094,39 +1192,46 @@ class PPfs30011Controller extends Controller
                         GROUP BY v.vn  
                 '); 
                 foreach ($data_30012_ as $va30012) {
-                    D_adp::insert([
-                        'HN'                   => $va30012->HN,
-                        'AN'                   => $va30012->AN,
-                        'DATEOPD'              => $va30012->DATEOPD,
-                        'TYPE'                 => $va30012->TYPE,
-                        'CODE'                 => $va30012->CODE,
-                        'QTY'                  => $va30012->QTY,
-                        'RATE'                 => $va30012->RATE,
-                        'SEQ'                  => $va30012->SEQ,
-                        'CAGCODE'              => $va30012->CAGCODE,
-                        'DOSE'                 => $va30012->DOSE,
-                        'CA_TYPE'              => $va30012->CA_TYPE,
-                        'SERIALNO'             => $va30012->SERIALNO,
-                        'TOTCOPAY'             => $va30012->TOTCOPAY,
-                        'USE_STATUS'           => $va30012->USE_STATUS,
-                        'TOTAL'                => $va30012->TOTAL,
-                        'QTYDAY'               => $va30012->QTYDAY,
-                        'TMLTCODE'             => $va30012->TMLTCODE,
-                        'STATUS1'              => $va30012->STATUS1,
-                        'BI'                   => $va30012->BI,
-                        'CLINIC'               => $va30012->CLINIC,
-                        'ITEMSRC'              => $va30012->ITEMSRC,
-                        'PROVIDER'             => $va30012->PROVIDER,
-                        'GRAVIDA'              => $va30012->GRAVIDA,
-                        'GA_WEEK'              => $va30012->GA_WEEK,
-                        'DCIP'                 => $va30012->DCIP,
-                        'LMP'                  => $va30012->LMP,
-                        'SP_ITEM'              => $va30012->SP_ITEM,
-                        'icode'                => $va30012->icode,
-                        'vstdate'              => $va30012->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
-                    ]);
+                    $check_30012 = D_claim::where('vn',$va30012->vn)->where('nhso_adp_code','30012')->count();
+                    if ($check_30012 > 1) {
+                        # code...
+                    } else {
+                        D_adp::insert([
+                            'HN'                   => $va30012->HN,
+                            'AN'                   => $va30012->AN,
+                            'DATEOPD'              => $va30012->DATEOPD,
+                            'TYPE'                 => $va30012->TYPE,
+                            'CODE'                 => $va30012->CODE,
+                            'QTY'                  => $va30012->QTY,
+                            'RATE'                 => $va30012->RATE,
+                            'SEQ'                  => $va30012->SEQ,
+                            'CAGCODE'              => $va30012->CAGCODE,
+                            'DOSE'                 => $va30012->DOSE,
+                            'CA_TYPE'              => $va30012->CA_TYPE,
+                            'SERIALNO'             => $va30012->SERIALNO,
+                            'TOTCOPAY'             => $va30012->TOTCOPAY,
+                            'USE_STATUS'           => $va30012->USE_STATUS,
+                            'TOTAL'                => $va30012->TOTAL,
+                            'QTYDAY'               => $va30012->QTYDAY,
+                            'TMLTCODE'             => $va30012->TMLTCODE,
+                            'STATUS1'              => $va30012->STATUS1,
+                            'BI'                   => $va30012->BI,
+                            'CLINIC'               => $va30012->CLINIC,
+                            'ITEMSRC'              => $va30012->ITEMSRC,
+                            'PROVIDER'             => $va30012->PROVIDER,
+                            'GRAVIDA'              => $va30012->GRAVIDA,
+                            'GA_WEEK'              => $va30012->GA_WEEK,
+                            'DCIP'                 => $va30012->DCIP,
+                            'LMP'                  => $va30012->LMP,
+                            'SP_ITEM'              => $va30012->SP_ITEM,
+                            'icode'                => $va30012->icode,
+                            'vstdate'              => $va30012->vstdate,
+                            'user_id'              => $iduser,
+                            'd_anaconda_id'        => 'PPFS_ANC'
+                        ]);
+                    }
+                    
+                   
                 } 
         }
 
@@ -1157,39 +1262,46 @@ class PPfs30011Controller extends Controller
                 ');
                  
                 foreach ($data_30013_ as $va30113) {
-                    D_adp::insert([
-                        'HN'                   => $va30113->HN,
-                        'AN'                   => $va30113->AN,
-                        'DATEOPD'              => $va30113->DATEOPD,
-                        'TYPE'                 => $va30113->TYPE,
-                        'CODE'                 => $va30113->CODE,
-                        'QTY'                  => $va30113->QTY,
-                        'RATE'                 => $va30113->RATE,
-                        'SEQ'                  => $va30113->SEQ,
-                        'CAGCODE'              => $va30113->CAGCODE,
-                        'DOSE'                 => $va30113->DOSE,
-                        'CA_TYPE'              => $va30113->CA_TYPE,
-                        'SERIALNO'             => $va30113->SERIALNO,
-                        'TOTCOPAY'             => $va30113->TOTCOPAY,
-                        'USE_STATUS'           => $va30113->USE_STATUS,
-                        'TOTAL'                => $va30113->TOTAL,
-                        'QTYDAY'               => $va30113->QTYDAY,
-                        'TMLTCODE'             => $va30113->TMLTCODE,
-                        'STATUS1'              => $va30113->STATUS1,
-                        'BI'                   => $va30113->BI,
-                        'CLINIC'               => $va30113->CLINIC,
-                        'ITEMSRC'              => $va30113->ITEMSRC,
-                        'PROVIDER'             => $va30113->PROVIDER,
-                        'GRAVIDA'              => $va30113->GRAVIDA,
-                        'GA_WEEK'              => $va30113->GA_WEEK,
-                        'DCIP'                 => $va30113->DCIP,
-                        'LMP'                  => $va30113->LMP,
-                        'SP_ITEM'              => $va30113->SP_ITEM,
-                        'icode'                => $va30113->icode,
-                        'vstdate'              => $va30113->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
-                    ]);
+                    $check_30013 = D_claim::where('vn',$va30113->vn)->where('nhso_adp_code','30013')->count();
+                    if ($check_30013 > 1) {
+                        # code...
+                    } else {
+                        D_adp::insert([
+                            'HN'                   => $va30113->HN,
+                            'AN'                   => $va30113->AN,
+                            'DATEOPD'              => $va30113->DATEOPD,
+                            'TYPE'                 => $va30113->TYPE,
+                            'CODE'                 => $va30113->CODE,
+                            'QTY'                  => $va30113->QTY,
+                            'RATE'                 => $va30113->RATE,
+                            'SEQ'                  => $va30113->SEQ,
+                            'CAGCODE'              => $va30113->CAGCODE,
+                            'DOSE'                 => $va30113->DOSE,
+                            'CA_TYPE'              => $va30113->CA_TYPE,
+                            'SERIALNO'             => $va30113->SERIALNO,
+                            'TOTCOPAY'             => $va30113->TOTCOPAY,
+                            'USE_STATUS'           => $va30113->USE_STATUS,
+                            'TOTAL'                => $va30113->TOTAL,
+                            'QTYDAY'               => $va30113->QTYDAY,
+                            'TMLTCODE'             => $va30113->TMLTCODE,
+                            'STATUS1'              => $va30113->STATUS1,
+                            'BI'                   => $va30113->BI,
+                            'CLINIC'               => $va30113->CLINIC,
+                            'ITEMSRC'              => $va30113->ITEMSRC,
+                            'PROVIDER'             => $va30113->PROVIDER,
+                            'GRAVIDA'              => $va30113->GRAVIDA,
+                            'GA_WEEK'              => $va30113->GA_WEEK,
+                            'DCIP'                 => $va30113->DCIP,
+                            'LMP'                  => $va30113->LMP,
+                            'SP_ITEM'              => $va30113->SP_ITEM,
+                            'icode'                => $va30113->icode,
+                            'vstdate'              => $va30113->vstdate,
+                            'user_id'              => $iduser,
+                            'd_anaconda_id'        => 'PPFS_ANC'
+                        ]);
+                    }
+                    
+                   
                 } 
          }
          
