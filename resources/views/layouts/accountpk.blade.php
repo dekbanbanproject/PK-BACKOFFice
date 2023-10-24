@@ -557,6 +557,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                         <li><a href="{{ url('acc_106_dashboard') }}">dashboard</a> </li>
                                         <li><a href="{{ url('acc_106_pull') }}">ดึงลูกหนี้</a> </li>
                                         <li><a href="{{ url('acc_106_file') }}">แนบไฟล์</a> </li>
+                                        <li><a href="{{ url('acc_106_debt') }}">ทวงหนี้</a> </li>
                                     </ul>
                                 </li>
                                  <li><a href="javascript: void(0);" class="has-arrow">107-ลูกหนี้ค่ารักษา-ขำระเงิน IP</a>

@@ -100,10 +100,10 @@ class Account603Controller extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-
+        // dd($start );
         if ($startdate == '') {
             $datashow = DB::select('
                 SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -161,7 +161,7 @@ class Account603Controller extends Controller
             $acc_debtor = DB::select('
                 SELECT * from acc_debtor a
                 WHERE a.account_code="1102050102.603"
-                AND a.stamp = "N"
+                AND a.stamp = "N" AND a.an <> ""
                 group by a.an
                 order by a.vstdate asc
             ');
@@ -223,7 +223,8 @@ class Account603Controller extends Controller
         ');
         //   AND d.name NOT like "CT%"
         foreach ($acc_debtor as $key => $value) {
-            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.603')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.603')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.603')->count();
                     if ($check == 0) {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
@@ -478,6 +479,102 @@ class Account603Controller extends Controller
      
         return response()->json([
             'status'      => '200'
+        ]);
+    }
+    public function account_603_detail_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+        
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+            ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
+                from acc_1102050102_603 U1
+                
+                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY U1.an
+        ');
+       
+        return view('account_603.account_603_detail_date', $data, [ 
+            'data'             =>     $data,
+            'startdate'        =>     $startdate,
+            'enddate'          =>     $enddate
+        ]);
+    }
+    public function account_603_syncall_date(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $sync = DB::connection('mysql')->select(' 
+                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ac.dchdate 
+                FROM hos.an_stat a
+                LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
+                LEFT JOIN pkbackoffice.acc_1102050102_603 ac ON ac.an = a.an
+                WHERE a.dchdate BETWEEN "'.$startdate.'" 
+                AND "'.$enddate.'" 
+                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> "" AND ac.acc_1102050102_603_id <> ""
+                GROUP BY a.an
+                
+            ');
+            foreach ($sync as $key => $value) { 
+                     
+                    Acc_1102050102_603::where('an',$value->an) 
+                        ->update([ 
+                            'nhso_docno'           => $value->nhso_docno ,
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                    ]);
+            }
+            return response()->json([
+                'status'    => '200'
+            ]);
+        
+        
+    }
+    public function account_603_stm_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d'); 
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+                SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+                ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
+                    from acc_1102050102_603 U1
+                    
+                    WHERE U1.dchdate BETWEEN "'.$startdate.'"
+                    and  "'.$enddate.'"
+                    AND U1.recieve_true IS NOT NULL
+                    GROUP BY U1.an
+        ');
+        
+        return view('account_603.account_603_stm_date', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow, 
+
+        ]);
+    }
+    public function account_603_stmnull_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+     
+        $data['users'] = User::get();
+
+        $datashow = DB::select('
+                SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+                ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
+                    from acc_1102050102_603 U1
+                    
+                    WHERE U1.dchdate BETWEEN "'.$startdate.'"
+                    and "'.$enddate.'"
+                    AND U1.recieve_true IS NULL
+                    GROUP BY U1.an
+        ');
+       
+        return view('account_603.account_603_stmnull_date', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'datashow'          =>     $datashow, 
         ]);
     }
     // public function account_602_edit(Request $request, $id)

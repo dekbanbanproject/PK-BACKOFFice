@@ -357,6 +357,27 @@ class Account106Controller extends Controller
         return redirect()->route('acc.acc_106_file');
         // return response()->json(['status' => '200']);
     }
+
+
+    public function acc_106_debt(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $data['users'] = User::get();
+
+        $data = DB::select('
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+            from acc_1102050102_106 U1
+            WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+            GROUP BY U1.vn
+        ');
+
+        return view('account_106.acc_106_debt',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data,
+        ]);
+    }
     
  
 }

@@ -1048,7 +1048,7 @@ class PPfs30011Controller extends Controller
                         ,(SELECT preg_no from pkbackoffice.d_30011 where vn = v.vn ) GRAVIDA  
                         ,(SELECT gaNOW from pkbackoffice.d_30011 where vn = i.vn ) GA_WEEK 
                         ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30011 where vn = i.vn ) LMP 
+                        ,(SELECT DATE_FORMAT(lmp,"%Y%m%d") lmp from pkbackoffice.d_30011 where vn = i.vn ) LMP 
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
@@ -1057,37 +1057,37 @@ class PPfs30011Controller extends Controller
                         WHERE i.vn IN("'.$va1->vn.'")  
                         GROUP BY v.vn  
                 ');
-                foreach ($data_30011_ as $va10) {
+                foreach ($data_30011_ as $va_adp) {
                     D_adp::insert([
-                        'HN'                   => $va10->HN,
-                        'AN'                   => $va10->AN,
-                        'DATEOPD'              => $va10->DATEOPD,
-                        'TYPE'                 => $va10->TYPE,
-                        'CODE'                 => $va10->CODE,
-                        'QTY'                  => $va10->QTY,
-                        'RATE'                 => $va10->RATE,
-                        'SEQ'                  => $va10->SEQ,
-                        'CAGCODE'              => $va10->CAGCODE,
-                        'DOSE'                 => $va10->DOSE,
-                        'CA_TYPE'              => $va10->CA_TYPE,
-                        'SERIALNO'             => $va10->SERIALNO,
-                        'TOTCOPAY'             => $va10->TOTCOPAY,
-                        'USE_STATUS'           => $va10->USE_STATUS,
-                        'TOTAL'                => $va10->TOTAL,
-                        'QTYDAY'               => $va10->QTYDAY,
-                        'TMLTCODE'             => $va10->TMLTCODE,
-                        'STATUS1'              => $va10->STATUS1,
-                        'BI'                   => $va10->BI,
-                        'CLINIC'               => $va10->CLINIC,
-                        'ITEMSRC'              => $va10->ITEMSRC,
-                        'PROVIDER'             => $va10->PROVIDER,
-                        'GRAVIDA'              => $va10->GRAVIDA,
-                        'GA_WEEK'              => $va10->GA_WEEK,
-                        'DCIP'                 => $va10->DCIP,
-                        'LMP'                  => $va10->LMP,
-                        'SP_ITEM'              => $va10->SP_ITEM,
-                        'icode'                => $va10->icode,
-                        'vstdate'              => $va10->vstdate,
+                        'HN'                   => $va_adp->HN,
+                        'AN'                   => $va_adp->AN,
+                        'DATEOPD'              => $va_adp->DATEOPD,
+                        'TYPE'                 => $va_adp->TYPE,
+                        'CODE'                 => $va_adp->CODE,
+                        'QTY'                  => $va_adp->QTY,
+                        'RATE'                 => $va_adp->RATE,
+                        'SEQ'                  => $va_adp->SEQ,
+                        'CAGCODE'              => $va_adp->CAGCODE,
+                        'DOSE'                 => $va_adp->DOSE,
+                        'CA_TYPE'              => $va_adp->CA_TYPE,
+                        'SERIALNO'             => $va_adp->SERIALNO,
+                        'TOTCOPAY'             => $va_adp->TOTCOPAY,
+                        'USE_STATUS'           => $va_adp->USE_STATUS,
+                        'TOTAL'                => $va_adp->TOTAL,
+                        'QTYDAY'               => $va_adp->QTYDAY,
+                        'TMLTCODE'             => $va_adp->TMLTCODE,
+                        'STATUS1'              => $va_adp->STATUS1,
+                        'BI'                   => $va_adp->BI,
+                        'CLINIC'               => $va_adp->CLINIC,
+                        'ITEMSRC'              => $va_adp->ITEMSRC,
+                        'PROVIDER'             => $va_adp->PROVIDER,
+                        'GRAVIDA'              => $va_adp->GRAVIDA,
+                        'GA_WEEK'              => $va_adp->GA_WEEK,
+                        'DCIP'                 => $va_adp->DCIP,
+                        'LMP'                  => $va_adp->LMP,
+                        'SP_ITEM'              => $va_adp->SP_ITEM,
+                        'icode'                => $va_adp->icode,
+                        'vstdate'              => $va_adp->vstdate,
                         'user_id'              => $iduser,
                         'd_anaconda_id'        => 'PPFS_ANC'
                     ]);
@@ -1112,7 +1112,7 @@ class PPfs30011Controller extends Controller
                         ,""GRAVIDA
                         ,""GA_WEEK
                         ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30010 where vn = i.vn ) LMP 
+                        ,(SELECT DATE_FORMAT(lmp,"%Y%m%d") lmp from pkbackoffice.d_30010 where vn = i.vn ) LMP 
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
@@ -1123,10 +1123,9 @@ class PPfs30011Controller extends Controller
                 '); 
 
                 foreach ($data_30010_ as $va30110) {
-                    $check_30010 = D_claim::where('vn',$va30110->vn)->where('nhso_adp_code','30010')->count();
-                    if ($check_30010 > 1) {
-                        # code...
-                    } else {
+                    // $check_30010 = D_claim::where('vn',$value_10->vn)->where('nhso_adp_code','30010')->count();
+                    // if ($check_30010 > 0) { 
+                    // } else {
                         D_adp::insert([
                             'HN'                   => $va30110->HN,
                             'AN'                   => $va30110->AN,
@@ -1160,7 +1159,7 @@ class PPfs30011Controller extends Controller
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'PPFS_ANC'
                         ]);
-                    }
+                    // }
                      
                 } 
         } 
@@ -1182,7 +1181,7 @@ class PPfs30011Controller extends Controller
                         ,""GRAVIDA
                         ,""GA_WEEK
                         ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30012 where vn = i.vn ) LMP 
+                        ,(SELECT DATE_FORMAT(lmp,"%Y%m%d") lmp from pkbackoffice.d_30012 where vn = i.vn ) LMP 
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
@@ -1192,10 +1191,9 @@ class PPfs30011Controller extends Controller
                         GROUP BY v.vn  
                 '); 
                 foreach ($data_30012_ as $va30012) {
-                    $check_30012 = D_claim::where('vn',$va30012->vn)->where('nhso_adp_code','30012')->count();
-                    if ($check_30012 > 1) {
-                        # code...
-                    } else {
+                    // $check_30012 = D_claim::where('vn',$value_12->vn)->where('nhso_adp_code','30012')->count();
+                    // if ($check_30012 > 0) { 
+                    // } else {
                         D_adp::insert([
                             'HN'                   => $va30012->HN,
                             'AN'                   => $va30012->AN,
@@ -1229,7 +1227,7 @@ class PPfs30011Controller extends Controller
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'PPFS_ANC'
                         ]);
-                    }
+                    // }
                     
                    
                 } 
@@ -1251,7 +1249,7 @@ class PPfs30011Controller extends Controller
                         ,""GRAVIDA
                         ,""GA_WEEK
                         ,"" DCIP	
-                        ,(SELECT lmp from pkbackoffice.d_30013 where vn = i.vn ) LMP 
+                        ,(SELECT DATE_FORMAT(lmp,"%Y%m%d") lmp from pkbackoffice.d_30013 where vn = i.vn ) LMP 
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
@@ -1262,10 +1260,9 @@ class PPfs30011Controller extends Controller
                 ');
                  
                 foreach ($data_30013_ as $va30113) {
-                    $check_30013 = D_claim::where('vn',$va30113->vn)->where('nhso_adp_code','30013')->count();
-                    if ($check_30013 > 1) {
-                        # code...
-                    } else {
+                    // $check_30013 = D_claim::where('vn',$value_13->vn)->where('nhso_adp_code','30013')->count();
+                    // if ($check_30013 > 0) { 
+                    // } else {
                         D_adp::insert([
                             'HN'                   => $va30113->HN,
                             'AN'                   => $va30113->AN,
@@ -1299,7 +1296,7 @@ class PPfs30011Controller extends Controller
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'PPFS_ANC'
                         ]);
-                    }
+                //    }
                     
                    
                 } 
@@ -1307,7 +1304,7 @@ class PPfs30011Controller extends Controller
          
          D_adp::where('CODE','=','XXXXXX')->delete();
          D_adp::where('GA_WEEK','<>','0')->update([
-            'STATUS1' => '1'
+            'STATUS1' => '2'
          ]            
         );
 

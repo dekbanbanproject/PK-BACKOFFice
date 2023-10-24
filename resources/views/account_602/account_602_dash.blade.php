@@ -340,8 +340,8 @@
                                                 $yokpai_data = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Countvisit
                                                         from acc_1102050102_602 a 
-                                                        WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                                                        AND recieve_true is null
+                                                        WHERE a.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
+                                                        AND a.recieve_true is null
                                                 ');                                           
                                                 foreach ($yokpai_data as $key => $value4) {
                                                     $yokpai = $value4->debit_total; 
@@ -396,7 +396,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_602_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_602_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                 {{ number_format($sum_Y, 2) }}
@@ -417,7 +417,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_602_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_602_stm_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
                                                                 {{ number_format($sum_stm, 2) }}
@@ -439,7 +439,7 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2">
-                                                <a href="{{url('account_602_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
+                                                <a href="{{url('account_602_stmnull_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวน {{$yokpaicount}} Visit">
                                                                 {{ number_format($yokpai, 2) }}
