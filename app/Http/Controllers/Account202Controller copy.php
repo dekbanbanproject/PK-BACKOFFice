@@ -264,7 +264,136 @@ class Account202Controller extends Controller
                 } else {
             
                 }
-                    
+                    //  total_adjrw_income
+                    //  if ($value->debit_toa > 0) {
+                    //          Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])
+                    //          ->update([
+                    //              'acc_code'         => "03",
+                    //              'account_code'     => "1102050101.217",
+                    //              'account_name'     => "บริการเฉพาะ(CR)"
+                    //          ]);
+                    //  }
+                    //  if ($value->debit_instument > 0 && $value->account_code =='1102050101.202') {
+                    //          $checkins = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->count();
+ 
+                    //          if ($checkins == 0) {
+                    //              Acc_debtor::insert([
+                    //                  'hn'                 => $value->hn,
+                    //                  'an'                 => $value->an,
+                    //                  'vn'                 => $value->vn,
+                    //                  'cid'                => $value->cid,
+                    //                  'ptname'             => $value->ptname,
+                    //                  'pttype'             => $value->pttype,
+                    //                  'vstdate'            => $value->vstdate,
+                    //                  'regdate'            => $value->admdate,
+                    //                  'dchdate'            => $value->dchdate,
+                    //                  'acc_code'           => "03",
+                    //                  'account_code'       => '1102050101.217',
+                    //                  'account_name'       => 'บริการเฉพาะ(CR)',
+                    //                  'income_group'       => '02',
+                    //                  'rw'                 => $value->rw,
+                    //                  'adjrw'              => $value->adjrw,
+                    //                  'total_adjrw_income' => $value->total_adjrw_income,
+                    //                  'income'             => $value->income,
+                    //                  'uc_money'           => $value->uc_money,
+                    //                  'debit'              => $value->debit_instument,
+                    //                  'debit_total'        => $value->debit_instument,
+                    //                  'acc_debtor_userid'  => Auth::user()->id
+                    //              ]);
+                    //          }
+                    //  }
+                    //  if ($value->debit_drug > 0 && $value->account_code =='1102050101.202') {
+                    //          $checkindrug = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_drug)->count();
+                    //          if ($checkindrug == 0) {
+                    //              Acc_debtor::insert([
+                    //                  'hn'                 => $value->hn,
+                    //                  'an'                 => $value->an,
+                    //                  'vn'                 => $value->vn,
+                    //                  'cid'                => $value->cid,
+                    //                  'ptname'             => $value->ptname,
+                    //                  'pttype'             => $value->pttype,
+                    //                  'vstdate'            => $value->vstdate,
+                    //                  'regdate'            => $value->admdate,
+                    //                  'dchdate'            => $value->dchdate,
+                    //                  'acc_code'           => "03",
+                    //                  'account_code'       => '1102050101.217',
+                    //                  'account_name'       => 'บริการเฉพาะ(CR)',
+                    //                  'income_group'       => '03',
+                    //                  'rw'                 => $value->rw,
+                    //                  'adjrw'              => $value->adjrw,
+                    //                  'total_adjrw_income' => $value->total_adjrw_income,
+                    //                  'income'             => $value->income,
+                    //                  'uc_money'           => $value->uc_money,
+                    //                  'debit'              => $value->debit_drug,
+                    //                  'debit_total'        => $value->debit_drug,
+                    //                  'acc_debtor_userid'  => Auth::user()->id
+                    //              ]);
+                    //          }
+                    //  }
+                    //  if ($value->debit_refer > 0 && $value->account_code =='1102050101.202') {
+                    //      $checkinrefer = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->where('debit','=',$value->debit_refer)->count();
+                    //      if ($checkinrefer == 0) {
+                    //          Acc_debtor::insert([
+                    //              'hn'                 => $value->hn,
+                    //              'an'                 => $value->an,
+                    //              'vn'                 => $value->vn,
+                    //              'cid'                => $value->cid,
+                    //              'ptname'             => $value->ptname,
+                    //              'pttype'             => $value->pttype,
+                    //              'vstdate'            => $value->vstdate,
+                    //              'regdate'            => $value->admdate,
+                    //              'dchdate'            => $value->dchdate,
+                    //              'acc_code'           => "03",
+                    //              'account_code'       => '1102050101.217',
+                    //              'account_name'       => 'บริการเฉพาะ(CR)',
+                    //              'income_group'       => '20',
+                    //              'rw'                 => $value->rw,
+                    //              'adjrw'              => $value->adjrw,
+                    //              'total_adjrw_income' => $value->total_adjrw_income,
+                    //              'income'             => $value->income,
+                    //              'uc_money'           => $value->uc_money,
+                    //              'debit'              => $value->debit_refer,
+                    //              'debit_total'        => $value->debit_refer,
+                    //              'acc_debtor_userid'  => Auth::user()->id
+                    //          ]);
+                    //      }
+                    //  }
+
+
+                     
+                     // Acc_opitemrece::where('an', '=', $value->an)->delete();
+ 
+                     // $acc_opitemrece_ = DB::connection('mysql3')->select('
+                     //         SELECT a.vn,o.an,o.hn,o.vstdate,o.rxdate,a.dchdate,o.income as income_group,o.pttype,o.paidst
+                     //         ,o.icode,s.name as iname,o.qty,o.cost,o.finance_number,o.unitprice,o.discount,o.sum_price
+                     //         FROM opitemrece o
+                     //         LEFT JOIN an_stat a ON o.an = a.an
+                     //         left outer join s_drugitems s on s.icode = o.icode
+                     //         WHERE o.an ="'.$value->an.'"
+ 
+                     // ');
+ 
+                     // foreach ($acc_opitemrece_ as $key => $va2) {
+                     //     Acc_opitemrece::insert([
+                     //         'hn'                 => $va2->hn,
+                     //         'an'                 => $va2->an,
+                     //         'vn'                 => $va2->vn,
+                     //         'pttype'             => $va2->pttype,
+                     //         'paidst'             => $va2->paidst,
+                     //         'rxdate'             => $va2->rxdate,
+                     //         'vstdate'            => $va2->vstdate,
+                     //         'dchdate'            => $va2->dchdate,
+                     //         'income'             => $va2->income_group,
+                     //         'icode'              => $va2->icode,
+                     //         'name'               => $va2->iname,
+                     //         'qty'                => $va2->qty,
+                     //         'cost'               => $va2->cost,
+                     //         'finance_number'     => $va2->finance_number,
+                     //         'unitprice'          => $va2->unitprice,
+                     //         'discount'           => $va2->discount,
+                     //         'sum_price'          => $va2->sum_price,
+                     //     ]);
+                     // }
          }
  
              return response()->json([
@@ -285,7 +414,11 @@ class Account202Controller extends Controller
          $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
          $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
          $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-       
+        //  $yearnew = date('Y');
+        //  $yearold = date('Y')-1;
+        //  $start = (''.$yearold.'-10-01');
+        //  $end = (''.$yearnew.'-09-30'); 
+
          $yearnew = date('Y')+1;
          $yearold = date('Y')-1;
          $start = (''.$yearold.'-10-01');
