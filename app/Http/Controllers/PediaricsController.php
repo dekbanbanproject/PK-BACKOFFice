@@ -97,8 +97,8 @@ class PediaricsController extends Controller
   
     public function prenatal_care(Request $request)
     {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $dabyear = $request->dabyear;
+        // $enddate = $request->enddate;
         $yearnew = date('Y')+1;
         $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
@@ -106,49 +106,175 @@ class PediaricsController extends Controller
         $budget_year = DB::table('budget_year')->where('active','=',true)->first();
         $date_start = $budget_year->date_begin;
         $date_end   = $budget_year->date_end;
-        $data['dabyear'] = DB::table('budget_year')->get();
-// dd( $start);
-        if ($startdate =='') {
+        // $data['dabyear'] = DB::table('budget_year')->orderBy('')->get();
+
+       
+        $data['dabyears'] = DB::table('budget_year')->get();
+        // dd( $dabyear);
+        if ($dabyear =='') {
+            // $dabyear = $request->dabyear;
             $data['data_anc'] = DB::connection('mysql10')->select('  
                     SELECT w.ward,i.incharge_doctor,d.`name` as doctor,GROUP_CONCAT(DISTINCT(w.name)) as wardname
                     ,count(distinct(i.an))as total_an
                     ,sum(i.adjrw)as sum_adjrw
                     ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
                     ,count(DISTINCT(ii.an))as total_noadjre 
-                    FROM  ipt i
-                    LEFT JOIN  an_stat a  on  i.an=a.an
-                    LEFT JOIN  ward  w  on  i.ward=w.ward 
-                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw = ""
-                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.code
-                    WHERE  i.dchdate BETWEEN "'.$date_start.'" AND "'.$date_end.'"
-                    and a.age_y<="15"
-                    GROUP BY  i.incharge_doctor  
+                    FROM ipt i
+                    LEFT JOIN an_stat a on  i.an=a.an
+                    LEFT JOIN ward w on i.ward=w.ward 
+                    LEFT JOIN ipt ii on i.an=ii.an  and  ii.adjrw = ""
+                    LEFT JOIN doctor d on i.incharge_doctor=d.code
+                    WHERE i.dchdate BETWEEN "'.$date_start.'" AND "'.$date_end.'"
+                    and a.age_y <= "15"
+                    GROUP BY i.incharge_doctor  
+                    ORDER BY count(distinct(i.an)) DESC
             '); 
         } else {
+            $budget_ = DB::table('budget_year')->where('leave_year_id','=', $dabyear)->first();
+            $date_start_ = $budget_->date_begin;
+            $date_end_   = $budget_->date_end;
             $data['data_anc'] = DB::connection('mysql10')->select(' 
-                    SELECT w.ward,i.incharge_doctor,d.`name`,GROUP_CONCAT(DISTINCT(w.name)) as wardname
+                    SELECT w.ward,i.incharge_doctor,d.`name` as doctor,GROUP_CONCAT(DISTINCT(w.name)) as wardname
+                    ,count(distinct(i.an))as total_an
+                    ,sum(i.adjrw)as sum_adjrw
+                    ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
+                    ,count(DISTINCT(ii.an))as total_noadjre 
+                    FROM ipt i
+                    LEFT JOIN an_stat a on i.an=a.an
+                    LEFT JOIN ward w on i.ward=w.ward 
+                    LEFT JOIN ipt ii on i.an=ii.an  and  ii.adjrw = ""
+                    LEFT JOIN doctor d on i.incharge_doctor=d.code
+                    WHERE i.dchdate BETWEEN "'.$date_start_.'" AND "'.$date_end_.'"
+                    and a.age_y <= "15"
+                    GROUP BY  i.incharge_doctor   
+                    ORDER BY count(distinct(i.an)) DESC
+            '); 
+        }
+         
+        return view('anc.prenatal_care',$data,[
+            'dabyear'   => $dabyear,
+            // 'enddate'     => $enddate, 
+            // 'dabyear'       => $dabyear, 
+        ]);
+    }
+
+    public function prenatal_care_doctor(Request $request,$doctor,$dabyear)
+    {
+        // $dabyear = $request->dabyear;
+        // $enddate = $request->enddate;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        $budget_ = DB::table('budget_year')->where('leave_year_id','=', $dabyear)->first();
+        $date_start_ = $budget_->date_begin;
+        $date_end_   = $budget_->date_end;
+        
+        $data['dabyears'] = DB::table('budget_year')->get();
+        
+            $data['data_anc'] = DB::connection('mysql10')->select('   
+                    
+                    SELECT a.pdx,ic.`name` as namet,GROUP_CONCAT(DISTINCT(w.`name`)) as ward
                     ,count(distinct(i.an))as total_an
                     ,sum(i.adjrw)as sum_adjrw
                     ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
                     ,count(DISTINCT(ii.an))as total_noadjre 
                     FROM  ipt i
                     LEFT JOIN  an_stat a  on  i.an=a.an
-                    LEFT JOIN  ward  w  on  i.ward=w.ward 
-                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw = ""
-                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.code
-                    WHERE  i.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                    and a.age_y <= "15"
-                    GROUP BY  i.incharge_doctor   
+                    LEFT JOIN  icd101 ic  on  a.pdx=ic.`code`
+                    LEFT JOIN  ward  w  on  i.ward=w.ward
+                    #LEFT JOIN  ward_backup1872566  ww on  i.ward=ww.ward
+                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw =""
+                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.`code`
+                    WHERE  i.dchdate  BETWEEN "'.$date_start_.'" AND "'.$date_end_.'"
+                    AND i.incharge_doctor="'.$doctor.'"
+                    and a.age_y<="15"
+                    GROUP BY  a.pdx
+                    ORDER BY count(distinct(i.an)) DESC
             '); 
-        }
+       
          
-        return view('anc.prenatal_care',$data,[
-            'startdate'   => $startdate,
-            'enddate'     => $enddate, 
-            'start'       => $start,
-            'end'         => $end, 
+        return view('anc.prenatal_care_doctor',$data,[ 
+            'dabyear'   => $dabyear,
+            'doctor'    => $doctor,
         ]);
     }
+
+    public function prenatal_care_pdx(Request $request,$pdx,$doctor,$dabyear)
+    {
+        // $dabyear = $request->dabyear;
+        // $enddate = $request->enddate;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        $budget_ = DB::table('budget_year')->where('leave_year_id','=', $dabyear)->first();
+        $date_start_ = $budget_->date_begin;
+        $date_end_   = $budget_->date_end;
+        
+        $data['dabyears'] = DB::table('budget_year')->get();
+        
+            $data['data_anc'] = DB::connection('mysql10')->select(' 
+                SELECT i.an,i.hn,CONCAT(p.pname,p.fname," ",p.lname)as ptname,i.regdate,i.dchdate,a.admdate,CONCAT(a.age_y,"  ป.  ",a.age_m," ด."  ,a.age_d,"  ว.")as age
+                    ,o.height,o.bw
+                    ,GROUP_CONCAT(DISTINCT(ia.icd10) ORDER BY ia.diagtype ASC)as total_diag
+                    ,sum(i.adjrw)as sum_adjrw
+                    ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
+                    ,count(DISTINCT(ii.an))as total_noadjre 
+                    FROM  ipt i
+                    LEFT JOIN  an_stat a  on  i.an=a.an
+                    LEFT JOIN  opdscreen o on  i.vn=o.vn
+                    LEFT JOIN  iptdiag  ia  on i.an=ia.an
+                    LEFT JOIN  icd101 ic  on  a.pdx=ic.`code`
+                    LEFT JOIN  ward  w  on  i.ward=w.ward
+                    LEFT JOIN  patient  p  on  i.hn=p.hn
+                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw = ""
+                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.`code`
+                    WHERE  i.dchdate  BETWEEN "'.$date_start_.'" AND "'.$date_end_.'"
+                    -- AND i.incharge_doctor is null
+                    AND i.incharge_doctor ="'.$doctor.'"
+                    AND a.pdx="'.$pdx.'"
+                    and a.age_y<="15"
+                    GROUP BY  i.an  
+                    ORDER BY i.dchdate DESC
+            '); 
+       
+         
+        return view('anc.prenatal_care_pdx',$data,[ 
+            'dabyear'   => $dabyear,
+            'doctor'    => $doctor,
+        ]);
+    }
+
+    // public function prenatal_care_an(Request $request,$an)
+    // {
+        
+    //     $data['dabyear'] = DB::table('budget_year')->get();
+        
+    //         $data['data_anc'] = DB::connection('mysql10')->select('   
+                    
+    //                 SELECT a.pdx,ic.`name` as namet,GROUP_CONCAT(DISTINCT(w.`name`)) as ward
+    //                 ,count(distinct(i.an))as total_an
+    //                 ,sum(i.adjrw)as sum_adjrw
+    //                 ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
+    //                 ,count(DISTINCT(ii.an))as total_noadjre 
+    //                 FROM  ipt i
+    //                 LEFT JOIN  an_stat a  on  i.an=a.an
+    //                 LEFT JOIN  icd101 ic  on  a.pdx=ic.`code`
+    //                 LEFT JOIN  ward  w  on  i.ward=w.ward
+    //                 #LEFT JOIN  ward_backup1872566  ww on  i.ward=ww.ward
+    //                 LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw =""
+    //                 LEFT JOIN  doctor  d  on  i.incharge_doctor=d.`code`
+    //                 WHERE  i.dchdate  BETWEEN "'.$date_start_.'" AND "'.$date_end_.'"
+    //                 AND i.incharge_doctor="'.$doctor.'"
+    //                 and a.age_y<="15"
+    //                 GROUP BY  a.pdx
+    //         '); 
+       
+         
+    //     return view('anc.prenatal_care_an',$data,[ 
+    //     ]);
+    // }
 
     public function prenatal_care_sub(Request $request,$ward,$startdate,$enddate)
     {  
@@ -177,6 +303,120 @@ class PediaricsController extends Controller
             'startdate'   => $startdate,
             'enddate'     => $enddate, 
         ]);
+    }
+
+    public function prenatal_care_bar(Request $request)
+    {
+        $dabyear = $request->dabyear;
+       
+
+        if ($dabyear != '') {
+            $budget_ = DB::table('budget_year')->where('leave_year_id','=', $dabyear)->first();
+            $date_start_ = $budget_->date_begin;
+            $date_end_   = $budget_->date_end;
+            $chart = DB::connection('mysql2')->select(' 
+                SELECT i.incharge_doctor,d.`name` as doctor
+                    ,count(distinct(i.an))as total_an
+                    ,sum(i.adjrw)as sum_adjrw
+                    ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
+                    ,count(DISTINCT(ii.an))as total_noadjre,month(i.dchdate) as month,year(i.dchdate) as year
+                    FROM  ipt i
+                    LEFT JOIN  an_stat a  on  i.an=a.an
+                    LEFT JOIN  ward  w  on  i.ward=w.ward 
+                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw = ""
+                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.code
+                    WHERE  i.dchdate BETWEEN "'.$date_start_.'" AND "'.$date_end_.'"
+                    and a.age_y<="15"
+                    GROUP BY  i.incharge_doctor, month
+ 
+            ');
+        } else {
+            $y = date('Y')+543;
+        
+            $budget_ = DB::table('budget_year')->where('leave_year_id','=', $y)->first();
+            $date_start2_ = $budget_->date_begin;
+            $date_end2_   = $budget_->date_end;
+            // dd( $y);
+            $chart = DB::connection('mysql2')->select(' 
+                SELECT i.incharge_doctor,d.`name` as doctor
+                    ,count(distinct(i.an))as total_an
+                    ,sum(i.adjrw)as sum_adjrw
+                    ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
+                    ,count(DISTINCT(ii.an))as total_noadjre
+                    ,month(i.dchdate) as month,year(i.dchdate) as year
+                    FROM  ipt i
+                    LEFT JOIN  an_stat a  on  i.an=a.an
+                    LEFT JOIN  ward  w  on  i.ward=w.ward 
+                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw = ""
+                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.code
+                    WHERE  i.dchdate BETWEEN "'.$date_start2_.'" AND "'.$date_end2_.'"
+                    and a.age_y<="15"
+                    GROUP BY  i.incharge_doctor, month
+ 
+            ');
+            
+        }
+         
+   
+        $labels = [
+          1 => "ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"
+        ];
+         $count_total_noadjre = $count_an = $total_cmi =$sum_adjrw = [];
+
+        foreach ($chart as $key => $chartitems) {
+            $count_an[$chartitems->month] = $chartitems->total_an;
+            $count_total_noadjre[$chartitems->month] = $chartitems->total_noadjre;
+            $total_cmi[$chartitems->month] = $chartitems->total_cmi;
+            $sum_adjrw[$chartitems->month] = $chartitems->sum_adjrw;
+        }
+        foreach ($labels as $month => $name) {
+           if (!array_key_exists($month,$count_an)) {
+            $count_an[$month] = 0;
+           }
+           if (!array_key_exists($month,$count_total_noadjre)) {
+            $count_total_noadjre[$month] = 0;
+           }
+           if (!array_key_exists($month,$total_cmi)) {
+            $total_cmi[$month] = 0;
+           }
+           if (!array_key_exists($month,$sum_adjrw)) {
+            $sum_adjrw[$month] = 0;
+           }
+        }
+        ksort($count_an);
+        ksort($count_total_noadjre);
+        ksort($total_cmi);
+        ksort($sum_adjrw);
+
+        return [
+            'labels'          =>  array_values($labels),
+            'datasets'     =>  [
+                [
+                    'label'           =>  'total_cmi',
+                    'borderColor'     => 'rgba(255, 205, 86 , 1)',
+                    'backgroundColor' => 'rgba(255, 205, 86 , 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            =>  array_values($total_cmi)
+                ],
+                [
+                    'label'           =>  'total_noadjre',
+                    'borderColor'     => 'rgba(75, 192, 192, 1)',
+                    'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                    'borderWidth'     => '1',
+                    'barPercentage'   => '0.9',
+                    'data'            => array_values($sum_adjrw)
+                ],
+                // [
+                //     'label'           =>  'ไม่ขอ Authen',
+                //     'borderColor'     => 'rgba(255, 99, 132, 1)',
+                //     'backgroundColor' => 'rgba(255, 99, 132, 0.2)',
+                //     'borderWidth'     => '1',
+                //     'barPercentage'   => '0.9',
+                //     'data'            => array_values($total_cmi)
+                // ],
+            ],
+        ];      
     }
    
      
