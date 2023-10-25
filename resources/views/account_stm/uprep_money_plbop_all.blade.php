@@ -188,7 +188,8 @@
                                                         @endif
                                                     </td>   
                                                     <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>  
-                                                    <td class="text-end" style="color:rgb(53, 196, 76)" width="7%">{{ number_format($item->recieve_true,2)}}</td>                                                   
+                                                    {{-- <td class="text-end" style="color:rgb(53, 196, 76)" width="7%">{{ number_format($item->recieve_true,2)}}</td>    --}}
+                                                    <td class="text-end" style="color:rgb(53, 196, 76)" width="7%">{{ $item->recieve_true}}</td>                                                 
                                                 </td>
                                         </tr>
                                         

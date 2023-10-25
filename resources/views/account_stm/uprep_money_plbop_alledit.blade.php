@@ -166,9 +166,9 @@
                     var user_id       = $('#edituser_id').val();
                     var id            = $('#editid').val();
                     var account_code  = $('#editaccount_code').val();
-                // alert(recieve_true);
+                
                     $.ajax({
-                        url: "{{ route('acc.uprep_sss_all_update') }}",
+                        url: "{{ route('acc.uprep_money_plbop_allupdate') }}",
                         type: "POST",
                         dataType: 'json',
                         data: {
@@ -189,7 +189,7 @@
                                         console.log(
                                             data);
                                         // window.location.reload(); 
-                                        window.location="{{url('uprep_sss_all')}}";
+                                        window.location="{{url('uprep_money_plbop_all')}}";
                                     }
                                 })
                             } else {
