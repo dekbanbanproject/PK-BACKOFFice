@@ -1949,7 +1949,8 @@ class AccountController extends Controller
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $startdate . '" and "' . $enddate . '"
-                    AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
+                    AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
+                    AND v.pttype <> "P1"
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc  
             ');
@@ -1964,12 +1965,14 @@ class AccountController extends Controller
                     LEFT JOIN hos.pttype t on t.pttype=v.pttype
                     LEFT JOIN leave_month l on l.MONTH_ID = MONTH(v.vstdate)
                     WHERE v.vstdate between "' . $start . '" and "' . $end . '"
-                    AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1) 
+                 
+                    AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
+                    AND v.pttype <> "P1"
                     GROUP BY date_format(v.vstdate, "%M")
                     ORDER BY v.vstdate desc limit 6
             ');
         }
-        
+        // AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1) 
         
         return view('account.account_nopaid', [
             'datashow'   =>  $datashow, 
@@ -1983,8 +1986,8 @@ class AccountController extends Controller
         $enddate = $request->enddate; 
 
         $datashow = DB::connection('mysql10')->select(' 
-                SELECT v.vn, v.income,v.cid, v.paid_money, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
-                ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
+                SELECT v.vn, v.income,v.cid, v.hn, v.vstdate,o.vsttime,o.main_dep,k.department, v.pdx, v.pttype,concat(p.pname,p.fname," ",p.lname) ptname,o.staff
+                ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,v.paid_money,v.rcpt_money,v.remain_money
                 FROM vn_stat v
                 left outer join hos.ovst o on o.vn = v.vn
                 left outer join hos.kskdepartment k on k.depcode = o.main_dep
@@ -1992,9 +1995,11 @@ class AccountController extends Controller
                 LEFT JOIN pttype t on t.pttype=v.pttype
                 left outer join hos.rcpt_print r on v.vn = r.vn
                 WHERE YEAR(v.vstdate) = "' . $year . '" AND MONTH(v.vstdate) = "' . $months . '" 
-                AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
+                AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
+                AND v.pttype <> "P1"
            
         ');
+        // AND (v.paid_money > 0 and v.rcpt_money = 0 and r.bill_amount < 1)
         return view('account.account_nopaid_sub', [
             'datashow'   =>  $datashow, 
             'startdate'  =>  $startdate,
@@ -2028,10 +2033,11 @@ class AccountController extends Controller
                     left outer join hos.ipt i on i.an = a.an
                     left outer join hos.rcpt_print r on r.vn = i.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
-                    AND (a.paid_money > 0 and a.rcpt_money = 0 )
+                    AND (a.paid_money > 0 and a.rcpt_money = 0 and a.remain_money = 0)
                     GROUP BY MONTH(a.dchdate)
                     ORDER BY a.dchdate desc  
             ');
+            // AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
             // AND (a.paid_money>0 and a.rcpt_money=0 )
             // AND a.rcpno_list = """"
             // AND (a.paid_money>0 and a.rcpt_money=0 and a.remain_money=0)
@@ -2046,7 +2052,7 @@ class AccountController extends Controller
                     left outer join hos.ipt i on i.an = a.an
                     left outer join hos.rcpt_print r on r.vn = i.vn
                     WHERE a.dchdate BETWEEN "' . $start . '" and "' . $end . '"
-                    AND (a.paid_money > 0 and a.rcpt_money = 0 )
+                    AND (a.paid_money > 0 and a.rcpt_money = 0 and a.remain_money = 0)
                     GROUP BY MONTH(a.dchdate)
                     ORDER BY a.dchdate desc limit 6 
             ');
@@ -2064,9 +2070,9 @@ class AccountController extends Controller
         $enddate = $request->enddate; 
 
         $datashow = DB::connection('mysql10')->select(' 
-            SELECT a.an, a.income,p.cid, a.paid_money, a.hn
+            SELECT a.an, a.income,p.cid, a.hn
             , a.dchdate,i.dchtime, a.pdx, a.pttype,concat(p.pname,p.fname," ",p.lname) ptname,i.staff,o.main_dep,k.department
-            ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount
+            ,r.bill_date_time,r.finance_number,r.rcpno,r.bill_amount,r.user,r.book_number,r.total_amount,a.paid_money,a.rcpt_money,a.remain_money
                 FROM an_stat a
                 left outer join patient p on p.hn=a.hn
                 left outer join pttype t on t.pttype=a.pttype

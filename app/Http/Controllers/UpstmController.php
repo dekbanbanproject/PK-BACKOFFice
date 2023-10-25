@@ -31,7 +31,8 @@ use App\Models\Acc_1102050101_304;
 use App\Models\Acc_1102050101_307;
 use App\Models\Acc_1102050101_308;
 use App\Models\Acc_1102050101_309;
-
+use App\Models\Acc_1102050102_602;
+use App\Models\Acc_1102050102_603;
  
 use SplFileObject;
 use Arr;
@@ -1107,6 +1108,124 @@ class UpstmController extends Controller
         ]);
             
          
+    }
+    public function uprep_money_plbop_all(Request $request)
+    { 
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d');
+        $y = date('Y') + 543; 
+        $yearnew = date('Y')+1;
+        $yearold = date('Y')-1;
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+       
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 5 เดือน
+        if ($startdate != '') {
+            $data = DB::select('  
+                SELECT U1.acc_1102050102_602_id as id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.account_code
+                ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050102_602 U1  
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"    
+                GROUP BY U1.vn
+        
+
+                UNION ALL
+
+                SELECT U2.acc_1102050102_603_id as id,U2.an,U2.vn,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.dchdate,U2.pttype,U2.debit_total,U2.account_code
+                ,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date 
+                from acc_1102050102_603 U2 
+                WHERE U2.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"        
+                GROUP BY U2.an
+                ORDER BY nhso_docno DESC
+            ');
+            // AND U1.recieve_no IS NULL 
+        } else {
+            $data = DB::select(' 
+            SELECT U1.acc_1102050102_602_id as id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.account_code
+                ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050102_602 U1  
+                WHERE U1.vstdate BETWEEN "'.$start.'" AND "'.$date.'"    
+                GROUP BY U1.vn
+    
+
+                UNION ALL
+
+                SELECT U2.acc_1102050102_603_id as id,U2.an,U2.vn,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.dchdate,U2.pttype,U2.debit_total,U2.account_code
+                ,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date 
+                from acc_1102050102_603 U2 
+                WHERE U2.dchdate BETWEEN "'.$start.'" AND "'.$date.'"        
+                GROUP BY U2.an
+                ORDER BY nhso_docno DESC
+ 
+            '); 
+            // AND U1.recieve_no IS NULL  
+        }
+             
+        return view('account_stm.uprep_money_plbop_all', [ 
+            'data'          =>  $data, 
+            'startdate'     =>  $startdate,
+            'enddate'       =>  $enddate
+        ]);
+            
+         
+    }
+    public function uprep_money_plbop_alledit(Request $request,$account,$id)
+    { 
+       // dd($account);
+       if ($account == '1102050102.602') {
+           $data_show = Acc_1102050102_602::where('acc_1102050102_602_id',$id)->first();
+
+       } elseif ($account == '1102050102.603') {
+           $data_show = Acc_1102050102_603::where('acc_1102050102_603_id',$id)->first();
+      
+       } else {
+           # code...
+       }
+    
+        return view('account_stm.uprep_money_plbop_alledit',[
+           'data_show'     =>     $data_show ,
+           'id'            =>     $id,
+           'account'       =>     $account
+        ]);
+    }
+    public function uprep_money_plbop_allupdate(Request $request)
+    {
+           $account = $request->account_code;
+           $id = $request->id;
+           $recieve_true = $request->recieve_true;
+           $difference = $request->difference;
+           $recieve_no = $request->recieve_no;
+           $recieve_date = $request->recieve_date;
+           $user_id = $request->user_id; 
+           // dd($recieve_true);
+           if ($account == '1102050102.602') { 
+               $update = Acc_1102050102_602::find($id);
+               $update->recieve_true      = $recieve_true;
+               $update->difference        = $difference;
+               $update->recieve_no        = $recieve_no;
+               $update->recieve_date      = $recieve_date;
+               $update->recieve_user      = $user_id; 
+               $update->save();
+
+           } elseif ($account == '1102050102.603') {
+               $update2 = Acc_1102050102_603::find($id);
+               $update2->recieve_true      = $recieve_true;
+               $update2->difference        = $difference;
+               $update2->recieve_no        = $recieve_no;
+               $update2->recieve_date      = $recieve_date;
+               $update2->recieve_user      = $user_id; 
+               $update2->save();
+         
+           } else {
+               # code...
+           }
+           
+          
+           
+           return response()->json([
+               'status'    => '200' 
+           ]); 
     }
     public function uprep_money_plbop(Request $request)
     { 

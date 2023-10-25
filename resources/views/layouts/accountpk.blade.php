@@ -597,16 +597,19 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true">
                                     <li><a href="{{ url('uprep_money') }}">ลงใบเสร็จรับเงิน</a></li>
+                                    
                                     <li><a href="javascript: void(0);" class="has-arrow">ลงใบเสร็จรับเงินรายตัว</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
                                             <li><a href="{{ url('uprep_sss_all') }}">ประกันสังคม</a></li>
-                                            <li><a href="javascript: void(0);" class="has-arrow">พรบ.</a>
-                                                    <ul class="sub-menu" aria-expanded="true">
-                                                        <li><a href="{{ url('uprep_money_plbop') }}">พรบ.-OP</a></li> 
-                                                        <li><a href="{{ url('uprep_money_plbip') }}">พรบ.-IP</a></li> 
-                                                    </ul>
-                                               
-                                            </li>
+                                            <li><a href="{{ url('uprep_money_plbop_all') }}">พรบ.-OPIP</a></li>
+                                            {{-- <li><a href="javascript: void(0);" class="has-arrow">พรบ.</a> --}}
+                                                    {{-- <ul class="sub-menu" aria-expanded="true"> --}}
+                                                        {{-- <li><a href="{{ url('uprep_money_plbop_all') }}">พรบ.-OPIP</a></li>  --}}
+                                                        {{-- <li><a href="{{ url('uprep_money_plbop') }}">พรบ.-OP</a></li>  --}}
+                                                        {{-- <li><a href="{{ url('uprep_money_plbip') }}">พรบ.-IP</a></li>  --}}
+                                                    {{-- </ul> --}}
+                                                    
+                                            {{-- </li> --}}
                                         </ul>
                                     </li>
                                 </ul>

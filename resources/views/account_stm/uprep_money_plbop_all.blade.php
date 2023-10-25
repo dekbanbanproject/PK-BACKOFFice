@@ -75,7 +75,7 @@
             </div> 
         </div>
 
-        <form action="{{ url('uprep_sss_all') }}" method="GET">
+        <form action="{{ url('uprep_money_plbop_all') }}" method="GET">
             @csrf
             <div class="row"> 
                 <div class="col"></div>
@@ -101,7 +101,7 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    ลงใบเสร็จรับเงินรายตัว ประกันสังคม
+                    ลงใบเสร็จรับเงินรายตัว พรบ
                     <div class="btn-actions-pane-right">
                         {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                             <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
@@ -124,7 +124,7 @@
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th>
                                     <th class="text-center">dchdate</th>
-                                    <th class="text-center">pttype</th> 
+                                    <th class="text-center">pttype</th>
                                     <th class="text-center">ผัง</th>
                                     <th class="text-center">Sync Data / เลขหนังสือ </th>
                                     <th class="text-center">เลขที่ใบเสร็จ</th> 
@@ -144,9 +144,9 @@
                                                     <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                                     {{-- <td class="text-center" width="10%">{{ $item->cid }}</td>   --}}
                                                     <td class="p-2" >{{ $item->ptname }}</td> 
-                                                    <td class="text-center" width="7%">{{ $item->vstdate }}</td>  
-                                                    <td class="text-center" width="7%">{{ $item->dchdate }}</td>  
-                                                    <td class="text-center" width="5%">{{ $item->pttype }}</td> 
+                                                    <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                                    <td class="text-center" width="7%">{{ $item->dchdate }}</td>   
+                                                    <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                                     <td class="p-2" >{{ $item->account_code }}</td> 
                                                     <td class="text-center" width="5%">  
                                                         @if ($item->nhso_docno == '' && $item->pttype =='ss')
@@ -165,16 +165,13 @@
                                                     <td class="text-center" width="10%"> 
 
                                                         @if ($item->pttype == 'ss')
-                                                            <a href="{{url('uprep_sss_alleditpage/'.$item->account_code.'/'.$item->id)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                                            <a href="{{url('uprep_money_plbop_alledit/'.$item->account_code.'/'.$item->id)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                                 <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                                 ลงเลขที่ใบเสร็จ 
                                                             </a> 
                                                         @elseif ($item->nhso_docno != '' && $item->recieve_no =='' )
-                                                            {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->id }}">
-                                                                <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
-                                                                ลงเลขที่ใบเสร็จ 
-                                                            </button>  --}}
-                                                            <a href="{{url('uprep_sss_alleditpage/'.$item->account_code.'/'.$item->id)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                                                           
+                                                            <a href="{{url('uprep_money_plbop_alledit/'.$item->account_code.'/'.$item->id)}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                                                                 <i class="fa-solid fa-file-invoice text-danger me-2"></i> 
                                                                 ลงเลขที่ใบเสร็จ 
                                                             </a> 
@@ -189,11 +186,9 @@
                                                                 {{$item->recieve_no}}
                                                             </button>
                                                         @endif
-                                                    </td>  
-                                                 
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>   
-                                                    {{-- <td class="text-end" style="color:rgb(53, 196, 76)" width="7%">{{ number_format($item->recieve_true,2)}}</td>       --}}
-                                                    <td class="text-end" style="color:rgb(53, 196, 76)" width="7%">{{$item->recieve_true}}</td>                                           
+                                                    </td>   
+                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>  
+                                                    <td class="text-end" style="color:rgb(53, 196, 76)" width="7%">{{ number_format($item->recieve_true,2)}}</td>                                                   
                                                 </td>
                                         </tr>
                                         
@@ -211,7 +206,7 @@
     </div>
 
      <!-- Update Modal -->
-     <div class="modal fade" id="editModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+     {{-- <div class="modal fade" id="editModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
@@ -259,7 +254,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
 
