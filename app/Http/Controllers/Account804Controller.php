@@ -95,13 +95,12 @@ class Account804Controller extends Controller
          $startdate = $request->startdate;
          $enddate = $request->enddate;
          $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
- 
+        $date_start = $dabudget_year->date_begin;
+        $date_end   = $dabudget_year->date_end;
+
          $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-         $date = date('Y-m-d');
-         $y = date('Y') + 543;
-         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+ 
+         $y = date('Y') + 543; 
          $yearnew = date('Y');
          $yearnew = date('Y')+1;
          $yearold = date('Y')-1;
@@ -120,7 +119,7 @@ class Account804Controller extends Controller
  
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
-                     WHERE a.dchdate between "'.$start.'" and "'.$end.'"
+                     WHERE a.dchdate between "'.$date_start.'" and "'.$date_end.'"
                      and account_code="1102050102.804"
  
                      group by month(a.dchdate) order by a.dchdate desc limit 3;

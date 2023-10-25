@@ -208,6 +208,12 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ url('report_zero') }}">  
+                                <i class="fa-solid fa-chart-column text-success"></i>
+                                <span>Report STM 0</span> 
+                            </a>
+                        </li>
+                        <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
                                 <span>FS EClaim</span>

@@ -257,6 +257,7 @@ Route::match(['get','post'],'uprep_money_plbop',[App\Http\Controllers\UpstmContr
 Route::match(['get','post'],'uprep_money_plbip',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbip'])->name('acc.uprep_money_plbip');//
 Route::match(['get','post'],'uprep_money_plbhn',[App\Http\Controllers\UpstmController::class, 'uprep_money_plbhn'])->name('acc.uprep_money_plbhn');//
 
+Route::match(['get','post'],'report_zero',[App\Http\Controllers\ReportZeroController::class, 'report_zero'])->name('claim.report_zero');//
 
 // *******************FDC *******************
 Route::match(['get','post'],'fdh_data',[App\Http\Controllers\FdhController::class, 'fdh_data'])->name('claim.fdh_data');//
@@ -2071,8 +2072,8 @@ Route::middleware(['type'])->group(function(){
      Route::match(['get','post'],'anc_14001_pull2',[App\Http\Controllers\PPFSController::class, 'anc_14001_pull2'])->name('claim.anc_14001_pull2');//
 
       // **************************** Anc  ***********************
-      Route::match(['get','post'],'prenatal_care',[App\Http\Controllers\AncController::class, 'prenatal_care'])->name('anc.prenatal_care');//
-      Route::match(['get','post'],'prenatal_care_sub/{ward}/{startdate}/{enddate}',[App\Http\Controllers\AncController::class, 'prenatal_care_sub'])->name('anc.prenatal_care_sub');//
+      Route::match(['get','post'],'prenatal_care',[App\Http\Controllers\PediaricsController::class, 'prenatal_care'])->name('anc.prenatal_care');//
+      Route::match(['get','post'],'prenatal_care_sub/{ward}/{startdate}/{enddate}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_sub'])->name('anc.prenatal_care_sub');//
 
      Route::match(['get','post'],'anc_dent',[App\Http\Controllers\AncController::class, 'anc_dent'])->name('claim.anc_dent');//
      Route::match(['get','post'],'anc_dent_search',[App\Http\Controllers\AncController::class, 'anc_dent_search'])->name('claim.anc_dent_search');//

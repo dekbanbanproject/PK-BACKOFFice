@@ -1,5 +1,5 @@
-@extends('layouts.anc')
-@section('title', 'PK-BACKOFFice || ANC')
+@extends('layouts.pkclaim')
+@section('title', 'PK-BACKOFFice || Rep-stm-0')
 @section('content')
     <script>
         function TypeAdmin() {
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-        <form action="{{ url('prenatal_care') }}" method="GET">
+        <form action="{{ url('report_zero') }}" method="GET">
             @csrf
             <div class="row "> 
                 <div class="col-md-3">
@@ -94,20 +94,15 @@
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end"> 
-                    <select name="dabyear" id="dabyear" class="form-control" style="width: 100%">
-                        @foreach ($dabyear as $item)
-                        <option value="{{$item->leave_year_id}}">{{$item->leave_year_id}}</option>
-                        @endforeach
-                       
-                    </select>
-                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                    
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div>  --}}
+                    </div> 
                 </div>
                 <div class="col-md-2 text-start">
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -127,55 +122,44 @@
                         <table id="example" class="align-middle mb-0 table table-borderless table-striped table-hover ">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">ตึก</th>
-                                    <th class="text-center">จำนวนผู้ป่วย</th>
-                                    <th class="text-center">adjrw</th>
-                                    <th class="text-center">cmi</th>
-                                    <th class="text-center">total</th>
+                                    <th class="text-center">ลำดับ</th> 
+                                    <th class="text-center">rep</th>
+                                    <th class="text-center">repno</th>
+                                    <th class="text-center">trainid</th>
+                                    <th class="text-center">hn</th>
+                                    <th class="text-center">cid</th>
+                                    <th class="text-center">fullname</th>
+                                    <th class="text-center">vstdate</th>
+                                    <th class="text-center">maininscl</th>
+                                    <th class="text-center">projectcode</th>
+                                    <th class="text-center">debit</th>
+                                    <th class="text-center">ip_paytrue</th>
+                                    <th class="text-center">pp</th>
+                                    <th class="text-center">ชดเชย</th>
+                                    <th class="text-center">va</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0; $total1 = 0; ?>
-                                @foreach ($data_anc as $item)
+                                @foreach ($report as $item)
                                     <?php $number++; ?> 
-                                    <tr id="#sid{{ $item->ward }}">
+                                    <tr id="#sid{{ $item->rep }}">
                                             <td class="text-center text-muted">{{ $number }}</td>
-                                            <td>
-                                                <div class="widget-content p-0">
-                                                    <div class="widget-content-wrapper">
-                                                        <div class="widget-content-left me-3">
-                                                            <div class="widget-content-left">
-                                                                <img width="40" class="rounded-circle"
-                                                                    src="images/avatars/4.jpg" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="widget-content-left flex2">
-                                                            @if ($startdate == '')
-                                                            <a href="{{url('prenatal_care_sub/'.$item->ward.'/'.$start.'/'.$end)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                                <div class="widget-heading">{{ $item->wardname }}</div> 
-                                                            </a>
-                                                            @else
-                                                            <a href="{{url('prenatal_care_sub/'.$item->ward.'/'.$startdate.'/'.$enddate)}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                                <div class="widget-heading">{{ $item->wardname }}</div> 
-                                                            </a>
-                                                            @endif
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->total_an }}</td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <div>{{ $item->sum_adjrw }}</div>
-                                            </td>
-                                            <td class="text-start" style="width: 150px;font-size: 13px">
-                                                <div class="pie-sparkline">{{ $item->total_cmi }}</div>
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <div >{{ $item->total_noadjre }}</div>
-                                                {{-- <div class="badge bg-warning">{{ $item->total_noadjre }}</div> --}}
-                                            </td>
+                                            
+                                            <td class="text-start" style="font-size: 13px">{{ $item->rep }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->repno }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->tranid }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->hn }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->cid }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->fullname }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->vstdate }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->maininscl }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->projectcode }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->debit }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->ip_paytrue }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->pp }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->total_approve }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->va }} </td>
                                     </tr>
 
                                 @endforeach

@@ -592,7 +592,7 @@ $pos = strrpos($url, '/') + 1;
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-12 mb-2">PK-BACKOFFice</p>
-                                                <a href="{{ url('prenatal_care') }}" target="_blank"><h5 class="text-start mb-2">ANC</h5>   </a>
+                                                <a href="{{ url('prenatal_care') }}" target="_blank"><h5 class="text-start mb-2">PEDIATRICS</h5>   </a>
                                             </div>
                                             <div class="avatar ms-2">
                                                 <a href="{{ url('prenatal_care') }}" target="_blank"> 
