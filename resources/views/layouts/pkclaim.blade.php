@@ -272,8 +272,8 @@
                                         {{-- <li><a href="{{ url('prb_repipdover') }}">Admit อยู่แต่วงเงินเกิน 30000</a></li> --}}
                                     </ul>
                                 </li>
-                            </ul>
-                            <ul class="sub-menu" aria-expanded="true">
+                            {{-- </ul>
+                            <ul class="sub-menu" aria-expanded="true"> --}}
                                 <li><a href="javascript: void(0);" class="has-arrow">ANC-หญิงตั้งครรภ์</a>
                                     <ul class="sub-menu" aria-expanded="true">
                                         <li><a href="{{ url('ppfs_30011') }}">บริการดูแลและฝากครรภ์</a></li>

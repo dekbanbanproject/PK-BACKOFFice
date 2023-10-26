@@ -80,10 +80,11 @@ if (Auth::check()) {
                     <div class="card-header ">
                         ทะเบียนควบคุมแผนงานโครงการ
                         <div class="btn-actions-pane-right">
-                            <a href="{{ url('plan_control_add') }}" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info"  data-bs-toggle="modal" data-bs-target="#insertModal"> 
+                            <a href="{{ url('plan_control_add') }}" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info" > 
                                 <i class="fa-solid fa-folder-plus text-info me-2"></i>
                                 เพิ่มทะเบียน
                                 </a> 
+                                {{-- data-bs-toggle="modal" data-bs-target="#insertModal" --}}
                         </div> 
                        
                     </div>   
@@ -91,30 +92,215 @@ if (Auth::check()) {
                         <div class="table-responsive"> 
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>                                           
-                                    <tr>
+                                    <tr style="font-size: 13px">
                                         <th width="5%" class="text-center">ลำดับ</th>
                                         <th class="text-center"> แผนงาน/โครงการ</th>
-                                        <th class="text-center">วัตถุประสงค์ /ตัวชี้วัด</th> 
-                                        <th class="text-center">แหล่งงบประมาณ</th> 
-                                        <th class="text-center">งบประมาณ</th> 
-                                        <th class="text-center">ระยะเวลา</th>      
-                                        <th class="text-center">กลุ่มงาน</th>  
-                                        <th class="text-center">รวมเบิก</th>                                                
+                                        {{-- <th class="text-center">วัตถุประสงค์ /ตัวชี้วัด</th>  --}}
+                                        {{-- <th class="text-center">แหล่งงบประมาณ</th>  --}}
+                                        {{-- <th class="text-center">งบประมาณ</th>  --}}
+                                        {{-- <th class="text-center">ระยะเวลา</th>       --}}
+                                        {{-- <th class="text-center">กลุ่มงาน</th>   --}}
+                                        <th class="text-center">รวมเบิก</th>  
+                                        <th class="text-center" width="7%">จัดการ</th>                                               
                                     </tr>                                            
                                 </thead>
                                 <tbody>
                                     <?php $i = 1; ?>
                                     @foreach ($plan_control as $va)
-                                        <tr>
-                                            <td class="text-center">{{$i++}}</td> 
-                                            <td class="text-start">{{$va->plan_name}}</td>
-                                            <td class="text-center">{{$va->plan_obj}}</td>
-                                            <td class="text-center">{{$va->plan_type}}</td>
-                                            <td class="text-center">{{$va->plan_price}}</td>
-                                            <td class="text-center">{{DateThai($va->plan_starttime)}}ถึง{{DateThai($va->plan_endtime)}}</td> 
-                                            <td class="text-center">{{$va->department}}</td>
+                                    <?php 
+                                        $data_sub_ = DB::connection('mysql')->select('
+                                            SELECT 
+                                                plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+                                                FROM
+                                                plan_control p
+                                                LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+                                                LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+                                                WHERE plan_control_id = "'.$va->plan_control_id.'"');
+    
+                                        ?>
+                                        <tr style="font-size: 13px">
+                                            <td class="text-center" width="4%">{{$i++}}</td> 
+                                            <td class="text-start">
+                                              
+                                                <div id="headingTwo" class="b-radius-0 card-header">
+                                                    @if ($va->plan_name == '0')
+                                                        <button type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
+                                                            aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                            <h7 style="color: rgb(207, 204, 204)">{{ $va->plan_name }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h7> 
+                                                        </button>
+                                                    @else
+                                                        <button type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#collapseOne2{{ $va->plan_control_id }}" aria-expanded="false"
+                                                            aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                            <h7 >{{ $va->plan_name }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h7> 
+                                                        </button>
+                                                    @endif
+                                                    
+                                                </div>
+                                                <div data-parent="#accordion" id="collapseOne2{{ $va->plan_control_id }}" class="collapse">
+                                                    <div class="card-body">
+                                                        <div class="row ms-3 me-3"> 
+                                                                <div class="col-md-3"> วัตถุประสงค์ /ตัวชี้วัด</div>
+                                                                <div class="col-md-2"> แหล่งงบประมาณ</div>
+                                                                <div class="col-md-2"> งบประมาณ</div>
+                                                                <div class="col-md-2">ระยะเวลา </div>  
+                                                                <div class="col-md-3">กลุ่มงาน </div>                
+                                                        </div>
+                                                        @foreach ($data_sub_ as $itemsub)
+                                                        <div class="row ms-3 me-3"> 
+                                                                <div class="col-md-3">{{$itemsub->plan_obj}} </div>
+                                                                <div class="col-md-2">{{$itemsub->plan_control_typename}} </div>
+                                                                <div class="col-md-2"> {{$itemsub->plan_price}}</div>
+                                                                <div class="col-md-2">{{$itemsub->plan_starttime}} ถึง {{$itemsub->plan_endtime}} </div>     
+                                                                <div class="col-md-3">{{$itemsub->DEPARTMENT_SUB_SUB_NAME}} </div>              
+                                                        </div>
+                                                        @endforeach 
+                                                    </div>
+                                                </div> 
+                                            </td>
+                                            {{-- <td class="text-start">{{$va->plan_obj}}</td> --}}
+                                            {{-- <td class="text-start">{{$va->plan_control_typename}}</td> --}}
+                                            {{-- <td class="text-start">{{$va->plan_price}}</td> --}}
+                                            {{-- <td class="text-start">{{DateThai($va->plan_starttime)}}ถึง{{DateThai($va->plan_endtime)}}</td>  --}}
+                                            {{-- <td class="text-start">{{$va->DEPARTMENT_SUB_SUB_NAME}}</td> --}}
                                             <td class="text-center">{{$va->plan_reqtotal}}</td> 
+                                            <td class="text-center" width="7%">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info dropdown-toggle menu btn-sm"
+                                                        type="button" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">ทำรายการ</button>
+                                                    <ul class="dropdown-menu"> 
+                                                        {{-- <button type="button"class="dropdown-item menu "
+                                                            data-bs-toggle="modal" data-bs-target="#UpdateModal{{ $va->plan_control_id }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="แก้ไข">
+                                                            <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
+                                                            <label for=""
+                                                                style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
+                                                        </button> --}}
+                                                        <a href="{{url('plan_control_edit/'.$va->plan_control_id)}}"  class="dropdown-item menu "
+                                                            {{-- data-bs-toggle="modal" data-bs-target="#UpdateModal{{ $va->plan_control_id }}" --}}
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="แก้ไข">
+                                                            <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
+                                                            <label for=""
+                                                                style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
+                                                    </a>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                         </tr>
+
+                                        <div class="modal fade" id="UpdateModal{{ $va->plan_control_id }}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="myExtraLargeModalLabel">แก้ไขทะเบียนควบคุมแผนงานโครงการ</h5><h6 class="mt-2">{{$va->billno}} </h6>
+                                                        <input id="billno" class="form-control form-control-sm" name="billno" type="hidden" value="{{$va->billno}}"> 
+                                                    </div>
+                                                    <div class="modal-body"> 
+                                                        <div class="row">
+                                                            <div class="col-md-12 ">
+                                                                <label for="">ชื่อโครงการ</label>
+                                                                <div class="form-group">
+                                                                <input id="plan_name" class="form-control form-control-sm" name="plan_name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-3 ">
+                                                                <label for="">ระยะเวลา วันที่</label>
+                                                                <div class="form-group">
+                                                                    {{-- <input id="plan_starttime" class="form-control form-control-sm" name="plan_starttime"> --}}
+                                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                                        <input type="text" class="form-control" name="startdate" id="startdate" placeholder="Start Date"
+                                                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                            autocomplete="off" data-date-language="th-th" value="{{ $datenow }}" required />
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 ">
+                                                                <label for="">ถึง </label>
+                                                                <div class="form-group">
+                                                                    {{-- <input id="plan_endtime" class="form-control form-control-sm" name="plan_endtime"> --}}
+                                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                                                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                                    
+                                                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="enddate"
+                                                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                                            autocomplete="off" data-date-language="th-th" value="{{ $datenow }}" /> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 ">
+                                                                <label for="">งบประมาณ </label>
+                                                                <div class="form-group">
+                                                                    <input id="edit_plan_price" class="form-control form-control-sm" name="plan_price">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 ">
+                                                                <label for="">แหล่งงบ </label>
+                                                                <div class="form-group">
+                                                                    <select name="edit_plan_type" id="edit_plan_type" class="form-control form-control-sm" style="width: 100%"> 
+                                                                        @foreach ($plan_control_type as $item2)
+                                                                        <option value="{{$item2->plan_control_type_id}}">{{$item2->plan_control_typename}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                    
+                                                        </div>
+                                                        <div class="row mt-2"> 
+                                                            <div class="col-md-8 ">
+                                                                <label for="">กลุ่มงาน </label>
+                                                                <div class="form-group">
+                                                                    <select name="department" id="department" class="form-control form-control-sm" style="width: 100%">
+                                                                        {{-- <option value="">=เลือก=</option> --}}
+                                                                        @foreach ($department_sub_sub as $item)
+                                                                        @if ($iddep == $item->DEPARTMENT_SUB_SUB_ID)
+                                                                        <option value="{{$item->DEPARTMENT_SUB_SUB_ID}}" selected>{{$item->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                                                        @else
+                                                                        <option value="{{$item->DEPARTMENT_SUB_SUB_ID}}">{{$item->DEPARTMENT_SUB_SUB_NAME}}</option>
+                                                                        @endif
+                                                                            
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                            <div class="col-md-4 ">
+                                                                <label for="">ผู้รับผิดชอบ </label>
+                                                                <div class="form-group">
+                                                                    <select name="user_id" id="user_id" class="form-control form-control-sm" style="width: 100%"> 
+                                                                        @foreach ($users as $item3)
+                                                                        <option value="{{$item3->id}}">{{$item3->fname}} {{$item3->lname}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class="modal-footer">
+                                                        <div class="col-md-12 text-end">
+                                                            <div class="form-group">
+                                                                <button type="button" id="SaveBtn" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info">
+                                                                    <i class="fa-solid fa-floppy-disk me-2"></i>
+                                                                    บันทึกข้อมูล
+                                                                </button>
+                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger" data-bs-dismiss="modal"><i
+                                                                        class="fa-solid fa-xmark me-2"></i>Close</button>
+                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     @endforeach
                                 </tbody>
                             </table>
@@ -249,7 +435,10 @@ if (Auth::check()) {
                 $('#enddate').datepicker({
                     format: 'yyyy-mm-dd'
                 });
-
+                
+                $('#edit_plan_type').select2({
+                    dropdownParent: $('#UpdateModal')
+                });
 
                 $('select').select2();
                 $('#plan_type').select2({
@@ -311,6 +500,27 @@ if (Auth::check()) {
                         },
                     });
                 });
+
+                $(document).on('click', '.edit_data', function() {
+                var audiovisual_id = $(this).val(); 
+                $('#UpdateModal').modal('show'); 
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('audiovisual_work_detail') }}" + '/' + audiovisual_id,
+                    success: function(data) {
+                        $('#edit_ptname').val(data.work.ptname)
+                        $('#edit_tel').val(data.work.tel)
+                        $('#edit_work_order_date').val(data.work.work_order_date)
+                        $('#edit_job_request_date').val(data.work.job_request_date)
+                        $('#edit_department').val(data.work.department)
+                        $('#edit_audiovisual_type').val(data.work.audiovisual_type)
+                        $('#edit_audiovisual_name').val(data.work.audiovisual_name)
+                        $('#edit_audiovisual_qty').val(data.work.audiovisual_qty)
+                        $('#edit_audiovisual_detail').val(data.work.audiovisual_detail)
+                        $('#edit_audiovisual_id').val(data.work.audiovisual_id)
+                    },
+                });
+            });
 
                               
             });

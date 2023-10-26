@@ -56,8 +56,15 @@ class PlanController extends Controller
         $data['users'] = User::get();
         $data['department_sub_sub'] = Department_sub_sub::get();
         $data['plan_control_type'] = Plan_control_type::get();
-        $data['plan_control'] = Plan_control::get();
-        
+        // $data['plan_control'] = Plan_control::get();
+        $data['plan_control'] = DB::connection('mysql')->select('
+            SELECT 
+            plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+            FROM
+            plan_control p
+            LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+            LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+        ');    
         return view('plan.plan_control', $data);
     }
     public function plan_control_add(Request $request)
@@ -66,8 +73,30 @@ class PlanController extends Controller
         $data['enddate'] = $request->enddate;
         $data['com_tec'] = DB::table('com_tec')->get();
         $data['users'] = User::get();
-
+        $data['plan_control_type'] = Plan_control_type::get();
+        $data['department_sub_sub'] = Department_sub_sub::get();
         return view('plan.plan_control_add', $data);
+    }
+    public function plan_control_edit(Request $request,$id)
+    {
+        $data['startdate'] = $request->startdate;
+        $data['enddate'] = $request->enddate;
+        $data['com_tec'] = DB::table('com_tec')->get();
+        $data['users'] = User::get();
+        $data['plan_control'] = Plan_control::where('plan_control_id',$id)->first();
+        $data['department_sub_sub'] = Department_sub_sub::get();
+        $data['plan_control_type'] = Plan_control_type::get();
+        // $data['plan_control'] = DB::connection('mysql')->select('
+        //     SELECT 
+        //     p.plan_control_id,p.billno,p.plan_obj,p.plan_name,p.plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+        //     FROM
+        //     plan_control p
+        //     LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+        //     LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+        //     WHERE p.plan_control_id = "'.$id.'"
+        // ');  
+
+        return view('plan.plan_control_edit', $data);
     }
     public static function refnumber()
     {
@@ -101,6 +130,24 @@ class PlanController extends Controller
         $add->plan_type         = $request->input('plan_type');
         $add->user_id           = $request->input('user_id'); 
         $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    public function plan_control_update(Request $request)
+    {
+        $id = $request->plan_control_id;
+        $update = Plan_control::find($id);
+        $update->billno            = $request->input('billno');
+        $update->plan_name         = $request->input('plan_name');
+        $update->plan_starttime    = $request->input('datepicker1');
+        $update->plan_endtime      = $request->input('datepicker2');
+        $update->plan_price        = $request->input('plan_price');
+        $update->department        = $request->input('department');
+        $update->plan_type         = $request->input('plan_type');
+        $update->user_id           = $request->input('user_id'); 
+        $update->save();
 
         return response()->json([
             'status'     => '200',
