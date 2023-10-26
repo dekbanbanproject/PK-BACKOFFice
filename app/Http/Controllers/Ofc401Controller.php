@@ -466,10 +466,13 @@ class Ofc401Controller extends Controller
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
                         ,v.spclty CLINIC
-                         ,CASE 
-                         WHEN o.diagtype = "1" THEN o.icd10
-                         ELSE v.main_pdx
-                         END as DIAG
+
+                        ,CASE 
+                        WHEN o.diagtype = "1" THEN o.icd10
+                        WHEN o.diagtype = "2" THEN o.icd10
+                        ELSE v.main_pdx
+                        END as DIAG
+
                         ,o.diagtype DXTYPE
                         ,CASE 
                         WHEN d.licenseno IS NULL THEN ""
@@ -484,8 +487,9 @@ class Ofc401Controller extends Controller
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                         LEFT OUTER JOIN icd101 i on i.code = o.icd10
                         WHERE v.vn IN("'.$va1->vn.'")
-                        GROUP BY v.vn
+                        GROUP BY o.diagtype,v.vn
                 ');
+                // AND o.diagtype ="1"
                 foreach ($data_odx_ as $va5) { 
                     D_odx::insert([
                         'HN'                => $va5->HN,
@@ -521,6 +525,7 @@ class Ofc401Controller extends Controller
                         LEFT OUTER JOIN hos.doctor d on d.`code` = o.doctor
                         LEFT OUTER JOIN hos.icd9cm1 i on i.code = o.icd10
                         WHERE v.vn IN("'.$va1->vn.'")
+                        AND substring(o.icd10,1,1) in ("0","1","2","3","4","5","6","7","8","9")
                         GROUP BY v.vn
                 ');
                 foreach ($data_oop_ as $va6) { 
@@ -828,6 +833,7 @@ class Ofc401Controller extends Controller
                         LEFT OUTER JOIN ipt i on i.an = v.an
                         AND i.an is not NULL 
                         where i.vn IN("'.$va1->vn.'")
+                        AND v.unitprice <> 0
                         GROUP BY i.vn,n.nhso_adp_code,rate) a 
                         GROUP BY an,CODE,rate
                         UNION
@@ -854,6 +860,7 @@ class Ofc401Controller extends Controller
                         INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
                         LEFT OUTER JOIN ipt i on i.an = v.an 
                         WHERE v.vn IN("'.$va1->vn.'")
+                        AND v.unitprice <> 0
                         AND i.an is NULL
                         GROUP BY v.vn,n.nhso_adp_code,rate) b 
                         GROUP BY seq,CODE,rate; 
