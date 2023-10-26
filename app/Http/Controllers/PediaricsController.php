@@ -174,7 +174,7 @@ class PediaricsController extends Controller
         
             $data['data_anc'] = DB::connection('mysql10')->select('   
                     
-                    SELECT a.pdx,ic.`name` as namet,GROUP_CONCAT(DISTINCT(w.`name`)) as ward
+                    SELECT i.an,a.pdx,ic.`name` as namet,GROUP_CONCAT(DISTINCT(w.`name`)) as ward
                     ,count(distinct(i.an))as total_an
                     ,sum(i.adjrw)as sum_adjrw
                     ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
@@ -241,6 +241,77 @@ class PediaricsController extends Controller
        
          
         return view('anc.prenatal_care_pdx',$data,[ 
+            'dabyear'   => $dabyear,
+            'doctor'    => $doctor,
+        ]);
+    }
+    public function prenatal_care_an(Request $request,$pdx,$doctor,$dabyear)
+    {
+        // $dabyear = $request->dabyear;
+        // $enddate = $request->enddate;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        $budget_ = DB::table('budget_year')->where('leave_year_id','=', $dabyear)->first();
+        $date_start_ = $budget_->date_begin;
+        $date_end_   = $budget_->date_end;
+        
+        $data['dabyears'] = DB::table('budget_year')->get();
+        if ($pdx == 'xxx') {
+            $data['data_anc'] = DB::connection('mysql10')->select(' 
+                SELECT i.an,i.hn,CONCAT(p.pname,p.fname," ",p.lname)as ptname,i.regdate,i.dchdate,a.admdate,CONCAT(a.age_y,"  ป.  ",a.age_m," ด."  ,a.age_d,"  ว.")as age
+                    ,o.height,o.bw
+                    ,GROUP_CONCAT(DISTINCT(ia.icd10) ORDER BY ia.diagtype ASC)as total_diag
+                    ,sum(i.adjrw)as sum_adjrw
+                    ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
+                    ,count(DISTINCT(ii.an))as total_noadjre ,a.pdx
+                    FROM  ipt i
+                    LEFT JOIN  an_stat a  on  i.an=a.an
+                    LEFT JOIN  opdscreen o on  i.vn=o.vn
+                    LEFT JOIN  iptdiag  ia  on i.an=ia.an
+                    LEFT JOIN  icd101 ic  on  a.pdx=ic.`code`
+                    LEFT JOIN  ward  w  on  i.ward=w.ward
+                    LEFT JOIN  patient  p  on  i.hn=p.hn
+                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw = ""
+                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.`code`
+                    WHERE  i.dchdate  BETWEEN "'.$date_start_.'" AND "'.$date_end_.'" 
+                    AND i.incharge_doctor ="'.$doctor.'"
+                    AND a.pdx =""
+                    and a.age_y<="15"
+                    GROUP BY  i.an  
+                    ORDER BY i.dchdate DESC
+            '); 
+        } else {
+            $data['data_anc'] = DB::connection('mysql10')->select(' 
+                SELECT i.an,i.hn,CONCAT(p.pname,p.fname," ",p.lname)as ptname,i.regdate,i.dchdate,a.admdate,CONCAT(a.age_y,"  ป.  ",a.age_m," ด."  ,a.age_d,"  ว.")as age
+                    ,o.height,o.bw
+                    ,GROUP_CONCAT(DISTINCT(ia.icd10) ORDER BY ia.diagtype ASC)as total_diag
+                    ,sum(i.adjrw)as sum_adjrw
+                    ,sum(i.adjrw)/count(distinct(i.an)) as total_cmi
+                    ,count(DISTINCT(ii.an))as total_noadjre ,a.pdx
+                    FROM  ipt i
+                    LEFT JOIN  an_stat a  on  i.an=a.an
+                    LEFT JOIN  opdscreen o on  i.vn=o.vn
+                    LEFT JOIN  iptdiag  ia  on i.an=ia.an
+                    LEFT JOIN  icd101 ic  on  a.pdx=ic.`code`
+                    LEFT JOIN  ward  w  on  i.ward=w.ward
+                    LEFT JOIN  patient  p  on  i.hn=p.hn
+                    LEFT JOIN  ipt  ii  on  i.an=ii.an  and  ii.adjrw = ""
+                    LEFT JOIN  doctor  d  on  i.incharge_doctor=d.`code`
+                    WHERE  i.dchdate  BETWEEN "'.$date_start_.'" AND "'.$date_end_.'" 
+                    AND i.incharge_doctor ="'.$doctor.'"
+                    AND a.pdx ="'.$pdx.'"
+                    and a.age_y<="15"
+                    GROUP BY  i.an  
+                    ORDER BY i.dchdate DESC
+            '); 
+        }
+        
+            
+       
+         
+        return view('anc.prenatal_care_an',$data,[ 
             'dabyear'   => $dabyear,
             'doctor'    => $doctor,
         ]);

@@ -82,7 +82,7 @@ use App\Models\D_irf;
 use App\Models\D_ofc_401;
 use App\Models\D_ucep24_main;
 use App\Models\D_ucep24;
-use App\Models\Acc_ucep24;
+use App\Models\D_claim_db_hipdata_code;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
@@ -146,7 +146,7 @@ class Ofc401Controller extends Controller
                         LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
                         
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND v.pttype in ("O1","O2","O3","O4","O5")
+                        AND v.pttype in ("O1","O2","O3","O4","O5") AND rd.sss_approval_code <> ""
                         AND v.pttype not in ("OF","FO") 
                         and v.uc_money >"0"
                         AND o.an is null
@@ -184,9 +184,56 @@ class Ofc401Controller extends Controller
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
-                    }                   
+                    }   
+                }
+                $data_maindb_ = DB::connection('mysql2')->select(' 
+                        SELECT count(distinct v.vn) as vn
+                        ,count(distinct o.an) as an,day(v.vstdate) as days,o.vstdate,ptt.hipdata_code
+                          ,month(v.vstdate) as months,year(v.vstdate) as year,SUM(rd.amount) as Apphos
+                        FROM hos.vn_stat v
+                        LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn
+                        LEFT OUTER JOIN hos.ovstdiag ov ON v.vn=ov.vn
+                        LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn
+                        LEFT OUTER JOIN hos.opdscreen op ON v.vn = op.vn
+                        LEFT OUTER JOIN hos.pttype ptt ON v.pttype=ptt.pttype 
+                        LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn=rd.vn
+                        LEFT OUTER JOIN hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                        LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
+                        
+                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND v.pttype in ("O1","O2","O3","O4","O5") AND rd.sss_approval_code <> ""
+                        AND v.pttype not in ("OF","FO") 
+                        and v.uc_money >"0"
+                        AND o.an is null
+                        AND v.pdx <> ""
+                        GROUP BY days; 
+                ');  
+
+                // $data_max_ = D_claim_db_hipdata_code::max('no');
+                // $data_max = $data_max_ + 1; 
+                foreach ($data_maindb_ as $key => $val2) {    
+                //   $data_old = D_claim_db_hipdata_code::where('mo',$val2->months)->where('ye',$val2->year)->where('no',$data_max)->first(); 
+
+                $data_max_ = D_claim_db_hipdata_code::where('vstdate',$val2->vstdate)->count();
+                if ($data_max_ >0) {
+                    # code...
+                } else {
+                    D_claim_db_hipdata_code::insert([ 
+                        'vstdate'            => $val2->vstdate, 
+                        'mo'                 => $val2->months,
+                        'ye'                 => $val2->year,
+                        'vn'                 => $val2->vn, 
+                        'an'                 => $val2->an,
+                        'income_vn'          => $val2->Apphos, 
+                        'hipdata_code'       => $val2->hipdata_code  
+                    ]);
+                }
+                
+                   
                     
                 }
+
+ 
                 
         }
             $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401');  
@@ -215,21 +262,36 @@ class Ofc401Controller extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_ofc_401');
         $iduser = Auth::user()->id; 
-        D_opd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_orf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_oop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_odx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_idx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ipd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_irf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_aer::where('d_anaconda_id','=','OFC_401')->delete();
-        D_iop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_adp::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_dru::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_pat::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cht::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cha::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ins::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_opd::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_orf::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_oop::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_odx::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_idx::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_ipd::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_irf::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_aer::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_iop::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_adp::where('d_anaconda_id','=','OFC_401')->delete();   
+        // D_dru::where('d_anaconda_id','=','OFC_401')->delete();   
+        // D_pat::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_cht::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_cha::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_ins::where('d_anaconda_id','=','OFC_401')->delete();
+        D_opd::truncate();
+        D_orf::truncate();
+        D_oop::truncate();
+        D_odx::truncate();
+        D_idx::truncate();
+        D_ipd::truncate();
+        D_irf::truncate();
+        D_aer::truncate();
+        D_iop::truncate();
+        D_adp::truncate();  
+        D_dru::truncate();   
+        D_pat::truncate();
+        D_cht::truncate();
+        D_cha::truncate();
+        D_ins::truncate();
 
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK
@@ -404,7 +466,10 @@ class Ofc401Controller extends Controller
                         SELECT v.hn HN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
                         ,v.spclty CLINIC
-                        ,o.icd10 DIAG
+                         ,CASE 
+                         WHEN o.diagtype = "1" THEN o.icd10
+                         ELSE v.main_pdx
+                         END as DIAG
                         ,o.diagtype DXTYPE
                         ,CASE 
                         WHEN d.licenseno IS NULL THEN ""

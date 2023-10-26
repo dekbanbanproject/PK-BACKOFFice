@@ -598,8 +598,8 @@ class PPfs30011Controller extends Controller
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
                         ,v.spclty CLINIC
                         
-                        ,o.icd10 DIAG
-
+                        o.icd10 DIAG                        
+                        
                         ,o.diagtype DXTYPE
                         ,CASE 
                         WHEN d.licenseno IS NULL THEN ""
@@ -613,13 +613,19 @@ class PPfs30011Controller extends Controller
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                         INNER JOIN icd101 i on i.code = o.icd10
-                        WHERE v.vn IN("'.$va1->vn.'")
+                        WHERE v.vn IN("'.$va1->vn.'") AND o.diagtype = "1"
                         GROUP BY v.vn
                 ');
                 // ,CASE 
-                //         WHEN o.icd10 LIKE "O%" THEN "Z348"  
-                //         ELSE o.icd10
-                //         END as DIAG
+                // WHEN o.diagtype = "1" THEN o.icd10
+                // ELSE v.main_pdx
+                // END as DIAG
+
+                // ,o.icd10 DIAG
+                // ,CASE 
+                // WHEN o.icd10 LIKE "O%" THEN "Z348"  
+                // ELSE o.icd10
+                // END as DIAG
                 // ,o.icd10 DIAG
                 foreach ($data_odx_ as $va5) { 
                     D_odx::insert([

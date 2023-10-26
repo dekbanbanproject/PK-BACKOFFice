@@ -186,8 +186,12 @@
                                                         </div>
                                                         <div class="widget-content-left flex2">
                                                             <div class="text-start" style="font-size: 13px">
-                                                                <a href="{{url('prenatal_care_doctor/'.$item->incharge_doctor.'/'.$dabyear)}}">{{ $item->doctor }}</a>
                                                                 
+                                                                @if ($dabyear == '')
+                                                                <a href="{{url('prenatal_care_doctor/'.$item->incharge_doctor.'/'.$y)}}">{{ $item->doctor }}</a>
+                                                                @else
+                                                                <a href="{{url('prenatal_care_doctor/'.$item->incharge_doctor.'/'.$dabyear)}}">{{ $item->doctor }}</a>
+                                                                @endif
                                                             </div> 
                                                             
                                                         </div>

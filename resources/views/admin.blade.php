@@ -739,6 +739,33 @@ $pos = strrpos($url, '/') + 1;
                     </div>
                 </div>
             </div>
+        </div>
+            
+        
+        <div class="col-xl-2 col-md-2"> 
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgba(243, 151, 247, 0.74)"> 
+                <div class="grid-menu-col">
+                    <div class="g-0 row">
+                        <div class="col-sm-12">
+                            <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="" target="_blank"> <h5 class="text-start mb-2">DASHBOARD</h5>         </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a > 
+                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                    <i class="fa-solid fa-3x fa-chart-line font-size-25" style="color: rgba(243, 151, 247, 0.74)"></i>
+                                               </button> 
+                                            </a> 
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
  
             
 

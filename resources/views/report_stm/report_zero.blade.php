@@ -119,7 +119,9 @@
                 <div class="main-card card">
                   
                     <div class="table-responsive p-2">
-                        <table id="example" class="align-middle mb-0 table table-borderless table-striped table-hover ">
+                        {{-- <table id="example" class="align-middle mb-0 table table-borderless table-striped table-hover "> --}}
+                            <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th> 

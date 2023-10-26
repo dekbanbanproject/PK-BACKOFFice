@@ -2075,6 +2075,7 @@ Route::middleware(['type'])->group(function(){
       Route::match(['get','post'],'prenatal_care',[App\Http\Controllers\PediaricsController::class, 'prenatal_care'])->name('anc.prenatal_care');//
       Route::match(['get','post'],'prenatal_care_doctor/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_doctor'])->name('anc.prenatal_care_doctor');//
       Route::match(['get','post'],'prenatal_care_pdx/{pdx}/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_pdx'])->name('anc.prenatal_care_pdx');//
+      Route::match(['get','post'],'prenatal_care_an/{pdx}/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_an'])->name('anc.prenatal_care_an');//
       Route::match(['get','post'],'prenatal_care_an/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_an'])->name('anc.prenatal_care_an');//
       Route::match(['get','post'],'prenatal_care_sub/{ward}/{startdate}/{enddate}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_sub'])->name('anc.prenatal_care_sub');//
       Route::match(['get','post'],'prenatal_care_bar',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_bar'])->name('anc.prenatal_care_bar');//

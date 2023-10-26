@@ -90,11 +90,12 @@
             @csrf
             <div class="row ">
                 <div class="col-md-3">
-                    <h4 class="card-title">รายละเอียดข้อมูล </h4> 
+                    <h4 class="card-title">รายละเอียดข้อมูล </h4>
+                    {{-- <p class="card-title-desc">รายละเอียดข้อมูล </p> --}}
                 </div>
                 <div class="col"></div>
-                {{-- <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-2 text-end">
+                <div class="col-md-1 text-end mt-2">วันที่</div>
+                {{-- <div class="col-md-2 text-end">
                     <select name="dabyear" id="dabyear" class="form-control" style="width: 100%">
                         @foreach ($dabyears as $item)
                         @if ($dabyear == '')
@@ -134,10 +135,17 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    {{-- <th class="text-center">an</th> --}}
+                                    <th class="text-center">an</th>
+                                    <th class="text-center">hn</th>
+                                    <th class="text-center">ptname</th>
                                     <th class="text-center">pdx</th>
-                                    <th class="text-center">name</th>
-                                    <th class="text-center">total_an</th>
+                                    <th class="text-center">regdate</th>
+                                    <th class="text-center">dchdate</th>
+                                    <th class="text-center">admdate</th>
+                                    <th class="text-center">age</th>
+                                    <th class="text-center">height</th>
+                                    <th class="text-center">bw</th>
+                                    <th class="text-center">total_diag</th>
                                     <th class="text-center">sum_adjrw</th>
                                     <th class="text-center">total_cmi</th>
                                     <th class="text-center">total_noadjre</th>
@@ -148,50 +156,30 @@
                                 $total1 = 0; ?>
                                 @foreach ($data_anc as $item)
                                     <?php $number++; ?> 
-                                    <tr id="#sid{{ $item->pdx }}">
+                                    <tr id="#sid{{ $item->an }}">
                                             <td class="text-center text-muted">{{ $number }}</td>
-                                            {{-- <td class="text-start" style="font-size: 13px">{{ $item->an }}</td> --}}
-                                            <td>
-                                                <div class="widget-content p-0">
-                                                    <div class="widget-content-wrapper">
-                                                        <div class="widget-content-left me-3">
-                                                            <div class="widget-content-left">
-                                                                <img width="40" class="rounded-circle"
-                                                                    src="images/avatars/4.jpg" alt="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="widget-content-left flex2">
-                                                            <div class="text-start" style="font-size: 13px">
-                                                                <a href="{{url('prenatal_care_pdx/'.$item->pdx.'/'.$doctor.'/'.$dabyear)}}"> {{ $item->pdx }}</a>
-                                                                {{-- {{ $item->pdx }} --}}
-                                                            </div> 
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->namet }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->an }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->hn }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->ptname }}</td>
                                             <td class="text-start" style="font-size: 13px">
-                                                @if ($item->pdx =='')
-                                                <a href="{{url('prenatal_care_an/xxx/'.$doctor.'/'.$dabyear)}}"> {{ $item->total_an }}</a>
+                                             
+                                                @if ($item->pdx == '')
+                                                <div class="badge" style="background: rgb(245, 126, 78)" style="font-size:12px">ว่าง</div>
+                                               
                                                 @else
-                                                <a href="{{url('prenatal_care_an/'.$item->pdx.'/'.$doctor.'/'.$dabyear)}}"> {{ $item->total_an }}</a>
+                                                {{$item->pdx}}
                                                 @endif
-                                                
-                                                {{-- <div>{{ $item->total_an }}</div> --}}
                                             </td>
-                                            <td class="text-start" style="width: 150px;font-size: 13px">
-                                                <div class="pie-sparkline">{{ $item->sum_adjrw }}</div>
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <div >{{ $item->total_cmi }}</div> 
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <div >
-                                                    {{-- <a href="{{url('prenatal_care_pdx/'.$item->pdx.'/'.$doctor.'/'.$dabyear)}}"> {{ $item->total_noadjre }}</a> --}}
-                                                    {{ $item->total_noadjre }}
-                                                </div> 
-                                            </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->regdate }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->dchdate }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->admdate }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->age }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->height }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->bw }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->total_diag }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->sum_adjrw }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->total_cmi }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->total_noadjre }}</td> 
                                     </tr>
 
                                 @endforeach
