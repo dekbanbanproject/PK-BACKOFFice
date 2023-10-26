@@ -1841,16 +1841,16 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_501_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_stm_date'])->name('acc.account_501_stm_date');//
     Route::match(['get','post'],'account_501_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_stmnull_date'])->name('acc.account_501_stmnull_date');//
 
-    Route::match(['get','post'],'account_502_dash',[App\Http\Controllers\Account501Controller::class, 'account_501_dash'])->name('acc.account_501_dash');//  
-    Route::match(['get','post'],'account_502_pull',[App\Http\Controllers\Account501Controller::class, 'account_501_pull'])->name('acc.account_501_pull');//
-    Route::match(['get','post'],'account_502_pulldata',[App\Http\Controllers\Account501Controller::class, 'account_501_pulldata'])->name('acc.account_501_pulldata');// 
-    Route::match(['get','post'],'account_502_stam',[App\Http\Controllers\Account501Controller::class, 'account_501_stam'])->name('acc.account_501_stam');// 
-    Route::match(['get','post'],'account_502_detail/{months}/{year}',[App\Http\Controllers\Account501Controller::class, 'account_501_detail'])->name('acc.account_501_detail');//
-    Route::match(['get','post'],'account_502_stm/{months}/{year}',[App\Http\Controllers\Account501Controller::class, 'account_501_stm'])->name('acc.account_501_stm');//
-    Route::match(['get','post'],'account_502_stmnull/{months}/{year}',[App\Http\Controllers\Account501Controller::class, 'account_501_stmnull'])->name('acc.account_501_stmnull');//
-    Route::match(['get','post'],'account_502_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_detail_date'])->name('acc.account_501_detail_date');//
-    Route::match(['get','post'],'account_502_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_stm_date'])->name('acc.account_501_stm_date');//
-    Route::match(['get','post'],'account_502_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_stmnull_date'])->name('acc.account_501_stmnull_date');//
+    // Route::match(['get','post'],'account_502_dash',[App\Http\Controllers\Account501Controller::class, 'account_501_dash'])->name('acc.account_501_dash');//  
+    // Route::match(['get','post'],'account_502_pull',[App\Http\Controllers\Account501Controller::class, 'account_501_pull'])->name('acc.account_501_pull');//
+    // Route::match(['get','post'],'account_502_pulldata',[App\Http\Controllers\Account501Controller::class, 'account_501_pulldata'])->name('acc.account_501_pulldata');// 
+    // Route::match(['get','post'],'account_502_stam',[App\Http\Controllers\Account501Controller::class, 'account_501_stam'])->name('acc.account_501_stam');// 
+    // Route::match(['get','post'],'account_502_detail/{months}/{year}',[App\Http\Controllers\Account501Controller::class, 'account_501_detail'])->name('acc.account_501_detail');//
+    // Route::match(['get','post'],'account_502_stm/{months}/{year}',[App\Http\Controllers\Account501Controller::class, 'account_501_stm'])->name('acc.account_501_stm');//
+    // Route::match(['get','post'],'account_502_stmnull/{months}/{year}',[App\Http\Controllers\Account501Controller::class, 'account_501_stmnull'])->name('acc.account_501_stmnull');//
+    // Route::match(['get','post'],'account_502_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_detail_date'])->name('acc.account_501_detail_date');//
+    // Route::match(['get','post'],'account_502_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_stm_date'])->name('acc.account_501_stm_date');//
+    // Route::match(['get','post'],'account_502_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account501Controller::class, 'account_501_stmnull_date'])->name('acc.account_501_stmnull_date');//
 
     Route::match(['get','post'],'account_503_dash',[App\Http\Controllers\Account503Controller::class, 'account_503_dash'])->name('acc.account_503_dash');//  
     Route::match(['get','post'],'account_503_pull',[App\Http\Controllers\Account503Controller::class, 'account_503_pull'])->name('acc.account_503_pull');//
@@ -2076,7 +2076,7 @@ Route::middleware(['type'])->group(function(){
       Route::match(['get','post'],'prenatal_care_doctor/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_doctor'])->name('anc.prenatal_care_doctor');//
       Route::match(['get','post'],'prenatal_care_pdx/{pdx}/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_pdx'])->name('anc.prenatal_care_pdx');//
       Route::match(['get','post'],'prenatal_care_an/{pdx}/{doctor}/{year}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_an'])->name('anc.prenatal_care_an');//
-      Route::match(['get','post'],'prenatal_care_an/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_an'])->name('anc.prenatal_care_an');//
+      // Route::match(['get','post'],'prenatal_care_an/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_an'])->name('anc.prenatal_care_an');//
       Route::match(['get','post'],'prenatal_care_sub/{ward}/{startdate}/{enddate}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_sub'])->name('anc.prenatal_care_sub');//
       Route::match(['get','post'],'prenatal_care_bar',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_bar'])->name('anc.prenatal_care_bar');//
 

@@ -482,13 +482,15 @@ class Ofc401Controller extends Controller
                         END as DRDX
                         ,v.cid PERSON_ID
                         ,v.vn SEQ 
-                        from vn_stat v
-                        LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
+                        from ovstdiag o 
+                        LEFT OUTER JOIN icd9cm1 i on i.code = o.icd10
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
-                        LEFT OUTER JOIN icd101 i on i.code = o.icd10
-                        WHERE v.vn IN("'.$va1->vn.'")
-                        GROUP BY o.diagtype,v.vn
+                        LEFT OUTER JOIN vn_stat v on v.vn = o.vn
+                        WHERE o.vn IN("'.$va1->vn.'")
+                        GROUP BY v.vn,o.diagtype 
                 ');
+                // WHEN o.diagtype = "2" THEN o.icd10
+                // GROUP BY o.diagtype,v.vn
                 // AND o.diagtype ="1"
                 foreach ($data_odx_ as $va5) { 
                     D_odx::insert([
