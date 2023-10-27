@@ -371,6 +371,7 @@ class PPfs12002Controller extends Controller
                     LEFT OUTER JOIN hos.doctor d on d.`code` = o.doctor
                     LEFT OUTER JOIN hos.icd9cm1 i on i.code = o.icd10
                     WHERE v.vn IN("'.$va1->vn.'")
+                    AND substring(o.icd10,1,1) in ("0","1","2","3","4","5","6","7","8","9")
                     GROUP BY v.vn
                 ');
                 foreach ($data_oop_ as $va6) {
