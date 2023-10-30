@@ -207,8 +207,9 @@
                                                             <label for=""
                                                                 style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
                                                         </a>
-                                                        <button type="button"class="dropdown-item menu "
-                                                            data-bs-toggle="modal" data-bs-target="#MoneyModal"
+                                                        <button type="button"class="dropdown-item menu MoneyModal_"
+                                                            {{-- data-bs-toggle="modal" data-bs-target="#MoneyModal" --}}
+                                                            value="{{ $va->plan_control_id }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="left"
                                                             title="เบิกเงิน">
                                                           
@@ -393,7 +394,10 @@
                     <h5 class="modal-title" id="myExtraLargeModalLabel">
                         เบิกเงินทะเบียนควบคุมแผนงานโครงการ</h5>
                     <h6 class="mt-2">ครั้งที่ </h6>
+
                     <input id="plan_control_money_no" class="form-control form-control-sm" name="plan_control_money_no" type="hidden" >
+                    <input id="plan_control_id" class="form-control form-control-sm" name="plan_control_id" type="text" >
+                    
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -683,6 +687,22 @@
                         $('#edit_audiovisual_qty').val(data.work.audiovisual_qty)
                         $('#edit_audiovisual_detail').val(data.work.audiovisual_detail)
                         $('#edit_audiovisual_id').val(data.work.audiovisual_id)
+                    },
+                });
+            });
+
+            $(document).on('click', '.MoneyModal_', function() {
+                var plan_control_id = $(this).val();
+                $('#MoneyModal').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('plan_control_moneyedit') }}" + '/' + plan_control_id,
+                    success: function(data) {
+                        $('#plan_control_moneydate').val(data.data_show.plan_control_moneydate)
+                        $('#plan_control_money_no').val(data.data_show.plan_control_money_no)
+                        $('#plan_control_moneyprice').val(data.data_show.plan_control_moneyprice)
+                        $('#plan_control_moneyuser_id').val(data.data_show.plan_control_moneyuser_id)  
+                        $('#plan_control_id').val(data.data_show.plan_control_id)
                     },
                 });
             });

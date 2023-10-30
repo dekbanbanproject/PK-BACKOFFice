@@ -17,6 +17,7 @@ use App\Models\Plan_kpi;
 use App\Models\Department_sub_sub;
 use App\Models\Plan_control_type;
 use App\Models\Plan_control;
+use App\Models\Plan_control_money;
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -151,6 +152,29 @@ class PlanController extends Controller
 
         return response()->json([
             'status'     => '200',
+        ]);
+    }
+
+    public function plan_control_moneyedit(Request $request,$id)
+    {
+    //    dd($id);
+        $data_show = Plan_control::leftJoin('plan_control_money', 'plan_control.plan_control_id', '=', 'plan_control_money.plan_control_id')
+        ->where('plan_control.plan_control_id',$id)->first();
+        // $data_show = Plan_control_money::where('plan_control_id',$ids)->get();
+
+        // $data_show = DB::connection('mysql')->select('
+        //     SELECT 
+        //     *
+        //     FROM
+        //     plan_control p
+        //     JOIN Plan_control_money s ON s.plan_control_id = p.plan_control_id 
+        //     WHERE p.plan_control_id = "'.$id.'"
+        //     group by p.plan_control_id
+        // ');  
+        // dd($data_show);
+        return response()->json([
+            'status'               => '200', 
+            'data_show'            =>  $data_show,
         ]);
     }
 
