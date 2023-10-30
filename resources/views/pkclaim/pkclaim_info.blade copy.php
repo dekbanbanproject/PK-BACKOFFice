@@ -161,11 +161,33 @@
                     </div>
                     <h4 class="card-title mb-4">Revenue</h4>
 
-                   
-                <div class="card-body py-0 px-2"> 
+                    {{-- <div class="text-center pt-3">
+                        <div class="row">
+                            <div class="col-sm-4 mb-3 mb-sm-0">
+                                <div>
+                                    <h5>17,493</h5>
+                                    <p class="text-muted text-truncate mb-0">Marketplace</p>
+                                </div>
+                            </div> 
+                            <div class="col-sm-4 mb-3 mb-sm-0">
+                                <div>
+                                    <h5>$44,960</h5>
+                                    <p class="text-muted text-truncate mb-0">Last Week</p>
+                                </div>
+                            </div> 
+                            <div class="col-sm-4">
+                                <div>
+                                    <h5>$29,142</h5>
+                                    <p class="text-muted text-truncate mb-0">Last Month</p>
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+                </div> --}}
+                <div class="card-body py-0 px-2">
+                    {{-- <div id="column_line_chart" class="apex-charts" dir="ltr"></div> --}}
                     <div class="chart-container-fluid">
-                        <div id="chart_div" style="width: auto; height: 660px;"></div>
-                      {{-- <canvas id="myChart" width="800" height="1200"></canvas> --}}
+                      <canvas id="myChart" width="800" height="1200"></canvas>
                   </div>
                 </div>
             </div><!-- end card -->
@@ -183,42 +205,7 @@
 
  <script src="{{ asset('js/chart.min.js') }}"></script>
  <script src="{{ asset('js/dist-chart.min.js') }}"></script>
- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
- <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawVisualization);
 
-    function drawVisualization() {
-      // Some raw data (not necessarily accurate)
-      var data = google.visualization.arrayToDataTable([
-        ['Month', 'OFC', 'LGO'],
-        ['มกราคม',   <?php echo $ofc_01; ?>,<?php echo $lgo_01; ?>],
-        ['กุมภาพัน',  <?php echo $ofc_02; ?>,<?php echo $lgo_02; ?>],
-        ['มีนาคม',   <?php echo $ofc_03; ?>,<?php echo $lgo_03; ?>],
-        ['เมษายน',  <?php echo $ofc_04; ?>,<?php echo $lgo_04; ?>],
-        ['พฤษภาคม', <?php echo $ofc_05; ?>,<?php echo $lgo_05; ?>],
-        ['มิถุนายน',   <?php echo $ofc_06; ?>,<?php echo $lgo_06; ?>],
-        ['กรกฎาคม',  <?php echo $ofc_07; ?>,<?php echo $lgo_07; ?>],
-        ['สิงหาคม',   <?php echo $ofc_08; ?>,<?php echo $lgo_08; ?>],
-        ['กันยายน',   <?php echo $ofc_09; ?>,<?php echo $lgo_09; ?>],
-        ['ตุลาคม',    <?php echo $ofc_10; ?>,<?php echo $lgo_10; ?>],
-        ['พฤษจิกายน', <?php echo $ofc_11; ?>,<?php echo $lgo_11; ?>],
-        ['ธันวาคม',   <?php echo $ofc_12; ?>,<?php echo $lgo_12; ?>],
-      ]);
-
-
-      var options = {
-        title : 'ยอดลูกหนี้ในการเคลมแต่ละเดือน',
-        vAxis: {title: 'บาท ฿'},
-        hAxis: {title: 'Month'},
-        seriesType: 'bars',
-      //   series: {5: {type: 'line'}}
-      };
-
-      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
-  </script>
  <script>
      $(document).ready(function() {
          $('#example').DataTable();

@@ -28,7 +28,7 @@ return new class extends Migration
                 $table->string('claim_vn',255)->nullable();//   
                 $table->string('income_an',255)->nullable();// 
                 $table->string('claim_an',255)->nullable();//  
-                // $table->string('pttype',255)->nullable();// 
+                $table->string('nhso_adp_code',255)->nullable();// 
                 $table->string('hipdata_code',255)->nullable();// 
                 $table->timestamps();
             }); 

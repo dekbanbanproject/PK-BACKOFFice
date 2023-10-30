@@ -545,7 +545,7 @@
                     //     myChartNew.update();
                     // }
                 }
-             }
+            }
 
 
             // const ctx2 = document.getElementById('myChartTuaton'); 

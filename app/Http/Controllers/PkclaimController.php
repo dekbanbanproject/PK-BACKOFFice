@@ -9,7 +9,7 @@ use Illuminate\support\Facades\Hash;
 use Illuminate\support\Facades\Validator;
 use App\Models\User;
 use App\Models\Ins_eclaimxxx;
-use App\Models\Fs_eclaim;
+use App\Models\D_claim_db_hipdata_code;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -21,11 +21,38 @@ use Intervention\Image\ImageManagerStatic as Image;
 class PkclaimController extends Controller
 {
     public function pkclaim_info(Request $request)
-    {
-        $data['com_tec'] = DB::table('com_tec')->get();
+    { 
         $data['users'] = User::get();
+        $ofc_10 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'10')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_11 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'11')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_12 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'12')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_01 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'01')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_02 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'02')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_03 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'03')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_04 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'04')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_05 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'05')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_06 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'06')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_07 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'07')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_08 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'08')->where("hipdata_code",'=','OFC')->sum('income_vn');
+        $ofc_09 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'09')->where("hipdata_code",'=','OFC')->sum('income_vn');
 
-        return view('pkclaim.pkclaim_info', $data);
+        $lgo_10 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'10')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_11 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'11')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_12 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'12')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_01 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'01')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_02 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'02')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_03 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'03')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_04 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'04')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_05 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'05')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_06 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'06')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_07 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'07')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_08 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'08')->where("hipdata_code",'=','LGO')->sum('income_vn');
+        $lgo_09 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'09')->where("hipdata_code",'=','LGO')->sum('income_vn');
+
+        return view('pkclaim.pkclaim_info', compact(
+            'ofc_10','ofc_11','ofc_12','ofc_01','ofc_02','ofc_03','ofc_04','ofc_05','ofc_06','ofc_07','ofc_08','ofc_09',
+            'lgo_10','lgo_11','lgo_12','lgo_01','lgo_02','lgo_03','lgo_04','lgo_05','lgo_06','lgo_07','lgo_08','lgo_09'
+        ));
     }
     public function fs_eclaim(Request $request)
     {

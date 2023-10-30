@@ -95,12 +95,124 @@ class EnvController extends Controller
             left join p4p_workload l on l.p4p_workload_user=u.id
             group by u.dep_subsubtrueid;
         ');
-         
 
-        return view('env.env_dashboard', $data,[
-            'start' => $datestart,
-            'end' => $dateend, 
-        ]);
+        $water = Env_water::select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(env_water.water_date) as month_name"))
+                    // ->leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')
+                    ->whereYear('env_water.water_date', date('Y')-1)
+                    ->groupBy(DB::raw("Month(env_water.water_date)"))
+                    ->pluck('count', 'month_name');
+                    // ->groupBy(DB::raw("Month(env_water.water_date)"),DB::raw("env_water.pond_id"))
+        $data['labels'] = $water->keys();
+        $data['data'] = $water->values();              
+        // return view('chart', compact('labels', 'data'));
+
+        $e1_count_21 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+    	$e1_count_22 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
+    	$e1_count_23 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2023')->get()->count(); 
+        $e1_count_24 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2024')->get()->count();   	
+    	
+    	$e2_count_21 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+    	$e2_count_22 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
+    	$e2_count_23 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
+        $e2_count_24 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
+
+    	$e3_count_21 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+    	$e3_count_22 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
+    	$e3_count_23 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
+        $e3_count_24 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
+
+        $w7_1 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','1')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_2 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','2')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_3 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','3')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_4 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','4')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_5 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','5')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_6 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','6')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_7 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','7')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_8 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','8')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_9 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','9')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_10 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','10')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_11 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','11')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_12 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','12')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_13 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','13')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_14 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','14')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_15 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','15')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+        $w7_16 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','16')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
+
+        $wm7_1 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','1')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_2 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','2')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_3 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','3')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_4 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','4')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_5 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','5')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_6 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','6')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_7 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','7')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_8 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','8')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_9 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','9')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_10 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','10')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_11 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','11')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_12 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','12')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_13 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','13')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_14 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','14')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_15 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','15')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        $wm7_16 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','16')->where(DB::raw("Year(env_water.water_date)"),'2023')->where('env_water_sub.status','=','ผิดปกติ')->get()->count();
+        
+        $dabyears = DB::table('budget_year')->get();
+        $tra_1 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'1')->sum('env_trash_sub.trash_sub_qty');
+        $tra_2 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'2')->sum('env_trash_sub.trash_sub_qty');
+        $tra_3 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'3')->sum('env_trash_sub.trash_sub_qty');
+        $tra_4 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'4')->sum('env_trash_sub.trash_sub_qty');
+        $tra_5 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'5')->sum('env_trash_sub.trash_sub_qty');
+        $tra_6 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'6')->sum('env_trash_sub.trash_sub_qty');
+        $tra_7 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'7')->sum('env_trash_sub.trash_sub_qty');
+        $tra_8= Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'8')->sum('env_trash_sub.trash_sub_qty');
+        $tra_9 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'9')->sum('env_trash_sub.trash_sub_qty');
+        $tra_10 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'10')->sum('env_trash_sub.trash_sub_qty');
+        $tra_11 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'11')->sum('env_trash_sub.trash_sub_qty');
+        $tra_12 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','1')->where(DB::raw("Month(env_trash.trash_date)"),'12')->sum('env_trash_sub.trash_sub_qty');
+
+        $tra_21 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'1')->sum('env_trash_sub.trash_sub_qty');
+        $tra_22 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'2')->sum('env_trash_sub.trash_sub_qty');
+        $tra_23 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'3')->sum('env_trash_sub.trash_sub_qty');
+        $tra_24 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'4')->sum('env_trash_sub.trash_sub_qty');
+        $tra_25 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'5')->sum('env_trash_sub.trash_sub_qty');
+        $tra_26 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'6')->sum('env_trash_sub.trash_sub_qty');
+        $tra_27 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'7')->sum('env_trash_sub.trash_sub_qty');
+        $tra_28= Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'8')->sum('env_trash_sub.trash_sub_qty');
+        $tra_29 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'9')->sum('env_trash_sub.trash_sub_qty');
+        $tra_210 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'10')->sum('env_trash_sub.trash_sub_qty');
+        $tra_211 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'11')->sum('env_trash_sub.trash_sub_qty');
+        $tra_212 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','2')->where(DB::raw("Month(env_trash.trash_date)"),'12')->sum('env_trash_sub.trash_sub_qty');
+
+        $tra_31 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'1')->sum('env_trash_sub.trash_sub_qty');
+        $tra_32 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'2')->sum('env_trash_sub.trash_sub_qty');
+        $tra_33 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'3')->sum('env_trash_sub.trash_sub_qty');
+        $tra_34 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'4')->sum('env_trash_sub.trash_sub_qty');
+        $tra_35 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'5')->sum('env_trash_sub.trash_sub_qty');
+        $tra_36 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'6')->sum('env_trash_sub.trash_sub_qty');
+        $tra_37 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'7')->sum('env_trash_sub.trash_sub_qty');
+        $tra_38= Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'8')->sum('env_trash_sub.trash_sub_qty');
+        $tra_39 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'9')->sum('env_trash_sub.trash_sub_qty');
+        $tra_310 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'10')->sum('env_trash_sub.trash_sub_qty');
+        $tra_311 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'11')->sum('env_trash_sub.trash_sub_qty');
+        $tra_312 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'12')->sum('env_trash_sub.trash_sub_qty');
+
+        return view('env.env_dashboard',compact('dabyears',
+            'e1_count_21','e1_count_22','e1_count_23','e1_count_24'
+            ,'e2_count_21','e2_count_22','e2_count_23','e2_count_24'
+            ,'e3_count_21','e3_count_22','e3_count_23','e3_count_24'
+
+            ,'w7_1','w7_2','w7_3','w7_4','w7_5','w7_6','w7_7','w7_8','w7_9','w7_10','w7_11','w7_12','w7_13','w7_14','w7_15','w7_16'
+            ,'wm7_1','wm7_2','wm7_3','wm7_4','wm7_5','wm7_6','wm7_7','wm7_8','wm7_9','wm7_10','wm7_11','wm7_12','wm7_13','wm7_14','wm7_15','wm7_16'
+
+            ,'tra_1','tra_2','tra_3','tra_4','tra_5','tra_6','tra_7','tra_8','tra_9','tra_10','tra_11','tra_12'
+            ,'tra_21','tra_22','tra_23','tra_24','tra_25','tra_26','tra_27','tra_28','tra_29','tra_210','tra_211','tra_212'
+            ,'tra_31','tra_32','tra_33','tra_34','tra_35','tra_36','tra_37','tra_38','tra_39','tra_310','tra_311','tra_312'
+          
+
+        ));
+        // return view('env.env_dashboard', $data,[
+        //     'start' => $datestart,
+        //     'end' => $dateend, 
+        // ]);
     }
 
 //**************************************************************ระบบน้ำเสีย*********************************************

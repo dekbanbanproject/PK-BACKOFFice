@@ -281,6 +281,12 @@
                                         {{-- <li><a href="{{ url('anc_14001') }}">บริการยาเม็ดเสริมธาตุเหล็ก</a></li> --}}
                                     </ul>
                                 </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">แพทย์แผนไทย</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('herb9') }}">ยาสมุนไพร9ชนิด</a></li>
+                                       
+                                    </ul>
+                                </li>
                             </ul> 
                         </li>
                         <li>

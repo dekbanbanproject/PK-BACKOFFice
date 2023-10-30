@@ -300,6 +300,11 @@ Route::match(['get','post'],'ppfs_30101',[App\Http\Controllers\PPfs66Controller:
 Route::match(['get','post'],'ppfs_30101_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_process'])->name('claim.ppfs_30101_process');//
 Route::match(['get','post'],'ppfs_30101_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_export'])->name('claim.ppfs_30101_export');//
 
+// ******************* HERB ยาสมุนไพร *******************
+Route::match(['get','post'],'herb9',[App\Http\Controllers\Herb9Controller::class, 'herb9'])->name('claim.herb9');//
+Route::match(['get','post'],'herb9_process',[App\Http\Controllers\Herb9Controller::class, 'herb9_process'])->name('claim.herb9_process');//
+Route::match(['get','post'],'herb9_export',[App\Http\Controllers\Herb9Controller::class, 'herb9_export'])->name('claim.herb9_export');//
+
 // *******************30011 บริการดูแลและฝากครรภ์*******************
 Route::match(['get','post'],'ppfs_30011',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011'])->name('claim.ppfs_30011');//
 Route::match(['get','post'],'ppfs_30011_process',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_process'])->name('claim.ppfs_30011_process');//
