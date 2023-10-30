@@ -317,6 +317,72 @@ class PediaricsController extends Controller
         ]);
     }
 
+    public function prenatal_care_andiag(Request $request,$an)
+    { 
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        // $budget_ = DB::table('budget_year')->where('leave_year_id','=', $dabyear)->first();
+        // $date_start_ = $budget_->date_begin;
+        // $date_end_   = $budget_->date_end;
+     
+                    $data['data_anc'] = DB::connection('mysql10')->select(' 
+                            SELECT i.icd10,ic.name,ic.tname,i.diagtype FROM iptdiag i
+                            LEFT JOIN  icd101 ic  on  i.icd10=ic.`code`
+                            WHERE i.an="'.$an.'"
+                            GROUP BY  i.icd10
+                            ORDER BY i.diagtype  ASC
+                            limit 1000
+                        
+                    ');  
+         
+        return view('anc.prenatal_care_andiag',$data,[ 
+            // 'dabyear'   => $dabyear,
+            // 'doctor'    => $doctor,
+        ]);
+    }
+
+    public function prenatal_care_ankph(Request $request,$an)
+    { 
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+      
+     
+                    $data['data_anc'] = DB::connection('mysql10')->select(' 
+                        SELECT principal_diagnosis
+                        ,pre_admission_comorbidity
+                        ,if(s.tracheostomy="Y","TRACHEOSTOMY","")as TRACHEOSTOMY
+                        ,if(s.mechanical_ventilation="Y","MECHANICAL VENTILATION","") as MECHANICAL_VENTILATION  
+                        ,if(s.mechanical_ventilation1="Y","มากกว่า 96 ชม.","")as "a96hra" 
+                        ,if(s.mechanical_ventilation2="Y","น้อยกว่า 96 ชม.","")as "b96hrb" 
+                        ,if(s.packed_redcells="Y","PACKED RED CELLS","")as PACKED_RED_CELLS
+                        ,if(s.fresh_frozen_plasma="Y","PACKED RED CELLS","")as FRESH_FROZEN_PLASMA
+                        ,if(s.platelets="Y","PLATELETS","")as PLATELETS
+                        ,if(s.cryoprecipitate="Y","CRYOPRECIPITATE","")as CRYOPRECIPITATE
+                        ,if(s.whole_blood="Y","Whole Blood","")as whole_blood
+                        ,if(s.computer_tomography="Y","Computer Tomography","")as Computer_Tomography
+                        ,s.computer_tomography_text 
+                        ,if(s.chemotherapy="Y","CHEMOTHERAPY","")as CHEMOTHERAPY
+                        ,if(s.mri="Y","MRI","")as MRI
+                        ,if(s.hemodialysis="Y","Hemodialysis","")as Hemodialysis
+                        ,if(s.non_or_other="Y","อื่น ๆ","")as outers
+                        ,s.non_or_other_text
+                        ,s.*
+                        FROM  kphis.ipd_summary s 
+                        where an = "'.$an.'"
+                        
+                    ');  
+         
+        return view('anc.prenatal_care_ankph',$data,[ 
+            // 'dabyear'   => $dabyear,
+            // 'doctor'    => $doctor,
+        ]);
+    }
+
+
     // public function prenatal_care_an(Request $request,$an)
     // {
         

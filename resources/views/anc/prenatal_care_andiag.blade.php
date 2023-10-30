@@ -95,34 +95,7 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                {{-- <div class="col-md-2 text-end">
-                    <select name="dabyear" id="dabyear" class="form-control" style="width: 100%">
-                        @foreach ($dabyears as $item)
-                        @if ($dabyear == '')
-                            @if ($y == $item->leave_year_id)
-                                <option value="{{ $item->leave_year_id }}" selected>{{ $item->leave_year_id }}</option>
-                            @else
-                                <option value="{{ $item->leave_year_id }}">{{ $item->leave_year_id }}</option>
-                            @endif
-                        @else
-                            @if ($dabyear == $item->leave_year_id)
-                                <option value="{{ $item->leave_year_id }}" selected>{{ $item->leave_year_id }}</option>
-                            @else
-                                <option value="{{ $item->leave_year_id }}">{{ $item->leave_year_id }}</option>
-                            @endif
-                        @endif
-                            
-                        @endforeach
-
-                    </select>
-                 
-                </div>
-                <div class="col-md-1 text-start">
-                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                        ค้นหา
-                    </button>
-                </div> --}}
+               
             </div>
         </form>
        
@@ -135,20 +108,10 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">an</th>
-                                    <th class="text-center">hn</th>
-                                    <th class="text-center">ptname</th>
-                                    <th class="text-center">pdx</th>
-                                    <th class="text-center">regdate</th>
-                                    <th class="text-center">dchdate</th>
-                                    <th class="text-center">admdate</th>
-                                    <th class="text-center">age</th>
-                                    <th class="text-center">height</th>
-                                    <th class="text-center">bw</th>
-                                    <th class="text-center">total_diag</th>
-                                    <th class="text-center">sum_adjrw</th>
-                                    <th class="text-center">total_cmi</th>
-                                    <th class="text-center">total_noadjre</th>
+                                    <th class="text-center">icd10</th>
+                                    <th class="text-center">name</th>
+                                    <th class="text-center">tname</th>
+                                    <th class="text-center">diagtype</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -156,35 +119,12 @@
                                 $total1 = 0; ?>
                                 @foreach ($data_anc as $item)
                                     <?php $number++; ?> 
-                                    <tr id="#sid{{ $item->an }}">
+                                    <tr id="#sid{{ $item->icd10 }}">
                                             <td class="text-center text-muted">{{ $number }}</td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <a href="{{url('prenatal_care_ankph/'.$item->an)}}"> {{ $item->an }}</a>
-                                                
-                                            <td class="text-start" style="font-size: 13px">{{ $item->hn }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->ptname }}</td>
-                                            <td class="text-start" style="font-size: 13px">
-                                             
-                                                @if ($item->pdx == '')
-                                                <div class="badge" style="background: rgb(245, 126, 78)" style="font-size:12px">ว่าง</div>
-                                               
-                                                @else
-                                                {{$item->pdx}}
-                                                @endif
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->regdate }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->dchdate }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->admdate }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->age }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->height }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->bw }}</td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <a href="{{url('prenatal_care_andiag/'.$item->an)}}"> {{ $item->total_diag }}</a>
-                                                
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->sum_adjrw }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->total_cmi }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->total_noadjre }}</td> 
+                                            <td class="text-start" style="font-size: 13px">{{ $item->icd10 }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->name }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->tname }}</td>  
+                                            <td class="text-start" style="font-size: 13px">{{ $item->diagtype }}</td>  
                                     </tr>
 
                                 @endforeach

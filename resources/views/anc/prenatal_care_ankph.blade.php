@@ -95,34 +95,7 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                {{-- <div class="col-md-2 text-end">
-                    <select name="dabyear" id="dabyear" class="form-control" style="width: 100%">
-                        @foreach ($dabyears as $item)
-                        @if ($dabyear == '')
-                            @if ($y == $item->leave_year_id)
-                                <option value="{{ $item->leave_year_id }}" selected>{{ $item->leave_year_id }}</option>
-                            @else
-                                <option value="{{ $item->leave_year_id }}">{{ $item->leave_year_id }}</option>
-                            @endif
-                        @else
-                            @if ($dabyear == $item->leave_year_id)
-                                <option value="{{ $item->leave_year_id }}" selected>{{ $item->leave_year_id }}</option>
-                            @else
-                                <option value="{{ $item->leave_year_id }}">{{ $item->leave_year_id }}</option>
-                            @endif
-                        @endif
-                            
-                        @endforeach
-
-                    </select>
-                 
-                </div>
-                <div class="col-md-1 text-start">
-                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                        ค้นหา
-                    </button>
-                </div> --}}
+             
             </div>
         </form>
        
@@ -131,24 +104,29 @@
             <div class="col-md-12">
                 <div class="main-card card p-2">
                    
-                        <table id="example" class="table table-borderless table-striped table-hover">
+                    <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">an</th>
-                                    <th class="text-center">hn</th>
-                                    <th class="text-center">ptname</th>
-                                    <th class="text-center">pdx</th>
-                                    <th class="text-center">regdate</th>
-                                    <th class="text-center">dchdate</th>
-                                    <th class="text-center">admdate</th>
-                                    <th class="text-center">age</th>
-                                    <th class="text-center">height</th>
-                                    <th class="text-center">bw</th>
-                                    <th class="text-center">total_diag</th>
-                                    <th class="text-center">sum_adjrw</th>
-                                    <th class="text-center">total_cmi</th>
-                                    <th class="text-center">total_noadjre</th>
+                                    <th class="text-center">principal_diagnosis</th>
+                                    <th class="text-center">pre_admission_comorbidity</th>
+                                    <th class="text-center">TRACHEOSTOMY</th>
+                                    <th class="text-center">MECHANICAL_VENTILATION</th>
+                                    <th class="text-center">มากกว่า 96hr</th>
+                                    <th class="text-center">น้อยกว่า 96hr</th>
+                                    <th class="text-center">PACKED_RED_CELLS</th>
+                                    <th class="text-center">FRESH_FROZEN_PLASMA</th>
+                                    <th class="text-center">PLATELETS</th>
+                                    <th class="text-center">CRYOPRECIPITATE</th>
+                                    <th class="text-center">whole_blood</th>
+                                    <th class="text-center">Computer_Tomography</th>
+                                    <th class="text-center">computer_tomography_text</th>
+                                    <th class="text-center">CHEMOTHERAPY</th>
+                                    <th class="text-center">MRI</th>
+                                    <th class="text-center">Hemodialysis</th>
+                                    <th class="text-center">outers</th>
+                                    <th class="text-center">non_or_other_text</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -156,35 +134,26 @@
                                 $total1 = 0; ?>
                                 @foreach ($data_anc as $item)
                                     <?php $number++; ?> 
-                                    <tr id="#sid{{ $item->an }}">
+                                    <tr id="#sid{{ $item->principal_diagnosis }}">
                                             <td class="text-center text-muted">{{ $number }}</td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <a href="{{url('prenatal_care_ankph/'.$item->an)}}"> {{ $item->an }}</a>
-                                                
-                                            <td class="text-start" style="font-size: 13px">{{ $item->hn }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->ptname }}</td>
-                                            <td class="text-start" style="font-size: 13px">
-                                             
-                                                @if ($item->pdx == '')
-                                                <div class="badge" style="background: rgb(245, 126, 78)" style="font-size:12px">ว่าง</div>
-                                               
-                                                @else
-                                                {{$item->pdx}}
-                                                @endif
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->regdate }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->dchdate }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->admdate }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->age }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->height }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->bw }}</td>
-                                            <td class="text-start" style="font-size: 13px">
-                                                <a href="{{url('prenatal_care_andiag/'.$item->an)}}"> {{ $item->total_diag }}</a>
-                                                
-                                            </td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->sum_adjrw }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->total_cmi }}</td>
-                                            <td class="text-start" style="font-size: 13px">{{ $item->total_noadjre }}</td> 
+                                            <td class="text-start" style="font-size: 13px">{{ $item->principal_diagnosis }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->pre_admission_comorbidity }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->TRACHEOSTOMY }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->MECHANICAL_VENTILATION }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->a96hra }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->b96hrb }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->PACKED_RED_CELLS }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->FRESH_FROZEN_PLASMA }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->PLATELETS }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->CRYOPRECIPITATE }}</td>
+                                            <td class="text-start" style="font-size: 13px">  {{ $item->whole_blood }} </td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->Computer_Tomography }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->computer_tomography_text }}</td>
+                                            <td class="text-start" style="font-size: 13px">{{ $item->CHEMOTHERAPY }}</td> 
+                                            <td class="text-start" style="font-size: 13px">{{ $item->MRI }}</td> 
+                                            <td class="text-start" style="font-size: 13px">{{ $item->Hemodialysis }}</td> 
+                                            <td class="text-start" style="font-size: 13px">{{ $item->outers }}</td> 
+                                            <td class="text-start" style="font-size: 13px">{{ $item->non_or_other_text }}</td> 
                                     </tr>
 
                                 @endforeach

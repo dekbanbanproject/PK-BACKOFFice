@@ -2079,6 +2079,11 @@ Route::middleware(['type'])->group(function(){
       // Route::match(['get','post'],'prenatal_care_an/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_an'])->name('anc.prenatal_care_an');//
       Route::match(['get','post'],'prenatal_care_sub/{ward}/{startdate}/{enddate}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_sub'])->name('anc.prenatal_care_sub');//
       Route::match(['get','post'],'prenatal_care_bar',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_bar'])->name('anc.prenatal_care_bar');//
+      Route::match(['get','post'],'prenatal_care_andiag/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_andiag'])->name('anc.prenatal_care_andiag');//
+      Route::match(['get','post'],'prenatal_care_ankph/{an}',[App\Http\Controllers\PediaricsController::class, 'prenatal_care_ankph'])->name('anc.prenatal_care_ankph');//
+
+
+
 
      Route::match(['get','post'],'anc_dent',[App\Http\Controllers\AncController::class, 'anc_dent'])->name('claim.anc_dent');//
      Route::match(['get','post'],'anc_dent_search',[App\Http\Controllers\AncController::class, 'anc_dent_search'])->name('claim.anc_dent_search');//
