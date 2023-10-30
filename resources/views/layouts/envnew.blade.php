@@ -230,8 +230,8 @@
                                 <span>รายงาน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                                
-                                <li><a href="{{ url('') }}">รายงานระบบบ่อบำบัดน้ำเสีย</a></li>
-                                <li><a href="{{ url('') }}">รายงานระบบบริหารจัดการขยะ</a></li>
+                                <li><a href="{{ url('env_water_rep') }}">รายงานระบบบ่อบำบัดน้ำเสีย</a></li>
+                                <li><a href="{{ url('env_trash_rep') }}">รายงานระบบบริหารจัดการขยะ</a></li>
                             </ul>
                         </li>
 

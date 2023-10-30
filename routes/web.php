@@ -2581,7 +2581,8 @@ Route::match(['get','post'],'opdtoipd_subsub/{vn}/{income}',[App\Http\Controller
 
 //********************* */ ENV  ***********************************
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
-
+Route::match(['get','post'],'env_water_rep',[App\Http\Controllers\EnvController::class, 'env_water_rep'])->name('env.env_water_rep');//
+Route::match(['get','post'],'env_trash_rep',[App\Http\Controllers\EnvController::class, 'env_trash_rep'])->name('env.env_trash_rep');//
 //บ่อบำบัด//////////////////////////////////////////////////////////////
 //ลงผลข้อมูลน้ำ บ่อบำบัด
 Route::match(['get','post'],'env_water',[App\Http\Controllers\EnvController::class, 'env_water'])->name('env.env_water');//หน้าหลักแสดงข้อมูล
