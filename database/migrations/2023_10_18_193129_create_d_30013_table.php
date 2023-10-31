@@ -19,6 +19,8 @@ return new class extends Migration
                 $table->bigIncrements('d_30013_id');//  
                 $table->string('vn')->nullable();//   
                 $table->string('hn')->nullable();//  
+                $table->string('icode')->nullable();//  
+                $table->string('sum_price')->nullable();//  
                 $table->string('preg_no')->nullable();// 
                 $table->string('gaNOW')->nullable();// 
                 $table->date('lmp')->nullable();// 

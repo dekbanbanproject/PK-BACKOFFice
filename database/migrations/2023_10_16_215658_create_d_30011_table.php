@@ -29,6 +29,8 @@ return new class extends Migration
                 $table->date('lmp')->nullable();// 
                 $table->date('labor_date')->nullable();// 
                 $table->string('sum_price')->nullable();// 
+                $table->string('icode')->nullable();//  
+              
                 $table->timestamps();
             }); 
         }

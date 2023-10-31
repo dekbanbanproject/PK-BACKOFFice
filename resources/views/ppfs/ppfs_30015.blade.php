@@ -83,7 +83,7 @@ $pos = strrpos($url, '/') + 1;
         </div>
 
     </div>
-    <form action="{{ url('ppfs_30011') }}" method="POST">
+    <form action="{{ url('ppfs_30015') }}" method="POST">
             @csrf
     <div class="row"> 
             <div class="col"></div>
@@ -103,7 +103,7 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    <a href="{{url('ppfs_30011_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    <a href="{{url('ppfs_30015_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
                     </a>
@@ -116,7 +116,7 @@ $pos = strrpos($url, '/') + 1;
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">
-                    บริการดูแลฝากครรภ์
+                    บริการตรวจหลังคลอด
                     <div class="btn-actions-pane-right">
                      
                     </div>
@@ -129,7 +129,7 @@ $pos = strrpos($url, '/') + 1;
                                 <li class="nav-item">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#Main" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">30011-30013</span>    
+                                        <span class="d-none d-sm-block">30015</span>    
                                     </a>
                                 </li>   
                                 <li class="nav-item">
@@ -243,11 +243,11 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">cid</th>   
                                                     <th class="text-center">vstdate</th> 
                                                     <th class="text-center">ptname</th>   
-                                                    <th class="text-center">pdx</th> 
-                                                    <th class="text-center">dx0</th> 
-                                                    <th class="text-center">preg_no</th> 
-                                                    <th class="text-center">gaNOW</th> 
-                                                    <th class="text-center">lmp</th> 
+                                                    {{-- <th class="text-center">pdx</th>  --}}
+                                                    {{-- <th class="text-center">dx0</th>  --}}
+                                                    {{-- <th class="text-center">preg_no</th>  --}}
+                                                    {{-- <th class="text-center">gaNOW</th>  --}}
+                                                    <th class="text-center">sum_price</th> 
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -262,11 +262,11 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="text-center" width="10%">{{ $item1->cid }}</td>  
                                                     <td class="text-center" width="10%">{{ $item1->vstdate }}</td> 
                                                     <td class="text-start" >{{ $item1->ptname }}</td>   
-                                                    <td class="text-start" width="5%">{{ $item1->pdx }}</td> 
-                                                    <td class="text-start" width="5%">{{ $item1->dx0 }}</td> 
-                                                    <td class="text-start" width="5%">{{ $item1->preg_no }}</td> 
-                                                    <td class="text-start" width="5%">{{ $item1->gaNOW }}</td> 
-                                                    <td class="text-start" width="5%">{{ $item1->lmp }}</td> 
+                                                    {{-- <td class="text-start" width="5%">{{ $item1->pdx }}</td>  --}}
+                                                    {{-- <td class="text-start" width="5%">{{ $item1->dx0 }}</td>  --}}
+                                                    {{-- <td class="text-start" width="5%">{{ $item1->preg_no }}</td>  --}}
+                                                    {{-- <td class="text-start" width="5%">{{ $item1->gaNOW }}</td>  --}}
+                                                    <td class="text-start" width="5%">{{ $item1->sum_price}}</td> 
                                                 </tr> 
                                                 @endforeach
                     
@@ -947,7 +947,7 @@ $pos = strrpos($url, '/') + 1;
                                 $("#spinner").show(); //Load button clicked show spinner 
                                 
                                 $.ajax({
-                                    url: "{{ route('claim.ppfs_30011_process') }}",
+                                    url: "{{ route('claim.ppfs_30015_process') }}",
                                     type: "POST",
                                     dataType: 'json',
                                     data: {

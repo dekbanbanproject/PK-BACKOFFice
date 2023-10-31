@@ -309,6 +309,12 @@ Route::match(['get','post'],'herb9_export',[App\Http\Controllers\Herb9Controller
 Route::match(['get','post'],'ppfs_30011',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011'])->name('claim.ppfs_30011');//
 Route::match(['get','post'],'ppfs_30011_process',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_process'])->name('claim.ppfs_30011_process');//
 Route::match(['get','post'],'ppfs_30011_export',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_export'])->name('claim.ppfs_30011_export');//
+
+// *******************30015 บริการตรวจหลังคลอด*******************
+Route::match(['get','post'],'ppfs_30015',[App\Http\Controllers\PPfs30015Controller::class, 'ppfs_30015'])->name('claim.ppfs_30015');//
+Route::match(['get','post'],'ppfs_30015_process',[App\Http\Controllers\PPfs30015Controller::class, 'ppfs_30015_process'])->name('claim.ppfs_30015_process');//
+Route::match(['get','post'],'ppfs_30015_export',[App\Http\Controllers\PPfs30015Controller::class, 'ppfs_30015_export'])->name('claim.ppfs_30015_export');//
+
 // ********************************* นักโทษ  *****************************************
 Route::match(['get','post'],'prisoner_opd',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd'])->name('prisoner.prisoner_opd');  //นักโทษ 438
 Route::match(['get','post'],'prisoner_opd_detail/{month}/{startdate}/{endtdate}',[App\Http\Controllers\PrisonerController::class, 'prisoner_opd_detail'])->name('prisoner.prisoner_opd_detail');  //นักโทษ 438
