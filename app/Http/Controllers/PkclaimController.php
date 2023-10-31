@@ -10,6 +10,7 @@ use Illuminate\support\Facades\Validator;
 use App\Models\User;
 use App\Models\Ins_eclaimxxx;
 use App\Models\D_claim_db_hipdata_code;
+use App\Models\D_claim;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -49,9 +50,51 @@ class PkclaimController extends Controller
         $lgo_08 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'08')->where("hipdata_code",'=','LGO')->sum('income_vn');
         $lgo_09 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'09')->where("hipdata_code",'=','LGO')->sum('income_vn');
 
+        $herf_10 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_11 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_12 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_01 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_02 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_03 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_04 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_05 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_06 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_07 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_08 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_09 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+
+        $a12001_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+        $a12001_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','12001')->sum('sum_price');
+
+        $a12002_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+        $a12002_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','12002')->sum('sum_price');
+
         return view('pkclaim.pkclaim_info', compact(
             'ofc_10','ofc_11','ofc_12','ofc_01','ofc_02','ofc_03','ofc_04','ofc_05','ofc_06','ofc_07','ofc_08','ofc_09',
-            'lgo_10','lgo_11','lgo_12','lgo_01','lgo_02','lgo_03','lgo_04','lgo_05','lgo_06','lgo_07','lgo_08','lgo_09'
+            'lgo_10','lgo_11','lgo_12','lgo_01','lgo_02','lgo_03','lgo_04','lgo_05','lgo_06','lgo_07','lgo_08','lgo_09',
+            'herf_10','herf_11','herf_12','herf_01','herf_02','herf_03','herf_04','herf_05','herf_06','herf_07','herf_08','herf_09',
+            'a12001_10','a12001_11','a12001_12','a12001_01','a12001_02','a12001_03','a12001_04','a12001_05','a12001_06','a12001_07','a12001_08','a12001_09',
+            'a12002_10','a12002_11','a12002_12','a12002_01','a12002_02','a12002_03','a12002_04','a12002_05','a12002_06','a12002_07','a12002_08','a12002_09',
         ));
     }
     public function fs_eclaim(Request $request)

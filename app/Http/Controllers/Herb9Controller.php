@@ -791,98 +791,98 @@ class Herb9Controller extends Controller
                 }
                  
                 //D_adp
-                $data_adp_ = DB::connection('mysql2')->select('
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                // $data_adp_ = DB::connection('mysql2')->select('
+                //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
                                                                 
-                        FROM (SELECT v.hn HN
-                        ,if(v.an is null,"",v.an) AN
-                        ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
-                        ,n.nhso_adp_code CODE 
-                        ,sum(v.QTY) QTY 
-                        ,round(v.unitprice,2) RATE
-                        ,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
-                        ,"0000-00-00" LMP
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                        LEFT OUTER JOIN ipt i on i.an = v.an
-                        AND i.an is not NULL 
-                        where i.vn IN("'.$va1->vn.'")
-                        AND v.unitprice <> 0
-                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
-                        GROUP BY an,CODE,rate
-                        UNION
-                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
-                        FROM
-                        (SELECT v.hn HN
-                        ,if(v.an is null,"",v.an) AN
-                        ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
-                        ,n.nhso_adp_code CODE 
-                        ,sum(v.QTY) QTY
-                        ,round(v.unitprice,2) RATE
-                        ,if(v.an is null,v.vn,"") SEQ
-                        ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
-                        ,"0000-00-00" LMP
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                        LEFT OUTER JOIN ipt i on i.an = v.an 
-                        WHERE v.vn IN("'.$va1->vn.'")
-                        AND v.unitprice <> 0
-                        AND i.an is NULL
-                        GROUP BY v.vn,n.nhso_adp_code,rate) b 
-                        GROUP BY seq,CODE,rate; 
-                '); 
-                foreach ($data_adp_ as $va10) {
-                    d_adp::insert([
-                        'HN'                   => $va10->HN,
-                        'AN'                   => $va10->AN,
-                        'DATEOPD'              => $va10->DATEOPD,
-                        'TYPE'                 => $va10->TYPE,
-                        'CODE'                 => $va10->CODE,
-                        'QTY'                  => $va10->QTY,
-                        'RATE'                 => $va10->RATE,
-                        'SEQ'                  => $va10->SEQ,
-                        'CAGCODE'              => $va10->CAGCODE,
-                        'DOSE'                 => $va10->DOSE,
-                        'CA_TYPE'              => $va10->CA_TYPE,
-                        'SERIALNO'             => $va10->SERIALNO,
-                        'TOTCOPAY'             => $va10->TOTCOPAY,
-                        'USE_STATUS'           => $va10->USE_STATUS,
-                        'TOTAL'                => $va10->TOTAL,
-                        'QTYDAY'               => $va10->QTYDAY,
-                        'TMLTCODE'             => $va10->TMLTCODE,
-                        'STATUS1'              => $va10->STATUS1,
-                        'BI'                   => $va10->BI,
-                        'CLINIC'               => $va10->CLINIC,
-                        'ITEMSRC'              => $va10->ITEMSRC,
-                        'PROVIDER'             => $va10->PROVIDER,
-                        'GRAVIDA'              => $va10->GRAVIDA,
-                        'GA_WEEK'              => $va10->GA_WEEK,
-                        'DCIP'                 => $va10->DCIP,
-                        'LMP'                  => $va10->LMP,
-                        'SP_ITEM'              => $va10->SP_ITEM,
-                        'icode'                => $va10->icode,
-                        'vstdate'              => $va10->vstdate,
-                        'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'HERB'
-                    ]);
-                } 
+                //         FROM (SELECT v.hn HN
+                //         ,if(v.an is null,"",v.an) AN
+                //         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                //         ,n.nhso_adp_type_id TYPE
+                //         ,n.nhso_adp_code CODE 
+                //         ,sum(v.QTY) QTY 
+                //         ,round(v.unitprice,2) RATE
+                //         ,if(v.an is null,v.vn,"") SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
+                //         ,"0000-00-00" LMP
+                //         ,"" SP_ITEM
+                //         ,v.icode ,v.vstdate
+                //         FROM opitemrece v
+                //         INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                //         LEFT OUTER JOIN ipt i on i.an = v.an
+                //         AND i.an is not NULL 
+                //         where i.vn IN("'.$va1->vn.'")
+                //         AND v.unitprice <> 0
+                //         GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                //         GROUP BY an,CODE,rate
+                //         UNION
+                //         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //         FROM
+                //         (SELECT v.hn HN
+                //         ,if(v.an is null,"",v.an) AN
+                //         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //         ,n.nhso_adp_type_id TYPE
+                //         ,n.nhso_adp_code CODE 
+                //         ,sum(v.QTY) QTY
+                //         ,round(v.unitprice,2) RATE
+                //         ,if(v.an is null,v.vn,"") SEQ
+                //         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
+                //         ,"0000-00-00" LMP
+                //         ,"" SP_ITEM
+                //         ,v.icode ,v.vstdate
+                //         FROM opitemrece v
+                //         INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                //         LEFT OUTER JOIN ipt i on i.an = v.an 
+                //         WHERE v.vn IN("'.$va1->vn.'")
+                //         AND v.unitprice <> 0
+                //         AND i.an is NULL
+                //         GROUP BY v.vn,n.nhso_adp_code,rate) b 
+                //         GROUP BY seq,CODE,rate; 
+                // '); 
+                // foreach ($data_adp_ as $va10) {
+                //     d_adp::insert([
+                //         'HN'                   => $va10->HN,
+                //         'AN'                   => $va10->AN,
+                //         'DATEOPD'              => $va10->DATEOPD,
+                //         'TYPE'                 => $va10->TYPE,
+                //         'CODE'                 => $va10->CODE,
+                //         'QTY'                  => $va10->QTY,
+                //         'RATE'                 => $va10->RATE,
+                //         'SEQ'                  => $va10->SEQ,
+                //         'CAGCODE'              => $va10->CAGCODE,
+                //         'DOSE'                 => $va10->DOSE,
+                //         'CA_TYPE'              => $va10->CA_TYPE,
+                //         'SERIALNO'             => $va10->SERIALNO,
+                //         'TOTCOPAY'             => $va10->TOTCOPAY,
+                //         'USE_STATUS'           => $va10->USE_STATUS,
+                //         'TOTAL'                => $va10->TOTAL,
+                //         'QTYDAY'               => $va10->QTYDAY,
+                //         'TMLTCODE'             => $va10->TMLTCODE,
+                //         'STATUS1'              => $va10->STATUS1,
+                //         'BI'                   => $va10->BI,
+                //         'CLINIC'               => $va10->CLINIC,
+                //         'ITEMSRC'              => $va10->ITEMSRC,
+                //         'PROVIDER'             => $va10->PROVIDER,
+                //         'GRAVIDA'              => $va10->GRAVIDA,
+                //         'GA_WEEK'              => $va10->GA_WEEK,
+                //         'DCIP'                 => $va10->DCIP,
+                //         'LMP'                  => $va10->LMP,
+                //         'SP_ITEM'              => $va10->SP_ITEM,
+                //         'icode'                => $va10->icode,
+                //         'vstdate'              => $va10->vstdate,
+                //         'user_id'              => $iduser,
+                //         'd_anaconda_id'        => 'HERB'
+                //     ]);
+                // } 
                  //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE
@@ -1007,7 +1007,7 @@ class Herb9Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='12001_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='herf_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost

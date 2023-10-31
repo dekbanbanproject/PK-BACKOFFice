@@ -1,72 +1,74 @@
 @extends('layouts.pkclaim')
 @section('title', 'PK-BACKOFFice || KPI-งานประกัน')
 @section('content')
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
 
-    .chartMenu {
-        width: 100vw;
-        height: 40px;
-        background: #1A1A1A;
-        color: rgba(255, 26, 104, 1);
-    }
+        .chartMenu {
+            width: 100vw;
+            height: 40px;
+            background: #1A1A1A;
+            color: rgba(255, 26, 104, 1);
+        }
 
-    .chartMenu p {
-        padding: 10px;
-        font-size: 20px;
-    }
+        .chartMenu p {
+            padding: 10px;
+            font-size: 20px;
+        }
 
-    .chartCard {
-        width: 100vw;
-        height: calc(100vh - 40px);
-        background: rgba(255, 26, 104, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+        .chartCard {
+            width: 100vw;
+            height: calc(100vh - 40px);
+            background: rgba(255, 26, 104, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .chartBox {
-        width: 700px;
-        padding: 20px;
-        border-radius: 20px;
-        border: solid 3px rgba(255, 26, 104, 1);
-        background: white;
-    }
-    .chartgooglebar{
-          width:auto;
-          height:auto;        
-      }
-      .chartgoogle{
-          width:auto;
-          height:auto;        
-      }
-</style>   
+        .chartBox {
+            width: 700px;
+            padding: 20px;
+            border-radius: 20px;
+            border: solid 3px rgba(255, 26, 104, 1);
+            background: white;
+        }
 
-<div class="container-fluid">
- 
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Dashboard</h4>
+        .chartgooglebar {
+            width: auto;
+            height: auto;
+        }
 
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Upcube</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
+        .chartgoogle {
+            width: auto;
+            height: auto;
+        }
+    </style>
+
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Dashboard</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Upcube</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+
                 </div>
-
             </div>
         </div>
-    </div>
-    <!-- end page title -->
+        <!-- end page title -->
 
-    <div class="row">
+        {{-- <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -82,9 +84,9 @@
                             </span>
                         </div>
                     </div>                                            
-                </div><!-- end cardbody -->
-            </div><!-- end card -->
-        </div><!-- end col -->
+                </div>
+            </div>
+        </div>
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -100,9 +102,9 @@
                             </span>
                         </div>
                     </div>                                              
-                </div><!-- end cardbody -->
-            </div><!-- end card -->
-        </div><!-- end col -->
+                </div>
+            </div>
+        </div>
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -118,9 +120,9 @@
                             </span>
                         </div>
                     </div>                                              
-                </div><!-- end cardbody -->
-            </div><!-- end card -->
-        </div><!-- end col -->
+                </div> 
+            </div> 
+        </div> 
         <div class="col-xl-3 col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -136,212 +138,291 @@
                             </span>
                         </div>
                     </div>                                              
-                </div><!-- end cardbody -->
-            </div><!-- end card -->
-        </div><!-- end col -->
-    </div>
-    <!-- end row -->
+                </div> 
+            </div> 
+        </div> 
+    </div> --}}
+        <!-- end row -->
 
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="float-end d-none d-md-inline-block">
-                        <div class="dropdown">
-                            <a class="text-reset" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="text-muted">This Years<i class="mdi mdi-chevron-down ms-1"></i></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="#">วันนี้</a>
-                                <a class="dropdown-item" href="#">ย้อนหลัง 1 สัปดาห์</a>
-                                <a class="dropdown-item" href="#">ย้อนหลัง 1 เดือน</a>
-                                <a class="dropdown-item" href="#">ย้อนหลัง 1 ปี</a>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        <div class="float-end d-none d-md-inline-block">
+                            <div class="dropdown">
+                                <a class="text-reset" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <span class="text-muted">This Years<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">วันนี้</a>
+                                    <a class="dropdown-item" href="#">ย้อนหลัง 1 สัปดาห์</a>
+                                    <a class="dropdown-item" href="#">ย้อนหลัง 1 เดือน</a>
+                                    <a class="dropdown-item" href="#">ย้อนหลัง 1 ปี</a>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="card-title mb-4">Hipdata Code</h4>
+
+
+                        <div class="card-body py-0 px-2">
+                            <div class="chart-container-fluid">
+                                <div id="chart_div" style="width: auto; height: 600px;"></div>
+                                {{-- <canvas id="myChart" width="800" height="1200"></canvas> --}}
                             </div>
                         </div>
                     </div>
-                    <h4 class="card-title mb-4">Revenue</h4>
-
-                   
-                <div class="card-body py-0 px-2"> 
-                    <div class="chart-container-fluid">
-                        <div id="chart_div" style="width: auto; height: 660px;"></div>
-                      {{-- <canvas id="myChart" width="800" height="1200"></canvas> --}}
-                  </div>
                 </div>
-            </div><!-- end card -->
-        </div>
-        <!-- end col -->
-    </div>
-    <!-- end row -->
+
+            </div>
+            <!-- end row -->
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body pb-0">
+                            <div class="float-end d-none d-md-inline-block">
+                                <div class="dropdown">
+                                    <a class="text-reset" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <span class="text-muted">This Years<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#">วันนี้</a>
+                                        <a class="dropdown-item" href="#">ย้อนหลัง 1 สัปดาห์</a>
+                                        <a class="dropdown-item" href="#">ย้อนหลัง 1 เดือน</a>
+                                        <a class="dropdown-item" href="#">ย้อนหลัง 1 ปี</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h4 class="card-title mb-4">PPFS</h4>
+
+
+                            <div class="card-body py-0 px-2">
+                                <div class="chart-container-fluid">
+                                    <div id="chart_divfs" style="width: auto; height: 600px;"></div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
 
 
-</div>  
+            </div>
 
-@endsection
-@section('footer') 
+        @endsection
+        @section('footer')
 
- <script src="{{ asset('js/chart.min.js') }}"></script>
- <script src="{{ asset('js/dist-chart.min.js') }}"></script>
- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
- <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawVisualization);
+            <script src="{{ asset('js/chart.min.js') }}"></script>
+            <script src="{{ asset('js/dist-chart.min.js') }}"></script>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+                google.charts.setOnLoadCallback(drawVisualization);
 
-    function drawVisualization() {
-      // Some raw data (not necessarily accurate)
-      var data = google.visualization.arrayToDataTable([
-        ['Month', 'OFC', 'LGO'],
-        ['มกราคม',   <?php echo $ofc_01; ?>,<?php echo $lgo_01; ?>],
-        ['กุมภาพัน',  <?php echo $ofc_02; ?>,<?php echo $lgo_02; ?>],
-        ['มีนาคม',   <?php echo $ofc_03; ?>,<?php echo $lgo_03; ?>],
-        ['เมษายน',  <?php echo $ofc_04; ?>,<?php echo $lgo_04; ?>],
-        ['พฤษภาคม', <?php echo $ofc_05; ?>,<?php echo $lgo_05; ?>],
-        ['มิถุนายน',   <?php echo $ofc_06; ?>,<?php echo $lgo_06; ?>],
-        ['กรกฎาคม',  <?php echo $ofc_07; ?>,<?php echo $lgo_07; ?>],
-        ['สิงหาคม',   <?php echo $ofc_08; ?>,<?php echo $lgo_08; ?>],
-        ['กันยายน',   <?php echo $ofc_09; ?>,<?php echo $lgo_09; ?>],
-        ['ตุลาคม',    <?php echo $ofc_10; ?>,<?php echo $lgo_10; ?>],
-        ['พฤษจิกายน', <?php echo $ofc_11; ?>,<?php echo $lgo_11; ?>],
-        ['ธันวาคม',   <?php echo $ofc_12; ?>,<?php echo $lgo_12; ?>],
-      ]);
+                function drawVisualization() {
+                    // Some raw data (not necessarily accurate)
+                    var data = google.visualization.arrayToDataTable([
+                        ['Month', 'OFC', 'LGO'],
+                        ['มกราคม', <?php echo $ofc_01; ?>, <?php echo $lgo_01; ?>],
+                        ['กุมภาพัน', <?php echo $ofc_02; ?>, <?php echo $lgo_02; ?>],
+                        ['มีนาคม', <?php echo $ofc_03; ?>, <?php echo $lgo_03; ?>],
+                        ['เมษายน', <?php echo $ofc_04; ?>, <?php echo $lgo_04; ?>],
+                        ['พฤษภาคม', <?php echo $ofc_05; ?>, <?php echo $lgo_05; ?>],
+                        ['มิถุนายน', <?php echo $ofc_06; ?>, <?php echo $lgo_06; ?>],
+                        ['กรกฎาคม', <?php echo $ofc_07; ?>, <?php echo $lgo_07; ?>],
+                        ['สิงหาคม', <?php echo $ofc_08; ?>, <?php echo $lgo_08; ?>],
+                        ['กันยายน', <?php echo $ofc_09; ?>, <?php echo $lgo_09; ?>],
+                        ['ตุลาคม', <?php echo $ofc_10; ?>, <?php echo $lgo_10; ?>],
+                        ['พฤษจิกายน', <?php echo $ofc_11; ?>, <?php echo $lgo_11; ?>],
+                        ['ธันวาคม', <?php echo $ofc_12; ?>, <?php echo $lgo_12; ?>],
+                    ]);
 
 
-      var options = {
-        title : 'ยอดลูกหนี้ในการเคลมแต่ละเดือน',
-        vAxis: {title: 'บาท ฿'},
-        hAxis: {title: 'Month'},
-        seriesType: 'bars',
-      //   series: {5: {type: 'line'}}
-      };
+                    var options = {
+                        title: 'ยอดการเคลมแต่ละเดือน',
+                        vAxis: {
+                            title: 'บาท ฿'
+                        },
+                        hAxis: {
+                            title: 'Month'
+                        },
+                        seriesType: 'bars',
+                        //   series: {5: {type: 'line'}}
+                    };
 
-      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
-    }
-  </script>
- <script>
-     $(document).ready(function() {
-         $('#example').DataTable();
-         $('#example2').DataTable();
-         $('#example3').DataTable();
-         $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-         });
-         $('#btn-click').click(function() {
-             Swal.fire({
-                 position: 'top-end',
-                 icon: 'success',
-                 title: 'Your work has been saved',
-                 showConfirmButton: false,
-                 timer: 1500
-             })
-         });
-     });
- </script>
+                    var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+                    chart.draw(data, options);
+                }
+            </script>
+            <script>
+                $(document).ready(function() {
+                    $('#example').DataTable();
+                    $('#example2').DataTable();
+                    $('#example3').DataTable();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $('#btn-click').click(function() {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    });
+                });
+            </script>
 
- <script>
-     var xmlhttp = new XMLHttpRequest();
-     var url = "{{ route('claim.bk_getbar') }}";
-     xmlhttp.open("GET", url, true);
-     xmlhttp.send();
-     xmlhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-             var datas = JSON.parse(this.responseText);
-             // console.log(datas);
-             label = datas.chartData_dataset.map(function(e) {
-                 return e.label;
-             });
-             // console.log(label);
-             count = datas.chartData_dataset.map(function(e) {
-                 return e.count;
-             });
-             // console.log(count);
-             label_week = datas.chartData_dataset_week.map(function(e) {
-                 return e.label_week;
-             });
-             console.log(label_week);
-             count_week = datas.chartData_dataset_week.map(function(e) {
-                 return e.count_week;
-             });
-             console.log(count_week);
-             // setup 
-             const data = {
-                 labels: label ,
-                 datasets: [                        
-                 {
-                     label: ['จำนวนคนที่มาย้อนหลัง 1 สัปดาห์'],
-                     data: count_week,
-                     backgroundColor: [
-                         'rgba(255, 26, 104, 0.2)'
-                         // 'rgba(54, 162, 235, 0.2)',
-                         // 'rgba(255, 206, 86, 0.2)',
-                         // 'rgba(75, 192, 192, 0.2)',
-                         // 'rgba(153, 102, 255, 0.2)',
-                         // 'rgba(255, 159, 64, 0.2)',
-                         // 'rgba(155, 26, 104, 0.2)'
-                     ],
-                     borderColor: [
-                         'rgba(255, 26, 104, 1)'
-                        //  'rgba(54, 162, 235, 1)',
-                        //  'rgba(255, 206, 86, 1)',
-                        //  'rgba(75, 192, 192, 1)',
-                        //  'rgba(153, 102, 255, 1)',
-                        //  'rgba(255, 159, 64, 1)',
-                        //  'rgba(155, 26, 104, 1)'
-                     ],
-                     borderWidth: 1,
-                     barPercentage: 0.9 // ตัวนี้จะเป็นขนาดความกว้างของ bar =.ถ้าปิดตัวนี้ bar จะใหญ่ขึ้น 
-                 },
-                 {
-                     label: ['จำนวนคนที่มาย้อนหลัง 1 เดือน'],
-                     data: count,
-                     backgroundColor: [
-                         // 'rgba(255, 26, 104, 0.5)',
-                         'rgba(54, 162, 235, 0.5)'
-                         // 'rgba(255, 206, 86, 0.5)',
-                         // 'rgba(75, 192, 192, 0.5)',
-                         // 'rgba(153, 102, 255, 0.5)',
-                         // 'rgba(255, 159, 64, 0.5)',
-                         // 'rgba(155, 26, 104, 0.2)'
-                     ],
-                     borderColor: [
-                         // 'rgba(255, 26, 104, 1)',
-                         'rgba(54, 162, 235, 1)'
-                    //      // 'rgba(255, 206, 86, 1)',
-                    //      // 'rgba(75, 192, 192, 1)',
-                    //      // 'rgba(153, 102, 255, 1)',
-                    //      // 'rgba(255, 159, 64, 1)',
-                    //      // 'rgba(155, 26, 104, 1)'
-                     ],
-                     borderWidth: 1,
-                     barPercentage: 0.9 // ตัวนี้จะเป็นขนาดความกว้างของ bar =.ถ้าปิดตัวนี้ bar จะใหญ่ขึ้น
-                 }
-             ]
-             };
+            <script>
+                var xmlhttp = new XMLHttpRequest();
+                var url = "{{ route('claim.bk_getbar') }}";
+                xmlhttp.open("GET", url, true);
+                xmlhttp.send();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var datas = JSON.parse(this.responseText);
+                        // console.log(datas);
+                        label = datas.chartData_dataset.map(function(e) {
+                            return e.label;
+                        });
+                        // console.log(label);
+                        count = datas.chartData_dataset.map(function(e) {
+                            return e.count;
+                        });
+                        // console.log(count);
+                        label_week = datas.chartData_dataset_week.map(function(e) {
+                            return e.label_week;
+                        });
+                        console.log(label_week);
+                        count_week = datas.chartData_dataset_week.map(function(e) {
+                            return e.count_week;
+                        });
+                        console.log(count_week);
+                        // setup 
+                        const data = {
+                            labels: label,
+                            datasets: [{
+                                    label: ['จำนวนคนที่มาย้อนหลัง 1 สัปดาห์'],
+                                    data: count_week,
+                                    backgroundColor: [
+                                        'rgba(255, 26, 104, 0.2)'
+                                        // 'rgba(54, 162, 235, 0.2)',
+                                        // 'rgba(255, 206, 86, 0.2)',
+                                        // 'rgba(75, 192, 192, 0.2)',
+                                        // 'rgba(153, 102, 255, 0.2)',
+                                        // 'rgba(255, 159, 64, 0.2)',
+                                        // 'rgba(155, 26, 104, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 26, 104, 1)'
+                                        //  'rgba(54, 162, 235, 1)',
+                                        //  'rgba(255, 206, 86, 1)',
+                                        //  'rgba(75, 192, 192, 1)',
+                                        //  'rgba(153, 102, 255, 1)',
+                                        //  'rgba(255, 159, 64, 1)',
+                                        //  'rgba(155, 26, 104, 1)'
+                                    ],
+                                    borderWidth: 1,
+                                    barPercentage: 0.9 // ตัวนี้จะเป็นขนาดความกว้างของ bar =.ถ้าปิดตัวนี้ bar จะใหญ่ขึ้น 
+                                },
+                                {
+                                    label: ['จำนวนคนที่มาย้อนหลัง 1 เดือน'],
+                                    data: count,
+                                    backgroundColor: [
+                                        // 'rgba(255, 26, 104, 0.5)',
+                                        'rgba(54, 162, 235, 0.5)'
+                                        // 'rgba(255, 206, 86, 0.5)',
+                                        // 'rgba(75, 192, 192, 0.5)',
+                                        // 'rgba(153, 102, 255, 0.5)',
+                                        // 'rgba(255, 159, 64, 0.5)',
+                                        // 'rgba(155, 26, 104, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        // 'rgba(255, 26, 104, 1)',
+                                        'rgba(54, 162, 235, 1)'
+                                        //      // 'rgba(255, 206, 86, 1)',
+                                        //      // 'rgba(75, 192, 192, 1)',
+                                        //      // 'rgba(153, 102, 255, 1)',
+                                        //      // 'rgba(255, 159, 64, 1)',
+                                        //      // 'rgba(155, 26, 104, 1)'
+                                    ],
+                                    borderWidth: 1,
+                                    barPercentage: 0.9 // ตัวนี้จะเป็นขนาดความกว้างของ bar =.ถ้าปิดตัวนี้ bar จะใหญ่ขึ้น
+                                }
+                            ]
+                        };
 
-             // config 
-             const config = {
-                 type: 'bar',
-                 data,
-                 options: {
-                     indexAxis: 'y',
-                     scales: {
-                         y: {
-                             beginAtZero: true
-                         }
-                     }
-                 }
-             };
+                        // config 
+                        const config = {
+                            type: 'bar',
+                            data,
+                            options: {
+                                indexAxis: 'y',
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        };
 
-             // render init block
-             const myChart = new Chart(
-                 document.getElementById('myChart'),
-                 config
-             );
+                        // render init block
+                        const myChart = new Chart(
+                            document.getElementById('myChart'),
+                            config
+                        );
 
-         }
-     }
- </script>
-@endsection
+                    }
+                }
+            </script>
+
+            <script type="text/javascript">
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+                google.charts.setOnLoadCallback(drawVisualization);
+
+                function drawVisualization() {
+                    // Some raw data (not necessarily accurate)
+                    var data = google.visualization.arrayToDataTable([
+                        ['Month', 'HERB', '12001', '12002'],
+                        ['มกราคม', <?php echo $herf_01; ?>, <?php echo $a12001_01; ?>, <?php echo $a12002_01; ?>],
+                        ['กุมภาพัน', <?php echo $herf_02; ?>, <?php echo $a12001_01; ?>, <?php echo $a12002_01; ?>],
+                        ['มีนาคม', <?php echo $herf_03; ?>, <?php echo $a12001_03; ?>, <?php echo $a12002_03; ?>],
+                        ['เมษายน', <?php echo $herf_04; ?>, <?php echo $a12001_04; ?>, <?php echo $a12002_04; ?>],
+                        ['พฤษภาคม', <?php echo $herf_05; ?>, <?php echo $a12001_05; ?>, <?php echo $a12002_05; ?>],
+                        ['มิถุนายน', <?php echo $herf_06; ?>, <?php echo $a12001_06; ?>, <?php echo $a12002_06; ?>],
+                        ['กรกฎาคม', <?php echo $herf_07; ?>, <?php echo $a12001_07; ?>, <?php echo $a12002_07; ?>],
+                        ['สิงหาคม', <?php echo $herf_08; ?>, <?php echo $a12001_08; ?>, <?php echo $a12002_08; ?>],
+                        ['กันยายน', <?php echo $herf_09; ?>, <?php echo $a12001_09; ?>, <?php echo $a12002_09; ?>],
+                        ['ตุลาคม', <?php echo $herf_10; ?>, <?php echo $a12001_10; ?>, <?php echo $a12002_10; ?>],
+                        ['พฤษจิกายน', <?php echo $herf_11; ?>, <?php echo $a12001_11; ?>, <?php echo $a12002_11; ?>],
+                        ['ธันวาคม', <?php echo $herf_12; ?>, <?php echo $a12001_12; ?>, <?php echo $a12002_12; ?>],
+                    ]);
+
+
+                    var options = {
+                        title: 'ยอดการเคลมแต่ละเดือน',
+                        vAxis: {
+                            title: 'บาท ฿'
+                        },
+                        hAxis: {
+                            title: 'Month'
+                        },
+                        seriesType: 'bars',
+                        //   series: {5: {type: 'line'}}
+                    };
+
+                    var chart = new google.visualization.ComboChart(document.getElementById('chart_divfs'));
+                    chart.draw(data, options);
+                }
+            </script>
+        @endsection

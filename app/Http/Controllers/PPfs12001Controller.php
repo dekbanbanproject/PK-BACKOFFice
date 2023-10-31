@@ -82,7 +82,7 @@ use App\Models\D_irf;
 use App\Models\D_query;
 use App\Models\D_ucep24_main;
 use App\Models\D_ucep24;
-use App\Models\Acc_ucep24;
+use App\Models\D_claim_db_hipdata_code;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
@@ -153,13 +153,14 @@ class PPfs12001Controller extends Controller
                         LEFT OUTER JOIN opitemrece op ON op.vn = v.vn   
                         LEFT OUTER JOIN s_drugitems d on d.icode = op.icode
                         where o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")
+                       
                         AND (o.an=" " or o.an is null)
                         AND pt.nationality="99" 
                         AND v.age_y between "15" and "34" AND pt.sex=2 
                         AND d.nhso_adp_code ="12001"  
                         GROUP BY v.vn;    
-                ');                 
+                '); 
+                // AND v.pttype NOT IN("98","99","49","50","O1","O2","O3","O4","O5","L1","L2","L3","L4","L5","L6","L7","M1","M2","M3","M4","M5")                
                 foreach ($data_main_ as $key => $value) {    
                         D_12001::insert([
                             'vn'                => $value->vn,
@@ -191,6 +192,49 @@ class PPfs12001Controller extends Controller
                     }                   
                     
                 }
+
+                $data_maindb_ = DB::connection('mysql2')->select('  
+             
+                        SELECT count(distinct v.vn) as vnc,v.vn
+                        ,count(distinct op.an) as an,day(v.vstdate) as days,v.vstdate,pt.hipdata_code
+                        ,month(v.vstdate) as months,year(v.vstdate) as year,SUM(op.sum_price) as sum_price,d.nhso_adp_code
+                        FROM hos.opitemrece op
+                        LEFT OUTER JOIN hos.vn_stat v ON v.vn=op.vn  
+                        LEFT OUTER JOIN hos.pttype pt ON pt.pttype=v.pttype
+                        LEFT OUTER JOIN hos.patient p ON v.hn=p.hn  
+                        LEFT OUTER JOIN hos.s_drugitems d ON d.icode=op.icode 
+                        WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        AND (op.an=" " or op.an is null) 
+                        and v.uc_money >"0"
+                        AND op.an is null
+                        AND v.pdx <> ""
+                        AND p.nationality="99" 
+                        AND v.age_y between "15" and "34" AND p.sex=2 
+                        AND d.nhso_adp_code ="12001" 
+                        GROUP BY days,pt.hipdata_code;
+                ');   
+                foreach ($data_maindb_ as $key => $val2) {     
+                    $data_max_ = D_claim_db_hipdata_code::where('vstdate',$val2->vstdate)->where('nhso_adp_code',$val2->nhso_adp_code)->count();
+                    if ($data_max_ >0) {
+                        # code...
+                    } else {
+                        D_claim_db_hipdata_code::insert([ 
+                            'vstdate'            => $val2->vstdate, 
+                            'mo'                 => $val2->months,
+                            'ye'                 => $val2->year,
+                            'vn'                 => $val2->vnc, 
+                            'an'                 => $val2->an,
+                            'income_vn'          => $val2->sum_price, 
+                            'hipdata_code'       => $val2->hipdata_code, 
+                            'nhso_adp_code'      => $val2->nhso_adp_code 
+                        ]);
+                    }  
+                }
+
+
+
+
+
                 $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_12001');  
                 // $data['data'] = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
                 $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd'); 
