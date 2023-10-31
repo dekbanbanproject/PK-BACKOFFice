@@ -183,30 +183,34 @@ class PPfs30011Controller extends Controller
                         GROUP BY v.vn
                     ');  
                     foreach ($data_30009_ as $key => $vadant) {
-                        D_30009::insert([
-                            'vn'                 => $vadant->vn,
-                            'hn'                 => $vadant->hn,  
-                            'icode'              => $vadant->icode, 
-                            'sum_price'          => $vadant->sum_price,  
-                        ]); 
-                        $checkdent = D_claim::where('vn',$vadant->vn)->where('nhso_adp_code','30009')->count();
-                        if ($checkdent > 0) { 
+                        $check_1 = D_claim::where('hn',$vadant->hn)->where('nhso_adp_code','30009')->count();
+                        if ($check_1 > 0) { 
                         } else {
-                            D_claim::insert([
-                                'vn'                => $vadant->vn,
-                                'hn'                => $vadant->hn, 
-                                'cid'               => $vadant->cid,
-                                'pttype'            => $vadant->pttype,
-                                'ptname'            => $vadant->ptname,
-                                'vstdate'           => $vadant->vstdate,
-                                'hipdata_code'      => $vadant->hipdata_code, 
-                                'qty'               => '1',
-                                'sum_price'         => '190',
-                                'type'              => 'ANC',
-                                'nhso_adp_code'     => '30009',
-                                'claimdate'         => $date, 
-                                'userid'            => $iduser, 
-                            ]);
+                            D_30009::insert([
+                                'vn'                 => $vadant->vn,
+                                'hn'                 => $vadant->hn,  
+                                'icode'              => $vadant->icode, 
+                                'sum_price'          => $vadant->sum_price,  
+                            ]); 
+                            $checkdent = D_claim::where('vn',$vadant->vn)->where('nhso_adp_code','30009')->count();
+                            if ($checkdent > 0) { 
+                            } else {
+                                D_claim::insert([
+                                    'vn'                => $vadant->vn,
+                                    'hn'                => $vadant->hn, 
+                                    'cid'               => $vadant->cid,
+                                    'pttype'            => $vadant->pttype,
+                                    'ptname'            => $vadant->ptname,
+                                    'vstdate'           => $vadant->vstdate,
+                                    'hipdata_code'      => $vadant->hipdata_code, 
+                                    'qty'               => '1',
+                                    'sum_price'         => '500',
+                                    'type'              => 'ANC',
+                                    'nhso_adp_code'     => '30009',
+                                    'claimdate'         => $date, 
+                                    'userid'            => $iduser, 
+                                ]);
+                            }
                         }
                     }
 
