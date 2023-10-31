@@ -179,7 +179,7 @@ class PPfs30015Controller extends Controller
                                 'vstdate'           => $value->vstdate,
                                 'hipdata_code'      => $value->hipdata_code, 
                                 'qty'               => '1',
-                                'sum_price'         => '150',
+                                'sum_price'         => '285',
                                 'type'              => 'ANC',
                                 'nhso_adp_code'     => '30015',
                                 'claimdate'         => $date, 
