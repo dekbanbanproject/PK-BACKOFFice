@@ -200,6 +200,7 @@ class PPfs30011Controller extends Controller
                             JOIN opitemrece oc on oc.vn=s.vn 
                             JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30010") 
                             WHERE s.vn IN("'.$value->vn.'")
+                            GROUP BY s.vn
                     ');  
                     foreach ($data_30010 as $key => $value2) {
                        
@@ -246,6 +247,7 @@ class PPfs30011Controller extends Controller
                         JOIN opitemrece oc on oc.vn=s.vn 
                         JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30011") 
                             WHERE s.vn IN("'.$value->vn.'")
+                            GROUP BY s.vn
                     ');  
                     foreach ($data_30011 as $key => $value3) {
                        
@@ -289,6 +291,7 @@ class PPfs30011Controller extends Controller
                             JOIN opitemrece oc on oc.vn=s.vn 
                             JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30012") 
                             WHERE s.vn IN("'.$value->vn.'")
+                            GROUP BY s.vn
                     ');  
                     foreach ($data_30012 as $key => $value4) {
                         D_30012::insert([
@@ -331,6 +334,7 @@ class PPfs30011Controller extends Controller
                             JOIN opitemrece oc on oc.vn=s.vn 
                             JOIN nondrugitems n on n.icode=oc.icode and n.nhso_adp_code in("30013") 
                             WHERE s.vn IN("'.$value->vn.'")
+                            GROUP BY s.vn
                     ');  
                     foreach ($data_30013 as $key => $value5) {
                         D_30013::insert([
@@ -598,7 +602,7 @@ class PPfs30011Controller extends Controller
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEDX
                         ,v.spclty CLINIC
                         
-                        o.icd10 DIAG                        
+                        ,o.icd10 DIAG                        
                         
                         ,o.diagtype DXTYPE
                         ,CASE 

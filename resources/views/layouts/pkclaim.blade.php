@@ -283,7 +283,7 @@
                                 </li>
                                 <li><a href="javascript: void(0);" class="has-arrow">แพทย์แผนไทย</a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('herb9') }}">ยาสมุนไพร9ชนิด</a></li>
+                                        <li><a href="{{ url('herb9') }}">ยาสมุนไพร 9 ชนิด</a></li>
                                        
                                     </ul>
                                 </li>
