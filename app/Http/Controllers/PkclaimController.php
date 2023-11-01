@@ -50,18 +50,18 @@ class PkclaimController extends Controller
         $lgo_08 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'08')->where("hipdata_code",'=','LGO')->sum('income_vn');
         $lgo_09 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'09')->where("hipdata_code",'=','LGO')->sum('income_vn');
 
-        $herf_10 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_11 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_12 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_01 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_02 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_03 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_04 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_05 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_06 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_07 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_08 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
-        $herf_09 = D_claim_db_hipdata_code::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'LIKE','%HERB%')->sum('income_vn');
+        $herf_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
+        $herf_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'LIKE','%HERB%')->sum('sum_price');
 
         $a12001_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','12001')->sum('sum_price');
         $a12001_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','12001')->sum('sum_price');
@@ -89,12 +89,84 @@ class PkclaimController extends Controller
         $a12002_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','12002')->sum('sum_price');
         $a12002_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','12002')->sum('sum_price');
 
+        $a30010_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+        $a30010_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','30010')->sum('sum_price');
+
+        $a30011_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+        $a30011_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','30011')->sum('sum_price');
+
+        $a30012_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+        $a30012_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','30012')->sum('sum_price');
+
+        $a30013_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+        $a30013_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','30013')->sum('sum_price');
+
+        $a30015_10 = D_claim::where(DB::raw("Month(vstdate)"),'10')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_11 = D_claim::where(DB::raw("Month(vstdate)"),'11')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_12 = D_claim::where(DB::raw("Month(vstdate)"),'12')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_01 = D_claim::where(DB::raw("Month(vstdate)"),'01')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_02 = D_claim::where(DB::raw("Month(vstdate)"),'02')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_03 = D_claim::where(DB::raw("Month(vstdate)"),'03')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_04 = D_claim::where(DB::raw("Month(vstdate)"),'04')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_05 = D_claim::where(DB::raw("Month(vstdate)"),'05')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_06 = D_claim::where(DB::raw("Month(vstdate)"),'06')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_07 = D_claim::where(DB::raw("Month(vstdate)"),'07')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_08 = D_claim::where(DB::raw("Month(vstdate)"),'08')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+        $a30015_09 = D_claim::where(DB::raw("Month(vstdate)"),'09')->where("nhso_adp_code",'=','30015')->sum('sum_price');
+
         return view('pkclaim.pkclaim_info', compact(
             'ofc_10','ofc_11','ofc_12','ofc_01','ofc_02','ofc_03','ofc_04','ofc_05','ofc_06','ofc_07','ofc_08','ofc_09',
             'lgo_10','lgo_11','lgo_12','lgo_01','lgo_02','lgo_03','lgo_04','lgo_05','lgo_06','lgo_07','lgo_08','lgo_09',
             'herf_10','herf_11','herf_12','herf_01','herf_02','herf_03','herf_04','herf_05','herf_06','herf_07','herf_08','herf_09',
             'a12001_10','a12001_11','a12001_12','a12001_01','a12001_02','a12001_03','a12001_04','a12001_05','a12001_06','a12001_07','a12001_08','a12001_09',
             'a12002_10','a12002_11','a12002_12','a12002_01','a12002_02','a12002_03','a12002_04','a12002_05','a12002_06','a12002_07','a12002_08','a12002_09',
+            'a30015_10','a30015_11','a30015_12','a30015_01','a30015_02','a30015_03','a30015_04','a30015_05','a30015_06','a30015_07','a30015_08','a30015_09',
+
+            'a30010_10','a30010_11','a30010_12','a30010_01','a30010_02','a30010_03','a30010_04','a30010_05','a30010_06','a30010_07','a30010_08','a30010_09',
+            'a30011_10','a30011_11','a30011_12','a30011_01','a30011_02','a30011_03','a30011_04','a30011_05','a30011_06','a30011_07','a30011_08','a30011_09',
+            'a30012_10','a30012_11','a30012_12','a30012_01','a30012_02','a30012_03','a30012_04','a30012_05','a30012_06','a30012_07','a30012_08','a30012_09',
+            'a30013_10','a30013_11','a30013_12','a30013_01','a30013_02','a30013_03','a30013_04','a30013_05','a30013_06','a30013_07','a30013_08','a30013_09',
+
         ));
     }
     public function fs_eclaim(Request $request)

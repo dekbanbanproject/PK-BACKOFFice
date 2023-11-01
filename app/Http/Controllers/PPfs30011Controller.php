@@ -236,7 +236,7 @@ class PPfs30011Controller extends Controller
                                 'sum_price'          => $value2->sum_price,  
                             ]);  
                        
-                            $check10 = D_claim::where('vn',$value2->vn)->where('nhso_adp_code','30010')->count();
+                            $check10 = D_claim::where('hn',$value2->hn)->where('nhso_adp_code','30010')->count();
                             if ($check10 > 0) { 
                             } else {
                                 D_claim::insert([
@@ -321,7 +321,7 @@ class PPfs30011Controller extends Controller
                                 'sum_price'          => $value4->sum_price,   
                             ]); 
                         
-                            $check12 = D_claim::where('vn',$value4->vn)->where('nhso_adp_code','30012')->count();
+                            $check12 = D_claim::where('hn',$value4->hn)->where('nhso_adp_code','30012')->count();
                             if ($check12 > 0) { 
                             } else {
                                 D_claim::insert([
@@ -363,7 +363,7 @@ class PPfs30011Controller extends Controller
                                 'sum_price'          => $value5->sum_price,  
                             ]); 
                        
-                            $check13 = D_claim::where('vn',$value5->vn)->where('nhso_adp_code','30013')->count();
+                            $check13 = D_claim::where('hn',$value5->hn)->where('nhso_adp_code','30013')->count();
                             if ($check13 > 0) { 
                             } else {
                                 D_claim::insert([
