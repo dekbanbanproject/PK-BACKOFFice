@@ -894,7 +894,7 @@ class PPfs30015Controller extends Controller
                     ]);
                 } 
 
-                $data_30015_ = DB::connection('mysql2')->select('
+                $data_adp30015_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
@@ -921,7 +921,7 @@ class PPfs30015Controller extends Controller
                 // ,n.nhso_adp_code CODE 
                 // ,sum(v.QTY) QTY 
                 // ,round(v.unitprice,2) RATE
-                foreach ($data_30015_ as $va_adp) {
+                foreach ($data_adp30015_ as $va_adp) {
                     D_adp::insert([
                         'HN'                   => $va_adp->HN,
                         'AN'                   => $va_adp->AN,

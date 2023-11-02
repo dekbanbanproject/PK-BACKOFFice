@@ -159,7 +159,7 @@ class PPfs30011Controller extends Controller
                             'cid'                => $value->cid, 
                             'ptname'             => $value->ptname,
                             'vstdate'            => $value->vstdate,
-                            'nhso_adp_code'      => "PPFS_ANC",
+                            'nhso_adp_code'      => "ANC",
                             'pttype'             => $value->pttype,  
                             'pdx'                => $value->pdx, 
                             'dx0'                => $value->dx0, 
@@ -390,21 +390,21 @@ class PPfs30011Controller extends Controller
         }
 
                 $data['data_main'] = DB::connection('mysql')->select('SELECT * from d_anc_main');   
-                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="PPFS_ANC"'); 
-                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="PPFS_ANC"'); 
-                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="PPFS_ANC"');
-                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="PPFS_ANC"');
+                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="ANC"'); 
+                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="ANC"'); 
+                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="ANC"');
+                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="ANC"');
+                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="ANC"');
+                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="ANC"');
+                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="ANC"');
+                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="ANC"');
+                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="ANC"');
+                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="ANC"');
+                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="ANC"');
+                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="ANC"');
+                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="ANC"');
+                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="ANC"');
+                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="ANC"');
 
         return view('ppfs.ppfs_30011',$data,[
             'startdate'     =>     $startdate,
@@ -415,21 +415,21 @@ class PPfs30011Controller extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_anc_main');
         $iduser = Auth::user()->id; 
-        // D_opd::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_orf::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_oop::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_odx::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_idx::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_ipd::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_irf::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_aer::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_iop::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_adp::where('d_anaconda_id','=','PPFS_ANC')->delete();   
-        // D_dru::where('d_anaconda_id','=','PPFS_ANC')->delete();   
-        // D_pat::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_cht::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_cha::where('d_anaconda_id','=','PPFS_ANC')->delete();
-        // D_ins::where('d_anaconda_id','=','PPFS_ANC')->delete();
+        // D_opd::where('d_anaconda_id','=','ANC')->delete();
+        // D_orf::where('d_anaconda_id','=','ANC')->delete();
+        // D_oop::where('d_anaconda_id','=','ANC')->delete();
+        // D_odx::where('d_anaconda_id','=','ANC')->delete();
+        // D_idx::where('d_anaconda_id','=','ANC')->delete();
+        // D_ipd::where('d_anaconda_id','=','ANC')->delete();
+        // D_irf::where('d_anaconda_id','=','ANC')->delete();
+        // D_aer::where('d_anaconda_id','=','ANC')->delete();
+        // D_iop::where('d_anaconda_id','=','ANC')->delete();
+        // D_adp::where('d_anaconda_id','=','ANC')->delete();   
+        // D_dru::where('d_anaconda_id','=','ANC')->delete();   
+        // D_pat::where('d_anaconda_id','=','ANC')->delete();
+        // D_cht::where('d_anaconda_id','=','ANC')->delete();
+        // D_cha::where('d_anaconda_id','=','ANC')->delete();
+        // D_ins::where('d_anaconda_id','=','ANC')->delete();
         D_opd::truncate();
         D_orf::truncate();
         D_oop::truncate();
@@ -504,7 +504,7 @@ class PPfs30011Controller extends Controller
                         'RELINSCL'          => $va17->RELINSCL,
                         'HTYPE'             => $va17->HTYPE,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 }
                 //D_pat OK
@@ -548,7 +548,7 @@ class PPfs30011Controller extends Controller
                         'LNAME'              => $va14->LNAME,
                         'IDTYPE'             => $va14->IDTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'PPFS_ANC'
+                        'd_anaconda_id'      => 'ANC'
                     ]);
                 }
                 //D_opd OK
@@ -584,7 +584,7 @@ class PPfs30011Controller extends Controller
                         'TYPEIN'            => $val3->TYPEIN, 
                         'TYPEOUT'           => $val3->TYPEOUT, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 }
                 //D_orf _OK
@@ -611,7 +611,7 @@ class PPfs30011Controller extends Controller
                         'REFERTYPE'         => $va4->REFERTYPE, 
                         'REFERDATE'         => $va4->REFERDATE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 }
                  // D_odx OK
@@ -660,7 +660,7 @@ class PPfs30011Controller extends Controller
                         'PERSON_ID'         => $va5->PERSON_ID, 
                         'SEQ'               => $va5->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                     
                 }
@@ -697,7 +697,7 @@ class PPfs30011Controller extends Controller
                         'SEQ'               => $va6->SEQ, 
                         'SERVPRICE'         => $va6->SERVPRICE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                     
                 }
@@ -734,7 +734,7 @@ class PPfs30011Controller extends Controller
                         'UUC'               => $va13->UUC, 
                         'SVCTYPE'           => $va13->SVCTYPE, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 }
                 
@@ -756,7 +756,7 @@ class PPfs30011Controller extends Controller
                         'REFER'              => $va12->REFER,
                         'REFERTYPE'          => $va12->REFERTYPE,
                         'user_id'            => $iduser,
-                        'd_anaconda_id'      => 'PPFS_ANC',
+                        'd_anaconda_id'      => 'ANC',
                     ]);                     
                 }                 
                 //D_idx OK 
@@ -783,7 +783,7 @@ class PPfs30011Controller extends Controller
                         'DXTYPE'            => $va7->DXTYPE,
                         'DRDX'              => $va7->DRDX, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                             
                 }
@@ -820,7 +820,7 @@ class PPfs30011Controller extends Controller
                         'DATEOUT'           => $va9->DATEOUT,
                         'TIMEOUT'           => $va9->TIMEOUT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 }
                 //D_cht OK
@@ -856,7 +856,7 @@ class PPfs30011Controller extends Controller
                         'INVOICE_NO'        => $va15->INVOICE_NO,
                         'INVOICE_LT'        => $va15->INVOICE_LT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 }
                 //D_cha OK
@@ -905,7 +905,7 @@ class PPfs30011Controller extends Controller
                         'PERSON_ID'         => $va16->PERSON_ID,
                         'SEQ'               => $va16->SEQ, 
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 } 
                  //D_aer OK
@@ -961,7 +961,7 @@ class PPfs30011Controller extends Controller
                         'DALERT'            => $va8->DALERT,
                         'TALERT'            => $va8->TALERT,
                         'user_id'           => $iduser,
-                        'd_anaconda_id'     => 'PPFS_ANC'
+                        'd_anaconda_id'     => 'ANC'
                     ]);
                 }
                  
@@ -1058,7 +1058,7 @@ class PPfs30011Controller extends Controller
                         'PROVIDER'       => $va11->PROVIDER,
                         'vstdate'        => $va11->vstdate,   
                         'user_id'        => $iduser,
-                        'd_anaconda_id'  => 'PPFS_ANC'
+                        'd_anaconda_id'  => 'ANC'
                     ]);
                 } 
 
@@ -1117,7 +1117,7 @@ class PPfs30011Controller extends Controller
                         'icode'                => $va_adp->icode,
                         'vstdate'              => $va_adp->vstdate,
                         'user_id'              => $iduser,
-                        'd_anaconda_id'        => 'PPFS_ANC'
+                        'd_anaconda_id'        => 'ANC'
                     ]);
                 } 
  
@@ -1182,7 +1182,7 @@ class PPfs30011Controller extends Controller
                             'icode'                => $va30009->icode,
                             'vstdate'              => $va30009->vstdate,
                             'user_id'              => $iduser,
-                            'd_anaconda_id'        => 'PPFS_ANC'
+                            'd_anaconda_id'        => 'ANC'
                         ]);
                     // }
                      
@@ -1251,7 +1251,7 @@ class PPfs30011Controller extends Controller
                             'icode'                => $va30110->icode,
                             'vstdate'              => $va30110->vstdate,
                             'user_id'              => $iduser,
-                            'd_anaconda_id'        => 'PPFS_ANC'
+                            'd_anaconda_id'        => 'ANC'
                         ]);
                     // }
                      
@@ -1319,7 +1319,7 @@ class PPfs30011Controller extends Controller
                             'icode'                => $va30012->icode,
                             'vstdate'              => $va30012->vstdate,
                             'user_id'              => $iduser,
-                            'd_anaconda_id'        => 'PPFS_ANC'
+                            'd_anaconda_id'        => 'ANC'
                         ]);
                     // }
                     
@@ -1388,7 +1388,7 @@ class PPfs30011Controller extends Controller
                             'icode'                => $va30113->icode,
                             'vstdate'              => $va30113->vstdate,
                             'user_id'              => $iduser,
-                            'd_anaconda_id'        => 'PPFS_ANC'
+                            'd_anaconda_id'        => 'ANC'
                         ]);
                 //    }
                     
@@ -1439,7 +1439,7 @@ class PPfs30011Controller extends Controller
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
         fwrite($objFopen_opd1, $opd_head);
         $ins = DB::connection('mysql')->select('
-            SELECT * from d_ins WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_ins WHERE d_anaconda_id ="ANC"
         ');
         foreach ($ins as $key => $value1) {
             $a1 = $value1->HN;
@@ -1473,7 +1473,7 @@ class PPfs30011Controller extends Controller
         $opd_head2 = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_opd2, $opd_head2);
         $iop = DB::connection('mysql')->select('
-            SELECT * from d_iop WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_iop WHERE d_anaconda_id ="ANC"
         '); 
         foreach ($iop as $key => $value2) {
             $b1 = $value2->AN;
@@ -1497,7 +1497,7 @@ class PPfs30011Controller extends Controller
         $opd_head3 = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_opd3, $opd_head3);
         $adp = DB::connection('mysql')->select('
-            SELECT * from d_adp WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_adp WHERE d_anaconda_id ="ANC"
         ');
         foreach ($adp as $key => $value3) {
             $c1 = $value3->HN;
@@ -1539,7 +1539,7 @@ class PPfs30011Controller extends Controller
         $opd_head4 = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
         fwrite($objFopen_opd4, $opd_head4);
         $aer = DB::connection('mysql')->select('
-            SELECT * from d_aer WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_aer WHERE d_anaconda_id ="ANC"
         ');
         foreach ($aer as $key => $value4) {
             $d1 = $value4->HN;
@@ -1572,7 +1572,7 @@ class PPfs30011Controller extends Controller
         $opd_head5 = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_opd5, $opd_head5);
         $cha = DB::connection('mysql')->select('
-            SELECT * from d_cha WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_cha WHERE d_anaconda_id ="ANC"
         ');
         foreach ($cha as $key => $value5) {
             $e1 = $value5->HN;
@@ -1594,7 +1594,7 @@ class PPfs30011Controller extends Controller
         $opd_head6 = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_opd6, $opd_head6);
         $cht = DB::connection('mysql')->select('
-            SELECT * from d_cht WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_cht WHERE d_anaconda_id ="ANC"
         ');
         foreach ($cht as $key => $value6) {
             $f1 = $value6->HN;
@@ -1617,7 +1617,7 @@ class PPfs30011Controller extends Controller
         $opd_head7 = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_opd7, $opd_head7);
         $dru = DB::connection('mysql')->select('
-            SELECT * from d_dru WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_dru WHERE d_anaconda_id ="ANC"
         ');
         foreach ($dru as $key => $value7) {
             $g1 = $value7->HCODE;
@@ -1655,7 +1655,7 @@ class PPfs30011Controller extends Controller
         $opd_head8 = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_opd8, $opd_head8);
         $idx = DB::connection('mysql')->select('
-            SELECT * from d_idx WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_idx WHERE d_anaconda_id ="ANC"
         ');
         foreach ($idx as $key => $value8) {
             $h1 = $value8->AN;
@@ -1674,7 +1674,7 @@ class PPfs30011Controller extends Controller
         $opd_head9 = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_opd9, $opd_head9);
         $pat = DB::connection('mysql')->select('
-            SELECT * from d_pat WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_pat WHERE d_anaconda_id ="ANC"
         ');
         foreach ($pat as $key => $value9) {
             $i1 = $value9->HCODE;
@@ -1704,7 +1704,7 @@ class PPfs30011Controller extends Controller
         $opd_head10 = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_opd10, $opd_head10);
         $ipd = DB::connection('mysql')->select('
-            SELECT * from d_ipd WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_ipd WHERE d_anaconda_id ="ANC"
         ');
         foreach ($ipd as $key => $value10) {
             $j1 = $value10->HN;
@@ -1732,7 +1732,7 @@ class PPfs30011Controller extends Controller
         $opd_head11 = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_opd11, $opd_head11);
         $irf = DB::connection('mysql')->select('
-            SELECT * from d_irf WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_irf WHERE d_anaconda_id ="ANC"
         ');
         foreach ($irf as $key => $value11) {
             $k1 = $value11->AN;
@@ -1750,7 +1750,7 @@ class PPfs30011Controller extends Controller
         $opd_head12 = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
         fwrite($objFopen_opd12, $opd_head12);
         $lvd = DB::connection('mysql')->select('
-            SELECT * from d_lvd WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_lvd WHERE d_anaconda_id ="ANC"
         ');
         foreach ($lvd as $key => $value12) {
             $L1 = $value12->SEQLVD;
@@ -1772,7 +1772,7 @@ class PPfs30011Controller extends Controller
         $opd_head13 = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_opd13, $opd_head13);
         $odx = DB::connection('mysql')->select('
-            SELECT * from d_odx WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_odx WHERE d_anaconda_id ="ANC"
         ');
         foreach ($odx as $key => $value13) {
             $m1 = $value13->HN;
@@ -1795,7 +1795,7 @@ class PPfs30011Controller extends Controller
         $opd_head14 = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_opd14, $opd_head14);
         $oop = DB::connection('mysql')->select('
-            SELECT * from d_oop WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_oop WHERE d_anaconda_id ="ANC"
         ');
         foreach ($oop as $key => $value14) {
             $n1 = $value14->HN;
@@ -1817,7 +1817,7 @@ class PPfs30011Controller extends Controller
         $opd_head15 = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd15, $opd_head15);
         $opd = DB::connection('mysql')->select('
-            SELECT * from d_opd WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_opd WHERE d_anaconda_id ="ANC"
         ');
         foreach ($opd as $key => $value15) {
             $o1 = $value15->HN;
@@ -1838,7 +1838,7 @@ class PPfs30011Controller extends Controller
         $opd_head16 = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_opd16, $opd_head16);
         $orf = DB::connection('mysql')->select('
-            SELECT * from d_orf WHERE d_anaconda_id ="PPFS_ANC"
+            SELECT * from d_orf WHERE d_anaconda_id ="ANC"
         ');
         foreach ($orf as $key => $value16) {
             $p1 = $value16->HN;

@@ -19,7 +19,11 @@ return new class extends Migration
                 $table->bigIncrements('d_ucep24_id');//  
                 $table->string('vn')->nullable();//   
                 $table->string('an')->nullable();//  
-                $table->string('hn')->nullable();//    
+                $table->string('hn')->nullable();//  
+                $table->string('cid')->nullable();//  
+                $table->string('ptname')->nullable();//                 
+                $table->string('pttype')->nullable();//   
+                $table->string('hipdata_code')->nullable();//  
                 $table->date('vstdate')->nullable();//   
                 $table->date('rxdate')->nullable();// 
                 $table->date('dchdate')->nullable();// 

@@ -300,7 +300,7 @@ class Ucep24Controller extends Controller
                
                 $data_opitem = DB::connection('mysql')->select('   
                         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
-                        ,i.dchdate,ii.pttype
+                        ,i.dchdate,ii.pttype,p.hipdata_code
                         ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
                         ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
                         FROM hos.ipt i
@@ -327,16 +327,90 @@ class Ucep24Controller extends Controller
                         'vn'                => $value->vn,
                         'hn'                => $value->hn,
                         'an'                => $value->an, 
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'pttype'            => $value->pttype,
+                        'hipdata_code'      => $value->hipdata_code,
                         'vstdate'           => $value->vstdate,
                         'rxdate'            => $value->rxdate,
                         'dchdate'           => $value->dchdate, 
-                        'icode'             => $value->icode,
+                        'icode'             => $value->icode, 
                         'name'              => $value->namelist,
                         'qty'               => $value->qty,
                         'unitprice'         => $value->unitprice,
                         'sum_price'         => $value->sum_price, 
                         'user_id'           => Auth::user()->id 
                     ]);
+                }
+
+                $data_opitem0218 = DB::connection('mysql')->select('   
+                        SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                        ,i.dchdate,ii.pttype,p.hipdata_code
+                        ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
+                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
+                        FROM hos.ipt i
+                        LEFT JOIN hos.opitemrece o on i.an = o.an AND o.income IN("02","18") 
+                        LEFT JOIN hos.ovst a on a.an = o.an
+                        left JOIN hos.er_regist e on e.vn = i.vn
+                        LEFT JOIN hos.ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN hos.pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN hos.s_drugitems n on n.icode = o.icode
+                        LEFT JOIN hos.patient pt on pt.hn = a.hn
+                        LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype	                        
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                        and o.an is not null
+                        and o.paidst ="02"
+                        and p.hipdata_code ="ucs"
+                        
+                        and e.er_emergency_level_id  in("1","2")                       
+                        group BY i.an,o.icode,o.rxdate
+                        ORDER BY i.an;
+                ');                  
+                foreach ($data_opitem0218 as $key => $va0218) {    
+                    D_ucep24::insert([
+                        'vn'                => $value->vn,
+                        'hn'                => $value->hn,
+                        'an'                => $value->an, 
+                        'cid'               => $value->cid,
+                        'ptname'            => $value->ptname,
+                        'pttype'            => $value->pttype,
+                        'hipdata_code'      => $value->hipdata_code,
+                        'vstdate'           => $value->vstdate,
+                        'rxdate'            => $value->rxdate,
+                        'dchdate'           => $value->dchdate, 
+                        'icode'             => $value->icode, 
+                        'name'              => $value->namelist,
+                        'qty'               => $value->qty,
+                        'unitprice'         => $value->unitprice,
+                        'sum_price'         => $value->sum_price, 
+                        'user_id'           => Auth::user()->id 
+                    ]);
+                    // $check2 = D_claim::where('an',$va0218->an)->where('nhso_adp_code','=','UCEP24')->count();
+                    // if ($check2 > 0) { 
+                    //     $price_old = D_claim::where('an',$va0218->an)->first();
+                    //     D_claim::where('an',$va0218->an)->update([ 
+                    //         'qty'               => $va0218->qty,
+                    //         'sum_price'         => $va0218->sum_price, 
+                    //         'claimdate'         => $date,  
+                    //     ]);
+                    // } else {
+                    //     D_claim::insert([
+                    //         'vn'                => $va0218->vn,
+                    //         'hn'                => $va0218->hn,
+                    //         'an'                => $va0218->an,
+                    //         'cid'               => $va0218->cid,
+                    //         'pttype'            => $va0218->pttype,
+                    //         'ptname'            => $va0218->ptname,
+                    //         'dchdate'           => $va0218->dchdate,
+                    //         'hipdata_code'      => $va0218->hipdata_code,
+                    //         'qty'               => $va0218->qty,
+                    //         'sum_price'          => $va0218->sum_price,
+                    //         'type'              => 'IPD',
+                    //         'nhso_adp_code'     => 'UCEP24',
+                    //         'claimdate'         => $date, 
+                    //         'userid'            => $iduser, 
+                    //     ]);
+                    // }  
                 }
 
                 $data_main_ = DB::connection('mysql')->select('   
@@ -366,28 +440,36 @@ class Ucep24Controller extends Controller
                         'hn'                => $value2->hn,
                         'an'                => $value2->an 
                     ]);
-                    $check = D_claim::where('an',$value2->an)->where('nhso_adp_code','=','UCEP24')->count();
-                    if ($check > 0) {
-                        # code...
-                    } else {
-                        D_claim::insert([
-                            'vn'                => $value2->vn,
-                            'hn'                => $value2->hn,
-                            'an'                => $value2->an,
-                            'cid'               => $value2->cid,
-                            'pttype'            => $value2->pttype,
-                            'ptname'            => $value2->ptname,
-                            'dchdate'           => $value2->dchdate,
-                            'hipdata_code'      => $value2->hipdata_code,
-                            'qty'               => $value2->qty,
-                            'sum_price'          => $value2->sum_price,
-                            'type'              => 'IPD',
-                            'nhso_adp_code'     => 'UCEP24',
-                            'claimdate'         => $date, 
-                            'userid'            => $iduser, 
-                        ]);
-                    }  
-                }    
+                    
+                }   
+
+                $data_total_ = DB::connection('mysql')->select('SELECT vn,an,hn,cid,ptname,pttype,hipdata_code,vstdate,dchdate,SUM(qty) as qty,SUM(sum_price) as sum_price FROM D_ucep24 WHERE qty > 0 GROUP BY an'); 
+                foreach ($data_total_ as $key => $vatotal) {
+                    $check_to = D_claim::where('an',$vatotal->an)->where('nhso_adp_code','=','UCEP24')->count();
+                        if ($check_to > 0) { 
+                        } else {
+                            D_claim::insert([
+                                'vn'                => $vatotal->vn,
+                                'hn'                => $vatotal->hn,
+                                'an'                => $vatotal->an,
+                                'cid'               => $vatotal->cid,
+                                'pttype'            => $vatotal->pttype,
+                                'ptname'            => $vatotal->ptname,
+                                'dchdate'           => $vatotal->dchdate,
+                                'hipdata_code'      => $vatotal->hipdata_code,
+                                'qty'               => $vatotal->qty,
+                                'sum_price'         => $vatotal->sum_price,
+                                'type'              => 'IPD',
+                                'nhso_adp_code'     => 'UCEP24',
+                                'claimdate'         => $date, 
+                                'userid'            => $iduser, 
+                            ]);
+                        }  
+                }
+                        
+                
+
+
             }
             $data_main = DB::connection('mysql')->select('SELECT * from d_ucep24_main');  
             $data = DB::connection('mysql')->select('SELECT * from d_ucep24 group by an');
@@ -419,22 +501,36 @@ class Ucep24Controller extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_ucep24_main');
         $iduser = Auth::user()->id;
-        D_ins::where('d_anaconda_id','=','UCEP24')->delete();
-        D_pat::where('d_anaconda_id','=','UCEP24')->delete();
-        D_opd::where('d_anaconda_id','=','UCEP24')->delete();
-        D_orf::where('d_anaconda_id','=','UCEP24')->delete();
-        D_odx::where('d_anaconda_id','=','UCEP24')->delete();
-        D_oop::where('d_anaconda_id','=','UCEP24')->delete();
-        D_ipd::where('d_anaconda_id','=','UCEP24')->delete();
-        D_irf::where('d_anaconda_id','=','UCEP24')->delete();
-        D_idx::where('d_anaconda_id','=','UCEP24')->delete();
-        D_iop::where('d_anaconda_id','=','UCEP24')->delete();
-        D_cht::where('d_anaconda_id','=','UCEP24')->delete();
-        D_cha::where('d_anaconda_id','=','UCEP24')->delete();
-        D_aer::where('d_anaconda_id','=','UCEP24')->delete();
-        D_adp::where('d_anaconda_id','=','UCEP24')->delete(); 
-        D_dru::where('d_anaconda_id','=','UCEP24')->delete();
-
+        // D_ins::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_pat::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_opd::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_orf::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_odx::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_oop::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_ipd::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_irf::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_idx::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_iop::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_cht::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_cha::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_aer::where('d_anaconda_id','=','UCEP24')->delete();
+        // D_adp::where('d_anaconda_id','=','UCEP24')->delete(); 
+        // D_dru::where('d_anaconda_id','=','UCEP24')->delete();
+        D_opd::truncate();
+        D_orf::truncate();
+        D_oop::truncate();
+        D_odx::truncate();
+        D_idx::truncate();
+        D_ipd::truncate();
+        D_irf::truncate();
+        D_aer::truncate();
+        D_iop::truncate();
+        D_adp::truncate();  
+        D_dru::truncate();   
+        D_pat::truncate();
+        D_cht::truncate();
+        D_cha::truncate();
+        D_ins::truncate();
       
         // D_lvd::where('user_id','=',$iduser)->delete();
          // D_labfu::where('user_id','=',$iduser)->delete();
@@ -1127,15 +1223,15 @@ class Ucep24Controller extends Controller
 
             $dataucep_ = DB::connection('mysql')->select('SELECT vn,an,hn,DATE_FORMAT(vstdate,"%Y%m%d") vstdate,dchdate,icode FROM d_ucep24');
             $iduser = Auth::user()->id;
-            foreach ($dataucep_ as $key => $value) {
-                $check = D_adp::where('AN',$value->an)->where('CODE','UCEP24')->count();
+            foreach ($dataucep_ as $key => $value_up) {
+                $check = D_adp::where('AN',$value_up->an)->where('CODE','UCEP24')->count();
                 if ($check > 0) {
                     # code...
                 } else {
                     D_adp::insert([
-                        'HN'             => $value->hn, 
-                        'AN'             => $value->an, 
-                        'DATEOPD'        => $value->vstdate,  
+                        'HN'             => $value_up->hn, 
+                        'AN'             => $value_up->an, 
+                        'DATEOPD'        => $value_up->vstdate,  
                         'TYPE'           => '5', 
                         'CODE'           => 'UCEP24', 
                         'RATE'           => '0', 

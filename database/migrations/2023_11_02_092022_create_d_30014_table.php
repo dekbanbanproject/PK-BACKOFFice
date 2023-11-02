@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     { 
-        if (!Schema::hasTable('d_30015'))
+        if (!Schema::hasTable('d_30014'))
         {
-            Schema::connection('mysql')->create('d_30015', function (Blueprint $table) { 
-                $table->bigIncrements('d_30015_id');//  
+            Schema::connection('mysql')->create('d_30014', function (Blueprint $table) { 
+                $table->bigIncrements('d_30014_id');//  
                 $table->string('vn')->nullable();//   
                 $table->string('hn')->nullable();// 
                 $table->string('an')->nullable();// 
@@ -42,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('d_30015');
+        Schema::dropIfExists('d_30014');
     }
 };
