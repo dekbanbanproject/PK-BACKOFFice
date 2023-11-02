@@ -1066,7 +1066,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
+                        ,ic.drg_chrgitem_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1079,12 +1079,16 @@ class PPfs30011Controller extends Controller
                         ,(SELECT DATE_FORMAT(lmp,"%Y%m%d") lmp from pkbackoffice.d_anc_main where vn = i.vn ) LMP 
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30011") 
+                        FROM opitemrece v 
+
+                        JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code in("30011") 
+                        LEFT JOIN hos.income ic ON ic.income = n.income
+
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
                         WHERE i.vn IN("'.$va1->vn.'")  
                         GROUP BY v.vn  
                 ');
+                // INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30011") 
                 foreach ($data_30011_ as $va_adp) {
                     D_adp::insert([
                         'HN'                   => $va_adp->HN,
@@ -1130,7 +1134,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
+                        ,ic.drg_chrgitem_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1144,12 +1148,16 @@ class PPfs30011Controller extends Controller
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30009") 
+
+                        JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code in("30009") 
+                        LEFT JOIN hos.income ic ON ic.income = n.income
+
+                       
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
                         WHERE v.vn IN("'.$value_09->vn.'")  
                         GROUP BY v.vn  
                 '); 
-
+                // INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30009") 
                 foreach ($data_30009_ as $va30009) { 
                         D_adp::insert([
                             'HN'                   => $va30009->HN,
@@ -1196,7 +1204,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
+                        ,ic.drg_chrgitem_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1210,12 +1218,15 @@ class PPfs30011Controller extends Controller
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30010") 
+                        JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code in("30010") 
+                        LEFT JOIN hos.income ic ON ic.income = n.income
+
+                     
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
                         WHERE v.vn IN("'.$value_10->vn.'")  
                         GROUP BY v.vn  
                 '); 
-
+                // INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30010") 
                 foreach ($data_30010_ as $va30110) {
                     // $check_30010 = D_claim::where('vn',$value_10->vn)->where('nhso_adp_code','30010')->count();
                     // if ($check_30010 > 0) { 
@@ -1264,7 +1275,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
+                        ,ic.drg_chrgitem_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1279,11 +1290,15 @@ class PPfs30011Controller extends Controller
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30012") 
+                        JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code in("30012") 
+                        LEFT JOIN hos.income ic ON ic.income = n.income
+
+                       
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
                         WHERE v.vn IN("'.$value_12->vn.'")  
                         GROUP BY v.vn  
                 '); 
+                // INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30012") 
                 foreach ($data_30012_ as $va30012) {
                     // $check_30012 = D_claim::where('vn',$value_12->vn)->where('nhso_adp_code','30012')->count();
                     // if ($check_30012 > 0) { 
@@ -1333,7 +1348,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
+                        ,ic.drg_chrgitem_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1347,12 +1362,15 @@ class PPfs30011Controller extends Controller
                         ,"" SP_ITEM
                         ,v.icode ,v.vstdate
                         FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30013") 
+                        JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code in("30013") 
+                        LEFT JOIN hos.income ic ON ic.income = n.income
+
+                        
                         LEFT OUTER JOIN vn_stat i on i.vn = v.vn  
                         WHERE v.vn IN("'.$value_13->vn.'")  
                         GROUP BY v.vn  
                 ');
-                 
+                // INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30013") 
                 foreach ($data_30013_ as $va30113) {
                     // $check_30013 = D_claim::where('vn',$value_13->vn)->where('nhso_adp_code','30013')->count();
                     // if ($check_30013 > 0) { 

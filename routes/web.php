@@ -1803,7 +1803,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_307_pulldata',[App\Http\Controllers\Account307Controller::class, 'account_307_pulldata'])->name('acc.account_307_pulldata');//
     Route::match(['get','post'],'account_307_dash',[App\Http\Controllers\Account307Controller::class, 'account_307_dash'])->name('acc.account_307_dash');//
     Route::match(['get','post'],'account_307/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307'])->name('acc.account_307');//
-    Route::match(['get','post'],'account_307_detail/{startdate}/{enddate}',[App\Http\Controllers\Account307Controller::class, 'account_307_detail'])->name('acc.account_307_detail');//
+    Route::match(['get','post'],'account_307_detail/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307_detail'])->name('acc.account_307_detail');//
+    Route::match(['get','post'],'account_307_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account307Controller::class, 'account_307_detail_date'])->name('acc.account_307_detail_date');//
     Route::match(['get','post'],'account_307_stm/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307_stm'])->name('acc.account_307_stm');//
     Route::match(['get','post'],'account_307_stmnull/{months}/{year}',[App\Http\Controllers\Account307Controller::class, 'account_307_stmnull'])->name('acc.account_307_stmnull');//
     Route::match(['get','post'],'account_307_stam',[App\Http\Controllers\Account307Controller::class, 'account_307_stam'])->name('acc.account_307_stam');// 

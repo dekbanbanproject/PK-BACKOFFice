@@ -817,30 +817,28 @@ class Lgo801Controller extends Controller
                  
                 //D_adp
                 $data_adp_ = DB::connection('mysql2')->select('
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
                         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
-                                                                
-                        FROM (SELECT v.hn HN
+                        from
+                        (SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
+                        ,ic.drg_chrgitem_id TYPE
                         ,n.nhso_adp_code CODE 
-                        ,sum(v.QTY) QTY 
+                        ,sum(v.QTY) QTY
                         ,round(v.unitprice,2) RATE
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
-                        ,"0000-00-00" LMP
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                        LEFT OUTER JOIN ipt i on i.an = v.an
+                        ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
+                        ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        from hos.opitemrece v
+                        JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                        LEFT JOIN hos.income ic ON ic.income = n.income
+                        left join hos.ipt i on i.an = v.an
                         AND i.an is not NULL 
-                        where i.vn IN("'.$va1->vn.'")
+                        WHERE i.vn IN("'.$va1->vn.'")
                         GROUP BY i.vn,n.nhso_adp_code,rate) a 
                         GROUP BY an,CODE,rate
                         UNION
@@ -848,28 +846,26 @@ class Lgo801Controller extends Controller
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
                         ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
-                        FROM
+                        from
                         (SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                        ,n.nhso_adp_type_id TYPE
+                        ,ic.drg_chrgitem_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY
                         ,round(v.unitprice,2) RATE
                         ,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                        ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP
-                        ,"0000-00-00" LMP
-                        ,"" SP_ITEM
-                        ,v.icode ,v.vstdate
-                        FROM opitemrece v
-                        INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                        LEFT OUTER JOIN ipt i on i.an = v.an 
-                        WHERE v.vn IN("'.$va1->vn.'")
-                        AND i.an is NULL
-                        GROUP BY v.vn,n.nhso_adp_code,rate) b 
-                        GROUP BY seq,CODE,rate; 
+                        ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                        from hos.opitemrece v
+                        JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                        LEFT JOIN hos.income ic ON ic.income = n.income
+                        left join hos.vn_stat vv on vv.vn = v.vn
+                        WHERE vv.vn IN("'.$va1->vn.'")
+                        AND v.an is NULL
+                        GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                        GROUP BY seq,CODE,rate;
                 '); 
                 foreach ($data_adp_ as $va10) {
                     d_adp::insert([

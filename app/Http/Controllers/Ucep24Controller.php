@@ -361,60 +361,34 @@ class Ucep24Controller extends Controller
                         and o.an is not null
                         and o.paidst ="02"
                         and p.hipdata_code ="ucs"
-                        
+                        AND o.qty <> 0
                         and e.er_emergency_level_id  in("1","2")                       
                         group BY i.an,o.icode,o.rxdate
                         ORDER BY i.an;
                 ');                  
                 foreach ($data_opitem0218 as $key => $va0218) {    
                     D_ucep24::insert([
-                        'vn'                => $value->vn,
-                        'hn'                => $value->hn,
-                        'an'                => $value->an, 
-                        'cid'               => $value->cid,
-                        'ptname'            => $value->ptname,
-                        'pttype'            => $value->pttype,
-                        'hipdata_code'      => $value->hipdata_code,
-                        'vstdate'           => $value->vstdate,
-                        'rxdate'            => $value->rxdate,
-                        'dchdate'           => $value->dchdate, 
-                        'icode'             => $value->icode, 
-                        'name'              => $value->namelist,
-                        'qty'               => $value->qty,
-                        'unitprice'         => $value->unitprice,
-                        'sum_price'         => $value->sum_price, 
+                        'vn'                => $va0218->vn,
+                        'hn'                => $va0218->hn,
+                        'an'                => $va0218->an, 
+                        'cid'               => $va0218->cid,
+                        'ptname'            => $va0218->ptname,
+                        'pttype'            => $va0218->pttype,
+                        'hipdata_code'      => $va0218->hipdata_code,
+                        'vstdate'           => $va0218->vstdate,
+                        'rxdate'            => $va0218->rxdate,
+                        'dchdate'           => $va0218->dchdate, 
+                        'icode'             => $va0218->icode, 
+                        'name'              => $va0218->namelist,
+                        'qty'               => $va0218->qty,
+                        'unitprice'         => $va0218->unitprice,
+                        'sum_price'         => $va0218->sum_price, 
                         'user_id'           => Auth::user()->id 
-                    ]);
-                    // $check2 = D_claim::where('an',$va0218->an)->where('nhso_adp_code','=','UCEP24')->count();
-                    // if ($check2 > 0) { 
-                    //     $price_old = D_claim::where('an',$va0218->an)->first();
-                    //     D_claim::where('an',$va0218->an)->update([ 
-                    //         'qty'               => $va0218->qty,
-                    //         'sum_price'         => $va0218->sum_price, 
-                    //         'claimdate'         => $date,  
-                    //     ]);
-                    // } else {
-                    //     D_claim::insert([
-                    //         'vn'                => $va0218->vn,
-                    //         'hn'                => $va0218->hn,
-                    //         'an'                => $va0218->an,
-                    //         'cid'               => $va0218->cid,
-                    //         'pttype'            => $va0218->pttype,
-                    //         'ptname'            => $va0218->ptname,
-                    //         'dchdate'           => $va0218->dchdate,
-                    //         'hipdata_code'      => $va0218->hipdata_code,
-                    //         'qty'               => $va0218->qty,
-                    //         'sum_price'          => $va0218->sum_price,
-                    //         'type'              => 'IPD',
-                    //         'nhso_adp_code'     => 'UCEP24',
-                    //         'claimdate'         => $date, 
-                    //         'userid'            => $iduser, 
-                    //     ]);
-                    // }  
+                    ]); 
                 }
 
                 $data_main_ = DB::connection('mysql')->select('   
-                    SELECT a.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,i.dchdate,ptt.hipdata_code,o.qty,o.sum_price
+                    SELECT a.vn,o.an,o.hn,pt.cid,i.pttype,CONCAT(pt.pname,pt.fname," ",pt.lname) ptname,i.dchdate,ptt.hipdata_code,o.qty,o.sum_price,i1.icd10 as DIAG
                         FROM hos.ipt i
                         LEFT JOIN hos.opitemrece o on i.an = o.an 
                         LEFT JOIN hos.ovst a on a.an = o.an
@@ -424,13 +398,15 @@ class Ucep24Controller extends Controller
                         LEFT JOIN hos.s_drugitems n on n.icode = o.icode
                         LEFT JOIN hos.patient pt on pt.hn = a.hn
                         LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype 
+                        LEFT OUTER JOIN hos.iptdiag i1 on i1.an= i.an
                         WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         and o.an is not null
                         and o.paidst ="02"
                         and p.hipdata_code ="ucs"
                         and DATEDIFF(o.rxdate,a.vstdate)<="1"
                         and hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate," ",o.rxtime))) <="24"
-                        and e.er_emergency_level_id in("1","2")                       
+                        and e.er_emergency_level_id in("1","2")  
+                        AND i1.icd10 <> "" AND o.qty <> 0                     
                         group BY i.an
                         ORDER BY i.an;
                 ');                 
@@ -837,7 +813,7 @@ class Ucep24Controller extends Controller
                     (SELECT v.hn HN
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                    ,n.nhso_adp_type_id TYPE
+                    ,ic.drg_chrgitem_id TYPE
                     ,n.nhso_adp_code CODE 
                     ,sum(v.QTY) QTY
                     ,round(v.unitprice,2) RATE
@@ -846,7 +822,8 @@ class Ucep24Controller extends Controller
                     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
                     ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                     from hos.opitemrece v
-                    inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    LEFT JOIN hos.income ic ON ic.income = n.income
                     left join hos.ipt i on i.an = v.an
                     AND i.an is not NULL 
                     WHERE i.vn IN("'.$va1->vn.'")
@@ -861,7 +838,7 @@ class Ucep24Controller extends Controller
                     (SELECT v.hn HN
                     ,if(v.an is null,"",v.an) AN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,n.nhso_adp_type_id TYPE
+                    ,ic.drg_chrgitem_id TYPE
                     ,n.nhso_adp_code CODE 
                     ,sum(v.QTY) QTY
                     ,round(v.unitprice,2) RATE
@@ -870,7 +847,8 @@ class Ucep24Controller extends Controller
                     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
                     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
                     from hos.opitemrece v
-                    inner JOIN hos.nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                    LEFT JOIN hos.income ic ON ic.income = n.income
                     left join hos.vn_stat vv on vv.vn = v.vn
                     WHERE vv.vn IN("'.$va1->vn.'")
                     AND v.an is NULL
@@ -1206,7 +1184,7 @@ class Ucep24Controller extends Controller
     {   
             $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24'); 
             foreach ($data_ as $key => $val) {                
-                D_adp::where('AN',$val->an)->where('vstdate',$val->vstdate)
+                D_adp::where('AN',$val->an)->where('icode',$val->icode)
                 ->update([
                     'SP_ITEM' => '01'
                 ]);
@@ -1215,9 +1193,19 @@ class Ucep24Controller extends Controller
                 ->update([
                     'SP_ITEM'     => '01',
                     'AMOUNT'      => $val->qty
-                ]);
- 
+                ]);                
             }
+            $data_room = DB::connection('mysql')->select('SELECT CODE FROM d_adp');
+            foreach ($data_room as $key => $valroom) {
+                if ($valroom->CODE == '21101') {
+                    D_adp::where('CODE',$valroom->CODE)
+                        ->update([
+                            'QTY'   => '1',
+                            'RATE'  => '400'
+                        ]);
+                    } else { 
+                    } 
+            } 
             // D_adp::where('SP_ITEM','=',NULL)->delete();          
             // D_dru::where('SP_ITEM',NULL)->delete();         
 
@@ -1234,6 +1222,7 @@ class Ucep24Controller extends Controller
                         'DATEOPD'        => $value_up->vstdate,  
                         'TYPE'           => '5', 
                         'CODE'           => 'UCEP24', 
+                        'QTY'            => '1', 
                         'RATE'           => '0', 
                         'TOTCOPAY'       => '0', 
                         'TOTAL'          => '0', 
@@ -1243,8 +1232,9 @@ class Ucep24Controller extends Controller
                     ]);
                 }    
             }
-
+            // icode
             D_adp::where('SP_ITEM','=','')->delete();
+            D_adp::where('QTY','=',['',null])->where('SP_ITEM','=','01')->delete();
             D_dru::where('SP_ITEM','=','')->delete();
 
             return response()->json([

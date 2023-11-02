@@ -140,7 +140,7 @@ class Herb9Controller extends Controller
 
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND d.nhso_adp_code IN ("HERB1","HERB2","HERB3","HERB4","HERB5","HERB6","HERB7","HERB8","HERB9")
-                        and v.uc_money >"0"
+                        and v.uc_money >"0" AND pt.hipdata_code ="UCS"
                         AND op.an is null
                         AND v.pdx <> ""
                         GROUP BY v.vn; 
@@ -188,7 +188,7 @@ class Herb9Controller extends Controller
                         LEFT OUTER JOIN hos.drugitems d ON d.icode=op.icode 
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND d.nhso_adp_code IN ("HERB1","HERB2","HERB3","HERB4","HERB5","HERB6","HERB7","HERB8","HERB9")
-                        and v.uc_money >"0"
+                        and v.uc_money >"0" AND pt.hipdata_code ="UCS"
                         AND op.an is null
                         AND v.pdx <> ""
                         GROUP BY days,pt.hipdata_code; 

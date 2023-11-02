@@ -103,6 +103,10 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
+                        <i class="fa-solid fa-spinner text-info me-2"></i> 
+                        Update Ucep24
+                    </button>
                     <a href="{{url('ucep24_claim_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
@@ -115,13 +119,13 @@ $pos = strrpos($url, '/') + 1;
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
-                <div class="card-header">
+                <div class="card-header" style="background-color: rgb(180, 250, 227)">
                     รายละเอียด UCEP 24
                     <div class="btn-actions-pane-right">
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
+                        {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
                             <i class="fa-solid fa-spinner text-info me-2"></i> 
                             Update Ucep24
-                        </button>
+                        </button> --}}
                     </div>
                 </div>
                 <div class="card-body">
