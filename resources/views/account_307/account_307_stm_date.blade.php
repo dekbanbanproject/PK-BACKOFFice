@@ -63,12 +63,12 @@
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                        รายละเอียด 1102050101.307
+                        รายละเอียด 1102050101.307 STM
                         <div class="btn-actions-pane-right">
-                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                            {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                                 <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
                                 Sync Data All 
-                        </button>
+                            </button> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -80,84 +80,48 @@
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th class="text-center">ลำดับ</th>
-                                    {{-- <th class="text-center" width="5%">repno</th> --}}
-                                    {{-- <th class="text-center">an</th> --}}
+                                    <th class="text-center">ลำดับ</th> 
                                     <th class="text-center">vn</th>
                                     <th class="text-center">hn</th>
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">pttype</th> 
-                                    <th class="text-center">Sync Data / เลขหนังสือ </th>
-                                    <th class="text-center">ลูกหนี้</th>
-                                    <th class="text-center">เบิกจริง</th> 
-                                    <th class="text-center">รับชำระ</th>
+                                    <th class="text-center">Sync Data / เลขหนังสือ </th> 
+                                    <th class="text-center">ลูกหนี้</th> 
+                                    <th class="text-center">รับจริง</th> 
                                     <th class="text-center">ส่วนต่าง</th> 
                                     <th class="text-center">เลขที่ใบเสร็จ</th> 
                                     <th class="text-center">วันที่ลงรับ</th> 
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                    $number = 0; 
-                                    $total1 = 0;
-                                    $total2 = 0;
-                                    $total3 = 0;
-                                    $total4 = 0;
-                                ?>
-                                @foreach ($data as $item)
-                                    <?php $number++; ?>
+                                <?php $number = 1; ?>
+                                @foreach ($data as $item) 
 
                                     <tr height="20" style="font-size: 14px;">
-                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number }}
-                                        </td>
-                                        {{-- <td class="text-center" width="10%">{{ $item->repno }}</td>   --}}
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
                                         <td class="text-center" width="10%">{{ $item->vn }}</td>
                                         <td class="text-center" width="10%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
                                         <td class="text-center" width="10%">{{ $item->vstdate }}</td>
                                         <td class="text-center" width="10%">{{ $item->pttype }}</td>
-                                        <td class="text-center" width="5%">                                            
-                                            @if ($item->nhso_docno != '' )
-                                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                                                    <i class="fa-solid fa-book-open text-primary me-2"></i> 
-                                                    {{$item->nhso_docno}}  
-                                                </button> 
-                                                @else
-                                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-warning">
-                                                    <i class="fa-solid fa-book-open text-warning me-2"></i> 
-                                                   ยังไม่ได้ลงเลขหนังสือ
-                                                </button> 
-                                            @endif
+                                        <td class="text-center" width="5%"> 
+                                            <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
+                                                <i class="fa-solid fa-book-open text-success me-2"></i> 
+                                                {{$item->nhso_docno}}  
+                                            </button>  
                                         </td>
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  </td>
-                                        <td class="text-end" style="color:rgb(243, 157, 27)" width="7%"> {{ $item->nhso_ownright_pid }}</td>  </td>
-                                        <td class="text-end text-success"  width="7%"> {{ $item->recieve_true }}</td>  </td>
-                                        <td class="text-end" style="color:rgb(231, 73, 134)" width="7%"> {{ $item->difference }}</td>  </td> 
+                                        <td class="text-end text-success"  width="7%"> {{ number_format($item->recieve_true, 2) }}</td>  </td>
+                                        <td class="text-end" style="color:rgb(231, 73, 134)" width="7%"> {{ number_format($item->difference, 2) }}</td>  </td> 
                                         <td class="text-center">{{ $item->recieve_no }}</td>
-                                        <td class="text-center">{{ $item->recieve_date }}</td> 
+                                        <td class="text-center">{{ $item->recieve_date }}</td>
                                     </tr>
-                                    <?php
-                                            $total1 = $total1 + $item->debit_total;
-                                            $total2 = $total2 + $item->nhso_ownright_pid;
-                                            $total3 = $total3 + $item->recieve_true;
-                                            $total4 = $total4 + $item->difference;
-                                    ?>
                                 @endforeach
 
                             </tbody>
-                            <tr style="background-color: #f3fca1">
-                                <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #f3fca1">{{ number_format($total1, 5) }}</td>
-                                <td class="text-center" style="background-color: #b5eb82">{{ number_format($total2, 5) }}</td>
-                                <td class="text-center" style="background-color: #fca1a1">
-                                     {{ number_format($total3, 5) }}
-                                    </td>
-                                <td class="text-center" style="background-color: #f3fca1"></td>
-                                <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                            </tr>  
                         </table>
                     </div>
                 </div>

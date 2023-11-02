@@ -214,6 +214,12 @@ class Account307Controller extends Controller
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money
+                    
+                    ,CASE 
+                        WHEN vp.pttype ="ss" THEN "900" 
+                        ELSE v.income-v.discount_money-v.rcpt_money
+                    END as looknee
+
                     from hos.ovst o
                     LEFT OUTER JOIN hos.vn_stat v on v.vn=o.vn
                     LEFT OUTER JOIN hos.visit_pttype vp on vp.vn = v.vn
@@ -222,7 +228,7 @@ class Account307Controller extends Controller
                     LEFT OUTER JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT OUTER JOIN hos.opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="OPD")) 
+                    AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="OPD") 
                     AND v.income <> 0
                     and (o.an="" or o.an is null)
                     GROUP BY o.vn
@@ -243,6 +249,12 @@ class Account307Controller extends Controller
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money
+
+                    ,CASE 
+                        WHEN ipt.pttype ="ss" THEN "900" 
+                        ELSE a.income-a.rcpt_money-a.discount_money
+                    END as looknee
+
                     from hos.ipt ip
                     LEFT OUTER JOIN hos.an_stat a ON ip.an = a.an
                     LEFT OUTER JOIN hos.ovst o ON o.an = a.an
@@ -254,7 +266,7 @@ class Account307Controller extends Controller
                     LEFT OUTER JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                    
-                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="IPD"))
+                    AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.307" AND opdipd ="IPD")
                     GROUP BY a.an; 
                     
             ');
@@ -268,6 +280,12 @@ class Account307Controller extends Controller
                     } else {
                         $pttype = $value->pttype;
                     }
+                    if ( $value->looknee < "900") {
+                       $data_debit = $value->debit;
+                    } else {
+                        $data_debit = $value->looknee;
+                    }
+                    
                     
                     // ->where('account_code','1102050101.307')
                     if ($check == 0) {
@@ -288,13 +306,13 @@ class Account307Controller extends Controller
                             'discount_money'     => $value->discount_money,
                             'paid_money'         => $value->paid_money,
                             'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
+                            'debit'              => $data_debit,
                             'debit_drug'         => $value->debit_drug,
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer, 
                             'fokliad'            => $value->fokliad, 
-                            'debit_total'        => $value->debit,
+                            'debit_total'        => $data_debit,
                             'max_debt_amount'    => $value->max_debt_money,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
@@ -345,7 +363,7 @@ class Account307Controller extends Controller
                             'debit_instument'   => $value->debit_instument,
                             'debit_refer'       => $value->debit_refer,
                             'debit_toa'         => $value->debit_toa,
-                            'debit_total'       => $value->debit,
+                            'debit_total'       => $value->debit_total,
                             'max_debt_amount'   => $value->max_debt_amount,
                             'acc_debtor_userid' => $iduser
                     ]);
@@ -498,6 +516,26 @@ class Account307Controller extends Controller
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_307.account_307_detail_date', $data, [ 
+            'data'          =>     $data,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
+        ]);
+    }
+    public function account_307_stm_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d'); 
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050101_307 U1
+             
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
+                AND U1.recieve_true is not null
+                GROUP BY U1.vn
+        ');
+        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        return view('account_307.account_307_stm_date', $data, [ 
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
