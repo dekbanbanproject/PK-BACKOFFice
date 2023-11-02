@@ -85,7 +85,7 @@
                                     <th class="text-center">hn</th>
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
-                                    <th class="text-center">vstdate</th> 
+                                    <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th> 
                                     <th class="text-center">Sync Data / เลขหนังสือ </th> 
                                     <th class="text-center">ลูกหนี้</th> 
@@ -106,7 +106,7 @@
                                         <td class="text-center" width="10%">{{ $item->hn }}</td>
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>
+                                        <td class="text-center" width="10%">{{ $item->dchdate }}</td>
                                         <td class="text-center" width="10%">{{ $item->pttype }}</td>
                                         <td class="text-center" width="5%"> 
                                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">

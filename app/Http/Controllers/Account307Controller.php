@@ -216,8 +216,10 @@ class Account307Controller extends Controller
                     ,ptt.max_debt_money
                     
                     ,CASE 
-                        WHEN vp.pttype ="ss" THEN "900" 
-                        ELSE v.income-v.discount_money-v.rcpt_money
+                    WHEN (vp.pttype ="ss" OR vp.pttype ="SS") AND v.income-v.discount_money-v.rcpt_money < "900" THEN v.income-v.discount_money-v.rcpt_money
+                    WHEN (vp.pttype ="ss" OR vp.pttype ="SS") AND v.income-v.discount_money-v.rcpt_money > "900" THEN "900" 
+                    WHEN vp.pttype <> "ss"  THEN v.income-v.discount_money-v.rcpt_money
+                    ELSE v.income-v.discount_money-v.rcpt_money
                     END as looknee
 
                     from hos.ovst o
@@ -251,7 +253,9 @@ class Account307Controller extends Controller
                     ,ptt.max_debt_money
 
                     ,CASE 
-                        WHEN ipt.pttype ="ss" THEN "900" 
+                        WHEN (ipt.pttype ="ss" OR ipt.pttype ="SS") AND a.income-a.rcpt_money-a.discount_money < "900" THEN a.income-a.rcpt_money-a.discount_money 
+                        WHEN (ipt.pttype ="ss" OR ipt.pttype ="SS") AND a.income-a.rcpt_money-a.discount_money > "900" THEN "900"
+                        WHEN ipt.pttype <> "ss" THEN a.income-a.rcpt_money-a.discount_money 
                         ELSE a.income-a.rcpt_money-a.discount_money
                     END as looknee
 
@@ -277,8 +281,19 @@ class Account307Controller extends Controller
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.307')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($value->pttype == 'SS') {
                         $pttype = 'ss';
+
+                        // if ( $value->looknee < "900") {
+                        //     $data_debit = $value->debit;
+                        //  } else {
+                        //      $data_debit = $value->looknee;
+                        //  }
                     } else {
                         $pttype = $value->pttype;
+                        // if ( $value->looknee < "900") {
+                        //     $data_debit = $value->debit;
+                        //  } else {
+                        //      $data_debit = $value->looknee;
+                        //  }
                     }
                     if ( $value->looknee < "900") {
                        $data_debit = $value->debit;

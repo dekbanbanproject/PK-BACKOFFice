@@ -413,6 +413,48 @@ class Account308Controller extends Controller
         
     }
 
+    public function account_308_detail_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+        
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT U1.acc_1102050101_308_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050101_308 U1
+                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                GROUP BY U1.an
+        ');
+        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        return view('account_308.account_308_detail_date', $data, [ 
+            'data'             =>     $data,
+            'startdate'        =>     $startdate,
+            'enddate'          =>     $enddate
+        ]);
+    }
+
+    public function account_308_stm_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+        
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050101_308 U1
+            
+                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                AND U1.recieve_true is not null
+                GROUP BY U1.an
+        ');
+       
+        return view('account_308.account_308_stm_date', $data, [ 
+            'data'             =>     $data,
+            'startdate'        =>     $startdate,
+            'enddate'          =>     $enddate
+        ]);
+    }
+
 
 
  }

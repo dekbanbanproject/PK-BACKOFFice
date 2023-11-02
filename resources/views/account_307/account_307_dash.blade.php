@@ -165,20 +165,35 @@
                                                         from acc_1102050101_307
                                                         where month(vstdate) = "'.$item->months.'"
                                                         AND year(vstdate) = "'.$item->year.'"
-                                                        AND recieve_true <> "" 
+                                                        AND recieve_true IS NOT NULL
                                                 ');                                           
                                                 foreach ($sumapprove_ as $key => $value3) {
                                                     $sum_stm = $value3->recieve_true; 
                                                     $count_stm = $value3->Countvisit; 
                                                 }
-                                                
-                                                if ( $sum_Y > $sum_stm) {
-                                                    $yokpai_ = $sum_Y - $sum_stm;
-                                                    $yokpai = '-'.$yokpai_;
-                                                } else {
-                                                    $yokpai_ = $sum_stm - $sum_Y;
-                                                    $yokpai = '+'.$yokpai_;
+
+                                            // ยกไป
+                                            $yokpai_ = DB::select('
+                                                    SELECT sum(debit_total) as debit_total,count(vn) as Countvi
+                                                        from acc_1102050101_307
+                                                        where month(vstdate) = "'.$item->months.'"
+                                                        AND year(vstdate) = "'.$item->year.'"
+                                                        AND recieve_true IS NULL
+                                                ');                                           
+                                                foreach ($yokpai_ as $key => $valpai) {
+                                                    $sum_yokpai = $valpai->debit_total; 
+                                                    $count_yokpai = $valpai->Countvi; 
                                                 }
+
+
+                                                
+                                                // if ( $sum_Y > $sum_stm) {
+                                                //     $yokpai_ = $sum_Y - $sum_stm;
+                                                //     $yokpai = '-'.$yokpai_;
+                                                // } else {
+                                                //     $yokpai_ = $sum_stm - $sum_Y;
+                                                //     $yokpai = '+'.$yokpai_;
+                                                // }
                                                 
 
                                                 
@@ -274,12 +289,10 @@
                                                 <div class="col-md-5 text-end me-2">
                                                     {{-- <a href="" target="_blank"> --}}
                                                         <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >
-                                                                @if ($yokpai > 0)
-                                                                + {{ number_format($yokpai, 2) }} 
-                                                                @else
-                                                                {{ number_format($yokpai, 2) }} 
-                                                                @endif
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokpai}} Visit">
+                                                                
+                                                                {{ number_format($sum_yokpai, 2) }} 
+                                                                
                                                                     <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                             </p>
                                                         </div>
@@ -339,13 +352,17 @@
                                                 $count_stm = $value3->Countvisit; 
                                             }
                                             
-                                            if ( $sum_Y > $sum_stm) {
-                                                $yokpai_ = $sum_Y - $sum_stm;
-                                                $yokpai = '-'.$yokpai_;
-                                            } else {
-                                                $yokpai_ = $sum_stm - $sum_Y;
-                                                $yokpai = '+'.$yokpai_;
-                                            }
+                                           // ยกไป
+                                           $yokpai_ = DB::select('
+                                                    SELECT sum(debit_total) as debit_total,count(vn) as Countvi
+                                                        from acc_1102050101_307
+                                                        where vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                                                        AND recieve_true IS NULL
+                                                ');                                           
+                                                foreach ($yokpai_ as $key => $valpai) {
+                                                    $sum_yokpai = $valpai->debit_total; 
+                                                    $count_yokpai = $valpai->Countvi; 
+                                                }
                                             
 
                                             
@@ -437,16 +454,14 @@
                                             </div>
                                             <div class="col"></div>
                                             <div class="col-md-5 text-end me-2"> 
-                                                    <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" >
-                                                            @if ($yokpai > 0)
-                                                            + {{ number_format($yokpai, 2) }} 
-                                                            @else
-                                                            {{ number_format($yokpai, 2) }} 
-                                                            @endif
-                                                                <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
-                                                        </p>
-                                                    </div> 
+                                                <div class="widget-chart widget-chart-hover">
+                                                    <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokpai}} Visit">
+                                                        
+                                                        {{ number_format($sum_yokpai, 2) }} 
+                                                        
+                                                            <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
 
