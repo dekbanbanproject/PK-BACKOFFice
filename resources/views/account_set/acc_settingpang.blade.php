@@ -266,31 +266,14 @@
             </div>
         </div>
     </div>
-
-    <form action="{{ route('pk.book_inside_manage') }}" method="GET">
-        @csrf
+ 
     <div class="row">  
         <div class="col-md-3">
             <h4 class="card-title">Detail ACCOUNT PANG</h4>
             <p class="card-title-desc">รายละเอียดั้งค่าผังบัญชี</p>
         </div>
-        <div class="col"></div>
-        {{-- <div class="col-md-1 text-end mt-2">วันที่</div>
-        <div class="col-md-3 text-end">
-            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                    data-date-language="th-th" value="{{ $startdate }}" required/>
-                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                    data-date-language="th-th" value="{{ $enddate }}" required/>  
-            </div> 
-        </div> --}}
-        <div class="col-md-2 text-start">
-            {{-- <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                ค้นหา
-            </button>  --}}
+        <div class="col"></div> 
+        <div class="col-md-2 text-start"> 
             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="fa-solid fa-file-invoice-dollar text-primary me-2"></i>
                 เพิ่มผังบัญชี
@@ -300,183 +283,175 @@
 
     <div class="row"> 
         <div class="col-xl-12 col-md-6">
-            <div class="main-card card p-3">
-                {{-- <div class="grid-menu-col">  --}}
-                    {{-- <table id="example" class="table table-hover " style="width: 100%;"> --}}
-                        <table class="table table-sm" id="example" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th class="text-center">ลำดับ</th> 
-                                <th class="text-center">รหัส</th>
-                                <th class="text-center">ชื่อผัง</th>
-                                <th class="text-center">pttype</th>
-                                <th class="text-center">icode</th>  
-                                <th class="text-center">hospmain</th>
-                                <th class="text-center">icd9</th> 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $number = 0;
-                            $total1 = 0; ?>
-                            @foreach ($datashow as $item)
-                                <?php $number++; ?> 
-                                <tr id="#sid{{ $item->acc_setpang_type_id }}">
-                                    <td class="text-center" width="5%">{{ $number }}</td> 
-                                    <td class="text-center" width="10%" >
-                                        <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
-                                            {{ $item->pang }}
-                                        </button>
-                                        {{-- <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
-                                            {{ $item->icode }}
-                                        </button>
-                                        <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
-                                            {{ $item->hospmain }}
-                                        </button> --}}
-                                    </td> 
-                                    <td >   
-                                        <?php 
-                                            $data_sub_ = DB::connection('mysql')->select('
-                                                SELECT * from acc_setpang_type a
-                                                LEFT JOIN pttype p ON p.pttype = a.pttype 
-                                                WHERE acc_setpang_id = "'.$item->acc_setpang_id.'"');
+            <div class="main-card card p-3"> 
+                <table class="table table-sm" id="example" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ลำดับ</th> 
+                            <th class="text-center">รหัส</th>
+                            <th class="text-center">ชื่อผัง</th>
+                            <th class="text-center">pttype</th>
+                            <th class="text-center">icode</th>  
+                            <th class="text-center">hospmain</th>
+                            <th class="text-center">icd9</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $number = 0;
+                        $total1 = 0; ?>
+                        @foreach ($datashow as $item)
+                            <?php $number++; ?> 
+                            <tr id="#sid{{ $item->acc_setpang_type_id }}">
+                                <td class="text-center" width="5%">{{ $number }}</td> 
+                                <td class="text-center" width="10%" >
+                                    <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                        {{ $item->pang }}
+                                    </button>
+                                    {{-- <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                        {{ $item->icode }}
+                                    </button>
+                                    <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                        {{ $item->hospmain }}
+                                    </button> --}}
+                                </td> 
+                                <td >   
+                                    <?php 
+                                        $data_sub_ = DB::connection('mysql')->select('
+                                            SELECT * from acc_setpang_type a
+                                            LEFT JOIN pttype p ON p.pttype = a.pttype 
+                                            WHERE acc_setpang_id = "'.$item->acc_setpang_id.'"');
 
-                                            $data_subcount_ = DB::connection('mysql')->select('SELECT COUNT(acc_setpang_id) as acc_setpang_id from acc_setpang_type WHERE acc_setpang_id = "'.$item->acc_setpang_id.'"');
-                                            foreach ($data_subcount_ as $key => $value) {
-                                                $data_subcount = $value->acc_setpang_id;
-                                            }
-                                        ?>
-                                        <div id="headingTwo" class="b-radius-0 card-header">
-                                            @if ($data_subcount == '0')
-                                                <button type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne2{{ $item->acc_setpang_id }}" aria-expanded="false"
-                                                    aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                    <h5 style="color: rgb(207, 204, 204)">{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5> 
-                                                </button>
-                                            @else
-                                                <button type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapseOne2{{ $item->acc_setpang_id }}" aria-expanded="false"
-                                                    aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                    <h5 >{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5> 
-                                                </button>
-                                                 
-                                            @endif
-                                            
-                                        </div>
+                                        $data_subcount_ = DB::connection('mysql')->select('SELECT COUNT(acc_setpang_id) as acc_setpang_id from acc_setpang_type WHERE acc_setpang_id = "'.$item->acc_setpang_id.'"');
+                                        foreach ($data_subcount_ as $key => $value) {
+                                            $data_subcount = $value->acc_setpang_id;
+                                        }
+                                    ?>
+                                    <div id="headingTwo" class="b-radius-0 card-header">
+                                        @if ($data_subcount == '0')
+                                            <button type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne2{{ $item->acc_setpang_id }}" aria-expanded="false"
+                                                aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                <h5 style="color: rgb(207, 204, 204)">{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5> 
+                                            </button>
+                                        @else
+                                            <button type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOne2{{ $item->acc_setpang_id }}" aria-expanded="false"
+                                                aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                <h5 >{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5> 
+                                            </button>
+                                                
+                                        @endif
                                         
-                                        <div data-parent="#accordion" id="collapseOne2{{ $item->acc_setpang_id }}" class="collapse">
-                                            <div class="card-body">
-                                                <div class="row ms-3 me-3">
-                                                    @foreach ($data_sub_ as $itemsub)
-                                                        <div class="col-md-4 mb-2">
-                                                            @if ($itemsub->pttype != '')
-                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" onclick="sub_destroy({{ $itemsub->acc_setpang_type_id }})">
-                                                                    {{$itemsub->pttype}} - {{$itemsub->name}} / {{$itemsub->opdipd}}
-                                                                </button>
-                                                            @else                                                                    
-                                                            @endif
+                                    </div>
+                                    
+                                    <div data-parent="#accordion" id="collapseOne2{{ $item->acc_setpang_id }}" class="collapse">
+                                        <div class="card-body">
+                                            <div class="row ms-3 me-3">
+                                                @foreach ($data_sub_ as $itemsub)
+                                                    <div class="col-md-4 mb-2">
+                                                        @if ($itemsub->pttype != '')
+                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" onclick="sub_destroy({{ $itemsub->acc_setpang_type_id }})">
+                                                                {{$itemsub->pttype}} - {{$itemsub->name}} / {{$itemsub->opdipd}}
+                                                            </button>
+                                                        @else                                                                    
+                                                        @endif
 
-                                                            @if ($itemsub->icode != '')
-                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="subicode_destroy({{ $itemsub->acc_setpang_type_id }})">
-                                                                    ICODE - {{$itemsub->icode}}  
-                                                                </button> 
-                                                            @else                                                                    
-                                                            @endif
+                                                        @if ($itemsub->icode != '')
+                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="subicode_destroy({{ $itemsub->acc_setpang_type_id }})">
+                                                                ICODE - {{$itemsub->icode}}  
+                                                            </button> 
+                                                        @else                                                                    
+                                                        @endif
 
-                                                            @if ($itemsub->hospmain != '')
-                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning" onclick="hospmain_destroy({{ $itemsub->acc_setpang_type_id }})">
-                                                                    Hospmain - {{$itemsub->hospmain}}  
-                                                                </button> 
-                                                            @else                                                                    
-                                                            @endif
-                                                            
-                                                        </div>
+                                                        @if ($itemsub->hospmain != '')
+                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning" onclick="hospmain_destroy({{ $itemsub->acc_setpang_type_id }})">
+                                                                Hospmain - {{$itemsub->hospmain}}  
+                                                            </button> 
+                                                        @else                                                                    
+                                                        @endif
                                                         
-                                                    @endforeach                                                        
-                                                </div>
+                                                    </div>
+                                                    
+                                                @endforeach                                                        
                                             </div>
+                                        </div>
+                                    </div> 
+                                </td> 
+                                {{-- <a href="#collapseOne{{ $item->acc_setpang_id }}" class="text-dark" data-bs-toggle="collapse"
+                                                aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                    <div class="card-header" id="headingOne">
+                                        <h6 class="m-0">                                                 
+                                            {{ $item->pangname }}  
+                                        </h6>
+                                    </div>
+                                </a>
+                                <div id="collapseOne{{ $item->acc_setpang_id }}" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                                    <div class="card-body"> 
+                                        <div class="row"> 
+                                            bb
                                         </div> 
-                                    </td> 
-                                    {{-- <a href="#collapseOne{{ $item->acc_setpang_id }}" class="text-dark" data-bs-toggle="collapse"
-                                                    aria-expanded="true"
-                                                    aria-controls="collapseOne">
-                                        <div class="card-header" id="headingOne">
-                                            <h6 class="m-0">                                                 
-                                                {{ $item->pangname }}  
-                                            </h6>
+                                    </div>
+                                </div> --}}
+                                {{-- </div> --}}                                   
+                                {{-- <td class="p-2"> <a href="{{url('acc_settingpang_detail/'.$item->acc_setpang_id)}}" data-bs-toggle="tooltip" data-bs-placement="top" title="ข้อมูลที่กำหนด">{{ $item->pangname }}</a> </td>  --}}
+                                <td class="text-center" width="7%"> 
+                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addpttypeModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เพิ่ม pttype">
+                                        <i class="fa-solid fa-plus text-success"></i>
+                                        pttype
+                                    </button>
+                                </td>
+                                <td class="text-center" width="7%">
+                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addicodeModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม icode">
+                                        <i class="fa-solid fa-plus text-success"></i>
+                                        icode
+                                    </button>
+                                </td> 
+                                <td class="text-center" width="7%">
+                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addhospmainModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม hipdata_code">
+                                        <i class="fa-solid fa-plus text-success"></i>
+                                        hospmain
+                                    </button>
+                                </td> 
+                                <td class="text-center" width="7%">
+                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addicd9Modal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม hipdata_code">
+                                        <i class="fa-solid fa-plus text-success"></i>
+                                        icd9
+                                    </button>
+                                </td> 
+                                {{-- <td class="p-2" width="30%" > {{ $item->pttype }}</td>  --}}
+                                {{-- <td class="text-center" width="30%"> {{ $item->icode }}</td>  --}}
+                                {{-- <td class="text-center" width="5%">  
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
+                                            type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">ทำรายการ</button>
+                                        <ul class="dropdown-menu">
+                                            <button type="button"class="dropdown-item menu editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                                <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
+                                                <label for="" style="font-size:12px;color: rgb(255, 185, 34)">แก้ไข</label>
+                                            </button> 
+                                            <li>
+                                                <hr class="dropdown-divider">
+                                            </li>
+                                                <a class="dropdown-item menu text-danger" href="javascript:void(0)"
+                                                    onclick="book_inside_manage_destroy({{ $item->acc_setpang_id }})"
+                                                    data-bs-toggle="tooltip" data-bs-placement="left"
+                                                    data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                    <i class="fa-solid fa-trash-can ms-2 me-2 mb-1"></i>
+                                                    <label for=""
+                                                        style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                </a>
+                                        </ul>
                                         </div>
-                                    </a>
-                                    <div id="collapseOne{{ $item->acc_setpang_id }}" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
-                                        <div class="card-body"> 
-                                            <div class="row"> 
-                                                bb
-                                            </div> 
-                                        </div>
-                                    </div> --}}
-                                    {{-- </div> --}}                                   
-                                    {{-- <td class="p-2"> <a href="{{url('acc_settingpang_detail/'.$item->acc_setpang_id)}}" data-bs-toggle="tooltip" data-bs-placement="top" title="ข้อมูลที่กำหนด">{{ $item->pangname }}</a> </td>  --}}
-                                    <td class="text-center" width="7%"> 
-                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addpttypeModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="เพิ่ม pttype">
-                                            <i class="fa-solid fa-plus text-success"></i>
-                                            pttype
-                                        </button>
-                                    </td>
-                                    <td class="text-center" width="7%">
-                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addicodeModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม icode">
-                                            <i class="fa-solid fa-plus text-success"></i>
-                                            icode
-                                        </button>
-                                    </td> 
-                                    <td class="text-center" width="7%">
-                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addhospmainModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม hipdata_code">
-                                            <i class="fa-solid fa-plus text-success"></i>
-                                            hospmain
-                                        </button>
-                                    </td> 
-                                    <td class="text-center" width="7%">
-                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addicd9Modal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่ม hipdata_code">
-                                            <i class="fa-solid fa-plus text-success"></i>
-                                            icd9
-                                        </button>
-                                    </td> 
-                                    {{-- <td class="p-2" width="30%" > {{ $item->pttype }}</td>  --}}
-                                    {{-- <td class="text-center" width="30%"> {{ $item->icode }}</td>  --}}
-                                    {{-- <td class="text-center" width="5%">  
-                                        <div class="dropdown">
-                                            <button class="btn btn-outline-primary dropdown-toggle menu btn-sm"
-                                                type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">ทำรายการ</button>
-                                            <ul class="dropdown-menu">
-                                                <button type="button"class="dropdown-item menu editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
-                                                    <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
-                                                    <label for="" style="font-size:12px;color: rgb(255, 185, 34)">แก้ไข</label>
-                                                </button> 
-                                                <li>
-                                                    <hr class="dropdown-divider">
-                                                </li>
-                                                    <a class="dropdown-item menu text-danger" href="javascript:void(0)"
-                                                        onclick="book_inside_manage_destroy({{ $item->acc_setpang_id }})"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left"
-                                                        data-bs-custom-class="custom-tooltip" title="ลบ">
-                                                        <i class="fa-solid fa-trash-can ms-2 me-2 mb-1"></i>
-                                                        <label for=""
-                                                            style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
-                                                    </a>
-                                            </ul>
-                                            </div>
-                                    </td> --}}
-                                </tr> 
-                            @endforeach
+                                </td> --}}
+                            </tr> 
+                        @endforeach
 
-                        </tbody>
-                    </table>
-                {{-- </div> --}}
+                    </tbody>
+                </table> 
             </div>
         </div> 
-        {{-- <div class="col-xl-4 col-md-6">
-            <div class="main-card card p-3">
-                222
-            </div>
-        </div> --}}
     </div>
         
 </div>
@@ -1015,40 +990,6 @@
             },
         });
     });
-
-    // $('#SaveFileModal').on('submit', function(e) {
-    //     e.preventDefault();
-    //     var form = this;
-    //     // alert('OJJJJOL');
-    //     $.ajax({
-    //         url: $(form).attr('action'),
-    //         method: $(form).attr('method'),
-    //         data: new FormData(form),
-    //         processData: false,
-    //         dataType: 'json',
-    //         contentType: false,
-    //         beforeSend: function() {
-    //             $(form).find('span.error-text').text('');
-    //         },
-    //         success: function(data) {
-    //             if (data.status == 200) {
-    //                 Swal.fire({
-    //                     title: 'Up File สำเร็จ',
-    //                     text: "You Up File data success",
-    //                     icon: 'success',
-    //                     showCancelButton: false,
-    //                     confirmButtonColor: '#06D177',
-    //                     // cancelButtonColor: '#d33',
-    //                     confirmButtonText: 'เรียบร้อย'
-    //                 }).then((result) => {
-    //                     if (result.isConfirmed) {
-    //                         window.location.reload();
-    //                     }
-    //                 })
-    //             } else {                    
-    //             }
-    //         }
-    //     });
-    // });
+ 
 </script> 
 @endsection
