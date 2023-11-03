@@ -199,7 +199,7 @@ class Account4011Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-        $acc_debtor = DB::connection('mysql10')->select('
+        $acc_debtor = DB::connection('mysql2')->select('
           
             SELECT v.vn,ifnull(o.an,"") as an,v.hn,pt.cid as cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
@@ -215,7 +215,7 @@ class Account4011Controller extends Controller
                 ,vp.nhso_ownright_pid
                 ,format(vp.nhso_ownright_pid-v.uc_money,2) as sauntang
                 ,v.income-v.discount_money-v.rcpt_money as debit
-                ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
+                ,"2000" as fokliad
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
@@ -229,13 +229,14 @@ class Account4011Controller extends Controller
                 LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                 WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN("M1") 
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4011")
                 
                 AND v.income-v.discount_money-v.rcpt_money <> 0
                 and (o.an="" or o.an is null)
                 GROUP BY v.vn 
             
         ');
+        // ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
         // AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4011"))
         // AND vp.pttype IN("M1") 
         foreach ($acc_debtor as $key => $value) {
@@ -275,12 +276,13 @@ class Account4011Controller extends Controller
                             'discount_money'     => $value->discount_money,
                             'paid_money'         => $value->paid_money,
                             'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
+                            'fokliad'            => $value->fokliad,
+                            'debit'              => $value->fokliad,
                             'debit_drug'         => $value->debit_drug,
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit,
+                            'debit_total'        => $value->fokliad,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);

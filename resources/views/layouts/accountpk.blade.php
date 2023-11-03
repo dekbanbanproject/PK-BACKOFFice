@@ -544,6 +544,36 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 </ul>
                             </li>
                         @endif
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-brands fa-btc" style="color: #28d9f8"></i>
+                                <span>สถานะสิทธิ</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">701-บุคคลที่มีปัญหาสถานะและสิทธิ OP ใน CUP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_701_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_701_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">702-บุคคลที่มีปัญหาสถานะและสิทธิ OP นอก CUP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_702_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_702_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">704-บุคคลที่มีปัญหาสถานะและสิทธิ เบิกจากส่วนกลาง IP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_704_dash') }}">dashboard</a>
+                                        <li><a href="{{ url('account_704_pull') }}">ดึงลูกหนี้</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
                       
  
                         <li>

@@ -100,10 +100,10 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">dchdate</th>
-                                    <th class="text-center">ลูกหนี้</th>
+                                    <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>
                                     <th class="text-center">ยอดชดเชย</th> 
-                                    <th class="text-center" width="5%">เลขที่ Hos</th>
+                                    <th class="text-center" width="5%">ลูกหนี้</th>
                                     <th class="text-center">เลขที่หนังสือ</th>
                                 </tr>
                             </thead>
@@ -134,7 +134,7 @@ $pos = strrpos($url, '/') + 1;
                                     <td class="text-center" width="10%">{{ $item->recieve_no }}</td>
                                     <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->recieve_true, 2) }}</td>
                                 
-                                    <td class="text-center" width="10%">{{ $item->nhso_ownright_pid }}</td>
+                                    <td class="text-end" width="10%">{{ $item->nhso_ownright_pid }}</td>
                                     <td class="text-center" width="5%">
                                         @if ($item->nhso_docno != '')
                                             <button type="button"

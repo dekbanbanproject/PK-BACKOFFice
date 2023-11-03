@@ -100,9 +100,9 @@ class Account603Controller extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y');
+        $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+        $end = (''.$yearnew.'-09-30');  
         // dd($start );
         if ($startdate == '') {
             $datashow = DB::select('
@@ -119,6 +119,7 @@ class Account603Controller extends Controller
                     and income <> 0
                     group by month(a.dchdate) 
                     order by a.dchdate desc limit 6;
+ 
             ');
 
         } else {
@@ -133,8 +134,7 @@ class Account603Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050102.603"
-                    and income <>0
-                   
+                    and income <>0 
                     order by a.dchdate desc;
             ');
         }
@@ -193,7 +193,7 @@ class Account603Controller extends Controller
                     ,ec.name as account_name 
                     ,CASE 
                     WHEN a.income-a.rcpt_money-a.discount_money < 30000 THEN a.income-a.rcpt_money-a.discount_money
-                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36","37","38","39")  THEN ipt.max_debt_amount  
+                    WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36","37","38","39") AND a.income-a.rcpt_money-a.discount_money > 30000 THEN ipt.max_debt_amount  
                     ELSE a.income-a.rcpt_money-a.discount_money  
                     END as debit
 
@@ -217,8 +217,8 @@ class Account603Controller extends Controller
                     LEFT OUTER JOIN hos.s_drugitems d on d.icode = op.icode 
                     LEFT OUTER JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND ipt.pttype IN("31","36","37","38","39")
-                  
+                    AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.603" AND opdipd ="IPD")
+                    AND a.income-a.rcpt_money-a.discount_money <> 0
                     GROUP BY a.an;            
         ');
         //   AND d.name NOT like "CT%"

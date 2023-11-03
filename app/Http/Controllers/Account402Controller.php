@@ -217,7 +217,7 @@ class Account402Controller extends Controller
                 LEFT JOIN vn_stat v on v.vn = i.vn
                 
                 WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402" AND opdipd ="IPD"))
+                AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.402" AND opdipd ="IPD")
                             
                 GROUP BY i.an 
         '); 

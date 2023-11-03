@@ -408,6 +408,44 @@ class Account309Controller extends Controller
         
     }
 
+    public function account_309_detail_date(Request $request,$startdate,$enddate)
+    { 
+        $data['users'] = User::get();  
+        $data = DB::select('
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050101_309 U1
+            
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY U1.vn
+        ');
+    
+        return view('account_309.account_309_detail_date', $data, [ 
+            'data'          =>     $data,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
+        ]);
+    }
+    public function account_309_stm_date(Request $request,$startdate,$enddate)
+    { 
+        $data['users'] = User::get();
+
+        $data = DB::select('
+        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                from acc_1102050101_309 U1
+            
+                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND U1.nhso_ownright_pid is not null
+                AND U1.recieve_true is not null
+                GROUP BY U1.vn
+        ');
+       
+        return view('account_309.account_309_stm_date', $data, [ 
+            'data'          =>     $data,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
+        ]);
+    }
+
 
 
 

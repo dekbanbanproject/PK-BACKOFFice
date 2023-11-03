@@ -203,8 +203,9 @@ class Account602Controller extends Controller
                 ,ptt.max_debt_money,vp.max_debt_amount 
                
                 ,CASE 
+                WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money 
                     WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN vp.max_debt_amount 
-                    WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money  
+                    
                     ELSE v.income-v.discount_money-v.rcpt_money  
                     END as debit
 
@@ -218,7 +219,7 @@ class Account602Controller extends Controller
             LEFT OUTER JOIN hos.s_drugitems d on d.icode = op.icode 
             WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"        
             AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.602" AND opdipd ="OPD")
-     
+            AND v.income-v.discount_money-v.rcpt_money <> 0
             and (o.an="" or o.an is null)
             GROUP BY v.vn
         ');
