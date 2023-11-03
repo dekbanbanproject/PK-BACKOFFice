@@ -209,7 +209,7 @@ class Account202Controller extends Controller
                     LEFT JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
               
-                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
+                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202")
                 AND op.icode NOT IN("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417")
                 
                 GROUP BY a.an;

@@ -92,9 +92,9 @@ class MoveaccountController extends Controller
         $hn = $request->HN;
 
         $acc_debtor = DB::select('SELECT * FROM acc_debtor  
-                    WHERE hn = "' . $hn . '" AND debit_total <> 0
+                    WHERE hn = "' . $hn . '" 
             ');
-
+            // AND debit_total <> 0
         // acc_debtor_id,vn,an,cid,ptname,vstdate,pttype,income
         return view('account_chang.chang_pttype_OPD', [
             'acc_debtor'       => $acc_debtor,
@@ -1132,6 +1132,64 @@ class MoveaccountController extends Controller
                 ]);
             } else {
             }
+            // $pangold
+            if ($pangold == '1102050101.201') {
+                // Acc_1102050101_201::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.106') {
+                Acc_1102050102_106::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.107') {
+                Acc_1102050102_107::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.202') {
+                Acc_1102050101_202::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.209') {
+                Acc_1102050101_209::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.216') {
+                Acc_1102050101_216::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.217') {
+                Acc_1102050101_217::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.301') {
+                Acc_1102050101_301::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.302') {
+                Acc_1102050101_302::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.304') {
+                Acc_1102050101_304::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.307') {
+                Acc_1102050101_307::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.308') {
+                Acc_1102050101_308::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.309') {
+                Acc_1102050101_309::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.310') {
+                Acc_1102050101_310::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.401') {
+                Acc_1102050101_401::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.402') {
+                Acc_1102050101_402::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.2166') {
+                Acc_1102050101_2166::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.3099') {
+                Acc_1102050101_3099::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.4011') {
+                Acc_1102050101_4011::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.4022') {
+                Acc_1102050101_4022::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.602') {
+                Acc_1102050102_602::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.603') {
+                Acc_1102050102_603::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.801') {
+                Acc_1102050102_801::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.802') {
+                Acc_1102050102_802::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.803') {
+                Acc_1102050102_803::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.804') {
+                Acc_1102050102_804::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.8011') {
+                Acc_1102050102_8011::where('vn', $vn)->delete();
+            } else {
+                # code...
+            }
         } elseif ($pang == '1102050102.106') {
             $check = Acc_1102050102_106::where('vn', $vn)->count();
             if ($check > 0) {
@@ -1168,8 +1226,8 @@ class MoveaccountController extends Controller
             // $pangold
             if ($pangold == '1102050101.201') {
                 Acc_1102050101_201::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050102.106') {
-                Acc_1102050102_106::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050102.106') {
+            //     Acc_1102050102_106::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.107') {
                 Acc_1102050102_107::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.202') {
@@ -1264,8 +1322,8 @@ class MoveaccountController extends Controller
                 Acc_1102050102_106::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.107') {
                 Acc_1102050102_107::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.202') {
-                Acc_1102050101_202::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.202') {
+            //     Acc_1102050101_202::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.209') {
                 Acc_1102050101_209::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.216') {
@@ -1356,8 +1414,8 @@ class MoveaccountController extends Controller
                 Acc_1102050102_107::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.202') {
                 Acc_1102050101_202::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.209') {
-                Acc_1102050101_209::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.209') {
+                // Acc_1102050101_209::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.216') {
                 Acc_1102050101_216::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.217') {
@@ -1448,8 +1506,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_202::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.209') {
                 Acc_1102050101_209::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.216') {
-                Acc_1102050101_216::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.216') {
+            //     Acc_1102050101_216::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.217') {
                 Acc_1102050101_217::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.301') {
@@ -1540,8 +1598,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_209::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.216') {
                 Acc_1102050101_216::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.217') {
-                Acc_1102050101_217::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.217') {
+            //     Acc_1102050101_217::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.301') {
                 Acc_1102050101_301::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.302') {
@@ -1632,8 +1690,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_216::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.217') {
                 Acc_1102050101_217::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.301') {
-                Acc_1102050101_301::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.301') {
+            //     Acc_1102050101_301::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.302') {
                 Acc_1102050101_302::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.304') {
@@ -1724,8 +1782,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_217::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.301') {
                 Acc_1102050101_301::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.302') {
-                Acc_1102050101_302::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.302') {
+            //     Acc_1102050101_302::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.304') {
                 Acc_1102050101_304::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.307') {
@@ -1816,8 +1874,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_301::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.302') {
                 Acc_1102050101_302::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.304') {
-                Acc_1102050101_304::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.304') {
+            //     Acc_1102050101_304::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.307') {
                 Acc_1102050101_307::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.308') {
@@ -1908,8 +1966,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_302::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.304') {
                 Acc_1102050101_304::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.307') {
-                Acc_1102050101_307::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.307') {
+            //     Acc_1102050101_307::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.308') {
                 Acc_1102050101_308::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.309') {
@@ -2000,8 +2058,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_304::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.307') {
                 Acc_1102050101_307::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.308') {
-                Acc_1102050101_308::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.308') {
+            //     Acc_1102050101_308::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.309') {
                 Acc_1102050101_309::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.310') {
@@ -2092,8 +2150,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_307::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.308') {
                 Acc_1102050101_308::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.309') {
-                Acc_1102050101_309::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.309') {
+            //     Acc_1102050101_309::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.310') {
                 Acc_1102050101_310::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.401') {
@@ -2184,8 +2242,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_308::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.309') {
                 Acc_1102050101_309::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.310') {
-                Acc_1102050101_310::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.310') {
+            //     Acc_1102050101_310::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.401') {
                 Acc_1102050101_401::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.402') {
@@ -2276,8 +2334,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_309::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.310') {
                 Acc_1102050101_310::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.401') {
-                Acc_1102050101_401::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.401') {
+            //     Acc_1102050101_401::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.402') {
                 Acc_1102050101_402::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.2166') {
@@ -2368,8 +2426,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_310::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.401') {
                 Acc_1102050101_401::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.402') {
-                Acc_1102050101_402::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.402') {
+            //     Acc_1102050101_402::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.2166') {
                 Acc_1102050101_2166::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.3099') {
@@ -2460,8 +2518,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_401::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.402') {
                 Acc_1102050101_402::where('an', $an)->delete();
-            } elseif ($pangold == '1102050101.2166') {
-                Acc_1102050101_2166::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.2166') {
+            //     Acc_1102050101_2166::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.3099') {
                 Acc_1102050101_3099::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.4011') {
@@ -2552,8 +2610,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_402::where('an', $an)->delete();
             } elseif ($pangold == '1102050101.2166') {
                 Acc_1102050101_2166::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.3099') {
-                Acc_1102050101_3099::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.3099') {
+            //     Acc_1102050101_3099::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.4011') {
                 Acc_1102050101_4011::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.4022') {
@@ -2644,8 +2702,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_2166::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.3099') {
                 Acc_1102050101_3099::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.4011') {
-                Acc_1102050101_4011::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050101.4011') {
+            //     Acc_1102050101_4011::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.4022') {
                 Acc_1102050101_4022::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.602') {
@@ -2737,8 +2795,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_3099::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.4011') {
                 Acc_1102050101_4011::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050101.4022') {
-                Acc_1102050101_4022::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050101.4022') {
+            //     Acc_1102050101_4022::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.602') {
                 Acc_1102050102_602::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.603') {
@@ -2829,8 +2887,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_4011::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050101.4022') {
                 Acc_1102050101_4022::where('an', $an)->delete();
-            } elseif ($pangold == '1102050102.602') {
-                Acc_1102050102_602::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050102.602') {
+            //     Acc_1102050102_602::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.603') {
                 Acc_1102050102_603::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.801') {
@@ -2921,8 +2979,8 @@ class MoveaccountController extends Controller
                 Acc_1102050101_4022::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.602') {
                 Acc_1102050102_602::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050102.603') {
-                Acc_1102050102_603::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050102.603') {
+            //     Acc_1102050102_603::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.801') {
                 Acc_1102050102_801::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.802') {
@@ -3013,8 +3071,8 @@ class MoveaccountController extends Controller
                 Acc_1102050102_602::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.603') {
                 Acc_1102050102_603::where('an', $an)->delete();
-            } elseif ($pangold == '1102050102.801') {
-                Acc_1102050102_801::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050102.801') {
+            //     Acc_1102050102_801::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.802') {
                 Acc_1102050102_802::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.803') {
@@ -3105,8 +3163,8 @@ class MoveaccountController extends Controller
                 Acc_1102050102_603::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.801') {
                 Acc_1102050102_801::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050102.802') {
-                Acc_1102050102_802::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050102.802') {
+            //     Acc_1102050102_802::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.803') {
                 Acc_1102050102_803::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.804') {
@@ -3197,8 +3255,8 @@ class MoveaccountController extends Controller
                 Acc_1102050102_801::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.802') {
                 Acc_1102050102_802::where('an', $an)->delete();
-            } elseif ($pangold == '1102050102.803') {
-                Acc_1102050102_803::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050102.803') {
+            //     Acc_1102050102_803::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.804') {
                 Acc_1102050102_804::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.8011') {
@@ -3289,8 +3347,8 @@ class MoveaccountController extends Controller
                 Acc_1102050102_802::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.803') {
                 Acc_1102050102_803::where('vn', $vn)->delete();
-            } elseif ($pangold == '1102050102.804') {
-                Acc_1102050102_804::where('an', $an)->delete();
+            // } elseif ($pangold == '1102050102.804') {
+            //     Acc_1102050102_804::where('an', $an)->delete();
             } elseif ($pangold == '1102050102.8011') {
                 Acc_1102050102_8011::where('vn', $vn)->delete();
             } else {
@@ -3381,8 +3439,8 @@ class MoveaccountController extends Controller
                 Acc_1102050102_803::where('vn', $vn)->delete();
             } elseif ($pangold == '1102050102.804') {
                 Acc_1102050102_804::where('an', $an)->delete();
-            } elseif ($pangold == '1102050102.8011') {
-                Acc_1102050102_8011::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050102.8011') {
+            //     Acc_1102050102_8011::where('vn', $vn)->delete();
             } else {
                 # code...
             }

@@ -2071,6 +2071,10 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_pang_addicodesave',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addicodesave'])->name('acc.acc_pang_addicodesave');//
     Route::match(['get','post'],'subicode_destroy/{id}',[App\Http\Controllers\AccountsettingController::class, 'subicode_destroy'])->name('acc.subicode_destroy');//
 
+    Route::match(['get','post'],'acc_pang_addhospmain/{id}',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addhospmain'])->name('acc.acc_pang_addhospmain');//
+    Route::match(['get','post'],'acc_pang_addhospmainsave',[App\Http\Controllers\AccountsettingController::class, 'acc_pang_addhospmainsave'])->name('acc.acc_pang_addhospmainsave');//
+    Route::match(['get','post'],'hospmain_destroy/{id}',[App\Http\Controllers\AccountsettingController::class, 'hospmain_destroy'])->name('acc.hospmain_destroy');//
+
     Route::match(['get','post'],'aset_trimart',[App\Http\Controllers\AccountPKController::class, 'aset_trimart'])->name('acc.aset_trimart');//
     Route::match(['get','post'],'aset_trimart_edit/{id}',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_edit'])->name('acc.aset_trimart_edit');//
     Route::match(['get','post'],'aset_trimart_save',[App\Http\Controllers\AccountPKController::class, 'aset_trimart_save'])->name('acc.aset_trimart_save');//

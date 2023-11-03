@@ -211,9 +211,9 @@ class Account201Controller extends Controller
                 LEFT OUTER JOIN hos.opitemrece op ON op.vn = o.vn
                 LEFT OUTER JOIN hos.s_drugitems d on d.icode = op.icode 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"    
-                AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD"))
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD")
                 AND (o.an="" or o.an is null)
-                AND v.hospmain IN(SELECT hospmain from pkbackoffice.acc_setpang_type WHERE hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD"))
+                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD")
         
                 GROUP BY v.vn 
         ');

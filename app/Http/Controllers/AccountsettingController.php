@@ -96,7 +96,7 @@ class AccountsettingController extends Controller
         $datashow = DB::connection('mysql')->select('
             SELECT 
              a.acc_setpang_id,a.pang,a.pangname,a.active,b.acc_setpang_type_id,b.acc_setpang_id as acc_setpang_id2,b.pang as pang2
-             ,b.pttype as pttype2,b.hipdata_code,b.icode as icode2
+             ,b.pttype as pttype2,b.hipdata_code,b.icode as icode2,b.icode,b.hospmain
             from acc_setpang a
             LEFT JOIN acc_setpang_type b ON b.acc_setpang_id = a.acc_setpang_id
             GROUP BY a.pang
@@ -184,7 +184,7 @@ class AccountsettingController extends Controller
         return response()->json(['status' => '200']);
     }
 
-    // ************************************
+    // *********************** icode *************
     public function acc_pang_addicode(Request $request,$id)
     {
         $data_icode = Acc_setpang::find($id);
@@ -205,6 +205,7 @@ class AccountsettingController extends Controller
             'status'     => '200',
         ]);
     }
+   
     public function subicode_destroy(Request $request,$id)
     { 
         // $idd = Acc_setpang_type::where('icode',$id)->first();
@@ -213,6 +214,34 @@ class AccountsettingController extends Controller
         return response()->json(['status' => '200']);
     }
 
+    // *********************** hospmain *************
+    public function acc_pang_addhospmain(Request $request,$id)
+    {
+        $data_hospmain = Acc_setpang::find($id);
+        return response()->json([
+            'status'                => '200', 
+            'data_hospmain'         =>  $data_hospmain,
+        ]);
+    }
+    public function acc_pang_addhospmainsave(Request $request)
+    {  
+        $add = new Acc_setpang_type(); 
+        $add->pang             = $request->input('pang');
+        $add->acc_setpang_id   = $request->input('acc_setpang_id');
+        $add->hospmain           = $request->input('addhospmainpang'); 
+        $add->save();
 
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+    // hospmain_destroy
+    public function hospmain_destroy(Request $request,$id)
+    { 
+        // $idd = Acc_setpang_type::where('icode',$id)->first();
+        $del = Acc_setpang_type::find($id);  
+        $del->delete();  
+        return response()->json(['status' => '200']);
+    }
 
  }

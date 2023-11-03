@@ -143,6 +143,52 @@
             }
         })
     }
+
+    function hospmain_destroy(acc_setpang_type_id) {
+        // alert(acc_setpang_type_id);
+        Swal.fire({
+            title: 'ต้องการลบใช่ไหม?',
+            text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+            cancelButtonText: 'ไม่, ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ url('hospmain_destroy') }}" + '/' + acc_setpang_type_id,
+                    type: 'POST',
+                    data: {
+                        _token: $("input[name=_token]").val()
+                    },
+                    success: function(response) {
+                            if (response.status == 200) {
+                                Swal.fire({
+                                title: 'ลบข้อมูล!',
+                                text: "You Delet data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + acc_setpang_type_id).remove();
+                                    window.location.reload();
+                                    //   window.location = "/person/person_index"; //     
+                                }
+                            })
+                        } else {
+                            
+                        }
+                        
+                    }
+                })
+            }
+        })
+    }
 </script>
 
 <?php
@@ -280,6 +326,12 @@
                                         <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
                                             {{ $item->pang }}
                                         </button>
+                                        {{-- <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                            {{ $item->icode }}
+                                        </button>
+                                        <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-outline-danger editModal" value="{{ $item->acc_setpang_id }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                            {{ $item->hospmain }}
+                                        </button> --}}
                                     </td> 
                                     <td >   
                                         <?php 
@@ -306,6 +358,7 @@
                                                     aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
                                                     <h5 >{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5> 
                                                 </button>
+                                                 
                                             @endif
                                             
                                         </div>
@@ -325,6 +378,13 @@
                                                             @if ($itemsub->icode != '')
                                                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" onclick="subicode_destroy({{ $itemsub->acc_setpang_type_id }})">
                                                                     ICODE - {{$itemsub->icode}}  
+                                                                </button> 
+                                                            @else                                                                    
+                                                            @endif
+
+                                                            @if ($itemsub->hospmain != '')
+                                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning" onclick="hospmain_destroy({{ $itemsub->acc_setpang_type_id }})">
+                                                                    Hospmain - {{$itemsub->hospmain}}  
                                                                 </button> 
                                                             @else                                                                    
                                                             @endif
@@ -668,7 +728,7 @@
                     </div> 
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <label for="pttype" class="form-label">icode</label>
+                            <label for="pttype" class="form-label">Hospmain</label>
                             <div class="input-group input-group-sm">  
                                 <input type="text" class="form-control" id="addhospmainpang" name="addhospmainpang">  
                             </div>
@@ -857,6 +917,41 @@
                     },
                 });
         });
+        $('#Updatehospmain').click(function() { 
+                var pang = $('#addpanghospmain').val(); 
+                var addhospmainpang = $('#addhospmainpang').val(); 
+                var acc_setpang_id = $('#addhospmainacc_setpang_id').val();
+                $.ajax({
+                    url: "{{ route('acc.acc_pang_addhospmainsave') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    data: {
+                        addhospmainpang,acc_setpang_id,pang
+                    },
+                    success: function(data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                text: "You Insert data success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result
+                                    .isConfirmed) {
+                                    console.log(
+                                        data);
+                                    window.location.reload(); 
+                                }
+                            })
+                        } else {
+
+                        }
+
+                    },
+                });
+        });
     });
 
     $(document).on('click', '.editModal', function() {
@@ -911,12 +1006,12 @@
         $('#addhospmainModal').modal('show');
         $.ajax({
             type: "GET",
-            url: "{{ url('acc_pang_addicode') }}" + '/' + acc_setpang_id,
+            url: "{{ url('acc_pang_addhospmain') }}" + '/' + acc_setpang_id,
             success: function(data) {
-                console.log(data.data_icode.acc_setpang_id); 
-                $('#addpangcode').val(data.data_icode.pang)
-                $('#addicodepangname').val(data.data_icode.pangname) 
-                $('#addicodeacc_setpang_id').val(data.data_icode.acc_setpang_id)
+                console.log(data.data_hospmain.acc_setpang_id); 
+                $('#addpanghospmain').val(data.data_hospmain.pang)
+                $('#addhospmainpangname').val(data.data_hospmain.pangname) 
+                $('#addhospmainacc_setpang_id').val(data.data_hospmain.acc_setpang_id)
             },
         });
     });

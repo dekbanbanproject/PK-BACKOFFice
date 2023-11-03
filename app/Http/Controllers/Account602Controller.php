@@ -101,7 +101,7 @@ class Account602Controller extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y');
+        $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
@@ -200,11 +200,11 @@ class Account602Controller extends Controller
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                ,ptt.max_debt_money
+                ,ptt.max_debt_money,vp.max_debt_amount 
                
                 ,CASE 
-                    WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money
-                    WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN vp.max_debt_amount  
+                    WHEN  vp.pttype_number ="1" AND vp.pttype IN ("31","36","37","38","39")  THEN vp.max_debt_amount 
+                    WHEN v.income-v.discount_money-v.rcpt_money < 30000 THEN v.income-v.discount_money-v.rcpt_money  
                     ELSE v.income-v.discount_money-v.rcpt_money  
                     END as debit
 
@@ -217,7 +217,7 @@ class Account602Controller extends Controller
             LEFT OUTER JOIN hos.opitemrece op ON op.vn = o.vn
             LEFT OUTER JOIN hos.s_drugitems d on d.icode = op.icode 
             WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"        
-            AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.602" AND opdipd ="OPD"))
+            AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.602" AND opdipd ="OPD")
      
             and (o.an="" or o.an is null)
             GROUP BY v.vn
@@ -249,7 +249,7 @@ class Account602Controller extends Controller
                             'debit_toa'          => $value->debit_toa,
                             'debit_refer'        => $value->debit_refer,
                             'debit_total'        => $value->debit,
-                            'max_debt_amount'    => $value->max_debt_money,
+                            'max_debt_amount'    => $value->max_debt_amount,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }

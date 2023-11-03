@@ -224,7 +224,7 @@ class Account308Controller extends Controller
                 LEFT JOIN hos.vn_stat v on v.vn = a.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                
-                AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.308"))
+                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.308")
                 GROUP BY a.an;
             ');
             // ,ipt.nhso_ownright_pid as looknee

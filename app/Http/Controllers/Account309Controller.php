@@ -230,7 +230,7 @@ class Account309Controller extends Controller
                     LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                     WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                   
-                    AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.309"))
+                    AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.309")
                     AND v.income <> 0
                     and (o.an="" or o.an is null)
                     GROUP BY o.vn

@@ -106,10 +106,11 @@
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th>
-                                    <th class="text-center">ลูกหนี้</th>
+                                    <td class="text-center">pttype</td>
+                                    <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">เลขที่ใบเสร็จรับเงิน</th>
                                     <th class="text-center">ยอดชดเชย</th> 
-                                    <th class="text-center" width="5%">เลขที่ Hos</th>
+                                    <th class="text-center" width="5%">ลูกหนี้</th>
                                     <th class="text-center">เลขที่หนังสือ</th>
                                 </tr>
                             </thead>
@@ -126,11 +127,12 @@
                                         <td class="text-center" width="10%">{{ $item->cid }}</td>
                                         <td class="p-2">{{ $item->ptname }}</td>
                                         <td class="text-center" width="10%">{{ $item->vstdate }}</td>
+                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>
                                         <td class="text-center" width="10%">{{ $item->recieve_no }}</td>
                                         <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->recieve_true, 2) }}</td>
                                       
-                                        <td class="text-center" width="10%">{{ $item->nhso_ownright_pid }}</td>
+                                        <td class="text-end" width="10%">{{ $item->nhso_ownright_pid }}</td>
                                         <td class="text-center" width="5%">
                                             @if ($item->nhso_docno != '')
                                                 <button type="button"

@@ -143,14 +143,14 @@
                                                 }
                                                 // ตั้งลูกหนี้
                                                 $datasum_ = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                    SELECT sum(nhso_ownright_pid) as nhso_ownright_pid,count(vn) as Cvit
                                                             from acc_1102050102_602
                                                             WHERE month(vstdate) = "'.$item->months.'"
                                                             and year(vstdate) = "'.$item->year.'"
                                                 ');
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
-                                                    $sum_Y = $value2->debit_total;
+                                                    $sum_Y = $value2->nhso_ownright_pid;
                                                     $count_Y = $value2->Cvit;
                                                 }
                                                 // AND status = "N"
@@ -169,14 +169,14 @@
     
 
                                                     $yokpai_data = DB::select('
-                                                        SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Countvisit
+                                                        SELECT sum(nhso_ownright_pid) as nhso_ownright_pid,count(DISTINCT vn) as Countvisit
                                                             from acc_1102050102_602 a 
                                                             where month(vstdate) = "'.$item->months.'"
                                                             AND year(vstdate) = "'.$item->year.'"
                                                             AND recieve_true is null
                                                     ');                                           
                                                     foreach ($yokpai_data as $key => $value4) {
-                                                        $yokpai = $value4->debit_total; 
+                                                        $yokpai = $value4->nhso_ownright_pid; 
                                                         $yokpaicount = $value4->Countvisit; 
                                                     }
                                                     
@@ -313,13 +313,13 @@
                                             }
                                             // ตั้งลูกหนี้
                                             $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(vn) as Cvit
+                                                SELECT sum(nhso_ownright_pid) as nhso_ownright_pid,count(vn) as Cvit
                                                         from acc_1102050102_602
                                                         WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'";
                                             ');
                                             // AND status = "N"
                                             foreach ($datasum_ as $key => $value2) {
-                                                $sum_Y = $value2->debit_total;
+                                                $sum_Y = $value2->nhso_ownright_pid;
                                                 $count_Y = $value2->Cvit;
                                             }
                                             // AND status = "N"
@@ -338,13 +338,13 @@
 
 
                                                 $yokpai_data = DB::select('
-                                                    SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Countvisit
+                                                    SELECT sum(nhso_ownright_pid) as nhso_ownright_pid,count(DISTINCT vn) as Countvisit
                                                         from acc_1102050102_602 a 
                                                         WHERE a.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
                                                         AND a.recieve_true is null
                                                 ');                                           
                                                 foreach ($yokpai_data as $key => $value4) {
-                                                    $yokpai = $value4->debit_total; 
+                                                    $yokpai = $value4->nhso_ownright_pid; 
                                                     $yokpaicount = $value4->Countvisit; 
                                                 }
                                                 

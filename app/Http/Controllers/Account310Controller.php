@@ -164,7 +164,7 @@ class Account310Controller extends Controller
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                  
-                SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl 
+                SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl,a.dchdate ,a.debit
               
                 from acc_debtor a
                 left join checksit_hos c on c.an = a.an
@@ -219,7 +219,7 @@ class Account310Controller extends Controller
                     LEFT JOIN hos.iptoprt io on io.an = ip.an
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                    AND ipt.pttype IN("A7","15")
+                    AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND opdipd ="IPD")
                     AND v.hospmain = "10702"
                     and io.icd9 like "%6632%"
                 GROUP BY a.an; 
