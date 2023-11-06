@@ -150,14 +150,14 @@
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
-                                                {{-- @if ($item->subinscl == '')
+                                                @if ($item->debit_total == '')
                                                     <td class="text-center" width="5%">
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-                                                @endif --}}
-                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  
+                                                @endif
+                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>   --}}
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>   
                                                 <td class="p-2" >{{ $item->ptname }}</td> 

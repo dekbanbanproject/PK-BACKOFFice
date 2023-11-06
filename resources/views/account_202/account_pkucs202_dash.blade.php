@@ -172,36 +172,37 @@
                                                                 FROM acc_1102050101_202
                                                                 WHERE year(dchdate) = "'.$item->year.'"
                                                                 AND month(dchdate) = "'.$item->months.'"
-                                                                AND status ="N"
+                                                               
                                                     ');
+                                                    // AND status ="N"
                                                     foreach ($sumyokma_ as $key => $value5) {
                                                         $total_yokma = $value5->debityokma;
                                                         $count_yokma = $value5->anyokma;
                                                     }
-                                                    
-                                                    $mo = $item->months;
+                                                     // ยกยอดไป
+                                                    // $mo = $item->months;
                                                     $sumyokma_all_ = DB::select('
                                                         SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
                                                                 FROM acc_1102050101_202 U1
                                                                 LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
-                                                                WHERE U1.status ="N"
-                                                                AND month(U1.dchdate) < "'.$mo.'"
-                                                                and year(U1.dchdate) = "'.$item->year.'"
+                                                                WHERE year(U1.dchdate) = "'.$item->year.'" AND month(U1.dchdate) = "'.$item->months.'"
                                                                 AND U2.rep IS NULL
                                                     ');
-
+                                                    // AND month(U1.dchdate) < "'.$mo.'"
                                                     foreach ($sumyokma_all_ as $key => $value6) {
-                                                        $total_yokma_all = $value6->debityokma + $total_yokma;
-                                                        $count_yokma_all = $value6->anyokma + $count_yokma;
+                                                        $total_yokma_alls = $value6->debityokma ;
+                                                        $count_yokma_alls = $value6->anyokma ;
                                                     }
+                                                    
 
-                                                    if ( $sum_Y > $amountpay) {
-                                                        $yokpai = $sum_Y - $amountpay;
-                                                        $count_Yok = $count_Y - $stm_count;
-                                                    } else {
-                                                        $yokpai = $amountpay - $sum_Y;
-                                                        $count_Yok = $stm_count - $amountpay;
-                                                    }
+
+                                                    // if ( $sum_Y > $amountpay) {
+                                                    //     $yokpai = $sum_Y - $amountpay;
+                                                    //     $count_Yok = $count_Y - $stm_count;
+                                                    // } else {
+                                                    //     $yokpai = $amountpay - $sum_Y;
+                                                    //     $count_Yok = $stm_count - $amountpay;
+                                                    // }
 
                                                     // $count_Y
 
@@ -297,9 +298,9 @@
                                                 <div class="col-md-5 text-end me-2">
                                                     <a href="{{url('account_pkucs202_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_Yok}} Visit">
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokma_alls}} Visit">
                                                                     {{-- {{ number_format($total_yokma, 2) }} --}} 
-                                                                     {{ number_format($yokpai, 2) }}
+                                                                     {{ number_format($total_yokma_alls, 2) }}
                                                                     <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                             </p>
                                                         </div>
@@ -383,38 +384,50 @@
                                                     $stm_count = $value3->Apvit;
                                                 }
                                                 // สีส้ม ยกยอดไป
-                                                $sumyokma_ = DB::select('
-                                                    SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
-                                                            FROM acc_1102050101_202
-                                                            WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                                                            AND status ="N"
-                                                ');
-                                                foreach ($sumyokma_ as $key => $value5) {
-                                                    $total_yokma = $value5->debityokma;
-                                                    $count_yokma = $value5->anyokma;
-                                                }
+                                                // $sumyokma_ = DB::select('
+                                                //     SELECT count(DISTINCT an) as anyokma ,sum(debit_total) as debityokma
+                                                //             FROM acc_1102050101_202
+                                                //             WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                //             AND status ="N"
+                                                // ');
+                                                // foreach ($sumyokma_ as $key => $value5) {
+                                                //     $total_yokma = $value5->debityokma;
+                                                //     $count_yokma = $value5->anyokma;
+                                                // }
                                                 
-                                                $mo = $item->months;
+                                                // $mo = $item->months;
                                                 $sumyokma_all_ = DB::select('
                                                     SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
                                                             FROM acc_1102050101_202 U1
                                                             LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
-                                                            WHERE U1.status ="N" AND U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                            WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
                                                             AND U2.rep IS NULL
                                                 ');
 
                                                 foreach ($sumyokma_all_ as $key => $value6) {
-                                                    $total_yokma_all = $value6->debityokma + $total_yokma;
-                                                    $count_yokma_all = $value6->anyokma + $count_yokma;
+                                                    $total_yokma_all = $value6->debityokma ;
+                                                    $count_yokma_all = $value6->anyokma;
                                                 }
+                                                // foreach ($sumyokma_all_ as $key => $value6) {
+                                                //     $total_yokma_all = $value6->debityokma + $total_yokma;
+                                                //     $count_yokma_all = $value6->anyokma + $count_yokma;
+                                                // }
 
-                                                if ( $sum_Y > $amountpay) {
-                                                    $yokpai = $sum_Y - $amountpay;
-                                                    $count_Yok = $count_Y - $stm_count;
-                                                } else {
-                                                    $yokpai = $amountpay - $sum_Y;
-                                                    $count_Yok = $stm_count - $amountpay;
-                                                }
+                                                // if ( $sum_Y > $amountpay) {
+                                                //     $yokpai = $sum_Y - $amountpay;
+                                                //     $count_Yok = $count_Y - $stm_count;
+                                                // } else {
+                                                //     $yokpai = $amountpay - $sum_Y;
+                                                //     $count_Yok = $stm_count - $amountpay;
+                                                // }
+
+                                                // $sumyokma_all_ = DB::select('
+                                                //     SELECT count(DISTINCT U1.an) as anyokma ,sum(U1.debit_total) as debityokma
+                                                //             FROM acc_1102050101_202 U1
+                                                //             LEFT JOIN acc_stm_ucs U2 ON U2.an = U1.an
+                                                //             WHERE U1.status ="N" AND U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                                                //             AND U2.rep IS NULL
+                                                // ');
 
                                                 // $count_Y
 
@@ -510,9 +523,9 @@
                                             <div class="col-md-5 text-end me-2">
                                                 <a href="{{url('account_pkucs202_stmnull_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_Yok}} Visit">
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokma_all}} Visit">
                                                                 {{-- {{ number_format($total_yokma, 2) }} --}} 
-                                                                 {{ number_format($yokpai, 2) }}
+                                                                 {{ number_format($total_yokma_all, 2) }}
                                                                 <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
                                                         </p>
                                                     </div>

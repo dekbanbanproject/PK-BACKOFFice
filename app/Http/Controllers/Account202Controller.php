@@ -373,8 +373,10 @@ class Account202Controller extends Controller
          $data = DB::select(' 
              SELECT *  from acc_1102050101_202
              WHERE month(dchdate) = "'.$months.'" and year(dchdate) = "'.$year.'"
-             AND status = "N"
+           
+             GROUP BY an
          ');
+        //  AND stamp = "Y"
          // SELECT *,au.subinscl  from acc_1102050101_202 a
          //     LEFT JOIN acc_debtor au ON au.an = a.an
          //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'";
@@ -512,27 +514,30 @@ class Account202Controller extends Controller
                 ,s.total_approve,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.ip_paytrue,s.STMdoc,a.adjrw,a.total_adjrw_income
                 from acc_1102050101_202 a
              LEFT JOIN acc_stm_ucs s ON s.an = a.an
-             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND s.rep IS NOT NULL
- 
+             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+             AND s.rep IS NOT NULL
+             GROUP BY a.an
          ');
-         $sum_money_ = DB::connection('mysql')->select('
-            SELECT SUM(a.debit_total) as total
-            from acc_1102050101_202 a
-            LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
-        ');
-        foreach ($sum_money_ as $key => $value) {
-            $sum_debit_total = $value->total;
-        }
-         $sum_stm_ = DB::connection('mysql')->select('
-            SELECT SUM(au.inst) as stmtotal
-            from acc_1102050101_202 a
-            LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" AND au.rep IS NOT NULL;
-        ');
-        foreach ($sum_stm_ as $key => $value) {
-            $sum_stm_total = $value->stmtotal;
-        }
+        //  $sum_money_ = DB::connection('mysql')->select('
+        //     SELECT SUM(a.debit_total) as total
+        //     from acc_1102050101_202 a
+        //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+        //     AND au.rep IS NOT NULL;
+        // ');
+        // foreach ($sum_money_ as $key => $value) {
+        //     $sum_debit_total = $value->total;
+        // }
+        //  $sum_stm_ = DB::connection('mysql')->select('
+        //     SELECT SUM(au.inst) as stmtotal
+        //     from acc_1102050101_202 a
+        //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        //     WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
+        //     AND au.rep IS NOT NULL;
+        // ');
+        // foreach ($sum_stm_ as $key => $value) {
+        //     $sum_stm_total = $value->stmtotal;
+        // }
  
          return view('account_202.account_pkucs202_stm', $data, [
              'startdate'         =>     $startdate,
@@ -540,8 +545,8 @@ class Account202Controller extends Controller
              'datashow'          =>     $datashow,
              'months'            =>     $months,
              'year'              =>     $year,
-             'sum_debit_total'   =>     $sum_debit_total,
-             'sum_stm_total'     =>     $sum_stm_total
+            //  'sum_debit_total'   =>     $sum_debit_total,
+            //  'sum_stm_total'     =>     $sum_stm_total
          ]);
      }
      public function account_pkucs202_stm_date(Request $request,$startdate,$enddate)
@@ -555,7 +560,7 @@ class Account202Controller extends Controller
              LEFT JOIN acc_stm_ucs s ON s.an = a.an
              WHERE a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
              AND s.rep IS NOT NULL
- 
+            GROUP BY a.an
          ');
        
  
@@ -577,9 +582,9 @@ class Account202Controller extends Controller
             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
             from acc_1102050101_202 a
             LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE status ="N"
-            AND month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'";
- 
+            WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+            AND au.rep IS NULL
+            GROUP BY a.an
  
              ');
              // SELECT vn,an,hn,cid,ptname,dchdate,income_group,debit_total
@@ -623,10 +628,11 @@ class Account202Controller extends Controller
             SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,a.adjrw,a.total_adjrw_income
             from acc_1102050101_202 a
             LEFT JOIN acc_stm_ucs au ON au.an = a.an
-            WHERE status ="N" AND a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"   
- 
+            WHERE a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"   
+            AND au.rep IS NULL
+            GROUP BY a.an
              ');
-             
+            //  WHERE status ="N" AND a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
  
          return view('account_202.account_pkucs202_stmnull_date', $data, [
              'startdate'         =>     $startdate,
@@ -648,8 +654,7 @@ class Account202Controller extends Controller
                  SELECT au.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,au.dmis_money2,au.total_approve,a.income_group,au.inst,au.ip_paytrue,au.STMdoc,a.adjrw,a.total_adjrw_income
                      from acc_1102050101_202 a
                      LEFT JOIN acc_stm_ucs au ON au.an = a.an
-                     WHERE a.status ="N"
-                     AND month(a.dchdate) < "'.$mototal.'"
+                     WHERE month(a.dchdate) < "'.$mototal.'"
                      and year(a.dchdate) = "'.$year.'"
                      AND au.ip_paytrue IS NULL
                      GROUP BY a.an

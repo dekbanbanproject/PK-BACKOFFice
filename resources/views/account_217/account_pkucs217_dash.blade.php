@@ -143,9 +143,9 @@
                                                     SELECT sum(debit_total) as debit_total,count(DISTINCT an) as Cvit
                                                             from acc_1102050101_217
                                                             WHERE month(dchdate) = "'.$item->months.'"
-                                                            and year(dchdate) = "'.$item->year.'"
-                                                            AND status = "N"
+                                                            and year(dchdate) = "'.$item->year.'" 
                                                 ');
+                                                
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
                                                     $sum_Y = $value2->debit_total;

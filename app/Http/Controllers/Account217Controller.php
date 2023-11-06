@@ -98,13 +98,14 @@ class Account217Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT a.*,c.subinscl from acc_debtor a
+                SELECT a.*,c.subinscl 
+                from acc_debtor a
                 left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.217"
                 AND a.stamp = "N"
-               
+                AND a.dchdate IS NOT NULL
                 group by a.an
-                order by a.vstdate desc;
+                order by a.dchdate desc;
             ');
             // AND a.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
             // AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
@@ -121,9 +122,9 @@ class Account217Controller extends Controller
                 left join checksit_hos c on c.an = a.an
                 WHERE a.account_code="1102050101.217"
                 AND a.stamp = "N"
-                
+                AND a.dchdate IS NOT NULL
                 group by a.an
-                order by a.vstdate desc;
+                order by a.dchdate desc;
             ');
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
