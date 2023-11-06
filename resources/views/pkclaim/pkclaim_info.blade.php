@@ -422,7 +422,7 @@
                 function drawVisualization() {
                     // Some raw data (not necessarily accurate)
                     var data = google.visualization.arrayToDataTable([
-                        ['Month', 'HERB', '12001', '12002','ANC-30010','ANC-30011'],
+                        ['Month', 'สมันไพร 9 ชนิด', 'สุขภาพจิต 15-34 ปี', 'สุขภาพจิต 35-59 ปี','ANC-30010','ANC-30011'],
                         ['มกราคม', <?php echo $herf_01; ?>, <?php echo $a12001_01; ?>, <?php echo $a12002_01; ?>, <?php echo $a30010_01; ?>, <?php echo $a30011_01; ?>],
                         ['กุมภาพัน', <?php echo $herf_02; ?>, <?php echo $a12001_02; ?>, <?php echo $a12002_02; ?>, <?php echo $a30010_02; ?>, <?php echo $a30011_02; ?>],
                         ['มีนาคม', <?php echo $herf_03; ?>, <?php echo $a12001_03; ?>, <?php echo $a12002_03; ?>, <?php echo $a30010_03; ?>, <?php echo $a30011_03; ?>],
@@ -444,7 +444,7 @@
                             title: 'บาท ฿'
                         },
                         hAxis: {
-                            title: 'Month'
+                            title: 'Month', 
                         },
                         seriesType: 'bars',
                         //   series: {5: {type: 'line'}}

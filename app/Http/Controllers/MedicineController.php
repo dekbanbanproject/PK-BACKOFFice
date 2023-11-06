@@ -182,18 +182,32 @@ class MedicineController extends Controller
 
     public function medicine_salt_sub (Request $request,$months,$startdate,$enddate)
     { 
-        $datashow = DB::connection('mysql3')->select('
+        $new = $enddate;
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        // $date = date('Y-m-d');
+        $new_enddate_ = date('Y',strtotime($enddate . ' +1 year'));
+        // $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        // $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        // $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        // dd($y);
+        // $start = (''.$yearold.'-10-01');
+        $new_enddate = (''.$new_enddate_.'-09-30'); 
+        // dd($new_enddate);
+        $datashow = DB::connection('mysql10')->select('
             SELECT a.hn,a.an,pt.cid,i.labor_date,d.deliver_name,
                 (select labor_date from hos.person_anc where person_id = pa.person_id ORDER BY labor_date desc limit 1) as dlabor_date,h.service_date,concat(pt.pname,pt.fname," ",pt.lname) as fullname,a.pttype,
                 concat(pt.addrpart,"หมู่ ",pt.moopart," ต.",t3.name," อ.",t2.name," จ.",t1.name) as fulladdressname,hh.name as hname,concat(pt.hometel," ","/",pt.informtel) as informtel,
+                
                 (select GROUP_CONCAT(distinct hi.icd10tm," ","|"," ")  
                 from hos.health_med_service hs 
                 left outer join hos.health_med_service_operation ho on ho.health_med_service_id = hs.health_med_service_id 
                 left outer join hos.health_med_operation_item hi on hi.health_med_operation_item_id = ho.health_med_operation_item_id 
                 where hs.hn=h.hn and hi.icd10tm in ("9007712","9007713","9007714","9007716","9007730") 
-                and hs.service_date between "'.$startdate.'" AND "'.$enddate.'"
+                and hs.service_date between "'.$startdate.'" AND "'.$new_enddate.'"
                 and hs.an is null
                 order by hs.service_date desc,hs.service_time desc limit 0,1)  as icd10tm
+  
                 from hos.an_stat a
                 left outer join hos.ipt_pregnancy i on i.an = a.an
                 left outer join hos.patient pt on pt.hn = a.hn
@@ -212,7 +226,7 @@ class MedicineController extends Controller
                 left OUTER join hos.person pp on pp.patient_hn = a.hn
                 LEFT JOIN hos.person_anc pa on pa.person_id = pp.person_id
                 left outer join hos.deliver_type d on d.deliver_type = i.deliver_type
-                where i.labor_date between "'.$startdate.'" AND "'.$enddate.'"
+                where i.labor_date between "'.$startdate.'" AND "'.$new_enddate.'"
                 and p.hipdata_code ="UCS"
                 and ii.hospmain ="10978"
                 and month(i.labor_date) = "'.$months.'"

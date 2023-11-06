@@ -255,10 +255,7 @@ class Account202Controller extends Controller
                                //  'sauntang'           => $value->total_adjrw_income,
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]);
-                        // }
-                        
-
-                        
+                        // }                                                
                      }
 
                 } else {
