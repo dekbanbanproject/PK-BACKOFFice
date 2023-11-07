@@ -191,21 +191,16 @@
                             </div>
                         </div>                                                                     
                     </div>
-                    @foreach ($patient as $item)                       
-                
-                    <?php
-                    $datacid = DB::connection('mysql10')->table('patient')->where('cid','=',$collection1)->first();
-                    if ($datacid->hometel == null) {
-                        $cid = '';
-                       
-                    } else {
-                        $cid = $datacid->hometel;
-                    }
-                    // $cid = $datacid->hometel;
-                    // $cid = $datacid->informtel;
-                    ?>
-                    @endforeach
-                    {{-- {{$cid}} --}}
+                        @foreach ($patient as $item)    
+                            <?php
+                                    $datacid = DB::connection('mysql10')->table('patient')->where('cid','=',$collection1)->first();
+                                    if ($datacid->hometel == null) {
+                                        $cid = '';                                    
+                                    } else {
+                                        $cid = $datacid->hometel;
+                                    } 
+                            ?>
+                        @endforeach 
                     <div class="row">
                         <div class="col-md-2 text-end">
                             <div class="mb-3">
@@ -213,8 +208,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="mb-3">  
-                            {{-- <input type="text" class="form-control" id="mobile" name="mobile"> --}}
+                            <div class="mb-3">   
                              @if ($cid == '')
                                     <input type="text" class="form-control" id="mobile" name="mobile" >
                                 @else
@@ -241,7 +235,7 @@
                         <div class="col-md-3"> 
                                 <button type="submit" class="btn btn-info shadow-lg"><i class="fa-brands fa-medrt me-2"></i>ออก Authen Code</button> 
                                 <a href="{{url('/login')}}" class="btn btn-danger shadow-lg"><i class="fa-solid fa-circle-arrow-left me-2"></i>ย้อนกลับ</a>  
-                                {{-- <button type="button" id="AuthenCode" class="btn btn-primary shadow-lg">ออก Authen Code</button>   --}}
+                                
                         </div> 
                         <div class="col"></div>
                     </div>

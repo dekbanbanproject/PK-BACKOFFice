@@ -20,12 +20,140 @@ use Arr;
 use Storage;
 
 class AuthencodeController extends Controller
-{     
+{    
+    public function authen_main(Request $request)
+    {
+        $ip = $request->ip();  
+
+        $terminals = Http::get('http://'.$ip.':8189/api/smartcard/terminals')->collect(); 
+        $cardcid = Http::get('http://'.$ip.':8189/api/smartcard/read')->collect();  
+        $cardcidonly = Http::get('http://'.$ip.':8189/api/smartcard/read-card-only')->collect(); 
+
+        $output = Arr::sort($terminals);
+        $outputcard = Arr::sort($cardcid);
+        $outputcardonly = Arr::sort($cardcidonly);
+        if ($output == []) {
+            // if ($output == "") {
+                $smartcard = 'NO_CONNECT';
+                $smartcardcon = '';
+            } else {
+                $smartcard = 'CONNECT';
+                foreach ($output as $key => $value) {
+                    $terminalname = $value['terminalName'];
+                    $cardcids = $value['isPresent']; 
+                }
+                if ($cardcids != 'false') {
+                    $smartcardcon = 'CID_OK';
+                    // $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
+                    // $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
+                    //         return view('authen.authen_main',[  
+                    //             'smartcard'          =>  $smartcard, 
+                    //             'cardcid'            =>  $cardcid,
+                    //             'smartcardcon'       =>  $smartcardcon,
+                    //             'output'             =>  $output,
+            
+                    //             'collection1'  => $collection['pid'],
+                    //             'collection2'  => $collection['fname'],
+                    //             'collection3'  => $collection['lname'],
+                    //             'collection4'  => $collection['birthDate'],
+                    //             'collection5'  => $collection['transDate'],
+                    //             'collection6'  => $collection['mainInscl'],
+                    //             'collection7'  => $collection['subInscl'],
+                    //             'collection8'  => $collection['age'],
+                    //             'collection9'  => $collection['checkDate'],
+                    //             'collection10' => $collection['correlationId'],
+                    //             'collection11' => $collection['checkDate'],
+                    //             'collection'   => $collection,
+                    //             'patient'      => $patient
+                    //         ]);
+                } else {
+                    $smartcardcon = 'NO_CID';
+                        // return view('authen.authen_main',[  
+                        //     'smartcard'          =>  $smartcard, 
+                        //     'cardcid'            =>  $cardcid,
+                        //     'smartcardcon'       =>  $smartcardcon,
+                        //     'output'             =>  $output,
+        
+                        // ]);
+                }          
+            }
+
+            $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
+            $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
+            $output2 = Arr::sort($collection);
+            dd($output2);
+            // // if ($collection['status'] == '500' || $collection['pid'] != '') {
+            if ($output2 == [] ) {
+                return view('authen.authen_main',[  
+                    'smartcard'          =>  $smartcard, 
+                    'cardcid'            =>  $cardcid,
+                    'smartcardcon'       =>  $smartcardcon,
+                    'output'             =>  $output,
+
+            //         // 'collection1'  => $collection['pid'],
+            //         // 'collection2'  => $collection['fname'],
+            //         // 'collection3'  => $collection['lname'],
+            //         // 'collection4'  => $collection['birthDate'],
+            //         // 'collection5'  => $collection['transDate'],
+            //         // 'collection6'  => $collection['mainInscl'],
+            //         // 'collection7'  => $collection['subInscl'],
+            //         // 'collection8'  => $collection['age'],
+            //         // 'collection9'  => $collection['checkDate'],
+            //         // 'collection10' => $collection['correlationId'],
+            //         // 'collection11' => $collection['checkDate'],
+            //         // 'collection'   => $collection,
+            //         // 'patient'      => $patient
+                ]);
+            } else {
+                return view('authen.authen_main',[  
+                    'smartcard'          =>  $smartcard, 
+                    'cardcid'            =>  $cardcid,
+                    'smartcardcon'       =>  $smartcardcon,
+                    'output'             =>  $output,
+        
+                    'collection1'  => $collection['pid'],
+                    'collection2'  => $collection['fname'],
+                    'collection3'  => $collection['lname'],
+                    'collection4'  => $collection['birthDate'],
+                    'collection5'  => $collection['transDate'],
+                    'collection6'  => $collection['mainInscl'],
+                    'collection7'  => $collection['subInscl'],
+                    'collection8'  => $collection['age'],
+                    'collection9'  => $collection['checkDate'],
+                    'collection10' => $collection['correlationId'],
+                    'collection11' => $collection['checkDate'],
+                    'collection'   => $collection,
+                    'patient'      => $patient
+                ]);
+            }
+            
+
+        // return view('authen.authen_main',[  
+        //     'smartcard'          =>  $smartcard, 
+        //     'cardcid'            =>  $cardcid,
+        //     'smartcardcon'       =>  $smartcardcon,
+        //     'output'             =>  $output,
+
+        //     'collection1'  => $collection['pid'],
+        //     'collection2'  => $collection['fname'],
+        //     'collection3'  => $collection['lname'],
+        //     'collection4'  => $collection['birthDate'],
+        //     'collection5'  => $collection['transDate'],
+        //     'collection6'  => $collection['mainInscl'],
+        //     'collection7'  => $collection['subInscl'],
+        //     'collection8'  => $collection['age'],
+        //     'collection9'  => $collection['checkDate'],
+        //     'collection10' => $collection['correlationId'],
+        //     'collection11' => $collection['checkDate'],
+        //     'collection'   => $collection,
+        //     'patient'      => $patient
+        // ]);
+    } 
     public function authen_index(Request $request)
     { 
         // $ip = $request()->ip();
         $ip = $request->ip();
-        $collection = Http::get('http://'.$ip.':8189/api/smartcard/read')->collect();
+        $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
         $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
         
         // $terminals = Http::get('http://'.$ip.':8189/api/smartcard/terminals')->collect();
