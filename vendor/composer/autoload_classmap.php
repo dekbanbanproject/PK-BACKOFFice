@@ -101,6 +101,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
     'App\\Http\\Controllers\\AuthenController' => $baseDir . '/app/Http/Controllers/AuthenController.php',
     'App\\Http\\Controllers\\AuthenautoController' => $baseDir . '/app/Http/Controllers/AuthenautoController.php',
+    'App\\Http\\Controllers\\AuthencodeController' => $baseDir . '/app/Http/Controllers/AuthencodeController.php',
     'App\\Http\\Controllers\\AuthenmobileController' => $baseDir . '/app/Http/Controllers/AuthenmobileController.php',
     'App\\Http\\Controllers\\AutoController' => $baseDir . '/app/Http/Controllers/AutoController.php',
     'App\\Http\\Controllers\\Auto_authenController' => $baseDir . '/app/Http/Controllers/Auto_authenController.php',

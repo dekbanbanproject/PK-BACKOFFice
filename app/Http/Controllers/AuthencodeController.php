@@ -42,53 +42,62 @@ class AuthencodeController extends Controller
                     $terminalname = $value['terminalName'];
                     $cardcids = $value['isPresent']; 
                 }
+
+                // dd($cardcids);
                 if ($cardcids != 'false') {
-                    $smartcardcon = 'CID_OK';
+                    $smartcardcon = 'NO_CID';
+                   
                     // $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
                     // $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
-                    //         return view('authen.authen_main',[  
-                    //             'smartcard'          =>  $smartcard, 
-                    //             'cardcid'            =>  $cardcid,
-                    //             'smartcardcon'       =>  $smartcardcon,
-                    //             'output'             =>  $output,
-            
-                    //             'collection1'  => $collection['pid'],
-                    //             'collection2'  => $collection['fname'],
-                    //             'collection3'  => $collection['lname'],
-                    //             'collection4'  => $collection['birthDate'],
-                    //             'collection5'  => $collection['transDate'],
-                    //             'collection6'  => $collection['mainInscl'],
-                    //             'collection7'  => $collection['subInscl'],
-                    //             'collection8'  => $collection['age'],
-                    //             'collection9'  => $collection['checkDate'],
-                    //             'collection10' => $collection['correlationId'],
-                    //             'collection11' => $collection['checkDate'],
-                    //             'collection'   => $collection,
-                    //             'patient'      => $patient
-                    //         ]);
+                            return view('authen.authen_main',[  
+                                'smartcard'          =>  $smartcard, 
+                                'cardcid'            =>  $cardcid,
+                                'smartcardcon'       =>  $smartcardcon,
+                                'output'             =>  $output,
+             
+                            ]);
+                            // dd($smartcardcon);   
                 } else {
-                    $smartcardcon = 'NO_CID';
-                        // return view('authen.authen_main',[  
-                        //     'smartcard'          =>  $smartcard, 
-                        //     'cardcid'            =>  $cardcid,
-                        //     'smartcardcon'       =>  $smartcardcon,
-                        //     'output'             =>  $output,
-        
-                        // ]);
+                    $smartcardcon = 'CID_OK';
+                    // dd($smartcardcon);  
+                        $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
+                        $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
+                        $output2 = Arr::sort($collection);
+                        return view('authen.authen_main',[  
+                            'smartcard'          =>  $smartcard, 
+                            'cardcid'            =>  $cardcid,
+                            'smartcardcon'       =>  $smartcardcon,
+                            'output'             =>  $output, 
+
+                            'collection1'  => $collection['pid'],
+                            'collection2'  => $collection['fname'],
+                            'collection3'  => $collection['lname'],
+                            'collection4'  => $collection['birthDate'],
+                            'collection5'  => $collection['transDate'],
+                            'collection6'  => $collection['mainInscl'],
+                            'collection7'  => $collection['subInscl'],
+                            'collection8'  => $collection['age'],
+                            'collection9'  => $collection['checkDate'],
+                            'collection10' => $collection['correlationId'],
+                            'collection11' => $collection['checkDate'],
+                            'collection'   => $collection,
+                            'patient'      => $patient
+                        ]);
                 }          
             }
+           
 
-            $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
-            $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
-            $output2 = Arr::sort($collection);
-            dd($output2);
-            // // if ($collection['status'] == '500' || $collection['pid'] != '') {
-            if ($output2 == [] ) {
-                return view('authen.authen_main',[  
-                    'smartcard'          =>  $smartcard, 
-                    'cardcid'            =>  $cardcid,
-                    'smartcardcon'       =>  $smartcardcon,
-                    'output'             =>  $output,
+            // $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
+            // $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
+            // $output2 = Arr::sort($collection);
+            // dd($output2);
+            // if ($collection['status'] == '500') {
+            
+            //     return view('authen.authen_main',[  
+            //         'smartcard'          =>  $smartcard, 
+            //         'cardcid'            =>  $cardcid,
+            //         'smartcardcon'       =>  $smartcardcon,
+            //         'output'             =>  $output,
 
             //         // 'collection1'  => $collection['pid'],
             //         // 'collection2'  => $collection['fname'],
@@ -103,29 +112,29 @@ class AuthencodeController extends Controller
             //         // 'collection11' => $collection['checkDate'],
             //         // 'collection'   => $collection,
             //         // 'patient'      => $patient
-                ]);
-            } else {
-                return view('authen.authen_main',[  
-                    'smartcard'          =>  $smartcard, 
-                    'cardcid'            =>  $cardcid,
-                    'smartcardcon'       =>  $smartcardcon,
-                    'output'             =>  $output,
+                // ]);
+            // } else {
+                // return view('authen.authen_main',[  
+                //     'smartcard'          =>  $smartcard, 
+                //     'cardcid'            =>  $cardcid,
+                //     'smartcardcon'       =>  $smartcardcon,
+                //     'output'             =>  $output,
         
-                    'collection1'  => $collection['pid'],
-                    'collection2'  => $collection['fname'],
-                    'collection3'  => $collection['lname'],
-                    'collection4'  => $collection['birthDate'],
-                    'collection5'  => $collection['transDate'],
-                    'collection6'  => $collection['mainInscl'],
-                    'collection7'  => $collection['subInscl'],
-                    'collection8'  => $collection['age'],
-                    'collection9'  => $collection['checkDate'],
-                    'collection10' => $collection['correlationId'],
-                    'collection11' => $collection['checkDate'],
-                    'collection'   => $collection,
-                    'patient'      => $patient
-                ]);
-            }
+                    // 'collection1'  => $collection['pid'],
+                    // 'collection2'  => $collection['fname'],
+                    // 'collection3'  => $collection['lname'],
+                    // 'collection4'  => $collection['birthDate'],
+                    // 'collection5'  => $collection['transDate'],
+                    // 'collection6'  => $collection['mainInscl'],
+                    // 'collection7'  => $collection['subInscl'],
+                    // 'collection8'  => $collection['age'],
+                    // 'collection9'  => $collection['checkDate'],
+                    // 'collection10' => $collection['correlationId'],
+                    // 'collection11' => $collection['checkDate'],
+                    // 'collection'   => $collection,
+                    // 'patient'      => $patient
+                // ]);
+            // }
             
 
         // return view('authen.authen_main',[  

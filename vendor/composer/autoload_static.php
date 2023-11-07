@@ -761,6 +761,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\AuthenController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthenController.php',
         'App\\Http\\Controllers\\AuthenautoController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthenautoController.php',
+        'App\\Http\\Controllers\\AuthencodeController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthencodeController.php',
         'App\\Http\\Controllers\\AuthenmobileController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthenmobileController.php',
         'App\\Http\\Controllers\\AutoController' => __DIR__ . '/../..' . '/app/Http/Controllers/AutoController.php',
         'App\\Http\\Controllers\\Auto_authenController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auto_authenController.php',
