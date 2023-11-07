@@ -81,6 +81,18 @@ class AuthencodeController extends Controller
                         $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
                         $output2 = Arr::sort($collection); 
                         $hcode = $output2['hospMain']['hcode'];
+                        $data_patient_ = DB::connection('mysql10')->select(' 
+                                SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
+                                ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,pe.cid,p.hcode
+
+                                FROM hos.patient p 
+                                LEFT OUTER JOIN hos.person pe ON pe.patient_hn = p.hn 
+                                WHERE p.cid = "'.$collection['pid'].'"
+                        ');
+                        foreach ($data_patient_ as $key => $value) {
+                            $pids = $value->cid;
+                            $hcode = $value->hcode;
+                        }
                         // dd($hcode);
                         $year = substr(date("Y"),2) +43;
                         $mounts = date('m');
@@ -97,26 +109,19 @@ class AuthencodeController extends Controller
                         $get_spclty =  DB::connection('mysql10')->select('select * from spclty');
                         $data['ovstist'] =  DB::connection('mysql10')->select('select * from ovstist');
                         $data['spclty'] =  DB::connection('mysql10')->select('select * from spclty');
+                        $getovst_key = Http::get('https://cloud4.hosxp.net/api/ovst_key?Action=get_ovst_key&hospcode="'.$hcode.'"&vn="'.$vn.'"&computer_name=abcde&app_name=AppName&fbclid=IwAR2SvX7NJIiW_cX2JYaTkfAduFqZAi1gVV7ftiffWPsi4M97pVbgmRBjgY8')->collect();
                         ///// เจน  hos_guid  จาก Hosxp
                         $data_key = DB::connection('mysql10')->select('SELECT uuid() as keygen');  
                         $output4 = Arr::sort($data_key); 
-
-                        foreach ($output4 as $key => $value) { 
-                            $hos_guid = $value->keygen; 
+                        foreach ($output4 as $key => $value_) { 
+                            $hos_guid = $value_->keygen; 
                         }
-                        $data_patient_ = DB::connection('mysql10')->select(' 
-                                SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
-                                ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,pe.cid,p.hcode
-
-                                FROM hos.patient p 
-                                LEFT OUTER JOIN hos.person pe ON pe.patient_hn = p.hn 
-                                WHERE p.cid = "'.$collection['pid'].'"
-                        ');
-                        foreach ($data_patient_ as $key => $value) {
-                            $pids = $value->cid;
-                            $hcode = $value->hcode;
+                        ///// เจน  ovst_key  จาก Hosxp
+                        $output5 = Arr::sort($getovst_key); 
+                        foreach ($output5 as $key => $value_ovst_key) { 
+                            $ovst_key = $value_ovst_key->ovst_key; 
                         }
- 
+                        dd($ovst_key);
                         return view('authen.authen_main',$data,[  
                             'smartcard'          =>  $smartcard, 
                             'cardcid'            =>  $cardcid,
