@@ -178,21 +178,21 @@ class Account202Controller extends Controller
                     END as debit_prb
 
                     ,CASE 
-
-                    WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") THEN 
-                        (a.income-a.rcpt_money-a.discount_money) -
-                        (a.income - ipt.max_debt_amount) - 
-                        (sum(if(op.income="02",sum_price,0))) -
-                        (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
-                        (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
-                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
-                   
+                        WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") THEN 
+                            (a.income-a.rcpt_money-a.discount_money) -
+                            (a.income - ipt.max_debt_amount) - 
+                            (sum(if(op.income="02",sum_price,0))) -
+                            (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
+                            (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
+                            (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
+                            (sum(if(op.icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918"),sum_price,0)))                  
                     ELSE 
                         (a.income-a.rcpt_money-a.discount_money)-
                         (sum(if(op.income="02",sum_price,0))) -
                         (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
                         (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
-                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))
+                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
+                        (sum(if(op.icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918"),sum_price,0)))
                     END as debit
                     
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
@@ -209,13 +209,13 @@ class Account202Controller extends Controller
                     LEFT JOIN hos.vn_stat v on v.vn = ip.vn
                 WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
               
-                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202")
+                AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD")
                 AND op.icode NOT IN("3003510","3003508","3003509","3010770","3010771","3010772","3010921","3011140","3010889","3001412","3001417")
                 
                 GROUP BY a.an;
         ');
-        //  WHEN sum(if(op.icode IN ("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353"),sum_price,0)) > 0 THEN a.income
-        //  AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
+        //  WHEN sum(if(op.icode IN ("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353"),sum_price,0)) > 0 THEN a.income
+        //  AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
         //  AND ec.ar_ipd = "1102050101.202"
          foreach ($acc_debtor as $key => $value) {
                 if ($value->debit >0) {                 

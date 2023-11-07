@@ -9,7 +9,7 @@ class Opitemrece extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql3';
+    protected $connection = 'mysql';
     protected $table = 'opitemrece';
     protected $primaryKey = 'hos_guid';
     public $timestamps = false;     

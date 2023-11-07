@@ -910,59 +910,59 @@ class AUTHENCHECKController extends Controller
             } else {
                 $hcode = '';
             } 
-                    $curl = curl_init();
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => "http://localhost:8189/api/smartcard/read?readImageFlag=true",
-                        CURLOPT_RETURNTRANSFER => 1,
-                        CURLOPT_SSL_VERIFYHOST => 0,
-                        CURLOPT_SSL_VERIFYPEER => 0,
-                        CURLOPT_CUSTOMREQUEST => 'GET',
-                    ));
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "http://localhost:8189/api/smartcard/read?readImageFlag=true",
+                    CURLOPT_RETURNTRANSFER => 1,
+                    CURLOPT_SSL_VERIFYHOST => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                    CURLOPT_CUSTOMREQUEST => 'GET',
+                ));
 
-                    $response = curl_exec($curl);
-                    curl_close($curl);
-                    $content = $response;
-                    $result = json_decode($content, true);
+                $response = curl_exec($curl);
+                curl_close($curl);
+                $content = $response;
+                $result = json_decode($content, true);
 
-                    // dd($result);
-                    @$pid = $result['pid'];
-                    @$titleName = $result['titleName'];
-                    @$fname = $result['fname'];
-                    @$lname = $result['lname'];
-                    @$nation = $result['nation'];
-                    @$birthDate = $result['birthDate'];
-                    @$sex = $result['sex'];
-                    @$transDate = $result['transDate'];
-                    @$mainInscl = $result['mainInscl'];
-                    @$subInscl = $result['subInscl'];
-                    @$age = $result['age'];
-                    @$checkDate = $result['checkDate'];
-                    @$image = $result['image'];
-                    @$correlationId = $result['correlationId'];
-                    @$startDateTime = $result['startDateTime'];
-                    @$claimTypes = $result['claimTypes'];
-                    // $hcode=@$hospMain[1];
-                    // @$hcode = $result['hcode'];
-                  
-                    // @$claimTypes = explode($result['claimType'],$result['claimTypeName']);
-                    // $claimDate=$ex_claimDateTime[0];
-                    // $checkTime=$ex_claimDateTime[1];
-                    // dd(@$claimTypes);
-                    // foreach (@$claimTypes as $key => $value) {
-                    //     $s = $value['claimType']['0'];
-                    //     $ss = $value['claimType']['1'];
-                    // }
-                    // dd($ss);
-                    $pid        = @$pid;
-                    $fname      = @$fname;
-                    $lname      = @$lname;
-                    $birthDate      = @$birthDate;
-                    $sex      = @$sex;
-                    $mainInscl      = @$mainInscl;
-                    $subInscl      = @$subInscl;
-                    $age      = @$age;
-                    $image      = @$image;
-                    $correlationId      = @$correlationId;
+                // dd($result);
+                @$pid = $result['pid'];
+                @$titleName = $result['titleName'];
+                @$fname = $result['fname'];
+                @$lname = $result['lname'];
+                @$nation = $result['nation'];
+                @$birthDate = $result['birthDate'];
+                @$sex = $result['sex'];
+                @$transDate = $result['transDate'];
+                @$mainInscl = $result['mainInscl'];
+                @$subInscl = $result['subInscl'];
+                @$age = $result['age'];
+                @$checkDate = $result['checkDate'];
+                @$image = $result['image'];
+                @$correlationId = $result['correlationId'];
+                @$startDateTime = $result['startDateTime'];
+                @$claimTypes = $result['claimTypes'];
+                // $hcode=@$hospMain[1];
+                // @$hcode = $result['hcode'];
+                
+                // @$claimTypes = explode($result['claimType'],$result['claimTypeName']);
+                // $claimDate=$ex_claimDateTime[0];
+                // $checkTime=$ex_claimDateTime[1];
+                // dd(@$claimTypes);
+                // foreach (@$claimTypes as $key => $value) {
+                //     $s = $value['claimType']['0'];
+                //     $ss = $value['claimType']['1'];
+                // }
+                // dd($ss);
+                $pid        = @$pid;
+                $fname      = @$fname;
+                $lname      = @$lname;
+                $birthDate      = @$birthDate;
+                $sex      = @$sex;
+                $mainInscl      = @$mainInscl;
+                $subInscl      = @$subInscl;
+                $age      = @$age;
+                $image      = @$image;
+                $correlationId      = @$correlationId;
                      
                     // dd($correlationId);
  

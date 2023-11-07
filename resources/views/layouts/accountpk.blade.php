@@ -51,9 +51,9 @@
     <!-- select2 -->
     <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet"
+    {{-- <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
 
     <link rel="stylesheet" href="{{ asset('disacc/vendors/@fortawesome/fontawesome-free/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('disacc/vendors/ionicons-npm/css/ionicons.css') }}">

@@ -159,7 +159,7 @@ class Account201Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-            SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total 
+                SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total 
                  
                 from acc_debtor a
                 WHERE a.account_code="1102050101.201"
@@ -170,6 +170,15 @@ class Account201Controller extends Controller
             // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
         } else {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
+            $acc_debtor = DB::select('
+                SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total 
+                
+                from acc_debtor a
+                WHERE a.account_code="1102050101.201"
+                AND a.stamp = "N"
+                group by a.vn
+                order by a.vstdate asc
+            ');
         }
 
         return view('account_201.account_201_pull',[
@@ -213,40 +222,45 @@ class Account201Controller extends Controller
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"    
                 AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD")
                 AND (o.an="" or o.an is null)
-                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD")
-        
+                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202")        
                 GROUP BY v.vn 
         ');
 
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.201')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'vstdate'            => $value->vstdate,
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            'hospmain'           => $value->hospmain,
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->uc_money,
-                            'max_debt_amount'    => $value->max_debt_amount,
-                            'acc_debtor_userid'  => Auth::user()->id
-                        ]);
+                        if ($value->debit > 0) { 
+                        
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'vstdate'            => $value->vstdate,
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name,
+                                'hospmain'           => $value->hospmain,
+                                'income'             => $value->income,
+                                'uc_money'           => $value->uc_money,
+                                'discount_money'     => $value->discount_money,
+                                'paid_money'         => $value->paid_money,
+                                'rcpt_money'         => $value->rcpt_money,
+                                'debit'              => $value->debit,
+                                'debit_drug'         => $value->debit_drug,
+                                'debit_instument'    => $value->debit_instument,
+                                'debit_toa'          => $value->debit_toa,
+                                'debit_refer'        => $value->debit_refer,
+                                'debit_total'        => $value->uc_money,
+                                'max_debt_amount'    => $value->max_debt_amount,
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
+
+                        } else {
+                            # code...
+                        }
                     }
 
         }

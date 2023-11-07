@@ -33,10 +33,12 @@ class AuthencodeController extends Controller
 {    
     public function authen_main(Request $request)
     {
-        $ip = $request->ip(); 
+        $ip = $request->ip();  
+
         $terminals = Http::get('http://'.$ip.':8189/api/smartcard/terminals')->collect(); 
         $cardcid = Http::get('http://'.$ip.':8189/api/smartcard/read')->collect();  
         $cardcidonly = Http::get('http://'.$ip.':8189/api/smartcard/read-card-only')->collect(); 
+
         $output = Arr::sort($terminals);
         $outputcard = Arr::sort($cardcid);
         $outputcardonly = Arr::sort($cardcidonly);
@@ -79,67 +81,188 @@ class AuthencodeController extends Controller
                     // dd($smartcardcon);  
                         $collection = Http::get('http://'.$ip.':8189/api/smartcard/read?readImageFlag=true')->collect();
                         $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
-                        $output2 = Arr::sort($collection); 
-                        $hcode = $output2['hospMain']['hcode'];
-                        // dd($hcode);
-                        $year = substr(date("Y"),2) +43;
-                        $mounts = date('m');
-                        $day = date('d');
-                        $time = date("His");  
-                        $vn = $year.''.$mounts.''.$day.''.$time;
 
-                        $date = date('Y-m-d');
-                        // dd($vn);OK
-                        $getvn_stat =  DB::connection('mysql10')->select('select * from vn_stat limit 2');
-                        $get_ovst =  DB::connection('mysql10')->select('select * from ovst limit 2');
-                        $get_opdscreen =  DB::connection('mysql10')->select('select * from opdscreen limit 2');
-                        $get_ovst_seq =  DB::connection('mysql10')->select('select * from ovst_seq limit 2');        
-                        $get_spclty =  DB::connection('mysql10')->select('select * from spclty');
-                        $data['ovstist'] =  DB::connection('mysql10')->select('select * from ovstist');
-                        $data['spclty'] =  DB::connection('mysql10')->select('select * from spclty');
-                        ///// เจน  hos_guid  จาก Hosxp
-                        $data_key = DB::connection('mysql10')->select('SELECT uuid() as keygen');  
-                        $output4 = Arr::sort($data_key); 
+                        // $cardcid = Http::get('http://'.$ip.':8189/api/smartcard/read')->collect();   
 
-                        foreach ($output4 as $key => $value) { 
-                            $hos_guid = $value->keygen; 
-                        }
-                        $data_patient_ = DB::connection('mysql10')->select(' 
-                                SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
-                                ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,pe.cid,p.hcode
+                        // $output2 = Arr::sort($collection);
+                        // // $output3 = Arr::sort($cardcidonly);
+                        // // dd($output2['hospMain']['hcode']);
+                        // $hcode = $output2['hospMain']['hcode'];
+                        // // dd($hcode);
+                        // $year = substr(date("Y"),2) +43;
+                        // $mounts = date('m');
+                        // $day = date('d');
+                        // $time = date("His");  
+                        // $vn = $year.''.$mounts.''.$day.''.$time;
+                        // // dd($vn);OK
+                        // $getvn_stat =  DB::connection('mysql10')->select('select * from vn_stat limit 2');
+                        // $get_ovst =  DB::connection('mysql10')->select('select * from ovst limit 2');
+                        // $get_opdscreen =  DB::connection('mysql10')->select('select * from opdscreen limit 2');
+                        // $get_ovst_seq =  DB::connection('mysql10')->select('select * from ovst_seq limit 2');        
+                        // $get_spclty =  DB::connection('mysql10')->select('select * from spclty');
+                        // ///// เจน  hos_guid  จาก Hosxp
+                        // $data_key = DB::connection('mysql10')->select('SELECT uuid() as keygen');  
+                        // $output4 = Arr::sort($data_key); 
 
-                                FROM hos.patient p 
-                                LEFT OUTER JOIN hos.person pe ON pe.patient_hn = p.hn 
-                                WHERE p.cid = "'.$collection['pid'].'"
-                        ');
-                        foreach ($data_patient_ as $key => $value) {
-                            $pids = $value->cid;
-                            $hcode = $value->hcode;
-                        }
- 
-                        return view('authen.authen_main',$data,[  
+                        // foreach ($output4 as $key => $value) { 
+                        //     $hos_guid = $value->keygen; 
+                        // }    
+                        // // dd($hos_guid);OK    
+                        // $data_patient_ = DB::connection('mysql10')->select(' 
+                        //         SELECT p.hn
+                        //         ,pe.pttype_expire_date as expiredate
+                        //         ,pe.pttype_hospmain as hospmain
+                        //         ,pe.pttype_hospsub as hospsub 
+                        //         ,p.pttype
+                        //         ,pe.pttype_no as pttypeno
+                        //         ,pe.pttype_begin_date as begindate,pe.cid
+                        //         FROM hos.patient p 
+                        //         LEFT OUTER JOIN hos.person pe ON pe.patient_hn = p.hn 
+                        //         WHERE p.cid = "'.$collection['pid'].'"
+                        // ');
+                        // foreach ($data_patient_ as $key => $value) {
+                        //     $pids = $value->cid;
+                        // }
+                      
+                        // Vn_insert::insert([
+                        //     'vn'         => $vn
+                        // ]);
+                        // Pttypehistory::insert([ 
+                        //     'hn'                => $value->hn,
+                        //     'expiredate'        => $value->expiredate,
+                        //     'hospmain'          => $value->hospmain,
+                        //     'hospsub'           => $value->hospsub,
+                        //     'pttype'            => $value->pttype,
+                        //     'pttypeno'          => $value->pttypeno,
+                        //     'begindate'         => $value->begindate, 
+                        //     'hos_guid'          => $hos_guid 
+                        // ]);
+    
+                // } 
+                        // dd($pids);OK
+                        
+                        // if ($datapatient->hometel != null) {
+                        //     $tel = $datapatient->hometel;
+                        // } else {
+                        //     $tel = '';
+                        // }   
+                         
+                        // if ($datapatient->hn != null) {
+                        //     $hn = $datapatient->hn;
+                        // } else {
+                        //     $hn = '';
+                        // }  
+                        // if ($datapatient->hcode != null) {
+                        //     $hcode = $datapatient->hcode;
+                        // } else {
+                        //     $hcode = '';
+                        // } 
+                       
+                        // $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+                        // foreach ($token_data as $key => $value) { 
+                        //     $cid_    = $value->cid;
+                        //     $token_  = $value->token;
+                        // }
+                        // $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                        //     array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace"=> 1,"exceptions"=> 0,"cache_wsdl"=> 0)
+                        //     );
+                        //     $params = array(
+                        //         'sequence' => array(
+                        //             "user_person_id" => "$cid_",
+                        //             "smctoken"       => "$token_", 
+                        //             "person_id"      => "$pids"
+                        //     ) 
+                        // ); 
+                        // $contents = $client->__soapCall('searchCurrentByPID',$params);
+                        // dd($contents);
+                        // foreach ($contents as $v) {
+                        //     @$status           = $v->status ;
+                        //     @$maininscl        = $v->maininscl;
+                        //     @$startdate        = $v->startdate;
+                        //     @$hmain            = $v->hmain;
+                        //     @$subinscl         = $v->subinscl ;
+                        //     @$person_id_nhso   = $v->person_id;        
+                        //     @$hmain_op         = $v->hmain_op;  //"10978"
+                        //     @$hmain_op_name    = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                        //     @$hsub             = $v->hsub;    //"04047"
+                        //     @$hsub_name        = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                        //     @$subinscl_name    = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+                        // }
+                        // dd($hmain);
+                        // $curl = curl_init();
+                        // curl_setopt_array($curl, array(
+                        //     CURLOPT_URL => "http://localhost:8189/api/smartcard/read?readImageFlag=true",
+                        //     CURLOPT_RETURNTRANSFER => 1,
+                        //     CURLOPT_SSL_VERIFYHOST => 0,
+                        //     CURLOPT_SSL_VERIFYPEER => 0,
+                        //     CURLOPT_CUSTOMREQUEST => 'GET',
+                        // ));
+
+                        // $response = curl_exec($curl);
+                        // curl_close($curl);
+                        // $content = $response;
+                        // $result = json_decode($content, true);
+
+                        // dd($result);
+                        // @$pid = $result['pid'];
+                        // @$titleName = $result['titleName'];
+                        // @$fname = $result['fname'];
+                        // @$lname = $result['lname'];
+                        // @$nation = $result['nation'];
+                        // @$birthDate = $result['birthDate'];
+                        // @$sex = $result['sex'];
+                        // @$transDate = $result['transDate'];
+                        // @$mainInscl = $result['mainInscl'];
+                        // @$subInscl = $result['subInscl'];
+                        // @$age = $result['age'];
+                        // @$checkDate = $result['checkDate'];
+                        // @$image = $result['image'];
+                        // @$correlationId = $result['correlationId'];
+                        // @$startDateTime = $result['startDateTime'];
+                        // @$claimTypes = $result['claimTypes'];
+                        // $hcode=@$hospMain[1];
+                        // @$hcode = $result['hcode'];
+                        
+                        // @$claimTypes = explode($result['claimType'],$result['claimTypeName']);
+                        // $claimDate=$ex_claimDateTime[0];
+                        // $checkTime=$ex_claimDateTime[1];
+                        // dd(@$claimTypes);
+                        // foreach (@$claimTypes as $key => $value) {
+                        //     $s = $value['claimType']['0'];
+                        //     $ss = $value['claimType']['1'];
+                        // }
+                        // dd($ss);
+                        // $pid        = @$pid;
+                        // $fname      = @$fname;
+                        // $lname      = @$lname;
+                        // $birthDate      = @$birthDate;
+                        // $sex      = @$sex;
+                        // $mainInscl      = @$mainInscl;
+                        // $subInscl      = @$subInscl;
+                        // $age      = @$age;
+                        // $image      = @$image;
+                        // $correlationId      = @$correlationId;
+                  
+                        return view('authen.authen_main',[  
                             'smartcard'          =>  $smartcard, 
                             'cardcid'            =>  $cardcid,
                             'smartcardcon'       =>  $smartcardcon,
                             'output'             =>  $output, 
-                            'vn'                 =>  $vn,
-                            'hos_guid'           =>  $hos_guid,
-                            'hcode'              =>  $hcode,
-                            'hos_guid'           =>  $hos_guid,
-                            'collection1'        => $collection['pid'],
-                            'collection2'        => $collection['fname'],
-                            'collection3'        => $collection['lname'],
-                            'collection4'        => $collection['birthDate'],
-                            'collection5'        => $collection['transDate'],
-                            'collection6'        => $collection['mainInscl'],
-                            'collection7'        => $collection['subInscl'],
-                            'collection8'        => $collection['age'],
-                            'collection9'        => $collection['checkDate'],
-                            'collection10'       => $collection['correlationId'],
-                            'collection11'       => $collection['checkDate'],
-                            'collection12'       => $collection['image'],
-                            'collection'         => $collection,
-                            'patient'            => $patient,
+
+                            'collection1'  => $collection['pid'],
+                            'collection2'  => $collection['fname'],
+                            'collection3'  => $collection['lname'],
+                            'collection4'  => $collection['birthDate'],
+                            'collection5'  => $collection['transDate'],
+                            'collection6'  => $collection['mainInscl'],
+                            'collection7'  => $collection['subInscl'],
+                            'collection8'  => $collection['age'],
+                            'collection9'  => $collection['checkDate'],
+                            'collection10' => $collection['correlationId'],
+                            'collection11' => $collection['checkDate'],
+                            'collection12' => $collection['image'],
+                            'collection'   => $collection,
+                            'patient'      => $patient,
                          
                         ]);
                 }          

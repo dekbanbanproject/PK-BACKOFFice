@@ -22,9 +22,7 @@ return new class extends Migration
                 $table->string('hospsub',5)->nullable();// 
                 $table->string('pttype',10)->nullable();//   pri 2  +  pri3
                 $table->string('pttypeno',50)->nullable();// 
-                $table->date('begindate')->nullable();// 
-                $table->char('hos_guid',38)->nullable();// 
-                $table->string('hos_guid_ext',64)->nullable();// 
+                $table->date('begindate')->nullable();//  
             }); 
             
         }

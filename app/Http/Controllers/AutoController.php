@@ -1400,11 +1400,11 @@ class AutoController extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
-        $yearold = date('Y')-1;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
-       //  dd($end);
+        // dd($start);
         $detail_auto = DB::connection('mysql2')->select('  
             SELECT a.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname,a.dchdate,v.vstdate
                     ,ipt.pttype,ipt.pttype_number
@@ -1427,8 +1427,8 @@ class AutoController extends Controller
                     LEFT JOIN hos.opitemrece op ON ip.an = op.an
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $start . '" AND "' . $end . '"
-                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202"))
-                      AND ipt.pttype_number = "2"  AND ipt.max_debt_amount IS NULL 
+                    AND ipt.pttype IN("31","36","37","38","39")
+                    AND (ipt.pttype_number = "1"  AND ipt.max_debt_amount IS NULL OR ipt.pttype_number = "2"  AND ipt.max_debt_amount IS NULL)
                     GROUP BY a.an;
                 
             ');
@@ -1497,8 +1497,8 @@ class AutoController extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
-        $yearold = date('Y')-1;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
        //  dd($end);
@@ -1592,8 +1592,8 @@ class AutoController extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y');
-        $yearold = date('Y')-1;
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
             $detail_auto = DB::connection('mysql')->select('  

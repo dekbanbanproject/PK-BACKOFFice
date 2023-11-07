@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\support\Facades\Http;
-
-class Ovst extends Model
+class Pttypehistory extends Model
 {
     use HasFactory;
 
     protected $connection = 'mysql';
-    protected $table = 'ovst';
-    protected $primaryKey = 'hos_guid';
+    protected $table = 'pttypehistory';
+    protected $primaryKey = 'hn';
     public $timestamps = false;     
 }
