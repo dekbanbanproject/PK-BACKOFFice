@@ -848,11 +848,11 @@ class AUTHENCHECKController extends Controller
                 }          
             }
             
-        return view('authencode',[  
-            'smartcard'            =>   $smartcard, 
+        return view('authen.authencode',[  
+            'smartcard'          =>   $smartcard, 
             'cardcid'            =>  $cardcid,
-            'smartcardcon'            =>  $smartcardcon,
-            'output'            =>  $output,
+            'smartcardcon'       =>  $smartcardcon,
+            'output'             =>  $output,
         ]);
     }
 

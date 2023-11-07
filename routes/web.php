@@ -110,7 +110,13 @@ Route::match(['get','post'],'authencode_auto_detail',[App\Http\Controllers\Authe
 Route::match(['get','post'],'authencode_auto_save',[App\Http\Controllers\AuthenautoController::class,'authencode_auto_save'])->name('authencode_auto_save');
 Route::match(['get','post'],'getsmartcard_authencode',[App\Http\Controllers\AuthenautoController::class,'getsmartcard_authencode'])->name('getsmartcard_authencode');
 
+Route::get('authen_index', [App\Http\Controllers\AuthencodeController::class, 'authen_index'])->name('authen_index');
+Route::get('/read', [App\Http\Controllers\AuthencodeController::class, 'read'])->name('read');
+Route::get('authen_cid', [App\Http\Controllers\AuthencodeController::class, 'authen_cid'])->name('authen_cid');
+Route::get('check_sit', [App\Http\Controllers\AuthencodeController::class, 'check_sit'])->name('c.check_sit');
 
+Route::POST('authencode', [App\Http\Controllers\AuthencodeController::class, 'authencode'])->name('a.authencode');
+Route::POST('authen_save', [App\Http\Controllers\AuthencodeController::class, 'authen_save'])->name('a.authen_save');
 Route::match(['get','post'],'authencode_index',[App\Http\Controllers\AUTHENCHECKController::class,'authencode_index'])->name('aa.authencode_index');
 // Route::match(['get','post'],'getsmartcard_authencode',[App\Http\Controllers\AUTHENCHECKController::class,'getsmartcard_authencode'])->name('getsmartcard_authencode');
 Route::match(['get','post'],'smartcard_authencode_save',[App\Http\Controllers\AUTHENCHECKController::class,'smartcard_authencode_save'])->name('smartcard_authencode_save');

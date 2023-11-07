@@ -23,6 +23,9 @@ use GuzzleHttp\Client;
 class AuthenautoController extends Controller
 {
 
+
+    
+
     // public function checkauthen_auto(Request $request)
     // {
 
