@@ -17,6 +17,8 @@
     {{-- <link href="{{ asset('bt52/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> --}}
     <!-- Plugin css -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <!-- select2 -->
+      <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Bootstrap Css -->
     <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -38,7 +40,8 @@
 </head>
 
 <body>
-    <?php
+    <?php 
+      
         $org = DB::connection('mysql')->select('SELECT * FROM orginfo WHERE orginfo_id = 1');
     ?>
  
@@ -54,7 +57,7 @@
             @if ($smartcardcon == 'NO_CID')  
             <div class="row mt-2">
                 <div class="col"></div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;"> 
                 </div>   
                 <div class="col"></div>
@@ -62,7 +65,7 @@
             @else  
             <div class="row mt-2">
                 <div class="col"></div>
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;"> 
                 </div>   
                 
@@ -80,7 +83,7 @@
                
             <div class="row mt-2">
                 <div class="col"></div>
-                <div class="col-xl-6">
+                <div class="col-xl-8">
                     <div class="card shadow-lg">
                         <div class="card-header">
                            
@@ -261,18 +264,22 @@
                                                     </div>
                                                     @foreach ($patient as $item)
                                                         <?php
-                                                        $datacid = DB::connection('mysql10')
-                                                            ->table('patient')
-                                                            ->where('cid', '=', $collection1)
-                                                            ->first();
-                                                        if ($datacid->hometel == null) {
-                                                            $cid = '';
-                                                            $hn = '';
-                                                        } else {
-                                                            $cid   = $datacid->hometel;
-                                                            $hn    = $datacid->hn;
-                                                        }
-                                                        ?>
+                                                                $datacid = DB::connection('mysql10')
+                                                                    ->table('patient')
+                                                                    ->where('cid', '=', $collection1)
+                                                                    ->first();
+                                                                if ($datacid->hometel == null) {
+                                                                    $cid = '';
+                                                                    $hn = '';
+                                                                    $last_visit    = '';
+                                                                } else {
+                                                                    $cid           = $datacid->hometel;
+                                                                    $hn            = $datacid->hn;
+                                                                    $last_visit    = $datacid->last_visit;
+                                                                }
+                                                                $date = date('Y-m-d');
+                                                                $time = date("H:i:s"); 
+                                                       ?>
                                                     @endforeach
                                                     <div class="row">
                                                         <div class="col-md-3 text-end">
@@ -311,56 +318,104 @@
                                                     <hr>
 
                                                     <div class="row">
-                                                        <div class="col-md-1">vn</div>
-                                                        <div class="col-md-2"> <input type="text" class="form-control" id="vn" name="vn" value="{{ $vn }}"></div>
-                                                        <div class="col-md-1">hos_guid</div>
-                                                        <div class="col-md-4"> <input type="text" class="form-control" id="hos_guid" name="hos_guid" value="{{ $hos_guid }}"></div>
-                                                        <div class="col-md-2">
-                                                            <select name="ovstist" id="ovstist">
-                                                                @foreach ($ovstist as $item)
-                                                                <option value="{{$item->ovstist}}">{{$item->name}}</option>
-                                                                @endforeach                                                                
-                                                            </select>
+                                                        <div class="col-md-2 text-end">วันที่</div>
+                                                        <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{Date($date)}} </label>  </div>
+                                                        <div class="col-md-1 text-end">เวลา</div>
+                                                        <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{$time}} </label> </div>
+                                                        <div class="col-md-2 text-end">มาครั้งสุดท้าย</div>
+                                                        <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{Date($last_visit)}} </label>  </div>
+                                                        <div class="col-md-2 text-end"> 
+                                                            <div class="mb-2">
+                                                                <input class="form-check-input me-3" type="radio" name="time_" id="intime" checked>
+                                                                <label class="form-check-label" for="intime"> ในเวลา </label>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-2">
-                                                            <select name="spclty" id="spclty">
-                                                                @foreach ($spclty as $item2)
-                                                                <option value="{{$item2->spclty}}">{{$item2->name}}</option>
-                                                                @endforeach                                                                
-                                                            </select>
+                                                        <div class="col-md-2 text-start"> 
+                                                            <div class="mb-2">
+                                                                <input class="form-check-input me-3" type="radio" name="time_" id="outtime" >
+                                                                <label class="form-check-label" for="outtime">นอกเวลา</label>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <br>
                                                     <div class="row">
-                                                        <div class="col-md-1">hcode</div>
-                                                        <div class="col-md-2"> <input type="text" class="form-control" id="hcode" name="hcode" value="{{ $hcode }}"></div>
-                                                        <div class="col-md-1">hos_guid</div>
-                                                        <div class="col-md-4"> <input type="text" class="form-control" id="hos_guid" name="hos_guid" value="{{ $hos_guid }}"></div>
-                                                        <div class="col-md-2">
-                                                            {{-- <select name="ovstist" id="ovstist">
-                                                                @foreach ($ovstist as $item)
-                                                                <option value="{{$item->ovstist}}">{{$item->name}}</option>
+                                                        <div class="col-md-2 text-end mt-2">ส่งต่อไปยัง</div>
+                                                        <div class="col-md-2"> 
+                                                            <select name="main_dep_queue" id="main_dep_queue" class="form-control" style="width: 100%">
+                                                                @foreach ($kskdepartment as $item_m)
+                                                                <option value="{{$item_m->depcode}}">{{$item_m->department}}</option>
                                                                 @endforeach                                                                
-                                                            </select> --}}
-                                                        </div>
+                                                            </select>
+                                                        </div> 
+                                                        <div class="col-md-2 text-end mt-2"> แผนก </div>
                                                         <div class="col-md-2">
-                                                            {{-- <select name="spclty" id="spclty">
+                                                            <select name="spclty" id="spclty" class="form-control" style="width: 100%">
                                                                 @foreach ($spclty as $item2)
                                                                 <option value="{{$item2->spclty}}">{{$item2->name}}</option>
                                                                 @endforeach                                                                
-                                                            </select> --}}
+                                                            </select>
                                                         </div>
-                                                    </div>
+                                                        <div class="col-md-2 text-end mt-2">ประเภท</div>
+                                                        <div class="col-md-2"> 
+                                                            <select name="pt_subtype" id="pt_subtype" class="form-control" style="width: 100%">
+                                                                @foreach ($pt_subtype as $item_su)
+                                                                <option value="{{$item_su->pt_subtype}}">{{$item_su->name}}</option>
+                                                                @endforeach                                                                
+                                                            </select>
+                                                        </div>
+                                                    </div>   
+                                                    <br>
 
+                                                    <div class="row">
+                                                        <div class="col-md-2 text-end mt-2">ประเภทการมา</div>
+                                                        <div class="col-md-2"> 
+                                                            <select name="ovstist" id="ovstist" class="form-control" style="width: 100%">
+                                                                @foreach ($ovstist as $item)
+                                                                <option value="{{$item->ovstist}}">{{$item->name}}</option>
+                                                                @endforeach                                                                
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-2 text-end mt-2">ความเร่งด่วน</div>
+                                                        <div class="col-md-2"> 
+                                                            <select name="pt_priority" id="pt_priority" class="form-control" style="width: 100%">
+                                                                @foreach ($pt_priority as $item_p)
+                                                                <option value="{{$item_p->id}}">{{$item_p->name}}</option>
+                                                                @endforeach                                                                
+                                                            </select>
+                                                        </div> 
+                                                        <div class="col-md-2 text-end mt-2"> สภาพผู้ป่วย </div>
+                                                        <div class="col-md-2">
+                                                            <select name="pt_walk" id="pt_walk" class="form-control" style="width: 100%">
+                                                                @foreach ($pt_walk as $item_w)
+                                                                <option value="{{$item_w->walk_id}}">{{$item_w->name}}</option>
+                                                                @endforeach                                                                
+                                                            </select>
+                                                        </div>                                                        
+                                                    </div>  
+                                                    <br>  
+                                                    <div class="row">
+                                                        <div class="col-md-2 text-end mt-2">อาการที่มา</div>
+                                                        <div class="col-md-10"> 
+                                                            <textarea name="cc" id="cc" rows="2" type="text" class="form-control"></textarea>
+                                                             
+                                                        </div>
+                                                                                                           
+                                                    </div>                                                       
 
-
-
+                                                    <input type="hidden" class="form-control" id="hos_guid" name="hos_guid" value="{{ $hos_guid }}">
+                                                    <input type="hidden" class="form-control" id="ovst_key" name="ovst_key" value="{{ $ovst_key }}">
+                                                    <input type="hidden" class="form-control" id="vn" name="vn" value="{{ $vn }}">
+                                                    <input type="hidden" class="form-control" id="hcode" name="hcode" value="{{ $hcode }}">
+                                                    <input type="hidden" class="form-control" id="staff" name="staff" value="{{ $hcode }}">
+                                                    <input type="hidden" class="form-control" id="time" name="time" value="{{ $time }}">
+                                                    
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col"></div>
                                                         <div class="col-md-8">
                                                             <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i
                                                                     class="fa-brands fa-medrt me-2"></i>Authen Code Only</button>
-                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success shadow-lg"><i class="fa-brands fa-medrt me-2"></i>Authen Code + Visit</button>
+                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success shadow-lg" id="OpenVisit"><i class="fa-brands fa-medrt me-2"></i>Authen Code + Visit</button>
                                                             <a href="{{ url('/login') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger shadow-lg"><i
                                                                     class="fa-solid fa-circle-arrow-left me-2"></i>ย้อนกลับ</a>
 
@@ -403,14 +458,22 @@
                 </div>
                 <div class="col"></div>
             </div>
-
-
+ 
 
     </div>
-        
+    <script src="{{ asset('js/select2.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             $(document).ready(function() {
+                $('select').select2();
+                // $('#ovstist').select2({
+                //     dropdownParent: $('#insertdata')
+                // });
+                // $.ajaxSetup({
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //     }
+                // });
                 $('#insert_AuthencodeForm').on('submit', function(e) {
                     e.preventDefault();
                     var form = this;
@@ -446,6 +509,66 @@
                         }
                     });
                 });
+
+                $('#OpenVisit').click(function() {
+                    var hos_guid  = $('#hos_guid').val();
+                    var ovst_key  = $('#ovst_key').val();
+                    var vn        = $('#vn').val();
+                    var hcode     = $('#hcode').val(); 
+                    var pid       = $('#pid').val(); 
+                    var mainInscl = $('#mainInscl').val(); 
+                    var subInscl  = $('#subInscl').val(); 
+                    var claimType = $('#claimType').val(); 
+                    var claimType2 = $('#claimType2').val(); 
+                    var claimType3 = $('#claimType3').val(); 
+                    var mobile     = $('#mobile').val(); 
+                    var hn         = $('#hn').val(); 
+
+                    var main_dep_queue = $('#main_dep_queue').val(); 
+                    var spclty         = $('#spclty').val(); 
+                    var pt_subtype     = $('#pt_subtype').val(); 
+                    var ovstist        = $('#ovstist').val(); 
+                    var pt_priority    = $('#pt_priority').val(); 
+                    var pt_walk        = $('#pt_walk').val(); 
+                    var cc             = $('#cc').val(); 
+                    var time           = $('#time').val(); 
+                // alert(hos_guid);
+                    $.ajax({
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: "{{ route('a.authencode_visit_save') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        data: {
+                            _token:"{{ csrf_token() }}",
+                            hos_guid,ovst_key,vn,hcode,pid ,mainInscl,subInscl,claimType,claimType2,claimType3,mobile
+                            ,hn,main_dep_queue,spclty,pt_subtype,ovstist,pt_priority,pt_walk,cc,time
+                        },
+                        
+                        success: function(data) {
+                            if (data.status == 200) {
+                                Swal.fire({
+                                    title: 'Authen+Visit สำเร็จ',
+                                    text: "You Authen + Visit success",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result
+                                        .isConfirmed) {
+                                        console.log(
+                                            data);
+                                        window.location.reload();
+                                        // window.location="{{ url('warehouse/warehouse_index') }}";
+                                    }
+                                })
+                            } else {
+
+                            }
+
+                        },
+                    });
+            });
 
             });
         </script>

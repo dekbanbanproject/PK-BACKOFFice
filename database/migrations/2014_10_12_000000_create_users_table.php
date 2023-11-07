@@ -91,7 +91,8 @@ return new class extends Migration
             $table->string('img')->nullable();
             $table->string('img_name')->nullable(); 
             $table->double('money', 10, 2)->nullable(); 
-            $table->string('color_ot')->nullable(); 
+            $table->string('color_ot')->nullable();
+            $table->string('staff')->nullable();  
             $table->rememberToken();
             $table->timestamps('created_at')->useCurrent();
             $table->timestamps('updated_at')->nullable();

@@ -207,6 +207,7 @@ public function person_index_add(Request $request)
     $data['users_group'] = Users_group::get();
     $data['users_hos'] = DB::table('users_hos')->get();
     $data['p4p_work_position'] = DB::table('p4p_work_position')->get();
+    $data['opduser'] = DB::connection('mysql10')->table('opduser')->get(); 
     
     return view('person.person_index_add',$data);
 }
@@ -266,15 +267,15 @@ public function person_save(Request $request)
     } else {
        
                 $add = new User();
-                $add->pname = $request->pname;
-                $add->fname = $request->fname;
-                $add->lname = $request->lname;
-                $add->cid = $request->cid;   
-                $add->username = $usernameup;
-                $add->line_token = $request->line_token;
-                $add->money = $request->money;
-                $add->group_p4p = $request->group_p4p;
-
+                $add->pname       = $request->pname;
+                $add->fname       = $request->fname;
+                $add->lname       = $request->lname;
+                $add->cid         = $request->cid;   
+                $add->username    = $usernameup;
+                $add->line_token  = $request->line_token;
+                $add->money       = $request->money;
+                $add->group_p4p   = $request->group_p4p;
+                $add->staff       = $request->staff;
                 $pass = $request->password; 
                 $add->password = Hash::make($pass);
                 $add->member_id =  'MEM'. $date .'-'.$idfile;
@@ -398,7 +399,8 @@ public function person_index_edit(Request $request,$id)
     $data['users_hos'] = DB::table('users_hos')->get();
     $data['p4p_work_position'] = DB::table('p4p_work_position')->get();
     $dataedit = User::where('id','=',$id)->first();
-
+    $data['opduser'] = DB::connection('mysql10')->table('opduser')->get(); 
+    
     return view('person.person_index_edit',$data,[
         'dataedits'=>$dataedit
     ]);
@@ -416,18 +418,18 @@ public function person_update(Request $request)
     
  
             $update = User::find($idper);
-            $update->fname = $request->fname;
-            $update->lname = $request->lname;     
-            $update->pname = $request->pname; 
-            $update->cid = $request->cid;   
-            $update->username = $usernameup; 
-            $update->money = $request->money;
-            $update->line_token = $request->line_token;
-            $update->group_p4p = $request->group_p4p;
-
-            $pass = $request->password;
+            $update->fname       = $request->fname;
+            $update->lname       = $request->lname;     
+            $update->pname       = $request->pname; 
+            $update->cid         = $request->cid;   
+            $update->username    = $usernameup; 
+            $update->money       = $request->money;
+            $update->line_token  = $request->line_token;
+            $update->group_p4p   = $request->group_p4p;
+            $update->staff       = $request->staff;
+            $pass                = $request->password;
             // $add->password = '$2y$10$Frngcw.RMaJh7otvZNygt.UNfQRnwqvcwlrt2x0Gc.kVC1JETj1sq';    
-            $update->password = Hash::make($pass);
+            $update->password    = Hash::make($pass);
             // $update->member_id =  'MEM'. $date .'-'.$idfile;
 
             // $depid = $request->dep_id; 

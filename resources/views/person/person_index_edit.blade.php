@@ -248,7 +248,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <div class="mb-3">
                                                     <label class="form-label" for="line_token">Line Token</label>
                                                     <input type="text" class="form-control form-control-sm"
@@ -256,7 +256,7 @@
                                                     {{-- <textarea id="line_token" name="line_token" class="form-control" rows="2">{{ $dataedits->line_token }}</textarea> --}}
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-4">
                                                 <div class="mb-3">
                                                     <label class="form-label" for="line_token">กลุ่ม P4P</label>
                                                     <select id="group_p4p" name="group_p4p"
@@ -267,6 +267,24 @@
                                                     <option value="{{ $its->p4p_work_position_id }}" selected> {{ $its->p4p_work_position_code }}::{{ $its->p4p_work_position_name }} </option> 
                                                     @else
                                                     <option value="{{ $its->p4p_work_position_id }}"> {{ $its->p4p_work_position_code }}::{{ $its->p4p_work_position_name }} </option> 
+                                                    @endif   
+                                                   
+                                                    @endforeach
+                                                </select>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="staff">Staff hos</label>
+                                                    <select id="staff" name="staff"
+                                                    class="form-select form-select-sm" style="width: 100%" >
+                                                    <option value=""> </option>
+                                                    @foreach ($opduser as $its_u)
+                                                    @if ($dataedits->staff == $its_u->loginname)
+                                                    <option value="{{ $its_u->loginname }}" selected> {{ $its_u->name }}  </option> 
+                                                    @else
+                                                    <option value="{{ $its_u->loginname }}"> {{ $its_u->name }} </option> 
                                                     @endif   
                                                    
                                                     @endforeach
@@ -574,7 +592,10 @@
                 placeholder:"--เลือก--",
                 allowClear:true
             });
-
+            $('#staff').select2({
+                placeholder:"--เลือก--",
+                allowClear:true
+            });
 
         });
 

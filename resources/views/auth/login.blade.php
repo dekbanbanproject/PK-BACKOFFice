@@ -2087,7 +2087,7 @@
                     });
             });   
             
-             $('#Savedata').click(function() {
+            $('#Savedata').click(function() {
                     var patientpk_name = $('#patientpk_name').val();
                     var patientpk_email = $('#patientpk_email').val();
                     var patientpk_subject = $('#patientpk_subject').val();
