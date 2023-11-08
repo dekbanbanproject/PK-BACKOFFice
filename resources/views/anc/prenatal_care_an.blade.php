@@ -94,35 +94,8 @@
                     {{-- <p class="card-title-desc">รายละเอียดข้อมูล </p> --}}
                 </div>
                 <div class="col"></div>
-                <div class="col-md-1 text-end mt-2">วันที่</div>
-                {{-- <div class="col-md-2 text-end">
-                    <select name="dabyear" id="dabyear" class="form-control" style="width: 100%">
-                        @foreach ($dabyears as $item)
-                        @if ($dabyear == '')
-                            @if ($y == $item->leave_year_id)
-                                <option value="{{ $item->leave_year_id }}" selected>{{ $item->leave_year_id }}</option>
-                            @else
-                                <option value="{{ $item->leave_year_id }}">{{ $item->leave_year_id }}</option>
-                            @endif
-                        @else
-                            @if ($dabyear == $item->leave_year_id)
-                                <option value="{{ $item->leave_year_id }}" selected>{{ $item->leave_year_id }}</option>
-                            @else
-                                <option value="{{ $item->leave_year_id }}">{{ $item->leave_year_id }}</option>
-                            @endif
-                        @endif
-                            
-                        @endforeach
-
-                    </select>
-                 
-                </div>
-                <div class="col-md-1 text-start">
-                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                        ค้นหา
-                    </button>
-                </div> --}}
+               
+                
             </div>
         </form>
        

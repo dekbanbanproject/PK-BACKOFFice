@@ -2526,6 +2526,9 @@ Route::match(['get','post'],'aipn_main',[App\Http\Controllers\AipnController::cl
 Route::match(['get','post'],'aipn_process',[App\Http\Controllers\AipnController::class, 'aipn_process'])->name('claim.aipn_process');//
 Route::match(['get','post'],'aipn_export',[App\Http\Controllers\AipnController::class, 'aipn_export'])->name('claim.aipn_export');//
 
+Route::match(['get','post'],'aipn_ipop_edit/{id}',[App\Http\Controllers\AipnController::class, 'aipn_ipop_edit'])->name('claim.aipn_ipop_edit');//
+Route::match(['get','post'],'aipn_ipop_update',[App\Http\Controllers\AipnController::class, 'aipn_ipop_update'])->name('claim.aipn_ipop_update');//
+
 Route::match(['get','post'],'aipn_zip',[App\Http\Controllers\AipnController::class, 'aipn_zip'])->name('claim.aipn_zip');//
 
 Route::match(['get','post'],'aipn_main_an',[App\Http\Controllers\AipnController::class, 'aipn_main_an'])->name('claim.aipn_main_an');//

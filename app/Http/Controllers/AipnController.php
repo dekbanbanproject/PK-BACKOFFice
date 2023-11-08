@@ -106,6 +106,31 @@ class AipnController extends Controller
 
         ]);
     }
+    public function aipn_ipop_edit(Request $request, $id)
+    {
+        $data_ipop = D_aipop::find($id);
+        return response()->json([
+            'status'                => '200',
+            'data_ipop'             =>  $data_ipop,
+        ]);
+    }
+    public function aipn_ipop_update(Request $request)
+    {  
+        $id        = $request->input('d_aipop_id_edit');
+        $DateIn    = $request->input('DateIn');
+        $TimeIn    = $request->input('TimeIn');
+        $DateOut   = $request->input('DateOut');
+        $TimeOut   = $request->input('TimeOut');
+
+        $update = D_aipop::find($id);  
+        $update->DateIn    = $DateIn.'T'.$TimeIn;
+        $update->DateOut   = $DateOut.'T'.$TimeOut; 
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
     public function aipn_main(Request $request)
     {
         $startdate = $request->datepicker;

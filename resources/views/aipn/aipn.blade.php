@@ -408,8 +408,16 @@
                                                     <td class="text-center">{{ $item4->Code }} </td>
                                                     <td class="text-start">{{ $item4->Procterm }}</td>
                                                     <td class="text-start">{{ $item4->DR }}</td>
-                                                    <td class="text-center">{{ $item4->DateIn }}</td>
-                                                    <td class="text-start" width="15%">{{ $item4->DateOut }}</td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning addicodeModal" value="{{ $item4->d_aipop_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="ย้ายผังบัญชี">
+                                                            <i class="fa-regular fa-pen-to-square me-2"></i>
+                                                            {{ $item4->DateIn }}
+                                                        </button> 
+                                                    </td>
+                                                    <td class="text-start" width="15%">
+
+                                                        {{ $item4->DateOut }}
+                                                    </td>
                                                     <td class="text-center">{{ $item4->Location }}</td>
 
                                                 </tr>
@@ -519,6 +527,73 @@
 
     </div>
 
+    <!-- addicodeModal Modal -->
+    <div class="modal fade" id="addicodeModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">รายการขอปรับเปลี่ยนวันที่</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body"> 
+                        <div class="row">                            
+                            <div class="col-md-12">
+                                <label for="an" class="form-label">an</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="text" class="form-control" id="an_edit" name="an" readonly>  
+                                </div>
+                            </div> 
+                        </div> 
+                        <div class="row mt-2"> 
+                            <div class="col-md-6">
+                                <label for="DateIn" class="form-label">DateIn</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="date" class="form-control" id="DateIn" name="DateIn" >  
+                                </div>
+                            </div> 
+                            <div class="col-md-6">
+                                <label for="TimeIn" class="form-label">TimeIn</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="time" class="form-control" id="TimeIn" name="TimeIn" >  
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="row mt-2"> 
+                            <div class="col-md-6">
+                                <label for="DateOut" class="form-label">DateOut</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="date" class="form-control" id="DateOut" name="DateOut" >  
+                                </div>
+                            </div> 
+                            <div class="col-md-6">
+                                <label for="TimeOut" class="form-label">TimeOut</label>
+                                {{-- <div class="input-group input-group-sm">  --}}
+                                    <input type="time" class="form-control" id="TimeOut" name="TimeOut" data-time-format="Hms"> 
+                                    {{-- <input type="text" class="form-control" name="TimeOut" id="TimeOut" placeholder="Start Date" data-date-container='#TimeOut' autocomplete="off" data-provide="TimeOut" data-date-autoclose="true" data-date-language="th-th" />  --}}
+                                    {{-- data-format="dd/MM/yyyy hh:mm:ss" --}}
+                                    {{-- <div id="datetimepicker3" class="input-append">
+                                        <input data-format="hh:mm:ss" type="text"></input>
+                                        <span class="add-on">
+                                          <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                                          </i>
+                                        </span>
+                                      </div> --}}
+                                </div>
+                                
+                            </div> 
+                        </div>     
+                    <input type="hidden" name="d_aipop_id" id="d_aipop_id_edit"> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata_time">
+                        <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 @endsection
@@ -526,12 +601,28 @@
 
     <script>
         $(document).ready(function() {
-            $('#datepicker').datepicker({
-                format: 'yyyy-mm-dd'
+            // $('.datepicker').datepicker({
+            //     format: 'DD-MM-YYYY HH:mm:ss'
+            // });
+            $(function() {
+                $('#datetimepicker3').datepicker({
+                pickDate: false
+                });
             });
+            // $('#TimeOut').datepicker({
+            //     // format: 'yyyy-mm-dd'
+            //     format: 'hh:mm:ss'
+            // });
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
+            // $('#TimeIn').datepicker({
+            // //     format: 'hh:mm:ss'
+            // timeFormat: 'hh:mm:ss'
+            // });
+            // $('#TimeOut').datepicker({
+            //     format: 'hh:mm:ss'
+            // });
 
             $('#ex_1').DataTable();
             $('#ex_2').DataTable();
@@ -921,7 +1012,79 @@
                     })
             });
 
-
+            $(document).on('click', '.addicodeModal', function() {
+                var d_aipop_id = $(this).val(); 
+                $('#addicodeModal').modal('show');
+                // alert(d_aipop_id);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('aipn_ipop_edit') }}" + '/' + d_aipop_id,
+                    success: function(data) {
+                        console.log(data.data_ipop.d_aipop_id);  
+                        $('#an_edit').val(data.data_ipop.an) 
+                        $('#DateIn').val(data.data_ipop.DateIn)
+                        $('#DateOut').val(data.data_ipop.DateOut)
+                        $('#d_aipop_id_edit').val(data.data_ipop.d_aipop_id)
+                   
+                    },
+                });
+            });
+            $('#Updatedata_time').click(function() {
+                    var DateIn = $('#DateIn').val(); 
+                    var TimeIn = $('#TimeIn').val(); 
+                    var DateOut = $('#DateOut').val(); 
+                    var TimeOut = $('#TimeOut').val(); 
+                    var d_aipop_id_edit = $('#d_aipop_id_edit').val();
+                    Swal.fire({
+                            title: 'ต้องการแก้ไขข้อมูลสำเร็จใช่ไหม ?',
+                            text: "You Edit Data!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, pull it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+                                    
+                                    $.ajax({
+                                        url: "{{ route('claim.aipn_ipop_update') }}",
+                                        type: "POST",
+                                        dataType: 'json',
+                                        data: {
+                                            DateIn, TimeIn ,DateOut,TimeOut ,d_aipop_id_edit                      
+                                        },
+                                        success: function(data) {
+                                            if (data.status == 200) { 
+                                                Swal.fire({
+                                                    title: 'แก้ไขข้อมูลสำเร็จ',
+                                                    text: "You Edit data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                            setTimeout(function(){
+                                                                $("#overlay").fadeOut(300);
+                                                            },500);
+                                                    }
+                                                })
+                                            } else {
+                                                
+                                            }
+                                        },
+                                    });
+                                    
+                                }
+                    })
+            });
 
 
 
