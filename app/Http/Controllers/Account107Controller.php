@@ -63,6 +63,7 @@ use App\Models\Product_buy;
 use App\Models\Acc_1102050102_107;
 use App\Models\Acc_1102050102_106;
 use App\Models\Acc_debtor;
+use App\Models\Acc_doc;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
@@ -281,6 +282,66 @@ class Account107Controller extends Controller
             'enddate'       =>     $enddate
         ]);
     }
-    
+    public function acc_107_file(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // $datashow = DB::connection('mysql')->select('SELECT * FROM acc_stm_repmoney ar LEFT JOIN acc_trimart_liss a ON a.acc_trimart_liss_id = ar.acc_stm_repmoney_tri ORDER BY acc_stm_repmoney_id DESC');
+        $datashow = DB::connection('mysql')->select('
+          
+            SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.file,U2.filename
+            from acc_1102050102_107 U1
+            LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
+            GROUP BY U1.vn
+        ');
+     
+        $countc = DB::table('acc_stm_ucs_excel')->count(); 
+        $data['trimart'] = DB::table('acc_trimart')->get();
+
+        return view('account_107.acc_107_file',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    public function acc_107_file_updatefile(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx,pdf,png,jpeg'
+        ]);
+        // $the_file = $request->file('file'); 
+        $file_name = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+        //    dd($file_name);
+ 
+        $add = new Acc_doc();
+        $add->acc_doc_pangid           = $request->input('acc_1102050102_107_id');
+        $add->acc_doc_pang             = $request->input('account_code'); 
+        $add->file                     = $request->file('file');
+        if($request->hasFile('file')){               
+            $request->file->storeAs('account_107',$file_name,'public');
+            $add->filename             = $file_name;
+        }
+        $add->save();
+        return redirect()->route('acc.acc_107_file');
+        // return response()->json([
+        //     'status'    => '200' 
+        // ]); 
+    }
+    public function acc107destroy(Request $request,$id)
+    {
+        
+        $file_ = Acc_doc::find($id);  
+        $file_name = $file_->filename; 
+        $filepath = public_path('storage/account_107/'.$file_name);
+        $description = File::delete($filepath);
+
+        $del = Acc_doc::find($id);  
+        $del->delete(); 
+
+        return redirect()->route('acc.acc_106_file');
+        // return response()->json(['status' => '200']);
+    }
  
 }

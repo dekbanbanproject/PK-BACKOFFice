@@ -194,6 +194,7 @@
                         เข้าสู่ระบบ
                     </button> --}}
                         <a href="{{ url('check_dashboard') }}" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a>
+                        {{-- <a href="#login"><i class="fa-solid fa-fingerprint me-2"></i>Login</a> --}}
                          {{-- <a href="#login"><i class="fa-solid fa-fingerprint me-2"></i>Login</a>  --}}
                     </li> 
                     <li><a href="{{ url('authen_main') }}" target="_blank"><i class="fa-solid fa-person me-2" style="font-size: 15px"></i>Authen</a></li> 
@@ -1771,13 +1772,93 @@
         </section> --}}
         <!-- End Recent Blog Posts Section -->
 
+         <!-- ======= Contact Section ======= -->
+         <section id="login" class="contact mt-5">
+            
+            <div class="container">
+             
+                <div class="row">
+                    <div class="col"></div> 
+                   
+                    <div class="col-md-4 d-flex" data-aos="zoom-out" data-aos-delay="200">
+                        <div class="service-item position-relative">
+                            <form method="POST" action="{{ route('login') }}">
+                                @csrf 
+
+                                <div class="form-group mt-3 text-center">
+                                    <img src="{{ asset('images/logo150.png') }}" class="bi mb-3" width="150" height="150" alt="">
+                                </div> 
+                                <div class="form-group mt-3">
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Username" >
+                                </div>
+                                <div class="form-group mt-3">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" >
+                                </div> 
+                                <div class="my-3"> </div>
+                                <div class="text-center">
+                                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary"> <i class="fa-solid fa-fingerprint text-primary me-2"></i>เข้าสู่ระบบ</button>
+                                </div>
+                          
+                        </div>
+                    </div> 
+                </form> 
+
+                <div class="col"></div>
+                    {{-- <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
+                        <div class="service-item position-relative">
+                            
+                        </div>
+                    </div>  --}}
+
+                </div>
+                {{-- <div class="col-xl-6 col-md-8 d-flex" data-aos="zoom-out" data-aos-delay="600"> --}}
+                    {{-- <div class="service-item position-relative">  --}}
+                        {{-- <div class="row"> --}}
+                            {{-- <div class="col"></div> --}}
+                            {{-- <div class="col-lg-12 d-flex" data-aos="zoom-out" data-aos-delay="600"> --}}
+                                {{-- <div class="service-item position-relative"> --}}
+                                   
+                                    {{-- <form method="POST" action="{{ route('login') }}">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col"></div>
+                                            <div class="col-md-8 text-center"> 
+                                                <img src="{{ asset('images/logo150.png') }}" class="bi mb-3" width="150" height="150" alt="">
+                                            </div>
+                                            <div class="col"></div>
+                                        </div>
+                
+                                        <div class="form-group mt-3">
+                                            <input type="text" class="form-control" name="username" id="username" placeholder="Username" >
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Password" >
+                                        </div>
+                                        
+                                        <div class="my-3"> </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">เข้าสู่ระบบ</button>
+                                        </div>
+                                    </form>   --}}
+
+                                {{-- </div>  --}}
+                         
+                            {{-- </div>  --}}
+                            {{-- <div class="col"></div> --}}
+                        {{-- </div> --}}
+                    {{-- </div> --}}
+                {{-- </div> --}}
+            </div>
+        </section>
+        <!-- End Contact Section -->
+
         <!-- ======= Contact Section ======= -->
-        <section id="contact" class="contact">
+        <section id="contact" class="contact mt-5">
             <div class="container">
 
                 <div class="section-header">
                     <h2>Contact Us</h2>
-                    <p>สอลถามข้อมูลเพิ่มเติมได้ที่นี่.</p>
+                    <p>สอบถามข้อมูลเพิ่มเติมได้ที่นี่.</p>
                 </div>
 
             </div>
@@ -1956,27 +2037,26 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">เข้าสู่ระบบ</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" style="background-color:rgba(228, 224, 224, 0.962);">
+                <div class="modal-body" style="background-color:rgba(255, 255, 255, 0.041);">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="row">
                             <div class="col"></div>
-                            <div class="col-md-8 text-center">
-                                {{-- <img src="{{ asset('images/sto.png') }}" class="bi me-2" width="120" height="150" alt=""> --}}
+                            <div class="col-md-8 text-center"> 
                                 <img src="{{ asset('images/logo150.png') }}" class="bi mb-3" width="150" height="150" alt="">
                             </div>
                             <div class="col"></div>
                         </div>
 
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col"></div>
-                            <div class="col-md-8 text-center">
+                            <div class="col-md-4 text-end">
+                                <button class="btn btn-outline-secondary" type="button" id="button-addon1" style="border-color: transparent">Username :</button>
+                            </div>
+                            <div class="col-md-6 text-start">
                                 <div class="input-group mb-3">
-                                    <button class="btn btn-outline-secondary" type="button"
-                                        id="button-addon1">Username</button>
-                                    <input type="text" class="form-control" name="username"
-                                        placeholder="Username" aria-label="Example text with button addon"
-                                        aria-describedby="button-addon1" required>
+                                    {{-- <button class="btn btn-outline-secondary" type="button" id="button-addon1" style="border-color: transparent">Username :</button> --}}
+                                    <input type="text" class="form-control" name="username" required>
                                     @error('username')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -1988,13 +2068,13 @@
                         </div>
                         <div class="row">
                             <div class="col"></div>
-                            <div class="col-md-8 text-center">
+                            <div class="col-md-4 text-end">
+                                <button class="btn btn-outline-secondary" type="button" id="button-addon1" style="border-color: transparent">Password :</button>
+                            </div>
+                            <div class="col-md-6 text-start">
                                 <div class="input-group mb-3">
-                                    <button class="btn btn-outline-secondary" type="button"
-                                        id="button-addon1">Password</button>
-                                    <input type="password" class="form-control" name="password"
-                                        placeholder="Password" aria-label="Example text with button addon"
-                                        aria-describedby="button-addon1" required>
+                                   
+                                    <input type="password" class="form-control" name="password" required>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -2005,16 +2085,24 @@
                             </div>
                             <div class="col"></div>
                         </div>
-
-
+                        <div class="row mt-3 mb-3">
+                            <div class="col"></div>
+                            <div class="col-md-8 text-center">
+                                <button type="submit" class="btn btn-outline-primary ">
+                                    <i class="fa-solid fa-fingerprint text-primary ms-2 me-2"></i>
+                                    {{-- <label for="" class="me-4">เข้าสู่ระบบ</label> --}}
+                                    เข้าสู่ระบบ
+                                </button>
+                            </div>
+                            <div class="col"></div>
+                        </div>
                 </div>
-                <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                {{-- <div class="modal-footer"> 
                     <button type="submit" class="btn btn-outline-primary">
                         <i class="fa-solid fa-fingerprint text-primary"></i>
                         เข้าสู่ระบบ
                     </button>
-                </div>
+                </div> --}}
 
                 </form>
             </div>

@@ -422,19 +422,19 @@
                 function drawVisualization() {
                     // Some raw data (not necessarily accurate)
                     var data = google.visualization.arrayToDataTable([
-                        ['Month', 'สมันไพร 9 ชนิด', 'สุขภาพจิต 15-34 ปี', 'สุขภาพจิต 35-59 ปี','ANC-30010','ANC-30011'],
-                        ['มกราคม', <?php echo $herf_01; ?>, <?php echo $a12001_01; ?>, <?php echo $a12002_01; ?>, <?php echo $a30010_01; ?>, <?php echo $a30011_01; ?>],
-                        ['กุมภาพัน', <?php echo $herf_02; ?>, <?php echo $a12001_02; ?>, <?php echo $a12002_02; ?>, <?php echo $a30010_02; ?>, <?php echo $a30011_02; ?>],
-                        ['มีนาคม', <?php echo $herf_03; ?>, <?php echo $a12001_03; ?>, <?php echo $a12002_03; ?>, <?php echo $a30010_03; ?>, <?php echo $a30011_03; ?>],
-                        ['เมษายน', <?php echo $herf_04; ?>, <?php echo $a12001_04; ?>, <?php echo $a12002_04; ?>, <?php echo $a30010_04; ?>, <?php echo $a30011_04; ?>],
-                        ['พฤษภาคม', <?php echo $herf_05; ?>, <?php echo $a12001_05; ?>, <?php echo $a12002_05; ?>, <?php echo $a30010_05; ?>, <?php echo $a30011_05; ?>],
-                        ['มิถุนายน', <?php echo $herf_06; ?>, <?php echo $a12001_06; ?>, <?php echo $a12002_06; ?>, <?php echo $a30010_06; ?>, <?php echo $a30011_06; ?>],
-                        ['กรกฎาคม', <?php echo $herf_07; ?>, <?php echo $a12001_07; ?>, <?php echo $a12002_07; ?>, <?php echo $a30010_07; ?>, <?php echo $a30011_07; ?>],
-                        ['สิงหาคม', <?php echo $herf_08; ?>, <?php echo $a12001_08; ?>, <?php echo $a12002_08; ?>, <?php echo $a30010_08; ?>, <?php echo $a30011_08; ?>],
-                        ['กันยายน', <?php echo $herf_09; ?>, <?php echo $a12001_09; ?>, <?php echo $a12002_09; ?>, <?php echo $a30010_09; ?>, <?php echo $a30011_09; ?>],
-                        ['ตุลาคม', <?php echo $herf_10; ?>, <?php echo $a12001_10; ?>, <?php echo $a12002_10; ?>, <?php echo $a30010_10; ?>, <?php echo $a30011_10; ?>],
-                        ['พฤษจิกายน', <?php echo $herf_11; ?>, <?php echo $a12001_11; ?>, <?php echo $a12002_11; ?>, <?php echo $a30010_11; ?>, <?php echo $a30011_11; ?>],
-                        ['ธันวาคม', <?php echo $herf_12; ?>, <?php echo $a12001_12; ?>, <?php echo $a12002_12; ?>, <?php echo $a30010_12; ?>, <?php echo $a30011_12; ?>]
+                        ['Month', 'สมันไพร 9 ชนิด', 'สุขภาพจิต 15-34 ปี', 'สุขภาพจิต 35-59 ปี'],
+                        ['มกราคม', <?php echo $herf_01; ?>, <?php echo $a12001_01; ?>, <?php echo $a12002_01; ?> ],
+                        ['กุมภาพัน', <?php echo $herf_02; ?>, <?php echo $a12001_02; ?>, <?php echo $a12002_02; ?> ],
+                        ['มีนาคม', <?php echo $herf_03; ?>, <?php echo $a12001_03; ?>, <?php echo $a12002_03; ?> ],
+                        ['เมษายน', <?php echo $herf_04; ?>, <?php echo $a12001_04; ?>, <?php echo $a12002_04; ?> ],
+                        ['พฤษภาคม', <?php echo $herf_05; ?>, <?php echo $a12001_05; ?>, <?php echo $a12002_05; ?> ],
+                        ['มิถุนายน', <?php echo $herf_06; ?>, <?php echo $a12001_06; ?>, <?php echo $a12002_06; ?> ],
+                        ['กรกฎาคม', <?php echo $herf_07; ?>, <?php echo $a12001_07; ?>, <?php echo $a12002_07; ?> ],
+                        ['สิงหาคม', <?php echo $herf_08; ?>, <?php echo $a12001_08; ?>, <?php echo $a12002_08; ?> ],
+                        ['กันยายน', <?php echo $herf_09; ?>, <?php echo $a12001_09; ?>, <?php echo $a12002_09; ?> ],
+                        ['ตุลาคม', <?php echo $herf_10; ?>, <?php echo $a12001_10; ?>, <?php echo $a12002_10; ?> ],
+                        ['พฤษจิกายน', <?php echo $herf_11; ?>, <?php echo $a12001_11; ?>, <?php echo $a12002_11; ?> ],
+                        ['ธันวาคม', <?php echo $herf_12; ?>, <?php echo $a12001_12; ?>, <?php echo $a12002_12; ?> ]
                     ]);
 
 

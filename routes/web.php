@@ -1716,6 +1716,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_107_stmnull',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull'])->name('acc.acc_107_stmnull');//
     Route::match(['get','post'],'acc_107_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account107Controller::class, 'acc_107_stmnull_date'])->name('acc.acc_107_stmnull_date');//
     Route::match(['get','post'],'acc_107_file',[App\Http\Controllers\Account107Controller::class, 'acc_107_file'])->name('acc.acc_107_file');//
+    Route::match(['get','post'],'acc_107_file_updatefile',[App\Http\Controllers\Account107Controller::class, 'acc_107_file_updatefile'])->name('acc.acc_107_file_updatefile');//
+    Route::match(['get','post'],'acc107destroy/{id}',[App\Http\Controllers\Account107Controller::class, 'acc107destroy'])->name('acc.acc107destroy');//
 
     Route::match(['get','post'],'account_201_dash',[App\Http\Controllers\Account201Controller::class, 'account_201_dash'])->name('acc.account_201_dash');// 
     Route::match(['get','post'],'account_201_pull',[App\Http\Controllers\Account201Controller::class, 'account_201_pull'])->name('acc.account_201_pull');// OPD
