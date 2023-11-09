@@ -35,6 +35,7 @@ return new class extends Migration
                 $table->string('income')->nullable();//
                 $table->string('uc_money')->nullable();//
                 $table->string('discount_money')->nullable();//
+                $table->string('paid_money')->nullable();//
                 $table->string('rcpt_money')->nullable();//  paid_money
                 $table->string('rcpno')->nullable();//
                 $table->string('debit')->nullable();//

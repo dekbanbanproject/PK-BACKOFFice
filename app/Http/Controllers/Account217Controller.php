@@ -408,10 +408,10 @@ class Account217Controller extends Controller
         }
 
         return view('account_217.account_pkucs217_dash',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'datashow'    =>     $datashow,
-            'leave_month_year' =>  $leave_month_year,
+            'startdate'        =>     $startdate,
+            'enddate'          =>     $enddate,
+            'datashow'         =>     $datashow,
+            'leave_month_year' =>     $leave_month_year,
         ]);
     }
     public function account_pkucs217(Request $request,$months,$year)
@@ -703,6 +703,71 @@ class Account217Controller extends Controller
             'months'            =>     $months,
             'year'              =>     $year,
         ]);
+    }
+    public function account_pkucs217_detail_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+        
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT *  from acc_1102050101_217
+            WHERE dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'"
+           
+        ');
+      
+        return view('account_217.account_pkucs217_detail_date', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data, 
+        ]);
+    }
+    public function account_pkucs217_stm_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d'); 
+        $data['users'] = User::get();
+
+        $datashow = DB::select(' 
+            SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
+            ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
+            ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217
+            ,s.total_approve STM_TOTAL
+            from acc_1102050101_217 a
+            LEFT JOIN acc_stm_ucs s ON s.an = a.an
+            WHERE a.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'"
+            
+            AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug + s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+            group by a.an
+        ');
+        // AND s.rep IS NOT NULL
+        // AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0 or s.dmis_money2 >0 or s.dmis_drug >0)
+        // $sum_money_ = DB::connection('mysql')->select('
+        //     SELECT SUM(a.debit_total) as total
+        //     from acc_1102050101_217 a
+        //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        //     WHERE a.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'" AND au.rep IS NOT NULL;
+        // ');
+        // foreach ($sum_money_ as $key => $value) {
+        //     $sum_debit_total = $value->total;
+        // }
+        //     $sum_stm_ = DB::connection('mysql')->select('
+        //     SELECT SUM(au.inst) as stmtotal
+        //     from acc_1102050101_217 a
+        //     LEFT JOIN acc_stm_ucs au ON au.an = a.an
+        //     WHERE a.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'" AND au.rep IS NOT NULL;
+        // ');
+        // foreach ($sum_stm_ as $key => $value) {
+        //     $sum_stm_total = $value->stmtotal;
+        // }
+       
+
+            return view('account_217.account_pkucs217_stm_date', $data, [
+                'startdate'         =>     $startdate,
+                'enddate'           =>     $enddate,
+                'datashow'          =>     $datashow, 
+                // 'sum_debit_total'   =>     $sum_debit_total,
+                // 'sum_stm_total'     =>     $sum_stm_total
+            ]);
     }
  
 

@@ -524,7 +524,7 @@ class AipnController extends Controller
 
         #delete file in folder ทั้งหมด
         $file = new Filesystem;
-        $file->cleanDirectory('Export'); //ทั้งหมด
+        $file->cleanDirectory('Export_aipn'); //ทั้งหมด
 
         #sessionid เป็นค่าว่าง แสดงว่ายังไม่เคยส่งออก ต้องสร้างไอดีใหม่ จาก max+1
         $maxid = D_aipn_session::max('aipn_session_no');
@@ -548,8 +548,8 @@ class AipnController extends Controller
         $add->aipn_session_ststus = "Send";
         $add->save();
 
-        mkdir('Export/' . $folder, 0777, true);  //Web
-        mkdir('Export/' . $foldertxt, 0777, true);  //Web
+        mkdir('Export_aipn/' . $folder, 0777, true);  //Web
+        mkdir('Export_aipn/' . $foldertxt, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
 
         header("Content-type: text/txt");
@@ -560,7 +560,7 @@ class AipnController extends Controller
         foreach ($datamain as $key => $ai) {
             $an = $ai->an;
 
-            $file_pat = "Export/" . $foldertxt . "/10978-AIPN-" . $an . '-' . $aipn_date_now_preg . '' . $aipn_time_now_preg . ".txt";
+            $file_pat = "Export_aipn/" . $foldertxt . "/10978-AIPN-" . $an . '-' . $aipn_date_now_preg . '' . $aipn_time_now_preg . ".txt";
             $objFopen_opd = fopen($file_pat, 'w');
    
 
@@ -809,7 +809,7 @@ class AipnController extends Controller
             // ********************HASH MD5********************
  
             // ********************File 2  ********************
-            $file_pat2 = "Export/" . $folder . "/10978-AIPN-" .$an.'-'. $aipn_date_now_preg . '' . $aipn_time_now_preg . ".xml";
+            $file_pat2 = "Export_aipn/" . $folder . "/10978-AIPN-" .$an.'-'. $aipn_date_now_preg . '' . $aipn_time_now_preg . ".xml";
             $objFopen_opd2 = fopen($file_pat2, 'w'); 
 
      
@@ -1059,32 +1059,110 @@ class AipnController extends Controller
             fwrite($objFopen_opd2, $opd_head2);
 
             fclose($objFopen_opd2);
+
+  
+            // $pathdir = "Export_aipn/".$folder."/";
+            // $zipcreated = $folder . ".zip";
+
+            // dd($pathdir);
+            
+            // $newzip = new ZipArchive;
+            // if ($newzip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
+            //     $dir = opendir($pathdir);
+            //     while ($file = readdir($dir)) {
+            //         if (is_file($pathdir . $file)) {
+            //             $newzip->addFile($pathdir . $file, $file);
+            //         }
+            //     }
+            //     // dd($newzip);
+            //     $newzip->close();
+            //     if (file_exists($zipcreated)) {
+            //         header('Content-Type: application/zip');
+            //         header('Content-Disposition: attachment; filename="' . basename($zipcreated) . '"');
+            //         header('Content-Length: ' . filesize($zipcreated));
+            //         flush();
+            //         readfile($zipcreated);
+            //         unlink($zipcreated);
+            //         $files = glob($pathdir . '/*');
+
+            //         foreach ($files as $file) {
+            //             if (is_file($file)) {
+            //             }
+            //         } 
+            //         // return redirect()->back(); 
+            //         return redirect()->route('claim.aipn');
+            //         // return response()->json([
+            //         //     'status'    => '200'
+            //         // ]);
+            //     }
+            // }
+
+
+
         }
+        $pathdir = "Export_aipn/".$folder."/";
+            $zipcreated = $folder . ".zip";
+
+            // dd($zipcreated);
+            
+            $newzip = new ZipArchive;
+            if ($newzip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
+                $dir = opendir($pathdir);
+                while ($file = readdir($dir)) {
+                    if (is_file($pathdir . $file)) {
+                        $newzip->addFile($pathdir . $file, $file);
+                    }
+                }
+                // dd($newzip);
+                $newzip->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="' . basename($zipcreated) . '"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated);
+                    unlink($zipcreated);
+                    $files = glob($pathdir . '/*');
+
+                    foreach ($files as $file) {
+                        if (is_file($file)) {
+                        }
+                    } 
+                    // return redirect()->back(); 
+                    return redirect()->route('claim.aipn');
+                    // return response()->json([
+                    //     'status'    => '200'
+                    // ]);
+                }
+            }
  
         // }
 
         // return redirect()->route('data.six');
         // return redirect()->back();
-        return response()->json([
-            'status'    => '200'
-        ]);
+        // return response()->json([
+        //     'status'    => '200'
+        // ]);
     }
 
     
     public function aipn_zip(Request $request)
     {
+        
         $filename = D_aipn_session::max('aipn_session_no');
         $nzip = D_aipn_session::where('aipn_session_no', '=', $filename)->first();
         $namezip = $nzip->aipn_session_filename;
-        $pathdir = "Export/" . $namezip . "/";
+        $folder = '10978AIPN' . $filename;
+        // $pathdir = "Export_aipn/".$folder."/".$namezip . "/";
+        $pathdir = "Export_aipn/".$namezip . "/";
         $zipcreated = $namezip . ".zip";
-
+        dd($zipcreated);
         $newzip = new ZipArchive;
         if ($newzip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
             $dir = opendir($pathdir);
             while ($file = readdir($dir)) {
-                if (is_file($pathdir . $file)) {
-                    $newzip->addFile($pathdir . $file, $file);
+                if (is_file($pathdir.$file)) {
+                    $newzip->addFile($pathdir.$file, $file);
                 }
             }
             // dd($newzip);
@@ -1103,12 +1181,13 @@ class AipnController extends Controller
                     }
                 }
 
-                return redirect()->back();
+                // return redirect()->back();
                 // return response()->json([
                 //     'status'    => '200'
                 // ]);                 
             }
         }
+        return redirect()->back();
         //   return response()->json([
         //             'status'    => '200'
         //         ]);  
@@ -1496,7 +1575,7 @@ class AipnController extends Controller
 
         #delete file in folder ทั้งหมด
         $file = new Filesystem;
-        $file->cleanDirectory('Export'); //ทั้งหมด
+        $file->cleanDirectory('Export_aipn'); //ทั้งหมด
 
         #sessionid เป็นค่าว่าง แสดงว่ายังไม่เคยส่งออก ต้องสร้างไอดีใหม่ จาก max+1
         $maxid = D_aipn_session::max('aipn_session_no');
@@ -1520,8 +1599,8 @@ class AipnController extends Controller
         $add->aipn_session_ststus = "Send";
         $add->save();
 
-        mkdir('Export/' . $folder, 0777, true);  //Web
-        mkdir('Export/' . $foldertxt, 0777, true);  //Web
+        mkdir('Export_aipn/' . $folder, 0777, true);  //Web
+        mkdir('Export_aipn/' . $foldertxt, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
 
         header("Content-type: text/txt");
@@ -1530,7 +1609,7 @@ class AipnController extends Controller
 
         $datamain = DB::connection('mysql')->select('SELECT an FROM d_aipn_main');
          
-            $file_pat = "Export/" . $foldertxt . "/10978-AIPN-" . $an . '-' . $aipn_date_now_preg . '' . $aipn_time_now_preg . ".txt";
+            $file_pat = "Export_aipn/" . $foldertxt . "/10978-AIPN-" . $an . '-' . $aipn_date_now_preg . '' . $aipn_time_now_preg . ".txt";
             $objFopen_opd = fopen($file_pat, 'w');
             // dd($file_pat);
 
@@ -1775,7 +1854,7 @@ class AipnController extends Controller
         // }
          
             // ********************File 2  ********************
-            $file_pat2 = "Export/" . $folder . "/10978-AIPN-" .$an.'-'. $aipn_date_now_preg . '' . $aipn_time_now_preg . ".xml";
+            $file_pat2 = "Export_aipn/" . $folder . "/10978-AIPN-" .$an.'-'. $aipn_date_now_preg . '' . $aipn_time_now_preg . ".xml";
             $objFopen_opd2 = fopen($file_pat2, 'w');
 
             $opd_head2 = '<?xml version="1.0" encoding="windows-874"?>';
@@ -2023,15 +2102,55 @@ class AipnController extends Controller
             fwrite($objFopen_opd2, $opd_head2);
 
             fclose($objFopen_opd2);
+
+
+            $pathdir = "Export_aipn/".$folder."/";
+            $zipcreated = $folder . ".zip";
+
+            // dd($zipcreated);
+            
+            $newzip = new ZipArchive;
+            if ($newzip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
+                $dir = opendir($pathdir);
+                while ($file = readdir($dir)) {
+                    if (is_file($pathdir . $file)) {
+                        $newzip->addFile($pathdir . $file, $file);
+                    }
+                }
+                // dd($newzip);
+                $newzip->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="' . basename($zipcreated) . '"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated);
+                    unlink($zipcreated);
+                    $files = glob($pathdir . '/*');
+
+                    foreach ($files as $file) {
+                        if (is_file($file)) {
+                        }
+                    } 
+                    // return redirect()->back(); 
+                    return redirect()->route('claim.aipn');
+                    // return response()->json([
+                    //     'status'    => '200'
+                    // ]);
+                }
+            }
+ 
+        // }
+
         // }
  
         // }
 
         // return redirect()->route('data.six');
         // return redirect()->back();
-        return response()->json([
-            'status'    => '200'
-        ]);
+        // return response()->json([
+        //     'status'    => '200'
+        // ]);
     }
 
 }

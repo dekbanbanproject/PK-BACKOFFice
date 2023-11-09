@@ -54,7 +54,7 @@ use App\Models\Car_index;
 use App\Models\Article_status;
 use App\Models\Car_type;
 use App\Models\Product_brand;
-use App\Models\Product_color;  
+use App\Models\Com_repaire;  
 use App\Models\Land;
 use App\Models\Building;
 use App\Models\Product_budget;
@@ -155,6 +155,7 @@ class Account106Controller extends Controller
                 ,v.pttype,v.vstdate,r.arrear_date,r.arrear_time,rp.book_number,rp.bill_number,r.amount,rp.total_amount,r.paid
                 ,o.vsttime,t.name as pttype_name,"27" as acc_code,"1102050102.106" as account_code,"ชำระเงิน" as account_name,r.staff
                 ,r.rcpno,r.finance_number,r.receive_money_date,r.receive_money_staff
+                ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
 
                 FROM hos.rcpt_arrear r  
                 LEFT OUTER JOIN hos.rcpt_print rp on r.vn = rp.vn 
@@ -169,9 +170,33 @@ class Account106Controller extends Controller
         ');
         // LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(o.vstdate)
         foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.106')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                    if ($check == 0) {
+            // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.106')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.106')->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.106')->count();
+                    if ($check > 0) {
+                        Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.106')->update([                           
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->amount, 
+                            'debit_total'        => $value->amount,
+                            'rcpno'              => $value->rcpno,  
+                        ]);
+                        // Acc_1102050102_106::where('vn', $value->vn)->update([ 
+                        //     'income'             => $value->income,
+                        //     'uc_money'           => $value->uc_money,
+                        //     'discount_money'     => $value->discount_money,
+                        //     'paid_money'         => $value->paid_money,
+                        //     'rcpt_money'         => $value->rcpt_money,
+                        //     'debit'              => $value->amount, 
+                        //     'debit_total'        => $value->amount,
+                        //     'rcpno'              => $value->rcpno,  
+                        // ]);
+                    }else{
                         Acc_debtor::insert([
+                            // 'stamp'              => 'Y',
                             'hn'                 => $value->hn,
                             // 'an'                 => $value->an,
                             'vn'                 => $value->vn,
@@ -181,21 +206,15 @@ class Account106Controller extends Controller
                             'vstdate'            => $value->vstdate,
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name,
-                            // 'income_group'       => $value->income_group,
-                            // 'income'             => $value->income,
-                            // 'uc_money'           => $value->uc_money,
-                            // 'discount_money'     => $value->discount_money,
-                            // 'paid_money'         => $value->paid_money,
-                            // 'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->amount,
-                            // 'debit_drug'         => $value->debit_drug,
-                            // 'debit_instument'    => $value->debit_instument,
-                            // 'debit_toa'          => $value->debit_toa,
-                            // 'debit_refer'        => $value->debit_refer,
+                            'account_name'       => $value->account_name, 
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->amount, 
                             'debit_total'        => $value->amount,
-                            'rcpno'              => $value->rcpno,
-                            // 'max_debt_amount'    => $value->max_debt_money,
+                            'rcpno'              => $value->rcpno, 
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }
@@ -262,10 +281,10 @@ class Account106Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-            from acc_1102050102_106 U1
-            WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-            GROUP BY U1.vn
+            SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+                from acc_1102050102_106 U1
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
+                GROUP BY U1.vn
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_106.acc_106_detail', $data, [ 
@@ -358,25 +377,297 @@ class Account106Controller extends Controller
         // return response()->json(['status' => '200']);
     }
 
-
     public function acc_106_debt(Request $request)
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $data['users'] = User::get();
-
-        $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-            from acc_1102050102_106 U1
-            WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
-            GROUP BY U1.vn
+ 
+        $datashow = DB::connection('mysql')->select('        
+                SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                FROM acc_1102050102_106 U1
+                LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
+                LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
+                WHERE U1.debit_total > 0
+                GROUP BY U1.vn
         ');
-
         return view('account_106.acc_106_debt',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate,
-            'data'          =>     $data,
+            'startdate'     =>  $startdate,
+            'enddate'       =>  $enddate,
+            'datashow'      =>  $datashow,
         ]);
+    }
+    public function acc_106_debt_print(Request $request, $id)
+    { 
+        $dataedit = Com_repaire::leftJoin('com_repaire_speed', 'com_repaire_speed.status_id', '=', 'com_repaire.com_repaire_speed')
+            ->leftjoin('users', 'users.id', '=', 'com_repaire.com_repaire_user_id')
+            ->where('com_repaire_id', '=', $id)->first();
+
+        $org = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $rong = $org->prefix_name . ' ' . $org->fname . '  ' . $org->lname;
+
+        $orgpo = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_po_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $po = $orgpo->prefix_name . ' ' . $orgpo->fname . '  ' . $orgpo->lname;
+
+        $count = DB::table('com_repaire_signature')
+            ->where('com_repaire_id', '=', $id)
+            // ->orwhere('com_repaire_no', '=', $dataedit->com_repaire_no)
+            ->count();
+
+        // $countper = DB::table('car_service_personjoin')
+        //     ->where('com_repaire_id', '=', $id)
+        //     // ->orwhere('car_service_no', '=', $dataedit->car_service_no)
+        //     ->count();
+
+        // $countpers = $countper + 1;
+        // dd($countper);
+        if ($count != 0) {
+            $signature = DB::table('com_repaire_signature')->where('com_repaire_id', '=', $id)
+                // ->orwhere('com_repaire_no','=',$dataedit->com_repaire_no)
+                ->first();
+            $siguser = $signature->signature_name_usertext; //ผู้รองขอ
+            $sigstaff = $signature->signature_name_stafftext; //ผู้รองขอ
+            $sigrep = $signature->signature_name_reptext; //ผู้รับงาน
+            $sighn = $signature->signature_name_hntext; //หัวหน้า
+            $sigrong = $signature->signature_name_rongtext; //หัวหน้าบริหาร
+            $sigpo = $signature->signature_name_potext; //ผอ
+
+        } else {
+            $sigrong = '';
+            $siguser = '';
+            $sigstaff = '';
+            $sighn = '';
+            $sigpo = '';
+        }
+
+
+        define('FPDF_FONTPATH', 'font/');
+        require(base_path('public') . "/fpdf/WriteHTML.php");
+
+        $pdf = new Fpdi(); // Instantiation   start-up Fpdi
+
+        function dayThai($strDate)
+        {
+            $strDay = date("j", strtotime($strDate));
+            return $strDay;
+        }
+        function monthThai($strDate)
+        {
+            $strMonth = date("n", strtotime($strDate));
+            $strMonthCut = array("", "มกราคม", "กุมภาพันธ์ ", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+            $strMonthThai = $strMonthCut[$strMonth];
+            return $strMonthThai;
+        }
+        function yearThai($strDate)
+        {
+            $strYear = date("Y", strtotime($strDate)) + 543;
+            return $strYear;
+        }
+        function time($strtime)
+        {
+            $H = substr($strtime, 0, 5);
+            return $H;
+        }
+
+        function DateThai($strDate)
+        {
+            if ($strDate == '' || $strDate == null || $strDate == '0000-00-00') {
+                $datethai = '';
+            } else {
+                $strYear = date("Y", strtotime($strDate)) + 543;
+                $strMonth = date("n", strtotime($strDate));
+                $strDay = date("j", strtotime($strDate));
+                $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                $strMonthThai = $strMonthCut[$strMonth];
+                $datethai = $strDate ? ($strDay . ' ' . $strMonthThai . ' ' . $strYear) : '-';
+            }
+            return $datethai;
+        }
+
+        $date = date_create($dataedit->created_at);
+        $datnow =  date_format($date, "Y-m-j");
+
+        //  // Arial bold 15
+        // $this->SetFont('Arial','B',15);
+        // // Calculate width of title and position
+        // $w = $this->GetStringWidth($title)+6;
+        // $this->SetX((210-$w)/2);
+        // // Colors of frame, background and text
+        // $this->SetDrawColor(0,80,180);
+        // $this->SetFillColor(230,230,0);
+        // $this->SetTextColor(220,50,50);
+        // // Thickness of frame (1 mm)
+        // $this->SetLineWidth(1);
+        // // Title
+        // $this->Cell($w,9,$title,1,1,'C',true);
+        // // Line break
+        // $this->Ln(10);
+
+        $pdf->SetLeftMargin(22);
+        $pdf->SetRightMargin(5);
+        $pdf->AddFont('THSarabunNew', '', 'THSarabunNew.php');
+        $pdf->AddFont('THSarabunNew Bold', '', 'THSarabunNew Bold.php');
+        $pdf->SetFont('THSarabunNew Bold', '', 19);
+        // $pdf->AddPage("L", ['100', '100']);
+        $pdf->AddPage("P");
+        $pdf->Image('assets/images/crut.png', 22, 15, 16, 16);
+        $pdf->SetFont('THSarabunNew Bold', '', 19);
+        $pdf->Text(93, 25, iconv('UTF-8', 'TIS-620', 'ใบแจ้งซ่อม '));
+        $pdf->SetFont('THSarabunNew', '', 17);
+        $pdf->Text(75, 33, iconv('UTF-8', 'TIS-620', 'โรงพยาบาล ' . $org->orginfo_name));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(25, 41, iconv('UTF-8', 'TIS-620', 'หน่วยงานที่แจ้งซ่อม :   ' . $dataedit->com_repaire_debsubsub_name));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(110, 41, iconv('UTF-8', 'TIS-620', 'เบอร์โทร :   ' . $dataedit->tel));
+        // x1,y1,x2,y2
+        $pdf->Line(25, 45, 180, 45);   // 25 คือ ย่อหน้า  // 45 คือ margintop   // 180 คือความยาวเส้น 
+        $pdf->SetFont('THSarabunNew Bold', '', 14);
+        $pdf->Text(25, 52, iconv('UTF-8', 'TIS-620', 'ส่วนที่ 1 ผู้แจ้ง  :  '));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(50, 52, iconv('UTF-8', 'TIS-620', 'รหัสแจ้งซ่อม  :  ' . $dataedit->com_repaire_no));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(100, 52, iconv('UTF-8', 'TIS-620', 'วันที่  :  ' . DateThai($dataedit->com_repaire_date)));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(150, 52, iconv('UTF-8', 'TIS-620', 'เวลา  :  ' . time($dataedit->com_repaire_time). ' น.'));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(25, 60, iconv('UTF-8', 'TIS-620', 'หมายเลขครุภัณฑ์  :  ' . $dataedit->com_repaire_article_num));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(25, 68, iconv('UTF-8', 'TIS-620', 'ชื่อครุภัณฑ์  :  ' . $dataedit->com_repaire_article_name));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(25, 76, iconv('UTF-8', 'TIS-620', 'รายละเอียดแจ้งซ่อม  :  ' . $dataedit->com_repaire_detail));
+        // $pdf->SetFont('THSarabunNew', '', 15);
+        // $pdf->Text(130, 35, iconv('UTF-8', 'TIS-620', 'วันที่  ' . dayThai($datnow) . '  ' . monthThai($datnow) . '  พ.ศ. ' . yearThai($datnow)));
+
+        //ผู้ขออนุญาต
+        if ($siguser != null) { 
+            // $pdf->SetTextColor(128);
+            // ชิดซ้าย
+            // $pdf->Image($siguser, 50, 82, 50, 17, "png");
+            // $pdf->SetFont('THSarabunNew', '', 15);
+            // $pdf->Text(41, 92, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                        ผู้แจ้งซ่อม'));
+            // $pdf->SetFont('THSarabunNew', '', 15);
+            // $pdf->Text(55, 102, iconv('UTF-8', 'TIS-620', '(   ' . $dataedit->com_repaire_user_name . '   )'));
+
+            //ตรงกลาง
+            $pdf->Image($siguser, 80, 85, 50, 17, "png");
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(71, 95, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                        ผู้แจ้งซ่อม'));
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(85, 105, iconv('UTF-8', 'TIS-620', '(   ' . $dataedit->com_repaire_user_name . '   )'));
+        } else {
+            // $pdf->Image($sig, 150,220, 40, 20,"png");
+        }
+
+        $pdf->Line(25, 110, 180, 110);   // 25 คือ ย่อหน้า  // 45 คือ margintop   // 180 คือความยาวเส้น 
+        $pdf->SetFont('THSarabunNew Bold', '', 14);
+        $pdf->Text(25, 117, iconv('UTF-8', 'TIS-620', 'ส่วนที่ 2 ช่าง  :  '));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(50, 117, iconv('UTF-8', 'TIS-620', 'รหัสแจ้งซ่อม  :  ' . $dataedit->com_repaire_no));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(100, 117, iconv('UTF-8', 'TIS-620', 'วันที่  :  ' . DateThai($dataedit->com_repaire_date)));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(150, 117, iconv('UTF-8', 'TIS-620', 'เวลา  :  ' . time($dataedit->com_repaire_time). ' น.'));
+
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(50, 126, iconv('UTF-8', 'TIS-620', 'ความเร่งด่วน'));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(85, 126, iconv('UTF-8', 'TIS-620', 'ปกติ  '));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(110, 126, iconv('UTF-8', 'TIS-620', 'ด่วน  '));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(135, 126, iconv('UTF-8', 'TIS-620', 'ด่วนมาก  '));
+        $pdf->SetFont('THSarabunNew', '', 14);
+        $pdf->Text(165, 126, iconv('UTF-8', 'TIS-620', 'ด่วนที่สุด  ')); 
+        if ($dataedit->com_repaire_speed == "1") { 
+            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 78, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 103, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 128, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 157, 123, 4, 4);
+        }else if ($dataedit->com_repaire_speed == "2") { 
+            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 103, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 78, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 128, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 157, 123, 4, 4);
+        }else if ($dataedit->com_repaire_speed == "3") { 
+            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 128, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 103, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 78, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 157, 123, 4, 4);
+        } else {
+            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 157, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 103, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 128, 123, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 78, 123, 4, 4);
+         }
+         $pdf->SetFont('THSarabunNew', '', 14);
+         $pdf->Text(25, 136, iconv('UTF-8', 'TIS-620', 'รายละเอียดการตรวจซ่อมที่พบ/ความเห็นของช่าง  ')); 
+         $pdf->SetFont('THSarabunNew', '', 14);
+         $pdf->Text(90, 136, iconv('UTF-8', 'TIS-620',' :  ' .$dataedit->com_repaire_detail_tech));   
+        //ผู้ดูแลอนุญาต
+        if ($sigstaff != null) {
+            $pdf->Image($sigstaff, 109, 173, 50, 17, "png");
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(100, 188, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                            ผู้อนุญาต'));
+            // $pdf->Text(112, 198, iconv('UTF-8', 'TIS-620', '(   ' . $dataedit->car_service_staff_name . '   )'));
+        } else {
+            // $pdf->Image($siguser, 105,173, 50, 17,"png"); 
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(100, 180, iconv('UTF-8', 'TIS-620', '(ลงชื่อ) ......................................................... ผู้อนุญาต'));
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(108, 189, iconv('UTF-8', 'TIS-620', '( .......................................................... )'));
+        }
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(25, 220, iconv('UTF-8', 'TIS-620', 'ความเห็นของผู้มีอำนาจสั่งรถยนต์ '));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(113, 220, iconv('UTF-8', 'TIS-620', 'อนุญาต '));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(150, 220, iconv('UTF-8', 'TIS-620', 'ไม่อนุญาต '));
+
+        if ($sigpo != null) {
+
+            // dd($dataedit->car_service_status);
+            if ($dataedit->car_service_status == "noallow") {
+                $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 105, 217, 4, 4);
+                $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 140, 217, 4, 4);
+            } else {
+                $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 140, 217, 4.5, 4.5);
+                $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 105, 217, 4.5, 4.5);
+                // $pdf->Image(base_path('public').'/fpdf/img/checkno.jpg',140,217, 4, 4); 
+            }
+
+
+            $pdf->Image($sigpo, 109, 225, 50, 17, "png");
+            $pdf->Text(108, 249, iconv('UTF-8', 'TIS-620', $po));
+            // $pdf->Text(150,288,iconv( 'UTF-8','TIS-620','ผู้อำนวยการ'.$orgpo->orginfo_name  ));
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(100, 240, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                              ผู้อนุญาต'));
+            // $pdf->SetFont('THSarabunNew','',15);
+            // $pdf->Text(108,249,iconv( 'UTF-8','TIS-620','( .......................................................... )' )); 
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
+        } else {
+            // $pdf->Image($siguser, 105,225, 50, 17,"png");
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 105, 217, 4, 4);
+            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 140, 217, 4, 4);
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(100, 240, iconv('UTF-8', 'TIS-620', '(ลงชื่อ) ......................................................... ผู้อนุญาต'));
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(108, 249, iconv('UTF-8', 'TIS-620', '( .......................................................... )'));
+            $pdf->SetFont('THSarabunNew', '', 15);
+            $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
+        }
+
+
+        $pdf->Output();
+
+        exit;
     }
     
  

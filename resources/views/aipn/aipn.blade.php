@@ -136,10 +136,11 @@
                             <i class="fa-solid fa-spinner text-primary me-2"></i>
                             ประมวลผล
                         </button>
-                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata">
+                        {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata">
                             <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>
                             ส่งออก
-                        </button> 
+                        </button>  --}}
+                        <a href="{{ url('aipn_export') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>ส่งออก</a>
                         <a href="{{ url('aipn_zip') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
                         
                        
@@ -163,11 +164,12 @@
                             <i class="fa-solid fa-spinner text-primary me-2"></i>
                             ประมวลผล AN
                         </button>
-                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata_an">
+                        {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Exportdata_an">
                             <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>
                             ส่งออก AN
-                        </button> 
-                        <a href="{{ url('aipn_zip') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a>
+                        </button>  --}}
+                        <a href="{{ url('aipn_export_an') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> <i class="fa-solid fa-arrow-up-right-from-square text-success me-2"></i>ส่งออก AN</a>
+                        {{-- <a href="{{ url('aipn_zip') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}
                         {{-- <a href="{{ url('aipn_send_an') }}" class="btn btn-success"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>ส่งออก</a> --}}
                         {{-- <a href="{{ url('aipn_zip') }}" class="btn btn-danger"><i class="fa-solid fa-file-zipper me-2"></i>ZipFile</a> --}}  
                     </div>
