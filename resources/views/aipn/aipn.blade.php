@@ -532,7 +532,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">รายการขอปรับเปลี่ยนวันที่</h5>
+                    <h5 class="modal-title" id="editModalLabel">รายการขอปรับเปลี่ยนวันที่ DateIn DateOut</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
@@ -547,29 +547,53 @@
                         </div> 
                         <div class="row mt-2"> 
                             <div class="col-md-6">
-                                <label for="DateIn" class="form-label">DateIn</label>
+                                <label for="DateOut" class="form-label">DateIn</label>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="DateOut" class="form-label">DateOut</label>
+                            </div>
+                        </div> 
+                        <div class="row mt-2"> 
+                            <div class="col-md-12"> 
+                                <div class="input-daterange input-group" id="datepicker9" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                    <input type="text" class="form-control" name="datein_edit" id="datein_edit" placeholder="DateIn" data-date-container='#datepicker9' autocomplete="off" data-provide="datepicker"
+                                        data-date-autoclose="true" data-date-language="th-th"/>
+                                    <input type="text" class="form-control" name="dateout_edit" placeholder="DateOut" id="dateout_edit" data-date-container='#datepicker9' autocomplete="off" data-provide="datepicker" 
+                                        data-date-autoclose="true" data-date-language="th-th" />
+
+
+
+
+                                {{-- <label for="DateIn" class="form-label">DateIn</label>
                                 <div class="input-group input-group-sm"> 
-                                    <input type="date" class="form-control" id="DateIn" name="DateIn" >  
-                                </div>
+                                    <input type="date" class="form-control" id="datein_edit" name="DateIn" >  
+                                </div> --}}
                             </div> 
+                            </div> 
+                            {{-- <div class="col-md-6">
+                                <label for="TimeIn" class="form-label">TimeIn</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="time" class="form-control" id="timein_edit" name="TimeIn" >  
+                                </div>
+                            </div>  --}}
+                        </div>
+                        <div class="row mt-2"> 
+                            {{-- <div class="col-md-6">
+                                <label for="DateOut" class="form-label">DateOut</label>
+                                <div class="input-group input-group-sm"> 
+                                    <input type="date" class="form-control" id="dateout_edit" name="DateOut" >  
+                                </div>
+                            </div>  --}}
                             <div class="col-md-6">
                                 <label for="TimeIn" class="form-label">TimeIn</label>
                                 <div class="input-group input-group-sm"> 
-                                    <input type="time" class="form-control" id="TimeIn" name="TimeIn" >  
+                                    <input type="time" class="form-control" id="timein_edit" name="TimeIn" >  
                                 </div>
-                            </div> 
-                        </div>
-                        <div class="row mt-2"> 
-                            <div class="col-md-6">
-                                <label for="DateOut" class="form-label">DateOut</label>
-                                <div class="input-group input-group-sm"> 
-                                    <input type="date" class="form-control" id="DateOut" name="DateOut" >  
-                                </div>
-                            </div> 
+                            </div>
                             <div class="col-md-6">
                                 <label for="TimeOut" class="form-label">TimeOut</label>
                                 {{-- <div class="input-group input-group-sm">  --}}
-                                    <input type="time" class="form-control" id="TimeOut" name="TimeOut" data-time-format="Hms"> 
+                                    <input type="time" class="form-control" id="timeout_edit" name="TimeOut" > 
                                     {{-- <input type="text" class="form-control" name="TimeOut" id="TimeOut" placeholder="Start Date" data-date-container='#TimeOut' autocomplete="off" data-provide="TimeOut" data-date-autoclose="true" data-date-language="th-th" />  --}}
                                     {{-- data-format="dd/MM/yyyy hh:mm:ss" --}}
                                     {{-- <div id="datetimepicker3" class="input-append">
@@ -579,7 +603,8 @@
                                           </i>
                                         </span>
                                       </div> --}}
-                                </div>
+                                      {{-- data-time-format="Hms" --}}
+                                {{-- </div> --}}
                                 
                             </div> 
                         </div>     
@@ -601,9 +626,13 @@
 
     <script>
         $(document).ready(function() {
-            // $('.datepicker').datepicker({
-            //     format: 'DD-MM-YYYY HH:mm:ss'
-            // });
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+                // format: 'DD-MM-YYYY HH:mm:ss'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
             $(function() {
                 $('#datetimepicker3').datepicker({
                 pickDate: false
@@ -613,8 +642,20 @@
             //     // format: 'yyyy-mm-dd'
             //     format: 'hh:mm:ss'
             // });
-            $('#datepicker2').datepicker({
+           
+            $('#datein_edit').datepicker({
                 format: 'yyyy-mm-dd'
+            });
+            $('#dateout_edit').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
+            $('#timein_edit').timepicker({
+                // defaultTime: '11:45:20',
+                format: 'HH:MM:SS',
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: true
             });
             // $('#TimeIn').datepicker({
             // //     format: 'hh:mm:ss'
@@ -1022,8 +1063,10 @@
                     success: function(data) {
                         console.log(data.data_ipop.d_aipop_id);  
                         $('#an_edit').val(data.data_ipop.an) 
-                        $('#DateIn').val(data.data_ipop.DateIn)
-                        $('#DateOut').val(data.data_ipop.DateOut)
+                        $('#datein_edit').val(data.data_ipop.DateIn)
+                        $('#timein_edit').val(data.data_ipop.TimeIn)
+                        $('#dateout_edit').val(data.data_ipop.DateOut)
+                        $('#timeout_edit').val(data.data_ipop.TimeOut)
                         $('#d_aipop_id_edit').val(data.data_ipop.d_aipop_id)
                    
                     },

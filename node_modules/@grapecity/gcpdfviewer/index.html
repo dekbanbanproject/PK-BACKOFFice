@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000000" />
+    <title>GrapeCity Documents PDF Viewer Demo</title>
+    <script>
+        function loadPdfViewer(selector) {
+            //GcPdfViewer.LicenseKey = 'your_license_key';
+            var viewer = new GcPdfViewer(selector, { /* supportApi: { apiUrl: 'api/pdf-viewer', webSocketUrl: '/signalr' } */ });
+            viewer.addDefaultPanels();
+            //viewer.addAnnotationEditorPanel();
+            //viewer.addFormEditorPanel();
+        }
+    </script>
+</head>
+<body onload="loadPdfViewer('#root')">
+<div id="root"></div>
+<script type="text/javascript" src="gcpdfviewer.js"></script></body>
+</html>

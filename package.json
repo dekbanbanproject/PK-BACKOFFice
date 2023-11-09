@@ -23,6 +23,7 @@
     "dependencies": {
         "@grapecity/gcpdfviewer": "^3.1.5",
         "autoprefixer": "10.4.5",
+        "bootstrap-timepicker": "^0.5.2",
         "signature_pad": "^4.0.5",
         "sweetalert2": "^11.4.17"
     }
