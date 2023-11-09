@@ -56,6 +56,8 @@
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
     <!-- Plugins css -->
     {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
+     <!-- Responsive datatable examples -->
+     {{-- <link href="{{ asset('css/timepicker.less') }}" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
     body {
@@ -640,7 +642,7 @@
     {{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
 
     <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
-
+    <script src="{{ asset('js/bootstrap-timepicker.js') }}"></script>
     @yield('footer')
 
 

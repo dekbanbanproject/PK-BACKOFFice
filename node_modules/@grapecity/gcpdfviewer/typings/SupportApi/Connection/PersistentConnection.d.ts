@@ -1,0 +1,33 @@
+import GcPdfViewer from "../..";
+import { ClientMessageType, ClientMessage, ClientRequestType } from "./ClientMessage";
+import { ISupportApi } from "../ISupportApi";
+import { LogLevel } from "../../SharedDocuments/types";
+export declare class PersistentConnection {
+    private _host;
+    private _supportApi;
+    private _clientId;
+    private _reconnectInterval?;
+    private _webSocketUrl?;
+    private _isLegacyServer?;
+    private _connection;
+    private _legacyServerHub;
+    private _pendingResponseHash;
+    private _connected;
+    private _legacyServerPromise;
+    private _netCoreServerPromise;
+    constructor(_host: GcPdfViewer, _supportApi: ISupportApi, _clientId: string, _reconnectInterval?: number | undefined, _webSocketUrl?: string | undefined, _isLegacyServer?: boolean | undefined);
+    get logLevel(): LogLevel;
+    get clientId(): string;
+    get isConnected(): boolean;
+    start(): Promise<void>;
+    stop(): void;
+    sendMessage(type: ClientMessageType, messageData: Partial<ClientMessage>): Promise<void>;
+    sendRequest<T>(type: ClientRequestType, messageData?: Partial<ClientMessage>): Promise<T>;
+    logError(method: string, message: string): void;
+    logDebug(method: string, message: string): void;
+    private onServerMessage;
+    initLegacyServer(): Promise<any>;
+    initNetCoreServer(): Promise<any>;
+    private initNetCoreServerInternal;
+    private initLegacyServerInternal;
+}

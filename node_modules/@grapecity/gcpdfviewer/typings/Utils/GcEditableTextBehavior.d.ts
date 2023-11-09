@@ -1,0 +1,47 @@
+export declare class GcEditableTextBehavior {
+    private readonly _element;
+    private _eventHandlers;
+    private _showEditControls;
+    private readonly _shadowRoot?;
+    private _cssClassKey?;
+    private _useInlineStyles?;
+    userData: any;
+    private _onKeyDownHandler;
+    private _onMouseDownHandler;
+    private _onTouchStartHandler;
+    private _onChangeHandler;
+    private _onBlurHandler;
+    private _activated;
+    private _isRichText;
+    private _initialInnerHtml?;
+    _inlineEditorActionsElem: HTMLDivElement;
+    _cancelBtn: HTMLElement;
+    _doneBtn: HTMLElement;
+    _windowClickHandler?: (e: any) => void;
+    constructor(_element: HTMLElement, _eventHandlers: {
+        onCancel?: Function;
+        onFinish?: Function;
+        onTextChange?: Function;
+    }, _showEditControls: boolean, _shadowRoot?: Document | ShadowRoot | undefined, _cssClassKey?: string | undefined, _useInlineStyles?: boolean | undefined);
+    get isChanged(): boolean;
+    getTextContent(): string;
+    activate(isRichText: boolean): void;
+    deactivate(): void;
+    private _applyInlineStyles;
+    private _clearInlineStyles;
+    _addInlineEditorControls(parentElement: HTMLElement): void;
+    getClickEventKey(): string;
+    _removeInlineEditorControls(parentElement: HTMLElement): void;
+    focusContent(selectAll?: boolean): void;
+    selectAll(): void;
+    private _attachEvents;
+    private _deattachEvents;
+    private _onTouchStart;
+    private _onBlur;
+    private _onChange;
+    private _onMouseDown;
+    private _onKeyDown;
+    reset(): void;
+    private _cancelInternal;
+    private _finishInternal;
+}

@@ -1702,7 +1702,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc106destroy/{id}',[App\Http\Controllers\Account106Controller::class, 'acc106destroy'])->name('acc.acc106destroy');//
 
     Route::match(['get','post'],'acc_106_debt',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt'])->name('acc.acc_106_debt');//  ทวงหนี้
-
+    Route::match(['get','post'],'acc_106_debt_print/{id}',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_print'])->name('acc.acc_106_debt_print');//  ทวงหนี้
     // ************107 IPD**********************
 
     Route::match(['get','post'],'acc_107_dashboard',[App\Http\Controllers\Account107Controller::class, 'acc_107_dashboard'])->name('acc.acc_107_dashboard');//
@@ -1774,6 +1774,10 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_pkucs217_stmnull/{months}/{year}',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_stmnull'])->name('acc.account_pkucs217_stmnull');//
     Route::match(['get','post'],'account_pkucs217_stam',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_stam'])->name('acc.account_pkucs217_stam');//  stamp IPD
     Route::match(['get','post'],'account_pkucs217_stmnull_all/{months}/{year}',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_stmnull_all'])->name('acc.account_pkucs217_stmnull_all');//
+
+    Route::match(['get','post'],'account_pkucs217_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_detail_date'])->name('acc.account_pkucs217_detail_date');//
+    Route::match(['get','post'],'account_pkucs217_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_stm_date'])->name('acc.account_pkucs217_stm_date');//
+    Route::match(['get','post'],'account_pkucs217_stmnull_date/{startdate}/{enddate}',[App\Http\Controllers\Account217Controller::class, 'account_pkucs217_stmnull_date'])->name('acc.account_pkucs217_stmnull_date');//
 
     Route::match(['get','post'],'account_301_dash',[App\Http\Controllers\Account301Controller::class, 'account_301_dash'])->name('acc.account_301_dash');//
     Route::match(['get','post'],'account_301_dashsub/{startdate}/{enddate}',[App\Http\Controllers\Account301Controller::class, 'account_301_dashsub'])->name('acc.account_301_dashsub');//

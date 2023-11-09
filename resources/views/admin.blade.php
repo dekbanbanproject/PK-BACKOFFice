@@ -118,7 +118,7 @@
                                             <h5 class="text-start mb-2">DOCUMENT</h5>
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a>
+                                            <a href="{{ url('book/bookmake_index') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     <i class="fa-solid fa-3x fa-book-open-reader font-size-25"

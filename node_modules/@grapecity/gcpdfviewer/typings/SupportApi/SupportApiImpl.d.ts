@@ -1,0 +1,88 @@
+import { UserAccess, SharedDocumentInfo, SharedAccessMode, ModificationType, ModificationsState } from "../SharedDocuments/types";
+import { ISupportApi, OpenDocumentInfo, DocumentModification, SignatureInfo } from "./ISupportApi";
+import { GcPdfViewer } from "../GcPdfViewer";
+import { AnnotationBase } from "../Annotations/AnnotationTypes";
+import { ClientMessageType, ClientMessage, ClientRequestType } from "./Connection/ClientMessage";
+import { ServerMessage, StartSharedModeResponse } from "./Connection/ServerMessage";
+import { LocalDocumentModification } from "./LocalDocumentModification";
+import { ProgressDialogSink } from "../Dialogs/Types";
+import { StampCategory } from "../Models/ViewerTypes";
+export declare class SupportApiImpl implements ISupportApi {
+    private _host;
+    private _supportApiUrl;
+    private _openPromise?;
+    private _openedDocumentInfo?;
+    private _options;
+    private _clientId;
+    private _persistentConnection?;
+    private _documentSharedFlag;
+    private _webSocketUrl;
+    private _requestInit;
+    private _token;
+    private _status;
+    userAcesssList: UserAccess[];
+    sharedAccessMode: SharedAccessMode;
+    private _connected?;
+    private _lastConnectAttemptPromise;
+    private _serverVersion;
+    constructor(_host: GcPdfViewer, options?: any);
+    dispose(): void;
+    get clientId(): string;
+    get docInfo(): OpenDocumentInfo;
+    get status(): 'opening' | 'opening-shared' | 'opened-shared' | 'opened' | 'closed';
+    set status(val: 'opening' | 'opening-shared' | 'opened-shared' | 'opened' | 'closed');
+    applyOptions(options?: any): void;
+    get hasPersistentConnection(): boolean;
+    canEditAnnotation(annotation?: AnnotationBase | null): boolean;
+    close(): Promise<string>;
+    listUsersWithAccess(): Promise<UserAccess[]>;
+    listAllUsers(): Promise<string[]>;
+    listSharedDocuments(): Promise<SharedDocumentInfo[]>;
+    openSharedDocument(documentId: string): Promise<OpenDocumentInfo>;
+    startSharedMode(): Promise<StartSharedModeResponse>;
+    stopSharedMode(): Promise<void>;
+    shareDocument(userName: string, accessMode: SharedAccessMode, modificationsState: ModificationsState, startSharedMode?: boolean): Promise<OpenDocumentInfo | null>;
+    unshareDocument(userName: string): Promise<void>;
+    sendMessage(type: ClientMessageType, messageData: Partial<ClientMessage>): Promise<void>;
+    sendRequest<T>(type: ClientRequestType, messageData?: Partial<ClientMessage>): Promise<T>;
+    get documentId(): string;
+    get isDocumentShared(): boolean;
+    get isConnected(): boolean;
+    set isConnected(val: boolean);
+    connect(lazy?: boolean): Promise<boolean>;
+    modifySharedDocument(type: ModificationType, data?: {
+        pageIndex: number;
+        annotation: AnnotationBase;
+    } | {
+        pageIndex: number;
+        annotationId: string;
+    } | {
+        resultStructure: number[];
+        structureChanges: {
+            pageIndex: number;
+            add: boolean;
+            checkNumPages: number;
+        }[];
+        pdfInfo: {
+            numPages: number;
+            fingerprint: string;
+        };
+    }): Promise<void>;
+    onPushMessage(message: ServerMessage): void;
+    getDownloadUrl(filename: string): string;
+    getDownloadUnmodifiedUrl(filename: string): string;
+    setOptions(): Promise<string>;
+    openBinary(data: any): Promise<OpenDocumentInfo>;
+    checkDocumentLoader(): Promise<boolean>;
+    getStampCategories(): Promise<StampCategory[]>;
+    getStampImageUrl(categoryId: string, imageName: string, enableCache: boolean): string;
+    collectModifiedFiles(documentModification: LocalDocumentModification | ModificationsState): string[];
+    downloadFiles(fileIds: string[], sink?: ProgressDialogSink): Promise<boolean>;
+    uploadFiles(fileIds: string[], sink?: ProgressDialogSink): Promise<boolean>;
+    modify(documentModification: DocumentModification): Promise<string>;
+    sign(signatureInfo: SignatureInfo): Promise<boolean>;
+    verifySignature(fieldName: string): Promise<boolean>;
+    serverVersion(): Promise<any>;
+    getLastError(): Promise<string>;
+    private _reset;
+}
