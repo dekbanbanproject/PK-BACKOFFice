@@ -409,7 +409,7 @@
                                                     <td class="text-start">{{ $item4->Procterm }}</td>
                                                     <td class="text-start">{{ $item4->DR }}</td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning addicodeModal" value="{{ $item4->d_aipop_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="ย้ายผังบัญชี">
+                                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning addicodeModal" value="{{ $item4->d_aipop_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="แก้ไข DateIn  DateOut">
                                                             <i class="fa-regular fa-pen-to-square me-2"></i>
                                                             {{ $item4->DateIn }}
                                                         </button> 
@@ -587,13 +587,25 @@
                             <div class="col-md-6">
                                 <label for="TimeIn" class="form-label">TimeIn</label>
                                 <div class="input-group input-group-sm"> 
-                                    <input type="time" class="form-control" id="timein_edit" name="TimeIn" >  
+                                    {{-- <input type="time" class="form-control" id="timein_edit" name="TimeIn" >   --}}
+                                    <input class="form-control" data-provide="timepicker" data-minute-step="1" type="text" id="timein_edit" name="TimeIn" >
                                 </div>
                             </div>
+                            {{-- <div class="col-lg-4 col-md-9 col-sm-12">
+                                <div class="input-group timepicker">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="la la-clock-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" id="timeout_edit" placeholder="Select time" type="text"/>
+                                </div>
+                            </div> --}}
                             <div class="col-md-6">
                                 <label for="TimeOut" class="form-label">TimeOut</label>
                                 {{-- <div class="input-group input-group-sm">  --}}
-                                    <input type="time" class="form-control" id="timeout_edit" name="TimeOut" > 
+                                    {{-- <input class="form-control" data-provide="timepicker" data-minute-step="1" type="text" id="timeout_edit" name="TimeOut" >  --}}
+                                    <input class="form-control" data-provide="timepicker" data-minute-step="1" type="text" id="timeout_edit" name="TimeOut" > 
                                     {{-- <input type="text" class="form-control" name="TimeOut" id="TimeOut" placeholder="Start Date" data-date-container='#TimeOut' autocomplete="off" data-provide="TimeOut" data-date-autoclose="true" data-date-language="th-th" />  --}}
                                     {{-- data-format="dd/MM/yyyy hh:mm:ss" --}}
                                     {{-- <div id="datetimepicker3" class="input-append">
@@ -633,11 +645,11 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-            $(function() {
-                $('#datetimepicker3').datepicker({
-                pickDate: false
-                });
-            });
+            // $(function() {
+            //     $('#datetimepicker3').datepicker({
+            //     pickDate: false
+            //     });
+            // });
             // $('#TimeOut').datepicker({
             //     // format: 'yyyy-mm-dd'
             //     format: 'hh:mm:ss'
@@ -650,12 +662,20 @@
                 format: 'yyyy-mm-dd'
             });
 
-            $('#timein_edit').timepicker({
-                // defaultTime: '11:45:20',
-                format: 'HH:MM:SS',
-                minuteStep: 1,
+            $('#timein_edit, #addicodeModal').timepicker({ 
+                format: 'hh:mm:ss',
+                minuteStep: 1, 
                 showSeconds: true,
-                showMeridian: true
+                showMeridian: false,
+                snapToStep: true
+            });
+
+            $('#timeout_edit, #addicodeModal').timepicker({ 
+                format: 'hh:mm:ss',
+                minuteStep: 1, 
+                showSeconds: true,
+                showMeridian: false,
+                snapToStep: true
             });
             // $('#TimeIn').datepicker({
             // //     format: 'hh:mm:ss'
@@ -1063,23 +1083,23 @@
                     success: function(data) {
                         console.log(data.data_ipop.d_aipop_id);  
                         $('#an_edit').val(data.data_ipop.an) 
-                        $('#datein_edit').val(data.data_ipop.DateIn)
-                        $('#timein_edit').val(data.data_ipop.TimeIn)
-                        $('#dateout_edit').val(data.data_ipop.DateOut)
-                        $('#timeout_edit').val(data.data_ipop.TimeOut)
+                        $('#datein_edit').val(data.data_ipop.Date_In)
+                        $('#timein_edit').val(data.data_ipop.Time_In)
+                        $('#dateout_edit').val(data.data_ipop.Date_Out)
+                        $('#timeout_edit').val(data.data_ipop.Time_Out)
                         $('#d_aipop_id_edit').val(data.data_ipop.d_aipop_id)
                    
                     },
                 });
             });
             $('#Updatedata_time').click(function() {
-                    var DateIn = $('#DateIn').val(); 
-                    var TimeIn = $('#TimeIn').val(); 
-                    var DateOut = $('#DateOut').val(); 
-                    var TimeOut = $('#TimeOut').val(); 
+                    var DateIn = $('#datein_edit').val(); 
+                    var TimeIn = $('#timein_edit').val(); 
+                    var DateOut = $('#dateout_edit').val(); 
+                    var TimeOut = $('#timeout_edit').val(); 
                     var d_aipop_id_edit = $('#d_aipop_id_edit').val();
                     Swal.fire({
-                            title: 'ต้องการแก้ไขข้อมูลสำเร็จใช่ไหม ?',
+                            title: 'ต้องการแก้ไขข้อมูลใช่ไหม ?',
                             text: "You Edit Data!",
                             icon: 'warning',
                             showCancelButton: true,

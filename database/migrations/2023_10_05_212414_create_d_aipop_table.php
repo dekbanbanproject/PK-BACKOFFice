@@ -27,6 +27,10 @@ return new class extends Migration
                 $table->string('DateOut')->nullable();//  
                 $table->string('Location')->nullable();// 
                 $table->timestamps();
+                $table->date('Date_In')->nullable();// 
+                $table->date('Date_Out')->nullable();// 
+                $table->time('Time_in')->nullable();// 
+                $table->time('Time_out')->nullable();// 
             });
         }
     }

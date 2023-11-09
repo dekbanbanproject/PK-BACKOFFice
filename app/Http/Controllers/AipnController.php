@@ -123,8 +123,12 @@ class AipnController extends Controller
         $TimeOut   = $request->input('TimeOut');
 
         $update = D_aipop::find($id);  
-        $update->DateIn    = $DateIn.'T'.$TimeIn.'30';
-        $update->DateOut   = $DateOut.'T'.$TimeOut.'15'; 
+        $update->DateIn    = $DateIn.'T'.$TimeIn;
+        $update->DateOut   = $DateOut.'T'.$TimeOut; 
+        $update->Date_In   = $DateIn;
+        $update->Date_Out  = $DateOut;
+        $update->Time_In   = $TimeIn;
+        $update->Time_Out  = $TimeOut;
         $update->save();
 
         return response()->json([
