@@ -605,9 +605,9 @@ class Account106Controller extends Controller
         $date_mm = date_create($date_m);
         $datnow_mmm =  date_format($date_mm, "m");
 
-        $date_vsty = date('Y')+543;
+        // $date_vsty = date('Y',)+543;
         $date_vstyy = date_create($dataedit->vstdate);
-        $datnow_vstyyy =  date_format($date_vstyy, "Y");
+        $datnow_vstyyy =  date_format($date_vstyy, "Y")+543;
 
         $date_vstd = date('D'); 
         $date_vstdd = date_create($dataedit->vstdate);
@@ -684,7 +684,7 @@ class Account106Controller extends Controller
         $pdf->SetFont('THSarabunNew', '', 16);
         $pdf->Text(20, 88, iconv('UTF-8', 'TIS-620', 'เรียน  '));
         $pdf->SetFont('THSarabunNew Bold', '', 16);
-        $pdf->Text(30, 88, iconv('UTF-8', 'TIS-620', '' .thainumDigit($dataedit->ptname)));
+        $pdf->Text(30, 88, iconv('UTF-8', 'TIS-620', '' .$dataedit->ptname));
 
         $pdf->SetFont('THSarabunNew', '', 15);
         $pdf->Text(20, 96, iconv('UTF-8', 'TIS-620', 'อ้างถึง  คำร้องขอค้างค่ารักษาพยาบาล  ลงวันที่' ));
@@ -696,8 +696,9 @@ class Account106Controller extends Controller
      
         $pdf->SetFont('THSarabunNew', '', 15);
         $pdf->Text(112, 96, iconv('UTF-8', 'TIS-620', '  ' .thainumDigit($datnow_vstyyy)));
-        // $pdf->SetFont('THSarabunNew Bold', '', 16);
-        // $pdf->Text(30, 96, iconv('UTF-8', 'TIS-620', '' .thainumDigit($dataedit->ptname)));
+        
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(40, 104, iconv('UTF-8', 'TIS-620', 'ตามที่ ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name));
         
         //ผอ 
         $pdf->SetFont('THSarabunNew', '', 15);
