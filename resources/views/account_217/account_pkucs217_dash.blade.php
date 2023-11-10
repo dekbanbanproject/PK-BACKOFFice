@@ -158,7 +158,7 @@
                                                             LEFT JOIN acc_stm_ucs s ON s.an = a.an 
                                                             WHERE year(a.dchdate) = "'.$item->year.'"
                                                             AND month(a.dchdate) = "'.$item->months.'" 
-                                                            AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+                                                            AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
 
                                                     ');
                                                     // AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0 or s.dmis_money2 >0 or s.dmis_drug >0)
@@ -176,7 +176,7 @@
                                                                 WHERE U1.status ="N" 
                                                                 AND year(U1.dchdate) = "'.$item->year.'"
                                                                 AND month(U1.dchdate) = "'.$item->months.'"
-                                                                AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null) 
+                                                                AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null) 
                                                                 
                                                     ');
                                                     // AND month(U1.dchdate) < "'.$mo.'"
@@ -333,7 +333,7 @@
                                                         FROM acc_1102050101_217 a
                                                         LEFT JOIN acc_stm_ucs s ON s.an = a.an 
                                                         WHERE a.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'"
-                                                        AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+                                                        AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
 
                                                 ');
                                                 // AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0 or s.dmis_money2 >0 or s.dmis_drug >0)
@@ -350,7 +350,7 @@
                                                             LEFT JOIN acc_stm_ucs s ON s.an = U1.an 
                                                             WHERE U1.status ="N" 
                                                             AND U1.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'"
-                                                            AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null) 
+                                                            AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null) 
                                                             
                                                 ');
                                                 // AND month(U1.dchdate) < "'.$mo.'"

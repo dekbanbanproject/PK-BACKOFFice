@@ -133,7 +133,8 @@
                                             <th class="text-center">ptname</th>
                                             <th class="text-center">vstdate</th>  
                                             <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th>  
+                                            <th class="text-center">spsch</th> 
+                                            <th class="text-center">pdx</th>  
                                             <th class="text-center">ลูกหนี้</th>  
                                         </tr>
                                     </thead>
@@ -160,7 +161,7 @@
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
                                                 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
-                                                
+                                                <td class="text-center" style="color:rgb(243, 46, 227)" width="5%">{{ $item->pdx }}</td> 
                                                 {{-- <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td>  --}}
                                                 <td class="text-center" width="10%">{{ number_format($item->debit, 2) }}</td> 
  

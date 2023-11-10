@@ -95,6 +95,11 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">pttype</th> 
+                                    <th class="text-center">pdx</th> 
+                                    <th class="text-center">ค่าใช้จ่ายทั้งหมด</th> 
+                                    <th class="text-center">discount_money</th> 
+                                    <th class="text-center">ยอดที่ต้องชำระ</th> 
+                                    <th class="text-center">ชำระแล้ว</th> 
                                     <th class="text-center">ลูกหนี้</th> 
                                 </tr>
                             </thead>
@@ -111,7 +116,12 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="p-2" >{{ $item->ptname }}</td>  
                                             <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
                                             <td class="text-center" width="10%">{{ $item->pttype }}</td>  
-                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
+                                            <td class="text-center" style="color:rgb(238, 121, 25)" width="10%">{{ $item->pdx }}</td> 
+                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->income, 2) }}</td>  
+                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->discount_money, 2) }}</td>  
+                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->paid_money, 2) }}</td>  
+                                            <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->rcpt_money, 2) }}</td>  
+                                            <td class="text-end" style="color:rgb(241, 61, 91)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
                                         
                                     

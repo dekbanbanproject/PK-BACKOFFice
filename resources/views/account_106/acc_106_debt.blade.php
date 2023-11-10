@@ -1,6 +1,12 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
-
+{{-- <link href="{{ asset('fonts') }}" rel="stylesheet" type="text/css" /> --}}
+{{-- <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Srisakdi&display=swap" rel="stylesheet"> --}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Srisakdi:wght@400;700&display=swap" rel="stylesheet">
 @section('content')
     <script>
         function TypeAdmin() {
@@ -52,7 +58,7 @@
             })
         }
 
-        function acc_106_debt_print(acc_1102050102_106_id) {
+        function acc_106_debt_outbook(acc_1102050102_106_id) {
             Swal.fire({
                 title: 'ต้องการออกจดหมายใช่ไหม?',
                 // text: "ข้อมูลนี้จะถูก !!",
@@ -65,7 +71,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('acc_106_debt_print') }}" + '/' + acc_1102050102_106_id,
+                        url: "{{ url('acc_106_debt_outbook') }}" + '/' + acc_1102050102_106_id,
                         type: 'POST',
                         data: {
                             _token: $("input[name=_token]").val()
@@ -73,8 +79,8 @@
                         success: function(response) {
                             // if (response.status == 200) {
                             Swal.fire({
-                                title: 'ลบข้อมูล!',
-                                text: "You Delet data success",
+                                title: 'ออกจดหมายสำเร็จ!',
+                                text: "You Send letter success",
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#06D177',
@@ -83,8 +89,8 @@
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // $("#sid" + acc_1102050102_106_id).remove();
-                                    window.location.reload();
-                                    //   window.location = "/person/person_index"; //     
+                                    // window.location.reload();
+                                      window.location = "acc_106_debt_print"+ '/' + acc_1102050102_106_id; //     
                                 }
                             })
                             // } else {
@@ -120,7 +126,6 @@
             border: solid #ccc 1px;
             cursor: pointer;
         }
-
         #overlay {
             position: fixed;
             top: 0;
@@ -130,14 +135,12 @@
             display: none;
             background: rgba(0, 0, 0, 0.6);
         }
-
         .cv-spinner {
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         .spinner {
             width: 250px;
             height: 250px;
@@ -146,15 +149,22 @@
             border-radius: 50%;
             animation: sp-anime 0.8s infinite linear;
         }
-
         @keyframes sp-anime {
             100% {
                 transform: rotate(360deg);
             }
         }
-
         .is-hide {
             display: none;
+        }
+        .Head1{
+			font-family: 'Srisakdi', sans-serif;
+            font-size: 17px;
+            /* font-style: normal; */
+          font-weight: 500;
+		}
+        .detail{
+            font-size: 13px;
         }
     </style>
     <?php
@@ -201,7 +211,7 @@
                         <table id="example" class="table table-striped table-bordered "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
-                                <tr>
+                                <tr class="Head1">
                                     <th class="text-center">ลำดับ</th>
                                     <th class="text-center">vn</th> 
                                     <th class="text-center">hn</th>
@@ -212,8 +222,9 @@
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
                                     <th class="text-center">ชำระแล้ว</th>
-                                    <th class="text-center">ยอดค้างชำระ</th>
+                                    <th class="text-center">ค้างชำระ</th>
                                     <th class="text-center">ออกจดหมาย</th> 
+                                    <th class="text-center">จำนวนที่ออก</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -221,19 +232,19 @@
                                 $total1 = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                    <tr height="20" >
+                                    <tr height="20" class="detail">
                                     <td class="text-center" width="4%">{{ $number }}</td>
                                     <td class="text-center" width="8%">{{ $item->vn }}</td> 
                                     <td class="text-center" width="5%">{{ $item->hn }}</td> 
-                                    <td class="text-center" width="10%">{{ $item->cid }}</td> 
+                                    <td class="text-center" width="7%">{{ $item->cid }}</td> 
                                     <td class="text-start">{{ $item->ptname }}</td> 
                                     <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                    <td class="text-center" width="10%">{{ $item->pttype }}</td>
-                                    <td class="text-end" width="12%">{{ number_format($item->income, 2) }}</td> 
-                                    <td class="text-end" width="12%">{{ number_format($item->paid_money, 2) }}</td> 
-                                    <td class="text-end" width="7%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                    <td class="text-end" width="7%">{{ number_format($item->debit_total, 2) }}</td>  
-                                    <td class="text-center" width="5%">
+                                    <td class="text-center" width="7%">{{ $item->pttype }}</td>
+                                    <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td> 
+                                    <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
+                                    <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                    <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
+                                    <td class="text-center" width="6%">
                                         {{-- <button type="button"class="dropdown-item menu"  
                                             data-bs-toggle="modal" data-bs-target="#FileModal{{ $item->acc_1102050102_106_id }}"
                                             data-bs-toggle="tooltip" data-bs-placement="left" title="ออกจดหมาย">
@@ -241,14 +252,15 @@
                                                 <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
                                             
                                         </button>  --}}
-                                        <a class="dropdown-item menu btn btn-outline-danger btn-sm" href="javascript:void(0)"
-                                            onclick="acc_106_debt_print({{ $item->acc_1102050102_106_id }})"
+                                        <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
+                                            onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
                                             data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
                                             data-bs-placement="top" title="ออกจดหมาย">
                                             <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
                                             <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
                                         </a>
                                     </td> 
+                                    <td class="text-center" width="5%"></td> 
                                     {{-- <td class="text-center" width="10%" > 
                                         @if ($item->file == '')
                                         <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">

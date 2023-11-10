@@ -62,6 +62,7 @@ return new class extends Migration
                 $table->date('date_req')->nullable();// 
                 $table->enum('file_active', ['Y', 'N'])->default('N');
                 $table->string('file_name')->nullable();// 
+                $table->string('pdx')->nullable();// 
                 $table->timestamps();
             });
         }

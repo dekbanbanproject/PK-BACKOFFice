@@ -58,8 +58,8 @@ use App\Models\Com_repaire;
 use App\Models\Land;
 use App\Models\Building;
 use App\Models\Product_budget;
-use App\Models\Product_method;
-use App\Models\Product_buy;
+use App\Models\Patient;
+use App\Models\Acc_106_debt_print;
 use App\Models\Acc_doc;
 use App\Models\Acc_1102050102_106;
 use App\Models\Acc_debtor;
@@ -154,7 +154,7 @@ class Account106Controller extends Controller
             SELECT r.vn,r.hn,p.cid,concat(p.pname,p.fname," ",p.lname) as ptname
                 ,v.pttype,v.vstdate,r.arrear_date,r.arrear_time,rp.book_number,rp.bill_number,r.amount,rp.total_amount,r.paid
                 ,o.vsttime,t.name as pttype_name,"27" as acc_code,"1102050102.106" as account_code,"ชำระเงิน" as account_name,r.staff
-                ,r.rcpno,r.finance_number,r.receive_money_date,r.receive_money_staff
+                ,r.rcpno,r.finance_number,r.receive_money_date,r.receive_money_staff,v.pdx
                 ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
 
                 FROM hos.rcpt_arrear r  
@@ -183,17 +183,19 @@ class Account106Controller extends Controller
                             'debit'              => $value->amount, 
                             'debit_total'        => $value->amount,
                             'rcpno'              => $value->rcpno,  
+                            'pdx'                => $value->pdx, 
                         ]);
-                        // Acc_1102050102_106::where('vn', $value->vn)->update([ 
-                        //     'income'             => $value->income,
-                        //     'uc_money'           => $value->uc_money,
-                        //     'discount_money'     => $value->discount_money,
-                        //     'paid_money'         => $value->paid_money,
-                        //     'rcpt_money'         => $value->rcpt_money,
-                        //     'debit'              => $value->amount, 
-                        //     'debit_total'        => $value->amount,
-                        //     'rcpno'              => $value->rcpno,  
-                        // ]);
+                        Acc_1102050102_106::where('vn', $value->vn)->update([ 
+                            'income'             => $value->income,
+                            'uc_money'           => $value->uc_money,
+                            'discount_money'     => $value->discount_money,
+                            'paid_money'         => $value->paid_money,
+                            'rcpt_money'         => $value->rcpt_money,
+                            'debit'              => $value->amount, 
+                            'debit_total'        => $value->amount,
+                            'rcpno'              => $value->rcpno,  
+                            'pdx'                => $value->pdx,
+                        ]);
                     }else{
                         Acc_debtor::insert([
                             // 'stamp'              => 'Y',
@@ -215,6 +217,7 @@ class Account106Controller extends Controller
                             'debit'              => $value->amount, 
                             'debit_total'        => $value->amount,
                             'rcpno'              => $value->rcpno, 
+                            'pdx'                => $value->pdx, 
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
                     }
@@ -263,6 +266,7 @@ class Account106Controller extends Controller
                             'debit_refer'       => $value->debit_refer,
                             'debit_toa'         => $value->debit_toa,
                             'debit_total'       => $value->debit_total,
+                            'pdx'               => $value->pdx,
                             'max_debt_amount'   => $value->max_debt_amount,
                             'acc_debtor_userid' => $iduser
                     ]);
@@ -281,11 +285,12 @@ class Account106Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+            SELECT *
                 from acc_1102050102_106 U1
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
                 GROUP BY U1.vn
         ');
+        // U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_106.acc_106_detail', $data, [ 
             'data'          =>     $data,
@@ -298,7 +303,7 @@ class Account106Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+        SELECT *
             from acc_1102050102_106 U1
             WHERE U1.vstdate  BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
             GROUP BY U1.vn
@@ -389,7 +394,7 @@ class Account106Controller extends Controller
                 LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                 LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
                 WHERE U1.debit_total > 0
-                GROUP BY U1.vn
+                GROUP BY U1.vn ORDER BY U1.acc_1102050102_106_id DESC
         ');
         return view('account_106.acc_106_debt',[
             'startdate'     =>  $startdate,
@@ -397,11 +402,114 @@ class Account106Controller extends Controller
             'datashow'      =>  $datashow,
         ]);
     }
+    public function acc_106_debt_outbook(Request $request, $id)
+    { 
+        function Convert($amount_number)
+        {
+            $amount_number = number_format($amount_number, 2, ".","");
+            $pt = strpos($amount_number , ".");
+            $number = $fraction = "";
+            if ($pt === false) 
+                $number = $amount_number;
+            else
+            {
+                $number = substr($amount_number, 0, $pt);
+                $fraction = substr($amount_number, $pt + 1);
+            }
+            
+            $ret = "";
+            $baht = ReadNumber ($number);
+            if ($baht != "")
+                $ret .= $baht . "บาท";
+            
+            $satang = ReadNumber($fraction);
+            if ($satang != "")
+                $ret .=  $satang . "สตางค์";
+            else 
+                $ret .= "ถ้วน";
+            return $ret;
+        }
+        function ReadNumber($number)
+        {
+            $position_call = array("แสน", "หมื่น", "พัน", "ร้อย", "สิบ", "");
+            $number_call = array("", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า");
+            $number = $number + 0;
+            $ret = "";
+            if ($number == 0) return $ret;
+            if ($number > 1000000)
+            {
+                $ret .= ReadNumber(intval($number / 1000000)) . "ล้าน";
+                $number = intval(fmod($number, 1000000));
+            }
+            
+            $divider = 100000;
+            $pos = 0;
+            while($number > 0)
+            {
+                $d = intval($number / $divider);
+                $ret .= (($divider == 10) && ($d == 2)) ? "ยี่" : 
+                    ((($divider == 10) && ($d == 1)) ? "" :
+                    ((($divider == 1) && ($d == 1) && ($ret != "")) ? "เอ็ด" : $number_call[$d]));
+                $ret .= ($d ? $position_call[$pos] : "");
+                $number = $number % $divider;
+                $divider = $divider / 10;
+                $pos++;
+            }
+            return $ret;
+        }
+
+        $date = date('Y-m-d');
+        $data_ = Acc_1102050102_106::where('acc_1102050102_106_id', '=', $id)->first();
+        $check_106_debt_count = Acc_106_debt_print::where('vn', $data_->vn)->count();
+        $check_max_ = Acc_106_debt_print::where('vn', $data_->vn)->max('106_debt_no');
+        $check_max = $check_max_ +1;
+        $data_Patient = Patient::where('hn', '=', $data_->hn)->first();
+
+        $data_Patient_ = DB::connection('mysql2')->select('        
+                SELECT *
+                FROM patient p
+                LEFT OUTER JOIN thaiaddress t1 on t1.chwpart = p.chwpart and t1.amppart = p.amppart and t1.tmbpart = p.tmbpart and t1.codetype = "3"
+             
+                WHERE p.hn = "'.$data_->hn.'"
+        ');
+        foreach ($data_Patient_ as $key => $value_p) {
+            $address = $value_p->informaddr;
+        }
+        // $address ='บ้านเลขที่'.$value_p->addrpart.'หมู่'.$value_p->moopart.''.$value_p->tmbpart.''.$value_p->amppart.''.$value_p->full_name;
+        // $address = $data_Patient->addrpart.''.$data_Patient->moopart.''.$data_Patient->tmbpart.''.$data_Patient->amppart;
+        Acc_106_debt_print::insert([
+
+            '106_debt_no'       => $check_max,
+            '106_debt_date'     => $date,
+            '106_debt_count'     => '1',
+
+            '106_debt_address'  => $address,
+
+            'vn'                => $data_->vn,
+            'hn'                => $data_->hn,
+            'an'                => $data_->an,
+            'cid'               => $data_->cid,
+            'ptname'            => $data_->ptname,
+            'vstdate'           => $data_->vstdate, 
+            'dchdate'           => $data_->dchdate,
+            'pttype'            => $data_->pttype, 
+            'income'            => $data_->income, 
+            'discount_money'    => $data_->discount_money,
+            'paid_money'        => $data_->paid_money,
+            'rcpt_money'        => $data_->rcpt_money, 
+            'rcpno'             => $data_->rcpno, 
+            'debit_total'       => $data_->debit_total, 
+            '106_debt_user'     => Auth::user()->id,
+            'debit_total_thai'  => Convert($data_->debit_total), 
+    ]);
+
+
+        
+
+    }
     public function acc_106_debt_print(Request $request, $id)
     { 
-        $dataedit = Com_repaire::leftJoin('com_repaire_speed', 'com_repaire_speed.status_id', '=', 'com_repaire.com_repaire_speed')
-            ->leftjoin('users', 'users.id', '=', 'com_repaire.com_repaire_user_id')
-            ->where('com_repaire_id', '=', $id)->first();
+        $dataedit = Acc_1102050102_106::where('acc_1102050102_106_id', '=', $id)->first();
 
         $org = DB::table('orginfo')->where('orginfo_id', '=', 1)
             ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')
@@ -489,19 +597,42 @@ class Account106Controller extends Controller
             }
             return $datethai;
         }
+        function dateThaifromFull($strDate)
+        {
+            $strYear = date("Y",strtotime($strDate))+543;
+            $strMonth= date("n",strtotime($strDate));
+            $strDay= date("j",strtotime($strDate));
 
-        $date = date_create($dataedit->created_at);
-        $datnow =  date_format($date, "Y-m-j");
+            $strMonthCut = Array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤษจิกายน","ธันวาคม");
+            $strMonthThai=$strMonthCut[$strMonth];
+            return $strDay.' '.$strMonthThai.'  พ.ศ. '.$strYear;
+        }
+        function thainumDigit($num){
+            return str_replace(array( '0' , '1' , '2' , '3' , '4' , '5' , '6' ,'7' , '8' , '9' ),array( "o" , "๑" , "๒" , "๓" , "๔" , "๕" , "๖" , "๗" , "๘" , "๙" ),$num);
+        }
 
+        // $date = date_create($dataedit->created_at);
+        $date_y = date('Y')+543;
+        $date_yy = date_create($date_y);
+        $datnow_yyy =  date_format($date_yy, "Y");
+
+        $date_d = date('d'); 
+        $date_dd = date_create($date_d);
+        $datnow_ddd =  date_format($date_dd, "Y-m-j");
+
+        // $date_d = date('d'); 
+        // $date_dd = date_create($date_d);
+        // $datnow_ddd =  date_format($date, "Y-m-j");
+       
         //  // Arial bold 15
         // $this->SetFont('Arial','B',15);
         // // Calculate width of title and position
         // $w = $this->GetStringWidth($title)+6;
         // $this->SetX((210-$w)/2);
         // // Colors of frame, background and text
-        // $this->SetDrawColor(0,80,180);
-        // $this->SetFillColor(230,230,0);
-        // $this->SetTextColor(220,50,50);
+        // $this->SetDrawColor(0,80,180);  สีของเส้น
+        // $this->SetFillColor(230,230,0); 
+        // $this->SetTextColor(220,50,50);  สีตัวหนังสือ
         // // Thickness of frame (1 mm)
         // $this->SetLineWidth(1);
         // // Title
@@ -516,31 +647,58 @@ class Account106Controller extends Controller
         $pdf->SetFont('THSarabunNew Bold', '', 19);
         // $pdf->AddPage("L", ['100', '100']);
         $pdf->AddPage("P");
-        $pdf->Image('assets/images/crut.png', 22, 15, 16, 16);
-        $pdf->SetFont('THSarabunNew Bold', '', 19);
-        $pdf->Text(93, 25, iconv('UTF-8', 'TIS-620', 'ใบแจ้งซ่อม '));
-        $pdf->SetFont('THSarabunNew', '', 17);
-        $pdf->Text(75, 33, iconv('UTF-8', 'TIS-620', 'โรงพยาบาล ' . $org->orginfo_name));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(25, 41, iconv('UTF-8', 'TIS-620', 'หน่วยงานที่แจ้งซ่อม :   ' . $dataedit->com_repaire_debsubsub_name));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(110, 41, iconv('UTF-8', 'TIS-620', 'เบอร์โทร :   ' . $dataedit->tel));
+
+        // # list of colors
+        // $colors = [(0,0,0),(255,0,0),(255,165,0)];
+        // $imgname = 'assets/images/crut.png';
+        // $im = imagecreatefrompng($imgname);
+        // imagecolorset($im,100, 100,150,0);
+        // header("Content-type: image/png");
+        // imagepng($im);
+        // $pdf->SetFillColor(230,230,0); 
+        $pdf->Image('assets/images/crut_red.jpg', 90, 20, 32, 34);
+        // $pdf->Image('assets/images/crut.png',  10, 10, -300);
+        // $pdf->Image($imgname [, 99 [, 55 [, 88 [, 55 [, 'PNG' [, 'assets/images/crut.png']]]]]]);
+        // Image(string file [, float x [, float y [, float w [, float h [, string type [, mixed link]]]]]])
+        // $pdf->SetFont('THSarabunNew Bold', '', 19);       
+        // $pdf->Text(93, 25, iconv('UTF-8', 'TIS-620', 'ใบแจ้งซ่อม '));
+        // $pdf->SetFont('THSarabunNew', '', 17);
+        // $pdf->Text(120, 50, iconv('UTF-8', 'TIS-620', '' . $org->orginfo_name));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 55, iconv('UTF-8', 'TIS-620', 'ที่ ชย ๐๐๓๓.๓๐๓/........'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(140, 55, iconv('UTF-8', 'TIS-620', '' . $org->orginfo_name));
+        
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(120, 75, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_yyy)));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(110, 75, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_ddd)));
+        
+
+        // $pdf->Text(25, 41, iconv('UTF-8', 'TIS-620', 'หน่วยงานที่แจ้งซ่อม :   ' . $dataedit->com_repaire_debsubsub_name));
+        // $pdf->SetFont('THSarabunNew', '', 14);
+
+        // $pdf->Text(110, 41, iconv('UTF-8', 'TIS-620', 'เบอร์โทร :   ' . $dataedit->tel));
+
         // x1,y1,x2,y2
-        $pdf->Line(25, 45, 180, 45);   // 25 คือ ย่อหน้า  // 45 คือ margintop   // 180 คือความยาวเส้น 
-        $pdf->SetFont('THSarabunNew Bold', '', 14);
-        $pdf->Text(25, 52, iconv('UTF-8', 'TIS-620', 'ส่วนที่ 1 ผู้แจ้ง  :  '));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(50, 52, iconv('UTF-8', 'TIS-620', 'รหัสแจ้งซ่อม  :  ' . $dataedit->com_repaire_no));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(100, 52, iconv('UTF-8', 'TIS-620', 'วันที่  :  ' . DateThai($dataedit->com_repaire_date)));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(150, 52, iconv('UTF-8', 'TIS-620', 'เวลา  :  ' . time($dataedit->com_repaire_time). ' น.'));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(25, 60, iconv('UTF-8', 'TIS-620', 'หมายเลขครุภัณฑ์  :  ' . $dataedit->com_repaire_article_num));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(25, 68, iconv('UTF-8', 'TIS-620', 'ชื่อครุภัณฑ์  :  ' . $dataedit->com_repaire_article_name));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(25, 76, iconv('UTF-8', 'TIS-620', 'รายละเอียดแจ้งซ่อม  :  ' . $dataedit->com_repaire_detail));
+        // $pdf->Line(25, 45, 180, 45);   // 25 คือ ย่อหน้า  // 45 คือ margintop   // 180 คือความยาวเส้น 
+        // $pdf->SetFont('THSarabunNew Bold', '', 14);
+        // $pdf->Text(25, 52, iconv('UTF-8', 'TIS-620', 'ส่วนที่ 1 ผู้แจ้ง  :  '));
+        // $pdf->SetFont('THSarabunNew', '', 14);
+        // $pdf->Text(50, 52, iconv('UTF-8', 'TIS-620', 'รหัสแจ้งซ่อม  :  ' . $dataedit->com_repaire_no));
+        // $pdf->SetFont('THSarabunNew', '', 14);
+        // $pdf->Text(100, 52, iconv('UTF-8', 'TIS-620', 'วันที่  :  ' . DateThai($dataedit->com_repaire_date)));
+        // $pdf->SetFont('THSarabunNew', '', 14);
+        // $pdf->Text(150, 52, iconv('UTF-8', 'TIS-620', 'เวลา  :  ' . time($dataedit->com_repaire_time). ' น.'));
+        // $pdf->SetFont('THSarabunNew', '', 14);
+        // $pdf->Text(25, 60, iconv('UTF-8', 'TIS-620', 'หมายเลขครุภัณฑ์  :  ' . $dataedit->com_repaire_article_num));
+        // $pdf->SetFont('THSarabunNew', '', 14);
+        // $pdf->Text(25, 68, iconv('UTF-8', 'TIS-620', 'ชื่อครุภัณฑ์  :  ' . $dataedit->com_repaire_article_name));
+        // $pdf->SetFont('THSarabunNew', '', 14);
+        // $pdf->Text(25, 76, iconv('UTF-8', 'TIS-620', 'รายละเอียดแจ้งซ่อม  :  ' . $dataedit->com_repaire_detail));
         // $pdf->SetFont('THSarabunNew', '', 15);
         // $pdf->Text(130, 35, iconv('UTF-8', 'TIS-620', 'วันที่  ' . dayThai($datnow) . '  ' . monthThai($datnow) . '  พ.ศ. ' . yearThai($datnow)));
 

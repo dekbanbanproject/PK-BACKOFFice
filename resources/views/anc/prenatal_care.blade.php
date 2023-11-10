@@ -165,7 +165,7 @@
                                     <th class="text-center">จำนวนผู้ป่วย</th>
                                     <th class="text-center">adjrw</th>
                                     <th class="text-center">cmi</th>
-                                    <th class="text-center">total</th>
+                                    <th class="text-center">adjrw = 0</th>
                                 </tr>
                             </thead>
                             <tbody>

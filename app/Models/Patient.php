@@ -8,7 +8,7 @@ use Illuminate\support\Facades\Http;
 class Patient extends Model
 {
     use HasFactory;
-    protected $connection = 'mysql3';
+    protected $connection = 'mysql2';
     protected $table = 'patient';
     protected $primaryKey = 'hos_guid';
     public $timestamps = false;

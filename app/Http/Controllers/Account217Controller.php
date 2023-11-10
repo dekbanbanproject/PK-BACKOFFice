@@ -585,7 +585,7 @@ class Account217Controller extends Controller
             LEFT JOIN acc_stm_ucs s ON s.an = a.an
             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
             
-            AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+            AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
             group by a.an
         ');
         // AND s.rep IS NOT NULL
@@ -644,7 +644,7 @@ class Account217Controller extends Controller
                 WHERE a.status ="N"
                 AND month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
              
-                AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
+                AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
                 group by a.an
         ');
         // AND (s.hc_drug = 0 or s.hc =0 or s.ae =0 or s.ae_drug =0 or s.inst = 0 or s.dmis_money2 =0 or s.dmis_drug =0)
@@ -768,6 +768,31 @@ class Account217Controller extends Controller
                 // 'sum_debit_total'   =>     $sum_debit_total,
                 // 'sum_stm_total'     =>     $sum_stm_total
             ]);
+    }
+    public function account_pkucs217_stmnull_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d'); 
+        $data['users'] = User::get();
+
+        $data = DB::select('
+                SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,s.dmis_money2,s.total_approve,a.income_group,s.inst,s.ip_paytrue
+                ,s.inst + s.hc + s.hc_drug + s.ae_drug + s.dmis_money2 + s.dmis_drug as stm217
+                from acc_1102050101_217 a
+                LEFT JOIN acc_stm_ucs s ON s.an = a.an
+                WHERE a.status ="N"
+                AND a.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+             
+                AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null)
+                group by a.an
+        ');
+       
+
+        return view('account_217.account_pkucs217_stmnull_date', $data, [
+            'startdate'         =>     $startdate,
+            'enddate'           =>     $enddate,
+            'data'              =>     $data, 
+            
+        ]);
     }
  
 
