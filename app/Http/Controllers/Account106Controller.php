@@ -461,7 +461,7 @@ class Account106Controller extends Controller
         $date = date('Y-m-d');
         $data_ = Acc_1102050102_106::where('acc_1102050102_106_id', '=', $id)->first();
         $check_106_debt_count = Acc_106_debt_print::where('vn', $data_->vn)->count();
-        $check_max_ = Acc_106_debt_print::where('vn', $data_->vn)->max('106_debt_no');
+        $check_max_ = Acc_106_debt_print::where('vn', $data_->vn)->max('acc_106_debt_no');
         $check_max = $check_max_ +1;
         $data_Patient = Patient::where('hn', '=', $data_->hn)->first();
 
@@ -478,12 +478,11 @@ class Account106Controller extends Controller
         // $address ='บ้านเลขที่'.$value_p->addrpart.'หมู่'.$value_p->moopart.''.$value_p->tmbpart.''.$value_p->amppart.''.$value_p->full_name;
         // $address = $data_Patient->addrpart.''.$data_Patient->moopart.''.$data_Patient->tmbpart.''.$data_Patient->amppart;
         Acc_106_debt_print::insert([
-
-            '106_debt_no'       => $check_max,
-            '106_debt_date'     => $date,
-            '106_debt_count'     => '1',
-
-            '106_debt_address'  => $address,
+            'acc_1102050102_106_id'  => $id,
+            'acc_106_debt_no'        => $check_max,
+            'acc_106_debt_date'      => $date,
+            'acc_106_debt_count'     => '1', 
+            'acc_106_debt_address'   => $address,
 
             'vn'                => $data_->vn,
             'hn'                => $data_->hn,
@@ -499,7 +498,7 @@ class Account106Controller extends Controller
             'rcpt_money'        => $data_->rcpt_money, 
             'rcpno'             => $data_->rcpno, 
             'debit_total'       => $data_->debit_total, 
-            '106_debt_user'     => Auth::user()->id,
+            'acc_106_debt_user' => Auth::user()->id,
             'debit_total_thai'  => Convert($data_->debit_total), 
     ]);
 
@@ -509,8 +508,8 @@ class Account106Controller extends Controller
     }
     public function acc_106_debt_print(Request $request, $id)
     { 
-        $dataedit = Acc_1102050102_106::where('acc_1102050102_106_id', '=', $id)->first();
-
+        $dataedit = Acc_106_debt_print::where('acc_1102050102_106_id', '=', $id)->first();
+        $check_max = Acc_106_debt_print::where('acc_1102050102_106_id', '=', $id)->max('acc_106_debt_no');
         $org = DB::table('orginfo')->where('orginfo_id', '=', 1)
             ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')
             ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
@@ -527,14 +526,7 @@ class Account106Controller extends Controller
             ->where('com_repaire_id', '=', $id)
             // ->orwhere('com_repaire_no', '=', $dataedit->com_repaire_no)
             ->count();
-
-        // $countper = DB::table('car_service_personjoin')
-        //     ->where('com_repaire_id', '=', $id)
-        //     // ->orwhere('car_service_no', '=', $dataedit->car_service_no)
-        //     ->count();
-
-        // $countpers = $countper + 1;
-        // dd($countper);
+ 
         if ($count != 0) {
             $signature = DB::table('com_repaire_signature')->where('com_repaire_id', '=', $id)
                 // ->orwhere('com_repaire_no','=',$dataedit->com_repaire_no)
@@ -597,16 +589,7 @@ class Account106Controller extends Controller
             }
             return $datethai;
         }
-        function dateThaifromFull($strDate)
-        {
-            $strYear = date("Y",strtotime($strDate))+543;
-            $strMonth= date("n",strtotime($strDate));
-            $strDay= date("j",strtotime($strDate));
-
-            $strMonthCut = Array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤษจิกายน","ธันวาคม");
-            $strMonthThai=$strMonthCut[$strMonth];
-            return $strDay.' '.$strMonthThai.'  พ.ศ. '.$strYear;
-        }
+     
         function thainumDigit($num){
             return str_replace(array( '0' , '1' , '2' , '3' , '4' , '5' , '6' ,'7' , '8' , '9' ),array( "o" , "๑" , "๒" , "๓" , "๔" , "๕" , "๖" , "๗" , "๘" , "๙" ),$num);
         }
@@ -615,10 +598,24 @@ class Account106Controller extends Controller
         $date_y = date('Y')+543;
         $date_yy = date_create($date_y);
         $datnow_yyy =  date_format($date_yy, "Y");
-
-        $date_d = date('d'); 
+        $date_d = date('D'); 
         $date_dd = date_create($date_d);
-        $datnow_ddd =  date_format($date_dd, "Y-m-j");
+        $datnow_ddd =  date_format($date_dd, "d");
+        $date_m = date('M'); 
+        $date_mm = date_create($date_m);
+        $datnow_mmm =  date_format($date_mm, "m");
+
+        $date_vsty = date('Y')+543;
+        $date_vstyy = date_create($dataedit->vstdate);
+        $datnow_vstyyy =  date_format($date_vstyy, "Y");
+
+        $date_vstd = date('D'); 
+        $date_vstdd = date_create($dataedit->vstdate);
+        $datnow_vstddd =  date_format($date_vstdd, "d");
+
+        $date_vstm = date('M'); 
+        $date_vstmm = date_create($dataedit->vstdate);
+        $datnow_vstmmm =  date_format($date_vstmm, "m");
 
         // $date_d = date('d'); 
         // $date_dd = date_create($date_d);
@@ -669,159 +666,45 @@ class Account106Controller extends Controller
         $pdf->Text(20, 55, iconv('UTF-8', 'TIS-620', 'ที่ ชย ๐๐๓๓.๓๐๓/........'));
 
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(140, 55, iconv('UTF-8', 'TIS-620', '' . $org->orginfo_name));
+        $pdf->Text(140, 55, iconv('UTF-8', 'TIS-620', '' . $org->orginfo_name)); 
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(130, 63, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว  จังหวัดชัยภูมิ ๓๖๑๑๐')); 
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(117, 70, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_ddd)));
+        $pdf->SetFont('THSarabunNew', '', 15); 
+        $pdf->Text(126, 70, iconv('UTF-8', 'TIS-620', '' . monthThai($datnow_mmm)));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(143, 70, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_yyy)));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 80, iconv('UTF-8', 'TIS-620', 'เรื่อง   ขอติดตามค่ารักษาพยาบาลค้างชำระ ครั้งที่ ' .thainumDigit($check_max)));
+
+        $pdf->SetFont('THSarabunNew', '', 16);
+        $pdf->Text(20, 88, iconv('UTF-8', 'TIS-620', 'เรียน  '));
+        $pdf->SetFont('THSarabunNew Bold', '', 16);
+        $pdf->Text(30, 88, iconv('UTF-8', 'TIS-620', '' .thainumDigit($dataedit->ptname)));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 96, iconv('UTF-8', 'TIS-620', 'อ้างถึง  คำร้องขอค้างค่ารักษาพยาบาล  ลงวันที่' ));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(85, 96, iconv('UTF-8', 'TIS-620', '  ' .thainumDigit($datnow_vstddd)));
+        $pdf->SetFont('THSarabunNew', '', 15); 
+        $pdf->Text(95, 96, iconv('UTF-8', 'TIS-620', 'พฤศจิกายน'));
+        // $pdf->Text(95, 96, iconv('UTF-8', 'TIS-620', '' . monthThai($datnow_vstmmm)));
+     
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(112, 96, iconv('UTF-8', 'TIS-620', '  ' .thainumDigit($datnow_vstyyy)));
+        // $pdf->SetFont('THSarabunNew Bold', '', 16);
+        // $pdf->Text(30, 96, iconv('UTF-8', 'TIS-620', '' .thainumDigit($dataedit->ptname)));
         
+        //ผอ 
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(120, 75, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_yyy)));
-
+        $pdf->Text(90, 180, iconv('UTF-8', 'TIS-620', '('. $orgpo->orginfo_po_name.')')); 
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(110, 75, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_ddd)));
+        $pdf->Text(70, 188, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
         
-
-        // $pdf->Text(25, 41, iconv('UTF-8', 'TIS-620', 'หน่วยงานที่แจ้งซ่อม :   ' . $dataedit->com_repaire_debsubsub_name));
-        // $pdf->SetFont('THSarabunNew', '', 14);
-
-        // $pdf->Text(110, 41, iconv('UTF-8', 'TIS-620', 'เบอร์โทร :   ' . $dataedit->tel));
-
-        // x1,y1,x2,y2
-        // $pdf->Line(25, 45, 180, 45);   // 25 คือ ย่อหน้า  // 45 คือ margintop   // 180 คือความยาวเส้น 
-        // $pdf->SetFont('THSarabunNew Bold', '', 14);
-        // $pdf->Text(25, 52, iconv('UTF-8', 'TIS-620', 'ส่วนที่ 1 ผู้แจ้ง  :  '));
-        // $pdf->SetFont('THSarabunNew', '', 14);
-        // $pdf->Text(50, 52, iconv('UTF-8', 'TIS-620', 'รหัสแจ้งซ่อม  :  ' . $dataedit->com_repaire_no));
-        // $pdf->SetFont('THSarabunNew', '', 14);
-        // $pdf->Text(100, 52, iconv('UTF-8', 'TIS-620', 'วันที่  :  ' . DateThai($dataedit->com_repaire_date)));
-        // $pdf->SetFont('THSarabunNew', '', 14);
-        // $pdf->Text(150, 52, iconv('UTF-8', 'TIS-620', 'เวลา  :  ' . time($dataedit->com_repaire_time). ' น.'));
-        // $pdf->SetFont('THSarabunNew', '', 14);
-        // $pdf->Text(25, 60, iconv('UTF-8', 'TIS-620', 'หมายเลขครุภัณฑ์  :  ' . $dataedit->com_repaire_article_num));
-        // $pdf->SetFont('THSarabunNew', '', 14);
-        // $pdf->Text(25, 68, iconv('UTF-8', 'TIS-620', 'ชื่อครุภัณฑ์  :  ' . $dataedit->com_repaire_article_name));
-        // $pdf->SetFont('THSarabunNew', '', 14);
-        // $pdf->Text(25, 76, iconv('UTF-8', 'TIS-620', 'รายละเอียดแจ้งซ่อม  :  ' . $dataedit->com_repaire_detail));
-        // $pdf->SetFont('THSarabunNew', '', 15);
-        // $pdf->Text(130, 35, iconv('UTF-8', 'TIS-620', 'วันที่  ' . dayThai($datnow) . '  ' . monthThai($datnow) . '  พ.ศ. ' . yearThai($datnow)));
-
-        //ผู้ขออนุญาต
-        if ($siguser != null) { 
-            // $pdf->SetTextColor(128);
-            // ชิดซ้าย
-            // $pdf->Image($siguser, 50, 82, 50, 17, "png");
-            // $pdf->SetFont('THSarabunNew', '', 15);
-            // $pdf->Text(41, 92, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                        ผู้แจ้งซ่อม'));
-            // $pdf->SetFont('THSarabunNew', '', 15);
-            // $pdf->Text(55, 102, iconv('UTF-8', 'TIS-620', '(   ' . $dataedit->com_repaire_user_name . '   )'));
-
-            //ตรงกลาง
-            $pdf->Image($siguser, 80, 85, 50, 17, "png");
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(71, 95, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                        ผู้แจ้งซ่อม'));
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(85, 105, iconv('UTF-8', 'TIS-620', '(   ' . $dataedit->com_repaire_user_name . '   )'));
-        } else {
-            // $pdf->Image($sig, 150,220, 40, 20,"png");
-        }
-
-        $pdf->Line(25, 110, 180, 110);   // 25 คือ ย่อหน้า  // 45 คือ margintop   // 180 คือความยาวเส้น 
-        $pdf->SetFont('THSarabunNew Bold', '', 14);
-        $pdf->Text(25, 117, iconv('UTF-8', 'TIS-620', 'ส่วนที่ 2 ช่าง  :  '));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(50, 117, iconv('UTF-8', 'TIS-620', 'รหัสแจ้งซ่อม  :  ' . $dataedit->com_repaire_no));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(100, 117, iconv('UTF-8', 'TIS-620', 'วันที่  :  ' . DateThai($dataedit->com_repaire_date)));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(150, 117, iconv('UTF-8', 'TIS-620', 'เวลา  :  ' . time($dataedit->com_repaire_time). ' น.'));
-
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(50, 126, iconv('UTF-8', 'TIS-620', 'ความเร่งด่วน'));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(85, 126, iconv('UTF-8', 'TIS-620', 'ปกติ  '));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(110, 126, iconv('UTF-8', 'TIS-620', 'ด่วน  '));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(135, 126, iconv('UTF-8', 'TIS-620', 'ด่วนมาก  '));
-        $pdf->SetFont('THSarabunNew', '', 14);
-        $pdf->Text(165, 126, iconv('UTF-8', 'TIS-620', 'ด่วนที่สุด  ')); 
-        if ($dataedit->com_repaire_speed == "1") { 
-            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 78, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 103, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 128, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 157, 123, 4, 4);
-        }else if ($dataedit->com_repaire_speed == "2") { 
-            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 103, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 78, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 128, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 157, 123, 4, 4);
-        }else if ($dataedit->com_repaire_speed == "3") { 
-            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 128, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 103, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 78, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 157, 123, 4, 4);
-        } else {
-            $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 157, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 103, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 128, 123, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 78, 123, 4, 4);
-         }
-         $pdf->SetFont('THSarabunNew', '', 14);
-         $pdf->Text(25, 136, iconv('UTF-8', 'TIS-620', 'รายละเอียดการตรวจซ่อมที่พบ/ความเห็นของช่าง  ')); 
-         $pdf->SetFont('THSarabunNew', '', 14);
-         $pdf->Text(90, 136, iconv('UTF-8', 'TIS-620',' :  ' .$dataedit->com_repaire_detail_tech));   
-        //ผู้ดูแลอนุญาต
-        if ($sigstaff != null) {
-            $pdf->Image($sigstaff, 109, 173, 50, 17, "png");
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(100, 188, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                            ผู้อนุญาต'));
-            // $pdf->Text(112, 198, iconv('UTF-8', 'TIS-620', '(   ' . $dataedit->car_service_staff_name . '   )'));
-        } else {
-            // $pdf->Image($siguser, 105,173, 50, 17,"png"); 
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(100, 180, iconv('UTF-8', 'TIS-620', '(ลงชื่อ) ......................................................... ผู้อนุญาต'));
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(108, 189, iconv('UTF-8', 'TIS-620', '( .......................................................... )'));
-        }
-
-        $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(25, 220, iconv('UTF-8', 'TIS-620', 'ความเห็นของผู้มีอำนาจสั่งรถยนต์ '));
-        $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(113, 220, iconv('UTF-8', 'TIS-620', 'อนุญาต '));
-        $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(150, 220, iconv('UTF-8', 'TIS-620', 'ไม่อนุญาต '));
-
-        if ($sigpo != null) {
-
-            // dd($dataedit->car_service_status);
-            if ($dataedit->car_service_status == "noallow") {
-                $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 105, 217, 4, 4);
-                $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 140, 217, 4, 4);
-            } else {
-                $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 140, 217, 4.5, 4.5);
-                $pdf->Image(base_path('public') . '/fpdf/img/checked.png', 105, 217, 4.5, 4.5);
-                // $pdf->Image(base_path('public').'/fpdf/img/checkno.jpg',140,217, 4, 4); 
-            }
-
-
-            $pdf->Image($sigpo, 109, 225, 50, 17, "png");
-            $pdf->Text(108, 249, iconv('UTF-8', 'TIS-620', $po));
-            // $pdf->Text(150,288,iconv( 'UTF-8','TIS-620','ผู้อำนวยการ'.$orgpo->orginfo_name  ));
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(100, 240, iconv('UTF-8', 'TIS-620', '(ลงชื่อ)                                              ผู้อนุญาต'));
-            // $pdf->SetFont('THSarabunNew','',15);
-            // $pdf->Text(108,249,iconv( 'UTF-8','TIS-620','( .......................................................... )' )); 
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
-        } else {
-            // $pdf->Image($siguser, 105,225, 50, 17,"png");
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 105, 217, 4, 4);
-            $pdf->Image(base_path('public') . '/fpdf/img/checkno.jpg', 140, 217, 4, 4);
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(100, 240, iconv('UTF-8', 'TIS-620', '(ลงชื่อ) ......................................................... ผู้อนุญาต'));
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(108, 249, iconv('UTF-8', 'TIS-620', '( .......................................................... )'));
-            $pdf->SetFont('THSarabunNew', '', 15);
-            $pdf->Text(108, 258, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
-        }
-
 
         $pdf->Output();
 

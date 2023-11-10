@@ -17,6 +17,7 @@ return new class extends Migration
         {
             Schema::create('acc_106_debt_print', function (Blueprint $table) {
                 $table->bigIncrements('acc_106_debt_print_id');
+                $table->string('acc_1102050102_106_id')->nullable();// 
                 $table->string('106_debt_no')->nullable();// เลขที่
                 $table->string('106_debt_count')->nullable();//จำนวนครั้ง
                 $table->date('106_debt_date')->nullable();// วันที่ตาม
