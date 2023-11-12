@@ -153,7 +153,7 @@
                                                 }
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(s.hc_drug)+sum(s.hc)+sum(s.ae)+sum(s.ae_drug)+sum(s.inst)+sum(s.dmis_money2)+sum(s.dmis_drug) as STM217
+                                                        SELECT count(DISTINCT a.an) as Apvit ,sum(s.hc_drug)+sum(s.hc)+sum(s.ae_drug)+sum(s.inst)+sum(s.dmis_money2)+sum(s.dmis_drug) as STM217
                                                             FROM acc_1102050101_217 a
                                                             LEFT JOIN acc_stm_ucs s ON s.an = a.an 
                                                             WHERE year(a.dchdate) = "'.$item->year.'"
@@ -329,7 +329,7 @@
                                             }
                                             // สีเขียว STM
                                             $sumapprove_ = DB::select('
-                                                    SELECT count(DISTINCT a.an) as Apvit ,sum(s.hc_drug)+sum(s.hc)+sum(s.ae)+sum(s.ae_drug)+sum(s.inst)+sum(s.dmis_money2)+sum(s.dmis_drug) as STM217
+                                                    SELECT count(DISTINCT a.an) as Apvit ,sum(s.hc_drug)+sum(s.hc)+sum(s.ae_drug)+sum(s.inst)+sum(s.dmis_money2)+sum(s.dmis_drug) as STM217
                                                         FROM acc_1102050101_217 a
                                                         LEFT JOIN acc_stm_ucs s ON s.an = a.an 
                                                         WHERE a.dchdate BETWEEN "'.$startdate.'" and  "'.$enddate.'"

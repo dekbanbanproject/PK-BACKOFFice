@@ -144,7 +144,7 @@
                                                             from acc_1102050101_216
                                                             WHERE month(vstdate) = "'.$item->months.'"
                                                             and year(vstdate) = "'.$item->year.'"
-                                                            AND status = "N"
+                                                          
                                                 ');
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
@@ -153,12 +153,12 @@
                                                 }
                                                 // สีเขียว STM
                                                 $sumapprove_ = DB::select('
-                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(s.hc_drug)+sum(s.hc)+sum(s.ae)+sum(s.ae_drug)+sum(s.inst)+sum(s.dmis_money2)+sum(s.dmis_drug) as STM216
+                                                        SELECT count(DISTINCT a.vn) as Apvit ,sum(s.hc_drug)+sum(s.hc)+sum(s.ae_drug)+sum(s.inst)+sum(s.dmis_money2)+sum(s.dmis_drug) as STM216
                                                             FROM acc_1102050101_216 a
                                                             LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate 
                                                             WHERE year(a.vstdate) = "'.$item->year.'"
                                                             AND month(a.vstdate) = "'.$item->months.'" 
-                                                            AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
+                                                            AND (s.hc_drug+ s.hc+s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug <> "") 
 
                                                     ');
                                                     // AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0 or s.dmis_money2 >0 or s.dmis_drug >0)
@@ -176,7 +176,7 @@
                                                                 WHERE U1.status ="N" 
                                                                 AND year(U1.vstdate) = "'.$item->year.'"
                                                                 AND month(U1.vstdate) = "'.$item->months.'"
-                                                                AND (s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null) 
+                                                                AND (s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug = 0 OR s.hc_drug+ s.hc+ s.ae_drug+s.inst+s.dmis_money2 + s.dmis_drug is null) 
                                                                 
                                                     ');
                                                     // AND month(U1.dchdate) < "'.$mo.'"
