@@ -171,6 +171,7 @@
     use App\Http\Controllers\StaticController;
     use Illuminate\Support\Facades\DB;
     $count_meettingroom = StaticController::count_meettingroom();
+    use App\Models\Acc_106_debt_print;
     ?>
     <div class="tabs-animation">
         <div class="row text-center">
@@ -231,7 +232,10 @@
                                 <?php $number = 0;
                                 $total1 = 0; ?>
                                 @foreach ($datashow as $item)
-                                    <?php $number++; ?>
+                                    <?php $number++; 
+                                     $check_count = Acc_106_debt_print::where('vn', $item->vn)->count();
+                                    
+                                    ?>
                                     <tr height="20" class="detail">
                                     <td class="text-center" width="4%">{{ $number }}</td>
                                     <td class="text-center" width="8%">{{ $item->vn }}</td> 
@@ -260,7 +264,10 @@
                                             <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
                                         </a>
                                     </td> 
-                                    <td class="text-center" width="5%"></td> 
+                                    <td class="text-center" width="5%">
+                                        <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
+                                        <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
+                                    </td> 
                                     {{-- <td class="text-center" width="10%" > 
                                         @if ($item->file == '')
                                         <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
