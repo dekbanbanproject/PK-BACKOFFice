@@ -463,8 +463,8 @@ class Account106Controller extends Controller
         $check_106_debt_count = Acc_106_debt_print::where('vn', $data_->vn)->count();
         $check_max_ = Acc_106_debt_print::where('vn', $data_->vn)->max('acc_106_debt_no');
         $check_max = $check_max_ +1;
-        $total_rcpt = $check_max_->debit;
-        $total_rcpt_thai = $check_max_->debit_total_thai;
+        // $total_rcpt = $check_max_->debit;
+        // $total_rcpt_thai = $check_max_->debit_total_thai;
         $data_Patient = Patient::where('hn', '=', $data_->hn)->first();
 
         $data_Patient_ = DB::connection('mysql2')->select('        
@@ -706,8 +706,11 @@ class Account106Controller extends Controller
         $pdf->Text(145, 104, iconv('UTF-8', 'TIS-620', 'เมื่อวันที่ ' .thainumDigit($datnow_vstddd).'  ' . monthThai($datnow_vstmmm).'  ' .thainumDigit($datnow_vstyyy)));
         
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(20, 112, iconv('UTF-8', 'TIS-620', 'มีค่ารักษาพยาบาล  เป็นจำนวนเงิน  ' . thainumDigit($dataedit->debit_total).' บาท  '.'('.$dataedit->debit_total_thai.')  ปรากฎว่าท่านยังไม่ได้ชำระเงินจำนวนเงินดังกล่าว'));
+        $pdf->Text(20, 112, iconv('UTF-8', 'TIS-620', 'มีค่ารักษาพยาบาล  เป็นจำนวนเงิน                                                    ปรากฎว่าท่านยังไม่ได้ชำระเงินจำนวนเงินดังกล่าว'));
 
+        $pdf->SetFont('THSarabunNew Bold', '', 15);
+        $pdf->Text(70, 112, iconv('UTF-8', 'TIS-620',  thainumDigit($dataedit->debit_total).' บาท  '.'('.$dataedit->debit_total_thai.') '));
+        // Bold
         $pdf->SetFont('THSarabunNew', '', 15);
         $pdf->Text(20, 120, iconv('UTF-8', 'TIS-620', 'ให้แก่  '. $org->orginfo_name.'  จึงขอให้ท่านดำเนินการชำระเงินดังกล่าวให้เสร็จสิ้น  ภายในวัน 30 วัน '));
 
@@ -723,19 +726,32 @@ class Account106Controller extends Controller
         $pdf->Text(20, 152, iconv('UTF-8', 'TIS-620', 'ต้องขออภัยมา ณ โอกาสนี้ ด้วย'));
 
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(35, 168, iconv('UTF-8', 'TIS-620', 'จึงเรียนมาเพื่อโปรดทราบและดำเนินการต่อไป'));
+        $pdf->Text(35, 165, iconv('UTF-8', 'TIS-620', 'จึงเรียนมาเพื่อโปรดทราบและดำเนินการต่อไป'));
 
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(105, 176, iconv('UTF-8', 'TIS-620', 'ขอแสดงความนับถือ' ));
+        $pdf->Text(105, 173, iconv('UTF-8', 'TIS-620', 'ขอแสดงความนับถือ' ));
         // $pdf->SetFont('THSarabunNew', '', 15); 
         // $pdf->Text(95, 96, iconv('UTF-8', 'TIS-620', 'พฤศจิกายน'));
         
         //ผอ 
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(95, 219, iconv('UTF-8', 'TIS-620', '('. $orgpo->orginfo_po_name.')')); 
+        $pdf->Text(95, 210, iconv('UTF-8', 'TIS-620', '('. $orgpo->orginfo_po_name.')')); 
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(75, 228, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
+        $pdf->Text(75, 216, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
         
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 240, iconv('UTF-8', 'TIS-620', 'กลุ่มภารกิจด้านพัฒนาระบบบริการและสนับสนุนบริการสุขภาพ'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 248, iconv('UTF-8', 'TIS-620', 'โทร. ๐ ๔๔๘๖ ๑๗๐๐-๔  ต่อ  ๑๐๙,๑๑๙'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 256, iconv('UTF-8', 'TIS-620', 'Email : phukhieohospital.info@gmail.com'));
+
+
+        $pdf->SetFont('THSarabunNew Bold', '', 15);
+        $pdf->Text(145, 266, iconv('UTF-8', 'TIS-620',''.thainumDigit($dataedit->hn))); 
+
+        $pdf->SetFont('THSarabunNew Bold', '', 16);
+        $pdf->Text(55, 276, iconv('UTF-8', 'TIS-620', 'อัตลักษณ์ รพ.ภูเขียวเฉลิมพระเกียรติ ตรงเวลา รู้หน้าที่ มีวินัย'));
 
         $pdf->Output();
 
