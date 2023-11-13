@@ -2087,14 +2087,15 @@
                         </div>
                         <div class="row mt-3 mb-3">
                             <div class="col"></div>
-                            <div class="col-md-8 text-center">
+                            <div class="col-md-4 text-start">
                                 <button type="submit" class="btn btn-outline-primary ">
                                     <i class="fa-solid fa-fingerprint text-primary ms-2 me-2"></i>
                                     {{-- <label for="" class="me-4">เข้าสู่ระบบ</label> --}}
                                     เข้าสู่ระบบ
                                 </button>
                             </div>
-                            <div class="col"></div>
+                            <div class="col-md-2 text-start"></div>
+                            {{-- <div class="col"></div> --}}
                         </div>
                 </div>
                 {{-- <div class="modal-footer"> 
