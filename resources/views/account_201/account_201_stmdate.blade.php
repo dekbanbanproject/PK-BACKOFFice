@@ -58,12 +58,41 @@
             </div>
 
         </div>
+        <form action="{{ route('acc.account_201_stmdate') }}" method="GET">
+            @csrf
+            <div class="row">
+                <div class="col-md-3 ">
+                    <h5 class="card-title">Detail 1102050101.201</h5>
+                    <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.201</p>
+                </div>
+                <div class="col"></div>
+                <div class="col-md-1 text-end mt-2">วันที่</div>
+                <div class="col-md-4 text-end">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $enddate }}" required/>
+                    </div>
+                </div>
+                <div class="col-md-3 text-start">
+                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา
+                    </button>
+                     
+                </div>
 
-        <div class="row me-3 ms-3 mt-2 mb-5">
+            </div>
+        </form>
+
+        <div class="row mb-5">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050102.602
+                    รายละเอียด 1102050101.201
                         <div class="btn-actions-pane-right">
 
                         </div>
@@ -91,20 +120,7 @@
                                 <?php $number = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
-                                    {{-- @if ($item->debit_total <> $item->payprice)
-                                        <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
-                                            <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td> 
-                                            <td class="text-center" width="8%" style="color:rgb(248, 12, 12)">{{ $item->req_no }}</td>  
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="5%" style="color:rgb(248, 12, 12)">{{ $item->hn }}</td>   
-                                            <td class="text-center" width="10%" style="color:rgb(248, 12, 12)">{{ $item->cid }}</td> 
-                                            <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->ptname }}</td>  
-                                            <td class="text-center" width="8%" style="color:rgb(248, 12, 12)">{{ $item->vstdate }}</td>    
-                                            <td class="text-end" style="color:rgb(248, 12, 12)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(243, 12, 12)"> {{ number_format($item->payprice,2)}} </td>
-                                            <td class="p-2" style="color:rgb(248, 12, 12)">{{ $item->money_billno }}</td> 
-                                        </tr>
-                                    @else --}}
+                                  
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
                                             <td class="text-center" width="8%">{{ $item->req_no }}</td>  
@@ -114,11 +130,10 @@
                                             <td class="p-2" >{{ $item->ptname }}</td>  
                                             <td class="text-center" width="8%">{{ $item->vstdate }}</td>    
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">  {{ number_format($item->payprice,2)}} </td>
+                                            <td class="text-end" width="10%" style="color:rgb(216, 95, 14)">  {{ number_format($item->total_approve,2)}} </td>
                                             <td class="p-2">{{ $item->money_billno }}</td> 
                                         </tr>
-                                        
-                                    {{-- @endif --}}
+                                
  
                                 @endforeach
 

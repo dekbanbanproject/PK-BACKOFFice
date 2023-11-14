@@ -290,9 +290,15 @@
                                        
                                     </ul>
                                 </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">ทาลัสซีเมีย</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('thalassemia_opd') }}">OPD </a></li>
+                                        <li><a href="{{ url('thalassemia_ipd') }}">IPD </a></li>
+                                    </ul>
+                                </li>
                             </ul> 
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
                                 <span>ใบงาน</span>
@@ -300,7 +306,7 @@
                             <ul class="sub-menu" aria-expanded="true">
                                 <li><a href="{{ url('request_report') }}">ยื่นใบงาน</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-user-tie text-danger"></i>

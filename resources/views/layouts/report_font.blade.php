@@ -256,6 +256,16 @@
                                 <li ><a href="{{ url('acc_stm_ct') }}" >เทียบ STM มะเร็ง</a></li> 
                             </ul>
                         </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-square-person-confined text-danger"></i>
+                                <span>ทาลัสซีเมีย </span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('thalassemia_opd') }}" >Thalassemia OPD</a></li> 
+                                <li ><a href="{{ url('thalassemia_ipd') }}" >Thalassemia IPD</a></li> 
+                            </ul>
+                        </li>
 
                     </ul>
                 </div>

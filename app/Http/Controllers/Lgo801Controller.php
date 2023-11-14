@@ -825,7 +825,7 @@ class Lgo801Controller extends Controller
                         (SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY
                         ,round(v.unitprice,2) RATE
@@ -850,7 +850,7 @@ class Lgo801Controller extends Controller
                         (SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY
                         ,round(v.unitprice,2) RATE

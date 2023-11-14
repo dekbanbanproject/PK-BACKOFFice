@@ -1066,7 +1066,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1088,6 +1088,7 @@ class PPfs30011Controller extends Controller
                         WHERE i.vn IN("'.$va1->vn.'")  
                         GROUP BY v.vn  
                 ');
+                // ,ic.drg_chrgitem_id TYPE
                 // INNER JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code in("30011") 
                 foreach ($data_30011_ as $va_adp) {
                     D_adp::insert([
@@ -1127,14 +1128,14 @@ class PPfs30011Controller extends Controller
  
          }
 
-         $data_vn_09 = DB::connection('mysql')->select('SELECT vn from d_30009');
+        $data_vn_09 = DB::connection('mysql')->select('SELECT vn from d_30009');
         foreach ($data_vn_09 as $key => $value_09) {
 
                 $data_30009_ = DB::connection('mysql2')->select('
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1204,7 +1205,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1275,7 +1276,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE
@@ -1348,7 +1349,7 @@ class PPfs30011Controller extends Controller
                         SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY 
                         ,round(v.unitprice,2) RATE

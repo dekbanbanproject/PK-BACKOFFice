@@ -148,7 +148,7 @@ class Ofc401Controller extends Controller
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND v.pttype in ("O1","O2","O3","O4","O5") AND rd.sss_approval_code <> ""
                         AND v.pttype not in ("OF","FO") 
-                        and v.uc_money >"0"
+                        
                         AND o.an is null
                         AND v.pdx <> ""
                         GROUP BY v.vn; 
@@ -260,7 +260,7 @@ class Ofc401Controller extends Controller
     }
     public function ofc_401_process(Request $request)
     { 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from pkbackoffice.d_ofc_401');
+        $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_401');
         $iduser = Auth::user()->id; 
         // D_opd::where('d_anaconda_id','=','OFC_401')->delete();
         // D_orf::where('d_anaconda_id','=','OFC_401')->delete();
@@ -819,7 +819,7 @@ class Ofc401Controller extends Controller
                         (SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY
                         ,round(v.unitprice,2) RATE
@@ -844,7 +844,7 @@ class Ofc401Controller extends Controller
                         (SELECT v.hn HN
                         ,if(v.an is null,"",v.an) AN
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                        ,ic.drg_chrgitem_id TYPE
+                        ,n.nhso_adp_type_id TYPE
                         ,n.nhso_adp_code CODE 
                         ,sum(v.QTY) QTY
                         ,round(v.unitprice,2) RATE
@@ -861,6 +861,8 @@ class Ofc401Controller extends Controller
                         GROUP BY vv.vn,n.nhso_adp_code,rate) b 
                         GROUP BY seq,CODE,rate;
                 '); 
+                // ,n.nhso_adp_type_id TYPE
+                // ,ic.drg_chrgitem_id TYPE
                 foreach ($data_adp_ as $va10) {
                     d_adp::insert([
                         'HN'                   => $va10->HN,

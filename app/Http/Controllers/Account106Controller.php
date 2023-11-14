@@ -185,17 +185,17 @@ class Account106Controller extends Controller
                             'rcpno'              => $value->rcpno,  
                             'pdx'                => $value->pdx, 
                         ]);
-                        Acc_1102050102_106::where('vn', $value->vn)->update([ 
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->amount, 
-                            'debit_total'        => $value->amount,
-                            'rcpno'              => $value->rcpno,  
-                            'pdx'                => $value->pdx,
-                        ]);
+                        // Acc_1102050102_106::where('vn', $value->vn)->update([ 
+                        //     'income'             => $value->income,
+                        //     'uc_money'           => $value->uc_money,
+                        //     'discount_money'     => $value->discount_money,
+                        //     'paid_money'         => $value->paid_money,
+                        //     'rcpt_money'         => $value->rcpt_money,
+                        //     'debit'              => $value->amount, 
+                        //     'debit_total'        => $value->amount,
+                        //     'rcpno'              => $value->rcpno,  
+                        //     'pdx'                => $value->pdx,
+                        // ]);
                     }else{
                         Acc_debtor::insert([
                             // 'stamp'              => 'Y',

@@ -99,7 +99,7 @@ class Account201Controller extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
@@ -351,6 +351,73 @@ class Account201Controller extends Controller
             'year'          =>     $year
         ]);
     }
+    public function account_201_detaildate(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $data = DB::select(' 
+            SELECT *
+            from acc_1102050101_201 
+            WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"           
+            GROUP BY vn
+        ');
+  
+        return view('account_201.account_201_detaildate', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data,
+       
+        ]);
+    }
+    public function account_201_detail_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d'); 
+        $data['users'] = User::get();
+
+        $data = DB::select(' 
+            SELECT *
+            from acc_1102050101_201 
+            WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"           
+            GROUP BY vn
+        ');
+  
+        return view('account_201.account_201_detail_date', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data,
+       
+        ]);
+    }
+    public function account_201_stmdate(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $datashow = DB::select(' 
+
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U2.total_approve
+            from acc_1102050101_201 U1 
+            LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+            WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+            AND U2.pp is not null
+
+        ');
+  
+        return view('account_201.account_201_stmdate', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+       
+        ]);
+    }
+    
     // public function account_602_edit(Request $request, $id)
     // {
     //     $acc602 = Acc_1102050102_602::find($id);

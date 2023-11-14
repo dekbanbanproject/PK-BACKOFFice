@@ -140,7 +140,18 @@
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
                                                 }
-                                                
+                                                // ตั้งลูกหนี้
+                                                // $datasum_ = DB::select('
+                                                //     SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
+                                                //             from acc_1102050101_201
+                                                //             WHERE vstdate BETWEEN "'.$newweek.'" and "'.$date.'"
+                                                // ');
+                                                // // AND status = "N"
+                                                // foreach ($datasum_ as $key => $value2) {
+                                                //     $sum_Y = $value2->debit_total;
+                                                //     $count_Y = $value2->Cvit;
+                                                // }
+
                                                  // ตั้งลูกหนี้
                                                  $datasum_ = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
@@ -155,31 +166,31 @@
                                                 }
                                                 // AND status = "N"
                                                 // สีเขียว STM
-                                                // $sumapprove_ = DB::select('
-                                                //     SELECT count(DISTINCT U1.vn) as Apvit ,sum(U2.total_approve) as total_approve
-                                                //     from acc_1102050101_201 U1 
-                                                //     LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                                                //     WHERE month(U1.vstdate) = "'.$item->months.'" and year(U1.vstdate) = "'.$item->year.'"
-                                                //     AND U2.total_approve is not null
-                                                //     ');
+                                                $sumapprove_ = DB::select('
+                                                    SELECT count(DISTINCT U1.vn) as Apvit ,sum(U2.total_approve) as total_approve
+                                                    from acc_1102050101_201 U1 
+                                                    LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+                                                    WHERE month(U1.vstdate) = "'.$item->months.'" and year(U1.vstdate) = "'.$item->year.'"
+                                                    AND U2.total_approve is not null
+                                                    ');
                                                 
-                                                //     foreach ($sumapprove_ as $key => $value3) {
-                                                //         $stm_count    = $value3->Apvit;
-                                                //         $sum_stm      = $value3->total_approve;
-                                                //     }
+                                                    foreach ($sumapprove_ as $key => $value3) {
+                                                        $stm_count    = $value3->Apvit;
+                                                        $sum_stm      = $value3->total_approve;
+                                                    }
     
 
-                                                    // $yokpai_data = DB::select('
-                                                    //     SELECT sum(U1.debit_total) as debit_total,count(DISTINCT vn) as Countvisit
-                                                    //         from acc_1102050101_201 U1
-                                                    //         LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                                                    //         where month(U1.vstdate) = "'.$item->months.'" and year(U1.vstdate) = "'.$item->year.'"
-                                                    //         AND U2.total_approve is null
-                                                    // ');                                           
-                                                    // foreach ($yokpai_data as $key => $value4) {
-                                                    //     $yokpai = $value4->debit_total; 
-                                                    //     $yokpaicount = $value4->Countvisit; 
-                                                    // }
+                                                    $yokpai_data = DB::select('
+                                                        SELECT sum(U1.debit_total) as debit_total,count(DISTINCT vn) as Countvisit
+                                                            from acc_1102050101_201 U1
+                                                            LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+                                                            where month(U1.vstdate) = "'.$item->months.'" and year(U1.vstdate) = "'.$item->year.'"
+                                                            AND U2.total_approve is null
+                                                    ');                                           
+                                                    foreach ($yokpai_data as $key => $value4) {
+                                                        $yokpai = $value4->debit_total; 
+                                                        $yokpaicount = $value4->Countvisit; 
+                                                    }
                                                     
 
                                             ?>
@@ -310,7 +321,7 @@
                                                         from acc_debtor
                                                             WHERE account_code="1102050101.201"
                                                             AND stamp = "N"
-                                                            and vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                                                            and vstdate BETWEEN "'.$newweek.'" and "'.$date.'"
                                                 ');
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
@@ -320,7 +331,7 @@
                                                 $datasum_ = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                             from acc_1102050101_201
-                                                            WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                                                            WHERE vstdate BETWEEN "'.$newweek.'" and "'.$date.'"
                                                 ');
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
@@ -329,31 +340,31 @@
                                                 }
                                                 // AND status = "N"
                                                 // สีเขียว STM
-                                                // $sumapprove_ = DB::select('
-                                                //     SELECT count(DISTINCT U1.vn) as Apvit ,sum(U2.total_approve) as total_approve
-                                                //     from acc_1102050101_201 U1 
-                                                //     LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                                                //     WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                                                //     AND U2.total_approve is not null
-                                                //     ');
+                                                $sumapprove_ = DB::select('
+                                                    SELECT count(DISTINCT U1.vn) as Apvit ,sum(U2.total_approve) as total_approve
+                                                    from acc_1102050101_201 U1 
+                                                    LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+                                                    WHERE U1.vstdate BETWEEN "'.$newweek.'" and "'.$date.'"
+                                                    AND U2.total_approve is not null
+                                                    ');
                                                 
-                                                //     foreach ($sumapprove_ as $key => $value3) {
-                                                //         $stm_count    = $value3->Apvit;
-                                                //         $sum_stm      = $value3->total_approve;
-                                                    // }
+                                                    foreach ($sumapprove_ as $key => $value3) {
+                                                        $stm_count    = $value3->Apvit;
+                                                        $sum_stm      = $value3->total_approve;
+                                                    }
     
 
-                                                    // $yokpai_data = DB::select('
-                                                    //     SELECT sum(U1.debit_total) as debit_total,count(DISTINCT vn) as Countvisit
-                                                    //         from acc_1102050101_201 U1
-                                                    //         LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
-                                                    //         where U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                                                    //         AND U2.total_approve is null
-                                                    // ');                                           
-                                                    // foreach ($yokpai_data as $key => $value4) {
-                                                    //     $yokpai = $value4->debit_total; 
-                                                    //     $yokpaicount = $value4->Countvisit; 
-                                                    // }
+                                                    $yokpai_data = DB::select('
+                                                        SELECT sum(U1.debit_total) as debit_total,count(DISTINCT vn) as Countvisit
+                                                            from acc_1102050101_201 U1
+                                                            LEFT JOIN acc_stm_ucs U2 ON U2.hn = U1.hn AND U2.vstdate = U1.vstdate
+                                                            where U1.vstdate BETWEEN "'.$newweek.'" and "'.$date.'"
+                                                            AND U2.total_approve is null
+                                                    ');                                           
+                                                    foreach ($yokpai_data as $key => $value4) {
+                                                        $yokpai = $value4->debit_total; 
+                                                        $yokpaicount = $value4->Countvisit; 
+                                                    }
                                                     
 
                                             ?>
@@ -363,11 +374,11 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end mt-2 me-2">
-                                                    {{-- <a href="{{url('account_602_pull')}}" target="_blank"> --}}
+                                                    <a href="{{url('account_602_pull')}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                             <h6 class="text-end">{{$count_N}} Visit</h6>
                                                         </div>
-                                                    {{-- </a> --}}
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -403,7 +414,7 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="{{url('account_201_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
+                                                    <a href="{{url('account_201_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
                                                                     {{ number_format($sum_Y, 2) }}

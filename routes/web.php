@@ -38,6 +38,9 @@ Route::match(['get','post'],'ktb_test',[App\Http\Controllers\KTBAPIController::c
 
 Route::match(['get','post'],'treedoc',[App\Http\Controllers\KTBController::class,'treedoc'])->name('ktb.treedoc');//
 
+// *******************ทาลัสซีเมีย OPD IPD*******************
+Route::match(['get','post'],'thalassemia_opd',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd'])->name('claim.thalassemia_opd');//
+Route::match(['get','post'],'thalassemia_ipd',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_ipd'])->name('claim.thalassemia_ipd');//
 
 Route::match(['get','post'],'acc_test',[App\Http\Controllers\AccController::class,'acc_test'])->name('ktb.acc_test');
 
@@ -282,6 +285,10 @@ Route::match(['get','post'],'ofc_401_export',[App\Http\Controllers\Ofc401Control
 Route::match(['get','post'],'lgo_801',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801'])->name('claim.lgo_801');//
 Route::match(['get','post'],'lgo_801_process',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_process'])->name('claim.lgo_801_process');//
 Route::match(['get','post'],'lgo_801_export',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_export'])->name('claim.lgo_801_export');//
+
+
+// Route::match(['get','post'],'thalassemia_opd_process',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_process'])->name('claim.thalassemia_opd_process');//
+// Route::match(['get','post'],'thalassemia_opd_export',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_export'])->name('claim.thalassemia_opd_export');//
 
 // ********************************* PPFS 2566  *****************************************
 // *******************2001 บริการคัดกรองและประเมินปัจจัยเสี่ยงต่อสุขภาพกาย-สุขภาพจิต(SCR)-12001*******************
@@ -1728,6 +1735,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'account_201_stmnull/{months}/{year}',[App\Http\Controllers\Account201Controller::class, 'account_201_stmnull'])->name('acc.account_201_stmnull');//
     Route::match(['get','post'],'account_201_stam',[App\Http\Controllers\Account201Controller::class, 'account_201_stam'])->name('acc.account_201_stam');//   
     Route::match(['get','post'],'account_201_detail_date/{startdate}/{enddate}',[App\Http\Controllers\Account201Controller::class, 'account_201_detail_date'])->name('acc.account_201_detail_date');//
+    Route::match(['get','post'],'account_201_detaildate',[App\Http\Controllers\Account201Controller::class, 'account_201_detaildate'])->name('acc.account_201_detaildate');//
+    Route::match(['get','post'],'account_201_stmdate',[App\Http\Controllers\Account201Controller::class, 'account_201_stmdate'])->name('acc.account_201_stmdate');//
     Route::match(['get','post'],'account_201_stm_date/{startdate}/{enddate}',[App\Http\Controllers\Account201Controller::class, 'account_201_stm_date'])->name('acc.account_201_stm_date');//
     Route::match(['get','post'],'account_201_stmnull_date/{months}/{year}',[App\Http\Controllers\Account201Controller::class, 'account_201_stmnull_date'])->name('acc.account_201_stmnull_date');//
 

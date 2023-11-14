@@ -102,7 +102,7 @@ class Account209Controller extends Controller
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
         $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
@@ -137,10 +137,11 @@ class Account209Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.209"
-                    group by month(a.vstdate) order by a.vstdate desc;
+                    
+                   order by a.vstdate desc;
             ');
         }
-
+        // group by month(a.vstdate) 
         return view('account_209.account_pkucs209_dash',[
             'startdate'        =>  $startdate,
             'enddate'          =>  $enddate,
@@ -404,6 +405,24 @@ class Account209Controller extends Controller
             'data'              =>     $data,
             'months'            =>     $months,
             'year'              =>     $year, 
+        ]);
+    }
+
+    public function account_pkucs209_detail_date(Request $request,$startdate,$enddate)
+    {
+        $datenow = date('Y-m-d');
+      
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT *  from acc_1102050101_209 
+            WHERE vstdate between "'.$startdate.'" and  "'.$enddate.'" 
+        ');
+         
+        return view('account_209.account_pkucs209_detail_date', $data, [
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'data'          =>     $data, 
         ]);
     }
     // public function account_pkucs217_stmnull_all(Request $request,$months,$year)
