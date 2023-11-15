@@ -18,12 +18,15 @@ return new class extends Migration
             Schema::create('acc_106_debt_print', function (Blueprint $table) {
                 $table->bigIncrements('acc_106_debt_print_id');
                 $table->string('acc_1102050102_106_id')->nullable();// 
-                $table->string('106_debt_no')->nullable();// เลขที่
-                $table->string('106_debt_count')->nullable();//จำนวนครั้ง
-                $table->date('106_debt_date')->nullable();// วันที่ตาม
-                $table->string('106_debt_user')->nullable();// 
-                $table->text('106_debt_address')->nullable();// ที่อยู่
-                
+                $table->string('acc_106_debt_no')->nullable();// เลขที่
+                $table->string('acc_106_debt_count')->nullable();//จำนวนครั้ง
+                $table->date('acc_106_debt_date')->nullable();// วันที่ตาม
+                $table->string('acc_106_debt_user')->nullable();// 
+                $table->text('acc_106_debt_address')->nullable();// ที่อยู่
+                $table->text('tmb_name')->nullable();// 
+                $table->text('amphur_name')->nullable();// 
+                $table->text('chw_name')->nullable();// 
+                $table->text('provincode')->nullable();// 
                 $table->string('vn')->nullable();// รหัส
                 $table->string('an')->nullable();//
                 $table->string('hn')->nullable();//

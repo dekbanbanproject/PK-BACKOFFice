@@ -1727,6 +1727,10 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_107_file_updatefile',[App\Http\Controllers\Account107Controller::class, 'acc_107_file_updatefile'])->name('acc.acc_107_file_updatefile');//
     Route::match(['get','post'],'acc107destroy/{id}',[App\Http\Controllers\Account107Controller::class, 'acc107destroy'])->name('acc.acc107destroy');//
 
+    Route::match(['get','post'],'acc_107_debt',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt'])->name('acc.acc_107_debt');//  ทวงหนี้
+    Route::match(['get','post'],'acc_107_debt_outbook/{id}',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt_outbook'])->name('acc.acc_107_debt_outbook');// 
+    Route::match(['get','post'],'acc_107_debt_print/{id}',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt_print'])->name('acc.acc_107_debt_print');//  ทวงหนี้
+
     Route::match(['get','post'],'account_201_dash',[App\Http\Controllers\Account201Controller::class, 'account_201_dash'])->name('acc.account_201_dash');// 
     Route::match(['get','post'],'account_201_pull',[App\Http\Controllers\Account201Controller::class, 'account_201_pull'])->name('acc.account_201_pull');// OPD
     Route::match(['get','post'],'account_201_pulldata',[App\Http\Controllers\Account201Controller::class, 'account_201_pulldata'])->name('acc.account_201_pulldata');//   

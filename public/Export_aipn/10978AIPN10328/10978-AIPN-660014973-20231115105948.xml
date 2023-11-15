@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="windows-874"?>
+<CIPN>
+<Header>
+<DocClass>IPClaim</DocClass>
+<DocSysID version="2.1">AIPN</DocSysID>
+<serviceEvent>ADT</serviceEvent>
+<authorID>10978</authorID>
+<authorName>รพ.ภูเขียวเฉลิมพระเกียรติ</authorName>
+<effectiveTime>2023-11-15T10:59:48</effectiveTime>
+</Header>
+<ClaimAuth>
+<AuthCode></AuthCode>
+<AuthDT>2023-09-23T14:47:00</AuthDT>
+<UPayPlan>80</UPayPlan>
+<ServiceType>IP</ServiceType>
+<ProjectCode></ProjectCode>
+<EventCode> </EventCode>
+<UserReserve> </UserReserve>
+<Hmain>10702</Hmain>
+<Hcare>10978</Hcare>
+<CareAs>B</CareAs>
+<ServiceSubType> </ServiceSubType>
+</ClaimAuth>
+<IPADT>
+660014973|0356399|0|1400900232352|น.ส.|ลำไพร บุตดา|1995-12-19|2|1|40|09|99|C|O|2023-09-23T14:47:00|2023-09-25T10:24:00|0|02|01||01|03
+</IPADT>
+<IPDx Reccount="4">
+1|1|ICD-10|O678|Other intrapartum haemorrhage|ว56071|
+2|2|ICD-10|O730|Retained placenta without haemorrhage|ว56071|
+3|2|ICD-10|O800|Spontaneous vertex delivery|ว56071|
+4|2|ICD-10|Z370|Single live birth|ว56071|
+</IPDx>
+<IPOp Reccount="1">
+1|ICD9CM|8878|Dignostic ultrasound,Diagnostic ultrasound of gravid uterus|ว56071|2023-09-23T13:39:05|2023-09-23T13:50:00|
+</IPOp>
+<Invoices>
+<InvNumber>660014973</InvNumber>
+<InvDT>2023-09-25T10:24:00</InvDT>
+<BillItems Reccount="22">
+1|2023-09-25|03|1000131|FERROUS FUMARATE200 mg.|90|0.5|45|0|0|0|SS|03||TMT|786261|D|2023-09-25|0|0
+2|2023-09-25|03|1000188|METRONIDAZOLE200 mg.|42|1|42|0|0|0|SS|03||TMT|737175|D|2023-09-25|0|0
+3|2023-09-25|03|1000215|NSS 0.9% 1000 ml0.9 %|2|28.5|57|0|0|0|SS|03||TMT|770813|D|2023-09-25|0|0
+4|2023-09-25|03|1000216|NSS 0.9% 100 ml.0.9 %|1|15.5|15.5|0|0|0|SS|03||TMT|777636|D|2023-09-25|0|0
+5|2023-09-25|03|1000227|PARACETAMOL TAB.500 mg.|20|1|20|0|0|0|SS|03||TMT|367977|D|2023-09-25|0|0
+6|2023-09-25|03|1460343|OXYTOCIN10 iu.|4|15.5|62|0|0|0|SS|03||TMT|573724|D|2023-09-25|0|0
+7|2023-09-25|03|1460348|TRANSAMIC ACID INJ.250 mg/5ml|4|31|124|0|0|0|SS|03||TMT|763383|D|2023-09-25|0|0
+8|2023-09-25|03|1500011|AMOXICILLIN500 mg.|28|1.5|42|0|0|0|SS|03||TMT|226505|D|2023-09-25|0|0
+9|2023-09-25|03|1540005|TRIFERDINE 150 MCG.150 mcg.|30|1.5|45|0|0|0|SS|03||TMT|737414|D|2023-09-25|0|0
+10|2023-09-25|07|3000034|CBC (+ diff. + RBC morphology + plt count) by automation|2|90|180|0|0|0|SS|07|30101|TMLT|300034|D|2023-09-25|0|0
+11|2023-09-25|07|3000037|Hct (Hematocrit)|1|30|30|0|0|0|SS|07|30104|TMLT|300011|D|2023-09-25|0|0
+12|2023-09-25|07|3000060|PT (Prothombin Time)|1|75|75|0|0|0|SS|07|30201|TMLT|308038|D|2023-09-25|0|0
+13|2023-09-25|07|3000061|PTT (Partial Thomboplastin Time)|1|85|85|0|0|0|SS|07|30202|TMLT|308033|D|2023-09-25|0|0
+14|2023-09-25|01|3000001|ค่าห้องและค่าอาหาร: เตียงสามัญ|2|400|800|0|0|0|SS|01|21101|||D|2023-09-25|0|0
+16|2023-09-25|12|3002731|ค่าบริการพยาบาลทั่วไป: ผู้ป่วยใน (IPD)|4|500|2000|0|0|0|SS|12|55010|||D|2023-09-25|0|0
+17|2023-09-25|03|1000099|D-5-N/2 1,000 ML.% W/V|1|39.5|39.5|0|0|0|SS|03||TMT|559927|D|2023-09-25|0|0
+18|2023-09-25|12|3002755|การอบไฟ Perineum|4|60|240|0|0|0|SS|12|55622|||D|2023-09-25|0|0
+19|2023-09-25|10|3002719|O2 sat monitor|2|100|200|0|0|0|SS|10|52441|||D|2023-09-25|0|0
+20|2023-09-25|10|3002718|NIBP monitor|2|100|200|0|0|0|SS|10|52440|||D|2023-09-25|0|0
+21|2023-09-25|12|3002769|ค่าบริการทางการพยาบาลอื่นๆ ที่นอกเหนือจากรายการตามหัวข้อ 12.1 - 12.7 ข้างต้น และเป็นรายการที่ไม่สามา|1|100|100|0|0|0|SS|12|55999|||D|2023-09-25|0|0
+22|2023-09-25|03|1500003|IBUPROFEN(R)400 mg.|10|1|10|0|0|0|SS|03||TMT|124503|D|2023-09-25|0|0
+23|2023-09-25|15|3009294|การบริบาลหญิงหลังคลอดด้วยการนวดที่เต้านม|1|150|150|0|0|0|SS|15|XXX15|||D|2023-09-25|0|0
+</BillItems>
+<InvAddDiscount>0.00</InvAddDiscount>
+<DRGCharge>4562</DRGCharge>
+<XDRGClaim>0.0000</XDRGClaim>
+</Invoices>
+<Coinsurance> </Coinsurance>
+</CIPN>
+
+<?EndNote HMAC="530DA66F31391CD407A62070DADF0CE3" ?>
