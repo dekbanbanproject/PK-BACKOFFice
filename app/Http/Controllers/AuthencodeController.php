@@ -78,20 +78,24 @@ class AuthencodeController extends Controller
                 $smartcardcon = 'CID_OK';
                 // dd($smartcardcon);  
                 $collection = Http::get('http://' . $ip . ':8189/api/smartcard/read?readImageFlag=true')->collect();
-                $patient =  DB::connection('mysql10')->select('select cid,hometel from patient limit 10');
+                // $patient =  DB::connection('mysql')->select('select cid,hometel from patient limit 10');
                 $output2 = Arr::sort($collection);
                 $hcode = $output2['hospMain']['hcode'];
-                $data_patient_ = DB::connection('mysql10')->select(' 
+                //  dd($collection);
+                $data_patient_ = DB::connection('mysql2')->select(' 
                                 SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
-                                ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,pe.cid,p.hcode,p.last_visit
+                                ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,p.cid,p.hcode,p.last_visit,p.hometel
 
-                                FROM hos.patient p 
-                                LEFT OUTER JOIN hos.person pe ON pe.patient_hn = p.hn 
+                                FROM patient p 
+                                LEFT OUTER JOIN person pe ON pe.patient_hn = p.hn 
                                 WHERE p.cid = "' . $collection['pid'] . '"
-                        ');
+                ');
                 foreach ($data_patient_ as $key => $value) {
-                    $pids = $value->cid;
-                    $hcode = $value->hcode;
+                    $pids          = $value->cid;
+                    $hcode         = $value->hcode;
+                    $hn            = $value->hn;
+                    $last_visit    = $value->last_visit;
+                    $hometel       = $value->hometel;
                 }
                 // dd($hcode);
                 $year = substr(date("Y"), 2) + 43;
@@ -99,6 +103,7 @@ class AuthencodeController extends Controller
                 $day = date('d');
                 $time = date("His");
                 $vn = $year . '' . $mounts . '' . $day . '' . $time;
+                $time_s = date("H:i:s");
 
                 $date = date('Y-m-d');
                 // dd($vn);OK
@@ -113,31 +118,83 @@ class AuthencodeController extends Controller
                 $data['pt_priority'] =  DB::connection('mysql10')->select('select * from pt_priority order by id');
                 $data['pt_walk'] =  DB::connection('mysql10')->select('select * from pt_walk');
                 $data['pt_subtype'] =  DB::connection('mysql10')->select('select * from pt_subtype order by pt_subtype');
-
+                $data['pname'] =  DB::connection('mysql10')->select('select * from pname order by name');
+                $data['marrystatus'] =  DB::connection('mysql10')->select('select code,name from marrystatus');
+                $data['nationality'] =  DB::connection('mysql10')->select(' select nationality as code,name from nationality ');
                 //ที่เก็บรูปภาพ
                 $data['patient_image'] =  DB::connection('mysql10')->select('select * from patient_image where image_name = "OPD" limit 100');
-
-                $getovst_key_ = Http::get('https://cloud4.hosxp.net/api/ovst_key?Action=get_ovst_key&hospcode="' . $hcode . '"&vn="' . $vn . '"&computer_name=abcde&app_name=AppName&fbclid=IwAR2SvX7NJIiW_cX2JYaTkfAduFqZAi1gVV7ftiffWPsi4M97pVbgmRBjgY8')->collect();
+                // dd($hn);
+                if ($hn == '') {
+                    $ovst_key = '';
+                } else {
+                     ///// เจน  ovst_key  จาก Hosxp
+                    // $getovst_key_ = Http::get('https://cloud4.hosxp.net/api/ovst_key?Action=get_ovst_key&hospcode="' . $hcode . '"&vn="' . $vn . '"&computer_name=abcde&app_name=AppName&fbclid=IwAR2SvX7NJIiW_cX2JYaTkfAduFqZAi1gVV7ftiffWPsi4M97pVbgmRBjgY8')->collect();
+                    // $output5 = Arr::sort($getovst_key_);
+                    // $ovst_key = $output5['result']['ovst_key'];
+                    $ovst_key = '';
+                }
+                 
                 ///// เจน  hos_guid  จาก Hosxp
                 $data_key = DB::connection('mysql10')->select('SELECT uuid() as keygen');
                 $output4 = Arr::sort($data_key);
                 foreach ($output4 as $key => $value_) {
                     $hos_guid = $value_->keygen;
                 }
-                ///// เจน  ovst_key  จาก Hosxp
-                $output5 = Arr::sort($getovst_key_);
-                $ovst_key = $output5['result']['ovst_key'];
+
+                $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+                foreach ($token_data as $key => $value) {
+                    $cid_    = $value->cid;
+                    $token_  = $value->token;
+                }
+                $client = new SoapClient(
+                    "http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                    array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace" => 1, "exceptions" => 0, "cache_wsdl" => 0)
+                );
+                $params = array(
+                    'sequence' => array(
+                        "user_person_id" => "$cid_",
+                        "smctoken"       => "$token_",
+                        "person_id"      => "$pids"
+                    )
+                );
+                $contents = $client->__soapCall('searchCurrentByPID', $params);
+                // dd($contents);
+                foreach ($contents as $v) {
+                    @$status                   = $v->status;
+                    @$maininscl                = $v->maininscl;  // maininscl": "WEL"
+                    @$startdate                = $v->startdate;  //"25650728"
+                    @$hmain                    = $v->hmain;   //"11066"
+                    @$subinscl                 = $v->subinscl;    //subinscl": "73"
+                    @$person_id_nhso           = $v->person_id;
+                    if ($v->maininscl == 'WEL') {
+                        @$cardid                    = $v->cardid;  // "R73450035286038"
+                    } else {
+                        $cardid = '';
+                    } 
+                    @$hmain_op                 = $v->hmain_op;  //"10978"
+                    @$hmain_op_name            = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                    @$hsub                     = $v->hsub;    //"04047"
+                    @$hsub_name                = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                    @$subinscl_name            = $v->subinscl_name; //"ช่วงอายุ 12-59 ปี"
+                    @$primary_amphur_name      = $v->primary_amphur_name;  // อำเภอ  "โพนทอง"
+                    @$primary_moo              = $v->primary_moo;    //หมู่ที่ 01
+                    @$primary_mooban_name      = $v->primary_mooban_name;  // ชื่อหมู่บ้าน  "หนองนกแก้ว"
+                    @$primary_tumbon_name      = $v->primary_tumbon_name;   //ชื่อตำบล   "สระนกแก้ว"
+                    @$primary_province_name    = $v->primary_province_name;  //ชื่อจังหวัด
+                }
+              
                 // foreach ($output5 as $key => $value_ovst_key) { 
                 //     $ovst_key = $value_ovst_key->ovst_key; 
                 // }
-                // dd($ovst_key);
+                dd($cardid);
                 return view('authen.authen_main', $data, [
                     'smartcard'          =>  $smartcard,
                     'cardcid'            =>  $cardcid,
                     'smartcardcon'       =>  $smartcardcon,
-                    'output'             =>  $output,
+                    'hometel'            =>  $hometel,
                     'vn'                 =>  $vn,
-                    'hos_guid'           =>  $hos_guid,
+                    'hn'                 =>  $hn,
+                    'last_visit'         =>  $last_visit,
                     'hcode'              =>  $hcode,
                     'hos_guid'           =>  $hos_guid,
                     'ovst_key'           =>  $ovst_key,
@@ -154,8 +211,11 @@ class AuthencodeController extends Controller
                     'collection10'       => $collection['correlationId'],
                     'collection11'       => $collection['checkDate'],
                     'collection12'       => $collection['image'],
-                    'collection'         => $collection,
-                    'patient'            => $patient,
+                    'collection13'        => $collection['sex'],
+                    'collection14'        => $collection['nation'],
+                    'collection15'        => $collection['titleName'],
+                    'time_s'         => $time_s,
+                    'date'               => $date,
 
                 ]);
             }
@@ -281,6 +341,10 @@ class AuthencodeController extends Controller
         $vstdate = date('Y-m-d');
         $outtime = date("His");
         $datetime = date('Y-m-d H:i:s');
+
+
+
+
         // dd($hos_guid);OK    
         $data_patient_ = DB::connection('mysql10')->select(' 
                 SELECT p.hn
