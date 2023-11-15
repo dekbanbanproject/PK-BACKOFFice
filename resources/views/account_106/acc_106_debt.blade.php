@@ -181,10 +181,12 @@
                 </div>
             </div>
         </div>
+        <form action="{{ route('acc.acc_106_debt') }}" method="GET">
+            @csrf
         <div class="row">
             <div class="col-md-4">
-                <h4 class="card-title">Detail Attach File</h4>
-                <p class="card-title-desc">รายละเอียดข้อมูล แนบไฟล์</p>
+                <h4 class="card-title">Detail</h4>
+                <p class="card-title-desc">รายละเอียดข้อมูล ทวงหนี้</p>
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
@@ -198,13 +200,16 @@
                         data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                         data-date-language="th-th" value="{{ $enddate }}" required />
 
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
                 </div>
             </div>
         </div>
+    </form>
+
+    @if ($startdate =='')
         <div class="row">
             <div class="col-md-12">
                 <div class="main-card card p-2">
@@ -233,7 +238,7 @@
                                 $total1 = 0; ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; 
-                                     $check_count = Acc_106_debt_print::where('vn', $item->vn)->count();
+                                    $check_count = Acc_106_debt_print::where('vn', $item->vn)->count();
                                     
                                     ?>
                                     <tr height="20" class="detail">
@@ -249,13 +254,7 @@
                                     <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td> 
                                     <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
                                     <td class="text-center" width="6%">
-                                        {{-- <button type="button"class="dropdown-item menu"  
-                                            data-bs-toggle="modal" data-bs-target="#FileModal{{ $item->acc_1102050102_106_id }}"
-                                            data-bs-toggle="tooltip" data-bs-placement="left" title="ออกจดหมาย">
-                                            <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
-                                                <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
-                                            
-                                        </button>  --}}
+                                        
                                         <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
                                             onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
                                             data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
@@ -268,161 +267,11 @@
                                         <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
                                         <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
                                     </td> 
-                                    {{-- <td class="text-center" width="10%" > 
-                                        @if ($item->file == '')
-                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                            <img src="{{ asset('assets/images/defailt_img.jpg' ) }}" height="30px;" width="30px" ></img>  
-                                        </button> 
-                                        @else
-                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#FileModalshow{{ $item->acc_1102050102_106_id }}">
-                                            <img src="{{ asset('storage/account_106/'.$item->filename) }}" height="30px;" width="30px" ></img> 
-                                        </button> 
-                                        @endif 
-                                    </td> --}}
-                                    {{-- <td class="text-center" width="7%"> 
-                                        <div class="dropdown d-inline-block">
-                                            <button type="button" aria-haspopup="true" aria-expanded="false"
-                                                data-bs-toggle="dropdown"
-                                                class="me-2 dropdown-toggle btn btn-outline-primary btn-sm">
-                                                ทำรายการ
-                                            </button>
-                                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-hover-link dropdown-menu">  
-                                                    <button type="button"class="dropdown-item menu"  
-                                                        data-bs-toggle="modal" data-bs-target="#FileModal{{ $item->acc_1102050102_106_id }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="left" title="แนบไฟล์">
-                                                        <i class="fa-solid fa-clipboard-check ms-2 me-2 text-primary"></i>
-                                                        <label for="" style="font-size:12px;color: rgb(40, 87, 241)">แนบไฟล์</label>
-                                                    </button> 
-                                                    
-                                            </div>
-                                        </div>
-                                    </td> --}}
+                                    
                                 </tr> 
 
-                                <div class="modal fade" id="FileModalshow{{ $item->acc_1102050102_106_id }}"  tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl" role="document">
-                                        <div class="modal-content ">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="addFileModalLabel">ไฟล์หนังสือยอมรับสภาพหนี้</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                             
                             
-                                                        <div class="row">
-                                                    
-                                                            <div class="col-md-12">
-                                                                <div class="input-group text-center">  
-                                                                        
-                                                                        
-                                                                                <?php
-                                                                                $data_file_ = DB::table('acc_doc')
-                                                                                    ->where('acc_doc_pangid', $item->acc_1102050102_106_id)
-                                                                                    ->get();
-                                                                                ?> 
-                                                                                    @foreach ($data_file_ as $item3) 
-                                                                                    
-                                                                                        <div id="sid{{ $item3->acc_doc_id }}">
-                                                                                            <iframe src="{{ asset('storage/account_106/'.$item3->filename) }}" height="500px;" width="100%" ></iframe>  
-                                                                                             
-                                                                                        </div>
-                                                                                    @endforeach
-                                                                                
-                                                                            
-                                                                </div>                            
-                                                            </div> 
-                                                        </div>
-                                 
-                                            </div>
-                                            {{-- <div class="modal-footer">
-                                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
-                                                </button>
-                                            </div> --}}
-                            
-                                        </form>
-                            
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="FileModal{{ $item->acc_1102050102_106_id }}"  tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl" role="document">
-                                        <div class="modal-content ">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="addFileModalLabel">ไฟล์หนังสือยอมรับสภาพหนี้</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                            
-                                                <form action="{{ route('acc.acc_106_file_updatefile') }}" method="POST" enctype="multipart/form-data"> 
-                                                    <input type="hidden" name="account_code" id="account_code" value="{{$item->account_code}}"> 
-                                                    @csrf
-                                                        <div class="row">
-                                                            <div class="col"></div>
-                                                            <div class="col-md-8">
-                                                                <div class="mb-3 mt-2">
-                                                                    <label for="formFileLg" class="form-label">ไฟล์หนังสือยอมรับสภาพหนี้</label>
-                                                                    <input class="form-control form-control-lg" id="formFileLg" name="file"
-                                                                        type="file" required>
-                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <div class="col"></div>
-                                                        </div>
-                            
-                            
-                                                        <div class="row">
-                                                    
-                                                            <div class="col-md-12">
-                                                                <div class="input-group text-center">  
-                                                                        
-                                                                        
-                                                                                {{-- <?php
-                                                                                $data_file_ = DB::table('acc_doc')
-                                                                                    ->where('acc_doc_pangid', $item->acc_1102050102_106_id)
-                                                                                    ->get();
-                                                                                ?> 
-                                                                                    @foreach ($data_file_ as $item3) 
-                                                                                    
-                                                                                        <div id="sid{{ $item3->acc_doc_id }}">
-                                                                                            <iframe src="{{ asset('storage/account_106/'.$item3->filename) }}" height="500px;" width="100%" ></iframe>  
-                                                                                            
-                                                                                            <a class="dropdown-item menu btn btn-outline-danger btn-sm"
-                                                                                                    href="javascript:void(0)"
-                                                                                                    onclick="acc106destroy({{ $item3->acc_doc_id }})"
-                                                                                                    data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                                                                                    data-bs-placement="top" title="ลบ">
-                                                                                                    <i class="fa-solid fa-trash-can text-danger me-2"></i>
-                                                                                                    <label for=""
-                                                                                                        style="color: rgb(212, 10, 3)">ลบ</label>
-                                                                                                </a>
-                                                                                        </div>
-                                                                                    @endforeach --}}
-                                                                                
-                                                                            
-                                                                </div>                            
-                                                            </div> 
-                                                        </div>
                                 
-                                                
-                                                <input type="hidden" name="user_id" id="edituser_id"> 
-                                                <input type="hidden" name="acc_1102050102_106_id" id="acc_1102050102_106_id" value="{{ $item->acc_1102050102_106_id }}"> 
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                                                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
-                                                </button>
-                                            </div>
-                            
-                                        </form>
-                            
-                                        </div>
-                                    </div>
-                                </div>
                                 @endforeach
 
                             </tbody>
@@ -432,186 +281,82 @@
                 </div>
             </div>
         </div>
+    @else
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-card card p-2">
+                    <div class="grid-menu-col">
+                        <table id="example" class="table table-striped table-bordered "
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr class="Head1">
+                                    <th class="text-center">ลำดับ</th>
+                                    <th class="text-center">vn</th> 
+                                    <th class="text-center">hn</th>
+                                    <th class="text-center">cid</th>
+                                    <th class="text-center">ชื่อ-สกุล</th>
+                                    <th class="text-center">วันที่รับบริการ</th>
+                                    <th class="text-center">สิทธิ์การรักษา</th>
+                                    <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
+                                    <th class="text-center">ยอดที่ต้องชำระ</th>
+                                    <th class="text-center">ชำระแล้ว</th>
+                                    <th class="text-center">ค้างชำระ</th>
+                                    <th class="text-center">ออกจดหมาย</th> 
+                                    <th class="text-center">จำนวนที่ออก</th> 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $number = 0;
+                                $total1 = 0; ?>
+                                @foreach ($datashow as $item)
+                                    <?php $number++; 
+                                    $check_count = Acc_106_debt_print::where('vn', $item->vn)->count();
+                                    
+                                    ?>
+                                    <tr height="20" class="detail">
+                                    <td class="text-center" width="4%">{{ $number }}</td>
+                                    <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                    <td class="text-center" width="5%">{{ $item->hn }}</td> 
+                                    <td class="text-center" width="7%">{{ $item->cid }}</td> 
+                                    <td class="text-start">{{ $item->ptname }}</td> 
+                                    <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                    <td class="text-center" width="7%">{{ $item->pttype }}</td>
+                                    <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td> 
+                                    <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
+                                    <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                    <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
+                                    <td class="text-center" width="6%">
+                                        
+                                        <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
+                                            onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
+                                            data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                            data-bs-placement="top" title="ออกจดหมาย">
+                                            <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
+                                            <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
+                                        </a>
+                                    </td> 
+                                    <td class="text-center" width="5%">
+                                        <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
+                                        <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
+                                    </td> 
+                                    
+                                </tr> 
 
+                            
+                                
+                                @endforeach
 
-        
+                            </tbody>
 
-        <!-- Insert Modal -->
-        {{-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">ลงใบเสร็จรับเงิน</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_tri" class="form-label">ไตรมาส</label>
-                                <div class="input-group input-group-sm">
-                                    <select name="acc_stm_repmoney_tri" id="acc_stm_repmoney_tri"
-                                        class="form-select form-control" style="width: 100%">
-                                        <option value="">เลือก</option>
-                                        @foreach ($trimart as $item)
-                                            <option value="{{ $item->acc_trimart_id }}">{{ $item->acc_trimart_name }}
-                                                {{ $item->acc_trimart_start_date }} ถึง {{ $item->acc_trimart_end_date }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_book" class="form-label">เล่มใบเสร็จ</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="acc_stm_repmoney_book"
-                                        name="acc_stm_repmoney_book">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_date" class="form-label">วันที่ลงรับ</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="date" class="form-control" id="acc_stm_repmoney_date"
-                                        name="acc_stm_repmoney_date">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_no" class="form-label">เลขที่ใบเสร็จ</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="acc_stm_repmoney_no"
-                                        name="acc_stm_repmoney_no">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_price301" class="form-label">ยอดชดเชย 301</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="acc_stm_repmoney_price301"
-                                        name="acc_stm_repmoney_price301">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_price302" class="form-label">ยอดชดเชย 302</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="acc_stm_repmoney_price302"
-                                        name="acc_stm_repmoney_price302">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_price310" class="form-label">ยอดชดเชย 310</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="acc_stm_repmoney_price310"
-                                        name="acc_stm_repmoney_price310">
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" name="user_id" id="user_id" value="{{ $iduser }}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"
-                            id="Savedata">
-                            <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
-                        </button>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
+    @endif
 
-        <!-- Update Modal -->
-        {{-- <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">แก้ไขใบเสร็จรับเงิน</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_tri" class="form-label">ไตรมาส</label>
-                                <div class="input-group input-group-sm">
-                                    <select name="acc_stm_repmoney_tri" id="editacc_stm_repmoney_tri"
-                                        class="form-control" style="width: 100%">
-                                        <option value="">เลือก</option>
-                                        @foreach ($trimart as $item)
-                                            <option value="{{ $item->acc_trimart_id }}">{{ $item->acc_trimart_name }}
-                                                {{ $item->acc_trimart_start_date }} ถึง {{ $item->acc_trimart_end_date }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_book" class="form-label">เล่มใบเสร็จ</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="editacc_stm_repmoney_book"
-                                        name="acc_stm_repmoney_book">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_date" class="form-label">วันที่ลงรับ</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="date" class="form-control" id="editacc_stm_repmoney_date"
-                                        name="acc_stm_repmoney_date">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_no" class="form-label">เลขที่ใบเสร็จ</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="editacc_stm_repmoney_no"
-                                        name="acc_stm_repmoney_no">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย 301</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="editacc_stm_repmoney_price301"
-                                        name="acc_stm_repmoney_price301">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย 302</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="editacc_stm_repmoney_price302"
-                                        name="acc_stm_repmoney_price302">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label for="acc_stm_repmoney_price" class="form-label">ยอดชดเชย 310</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="editacc_stm_repmoney_price310"
-                                        name="acc_stm_repmoney_price310">
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" name="user_id" id="edituser_id">
-                        <input type="hidden" name="acc_stm_repmoney_id" id="editacc_stm_repmoney_id">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info"
-                            id="Updatedata">
-                            <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
+         
+       
     </div>
 
     @endsection

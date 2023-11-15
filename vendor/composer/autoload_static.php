@@ -195,6 +195,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
             'Cron\\' => 5,
             'Composer\\Semver\\' => 16,
             'Complex\\' => 8,
+            'Codedge\\Fpdf\\' => 13,
             'Carbon\\' => 7,
         ),
         'B' => 
@@ -610,6 +611,10 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'Complex\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
+        'Codedge\\Fpdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codedge/laravel-fpdf/src',
         ),
         'Carbon\\' => 
         array (
@@ -1203,6 +1208,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Models\\D_rep_eclaim' => __DIR__ . '/../..' . '/app/Models/D_rep_eclaim.php',
         'App\\Models\\D_rep_eclaim_excel' => __DIR__ . '/../..' . '/app/Models/D_rep_eclaim_excel.php',
         'App\\Models\\D_ssop_main' => __DIR__ . '/../..' . '/app/Models/D_ssop_main.php',
+        'App\\Models\\D_talassemia' => __DIR__ . '/../..' . '/app/Models/D_talassemia.php',
         'App\\Models\\D_ucep' => __DIR__ . '/../..' . '/app/Models/D_ucep.php',
         'App\\Models\\D_ucep24' => __DIR__ . '/../..' . '/app/Models/D_ucep24.php',
         'App\\Models\\D_ucep24_main' => __DIR__ . '/../..' . '/app/Models/D_ucep24_main.php',
@@ -1656,6 +1662,9 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'Carbon\\TranslatorImmutable' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorImmutable.php',
         'Carbon\\TranslatorStrongTypeInterface' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/TranslatorStrongTypeInterface.php',
+        'Codedge\\Fpdf\\Facades\\Fpdf' => __DIR__ . '/..' . '/codedge/laravel-fpdf/src/Facades/Fpdf.php',
+        'Codedge\\Fpdf\\FpdfServiceProvider' => __DIR__ . '/..' . '/codedge/laravel-fpdf/src/FpdfServiceProvider.php',
+        'Codedge\\Fpdf\\Fpdf\\Fpdf' => __DIR__ . '/..' . '/codedge/laravel-fpdf/src/Fpdf/Fpdf.php',
         'Complex\\Complex' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Complex.php',
         'Complex\\Exception' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Exception.php',
         'Complex\\Functions' => __DIR__ . '/..' . '/markbaker/complex/classes/src/Functions.php',
