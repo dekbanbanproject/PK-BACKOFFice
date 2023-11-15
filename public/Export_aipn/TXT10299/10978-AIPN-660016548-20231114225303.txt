@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="windows-874"?>
 <CIPN>
 <Header>
 <DocClass>IPClaim</DocClass>
@@ -6,7 +5,7 @@
 <serviceEvent>ADT</serviceEvent>
 <authorID>10978</authorID>
 <authorName>รพ.ภูเขียวเฉลิมพระเกียรติ</authorName>
-<effectiveTime>2023-11-09T11:57:29</effectiveTime>
+<effectiveTime>2023-11-14T22:53:03</effectiveTime>
 </Header>
 <ClaimAuth>
 <AuthCode></AuthCode>
@@ -34,7 +33,7 @@
 7|2|ICD-10|O993|Mental disorders and diseases of the nervous system complicating pregnancy, childbirth and the puerperium|59439|
 </IPDx>
 <IPOp Reccount="1">
-1|ICD9CM|7534|Other intrauterine operations on fetus and amnion,Other fetal monitoring|59439|2023-10-17T19:29:45|2023-10-20T10:33:30|
+1|ICD9CM|7534|Other intrauterine operations on fetus and amnion,Other fetal monitoring|59439|2023-10-17T15:35:05|2023-09-17T15:40:00|
 </IPOp>
 <Invoices>
 <InvNumber>660016548</InvNumber>
@@ -88,4 +87,3 @@
 <Coinsurance> </Coinsurance>
 </CIPN>
 
-<?EndNote HMAC="8754C516DD04520FD797475F5C9B5C5C" ?>
