@@ -324,7 +324,7 @@
                         <div class="g-0 row">
                             <div class="col-sm-12">
                                 <div class="widget-chart widget-chart-hover"> 
-                                    <div id="chart"> </div>
+                                    {{-- <div id="chart"> </div> --}}
                                 </div>                                           
                             </div>  
                         </div>                                           
@@ -337,7 +337,7 @@
                         <div class="g-0 row">
                             <div class="col-sm-12">
                                 <div class="widget-chart widget-chart-hover"> 
-                                    <div id="chart2"> </div>
+                                    {{-- <div id="chart2"> </div> --}}
                                     {{-- @apexchartsScripts
                                     {!! $chart->container() !!}
                                     {!! $chart->script() !!} --}}
@@ -353,7 +353,7 @@
                         <div class="g-0 row">
                             <div class="col-sm-12">
                                 <div class="widget-chart widget-chart-hover"> 
-                                    <div id="chart3"> </div>
+                                    {{-- <div id="chart3"> </div> --}}
                                     {{-- @apexchartsScripts
                                     {!! $chart->container() !!}
                                     {!! $chart->script() !!} --}}
