@@ -186,7 +186,7 @@ class AuthencodeController extends Controller
                 // foreach ($output5 as $key => $value_ovst_key) { 
                 //     $ovst_key = $value_ovst_key->ovst_key; 
                 // }
-                dd($cardid);
+                // dd($cardid);
                 return view('authen.authen_main', $data, [
                     'smartcard'          =>  $smartcard,
                     'cardcid'            =>  $cardcid,
