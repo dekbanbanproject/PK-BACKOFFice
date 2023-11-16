@@ -309,150 +309,134 @@
  
                                                   
                                                     @else 
-                                                        <h3 style="color: rgb(10, 119, 221)" class="ms-4">ลงทะเบียนผู้ป่วย</h3>
-                                                        <br>
-                                                        <div class="row "> 
+                                                        <div class="row">
                                                             <div class="col-md-12"> 
-                                                                {{-- <ul class="nav nav-tabs" role="tablist"> --}}
-                                                                    {{-- <li class="nav-item">
+                                                                <ul class="nav nav-tabs" role="tablist">
+                                                                    <li class="nav-item">
                                                                         <a class="nav-link active" data-bs-toggle="tab" href="#Narmala" role="tab">
                                                                             <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                                            <span class="d-none d-sm-block">ทั่วไป </span>    
+                                                                            <span class="d-none d-sm-block">ทั่วไป 1</span>    
                                                                         </a>
-                                                                    </li>    --}}
-                                                                    {{-- <li class="nav-item">
+                                                                    </li>   
+                                                                    <li class="nav-item">
                                                                         <a class="nav-link" data-bs-toggle="tab" href="#Narmalb" role="tab">
                                                                             <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                                             <span class="d-none d-sm-block">ทั่วไป 2</span>    
                                                                         </a>
-                                                                    </li> --}}
-                                                                    {{-- <li class="nav-item">
+                                                                    </li>
+                                                                    <li class="nav-item">
                                                                         <a class="nav-link" data-bs-toggle="tab" href="#Narmalc" role="tab">
                                                                             <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                                             <span class="d-none d-sm-block">ทั่วไป 3</span>    
                                                                         </a>
-                                                                    </li>  --}}
-                                                                {{-- </ul>  --}}
-                                                                {{-- <div class="tab-content p-3 text-muted"> --}}
-                                                                    {{-- <div class="tab-pane active" id="Narmala" role="tabpanel">
-                                                                        <p class="mb-0"> --}}
+                                                                    </li> 
+                                                                </ul> 
+                                                                <div class="tab-content p-3 text-muted">
+                                                                    <div class="tab-pane active" id="Narmala" role="tabpanel">
+                                                                        <p class="mb-0">
                                                                             <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">คำนำหน้า </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
+                                                                                <div class="col-md-1">   <label for="mobile" class="form-label">ชื่อ </label> </div>
+                                                                                <div class="col-md-2">
+                                                                                    <div class="mb-2"> 
                                                                                         <select name="" id="" class="form-control" style="width: 100%">
                                                                                             @foreach ($pname as $item_p)
                                                                                             @if ($collection15 == $item_p->provis_code)
                                                                                             <option value="{{$item_p->name}}" selected>{{$item_p->name}}</option>
                                                                                             @else
                                                                                             <option value="{{$item_p->name}}">{{$item_p->name}}</option>
-                                                                                            @endif                                                                                            
+                                                                                            @endif
+                                                                                            
                                                                                             @endforeach 
-                                                                                        </select>  
+                                                                                        </select> 
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="col-md-1 text-end"><label for="mobile" class="form-label">ชื่อ </label> </div>
-                                                                                <div class="col-md-2 mb-2">  
-                                                                                        <input type="text" class="form-control form-control-sm" id="fname" name="fname" value="{{$collection2}}"> 
+                                                                                <div class="col-md-3">
+                                                                                    <div class="mb-2">
+                                                                                        <input type="text" class="form-control" id="fname" name="fname" value="{{$collection2}}">
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="col-md-1 text-end"><label for="mobile" class="form-label">นามสกุล </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <input type="text" class="form-control form-control-sm" id="lname" name="lname" value="{{$collection3}}"> 
+                                                                                <div class="col-md-3">
+                                                                                    <div class="mb-2">
+                                                                                        <input type="text" class="form-control" id="lname" name="lname" value="{{$collection3}}">
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="col-md-1 text-end"><label for="mobile" class="form-label">เลขบัตรประชาชน </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <input type="text" class="form-control form-control-sm" id="cid" name="cid" value="{{$collection1}}" placeholder="เลขบัตรประชาชน">
-                                                                                    
+                                                                                <div class="col-md-1">   <label for="mobile" class="form-label">เพศ </label> </div>
+                                                                                <div class="col-md-2">
+                                                                                    <div class="mb-2">
+                                                                                        @if ($collection13 =='ชาย')
+                                                                                        <label for="mobile" class="form-label">ชาย</label> 
+                                                                                        <input type="hidden" class="form-control" id="sex" name="sex" value="1">
+                                                                                        @else
+                                                                                        <label for="mobile" class="form-label">หญิง</label> 
+                                                                                        <input type="hidden" class="form-control" id="sex" name="sex" value="2">
+                                                                                        @endif
+                                                                                        
+                                                                                    </div>
                                                                                 </div>
-                                                                               
                                                                             </div>
                                                                             <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สถานภาพ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
+                                                                                <div class="col-md-1">   <label for="mobile" class="form-label">สถานภาพ </label> </div>
+                                                                                <div class="col-md-2">
+                                                                                    <div class="mb-2"> 
                                                                                         <select name="marrystatus" id="marrystatus" class="form-control" style="width: 100%">
                                                                                             @foreach ($marrystatus as $item_ma)
                                                                                             <option value="{{$item_ma->code}}">{{$item_ma->name}}</option>
                                                                                             @endforeach 
-                                                                                        </select>  
+                                                                                        </select> 
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="col-md-1 text-end"> <label for="mobile" class="form-label">เชื้อชาติ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="citizenship" id="citizenship" class="form-control " style="width: 100%">
+                                                                                <div class="col-md-3">
+                                                                                    <div class="mb-2">
+                                                                                        <input type="text" class="form-control" id="cid" name="cid" value="{{$collection1}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div> 
+                                                                            <div class="row">
+                                                                                <div class="col-md-1">   <label for="mobile" class="form-label">เชื้อชาติ </label> </div>
+                                                                                <div class="col-md-2">
+                                                                                    <div class="mb-2"> 
+                                                                                        <select name="citizenship" id="citizenship" class="form-control" style="width: 100%">
                                                                                             @foreach ($nationality as $item_na)
                                                                                             @if ($collection14 == $item_na->code)
                                                                                             <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
                                                                                             @else
                                                                                             <option value="{{$item_na->code}}">{{$item_na->name}}</option>
-                                                                                            @endif                                                                                            
+                                                                                            @endif
+                                                                                            
                                                                                             @endforeach 
-                                                                                        </select>  
+                                                                                        </select> 
+                                                                                    </div>
                                                                                 </div> 
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สัญชาติ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
+                                                                            </div> 
+                                                                            <div class="row">
+                                                                                <div class="col-md-1">   <label for="mobile" class="form-label">สัญชาติ </label> </div>
+                                                                                <div class="col-md-2">
+                                                                                    <div class="mb-2"> 
                                                                                         <select name="nationality" id="nationality" class="form-control" style="width: 100%">
                                                                                             @foreach ($nationality as $item_na)
                                                                                             @if ($collection14 == $item_na->code)
                                                                                             <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
                                                                                             @else
                                                                                             <option value="{{$item_na->code}}">{{$item_na->name}}</option>
-                                                                                            @endif                                                                                            
+                                                                                            @endif
+                                                                                            
                                                                                             @endforeach 
-                                                                                        </select>  
+                                                                                        </select> 
+                                                                                    </div>
                                                                                 </div> 
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">เพศ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        @if ($collection13 =='ชาย')
-                                                                                        {{-- <label for="mobile" class="form-label">ชาย</label>  --}}
-                                                                                        <input type="hidden" class="form-control" id="sex" name="sex" value="1">
-                                                                                        <input type="text" class="form-control form-control-sm" id="" name="" value="ชาย">
-                                                                                        @else
-                                                                                        {{-- <label for="mobile" class="form-label">หญิง</label>  --}}
-                                                                                        <input type="hidden" class="form-control" id="sex" name="sex" value="2">
-                                                                                        <input type="text" class="form-control form-control-sm" id="" name="" value="หญิง">
-                                                                                        @endif  
-                                                                                </div>
-                                                                                
-                                                                            </div>  
-                                                                            <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="province" class="form-label">จังหวัด </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="province" id="province" class="form-control province" style="width: 100%">
-                                                                                            @foreach ($thaiaddress_provine as $item_prov)
-                                                                                            <option value="{{$item_prov->chwpart}}">{{$item_prov->name}}</option>
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="amphur" class="form-label">อำเภอ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="amphur" id="amphur" class="form-control amphur" style="width: 100%">
-                                                                                            @foreach ($thaiaddress_amphur as $item_amp)
-                                                                                            <option value="{{$item_amp->amppart}}">{{$item_amp->name}}</option>
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="tumbon" class="form-label">ตำบล </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="tumbon" id="tumbon" class="form-control tumbon" style="width: 100%">
-                                                                                            @foreach ($thaiaddress_tumbon as $item_tum)
-                                                                                            <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="po_code" class="form-label">รหัสไปรษณีย์ </label> </div>
-                                                                                <div class="col-md-2 mb-2">    
-                                                                                        <input type="text" class="form-control form-control-sm" id="po_code" name="po_code" >
-                                                                                       
-                                                                                </div>
-                                                                            </div>  
-                                                                        {{-- </p>
-                                                                    </div> --}}
-                                                                    {{-- <div class="tab-pane" id="Narmalb" role="tabpanel">
+                                                                            </div> 
+                                                                            
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="Narmalb" role="tabpanel">
                                                                         <p class="mb-0"> 
                                                                         </p>
-                                                                    </div> --}}
-                                                                    {{-- <div class="tab-pane" id="Narmalc" role="tabpanel">
+                                                                    </div>
+                                                                    <div class="tab-pane" id="Narmalc" role="tabpanel">
                                                                         <p class="mb-0"> 
                                                                         </p>
-                                                                    </div> --}}
-                                                                {{-- </div>  --}}
+                                                                    </div>
+                                                                </div> 
                                                             </div>
                                                         </div> 
 
@@ -609,8 +593,8 @@
 
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
             $(document).ready(function() {
                 $('select').select2();
                 // $('#ovstist').select2({
@@ -718,43 +702,7 @@
             });
 
             });
-
-             //------------------------ จังหวัด ------------------
-
-            $('.province').change(function(){
-                    if($(this).val()!=''){
-                    var select=$(this).val();
-                    var _token=$('input[name="_token"]').val();
-                    $.ajax({
-                            url:"{{route('fecth.fetch_province')}}",
-                            method:"GET",
-                            data:{select:select,_token:_token},
-                            success:function(result){
-                                $('.amphur').html(result);
-                            }
-                    })
-                    // console.log(select);
-                    }        
-            });
-
-            $('.amphur').change(function(){
-                    if($(this).val()!=''){
-                    var select=$(this).val();
-                    var _token=$('input[name="_token"]').val();
-                    $.ajax({
-                            url:"{{route('fecth.fetch_amphur')}}",
-                            method:"GET",
-                            data:{select:select,_token:_token},
-                            success:function(result){
-                            $('.tumbon').html(result);
-                            }
-                    })
-                // console.log(select);
-                    }        
-            });
- 
-    </script>
-    
+        </script>
 
 </body>
 

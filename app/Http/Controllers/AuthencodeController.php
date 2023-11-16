@@ -121,6 +121,11 @@ class AuthencodeController extends Controller
                 $data['pname'] =  DB::connection('mysql10')->select('select * from pname order by name');
                 $data['marrystatus'] =  DB::connection('mysql10')->select('select code,name from marrystatus');
                 $data['nationality'] =  DB::connection('mysql10')->select(' select nationality as code,name from nationality ');
+                $data['thaiaddress_provine'] =  DB::connection('mysql10')->select(' select chwpart,name from thaiaddress WHERE codetype="1"');
+                $data['thaiaddress_amphur'] =  DB::connection('mysql10')->select(' select amppart,name from thaiaddress WHERE codetype="2"');
+                $data['thaiaddress_tumbon'] =  DB::connection('mysql10')->select(' select tmbpart,name from thaiaddress WHERE codetype="3"');
+
+
                 //ที่เก็บรูปภาพ
                 $data['patient_image'] =  DB::connection('mysql10')->select('select * from patient_image where image_name = "OPD" limit 100');
                 // dd($hn);
@@ -166,7 +171,7 @@ class AuthencodeController extends Controller
                     @$hmain                    = $v->hmain;   //"11066"
                     @$subinscl                 = $v->subinscl;    //subinscl": "73"
                     @$person_id_nhso           = $v->person_id;
-                    if ($v->maininscl == 'WEL') {
+                    if (@$maininscl == 'WEL') {
                         @$cardid                    = $v->cardid;  // "R73450035286038"
                     } else {
                         $cardid = '';
@@ -480,14 +485,43 @@ class AuthencodeController extends Controller
         return response()->json([
             'status'     => '200',
         ]);
-        // return view('authen.authencode_visit',[  
-        //     'smartcard'          =>  $smartcard, 
-        //     'cardcid'            =>  $cardcid,
-        //     'smartcardcon'       =>  $smartcardcon,
-        //     'output'             =>  $output, 
+        
+    }
+    // จังหวัด
+    function fetch_province(Request $request)
+    { 
+            $id = $request->get('select');
+            $result=array();
+            $query= DB::table('hrd_province')
+            ->join('hrd_amphur','hrd_province.ID','=','hrd_amphur.PROVINCE_ID')
+            ->select('hrd_amphur.AMPHUR_NAME','hrd_amphur.ID')
+            ->where('hrd_province.ID',$id)
+            ->groupBy('hrd_amphur.AMPHUR_NAME','hrd_amphur.ID')
+            ->get();
+            $output='<option value="">--กรุณาเลือกอำเภอ--</option>'; 
+            foreach ($query as $row){ 
+                    $output.= '<option value="'.$row->ID.'">'.$row->AMPHUR_NAME.'</option>';
+            } 
+            echo $output; 
+    }
+// อำเภอ
+    function fetch_amphur(Request $request)
+    { 
+            $id = $request->get('select');
+            $result=array();
+            $query= DB::table('hrd_amphur')
+            ->join('hrd_tumbon','hrd_amphur.ID','=','hrd_tumbon.AMPHUR_ID')
+            ->select('hrd_tumbon.TUMBON_NAME','hrd_tumbon.ID')
+            ->where('hrd_amphur.ID',$id)
+            ->groupBy('hrd_tumbon.TUMBON_NAME','hrd_tumbon.ID')
+            ->get();
+            $output='<option value="">--กรุณาเลือกตำบล--</option>';
+            
+            foreach ($query as $row){
 
-
-        // ]);
+                    $output.= '<option value="'.$row->ID.'">'.$row->TUMBON_NAME.'</option>';
+            } 
+            echo $output; 
     }
 
     // public function authencode_visit(Request $request)

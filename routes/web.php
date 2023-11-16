@@ -119,6 +119,12 @@ Route::get('/read', [App\Http\Controllers\AuthencodeController::class, 'read'])-
 Route::get('authen_cid', [App\Http\Controllers\AuthencodeController::class, 'authen_cid'])->name('authen_cid');
 Route::get('check_sit', [App\Http\Controllers\AuthencodeController::class, 'check_sit'])->name('c.check_sit');
 
+// Route::get('fetch','PersonController@fetch')->name('dropdown.fetch');
+// Route::get('fetchsub','PersonController@fetchsub')->name('dropdown.fetchsub');
+Route::match(['get','post'],'fetch_province', [App\Http\Controllers\AuthencodeController::class, 'fetch_province'])->name('fecth.fetch_province');
+Route::match(['get','post'],'fetch_amphur', [App\Http\Controllers\AuthencodeController::class, 'fetch_amphur'])->name('fecth.fetch_amphur');
+Route::match(['get','post'],'fetch_tumbon', [App\Http\Controllers\AuthencodeController::class, 'fetch_tumbon'])->name('fecth.fetch_tumbon');
+
 Route::POST('authencode', [App\Http\Controllers\AuthencodeController::class, 'authencode'])->name('a.authencode');
 Route::match(['get','post'],'authencode_visit', [App\Http\Controllers\AuthencodeController::class, 'authencode_visit'])->name('a.authencode_visit');
 Route::match(['get','post'],'authencode_visit_save', [App\Http\Controllers\AuthencodeController::class, 'authencode_visit_save'])->name('a.authencode_visit_save');

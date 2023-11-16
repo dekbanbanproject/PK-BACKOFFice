@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="windows-874"?>
+<CIPN>
+<Header>
+<DocClass>IPClaim</DocClass>
+<DocSysID version="2.1">AIPN</DocSysID>
+<serviceEvent>ADT</serviceEvent>
+<authorID>10978</authorID>
+<authorName>รพ.ภูเขียวเฉลิมพระเกียรติ</authorName>
+<effectiveTime>2023-11-16T15:03:17</effectiveTime>
+</Header>
+<ClaimAuth>
+<AuthCode></AuthCode>
+<AuthDT>2023-09-05T20:07:00</AuthDT>
+<UPayPlan>80</UPayPlan>
+<ServiceType>IP</ServiceType>
+<ProjectCode></ProjectCode>
+<EventCode> </EventCode>
+<UserReserve> </UserReserve>
+<Hmain>10702</Hmain>
+<Hcare>10978</Hcare>
+<CareAs>B</CareAs>
+<ServiceSubType> </ServiceSubType>
+</ClaimAuth>
+<IPADT>
+660013851|0291996|0|1629900511886|น.ส.|วิภา เฉาอ่ำ|1999-07-12|2|2|62|01|99|C|O|2023-09-05T20:07:00|2023-09-05T23:00:00|0|02|01||04|03
+</IPADT>
+<IPDx Reccount="9">
+1|1|ICD-10|O142|HELLP syndrome|59439|
+2|2|ICD-10|O600|Preterm labour wihtout deliver|59439|
+3|2|ICD-10|O364|Maternal care for intrauterine death|59439|
+4|2|ICD-10|O459|Premature separation of placenta, unspecified|59439|
+5|2|ICD-10|O266|Liver disorders in pregnancy, childbirth and the puerperium|59439|
+6|2|ICD-10|N179|Acute renal failure, unspecified|59439|
+7|2|ICD-10|O268|Other specified pregnancy-related conditions|59439|
+8|2|ICD-10|D696|Thrombocytopenia, unspecified|59439|
+9|2|ICD-10|O991|Other diseases of the blood and blood-forming organs and certain disorders involving the immune mechanism complicating pregnancy, childbirth and the puerperium|59439|
+</IPDx>
+<IPOp Reccount="1">
+1|ICD9CM|8878|Dignostic ultrasound,Diagnostic ultrasound of gravid uterus|59439|2023-09-05T21:00:30|2023-09-05T21:30:45|
+</IPOp>
+<Invoices>
+<InvNumber>660013851</InvNumber>
+<InvDT>2023-09-05T23:00:00</InvDT>
+<BillItems Reccount="39">
+1|2023-09-05|03|1000058|CALCIUM  gluconate10 %|1|13|13|0|0|0|SS|03||TMT|767041|D|2023-09-05|0|0
+2|2023-09-05|03|1000177|MAGNESIUM SULFATE50 %|40|8.5|340|0|0|0|SS|03||TMT|761277|D|2023-09-05|0|0
+3|2023-09-05|03|1000236|PETHIDINE50 mg./ml.|1|8.5|8.5|0|0|0|SS|03||TMT|535995|D|2023-09-05|0|0
+4|2023-09-05|03|1420102|TERBUTALINE INJ.0.5 mg./ml.|1|11|11|0|0|0|SS|03||TMT|761922|D|2023-09-05|0|0
+5|2023-09-05|03|1460046|RLS - ringer  lactate. .|2|54|108|0|0|0|SS|03||TMT|807889|D|2023-09-05|0|0
+6|2023-09-05|03|1490347|HYDRALAZINE INJ.20 mg.|1|290|290|0|0|0|SS|03||TMT|764013|D|2023-09-05|0|0
+7|2023-09-05|03|1590007|IPD-Pethidine (หน่วยเป็นมก.)50 mg./ml.|1|1|1|0|0|0|SS|03||TMT|858445|D|2023-09-05|0|0
+8|2023-09-05|07|3000034|CBC (+ diff. + RBC morphology + plt count) by automation|1|90|90|0|0|0|SS|07|30101|TMLT|300034|D|2023-09-05|0|0
+9|2023-09-05|07|3000037|Hct (Hematocrit)|2|30|60|0|0|0|SS|07|30104|TMLT|300011|D|2023-09-05|0|0
+10|2023-09-05|07|3000060|PT (Prothombin Time)|1|75|75|0|0|0|SS|07|30201|TMLT|308038|D|2023-09-05|0|0
+11|2023-09-05|07|3000061|PTT (Partial Thomboplastin Time)|1|85|85|0|0|0|SS|07|30202|TMLT|308033|D|2023-09-05|0|0
+12|2023-09-05|07|3000173|Magnesium, blood|1|50|50|0|0|0|SS|07|32107|TMLT|320016|D|2023-09-05|0|0
+13|2023-09-05|07|3000176|Blood Urea Nitrogen (BUN)|1|40|40|0|0|0|SS|07|32201|TMLT|320052|D|2023-09-05|0|0
+14|2023-09-05|07|3000180|Uric acid, blood|1|60|60|0|0|0|SS|07|32205|TMLT|320080|D|2023-09-05|0|0
+15|2023-09-05|07|3000194|Alkaline phosphatase, blood|1|40|40|0|0|0|SS|07|32309|TMLT|320109|D|2023-09-05|0|0
+16|2023-09-05|07|3000195|SGOT (AST), blood|1|40|40|0|0|0|SS|07|32310|TMLT|320150|D|2023-09-05|0|0
+17|2023-09-05|07|3000196|SGPT (ALT), blood|1|40|40|0|0|0|SS|07|32311|TMLT|320151|D|2023-09-05|0|0
+18|2023-09-05|07|3009112|Creatinine and GFR|1|40|40|0|0|0|SS|07|32202|TMLT|320055|D|2023-09-05|0|0
+19|2023-09-05|12|3002763|การฉีดยาใต้ผิวหนัง (ผู้ป่วยนอกและฉุกเฉิน)|1|20|20|0|0|0|SS|12|55824|||D|2023-09-05|0|0
+20|2023-09-05|10|3002729|การใช้เครื่องควบคุมสารน้ำ (Infusion pump)(52910)|1|150|150|0|0|0|SS|10|52910|||D|2023-09-05|0|0
+22|2023-09-05|05|3002830|Disp Syring 3 cc|3|1.5|4.5|0|0|0|SS|05||||D|2023-09-05|0|0
+23|2023-09-05|10|3002719|O2 sat monitor|1|100|100|0|0|0|SS|10|52441|||D|2023-09-05|0|0
+24|2023-09-05|05|3002813|Disp Needle No.18x1.5นิ้ว|2|1|2|0|0|0|SS|05||||D|2023-09-05|0|0
+25|2023-09-05|05|3003512|Disp Syring  20 cc|1|5|5|0|0|0|SS|05||||D|2023-09-05|0|0
+26|2023-09-05|05|3002838|Extension tube 18นิ้ว|1|7|7|0|0|0|SS|05||||D|2023-09-05|0|0
+28|2023-09-05|12|3002731|ค่าบริการพยาบาลทั่วไป: ผู้ป่วยใน (IPD)|2|300|600|0|0|0|SS|12|55010|||D|2023-09-05|0|0
+29|2023-09-05|07|3000139|Urine Analysis|1|60|60|0|0|0|SS|07|31001|TMLT|310015|D|2023-09-05|0|0
+30|2023-09-05|05|3002866|I.V.Catheter No.18|1|7|7|0|0|0|SS|05||||D|2023-09-05|0|0
+31|2023-09-05|05|3002816|Disp Needle No.23x1นิ้ว|1|1|1|0|0|0|SS|05||||D|2023-09-05|0|0
+34|2023-09-05|01|3000001|ค่าห้องและค่าอาหาร: เตียงสามัญ|1|400|400|0|0|0|SS|01|21101|||D|2023-09-05|0|0
+35|2023-09-05|12|3002753|การตรวจภายใน|1|300|300|0|0|0|SS|12|55620|||D|2023-09-05|0|0
+36|2023-09-05|05|3002786|3-Way Stopcock|1|15|15|0|0|0|SS|05||||D|2023-09-05|0|0
+37|2023-09-05|10|3002730|ค่าอุปกรณ์ของใช้และเครื่องมือทางการแพทย์อื่นๆที่นอกเหนือจากรายการตามหัวข้อ10.1-10.8ข้างต้นและเป็นราย|1|100|100|0|0|0|SS|10|52999|||D|2023-09-05|0|0
+38|2023-09-05|08|3010408|ตรวจคัดกรองทารกในครรภ์ด้วยอัลตราซาวน์ (LR)|1|400|400|0|0|0|SS|08|52612|||D|2023-09-05|0|0
+39|2023-09-05|05|3002820|Disp Needle No.25x1นิ้ว|1|1|1|0|0|0|SS|05||||D|2023-09-05|0|0
+41|2023-09-05|05|3002870|Infusion Set (ใช้ในโรงพยาบาล)|1|10|10|0|0|0|SS|05||||D|2023-09-05|0|0
+42|2023-09-05|03|1000102|D-5-W 1,000 ML.5 %|1|39.5|39.5|0|0|0|SS|03||TMT|528624|D|2023-09-05|0|0
+43|2023-09-05|05|3002829|Disp Syring 1cc (tuberculin)|1|4|4|0|0|0|SS|05||||D|2023-09-05|0|0
+44|2023-09-05|05|3002814|Disp Needle No.21x1.5นิ้ว|1|1|1|0|0|0|SS|05||||D|2023-09-05|0|0
+</BillItems>
+<InvAddDiscount>0.00</InvAddDiscount>
+<DRGCharge>3618.5</DRGCharge>
+<XDRGClaim>0.0000</XDRGClaim>
+</Invoices>
+<Coinsurance> </Coinsurance>
+</CIPN>
+
+<?EndNote HMAC="B8B717FD40A26643E3B856B5B60C3CF2" ?>
