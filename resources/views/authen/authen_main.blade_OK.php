@@ -68,13 +68,13 @@
             <div class="row mt-2">
                 <div class="col"></div>
                 <div class="col-xl-6">
-                    {{-- <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;">  --}}
+                    <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;"> 
                 </div>   
                 
                 @if ($smartcard == 'NO_CONNECT')                    
                 @else
                     <div class="col-xl-1 mt-4">   
-                        {{-- <img class="img-thumbnail" src="data:image/png;base64,{{ $collection12 }}" alt="" width="auto;" height="auto;"> --}}
+                        <img class="img-thumbnail" src="data:image/png;base64,{{ $collection12 }}" alt="" width="auto;" height="auto;">
                     </div>
                 @endif     
                 <div class="col"></div>
@@ -86,12 +86,8 @@
                 <div class="col"></div>
                 <div class="col-xl-10">
                     <div class="card shadow-lg">
-                        <div class="card-header"> 
-                            <img src="{{ asset('images/logo_350.jpg') }}" alt="Image" class="img-thumbnail me-3" width="50px;" height="50px;">                          
-                             Authen Code 
-                             <div class="btn-actions-pane-right">
-                             <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="200px;" height="50px;">
-                            </div>
+                        <div class="card-header">                           
+                             Authen Code                            
                         </div>
                         <div class="card-body"> 
                                     @if ($smartcard == 'NO_CONNECT')
@@ -127,110 +123,101 @@
                                                     @csrf
 
                                                     <div class="row mt-3">
-                                                        <div class="col-md-11">
-
-                                                            <div class="row">
-                                                                <div class="col-md-2 text-end">
-                                                                    <div class="mb-2">
-                                                                        <label for="pid" class="form-label">เลขบัตรประชาชน :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-5">
-                                                                    <div class="mb-2">
-                                                                        <label for="pid" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection1 }}</label>
-                                                                        <input type="hidden" class="form-control" id="pid"
-                                                                            name="pid" value="{{ $collection1 }}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-2 text-end">
-                                                                    <div class="mb-2">
-                                                                        <label for="fname" class="form-label">ชื่อ-นามสกุล :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="mb-2">
-                                                                        <label for="fname" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection2 }}
-                                                                            {{ $collection3 }}</label>
-                                                                        <input type="hidden" class="form-control" id="fname"
-                                                                            value="{{ $collection2 }}">
-                                                                        <input type="hidden" class="form-control" id="lname"
-                                                                            value="{{ $collection3 }}">
-                                                                    </div>
-                                                                </div>
+                                                        <div class="col-md-3 text-end">
+                                                            <div class="mb-2">
+                                                                <label for="pid" class="form-label">เลขบัตรประชาชน :</label>
                                                             </div>
-
-                                                            <div class="row">
-                                                                <div class="col-md-2 text-end">
-                                                                    <div class="mb-2">
-                                                                        <label for="mainInscl" class="form-label">สิทธิหลัก :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-5">
-                                                                    <div class="mb-2">
-                                                                        <label for="mainInscl" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection6 }}</label>
-                                                                        <input type="hidden" class="form-control" id="mainInscl"
-                                                                            value="{{ $collection6 }}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-2 text-end">
-                                                                    <div class="mb-2">
-                                                                        <label for="birthDate" class="form-label">วันเกิด :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="mb-2">
-                                                                        <label for="birthDate" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection4 }}</label>
-                                                                        <input type="hidden" class="form-control" id="birthDate"
-                                                                            value="{{ $collection4 }}">
-                                                                    </div>
-                                                                </div> 
-                                                            </div>
-
-                                                            <div class="row">
-                                                                <div class="col-md-2 text-end">
-                                                                    <div class="mb-2">
-                                                                        <label for="subInscl" class="form-label">สิทธิ์ย่อย :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-5">
-                                                                    <div class="mb-2">
-                                                                        <label for="subInscl" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection7 }}</label>
-                                                                        <input type="hidden" class="form-control" id="subInscl"
-                                                                            value="{{ $collection7 }}">
-                                                                    </div>
-                                                                </div> 
-                                                                <div class="col-md-2 text-end">
-                                                                    <div class="mb-2">
-                                                                        <label for="checkDate" class="form-label">อายุ :</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-3">
-                                                                    <div class="mb-2">
-                                                                        <label for="checkDate" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection8 }}</label>
-                                                                        <input type="hidden" class="form-control" id="checkDate"
-                                                                            value="{{ $collection8 }}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
                                                         </div>
-                                                        <div class="col-md-1">
-                                                            <img class="img-thumbnail" src="data:image/png;base64,{{ $collection12 }}" alt="" width="auto;" height="auto;">
+                                                        <div class="col-md-4">
+                                                            <div class="mb-2">
+                                                                <label for="pid" class="form-label"
+                                                                    style="color: rgb(197, 8, 33)">{{ $collection1 }}</label>
+                                                                <input type="hidden" class="form-control" id="pid"
+                                                                    name="pid" value="{{ $collection1 }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 text-end">
+                                                            <div class="mb-2">
+                                                                <label for="fname" class="form-label">ชื่อ-นามสกุล :</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="mb-2">
+                                                                <label for="fname" class="form-label"
+                                                                    style="color: rgb(197, 8, 33)">{{ $collection2 }}
+                                                                    {{ $collection3 }}</label>
+                                                                <input type="hidden" class="form-control" id="fname"
+                                                                    value="{{ $collection2 }}">
+                                                                <input type="hidden" class="form-control" id="lname"
+                                                                    value="{{ $collection3 }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 text-end">
+                                                            <div class="mb-2">
+                                                                <label for="mainInscl" class="form-label">สิทธิหลัก :</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="mb-2">
+                                                                <label for="mainInscl" class="form-label"
+                                                                    style="color: rgb(197, 8, 33)">{{ $collection6 }}</label>
+                                                                <input type="hidden" class="form-control" id="mainInscl"
+                                                                    value="{{ $collection6 }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 text-end">
+                                                            <div class="mb-2">
+                                                                <label for="birthDate" class="form-label">วันเกิด :</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="mb-2">
+                                                                <label for="birthDate" class="form-label"
+                                                                    style="color: rgb(197, 8, 33)">{{ $collection4 }}</label>
+                                                                <input type="hidden" class="form-control" id="birthDate"
+                                                                    value="{{ $collection4 }}">
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3 text-end">
+                                                            <div class="mb-2">
+                                                                <label for="subInscl" class="form-label">สิทธิ์ย่อย :</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="mb-2">
+                                                                <label for="subInscl" class="form-label"
+                                                                    style="color: rgb(197, 8, 33)">{{ $collection7 }}</label>
+                                                                <input type="hidden" class="form-control" id="subInscl"
+                                                                    value="{{ $collection7 }}">
+                                                            </div>
+                                                        </div> 
+                                                        <div class="col-md-2 text-end">
+                                                            <div class="mb-2">
+                                                                <label for="checkDate" class="form-label">อายุ :</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="mb-2">
+                                                                <label for="checkDate" class="form-label"
+                                                                    style="color: rgb(197, 8, 33)">{{ $collection8 }}</label>
+                                                                <input type="hidden" class="form-control" id="checkDate"
+                                                                    value="{{ $collection8 }}">
+                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <hr> 
 
                                                     <div class="row">
-                                                        <div class="col-md-2 text-end">
+                                                        <div class="col-md-3 text-end">
                                                             <div class="mb-2">
-                                                                <label for="claimType" class="form-label">ประเภทเข้ารับบริการ
+                                                                <label for="claimType" class="form-label">เลือกประเภทเข้ารับบริการ
                                                                     :</label>
                                                             </div>
                                                         </div>
@@ -252,17 +239,16 @@
                                                         <div class="col-md-2">
                                                             <div class="mb-2">
                                                                 @if ($hometel == '')
-                                                                    <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" required style="background-color: rgb(252, 163, 157)">
+                                                                    <input type="text" class="form-control" id="mobile" name="mobile" required style="background-color: rgb(252, 163, 157)">
                                                                 @else
-                                                                    <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" value="{{ $hometel }}" style="background-color: aquamarine">
+                                                                    <input type="text" class="form-control" id="mobile" name="mobile" value="{{ $hometel }}" style="background-color: aquamarine">
                                                                 @endif 
                                                             </div>
                                                         </div>
-                                                        <div class="col"></div>
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-md-2 text-end">
+                                                        <div class="col-md-3 text-end">
                                                             <div class="mb-2">
                                                                 <label for="claimType2" class="form-label"> </label>
                                                             </div>
@@ -286,22 +272,21 @@
                                                         <div class="col-md-2">
                                                             <div class="mb-2">
                                                                 @if ($hn == '')
-                                                                    <input type="text" class="form-control shadow-lg" id="hn" name="hn" style="background-color: rgb(252, 163, 157)">
+                                                                    <input type="text" class="form-control" id="hn" name="hn" style="background-color: rgb(252, 163, 157)">
                                                                 @else
-                                                                    <input type="text" class="form-control shadow-lg" id="hn" name="hn" value="{{ $hn }}" style="background-color: aquamarine">
+                                                                    <input type="text" class="form-control" id="hn" name="hn" value="{{ $hn }}" style="background-color: aquamarine">
                                                                 @endif 
                                                             </div>
                                                         </div>
-                                                        <div class="col"></div>
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-md-2 text-end">
+                                                        <div class="col-md-3 text-end">
                                                             <div class="mb-2">
                                                                 <label for="claimType3" class="form-label"> </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-6 ">
+                                                        <div class="col-md-9 ">
                                                             <div class="mb-2">
                                                                 <input class="form-check-input me-3" type="radio"
                                                                     name="claimType" id="claimType3" value="PG0130001">
@@ -310,11 +295,6 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-2 mb-2"> 
-                                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt me-2"></i>Authen Code Only</button>
-                                                        </div>
-                                                       
-                                                        <div class="col"></div>
                                                     </div>
                                                   
 
@@ -328,11 +308,33 @@
  
                                                   
                                                     @else 
-                                                        <h4 style="color: rgb(10, 119, 221)" class="ms-4">ลงทะเบียนผู้ป่วย</h4>
+                                                        <h3 style="color: rgb(10, 119, 221)" class="ms-4">ลงทะเบียนผู้ป่วย</h3>
                                                         <br>
                                                         <div class="row "> 
                                                             <div class="col-md-12"> 
-                                                                
+                                                                {{-- <ul class="nav nav-tabs" role="tablist"> --}}
+                                                                    {{-- <li class="nav-item">
+                                                                        <a class="nav-link active" data-bs-toggle="tab" href="#Narmala" role="tab">
+                                                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                                            <span class="d-none d-sm-block">ทั่วไป </span>    
+                                                                        </a>
+                                                                    </li>    --}}
+                                                                    {{-- <li class="nav-item">
+                                                                        <a class="nav-link" data-bs-toggle="tab" href="#Narmalb" role="tab">
+                                                                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                                                            <span class="d-none d-sm-block">ทั่วไป 2</span>    
+                                                                        </a>
+                                                                    </li> --}}
+                                                                    {{-- <li class="nav-item">
+                                                                        <a class="nav-link" data-bs-toggle="tab" href="#Narmalc" role="tab">
+                                                                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                                                            <span class="d-none d-sm-block">ทั่วไป 3</span>    
+                                                                        </a>
+                                                                    </li>  --}}
+                                                                {{-- </ul>  --}}
+                                                                {{-- <div class="tab-content p-3 text-muted"> --}}
+                                                                    {{-- <div class="tab-pane active" id="Narmala" role="tabpanel">
+                                                                        <p class="mb-0"> --}}
                                                                             <div class="row">
                                                                                 <div class="col-md-1 text-end">   <label for="mobile" class="form-label">คำนำหน้า </label> </div>
                                                                                 <div class="col-md-2 mb-2"> 
@@ -396,37 +398,18 @@
                                                                                 </div> 
                                                                                 <div class="col-md-1 text-end">   <label for="mobile" class="form-label">เพศ </label> </div>
                                                                                 <div class="col-md-2 mb-2"> 
-                                                                                        @if ($collection13 =='ชาย') 
+                                                                                        @if ($collection13 =='ชาย')
+                                                                                        {{-- <label for="mobile" class="form-label">ชาย</label>  --}}
                                                                                         <input type="hidden" class="form-control" id="sex" name="sex" value="1">
                                                                                         <input type="text" class="form-control form-control-sm" id="" name="" value="ชาย">
-                                                                                        @else 
+                                                                                        @else
+                                                                                        {{-- <label for="mobile" class="form-label">หญิง</label>  --}}
                                                                                         <input type="hidden" class="form-control" id="sex" name="sex" value="2">
                                                                                         <input type="text" class="form-control form-control-sm" id="" name="" value="หญิง">
                                                                                         @endif  
-                                                                                </div> 
+                                                                                </div>
+                                                                                
                                                                             </div>  
-                                                                            <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">บ้านเลขที่ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="addrpart" name="addrpart">
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">หมู่ที่ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="moopart" name="moopart">
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">เบอร์โทร </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="hometel" name="hometel">
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="province" class="form-label">หมู่เลือด </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="bloodgrp" id="bloodgrp" class="form-control" style="width: 100%">
-                                                                                            @foreach ($blood_group as $item_bloo)
-                                                                                            <option value="{{$item_bloo->name}}">{{$item_bloo->name}}</option>
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                            </div>
                                                                             <div class="row">
                                                                                 <div class="col-md-1 text-end">   <label for="province" class="form-label">จังหวัด </label> </div>
                                                                                 <div class="col-md-2 mb-2"> 
@@ -454,22 +437,29 @@
                                                                                 </div>
                                                                                 <div class="col-md-1 text-end">   <label for="pocode" class="form-label">รหัสไปรษณีย์ </label> </div>
                                                                                 <div class="col-md-2 mb-2">    
-                                                                                        {{-- <select name="pocode" id="pocode" class="form-control pocode" style="width: 100%">
+                                                                                        <select name="pocode" id="pocode" class="form-control pocode" style="width: 100%">
                                                                                             @foreach ($thaiaddress_po_code as $item_po)
-                                                                                            <option value="{{$item_po->po_code}}">{{$item_po->po_code}}</option>                                                                                            
+                                                                                            <option value="{{$item_po->po_code}}">{{$item_po->po_code}}</option>
                                                                                             @endforeach 
-                                                                                         </select>  --}}
-                                                                                         <input class="form-control pocode" type="text" name="pocode" id="pocode" >
+                                                                                         </select> 
                                                                                 </div>
                                                                             </div>  
-                                                                           
+                                                                        {{-- </p>
+                                                                    </div> --}}
+                                                                    {{-- <div class="tab-pane" id="Narmalb" role="tabpanel">
+                                                                        <p class="mb-0"> 
+                                                                        </p>
+                                                                    </div> --}}
+                                                                    {{-- <div class="tab-pane" id="Narmalc" role="tabpanel">
+                                                                        <p class="mb-0"> 
+                                                                        </p>
+                                                                    </div> --}}
+                                                                {{-- </div>  --}}
                                                             </div>
                                                         </div> 
 
                                                         <hr>
 
-                                                        <h4 style="color: rgb(10, 119, 221)" class="ms-4">เปิด Visit</h4>
-                                                        <br>
                                                         <div class="row">
                                                             <div class="col-md-2 text-end">วันที่</div>
                                                             <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{Date($date)}} </label>  </div>
@@ -570,8 +560,8 @@
                                                     <div class="row">
                                                         <div class="col"></div>
                                                         <div class="col-md-8">
-                                                            {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i
-                                                                    class="fa-brands fa-medrt me-2"></i>Authen Code Only</button> --}}
+                                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i
+                                                                    class="fa-brands fa-medrt me-2"></i>Authen Code Only</button>
                                                             <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success shadow-lg" id="OpenVisit"><i class="fa-brands fa-medrt me-2"></i>Authen Code + Visit</button>
                                                             <a href="{{ url('/login') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger shadow-lg"><i
                                                                     class="fa-solid fa-circle-arrow-left me-2"></i>ย้อนกลับ</a> 

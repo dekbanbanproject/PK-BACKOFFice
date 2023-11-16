@@ -121,9 +121,14 @@ class AuthencodeController extends Controller
                 $data['pname'] =  DB::connection('mysql10')->select('select * from pname order by name');
                 $data['marrystatus'] =  DB::connection('mysql10')->select('select code,name from marrystatus');
                 $data['nationality'] =  DB::connection('mysql10')->select(' select nationality as code,name from nationality ');
-                $data['thaiaddress_provine'] =  DB::connection('mysql10')->select(' select chwpart,name from thaiaddress WHERE codetype="1"');
-                $data['thaiaddress_amphur'] =  DB::connection('mysql10')->select(' select amppart,name from thaiaddress WHERE codetype="2"');
-                $data['thaiaddress_tumbon'] =  DB::connection('mysql10')->select(' select tmbpart,name from thaiaddress WHERE codetype="3"');
+                $data['thaiaddress_provine'] =  DB::connection('mysql10')->select('select chwpart,name from thaiaddress WHERE codetype="1"');
+                $data['thaiaddress_amphur'] =  DB::connection('mysql10')->select('select amppart,name from thaiaddress WHERE codetype="2"');
+                $data['thaiaddress_tumbon'] =  DB::connection('mysql10')->select('select tmbpart,name from thaiaddress WHERE codetype="3"');
+                $data['thaiaddress_po_code'] =  DB::connection('mysql10')->select('SELECT chwpart,amppart,tmbpart,po_code FROM hospcode WHERE po_code <>"" GROUP BY po_code');
+                $data['blood_group'] =  DB::connection('mysql10')->select('select name from blood_group order by name');
+                // $data['thaiaddress_provinces'] =  DB::connection('mysql10')->select(' select * from thaiaddress_provinces');
+                // $data['thaiaddress_amphures'] =  DB::connection('mysql10')->select(' select * from thaiaddress_amphures');
+                // $data['thaiaddress_districts'] =  DB::connection('mysql10')->select(' select * from thaiaddress_districts');
 
 
                 //ที่เก็บรูปภาพ
@@ -490,39 +495,71 @@ class AuthencodeController extends Controller
     // จังหวัด
     function fetch_province(Request $request)
     { 
+        // =  DB::connection('mysql10')->select(' select chwpart,name from thaiaddress WHERE codetype="1"');
             $id = $request->get('select');
             $result=array();
-            $query= DB::table('hrd_province')
-            ->join('hrd_amphur','hrd_province.ID','=','hrd_amphur.PROVINCE_ID')
-            ->select('hrd_amphur.AMPHUR_NAME','hrd_amphur.ID')
-            ->where('hrd_province.ID',$id)
-            ->groupBy('hrd_amphur.AMPHUR_NAME','hrd_amphur.ID')
+            // $query=DB::connection('mysql10')->select('select chwpart,name,amppart from thaiaddress WHERE codetype IN("1","2")');
+            $query= DB::connection('mysql10')->table('thaiaddress')
+            // ->join('hrd_amphur','hrd_province.ID','=','hrd_amphur.PROVINCE_ID')
+            // ->select('hrd_amphur.AMPHUR_NAME','hrd_amphur.ID')
+            ->where('chwpart',$id)
+            ->where('codetype','=','2')
+            // ->groupBy('hrd_amphur.AMPHUR_NAME','hrd_amphur.ID')
             ->get();
-            $output='<option value="">--กรุณาเลือกอำเภอ--</option>'; 
+
+            $output='<option value="">--Choose--</option> ';
+            // $output=''; 
             foreach ($query as $row){ 
-                    $output.= '<option value="'.$row->ID.'">'.$row->AMPHUR_NAME.'</option>';
+                    $output.= '<option value="'.$row->amppart.'">'.$row->name.'</option>';
             } 
             echo $output; 
     }
-// อำเภอ
+    // อำเภอ
     function fetch_amphur(Request $request)
     { 
-            $id = $request->get('select');
+            $id          = $request->get('select');
+            $province    = $request->get('province');
             $result=array();
-            $query= DB::table('hrd_amphur')
-            ->join('hrd_tumbon','hrd_amphur.ID','=','hrd_tumbon.AMPHUR_ID')
-            ->select('hrd_tumbon.TUMBON_NAME','hrd_tumbon.ID')
-            ->where('hrd_amphur.ID',$id)
-            ->groupBy('hrd_tumbon.TUMBON_NAME','hrd_tumbon.ID')
+            $query= DB::connection('mysql10')->table('thaiaddress')
+            // ->join('hrd_amphur','hrd_province.ID','=','hrd_amphur.PROVINCE_ID')
+            // ->select('hrd_amphur.AMPHUR_NAME','hrd_amphur.ID')
+            ->where('chwpart',$province)
+            ->where('amppart',$id)
+            ->where('codetype','=','3')
             ->get();
-            $output='<option value="">--กรุณาเลือกตำบล--</option>';
+            $output='<option value="">--Choose--</option> ';
             
             foreach ($query as $row){
 
-                    $output.= '<option value="'.$row->ID.'">'.$row->TUMBON_NAME.'</option>';
+                    $output.= '<option value="'.$row->tmbpart.'">'.$row->name.'</option>';
             } 
             echo $output; 
     }
+
+    function fetch_tumbon(Request $request)
+    { 
+            $id          = $request->get('select');
+            $amphur    = $request->get('amphur');
+            $province    = $request->get('province');
+            $result=array();
+            // $query= DB::connection('mysql10')->table('hospcode') 
+            // ->where('chwpart',$province)
+            // ->where('amppart',$amphur)
+            // ->where('tmbpart',$id)
+            // // ->where('codetype','=','3')
+            // ->groupBy('po_code');
+            // $output='<input value=""></>';
+
+            $query = DB::connection('mysql10')->select('SELECT chwpart,amppart,tmbpart,po_code FROM hospcode WHERE chwpart ="'.$province.'" AND amppart ="'.$amphur.'" AND tmbpart ="'.$id.'" AND po_code <> "-" GROUP BY po_code');
+            // $output=' ';
+            $output='<option value="">--Choose--</option> ';
+            foreach ($query as $row){
+                $output.= '<option value="'.$row->po_code.'">'.$row->po_code.'</option>';
+                    // $output.= '<input value="'.$row->pocode.'" class="form-control" >'.$row->pocode.'</>';
+            } 
+            echo $output; 
+    }
+    // <input type="text" class="form-control form-control-sm pocode" id="po_code" name="po_code" >
 
     // public function authencode_visit(Request $request)
     // {
