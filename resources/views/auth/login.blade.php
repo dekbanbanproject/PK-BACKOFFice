@@ -893,12 +893,15 @@
                             <div class="container-login100">
                                 <div class="wrap-login100">
                                     <div class="login100-pic js-tilt" data-tilt>
-                                        <img src="{{ asset('images/logo_350.jpg') }}" width="300" height="300" alt="IMG">
-                                    </div>
-                    
+                                        {{-- <img src="{{ asset('images/logo_350.jpg') }}" width="300" height="300" alt="IMG"> --}}
+                                        <img src="{{ asset('images/team.png') }}" width="500" height="250" alt="IMG">
+                                    </div> 
                                     <form method="POST" action="{{ route('login') }}" class="login100-form validate-form">
                                         @csrf
+                                        {{-- <img src="{{ asset('images/logo_350.jpg') }}" width="100" height="100" alt="IMG">
+                                        <br> --}}
                                         <span class="login100-form-title">
+                                            <img src="{{ asset('images/logo_350.jpg') }}" width="120" height="120" alt="IMG"><br>
                                             เข้าสู่ระบบ
                                         </span>
                     
@@ -933,7 +936,7 @@
                                             </a>
                                         </div>
                     
-                                        <div class="text-center p-t-136">
+                                        <div class="text-center p-t-26">
                                             <a class="txt2" href="#">
                                                 Create your Account
                                                 <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
