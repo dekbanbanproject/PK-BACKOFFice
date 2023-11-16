@@ -408,19 +408,25 @@
                                                                             <div class="row">
                                                                                 <div class="col-md-1 text-end">   <label for="mobile" class="form-label">บ้านเลขที่ </label> </div>
                                                                                 <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="addrpart" name="addrpart">
+                                                                                    <input type="text" class="form-control form-control-sm" id="addrpart" name="addrpart" style="font-size: 13px">
                                                                                 </div>
                                                                                 <div class="col-md-1 text-end">   <label for="mobile" class="form-label">หมู่ที่ </label> </div>
                                                                                 <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="moopart" name="moopart">
+                                                                                    <input type="text" class="form-control form-control-sm" id="moopart" name="moopart" value="{{$primary_moo}}" style="font-size: 13px">
                                                                                 </div>
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">เบอร์โทร </label> </div>
+                                                                                <div class="col-md-1 text-end">   <label for="hometel" class="form-label">เบอร์โทร </label> </div>
                                                                                 <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="hometel" name="hometel">
+                                                                                    @if ($hometel == '')
+                                                                                        <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" style="font-size: 13px;background-color: rgb(252, 163, 157)">
+                                                                                    @else
+                                                                                        <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" value="{{ $hometel }}" style="font-size: 13px;background-color: aquamarine">
+                                                                                    @endif 
+                                                                                    {{-- <input type="text" class="form-control form-control-sm" id="hometel" name="hometel" style="font-size: 13px"> --}}
                                                                                 </div>
                                                                                 <div class="col-md-1 text-end">   <label for="province" class="form-label">หมู่เลือด </label> </div>
                                                                                 <div class="col-md-2 mb-2"> 
                                                                                         <select name="bloodgrp" id="bloodgrp" class="form-control" style="width: 100%">
+                                                                                            <option value="">--Choose--</option>
                                                                                             @foreach ($blood_group as $item_bloo)
                                                                                             <option value="{{$item_bloo->name}}">{{$item_bloo->name}}</option>
                                                                                             @endforeach 
@@ -432,7 +438,12 @@
                                                                                 <div class="col-md-2 mb-2"> 
                                                                                         <select name="province" id="province" class="form-control province" style="width: 100%">
                                                                                             @foreach ($thaiaddress_provine as $item_prov)
+                                                                                            @if ($primary_province_name == $item_prov->name)
+                                                                                            <option value="{{$item_prov->chwpart}}" selected>{{$item_prov->name}}</option>
+                                                                                            @else
                                                                                             <option value="{{$item_prov->chwpart}}">{{$item_prov->name}}</option>
+                                                                                            @endif
+                                                                                           
                                                                                             @endforeach 
                                                                                         </select>  
                                                                                 </div>
@@ -440,7 +451,12 @@
                                                                                 <div class="col-md-2 mb-2"> 
                                                                                         <select name="amphur" id="amphur" class="form-control amphur" style="width: 100%">
                                                                                             @foreach ($thaiaddress_amphur as $item_amp)
+                                                                                            @if ($primary_amphur_name == $item_amp->name)
+                                                                                            <option value="{{$item_amp->amppart}}" selected>{{$item_amp->name}}</option>
+                                                                                            @else
                                                                                             <option value="{{$item_amp->amppart}}">{{$item_amp->name}}</option>
+                                                                                            @endif
+                                                                                           
                                                                                             @endforeach 
                                                                                         </select>  
                                                                                 </div>
@@ -448,7 +464,12 @@
                                                                                 <div class="col-md-2 mb-2"> 
                                                                                         <select name="tumbon" id="tumbon" class="form-control tumbon" style="width: 100%">
                                                                                             @foreach ($thaiaddress_tumbon as $item_tum)
+                                                                                            @if ($primary_tumbon_name == $item_tum->name)
+                                                                                            <option value="{{$item_tum->tmbpart}}" selected>{{$item_tum->name}}</option>
+                                                                                            @else
                                                                                             <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
+                                                                                            @endif
+                                                                                            
                                                                                             @endforeach 
                                                                                         </select>  
                                                                                 </div>

@@ -224,8 +224,13 @@ class AuthencodeController extends Controller
                     'collection13'        => $collection['sex'],
                     'collection14'        => $collection['nation'],
                     'collection15'        => $collection['titleName'],
-                    'time_s'         => $time_s,
+                    'time_s'             => $time_s,
                     'date'               => $date,
+                    'primary_moo'        => $primary_moo ,
+                    'primary_tumbon_name'        => $primary_tumbon_name ,
+                    'primary_amphur_name'        => $primary_amphur_name ,
+                    'primary_province_name'        => $primary_province_name ,
+                   
 
                 ]);
             }
