@@ -59,11 +59,11 @@ use App\Models\Land;
 use App\Models\Building;
 use App\Models\Product_budget;
 use App\Models\Product_method;
-use App\Models\Product_buy;
+use App\Models\Patient;
 use App\Models\Acc_1102050102_107;
 use App\Models\Acc_1102050102_106;
 use App\Models\Acc_debtor;
-use App\Models\Acc_doc;
+use App\Models\Acc_107_debt_print;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
@@ -342,6 +342,495 @@ class Account107Controller extends Controller
 
         return redirect()->route('acc.acc_106_file');
         // return response()->json(['status' => '200']);
+    }
+    public function acc_107_debt(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $data['users'] = User::get();
+
+        if ($startdate =='') {
+            $datashow = DB::connection('mysql')->select('        
+                    SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                    FROM acc_1102050102_107 U1
+                    LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
+                    LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
+                    WHERE U1.debit_total > 0
+                    GROUP BY U1.an ORDER BY U1.acc_1102050102_107_id DESC
+            ');
+        } else {
+            $datashow = DB::connection('mysql')->select('        
+                SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                FROM acc_1102050102_107 U1
+                LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
+                LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
+                WHERE U1.debit_total > 0 AND U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
+                GROUP BY U1.an
+                ORDER BY U1.acc_1102050102_107_id DESC
+        ');
+        }
+        
+ 
+        
+        return view('account_107.acc_107_debt',[
+            'startdate'     =>  $startdate,
+            'enddate'       =>  $enddate,
+            'datashow'      =>  $datashow,
+        ]);
+    }
+    public function acc_107_debt_outbook(Request $request, $id)
+    { 
+        function Convert($amount_number)
+        {
+            $amount_number = number_format($amount_number, 2, ".","");
+            $pt = strpos($amount_number , ".");
+            $number = $fraction = "";
+            if ($pt === false) 
+                $number = $amount_number;
+            else
+            {
+                $number = substr($amount_number, 0, $pt);
+                $fraction = substr($amount_number, $pt + 1);
+            }
+            
+            $ret = "";
+            $baht = ReadNumber ($number);
+            if ($baht != "")
+                $ret .= $baht . "บาท";
+            
+            $satang = ReadNumber($fraction);
+            if ($satang != "")
+                $ret .=  $satang . "สตางค์";
+            else 
+                $ret .= "ถ้วน";
+            return $ret;
+        }
+        function ReadNumber($number)
+        {
+            $position_call = array("แสน", "หมื่น", "พัน", "ร้อย", "สิบ", "");
+            $number_call = array("", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า");
+            $number = $number + 0;
+            $ret = "";
+            if ($number == 0) return $ret;
+            if ($number > 1000000)
+            {
+                $ret .= ReadNumber(intval($number / 1000000)) . "ล้าน";
+                $number = intval(fmod($number, 1000000));
+            }
+            
+            $divider = 100000;
+            $pos = 0;
+            while($number > 0)
+            {
+                $d = intval($number / $divider);
+                $ret .= (($divider == 10) && ($d == 2)) ? "ยี่" : 
+                    ((($divider == 10) && ($d == 1)) ? "" :
+                    ((($divider == 1) && ($d == 1) && ($ret != "")) ? "เอ็ด" : $number_call[$d]));
+                $ret .= ($d ? $position_call[$pos] : "");
+                $number = $number % $divider;
+                $divider = $divider / 10;
+                $pos++;
+            }
+            return $ret;
+        }
+
+        $date = date('Y-m-d');
+        $data_ = Acc_1102050102_107::where('acc_1102050102_107_id', '=', $id)->first();
+        $check_106_debt_count = Acc_107_debt_print::where('an', $data_->an)->count();
+        $check_max_ = Acc_107_debt_print::where('an', $data_->an)->max('acc_107_debt_no');
+        $check_max = $check_max_ +1;
+        // $total_rcpt = $check_max_->debit;
+        // $total_rcpt_thai = $check_max_->debit_total_thai;
+        // $data_Patient = Patient::where('hn', '=', $data_->hn)->first();
+
+        $data_Patient_ = DB::connection('mysql2')->select(' 
+            SELECT 
+                hn,p.addrpart,p.moopart,CONCAT(p.pname,p.fname," ",p.lname),td.DISTRICT_NAME,a.AMPHUR_NAME,tp.PROVINCE_NAME
+                ,CONCAT("บ้านเลขที่ ",p.addrpart,"  หมู่ ",p.moopart," ","  ตำบล",td.DISTRICT_NAME) as address,p.po_code
+                FROM patient p
+                LEFT OUTER JOIN thaiaddress_provinces tp ON tp.PROVINCE_CODE = p.chwpart 
+                LEFT JOIN thaiaddress_amphures a ON a.AMPHUR_CODE = CONCAT(p.chwpart,"",p.amppart) 
+                LEFT JOIN thaiaddress_districts td ON td.DISTRICT_CODE = CONCAT(p.chwpart,"",p.amppart,"",p.tmbpart)       
+                  
+                WHERE p.hn = "'.$data_->hn.'"
+        ');
+        foreach ($data_Patient_ as $key => $value_p) {
+            // $address2 = $value_p->informaddr;
+            $address     = $value_p->address;
+            $tmb_name    = $value_p->DISTRICT_NAME;
+            $amphur_name = $value_p->AMPHUR_NAME;
+            $chw_name    = $value_p->PROVINCE_NAME;
+            $po_code     = $value_p->po_code;
+        }
+        // LEFT OUTER JOIN thaiaddress t1 on t1.chwpart = p.chwpart and t1.amppart = p.amppart and t1.tmbpart = p.tmbpart and t1.codetype = "3"
+        // $address ='บ้านเลขที่'.$value_p->addrpart.'หมู่'.$value_p->moopart.''.$value_p->tmbpart.''.$value_p->amppart.''.$value_p->full_name;
+        // $address = $data_Patient->addrpart.''.$data_Patient->moopart.''.$data_Patient->tmbpart.''.$data_Patient->amppart;
+        Acc_107_debt_print::insert([
+            'acc_1102050102_107_id'  => $id,
+            'acc_107_debt_no'        => $check_max,
+            'acc_107_debt_date'      => $date,
+            'acc_107_debt_count'     => '1', 
+            'acc_107_debt_address'   => $address,
+            'tmb_name'               => $tmb_name,
+            'amphur_name'            => $amphur_name,
+            'chw_name'               => $chw_name,
+            'provincode'             => $po_code,
+            'vn'                     => $data_->vn,
+            'hn'                     => $data_->hn,
+            'an'                     => $data_->an,
+            'cid'                    => $data_->cid,
+            'ptname'                 => $data_->ptname,
+            'vstdate'                => $data_->vstdate, 
+            'dchdate'                => $data_->dchdate,
+            'pttype'                 => $data_->pttype, 
+            'income'                 => $data_->income, 
+            'discount_money'         => $data_->discount_money,
+            'paid_money'             => $data_->paid_money,
+            'rcpt_money'             => $data_->rcpt_money, 
+            'rcpno'                  => $data_->rcpno, 
+            'debit_total'            => $data_->debit_total, 
+            'acc_107_debt_user'      => Auth::user()->id,
+            'debit_total_thai'       => Convert($data_->debit_total), 
+        ]); 
+    }
+    protected $_toc=array();
+    protected $_numbering=false;
+    protected $_numberingFooter=false;
+    protected $_numPageNum=1;
+
+    function AddPage($orientation='', $size='', $rotation=0) {
+        parent::AddPage($orientation,$size,$rotation);
+        if($this->_numbering)
+            $this->_numPageNum++;
+    }
+
+    function startPageNums() {
+        $this->_numbering=true;
+        $this->_numberingFooter=true;
+    }
+
+    function stopPageNums() {
+        $this->_numbering=false;
+    }
+
+    function numPageNo() {
+        return $this->_numPageNum;
+    }
+
+    function TOC_Entry($txt, $level=0) {
+        $this->_toc[]=array('t'=>$txt,'l'=>$level,'p'=>$this->numPageNo());
+    }
+
+
+    public function acc_107_debt_print(Request $request, $id)
+    { 
+        
+        $dataedit = Acc_107_debt_print::where('acc_1102050102_107_id', '=', $id)->first();
+        $check_max = Acc_107_debt_print::where('acc_1102050102_107_id', '=', $id)->max('acc_107_debt_no');
+        $org = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $rong = $org->prefix_name . ' ' . $org->fname . '  ' . $org->lname;
+
+        $orgpo = DB::table('orginfo')->where('orginfo_id', '=', 1)
+            ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_po_id')
+            ->leftjoin('users_prefix', 'users_prefix.prefix_code', '=', 'users.pname')
+            ->first();
+        $po = $orgpo->prefix_name . ' ' . $orgpo->fname . '  ' . $orgpo->lname;
+
+        $count = DB::table('com_repaire_signature')
+            ->where('com_repaire_id', '=', $id)
+            // ->orwhere('com_repaire_no', '=', $dataedit->com_repaire_no)
+            ->count();
+ 
+        if ($count != 0) {
+            $signature = DB::table('com_repaire_signature')->where('com_repaire_id', '=', $id)
+                // ->orwhere('com_repaire_no','=',$dataedit->com_repaire_no)
+                ->first();
+            $siguser = $signature->signature_name_usertext; //ผู้รองขอ
+            $sigstaff = $signature->signature_name_stafftext; //ผู้รองขอ
+            $sigrep = $signature->signature_name_reptext; //ผู้รับงาน
+            $sighn = $signature->signature_name_hntext; //หัวหน้า
+            $sigrong = $signature->signature_name_rongtext; //หัวหน้าบริหาร
+            $sigpo = $signature->signature_name_potext; //ผอ
+
+        } else {
+            $sigrong = '';
+            $siguser = '';
+            $sigstaff = '';
+            $sighn = '';
+            $sigpo = '';
+        }
+
+
+        define('FPDF_FONTPATH', 'font/');
+        require(base_path('public') . "/fpdf/WriteHTML.php");
+
+        $pdf = new Fpdi(); // Instantiation   start-up Fpdi
+
+        function dayThai($strDate)
+        {
+            $strDay = date("j", strtotime($strDate));
+            return $strDay;
+        }
+        function monthThai($strDate)
+        {
+            $strMonth = date("n", strtotime($strDate));
+            $strMonthCut = array("", "มกราคม", "กุมภาพันธ์ ", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
+            $strMonthThai = $strMonthCut[$strMonth];
+            return $strMonthThai;
+        }
+        function yearThai($strDate)
+        {
+            $strYear = date("Y", strtotime($strDate)) + 543;
+            return $strYear;
+        }
+        function time($strtime)
+        {
+            $H = substr($strtime, 0, 5);
+            return $H;
+        }
+
+        function DateThai($strDate)
+        {
+            if ($strDate == '' || $strDate == null || $strDate == '0000-00-00') {
+                $datethai = '';
+            } else {
+                $strYear = date("Y", strtotime($strDate)) + 543;
+                $strMonth = date("n", strtotime($strDate));
+                $strDay = date("j", strtotime($strDate));
+                $strMonthCut = array("", "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                $strMonthThai = $strMonthCut[$strMonth];
+                $datethai = $strDate ? ($strDay . ' ' . $strMonthThai . ' ' . $strYear) : '-';
+            }
+            return $datethai;
+        }
+     
+        function thainumDigit($num){
+            return str_replace(array( '0' , '1' , '2' , '3' , '4' , '5' , '6' ,'7' , '8' , '9' ),array( "o" , "๑" , "๒" , "๓" , "๔" , "๕" , "๖" , "๗" , "๘" , "๙" ),$num);
+        }
+
+        
+
+        // $date = date_create($dataedit->created_at);
+        $date_y = date('Y')+543;
+        $date_yy = date_create($date_y);
+        $datnow_yyy =  date_format($date_yy, "Y");
+        $date_d = date('D'); 
+        $date_dd = date_create($date_d);
+        $datnow_ddd =  date_format($date_dd, "d");
+        $date_m = date('M'); 
+        $date_mm = date_create($date_m);
+        $datnow_mmm_ =  date_format($date_mm, "m");
+        if ($datnow_mmm_ == '1') {
+            $datnow_mmm = 'มกราคม';
+        } else if ($datnow_mmm_ == '2') {
+            $datnow_mmm = 'กุมภาพันธ์';
+        } else if ($datnow_mmm_ == '3') {
+            $datnow_mmm = 'มีนาคม';
+        } else if ($datnow_mmm_ == '4') {
+            $datnow_mmm = 'เมษายน';
+        } else if ($datnow_mmm_ == '5') {
+            $datnow_mmm = 'พฤษภาคม';
+        } else if ($datnow_mmm_ == '6') {
+            $datnow_mmm = 'มิถุนายน';
+        } else if ($datnow_mmm_ == '7') {
+            $datnow_mmm = 'กรกฎาคม';
+        } else if ($datnow_mmm_ == '8') {
+            $datnow_mmm = 'สิงหาคม';
+        } else if ($datnow_mmm_ == '9') {
+            $datnow_mmm = 'กันยายน';
+        } else if ($datnow_mmm_ == '10') {
+            $datnow_mmm = 'ตุลาคม';
+        } else if ($datnow_mmm_ == '11') {
+            $datnow_mmm = 'พฤศจิกายน';
+        } else {
+            $datnow_mmm = 'ธันวาคม';
+        }
+        
+
+        // dd($datnow_mmm);
+        // $date_vsty = date('Y',)+543;
+        $date_vstyy = date_create($dataedit->vstdate);
+        $datnow_vstyyy =  date_format($date_vstyy, "Y")+543;
+
+        $date_vstd = date('D'); 
+        $date_vstdd = date_create($dataedit->vstdate);
+        $datnow_vstddd_ =  date_format($date_vstdd, "d");
+        if ($datnow_vstddd_ == '01') {
+            $datnow_vstddd = '๑';
+        } else if ($datnow_vstddd_ == '02') {
+            $datnow_vstddd = '๒';
+        } else if ($datnow_vstddd_ == '03') {
+            $datnow_vstddd = '๓';
+        } else if ($datnow_vstddd_ == '04') {
+            $datnow_vstddd = '๔';
+        } else if ($datnow_vstddd_ == '05') {
+            $datnow_vstddd = '๕';
+        } else if ($datnow_vstddd_ == '06') {
+            $datnow_vstddd = '๖';
+        } else if ($datnow_vstddd_ == '07') {
+            $datnow_vstddd = '๗';
+        } else if ($datnow_vstddd_ == '08') {
+            $datnow_vstddd = '๘';
+        } else if ($datnow_vstddd_ == '09') {
+            $datnow_vstddd = '๙';
+        } else if ($datnow_vstddd_ == '10') {
+            $datnow_vstddd = '๑๐';
+        } else if ($datnow_vstddd_ == '11') {
+            $datnow_vstddd = '๑๑';
+        } else {
+            $datnow_vstddd = '๑๒';
+        }
+        // dd($datnow_vstddd);
+        $date_vstm = date('M'); 
+        $date_vstmm = date_create($dataedit->vstdate);
+        $datnow_vstmmm_ =  date_format($date_vstmm, "m");
+        if ($datnow_vstmmm_ == '1') {
+            $datnow_vstmmm = 'มกราคม';
+        } else if ($datnow_vstmmm_ == '2') {
+            $datnow_vstmmm = 'กุมภาพันธ์';
+        } else if ($datnow_vstmmm_ == '3') {
+            $datnow_vstmmm = 'มีนาคม';
+        } else if ($datnow_vstmmm_ == '4') {
+            $datnow_vstmmm = 'เมษายน';
+        } else if ($datnow_vstmmm_ == '5') {
+            $datnow_vstmmm = 'พฤษภาคม';
+        } else if ($datnow_vstmmm_ == '6') {
+            $datnow_vstmmm = 'มิถุนายน';
+        } else if ($datnow_vstmmm_ == '7') {
+            $datnow_vstmmm = 'กรกฎาคม';
+        } else if ($datnow_vstmmm_ == '8') {
+            $datnow_vstmmm = 'สิงหาคม';
+        } else if ($datnow_vstmmm_ == '9') {
+            $datnow_vstmmm = 'กันยายน';
+        } else if ($datnow_vstmmm_ == '10') {
+            $datnow_vstmmm = 'ตุลาคม';
+        } else if ($datnow_vstmmm_ == '11') {
+            $datnow_vstmmm = 'พฤศจิกายน';
+        } else {
+            $datnow_vstmmm = 'ธันวาคม';
+        }
+  
+        $pdf->SetLeftMargin(22);
+        $pdf->SetRightMargin(5);
+        $pdf->AddFont('THSarabunNew', '', 'THSarabunNew.php');
+        $pdf->AddFont('THSarabunNew Bold', '', 'THSarabunNew Bold.php');
+        $pdf->SetFont('THSarabunNew Bold', '', 19); 
+        $pdf->AddPage("P");
+ 
+        $pdf->Image('assets/images/crut_red.jpg', 90, 20, 32, 34);
+        
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 55, iconv('UTF-8', 'TIS-620', 'ที่ ชย ๐๐๓๓.๓๐๓/........'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(140, 55, iconv('UTF-8', 'TIS-620', '' . $org->orginfo_name)); 
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(140, 63, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว  จังหวัดชัยภูมิ ๓๖๑๑๐')); 
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(105, 70, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_ddd).'  '. $datnow_mmm.'  '. thainumDigit($datnow_yyy) ));
+       
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 80, iconv('UTF-8', 'TIS-620', 'เรื่อง   ขอติดตามค่ารักษาพยาบาลค้างชำระ ครั้งที่ ' .thainumDigit($check_max)));
+
+        $pdf->SetFont('THSarabunNew', '', 16);
+        $pdf->Text(20, 88, iconv('UTF-8', 'TIS-620', 'เรียน  '));
+        $pdf->SetFont('THSarabunNew Bold', '', 16);
+        $pdf->Text(30, 88, iconv('UTF-8', 'TIS-620', '' .$dataedit->ptname));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 96, iconv('UTF-8', 'TIS-620', 'อ้างถึง  คำร้องขอค้างค่ารักษาพยาบาล  ลงวันที่' ));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(85, 96, iconv('UTF-8', 'TIS-620', '  ' .thainumDigit($datnow_vstddd).'  ' . $datnow_vstmmm.'  ' .thainumDigit($datnow_vstyyy)));
+        $pdf->SetFont('THSarabunNew', '', 15); 
+               
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(35, 104, iconv('UTF-8', 'TIS-620', 'ตามที่ ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(145, 104, iconv('UTF-8', 'TIS-620', 'เมื่อวันที่ ' .thainumDigit($datnow_vstddd).'  ' . $datnow_vstmmm.'  ' .thainumDigit($datnow_vstyyy)));
+        
+        // $pdf->SetFont('THSarabunNew', '', 15);
+        // $pdf->Text(20, 112, iconv('UTF-8', 'TIS-620', 'มีค่ารักษาพยาบาล  เป็นจำนวนเงิน                                                                    ปรากฎว่าท่านยังไม่ได้ชำระเงิน'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 112, iconv('UTF-8', 'TIS-620', 'มีค่ารักษาพยาบาล  เป็นจำนวนเงิน                                                                    '));
+       
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(70, 112, iconv('UTF-8', 'TIS-620',  thainumDigit(number_format($dataedit->debit_total, 2)).' บาท  '.'( '.$dataedit->debit_total_thai.' )  ปรากฎว่าท่านยังไม่ได้ชำระเงิน'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        // $pdf->Text(165, 112, iconv('UTF-8', 'TIS-620', '   ปรากฎว่า'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 120, iconv('UTF-8', 'TIS-620', 'จำนวนเงินดังกล่าวให้แก่'. $org->orginfo_name.'  จึงขอให้ท่านดำเนินการชำระเงินดังกล่าวให้เสร็จสิ้นภายในวัน 30 วัน'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 128, iconv('UTF-8', 'TIS-620', 'นับจากวันที่ได้รับหนังสือฉบับนี้  หากท่านมีข้อสอบถามเพิ่มเติมสามารถติดต่อสอบถามได้ที่หมายเลขโทรศัพท์ตามที่แจ้งไว้ด้านล่าง'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 136, iconv('UTF-8', 'TIS-620', 'หนังสือฉบับนี้'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(35, 144, iconv('UTF-8', 'TIS-620', 'ทั้งนี้ หากท่านได้ชำระเงินก่อนที่ท่านจะได้รับหนังสือฉบับนี้ ทาง'. $org->orginfo_name.' ต้องขออภัยมา'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 152, iconv('UTF-8', 'TIS-620', ' ณ โอกาสนี้ ด้วย'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(35, 160, iconv('UTF-8', 'TIS-620', 'จึงเรียนมาเพื่อโปรดทราบและดำเนินการต่อไป'));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(95, 185, iconv('UTF-8', 'TIS-620', 'ขอแสดงความนับถือ' ));
+       
+        //ผอ 
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(91, 210, iconv('UTF-8', 'TIS-620', '( นาย'. $orgpo->orginfo_po_name.' )')); 
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(75, 216, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
+        
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 240, iconv('UTF-8', 'TIS-620', 'กลุ่มภารกิจด้านพัฒนาระบบบริการและสนับสนุนบริการสุขภาพ'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 248, iconv('UTF-8', 'TIS-620', 'โทร. ๐ ๔๔๘๖ ๑๗๐๐-๔  ต่อ  ๑๐๙,๑๑๙'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(20, 256, iconv('UTF-8', 'TIS-620', 'Email : phukhieohospital.info@gmail.com'));
+
+
+        $pdf->SetFont('THSarabunNew Bold', '', 15);
+        $pdf->Text(145, 256, iconv('UTF-8', 'TIS-620',''.thainumDigit($dataedit->hn))); 
+ 
+        $pdf->SetFont('THSarabunNew Bold', '', 16);
+        $pdf->Text(55, 276, iconv('UTF-8', 'TIS-620','อัตลักษณ์ รพ.ภูเขียวเฉลิมพระเกียรติ  '.'"'.'ตรงเวลา รู้หน้าที่ มีวินัย'.'"'));
+   
+        //Page 2
+        $pdf->AddPage();  
+        $pdf->Image('assets/images/crut.png', 15, 100, 22, 24);
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(42, 115, iconv('UTF-8', 'TIS-620', '' . $orgpo->orginfo_name));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(42, 122, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว จังหวัดชัยภูมิ' ));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(152, 108, iconv('UTF-8', 'TIS-620', 'ชําระค่าฝากส่งเป็นรายเดือน'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(161, 115, iconv('UTF-8', 'TIS-620', 'ใบอนุญาตที่ ๓๖๑๑๐'));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(168, 122, iconv('UTF-8', 'TIS-620', 'ไปรษณีย์ ภูเขียว '));
+
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(90, 155, iconv('UTF-8', 'TIS-620', '' . $dataedit->ptname));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(90, 163, iconv('UTF-8', 'TIS-620', '' . $dataedit->acc_107_debt_address));
+        $pdf->SetFont('THSarabunNew', '', 15);
+        $pdf->Text(90, 171, iconv('UTF-8', 'TIS-620', 'อำเภอ' . $dataedit->amphur_name. 'จังหวัด' . $dataedit->chw_name. '' . $dataedit->provincode));
+
+        $pdf->Output();
+
+        exit;
     }
  
 }

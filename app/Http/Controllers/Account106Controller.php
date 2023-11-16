@@ -530,11 +530,7 @@ class Account106Controller extends Controller
             'debit_total'            => $data_->debit_total, 
             'acc_106_debt_user'      => Auth::user()->id,
             'debit_total_thai'       => Convert($data_->debit_total), 
-    ]);
-
-
-        
-
+        ]); 
     }
     protected $_toc=array();
     protected $_numbering=false;
@@ -867,9 +863,9 @@ class Account106Controller extends Controller
         $pdf->SetFont('THSarabunNew', '', 15);
         $pdf->Text(90, 155, iconv('UTF-8', 'TIS-620', '' . $dataedit->ptname));
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(90, 162, iconv('UTF-8', 'TIS-620', '' . $dataedit->acc_106_debt_address));
+        $pdf->Text(90, 163, iconv('UTF-8', 'TIS-620', '' . $dataedit->acc_106_debt_address));
         $pdf->SetFont('THSarabunNew', '', 15);
-        $pdf->Text(90, 170, iconv('UTF-8', 'TIS-620', 'อำเภอ' . $dataedit->amphur_name. 'จังหวัด' . $dataedit->chw_name. '' . $dataedit->provincode));
+        $pdf->Text(90, 171, iconv('UTF-8', 'TIS-620', 'อำเภอ' . $dataedit->amphur_name. 'จังหวัด' . $dataedit->chw_name. '' . $dataedit->provincode));
 
         $pdf->Output();
 
