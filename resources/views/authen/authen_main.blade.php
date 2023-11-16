@@ -310,8 +310,11 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-2 mb-2"> 
-                                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt me-2"></i>Authen Code Only</button>
+                                                        <div class="col-md-2"> 
+                                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt ms-2  me-2"></i>
+                                                                
+                                                                <label for="" class="me-3">Authen Code Only</label>
+                                                            </button>
                                                         </div>
                                                        
                                                         <div class="col"></div>
