@@ -219,7 +219,7 @@ class Account804Controller extends Controller
                     LEFT JOIN drugitems d on d.icode=op.icode
                     LEFT JOIN hos.vn_stat v on v.vn = i.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
-                    AND ipt.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.804" AND opdipd ="IPD"))
+                    AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.804" AND opdipd ="IPD")
                     GROUP BY i.an
                 
             ');

@@ -1118,21 +1118,68 @@ class EnvController extends Controller
 // ************************* Report  *************************
 public function env_water_rep (Request $request)
 { 
-    $startdate = $request->startdate;
-    $enddate = $request->enddate;
+    $startdate        = $request->startdate;
+    $enddate          = $request->enddate;
+    $data['pond_id']  = $request->pond_id;
+
     $iduser = Auth::user()->id; 
-   
-        $datashow = DB::connection('mysql')->select('
-            SELECT es.water_list_detail,COUNT(e.water_id) count_id
-            FROM env_water e
-            LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
-            LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
-            WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
-            AND `status` = "ผิดปกติ"
-            GROUP BY es.water_list_idd
-        '); 
+    $date = date('Y-m-d');
+    $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 5 เดือน
+    if ($startdate == '') {
+        
+            $datashow = DB::connection('mysql')->select('
+                SELECT 
+                    DAY(e.water_date) as days
+                    ,e.water_date
+                    ,es.water_parameter_short_name
+                    ,es.water_qty
+                    FROM env_water e
+                    LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
+                    LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
+                WHERE e.water_date BETWEEN "'.$date.'"  AND "'.$date.'"  
+                GROUP BY days 
+           '); 
+       
+        $data['qtyph'] =  '';
+        $data['qtysv'] =  '';
+
+    } else {
+        if ($data['pond_id'] != '') {
+            $datashow = DB::connection('mysql')->select('
+                SELECT 
+                    DAY(e.water_date) as days
+                    ,e.water_date
+                    ,es.water_parameter_short_name
+                    ,es.water_qty
+                    FROM env_water e
+                    LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
+                    LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
+                WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'" AND e.pond_id = "'.$data['pond_id'].'"
+              
+            '); 
+            // GROUP BY days 
+        } else {
+            $datashow = DB::connection('mysql')->select('
+                SELECT 
+                    DAY(e.water_date) as days
+                    ,e.water_date
+                    ,es.water_parameter_short_name
+                    ,es.water_qty
+                    FROM env_water e
+                    LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
+                    LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
+                WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
+               
+            '); 
+        }
+        // GROUP BY days 
+        
+    }
+    
+    $data['env_pond']  = DB::table('env_pond')->get(); 
+        
      
-    return view('env.env_water_rep',[
+    return view('env.env_water_rep',$data,[
         'startdate'     => $startdate,
         'enddate'       => $enddate, 
         'datashow'      => $datashow,                      
