@@ -67,8 +67,7 @@
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
-            </div>
-
+            </div> 
         </div>
         {{-- <form action="{{ route('acc.account_pk_ipd') }}" method="POST">
             @csrf --}}

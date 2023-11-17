@@ -386,11 +386,12 @@ Route::match(['get','post'],'acc_stm_ct',[App\Http\Controllers\AccdashboardContr
 
 Route::get('/', function () {
 
-  if (Auth::check()) {
+
+if (Auth::check()) {
     return view('welcome');
-  }else{
+}else{
       return view('auth.login');
-  }
+}
 })->name('index');
 
 

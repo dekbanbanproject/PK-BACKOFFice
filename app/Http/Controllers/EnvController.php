@@ -1114,6 +1114,32 @@ class EnvController extends Controller
         return redirect()->back();
     }
 
+
+// ************************* Report  *************************
+public function env_water_rep (Request $request)
+{ 
+    $startdate = $request->startdate;
+    $enddate = $request->enddate;
+    $iduser = Auth::user()->id; 
+   
+        $datashow = DB::connection('mysql')->select('
+            SELECT es.water_list_detail,COUNT(e.water_id) count_id
+            FROM env_water e
+            LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
+            LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
+            WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
+            AND `status` = "ผิดปกติ"
+            GROUP BY es.water_list_idd
+        '); 
+     
+    return view('env.env_water_rep',[
+        'startdate'     => $startdate,
+        'enddate'       => $enddate, 
+        'datashow'      => $datashow,                      
+
+    ]);
+}
+
 //**************************************************************ตั้งค่า   แจ้งเตือน Line*********************************************
 
     // public function send_Line(Request $request)

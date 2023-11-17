@@ -182,21 +182,20 @@ class Account202Controller extends Controller
                             (a.income-a.rcpt_money-a.discount_money) -
                             (a.income - ipt.max_debt_amount) - 
                             (sum(if(op.income="02",sum_price,0))) -
-                            (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
+                            (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
                             (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
-                            (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
-                            (sum(if(op.icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918"),sum_price,0)))                  
+                            (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0)))                   
                     ELSE 
                         (a.income-a.rcpt_money-a.discount_money)-
                         (sum(if(op.income="02",sum_price,0))) -
-                        (sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0))) -
+                        (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) -
                         (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) -
-                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) +
-                        (sum(if(op.icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918"),sum_price,0)))
+                        (sum(if(op.icode IN ("3010829","3010726 "),sum_price,0))) 
+                        
                     END as debit
                     
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
-                    ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+                    ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     from hos.ipt ip
@@ -214,6 +213,11 @@ class Account202Controller extends Controller
                 
                 GROUP BY a.an;
         ');
+        // ,sum(if(op.icode IN("1560016","1540073","1530005","1620015","1600012","1600015"),sum_price,0)) as debit_drug
+        // + (sum(if(op.icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918"),sum_price,0)))
+        // ,"1540048"
+        // icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918")  289 บาท
+
         //  WHEN sum(if(op.icode IN ("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353"),sum_price,0)) > 0 THEN a.income
         //  AND op.icode NOT IN("3003661","3003662","3003336","3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3003608","3010102","3010353")
         //  AND ec.ar_ipd = "1102050101.202"
@@ -512,9 +516,10 @@ class Account202Controller extends Controller
                 from acc_1102050101_202 a
              LEFT JOIN acc_stm_ucs s ON s.an = a.an
              WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'" 
-             AND s.rep IS NOT NULL
+             AND s.ip_paytrue > "0.00"
              GROUP BY a.an
          ');
+        //  AND s.rep IS NOT NULL 
         //  $sum_money_ = DB::connection('mysql')->select('
         //     SELECT SUM(a.debit_total) as total
         //     from acc_1102050101_202 a
@@ -556,10 +561,11 @@ class Account202Controller extends Controller
                 from acc_1102050101_202 a
              LEFT JOIN acc_stm_ucs s ON s.an = a.an
              WHERE a.dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
-             AND s.rep IS NOT NULL
+            
+             AND s.ip_paytrue > "0.00"
             GROUP BY a.an
          ');
-       
+        //  AND s.rep IS NOT NULL
  
          return view('account_202.account_pkucs202_stm_date', $data, [
              'startdate'         =>     $startdate,
@@ -580,10 +586,12 @@ class Account202Controller extends Controller
             from acc_1102050101_202 a
             LEFT JOIN acc_stm_ucs au ON au.an = a.an
             WHERE month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
-            AND au.rep IS NULL
+            
+            AND (au.rep IS NULL OR au.ip_paytrue < "1")
             GROUP BY a.an
  
              ');
+            //  AND au.rep IS NULL 
              // SELECT vn,an,hn,cid,ptname,dchdate,income_group,debit_total
              // ,inst
              // FROM acc_1102050101_202
