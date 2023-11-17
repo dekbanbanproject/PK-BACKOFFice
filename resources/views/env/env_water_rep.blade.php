@@ -95,7 +95,7 @@
 
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                     data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
