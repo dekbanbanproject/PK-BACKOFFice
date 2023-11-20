@@ -930,6 +930,39 @@ class ReportFontController extends Controller
             'datashow_'     => $datashow_
         ]);
     }
+    public function check_icd9_ipd(Request $request)
+    {
+        $startdate  = $request->startdate;
+        $enddate    = $request->enddate;
+        $icd9       = $request->icd9;
+        $datashow_  = DB::connection('mysql2')->select('
+                SELECT 
+                i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,i.icd9,i.doctor,ol.enter_date
+                ,op.icode,op.qty,op.unitprice 
+                ,group_concat(distinct n.name) as nameknee
+                ,U2.inst,U2.total_approve,u2.STMdoc
+                
+                FROM iptoprt i
+                LEFT OUTER JOIN operation_list ol ON ol.an = i.an
+                LEFT OUTER JOIN an_stat a on a.an = ol.an and a.an is not null 
+                LEFT OUTER JOIN patient pt on pt.hn = ol.hn 
+                LEFT OUTER JOIN operation_detail od ON od.operation_id = ol.operation_id
+                LEFT OUTER JOIN opitemrece op ON op.an = i.an 
+                LEFT OUTER JOIN nondrugitems n on n.icode = op.icode
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = i.an 
+                WHERE i.icd9 = "'.$icd9.'" 
+                AND ol.enter_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND op.income = "02"
+                GROUP BY i.an  
+        ');
+       
+        return view('dashboard.check_icd9_ipd',[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate ,
+            'icd9'          => $icd9 ,
+            'datashow_'     => $datashow_
+        ]);
+    }
     public function check_knee_opd(Request $request)
     {
         $startdate = $request->startdate;

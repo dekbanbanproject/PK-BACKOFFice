@@ -209,6 +209,7 @@
                                 <span>อุปกรณ์อวัยวะเที่ยม</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
+                                <li ><a href="{{ url('check_icd9_ipd') }}" >icd9</a></li>
                                 <li ><a href="{{ url('check_knee_ipd') }}" >ข้อเข่า</a></li>
                                 <li ><a href="{{ url('check_kradook') }}" >แผ่นโลหะกระดูก</a></li>
                                 <li ><a href="{{ url('check_khosaphok') }}" >ข้อสะโพก</a></li>
