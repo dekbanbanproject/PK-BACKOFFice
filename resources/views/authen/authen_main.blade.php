@@ -60,7 +60,7 @@
             <div class="row mt-2">
                 <div class="col"></div>
                 <div class="col-xl-6">
-                    <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;"> 
+                    {{-- <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;">  --}}
                 </div>   
                 <div class="col"></div>
             </div>                           
@@ -472,6 +472,11 @@
                                                                                             @else
                                                                                             <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
                                                                                             @endif
+                                                                                            {{-- @if ($tmbpart == $item_tum->tmbpart)
+                                                                                            <option value="{{$item_tum->tmbpart}}" selected>{{$item_tum->name}}</option>
+                                                                                            @else
+                                                                                            <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
+                                                                                            @endif --}}
                                                                                             
                                                                                             @endforeach 
                                                                                         </select>  
@@ -483,7 +488,7 @@
                                                                                             <option value="{{$item_po->po_code}}">{{$item_po->po_code}}</option>                                                                                            
                                                                                             @endforeach 
                                                                                          </select>  --}}
-                                                                                         <input class="form-control pocode" type="text" name="pocode" id="pocode" >
+                                                                                         <input class="form-control pocode" type="text" name="pocode" id="pocode" value="{{$po_code}}">
                                                                                 </div>
                                                                             </div>  
                                                                            
@@ -617,7 +622,7 @@
             </div>
           
             <div class="row">
-                <div class="col"></div>
+                <div class="col-sm-1"></div>
                 <div class="col-sm-3"> 
                     @foreach ($org as $item)   
                             <h6 style="color:rgb(220, 134, 247)" class="mt-2">
@@ -628,14 +633,20 @@
                             </h6>  
                     @endforeach
                 </div>
-                <div class="col-sm-3">
-                    <div class="text-sm-end d-none d-sm-block">
-                        Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา
-                        
-                         <h6 style="color:rgb(220, 134, 247)" class="mt-2"> PK-HOS</h6> 
-                    </div>
-                </div>
                 <div class="col"></div>
+                <div class="col-sm-1 text-end d-none d-sm-block mt-2">
+                    Created with
+                    <i class="mdi mdi-heart text-danger ms-2"></i> 
+                </div>
+                <div class="col-sm-1 text-start">
+                    {{-- <div class="text-sm-end d-none d-sm-block"> --}}
+                        {{-- Created with  --}}
+                        
+                        
+                         <h6 style="color:rgb(220, 134, 247)" class="mt-2">by ทีมพัฒนา PK-HOS</h6> 
+                    {{-- </div> --}}
+                </div>
+                <div class="col-sm-1"></div>
             </div>
  
 

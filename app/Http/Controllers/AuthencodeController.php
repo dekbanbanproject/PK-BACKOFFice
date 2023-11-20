@@ -85,10 +85,12 @@ class AuthencodeController extends Controller
                 $data_patient_ = DB::connection('mysql2')->select(' 
                                 SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
                                 ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,p.cid,p.hcode,p.last_visit,p.hometel
-
+                                ,h.chwpart,h.amppart,h.tmbpart,h.po_code
                                 FROM patient p 
                                 LEFT OUTER JOIN person pe ON pe.patient_hn = p.hn 
+                                LEFT OUTER JOIN hospcode h ON h.chwpart = p.chwpart AND h.amppart = p.amppart AND h.tmbpart = p.tmbpart
                                 WHERE p.cid = "' . $collection['pid'] . '"
+                                GROUP BY p.hn
                 ');
                 foreach ($data_patient_ as $key => $value) {
                     $pids          = $value->cid;
@@ -96,6 +98,10 @@ class AuthencodeController extends Controller
                     $hn            = $value->hn;
                     $last_visit    = $value->last_visit;
                     $hometel       = $value->hometel;
+                    $chwpart       = $value->chwpart;
+                    $amppart       = $value->amppart;
+                    $tmbpart       = $value->tmbpart;
+                    $po_code       = $value->po_code;
                 }
                 // dd($hcode);
                 $year = substr(date("Y"), 2) + 43;
@@ -204,6 +210,10 @@ class AuthencodeController extends Controller
                     'hometel'            =>  $hometel,
                     'vn'                 =>  $vn,
                     'hn'                 =>  $hn,
+                    'chwpart'            =>  $chwpart,
+                    'amppart'            =>  $amppart,
+                    'tmbpart'            =>  $tmbpart,
+                    'po_code'            =>  $po_code,
                     'last_visit'         =>  $last_visit,
                     'hcode'              =>  $hcode,
                     'hos_guid'           =>  $hos_guid,
