@@ -59,9 +59,29 @@
                     <div class="card-header">
                          อุปกรณ์อวัยวะเที่ยม แผ่นโลหะดามกระดูก
                         
-                    </div>
+                         <div class="btn-actions-pane-right">
+
+                            <form action="{{ route('rep.check_kradook') }}" method="POST">
+                                @csrf
+                            
+                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                       
+                                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                            data-date-language="th-th" value="{{ $start }}" required/>
+                                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                            data-date-language="th-th" value="{{ $end }}" required/>  
+                                  
+                                        <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                            <i class="pe-7s-search btn-icon-wrapper"></i>ค้นหา
+                                        </button> 
+                                    </div> 
+                                </form>
+                            </div>
+                            </div>
                     <div class="card-body">
-                        <form action="{{ route('rep.check_kradook') }}" method="POST">
+                        {{-- <form action="{{ route('rep.check_kradook') }}" method="POST">
                             @csrf
                             <div class="row mt-3"> 
                                 <div class="col"></div>
@@ -93,12 +113,12 @@
                                  <div class="col"></div>   
                             </div> 
                        
-                        </form>
+                        </form> --}}
  
                         <div class="table-responsive mt-3">
                             <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
                                 <thead>
-                                    <tr>
+                                    <tr class="headtable">
                                         <th>ลำดับ</th> 
                                         <th>hn</th>
                                         <th>an</th>
@@ -111,13 +131,15 @@
                                         <th>อุปกรณ์</th> 
                                         <th>INCOME</th> 
                                         <th>paid_money</th> 
-                                        <th>uc_money</th> 
+                                        <th>ชดเชย</th> 
+                                        <th>ชดเชย Total</th> 
+                                        <th>ไฟล์ STM</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $ia = 1; ?>
                                     @foreach ($datashow_ as $item)  
-                                        <tr>
+                                        <tr class="detail">
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->hn }}</td> 
                                             <td>{{ $item->an }}</td>   
@@ -130,7 +152,21 @@
                                             <td class="p-2">{{ $item->ListName }}</td> 
                                             <td>{{ number_format($item->income ,2)}}</td>
                                             <td>{{ number_format($item->paid_money ,2)}}</td>
-                                            <td>{{ number_format($item->uc_money ,2)}}</td>  
+                                            <td> 
+                                                @if ($item->inst =='')
+                                                    <span class="badge bg-danger rounded-pill"> 0.00 </span>
+                                                @else
+                                                    <span class="badge bg-success rounded-pill">{{$item->inst}} </span>
+                                                @endif
+                                            </td> 
+                                            <td> 
+                                                @if ($item->total_approve =='')
+                                                    <span class="badge bg-danger rounded-pill"> 0.00 </span>
+                                                @else
+                                                    <span class="badge bg-success rounded-pill">{{$item->total_approve}} </span>
+                                                @endif
+                                            </td> 
+                                            <td>{{ $item->STMdoc }}</td>  
                                         </tr>    
                                     @endforeach
                                     

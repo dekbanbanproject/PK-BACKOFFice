@@ -110,6 +110,7 @@
                                         <th>อุปกรณ์</th> 
                                         <th>INCOME</th> 
                                         <th>ชดเชย</th> 
+                                        <th>ชดเชย Total</th> 
                                         <th>ไฟล์ STM</th> 
                                     </tr>
                                 </thead>
@@ -128,7 +129,22 @@
                                             <td>{{ number_format($item->Priceknee,2) }}</td> 
                                             <td class="p-2">{{ $item->Nameknee }}</td> 
                                             <td>{{ number_format($item->INCOME ,2)}}</td>  
-                                            <td>{{ $item->total_approve }}</td> 
+                                            {{-- <td>{{ $item->total_approve }}</td> 
+                                            <td>{{ $item->STMdoc }}</td>  --}}
+                                            <td> 
+                                                @if ($item->inst =='')
+                                                    <span class="badge bg-danger rounded-pill"> 0.00 </span>
+                                                @else
+                                                    <span class="badge bg-success rounded-pill">{{$item->inst}} </span>
+                                                @endif
+                                            </td> 
+                                            <td> 
+                                                @if ($item->total_approve =='')
+                                                    <span class="badge bg-danger rounded-pill"> 0.00 </span>
+                                                @else
+                                                    <span class="badge bg-success rounded-pill">{{$item->total_approve}} </span>
+                                                @endif
+                                            </td> 
                                             <td>{{ $item->STMdoc }}</td> 
                                         </tr>    
                                     @endforeach

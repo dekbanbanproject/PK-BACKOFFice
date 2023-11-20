@@ -905,9 +905,7 @@ class ReportFontController extends Controller
                         ,e.paid_money as PAY
                         ,sum(distinct oo.sum_price) as Priceknee
                         ,group_concat(distinct n1.name) as Nameknee
-                        ,e.uc_money
-                        ,U2.total_approve
-                        ,u2.STMdoc
+                        ,e.uc_money,U2.inst,U2.total_approve,u2.STMdoc
                         FROM an_stat e
                         LEFT OUTER JOIN patient pt on pt.hn = e.hn
                         LEFT OUTER JOIN pttype p on p.pttype = e.pttype
@@ -1012,7 +1010,7 @@ class ReportFontController extends Controller
                 ,concat(pt.pname,pt.fname," ",pt.lname) as fullname
                 ,oo.icode,sum(distinct oo.sum_price) as Price
                 ,group_concat(distinct n1.name) as ListName
-                ,a.inc08,a.income,a.paid_money,a.uc_money
+                ,a.inc08,a.income,a.paid_money,a.uc_money ,U2.inst,U2.total_approve,u2.STMdoc
                 from an_stat a
                 left outer join patient pt on pt.hn = a.hn
                 left outer join pttype p on p.pttype = a.pttype
@@ -1021,6 +1019,7 @@ class ReportFontController extends Controller
                 left outer join hos.opitemrece oo on oo.an = a.an
                 left join hos.nondrugitems n1 on n1.icode = oo.icode
                 left join hos.s_drugitems sd on sd.icode = oo.icode
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = a.an
                 where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 and oo.icode IN("3011002","3009749")
                 group by a.an;
@@ -1041,7 +1040,7 @@ class ReportFontController extends Controller
                 ,concat(pt.pname,pt.fname," ",pt.lname) as fullname
                 ,oo.icode ,sum(distinct oo.sum_price) as Price
                 ,group_concat(distinct n1.name) as ListName
-                ,a.inc08 ,a.income,a.paid_money,a.uc_money
+                ,a.inc08 ,a.income,a.paid_money,a.uc_money,U2.inst,U2.total_approve,u2.STMdoc
                 from an_stat a
                 left outer join patient pt on pt.hn = a.hn
                 left outer join pttype p on p.pttype = a.pttype
@@ -1053,6 +1052,7 @@ class ReportFontController extends Controller
                 LEFT JOIN hos.rent_reason r on r.id = ir.rent_reason_id
                 left join hos.nondrugitems n1 on n1.icode = oo.icode
                 left join hos.s_drugitems sd on sd.icode = oo.icode
+                LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = a.an
                 where a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 and oo.icode IN("3009738","3009739","3010896","3009740","3010228")
                 group by a.an;
