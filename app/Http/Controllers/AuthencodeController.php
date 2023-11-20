@@ -85,6 +85,7 @@ class AuthencodeController extends Controller
                 $data_patient_ = DB::connection('mysql2')->select(' 
                                 SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
                                 ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,p.cid,p.hcode,p.last_visit,p.hometel
+                                ,p.bloodgrp
                                 ,h.chwpart,h.amppart,h.tmbpart,h.po_code
                                 FROM patient p 
                                 LEFT OUTER JOIN person pe ON pe.patient_hn = p.hn 
@@ -102,6 +103,7 @@ class AuthencodeController extends Controller
                     $amppart       = $value->amppart;
                     $tmbpart       = $value->tmbpart;
                     $po_code       = $value->po_code;
+                    $bloodgrp       = $value->bloodgrp;
                 }
                 // dd($hcode);
                 $year = substr(date("Y"), 2) + 43;
@@ -214,6 +216,8 @@ class AuthencodeController extends Controller
                     'amppart'            =>  $amppart,
                     'tmbpart'            =>  $tmbpart,
                     'po_code'            =>  $po_code,
+                    'bloodgrp'           =>  $bloodgrp,
+                    
                     'last_visit'         =>  $last_visit,
                     'hcode'              =>  $hcode,
                     'hos_guid'           =>  $hos_guid,

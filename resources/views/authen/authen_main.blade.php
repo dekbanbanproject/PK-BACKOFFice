@@ -431,7 +431,12 @@
                                                                                         <select name="bloodgrp" id="bloodgrp" class="form-control" style="width: 100%">
                                                                                             <option value="">--Choose--</option>
                                                                                             @foreach ($blood_group as $item_bloo)
+                                                                                            @if ($bloodgrp == $item_bloo->name)
+                                                                                            <option value="{{$item_bloo->name}}" selected>{{$item_bloo->name}}</option>
+                                                                                            @else
                                                                                             <option value="{{$item_bloo->name}}">{{$item_bloo->name}}</option>
+                                                                                            @endif
+                                                                                           
                                                                                             @endforeach 
                                                                                         </select>  
                                                                                 </div>
