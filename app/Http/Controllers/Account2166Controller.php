@@ -135,7 +135,7 @@ class Account2166Controller extends Controller
                     and account_code="1102050101.2166"
                     group by month(a.vstdate) 
                     
-                    order by a.vstdate desc limit 6;
+                    order by a.vstdate desc limit 1;
             '); 
             // 
             // order by month(a.vstdate),year(a.vstdate) desc limit 6;
@@ -231,7 +231,7 @@ class Account2166Controller extends Controller
                 LEFT JOIN hos.pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT JOIN hos.opitemrece op ON op.vn = o.vn
                 WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.2166"))
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.2166")
              
                 AND v.income-v.discount_money-v.rcpt_money <> 0
                 and (o.an="" or o.an is null)
@@ -404,7 +404,7 @@ class Account2166Controller extends Controller
         $datenow = date('Y-m-d'); 
         $data['users'] = User::get();
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount 
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount ,am.STMdoc 
                 from acc_1102050101_2166 U1
                 LEFT JOIN acc_stm_ti_total am on am.cid = U1.cid AND am.vstdate = U1.vstdate
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"

@@ -203,7 +203,7 @@ class Account801Controller extends Controller
                 LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT JOIN opitemrece op ON op.vn = o.vn
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.801"))
+                AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.801")
 
                 AND v.income <> 0
                 and (o.an="" or o.an is null)
