@@ -777,7 +777,7 @@
                     if($(this).val()!=''){
                     var select = $(this).val();
                     var _token=$('input[name="_token"]').val();
-                    alert(select);
+                    // alert(select);
                         $.ajax({
                                 url:"{{route('fecth.fetch_province')}}",
                                 method:"GET",
@@ -794,7 +794,7 @@
                     var select   = $(this).val();
                     var province = $('#province').val();
                     var _token=$('input[name="_token"]').val();
-                    alert(select);
+                    // alert(select);
                         $.ajax({
                                 url:"{{route('fecth.fetch_amphur')}}",
                                 method:"GET",
@@ -811,7 +811,7 @@
                     var amphur   = $('#amphur').val();
                     var province = $('#province').val();
                     var _token=$('input[name="_token"]').val();
-                    alert(select);
+                    // alert(select);
                         $.ajax({
                                 url:"{{route('fecth.fetch_tumbon')}}",
                                 method:"GET",
