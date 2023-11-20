@@ -1281,8 +1281,97 @@ class MoveaccountController extends Controller
             } else {
                 # code...
             }
-            
+        } elseif ($pang == '1102050102.107') {
+            $check = Acc_1102050102_107::where('an', $an)->count();
+            if ($check > 0) {
+                # code...
+            } else {
+                Acc_1102050102_107::insert([
+                    'vn'                => $vn,
+                    'hn'                => $hn,
+                    'an'                => $an,
+                    'cid'               => $cid,
+                    'ptname'            => $ptname,
+                    'vstdate'           => $vstdate,
+                    'dchdate'           => $dchdate,
+                    'pttype'            => $pttype_new,
+                    'account_code'      => $pang,
+                    'debit'             => $debit_total_new,
+                    'debit_total'       => $debit_total_new,
+                    'comment'           => $comment,
+                    'date_req'          => $date_req,
+                    'acc_debtor_userid' => Auth::user()->id
+                ]);
+            }
+            $check_acc = Acc_debtor::where('an', $an)->count();
+            if ($check_acc > 0) {
+                Acc_debtor::where('an', $an)->update([
+                    'account_code'         => $pang,
+                    'pttype'               => $pttype_new,
+                    'debit'                => $debit_total_new,
+                    'debit_total'          => $debit_total_new,
+                ]);
+            } else {
+            }
 
+            // $pangold
+            if ($pangold == '1102050101.201') {
+                Acc_1102050101_201::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.106') {
+                Acc_1102050102_106::where('vn', $vn)->delete();
+            // } elseif ($pangold == '1102050102.107') {
+            //     Acc_1102050102_107::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.202') {
+                Acc_1102050101_202::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.209') {
+                Acc_1102050101_209::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.216') {
+                Acc_1102050101_216::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.217') {
+                Acc_1102050101_217::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.301') {
+                Acc_1102050101_301::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.302') {
+                Acc_1102050101_302::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.304') {
+                Acc_1102050101_304::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.307') {
+                Acc_1102050101_307::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.308') {
+                Acc_1102050101_308::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.309') {
+                Acc_1102050101_309::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.310') {
+                Acc_1102050101_310::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.401') {
+                Acc_1102050101_401::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.402') {
+                Acc_1102050101_402::where('an', $an)->delete();
+            } elseif ($pangold == '1102050101.2166') {
+                Acc_1102050101_2166::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.3099') {
+                Acc_1102050101_3099::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.4011') {
+                Acc_1102050101_4011::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050101.4022') {
+                Acc_1102050101_4022::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.602') {
+                Acc_1102050102_602::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.603') {
+                Acc_1102050102_603::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.801') {
+                Acc_1102050102_801::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.802') {
+                Acc_1102050102_802::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.803') {
+                Acc_1102050102_803::where('vn', $vn)->delete();
+            } elseif ($pangold == '1102050102.804') {
+                Acc_1102050102_804::where('an', $an)->delete();
+            } elseif ($pangold == '1102050102.8011') {
+                Acc_1102050102_8011::where('vn', $vn)->delete();
+            } else {
+                # code...
+            }
         } elseif ($pang == '1102050101.202') {
             $check = Acc_1102050101_202::where('an', $an)->count();
             if ($check > 0) {
