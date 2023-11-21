@@ -11,6 +11,11 @@
 
     <!-- Fonts -->
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Srisakdi:wght@400;700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('fontawesome/css/all.css') }}" rel="stylesheet">
     <!-- App favicon -->
@@ -34,12 +39,32 @@
  
     <style>
         body {
-            font-family: 'Nunito', sans-serif;
+            background-color: rgb(235, 146, 253);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* background-size: cover; */
+            background-size: 100% 100%;
+            /* font-family: 'Nunito', sans-serif; */
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 14px; 
+        }
+        .Head1{
+			font-family: 'Srisakdi', sans-serif;
+            /* font-size: 17px; */
+            /* font-style: normal; */
+          font-weight: 500;
+		}
+        .detail{
             font-size: 13px;
         }
-        /* .label{
-                font-size: 12px;
-            } */
+        .bgbody{
+            background-color: rgb(243, 202, 252);
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            background-size: 100% 100%; 
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 14px; 
+        }
     </style>
 </head>
 
@@ -58,53 +83,21 @@
                 </div> 
             </div>
     
-            @if ($smartcardcon == 'NO_CID')  
-            <div class="row mt-2">
-                <div class="col"></div>
-                <div class="col-xl-6">
-                    {{-- <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;">  --}}
-                </div>   
-                <div class="col"></div>
-            </div>                           
-            @else  
-            <div class="row mt-2">
-                <div class="col"></div>
-                <div class="col-xl-6">
-                    {{-- <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="auto;" height="auto;">  --}}
-                </div>   
-                
-                @if ($smartcard == 'NO_CONNECT')                    
-                @else
-                    <div class="col-xl-1 mt-4">   
-                        {{-- <img class="img-thumbnail" src="data:image/png;base64,{{ $collection12 }}" alt="" width="auto;" height="auto;"> --}}
-                    </div>
-                @endif     
-                <div class="col"></div>
-            </div>  
-                
-            @endif
+          
                
             <div class="row mt-2">
                 <div class="col"></div>
                 <div class="col-xl-10">
-                    <div class="card shadow-lg">
-                        <div class="card-header"> 
-                            <img src="{{ asset('images/logo_350.jpg') }}" alt="Image" class="img-thumbnail me-3" width="50px;" height="50px;">                          
-                             Authen Code 
-                             <div class="btn-actions-pane-right">
-                             <img src="{{ asset('images/spsch.jpg') }}" alt="Image" class="img-thumbnail" width="200px;" height="50px;">
-                            </div>
-                        </div>
-                        <div class="card-body"> 
+                  
                                     @if ($smartcard == 'NO_CONNECT')
                                         <div class="row">
                                             <div class="col"></div>
-                                            <div class="col-md-4 text-center">
+                                            <div class="col-md-4 text-center ">
                                                 <img src="http://localhost:8189/assets/images/smartcard-connected.png" alt=""
                                                     width="320px"><br> <br>
-                                                <label for="" class="form-label "
-                                                    style="color: rgb(197, 8, 33);font-size:30px" >ไม่พบเครื่องอ่านบัตร</label>
-                                                <br>
+                                                <label for="" class="form-label Head1"
+                                                    style="color: rgb(255, 255, 255);font-size:35px" >ไม่พบเครื่องอ่านบัตร</label>
+                                                <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
                                             </div>
                                             <div class="col"></div>
                                         </div>
@@ -116,18 +109,29 @@
                                                     <div class="col-md-4 text-center">
                                                         <img src="{{ asset('images/card1.jpg') }}" alt="Image"
                                                             class="img-thumbnail shadow-lg" width="320px">
-                                                        <br><br>
-                                                        <label for="pid" class="form-label"
-                                                            style="color: rgb(197, 8, 33);font-size:24px">กรุณาเสียบบัตรประชาชน</label>
-                                                        <br>
+                                                        <br><br> 
+                                                            <label for="" class="form-label Head1"
+                                                            style="color: rgb(255, 255, 255);font-size:35px" >กรุณาเสียบบัตรประชาชน</label>
+                                                        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
                                                     </div>
                                                     <div class="col"></div>
                                                 </div>
                                             @else
-                                            
-                                                {{-- <form action="{{ route('authencode') }}" method="POST" id="insert_AuthencodeForm">
-                                                    @csrf --}}
 
+                                            <div class="row mt-2">
+                                                <div class="col"></div> 
+                                                <div class="col-sm-1 text-end"><img src="{{ asset('medical/assets/img/logo150.png') }}" alt="" height="40px" width="40px">   </div>
+                                                <div class="col-sm-4 text-start"> 
+                                                    
+                                                    @foreach ($org as $item)  
+                                                             
+                                                            <h1 style="color:rgb(255, 255, 255)" class="Head1"> 
+                                                                 {{$item->orginfo_name}}
+                                                            </h1>  
+                                                    @endforeach
+                                                </div> 
+                                            </div>
+                                             
                                                     <div class="row mt-3">
                                                         <div class="col-md-11">
 
@@ -140,7 +144,7 @@
                                                                 <div class="col-md-5">
                                                                     <div class="mb-2">
                                                                         <label for="pid" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection1 }}</label>
+                                                                        style="color: rgb(247, 84, 43)">{{ $collection1 }}</label>
                                                                         <input type="hidden" class="form-control" id="pid"
                                                                             name="pid" value="{{ $collection1 }}">
                                                                     </div>
@@ -153,7 +157,7 @@
                                                                 <div class="col-md-3">
                                                                     <div class="mb-2">
                                                                         <label for="fname" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection2 }}
+                                                                        style="color: rgb(247, 84, 43)">{{ $collection2 }}
                                                                             {{ $collection3 }}</label>
                                                                         <input type="hidden" class="form-control" id="fname"
                                                                             value="{{ $collection2 }}">
@@ -172,7 +176,7 @@
                                                                 <div class="col-md-5">
                                                                     <div class="mb-2">
                                                                         <label for="mainInscl" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection6 }}</label>
+                                                                        style="color: rgb(247, 84, 43)">{{ $collection6 }}</label>
                                                                         <input type="hidden" class="form-control" id="mainInscl"
                                                                             value="{{ $collection6 }}">
                                                                     </div>
@@ -185,7 +189,7 @@
                                                                 <div class="col-md-3">
                                                                     <div class="mb-2">
                                                                         <label for="birthDate" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection4 }}</label>
+                                                                        style="color: rgb(247, 84, 43)">{{ $collection4 }}</label>
                                                                         <input type="hidden" class="form-control" id="birthDate"
                                                                             value="{{ $collection4 }}">
                                                                     </div>
@@ -201,7 +205,7 @@
                                                                 <div class="col-md-5">
                                                                     <div class="mb-2">
                                                                         <label for="subInscl" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection7 }}</label>
+                                                                        style="color: rgb(247, 84, 43)">{{ $collection7 }}</label>
                                                                         <input type="hidden" class="form-control" id="subInscl"
                                                                             value="{{ $collection7 }}">
                                                                     </div>
@@ -214,7 +218,7 @@
                                                                 <div class="col-md-3">
                                                                     <div class="mb-2">
                                                                         <label for="checkDate" class="form-label"
-                                                                            style="color: rgb(197, 8, 33)">{{ $collection8 }}</label>
+                                                                            style="color: rgb(247, 84, 43)">{{ $collection8 }}</label>
                                                                         <input type="hidden" class="form-control" id="checkDate"
                                                                             value="{{ $collection8 }}">
                                                                     </div>
@@ -226,440 +230,418 @@
                                                             <img class="img-thumbnail" src="data:image/png;base64,{{ $collection12 }}" alt="" width="auto;" height="auto;">
                                                         </div>
                                                     </div>
-
-                                             
+ 
 
                                                     <div class="row">
-                                                        <div class="col-md-2 text-end">
-                                                            <div class="mb-2">
-                                                                <label for="claimType" class="form-label">ประเภทเข้ารับบริการ
-                                                                    :</label>
+                                                        <div class="col-md-11">
+                                                            <div class="row">
+
+                                                                <div class="col-md-2 mb-2 text-end"> <label for="claimType" class="form-label">ประเภทเข้ารับบริการ :</label>  </div>
+                                                                <div class="col-md-5 mb-2"> 
+                                                                        <input class="form-check-input me-3" type="radio"
+                                                                            name="claimType" id="claimType" value="PG0060001" checked>
+                                                                        <label class="form-check-label" for="claimType">
+                                                                            เข้ารับบริการรักษาทั่วไป (OPD/ IPD/ PP)
+                                                                        </label> 
+                                                                </div>
+                                                                <div class="col-md-2 mb-2 text-end"> 
+                                                                        <label for="mobile" class="form-label">ยืนยันเบอร์โทรศัพท์ :</label> 
+                                                                </div>
+                                                                <div class="col-md-3 mb-2"> 
+                                                                        @if ($hometel == '')
+                                                                            <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" required style="background-color: rgb(252, 163, 157)">
+                                                                        @else
+                                                                            <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" value="{{ $hometel }}" style="background-color: aquamarine">
+                                                                        @endif  
+                                                                </div>  
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-4 ">
-                                                            <div class="mb-2">
-                                                                <input class="form-check-input me-3" type="radio"
-                                                                    name="claimType" id="claimType" value="PG0060001" checked>
-                                                                <label class="form-check-label" for="claimType">
-                                                                    เข้ารับบริการรักษาทั่วไป (OPD/ IPD/ PP)
-                                                                </label>
+                                                        <div class="col-md-1"></div>
+                                                    </div>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-md-11">
+                                                            <div class="row">
+                                                                <div class="col-md-2 mb-2 text-end"> <label for="claimType2" class="form-label"> </label> </div>
+                                                                <div class="col-md-5 mb-2"> 
+                                                                        <input class="form-check-input me-3" type="radio"
+                                                                            name="claimType" id="claimType2" value="PG0120001">
+                                                                        <label class="form-check-label" for="claimType2">
+                                                                            UCEP PLUS (ผู้ป่วยกลุ่มอาการสีเหลืองและสีแดง)
+                                                                        </label> 
+                                                                </div>
+                                                                <div class="col-md-2 mb-2 text-end"> <label for="mobile" class="form-label">HN :</label> </div>
+                                                                <div class="col-md-3 mb-2"> 
+                                                                        @if ($hn == '')
+                                                                            <input type="text" class="form-control shadow-lg" id="hn" name="hn" style="background-color: rgb(252, 163, 157)">
+                                                                        @else
+                                                                            <input type="text" class="form-control shadow-lg" id="hn" name="hn" value="{{ $hn }}" style="background-color: aquamarine">
+                                                                        @endif  
+                                                                </div>
+                                                                <div class="col"></div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-2 text-end">
-                                                            <div class="mb-2">
-                                                                <label for="mobile" class="form-label">ยืนยันเบอร์โทรศัพท์
-                                                                    :</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <div class="mb-2">
-                                                                @if ($hometel == '')
-                                                                    <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" required style="background-color: rgb(252, 163, 157)">
-                                                                @else
-                                                                    <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" value="{{ $hometel }}" style="background-color: aquamarine">
-                                                                @endif 
-                                                            </div>
-                                                        </div>
-                                                        <div class="col"></div>
+                                                        <div class="col-md-1"></div>
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-md-2 text-end">
-                                                            <div class="mb-2">
-                                                                <label for="claimType2" class="form-label"> </label>
+                                                        <div class="col-md-11">
+                                                            <div class="row">
+                                                                <div class="col-md-2 text-end"> <label for="claimType3" class="form-label"> </label> </div>
+                                                                <div class="col-md-7"> 
+                                                                        <input class="form-check-input me-3" type="radio"
+                                                                            name="claimType" id="claimType3" value="PG0130001">
+                                                                        <label class="form-check-label" for="claimType3">
+                                                                            บริการฟอกเลือดด้วยเครื่องไตเทียม (HD)
+                                                                        </label> 
+                                                                </div>
+                                                                <div class="col-md-3 text-center">  
+                                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Authen_Only"> 
+                                                                        <i class="fa-solid fa-heart-circle-bolt ms-4 me-4 mt-2" style="font-size: 18px;color:white"></i>
+                                                                        <label for="" style="font-size: 18px;color:white" class="me-3 mt-2">Authen Code Only</label>
+                                                                    </button>
+                                                                </div> 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-4 ">
-                                                            <div class="mb-2">
-                                                                <input class="form-check-input me-3" type="radio"
-                                                                    name="claimType" id="claimType2" value="PG0120001">
-                                                                <label class="form-check-label" for="claimType2">
-                                                                    UCEP PLUS (ผู้ป่วยกลุ่มอาการสีเหลืองและสีแดง)
-                                                                </label>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2 text-end">
-                                                            <div class="mb-2">
-                                                                <label for="mobile" class="form-label">HN
-                                                                    :</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <div class="mb-2">
-                                                                @if ($hn == '')
-                                                                    <input type="text" class="form-control shadow-lg" id="hn" name="hn" style="background-color: rgb(252, 163, 157)">
-                                                                @else
-                                                                    <input type="text" class="form-control shadow-lg" id="hn" name="hn" value="{{ $hn }}" style="background-color: aquamarine">
-                                                                @endif 
-                                                            </div>
-                                                        </div>
-                                                        <div class="col"></div>
+                                                        <div class="col-md-1"></div>
                                                     </div>
+ 
 
-                                                    <div class="row">
-                                                        <div class="col-md-2 text-end">
-                                                            <div class="mb-2">
-                                                                <label for="claimType3" class="form-label"> </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 ">
-                                                            <div class="mb-2">
-                                                                <input class="form-check-input me-3" type="radio"
-                                                                    name="claimType" id="claimType3" value="PG0130001">
-                                                                <label class="form-check-label" for="claimType3">
-                                                                    บริการฟอกเลือดด้วยเครื่องไตเทียม (HD)
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2"> 
-                                                            {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt ms-4  me-4 mt-2"></i> --}}
-                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg" id="Authen_Only">
-                                                                <i class="fa-brands fa-medrt ms-4  me-4 mt-2"></i> 
-                                                                <label for="" class="me-3 mt-2">Authen Code Only</label>
-                                                            </button>
-                                                        </div>
-                                                       
-                                                        <div class="col"></div>
-                                                    </div>
-                                                  
-
-                                                    <div class="row">
-                                                   
-                                                    </div>
-
-                                                    <hr>
+                                                    <hr style="height: 2px;color:white;">
 
                                                     @if ($hn == '')
  
                                                   
                                                     @else 
-                                                        <h4 style="color: rgb(10, 119, 221)" class="ms-4">ลงทะเบียนผู้ป่วย</h4>
-                                                        <br>
-                                                        <div class="row "> 
-                                                            <div class="col-md-12"> 
-                                                                
-                                                                            <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">คำนำหน้า </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="" id="" class="form-control" style="width: 100%">
-                                                                                            @foreach ($pname as $item_p)
-                                                                                            @if ($collection15 == $item_p->provis_code)
-                                                                                            <option value="{{$item_p->name}}" selected>{{$item_p->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_p->name}}">{{$item_p->name}}</option>
-                                                                                            @endif                                                                                            
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end"><label for="mobile" class="form-label">ชื่อ </label> </div>
-                                                                                <div class="col-md-2 mb-2">  
-                                                                                        <input type="text" class="form-control form-control-sm" id="fname" name="fname" value="{{$collection2}}" style="font-size: 13px"> 
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end"><label for="mobile" class="form-label">นามสกุล </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <input type="text" class="form-control form-control-sm" id="lname" name="lname" value="{{$collection3}}" style="font-size: 13px"> 
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end"><label for="mobile" class="form-label">CID </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <input type="text" class="form-control form-control-sm" id="cid" name="cid" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px">
-                                                                                    
-                                                                                </div>
-                                                                               
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สถานภาพ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="marrystatus" id="marrystatus" class="form-control" style="width: 100%">
-                                                                                            @foreach ($marrystatus as $item_ma)
-                                                                                            <option value="{{$item_ma->code}}">{{$item_ma->name}}</option>
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end"> <label for="mobile" class="form-label">เชื้อชาติ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="citizenship" id="citizenship" class="form-control " style="width: 100%">
-                                                                                            @foreach ($nationality as $item_na)
-                                                                                            @if ($collection14 == $item_na->code)
-                                                                                            <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_na->code}}">{{$item_na->name}}</option>
-                                                                                            @endif                                                                                            
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div> 
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สัญชาติ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="nationality" id="nationality" class="form-control" style="width: 100%">
-                                                                                            @foreach ($nationality as $item_na)
-                                                                                            @if ($collection14 == $item_na->code)
-                                                                                            <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_na->code}}">{{$item_na->name}}</option>
-                                                                                            @endif                                                                                            
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div> 
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">เพศ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        @if ($collection13 =='ชาย') 
-                                                                                        <input type="hidden" class="form-control" id="sex" name="sex" value="1">
-                                                                                        <input type="text" class="form-control form-control-sm" id="" name="" value="ชาย">
-                                                                                        @else 
-                                                                                        <input type="hidden" class="form-control" id="sex" name="sex" value="2">
-                                                                                        <input type="text" class="form-control form-control-sm" id="" name="" value="หญิง">
-                                                                                        @endif  
-                                                                                </div> 
-                                                                            </div>  
-                                                                            <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">บ้านเลขที่ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="addrpart" name="addrpart" style="font-size: 13px">
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="mobile" class="form-label">หมู่ที่ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                    <input type="text" class="form-control form-control-sm" id="moopart" name="moopart" value="{{$primary_moo}}" style="font-size: 13px">
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="hometel" class="form-label">เบอร์โทร </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                    @if ($hometel == '')
-                                                                                        <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" style="font-size: 13px;background-color: rgb(252, 163, 157)">
-                                                                                    @else
-                                                                                        <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" value="{{ $hometel }}" style="font-size: 13px;background-color: aquamarine">
-                                                                                    @endif 
-                                                                                    {{-- <input type="text" class="form-control form-control-sm" id="hometel" name="hometel" style="font-size: 13px"> --}}
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="province" class="form-label">หมู่เลือด </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="bloodgrp" id="bloodgrp" class="form-control" style="width: 100%">
-                                                                                            <option value="">--Choose--</option>
-                                                                                            @foreach ($blood_group as $item_bloo)
-                                                                                            @if ($bloodgrp == $item_bloo->name)
-                                                                                            <option value="{{$item_bloo->name}}" selected>{{$item_bloo->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_bloo->name}}">{{$item_bloo->name}}</option>
-                                                                                            @endif
-                                                                                           
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-1 text-end">   <label for="province" class="form-label">จังหวัด </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="province" id="province" class="form-control province" style="width: 100%">
-                                                                                            @foreach ($thaiaddress_provine as $item_prov)
-                                                                                            @if ($primary_province_name == $item_prov->name)
-                                                                                            <option value="{{$item_prov->chwpart}}" selected>{{$item_prov->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_prov->chwpart}}">{{$item_prov->name}}</option>
-                                                                                            @endif
-                                                                                           
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="amphur" class="form-label">อำเภอ </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="amphur" id="amphur" class="form-control amphur" style="width: 100%">
-                                                                                            @foreach ($thaiaddress_amphur as $item_amp)
-                                                                                            @if ($primary_amphur_name == $item_amp->name)
-                                                                                            <option value="{{$item_amp->amppart}}" selected>{{$item_amp->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_amp->amppart}}">{{$item_amp->name}}</option>
-                                                                                            @endif
-                                                                                           
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="tumbon" class="form-label">ตำบล </label> </div>
-                                                                                <div class="col-md-2 mb-2"> 
-                                                                                        <select name="tumbon" id="tumbon" class="form-control tumbon" style="width: 100%">
-                                                                                            @foreach ($thaiaddress_tumbon as $item_tum)
-                                                                                            @if ($primary_tumbon_name == $item_tum->name)
-                                                                                            <option value="{{$item_tum->tmbpart}}" selected>{{$item_tum->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
-                                                                                            @endif
-                                                                                            {{-- @if ($tmbpart == $item_tum->tmbpart)
-                                                                                            <option value="{{$item_tum->tmbpart}}" selected>{{$item_tum->name}}</option>
-                                                                                            @else
-                                                                                            <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
-                                                                                            @endif --}}
+
+                                                        <div id="accordion" class="custom-accordion">
+                                                            <div class="card mb-1 shadow-none">
+                                                                <a href="#collapseOne" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                                                aria-expanded="false"
+                                                                                aria-controls="collapseOne">
+                                                                    <div class="card-header" id="headingOne">
+                                                                        <h5 class="m-0" style="color: rgb(10, 119, 221)">
+                                                                            ลงทะเบียนผู้ป่วย
+                                                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                                        </h5>
+                                                                    </div>
+                                                                </a>
+                        
+                                                                <div id="collapseOne" class="collapse"
+                                                                        aria-labelledby="headingOne" data-bs-parent="#accordion">
+                                                                    <div class="card-body bgbody">
+                                                                        <div class="row "> 
+                                                                            <div class="col-md-12"> 
+                                                                                
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-1 text-end">   <label for="mobile" class="form-label">คำนำหน้า </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="" id="" class="form-control" style="width: 100%">
+                                                                                                    @foreach ($pname as $item_p)
+                                                                                                    @if ($collection15 == $item_p->provis_code)
+                                                                                                    <option value="{{$item_p->name}}" selected>{{$item_p->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_p->name}}">{{$item_p->name}}</option>
+                                                                                                    @endif                                                                                            
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end"><label for="mobile" class="form-label">ชื่อ </label> </div>
+                                                                                        <div class="col-md-2 mb-2">  
+                                                                                                <input type="text" class="form-control form-control-sm" id="fname" name="fname" value="{{$collection2}}" style="font-size: 13px"> 
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end"><label for="mobile" class="form-label">นามสกุล </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <input type="text" class="form-control form-control-sm" id="lname" name="lname" value="{{$collection3}}" style="font-size: 13px"> 
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end"><label for="mobile" class="form-label">CID </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <input type="text" class="form-control form-control-sm" id="cid" name="cid" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px">
                                                                                             
-                                                                                            @endforeach 
-                                                                                        </select>  
-                                                                                </div>
-                                                                                <div class="col-md-1 text-end">   <label for="pocode" class="form-label">รหัสไปรษณีย์ </label> </div>
-                                                                                <div class="col-md-2 mb-2">    
-                                                                                        {{-- <select name="pocode" id="pocode" class="form-control pocode" style="width: 100%">
-                                                                                            @foreach ($thaiaddress_po_code as $item_po)
-                                                                                            <option value="{{$item_po->po_code}}">{{$item_po->po_code}}</option>                                                                                            
-                                                                                            @endforeach 
-                                                                                         </select>  --}}
-                                                                                         <input class="form-control pocode" type="text" name="pocode" id="pocode" value="{{$po_code}}">
-                                                                                </div>
-                                                                            </div>  
-                                                                           
-                                                            </div>
-                                                        </div> 
-
-                                                        <hr>
-
-                                                        <h4 style="color: rgb(10, 119, 221)" class="ms-4">เปิด Visit</h4>
-                                                        <br>
-                                                        <div class="row">
-                                                            <div class="col-md-2 text-end">วันที่</div>
-                                                            <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{Date($date)}} </label>  </div>
-                                                            <div class="col-md-1 text-end">เวลา</div>
-                                                            <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{$time_s}} </label> </div>
-                                                            <div class="col-md-2 text-end">มาครั้งสุดท้าย</div>
-                                                            <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{Date($last_visit)}} </label>  </div>
-                                                            <div class="col-md-2 text-end"> 
-                                                                <div class="mb-2">
-                                                                    <input class="form-check-input me-3" type="radio" name="time_" id="intime" checked>
-                                                                    <label class="form-check-label" for="intime"> ในเวลา </label>
+                                                                                        </div>
+                                                                                        
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สถานภาพ </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="marrystatus" id="marrystatus" class="form-control" style="width: 100%">
+                                                                                                    @foreach ($marrystatus as $item_ma)
+                                                                                                    <option value="{{$item_ma->code}}">{{$item_ma->name}}</option>
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end"> <label for="mobile" class="form-label">เชื้อชาติ </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="citizenship" id="citizenship" class="form-control " style="width: 100%">
+                                                                                                    @foreach ($nationality as $item_na)
+                                                                                                    @if ($collection14 == $item_na->code)
+                                                                                                    <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_na->code}}">{{$item_na->name}}</option>
+                                                                                                    @endif                                                                                            
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div> 
+                                                                                        <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สัญชาติ </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="nationality" id="nationality" class="form-control" style="width: 100%">
+                                                                                                    @foreach ($nationality as $item_na)
+                                                                                                    @if ($collection14 == $item_na->code)
+                                                                                                    <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_na->code}}">{{$item_na->name}}</option>
+                                                                                                    @endif                                                                                            
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div> 
+                                                                                        <div class="col-md-1 text-end">   <label for="mobile" class="form-label">เพศ </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                @if ($collection13 =='ชาย') 
+                                                                                                <input type="hidden" class="form-control" id="sex" name="sex" value="1">
+                                                                                                <input type="text" class="form-control form-control-sm" id="" name="" value="ชาย">
+                                                                                                @else 
+                                                                                                <input type="hidden" class="form-control" id="sex" name="sex" value="2">
+                                                                                                <input type="text" class="form-control form-control-sm" id="" name="" value="หญิง">
+                                                                                                @endif  
+                                                                                        </div> 
+                                                                                    </div>  
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-1 text-end">   <label for="mobile" class="form-label">บ้านเลขที่ </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                            <input type="text" class="form-control form-control-sm" id="addrpart" name="addrpart" style="font-size: 13px">
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end">   <label for="mobile" class="form-label">หมู่ที่ </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                            <input type="text" class="form-control form-control-sm" id="moopart" name="moopart" value="{{$primary_moo}}" style="font-size: 13px">
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end">   <label for="hometel" class="form-label">เบอร์โทร </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                            @if ($hometel == '')
+                                                                                                <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" style="font-size: 13px;background-color: rgb(252, 163, 157)">
+                                                                                            @else
+                                                                                                <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" value="{{ $hometel }}" style="font-size: 13px;background-color: aquamarine">
+                                                                                            @endif 
+                                                                                            {{-- <input type="text" class="form-control form-control-sm" id="hometel" name="hometel" style="font-size: 13px"> --}}
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end">   <label for="province" class="form-label">หมู่เลือด </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="bloodgrp" id="bloodgrp" class="form-control" style="width: 100%">
+                                                                                                    <option value="">--Choose--</option>
+                                                                                                    @foreach ($blood_group as $item_bloo)
+                                                                                                    @if ($bloodgrp == $item_bloo->name)
+                                                                                                    <option value="{{$item_bloo->name}}" selected>{{$item_bloo->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_bloo->name}}">{{$item_bloo->name}}</option>
+                                                                                                    @endif
+                                                                                                    
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-1 text-end">   <label for="province" class="form-label">จังหวัด </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="province" id="province" class="form-control province" style="width: 100%">
+                                                                                                    @foreach ($thaiaddress_provine as $item_prov)
+                                                                                                    @if ($primary_province_name == $item_prov->name)
+                                                                                                    <option value="{{$item_prov->chwpart}}" selected>{{$item_prov->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_prov->chwpart}}">{{$item_prov->name}}</option>
+                                                                                                    @endif
+                                                                                                    
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end">   <label for="amphur" class="form-label">อำเภอ </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="amphur" id="amphur" class="form-control amphur" style="width: 100%">
+                                                                                                    @foreach ($thaiaddress_amphur as $item_amp)
+                                                                                                    @if ($primary_amphur_name == $item_amp->name)
+                                                                                                    <option value="{{$item_amp->amppart}}" selected>{{$item_amp->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_amp->amppart}}">{{$item_amp->name}}</option>
+                                                                                                    @endif
+                                                                                                    
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end">   <label for="tumbon" class="form-label">ตำบล </label> </div>
+                                                                                        <div class="col-md-2 mb-2"> 
+                                                                                                <select name="tumbon" id="tumbon" class="form-control tumbon" style="width: 100%">
+                                                                                                    @foreach ($thaiaddress_tumbon as $item_tum)
+                                                                                                    @if ($primary_tumbon_name == $item_tum->name)
+                                                                                                    <option value="{{$item_tum->tmbpart}}" selected>{{$item_tum->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
+                                                                                                    @endif
+                                                                                                    {{-- @if ($tmbpart == $item_tum->tmbpart)
+                                                                                                    <option value="{{$item_tum->tmbpart}}" selected>{{$item_tum->name}}</option>
+                                                                                                    @else
+                                                                                                    <option value="{{$item_tum->tmbpart}}">{{$item_tum->name}}</option>
+                                                                                                    @endif --}}
+                                                                                                    
+                                                                                                    @endforeach 
+                                                                                                </select>  
+                                                                                        </div>
+                                                                                        <div class="col-md-1 text-end">   <label for="pocode" class="form-label">รหัสไปรษณีย์ </label> </div>
+                                                                                        <div class="col-md-2 mb-2">    
+                                                                                                {{-- <select name="pocode" id="pocode" class="form-control pocode" style="width: 100%">
+                                                                                                    @foreach ($thaiaddress_po_code as $item_po)
+                                                                                                    <option value="{{$item_po->po_code}}">{{$item_po->po_code}}</option>                                                                                            
+                                                                                                    @endforeach 
+                                                                                                    </select>  --}}
+                                                                                                    <input class="form-control pocode" type="text" name="pocode" id="pocode" value="{{$po_code}}">
+                                                                                        </div>
+                                                                                    </div>  
+                                                                                           
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-2 text-start"> 
-                                                                <div class="mb-2">
-                                                                    <input class="form-check-input me-3" type="radio" name="time_" id="outtime" >
-                                                                    <label class="form-check-label" for="outtime">นอกเวลา</label>
+                                                            <div class="card mb-1 shadow-none">
+                                                                <a href="#collapseTwo" class="text-dark collapsed" data-bs-toggle="collapse"
+                                                                                aria-expanded="false"
+                                                                                aria-controls="collapseTwo">
+                                                                    <div class="card-header" id="headingTwo">
+                                                                        <h5 class="m-0" style="color: rgb(10, 119, 221)">
+                                                                            เปิด Visit
+                                                                            <i class="mdi mdi-minus float-end accor-plus-icon"></i>
+                                                                        </h5>
+                                                                    </div>
+                                                                </a>
+                                                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                                                        data-bs-parent="#accordion">
+                                                                    <div class="card-body bgbody">
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 text-end">วันที่</div>
+                                                                                <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{Date($date)}} </label>  </div>
+                                                                                <div class="col-md-1 text-end">เวลา</div>
+                                                                                <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{$time_s}} </label> </div>
+                                                                                <div class="col-md-2 text-end">มาครั้งสุดท้าย</div>
+                                                                                <div class="col-md-1"> <label class="form-check-label" for="claimType3">{{Date($last_visit)}} </label>  </div>
+                                                                                <div class="col-md-2 text-end"> 
+                                                                                    <div class="mb-2">
+                                                                                        <input class="form-check-input me-3" type="radio" name="time_" id="intime" checked>
+                                                                                        <label class="form-check-label" for="intime"> ในเวลา </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 text-start"> 
+                                                                                    <div class="mb-2">
+                                                                                        <input class="form-check-input me-3" type="radio" name="time_" id="outtime" >
+                                                                                        <label class="form-check-label" for="outtime">นอกเวลา</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div> 
+                    
+                                                                            <br>
+                    
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 text-end mt-2">ส่งต่อไปยัง</div>
+                                                                                <div class="col-md-2"> 
+                                                                                    <select name="main_dep_queue" id="main_dep_queue" class="form-control" style="width: 100%">
+                                                                                        @foreach ($kskdepartment as $item_m)
+                                                                                        <option value="{{$item_m->depcode}}">{{$item_m->department}}</option>
+                                                                                        @endforeach                                                                
+                                                                                    </select>
+                                                                                </div> 
+                                                                                <div class="col-md-2 text-end mt-2"> แผนก </div>
+                                                                                <div class="col-md-2">
+                                                                                    <select name="spclty" id="spclty" class="form-control" style="width: 100%">
+                                                                                        @foreach ($spclty as $item2)
+                                                                                        <option value="{{$item2->spclty}}">{{$item2->name}}</option>
+                                                                                        @endforeach                                                                
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="col-md-2 text-end mt-2">ประเภท</div>
+                                                                                <div class="col-md-2"> 
+                                                                                    <select name="pt_subtype" id="pt_subtype" class="form-control" style="width: 100%">
+                                                                                        @foreach ($pt_subtype as $item_su)
+                                                                                        <option value="{{$item_su->pt_subtype}}">{{$item_su->name}}</option>
+                                                                                        @endforeach                                                                
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div> 
+                    
+                                                                            <br>
+                    
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 text-end mt-2">ประเภทการมา</div>
+                                                                                <div class="col-md-2"> 
+                                                                                    <select name="ovstist" id="ovstist" class="form-control" style="width: 100%">
+                                                                                        @foreach ($ovstist as $item)
+                                                                                        <option value="{{$item->ovstist}}">{{$item->name}}</option>
+                                                                                        @endforeach                                                                
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="col-md-2 text-end mt-2">ความเร่งด่วน</div>
+                                                                                <div class="col-md-2"> 
+                                                                                    <select name="pt_priority" id="pt_priority" class="form-control" style="width: 100%">
+                                                                                        @foreach ($pt_priority as $item_p)
+                                                                                        <option value="{{$item_p->id}}">{{$item_p->name}}</option>
+                                                                                        @endforeach                                                                
+                                                                                    </select>
+                                                                                </div> 
+                                                                                <div class="col-md-2 text-end mt-2"> สภาพผู้ป่วย </div>
+                                                                                <div class="col-md-2">
+                                                                                    <select name="pt_walk" id="pt_walk" class="form-control" style="width: 100%">
+                                                                                        @foreach ($pt_walk as $item_w)
+                                                                                        <option value="{{$item_w->walk_id}}">{{$item_w->name}}</option>
+                                                                                        @endforeach                                                                
+                                                                                    </select>
+                                                                                </div>                                                        
+                                                                            </div> 
+                    
+                                                                            <br>  
+                                                                            
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 text-end mt-2">อาการที่มา</div>
+                                                                                <div class="col-md-10"> 
+                                                                                    <textarea name="cc" id="cc" rows="2" type="text" class="form-control"></textarea> 
+                                                                                </div>                                     
+                                                                            </div> 
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div> 
-
-                                                        <br>
-
-                                                        <div class="row">
-                                                            <div class="col-md-2 text-end mt-2">ส่งต่อไปยัง</div>
-                                                            <div class="col-md-2"> 
-                                                                <select name="main_dep_queue" id="main_dep_queue" class="form-control" style="width: 100%">
-                                                                    @foreach ($kskdepartment as $item_m)
-                                                                    <option value="{{$item_m->depcode}}">{{$item_m->department}}</option>
-                                                                    @endforeach                                                                
-                                                                </select>
-                                                            </div> 
-                                                            <div class="col-md-2 text-end mt-2"> แผนก </div>
-                                                            <div class="col-md-2">
-                                                                <select name="spclty" id="spclty" class="form-control" style="width: 100%">
-                                                                    @foreach ($spclty as $item2)
-                                                                    <option value="{{$item2->spclty}}">{{$item2->name}}</option>
-                                                                    @endforeach                                                                
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-2 text-end mt-2">ประเภท</div>
-                                                            <div class="col-md-2"> 
-                                                                <select name="pt_subtype" id="pt_subtype" class="form-control" style="width: 100%">
-                                                                    @foreach ($pt_subtype as $item_su)
-                                                                    <option value="{{$item_su->pt_subtype}}">{{$item_su->name}}</option>
-                                                                    @endforeach                                                                
-                                                                </select>
-                                                            </div>
-                                                        </div> 
-
-                                                        <br>
-
-                                                        <div class="row">
-                                                            <div class="col-md-2 text-end mt-2">ประเภทการมา</div>
-                                                            <div class="col-md-2"> 
-                                                                <select name="ovstist" id="ovstist" class="form-control" style="width: 100%">
-                                                                    @foreach ($ovstist as $item)
-                                                                    <option value="{{$item->ovstist}}">{{$item->name}}</option>
-                                                                    @endforeach                                                                
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-2 text-end mt-2">ความเร่งด่วน</div>
-                                                            <div class="col-md-2"> 
-                                                                <select name="pt_priority" id="pt_priority" class="form-control" style="width: 100%">
-                                                                    @foreach ($pt_priority as $item_p)
-                                                                    <option value="{{$item_p->id}}">{{$item_p->name}}</option>
-                                                                    @endforeach                                                                
-                                                                </select>
-                                                            </div> 
-                                                            <div class="col-md-2 text-end mt-2"> สภาพผู้ป่วย </div>
-                                                            <div class="col-md-2">
-                                                                <select name="pt_walk" id="pt_walk" class="form-control" style="width: 100%">
-                                                                    @foreach ($pt_walk as $item_w)
-                                                                    <option value="{{$item_w->walk_id}}">{{$item_w->name}}</option>
-                                                                    @endforeach                                                                
-                                                                </select>
-                                                            </div>                                                        
-                                                        </div> 
-
-                                                        <br>  
-                                                        
-                                                        <div class="row">
-                                                            <div class="col-md-2 text-end mt-2">อาการที่มา</div>
-                                                            <div class="col-md-10"> 
-                                                                <textarea name="cc" id="cc" rows="2" type="text" class="form-control"></textarea> 
-                                                            </div>                                     
-                                                        </div>  
+                                                            
+                                                        </div>
+ 
 
                                                     @endif
 
                                                         <input type="hidden" class="form-control" id="correlationId" name="correlationId" value="{{ $collection10 }}">
-
                                                         <input type="hidden" class="form-control" id="hos_guid" name="hos_guid" value="{{ $hos_guid }}">
                                                         <input type="hidden" class="form-control" id="ovst_key" name="ovst_key" value="{{ $ovst_key }}">
                                                         <input type="hidden" class="form-control" id="vn" name="vn" value="{{ $vn }}">
                                                         <input type="hidden" class="form-control" id="hcode" name="hcode" value="{{ $hcode }}"> 
                                                         <input type="hidden" class="form-control" id="time" name="time" value="{{ $time }}">
                                                         
-                                                        <hr>
+                                                        <hr style="height: 2px;color:white;">
+
                                                     <div class="row">
                                                         <div class="col"></div>
-                                                        <div class="col-md-8">
-                                                            {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i
-                                                                    class="fa-brands fa-medrt me-2"></i>Authen Code Only</button> --}}
-                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success shadow-lg" id="OpenVisit"><i class="fa-brands fa-medrt me-2"></i>Authen Code + Visit</button>
-                                                            <a href="{{ url('/login') }}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger shadow-lg"><i
-                                                                    class="fa-solid fa-circle-arrow-left me-2"></i>ย้อนกลับ</a> 
+                                                        <div class="col-md-8 text-center">  
+                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="OpenVisit"> 
+                                                                <i class="fa-solid fa-heart-circle-bolt ms-4 me-4 mt-2" style="font-size: 18px;color:white"></i>
+                                                                <label for="" style="font-size: 18px;color:white" class="me-3 mt-2">Authen Code + Visit</label>
+                                                            </button>
                                                         </div> 
+                                                        <div class="col"></div>
                                                     </div>
-
-                                                {{-- </form> --}}
+ 
 
                                             @endif
                                 
                                     @endif
 
-                        </div>
-                        </form>
-
-                    </div>
+                      
+                        </form> 
                 </div>
                 <div class="col"></div>
-            </div>
-          
-            <div class="row">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-3"> 
-                    @foreach ($org as $item)   
-                            <h6 style="color:rgb(220, 134, 247)" class="mt-2">
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> 
-                                © {{$item->orginfo_name}}
-                            </h6>  
-                    @endforeach
-                </div>
-                <div class="col"></div>
-                <div class="col-sm-1 text-end d-none d-sm-block mt-2">
-                    Created with
-                    <i class="mdi mdi-heart text-danger ms-2"></i> 
-                </div>
-                <div class="col-sm-1 text-start">
-                    {{-- <div class="text-sm-end d-none d-sm-block"> --}}
-                        {{-- Created with  --}}
-                        
-                        
-                         <h6 style="color:rgb(220, 134, 247)" class="mt-2">by ทีมพัฒนา PK-HOS</h6> 
-                    {{-- </div> --}}
-                </div>
-                <div class="col-sm-1"></div>
-            </div>
- 
-
+            </div> 
+           
     </div>
     <!-- JAVASCRIPT -->
     {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>  --}}
