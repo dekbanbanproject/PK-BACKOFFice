@@ -175,27 +175,27 @@ class NeweclaimController extends Controller
         }
          //     // ***************************** send *******************
          
-$fam_file = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
-foreach ($fam_file as $fam_file_value) {
-        // echo "$value <br>";
-        $tp_ins = "temp_opd_".str_replace(".","_",$pang)."_export_".$fam_file_value."_base64";
-        $s_fam_file_value ="SELECT base_64, file_size FROM $tp_ins LIMIT 1 ";
-        @$q_fam_file_value = mysqli_query($con_money, $s_fam_file_value) ; #or die(nl2br ($s_fam_file_value))
-        @$r_fam_file_value = mysqli_fetch_assoc($q_fam_file_value);
-        @$fam_file_base64[] = $r_fam_file_value["base_64"];
+        $fam_file = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
+        foreach ($fam_file as $fam_file_value) {
+                // echo "$value <br>";
+                $tp_ins = "temp_opd_".str_replace(".","_",$pang)."_export_".$fam_file_value."_base64";
+                $s_fam_file_value ="SELECT base_64, file_size FROM $tp_ins LIMIT 1 ";
+                @$q_fam_file_value = mysqli_query($con_money, $s_fam_file_value) ; #or die(nl2br ($s_fam_file_value))
+                @$r_fam_file_value = mysqli_fetch_assoc($q_fam_file_value);
+                @$fam_file_base64[] = $r_fam_file_value["base_64"];
 
 
-        if(@$r_fam_file_value["file_size"]==''){
-            @$fam_file_size[] = 0;
-        }else{
-            @$fam_file_size[] = $r_fam_file_value["file_size"];
+                if(@$r_fam_file_value["file_size"]==''){
+                    @$fam_file_size[] = 0;
+                }else{
+                    @$fam_file_size[] = $r_fam_file_value["file_size"];
+                }
+                
         }
-        
-}
 
  
-    //     #https://tnhsoapi.nhso.go.th/ecimp/v1/auth  #test_zone
-    //     #https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth  #product
+        //     #https://tnhsoapi.nhso.go.th/ecimp/v1/auth  #test_zone
+        //     #https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth  #product
 
         $fame_send = curl_init();
 

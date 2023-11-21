@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- CSRF Token -->
+      <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>PK-AUTHEN</title>
 
@@ -17,9 +19,7 @@
     {{-- <link href="{{ asset('bt52/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> --}}
     <!-- Plugin css -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <!-- select2 -->
-      <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}">
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
     <!-- Bootstrap Css -->
     <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -27,7 +27,9 @@
     <!-- App Css-->
     <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
-
+     <!-- select2 -->
+     <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
  
     <style>
@@ -123,8 +125,8 @@
                                                 </div>
                                             @else
                                             
-                                                <form action="{{ route('authencode') }}" method="POST" id="insert_AuthencodeForm">
-                                                    @csrf
+                                                {{-- <form action="{{ route('authencode') }}" method="POST" id="insert_AuthencodeForm">
+                                                    @csrf --}}
 
                                                     <div class="row mt-3">
                                                         <div class="col-md-11">
@@ -311,8 +313,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-2"> 
-                                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt ms-4  me-4 mt-2"></i>
-                                                                
+                                                            {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt ms-4  me-4 mt-2"></i> --}}
+                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg" id="Authen_Only">
+                                                                <i class="fa-brands fa-medrt ms-4  me-4 mt-2"></i> 
                                                                 <label for="" class="me-3 mt-2">Authen Code Only</label>
                                                             </button>
                                                         </div>
@@ -594,6 +597,8 @@
 
                                                     @endif
 
+                                                        <input type="hidden" class="form-control" id="correlationId" name="correlationId" value="{{ $collection10 }}">
+
                                                         <input type="hidden" class="form-control" id="hos_guid" name="hos_guid" value="{{ $hos_guid }}">
                                                         <input type="hidden" class="form-control" id="ovst_key" name="ovst_key" value="{{ $ovst_key }}">
                                                         <input type="hidden" class="form-control" id="vn" name="vn" value="{{ $vn }}">
@@ -612,7 +617,7 @@
                                                         </div> 
                                                     </div>
 
-                                                </form>
+                                                {{-- </form> --}}
 
                                             @endif
                                 
@@ -657,22 +662,80 @@
 
     </div>
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-
+    {{-- <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>  --}}
     <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/select2.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+
     <script>
             $(document).ready(function() {
                 $('select').select2();
                 // $('#ovstist').select2({
                 //     dropdownParent: $('#insertdata')
                 // });
-                // $.ajaxSetup({
-                //     headers: {
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     }
-                // });
+                
+                $('#Authen_Only').click(function() {
+                        var pid             = $('#pid').val(); 
+                        var claimType       = $('#claimType').val(); 
+                        var mobile          = $('#mobile').val(); 
+                        var correlationId   = $('#correlationId').val(); 
+                        var hn              = $('#hn').val(); 
+                        var hcode           = $('#hcode').val(); 
+
+                        
+                        Swal.fire({
+                                title: 'เปิด Authen Code ใช่ไหม ?',
+                                text: "You Warn Authen Code Data!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, Authen Code it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        $.ajaxSetup({
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            }
+                                        });                                        
+                                        $.ajax({
+                                            url: "{{ route('authencode') }}",
+                                            type: "POST",
+                                            dataType: 'json',
+                                            data: {
+                                                pid,claimType,mobile,correlationId,hcode,hn                       
+                                            },
+                                            success: function(data) {
+                                                if (data.status == 200) { 
+                                                    Swal.fire({
+                                                        title: 'เปิด Authen Code สำเร็จ',
+                                                        text: "You Authen Code success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            // $('#spinner').hide();//Request is complete so hide spinner
+                                                            //     setTimeout(function(){
+                                                            //         $("#overlay").fadeOut(300);
+                                                            //     },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    consollog(data);
+                                                }
+                                            },
+                                        });
+                                        
+                                    }
+                        })
+                    });
                 $('#insert_AuthencodeForm').on('submit', function(e) {
                     e.preventDefault();
                     var form = this;

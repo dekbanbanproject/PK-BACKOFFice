@@ -28,6 +28,7 @@ use File;
 use SplFileObject;
 use Arr;
 use Storage;
+use GuzzleHttp\Client;
 
 class AuthencodeController extends Controller
 {
@@ -277,36 +278,39 @@ class AuthencodeController extends Controller
             'patient'      => $patient
         ]);
     }
-    public function authencode(Request $req)
+    public function authencode(Request $request)
     {
-        // $authen = Http::post("http://localhost:8189/api/nhso-service/save-as-draft");
-        // $cid = $req->pid;
-        // $tel = $req->mobile;
-        // $cid = '3451000002897';
-        // $claimType = 'PG0060001';
-        // $mobile = '0832411548';
-        // $correlationId = '2341dc4e-9f38-4b93-ad61-5284e68ac5e4';
-        // $hcode = '10978';  
-        // 124242
-        // $cid = '1360400223487';
-
-        $authen = Http::post(
-            "http://localhost:8189/api/nhso-service/confirm-save/",
-            [
-                'pid'              =>  $req->pid,
-                'claimType'        =>  $req->claimType,
-                'mobile'           =>  $req->mobile,
-                'correlationId'    =>  $req->correlationId,
-                // 'hcode'            =>  $req->hcode
-            ]
-        );
-
-        Patient::where('cid', $req->pid)
+  
+        // $authen = Http::post(
+        //     "http://' . $ip . ':8189/api/nhso-service/confirm-save/",
+        //     [
+        //         'pid'              =>  $request->pid,
+        //         'claimType'        =>  $request->claimType,
+        //         'mobile'           =>  $request->mobile,
+        //         'correlationId'    =>  $request->correlationId,
+        //         'hn'               =>  $request->hn,
+        //         'hcode'            =>  $request->hcode
+        //     ]
+        // );
+        $ip = $request->ip();
+           // dd($ip);
+        $response = Http::withHeaders([ 
+            'User-Agent:<platform>/<version> <10978>',
+            'Accept' => 'application/json',
+        ])->post('http://' . $ip . ':8189/api/nhso-service/confirm-save/', [
+            'pid'              =>  $request->pid,
+            'claimType'        =>  $request->claimType,
+            'mobile'           =>  $request->mobile,
+            'correlationId'    =>  $request->correlationId,
+            'hn'               =>  $request->hn,
+            'hcode'            =>  $request->hcode
+        ]);  
+  
+        Patient::where('cid', $request->pid)
             ->update([
-                'hometel'    => $req->mobile
-            ]);
-
-        // return $authen->json();
+                'hometel'    => $request->mobile
+            ]); 
+     
         return response()->json([
             'status'     => '200'
         ]);
