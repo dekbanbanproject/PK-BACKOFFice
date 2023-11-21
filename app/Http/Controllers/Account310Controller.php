@@ -200,6 +200,11 @@ class Account310Controller extends Controller
                     ,"ประกันสังคม HC/AE" as account_name  
                     ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
                     ,a.income-a.rcpt_money-a.discount_money as debit
+                    ,CASE 
+                    WHEN op.icode ="3001758" THEN "1000" 
+					WHEN  io.icd9 like "%6632%" THEN "1000" 
+                    ELSE "0"
+                    END as looknee_mun
                     ,sum(if(op.icode IN ("3001758"),sum_price,0)) as tr
 				    ,sum(if(op.icode IN ("3001758"),"1000",0)) as looknee
                     ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
@@ -220,7 +225,7 @@ class Account310Controller extends Controller
                     LEFT JOIN hos.vn_stat v on v.vn = a.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND opdipd ="IPD")
-                    AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310")
+                    AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.310" AND hospmain <> "")
                     and io.icd9 like "%6632%"
                 GROUP BY a.an; 
             ');
@@ -255,7 +260,7 @@ class Account310Controller extends Controller
                                 'debit_toa'          => $value->debit_toa,
                                 'debit_refer'        => $value->debit_refer,
                                 'fokliad'            => $value->fokliad,
-                                'debit_total'        => $value->looknee,
+                                'debit_total'        => $value->looknee_mun,
                                 // 'max_debt_amount'    => $value->max_debt_money,
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]); 

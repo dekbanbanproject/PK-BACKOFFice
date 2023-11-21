@@ -198,7 +198,7 @@ class Account802Controller extends Controller
                 SELECT i.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,a.regdate,a.dchdate,v.vstdate,op.income as income_group
                     ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income 
-                    ,pt.hcode,o.vsttime,e.code as acc_code,e.ar_ipd as account_code,e.name as account_name
+                    ,pt.hcode,e.code as acc_code,e.ar_ipd as account_code,e.name as account_name
                     ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                     ,a.rcpno_list as rcpno
                     ,a.income-a.discount_money-a.rcpt_money as debit
@@ -208,11 +208,10 @@ class Account802Controller extends Controller
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money
-                    from ipt i
-                    LEFT JOIN ovst o on o.an = i.an
+                    from ipt i 
                     left join an_stat a on a.an=i.an
-                    left join patient pt on pt.hn=o.hn
-                    LEFT JOIN pttype ptt on o.pttype=ptt.pttype
+                    left join patient pt on pt.hn=i.hn
+                    LEFT JOIN pttype ptt on i.pttype=ptt.pttype
                     LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT JOIN ipt_pttype ipt ON ipt.an = a.an
                     LEFT JOIN opitemrece op ON op.an = i.an
