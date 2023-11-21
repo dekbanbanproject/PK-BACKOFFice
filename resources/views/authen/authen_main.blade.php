@@ -311,9 +311,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-2"> 
-                                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt ms-2  me-2"></i>
+                                                            <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary shadow-lg"><i class="fa-brands fa-medrt ms-4  me-4 mt-2"></i>
                                                                 
-                                                                <label for="" class="me-3">Authen Code Only</label>
+                                                                <label for="" class="me-3 mt-2">Authen Code Only</label>
                                                             </button>
                                                         </div>
                                                        
