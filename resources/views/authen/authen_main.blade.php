@@ -39,7 +39,7 @@
  
     <style>
         body {
-            background-color: rgb(235, 146, 253);
+            background-color: rgb(255, 220, 239);
             background-repeat: no-repeat;
             background-attachment: fixed;
             /* background-size: cover; */
@@ -58,7 +58,7 @@
             font-size: 13px;
         }
         .bgbody{
-            background-color: rgb(243, 202, 252);
+            background-color: rgb(252, 225, 240);
             background-repeat: no-repeat;
             background-attachment: fixed; 
             background-size: 100% 100%; 
