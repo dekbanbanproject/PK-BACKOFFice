@@ -156,6 +156,7 @@ class Account107Controller extends Controller
                 ,a.pttype,a.dchdate,r.arrear_date,r.arrear_time,rp.book_number,rp.bill_number,r.amount,r.paid 
                 ,"" as acc_code,"1102050102.107" as account_code,"ชำระเงิน" as account_name
                 ,r.rcpno,r.finance_number,r.receive_money_date,r.receive_money_staff
+                ,a.income,a.paid_money,a.discount_money,a.rcpt_money,a.remain_money
 
                 FROM hos.rcpt_arrear r  
                 LEFT OUTER JOIN hos.rcpt_print rp on r.vn = rp.vn 
@@ -171,24 +172,43 @@ class Account107Controller extends Controller
         // LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(o.vstdate)
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.107')->whereBetween('dchdate', [$startdate, $enddate])->count();
-                    if ($check == 0) {
-                        Acc_debtor::insert([
-                            'hn'                 => $value->hn,
-                            'an'                 => $value->an,
-                            'vn'                 => $value->vn,
-                            'cid'                => $value->cid,
-                            'ptname'             => $value->ptname,
-                            'pttype'             => $value->pttype,
-                            'dchdate'            => $value->dchdate,
-                            'vstdate'            => $value->arrear_date,
-                            'acc_code'           => $value->acc_code,
-                            'account_code'       => $value->account_code,
-                            'account_name'       => $value->account_name, 
-                            'debit'              => $value->amount, 
-                            'debit_total'        => $value->amount,
-                            'rcpno'              => $value->rcpno, 
-                            'acc_debtor_userid'  => Auth::user()->id
+                    if ($check > 0) {
+                        Acc_debtor::where('an', $value->an)->where('account_code','1102050102.107')->update([  
+                            'income'             => $value->income, 
+                            'discount_money'     => $value->discount_money, 
+                            'paid_money'         => $value->paid_money, 
+                            'rcpt_money'         => $value->rcpt_money,  
                         ]);
+                        // Acc_1102050102_107::where('an', $value->an)->update([
+                        //     'income'             => $value->income, 
+                        //     'discount_money'     => $value->discount_money, 
+                        //     'paid_money'         => $value->paid_money, 
+                        //     'rcpt_money'         => $value->rcpt_money,  
+                        // ]);
+                    }else {
+                            Acc_debtor::insert([
+                                'hn'                 => $value->hn,
+                                'an'                 => $value->an,
+                                'vn'                 => $value->vn,
+                                'cid'                => $value->cid,
+                                'ptname'             => $value->ptname,
+                                'pttype'             => $value->pttype,
+                                'dchdate'            => $value->dchdate,
+                                'vstdate'            => $value->arrear_date,
+                                'acc_code'           => $value->acc_code,
+                                'account_code'       => $value->account_code,
+                                'account_name'       => $value->account_name, 
+
+                                'income'             => $value->income, 
+                                'discount_money'     => $value->discount_money, 
+                                'paid_money'         => $value->paid_money, 
+                                'rcpt_money'         => $value->rcpt_money, 
+                                
+                                'debit'              => $value->amount, 
+                                'debit_total'        => $value->amount,
+                                'rcpno'              => $value->rcpno, 
+                                'acc_debtor_userid'  => Auth::user()->id
+                            ]);
                     }
         }
             return response()->json([
@@ -368,15 +388,42 @@ class Account107Controller extends Controller
                 GROUP BY U1.an
                 ORDER BY U1.acc_1102050102_107_id DESC
         ');
-        }
-        
- 
+        }        
         
         return view('account_107.acc_107_debt',[
             'startdate'     =>  $startdate,
             'enddate'       =>  $enddate,
             'datashow'      =>  $datashow,
         ]);
+    }
+    public function acc_107_debt_sync(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $sync = DB::connection('mysql')->select(' 
+                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ac.dchdate 
+                FROM hos.an_stat a
+                LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
+                LEFT JOIN pkbackoffice.acc_1102050102_603 ac ON ac.an = a.an
+                WHERE a.dchdate BETWEEN "'.$startdate.'" 
+                AND "'.$enddate.'" 
+                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> "" AND ac.acc_1102050102_603_id <> ""
+                GROUP BY a.an
+                
+            ');
+            foreach ($sync as $key => $value) { 
+                     
+                Acc_1102050102_107::where('an',$value->an) 
+                        ->update([ 
+                            'nhso_docno'           => $value->nhso_docno ,
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                    ]);
+            }
+            return response()->json([
+                'status'    => '200'
+            ]);
+        
+        
     }
     public function acc_107_debt_outbook(Request $request, $id)
     { 

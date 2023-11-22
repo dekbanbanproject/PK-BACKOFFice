@@ -146,7 +146,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                     data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -159,6 +159,10 @@
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
+                    </button>
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                        <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
+                        Sync Data All 
                     </button>
                 </div>
             </div>
@@ -247,7 +251,7 @@
                             <thead>
                                 <tr class="Head1">
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">vn</th> 
+                                    {{-- <th class="text-center">an</th>  --}}
                                     <th class="text-center">hn</th>
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ชื่อ-สกุล</th>
@@ -271,7 +275,7 @@
                                     ?>
                                     <tr height="20" class="detail">
                                     <td class="text-center" width="4%">{{ $number }}</td>
-                                    <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                    {{-- <td class="text-center" width="8%">{{ $item->an }}</td>  --}}
                                     <td class="text-center" width="5%">{{ $item->hn }}</td> 
                                     <td class="text-center" width="7%">{{ $item->cid }}</td> 
                                     <td class="text-start">{{ $item->ptname }}</td> 
@@ -334,6 +338,78 @@
                 $('#datepicker3').datepicker({
                     format: 'yyyy-mm-dd'
                 });
+
+                $('.PulldataAll').click(function() {  
+                var months = $('#months').val();
+                var year = $('#year').val();
+                // alert(months);
+                Swal.fire({
+                        title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
+                        text: "You Sync Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, Sync it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show();  
+                                
+                                $.ajax({
+                                    url: "{{ url('acc_107_debt_sync') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {months,year},
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ซิ้งค์ข้อมูลสำเร็จ',
+                                                text: "You Sync data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+
+                                        } else if (data.status == 100) { 
+                                            Swal.fire({
+                                                title: 'ยังไม่ได้ลงเลขที่หนังสือ',
+                                                text: "Please enter the number of the book.",
+                                                icon: 'warning',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                   
+                                                }
+                                            })
+                                            
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                    })
+            });
 
             });
 

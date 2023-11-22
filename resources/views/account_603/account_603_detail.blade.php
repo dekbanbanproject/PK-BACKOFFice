@@ -84,7 +84,7 @@ $pos = strrpos($url, '/') + 1;
                         <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                             <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
                             Sync Data All 
-                    </button>
+                        </button>
                     </div>
                     </div>
                     <div class="card-body">

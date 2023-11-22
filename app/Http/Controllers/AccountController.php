@@ -2081,10 +2081,11 @@ class AccountController extends Controller
                 left outer join ovst o on o.an = a.an
                 left outer join hos.kskdepartment k on k.depcode = o.main_dep
                 WHERE YEAR(a.dchdate) = "' . $year . '" AND MONTH(a.dchdate) = "' . $months . '"
-                AND (a.paid_money > 0 and a.rcpt_money = 0 )
-              
+                
+                AND (a.paid_money > 0 and a.rcpt_money = 0) 
         ');
-        // AND a.paid_money > 0 and a.rcpt_money =0 
+        // AND a.paid_money > 0 and a.rcpt_money = 0 
+        // AND (a.paid_money > 0 and a.remain_money > 1 )
         return view('account.account_nopaid_sub_ip', [
             'datashow'   =>  $datashow, 
             'startdate'  =>  $startdate,

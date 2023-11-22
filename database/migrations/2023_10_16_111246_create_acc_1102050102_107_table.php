@@ -43,6 +43,7 @@ return new class extends Migration
                 $table->string('debit_instument')->nullable();// เฉพาะรอวัยวะเทียม
                 $table->string('debit_refer')->nullable();// เฉพาะ Refer
                 $table->string('debit_toa')->nullable();//
+                $table->string('total_amount')->nullable();//
                 $table->string('debit_total')->nullable();//
                 $table->string('max_debt_amount')->nullable();//
                 $table->string('rw')->nullable();// 
