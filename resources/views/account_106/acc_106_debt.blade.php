@@ -349,8 +349,8 @@
                                         <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
                                    
                                     @if ($item->sumtotal_amount == $item->debit_total)
-                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->debit_total, 2) }}</td>
+                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(3, 97, 47))">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(3, 97, 47))">{{ number_format($item->debit_total, 2) }}</td>
                                     @else
                                             {{-- @if ($item->sumtotal_amount == $item->debit_total)
                                                 <td class="text-end" width="6%" style="font-size:12px;color: rgb(23, 235, 129)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
