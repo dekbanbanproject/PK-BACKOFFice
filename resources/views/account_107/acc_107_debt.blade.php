@@ -137,9 +137,9 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('acc.acc_107_debt') }}" method="GET">
-            @csrf
+      
         <div class="row">
+           
             <div class="col-md-4">
                 <h4 class="card-title">Detail</h4>
                 <p class="card-title-desc">รายละเอียดข้อมูล ทวงหนี้</p>
@@ -147,6 +147,8 @@
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-5 text-end">
+                <form action="{{ route('acc.acc_107_debt') }}" method="GET">
+                    @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                     data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -164,10 +166,12 @@
                         <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
                         Sync Data All 
                     </button>
+                </form>
                 </div>
             </div>
+      
         </div>
-    </form>
+   
 
     @if ($startdate =='')
         <div class="row">
@@ -179,11 +183,11 @@
                             <thead>
                                 <tr class="Head1">
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">vn</th> 
+                                    <th class="text-center">an</th> 
                                     <th class="text-center">hn</th>
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ชื่อ-สกุล</th>
-                                    <th class="text-center">วันที่รับบริการ</th>
+                                    <th class="text-center">วันที่จำหน่าย</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
@@ -202,33 +206,44 @@
                                     
                                     ?>
                                     <tr height="20" class="detail">
-                                    <td class="text-center" width="4%">{{ $number }}</td>
-                                    <td class="text-center" width="8%">{{ $item->vn }}</td> 
-                                    <td class="text-center" width="5%">{{ $item->hn }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->cid }}</td> 
-                                    <td class="text-start">{{ $item->ptname }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                    <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td> 
-                                    <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
-                                    <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                    <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
-                                    <td class="text-center" width="6%">
+                                        <td class="text-center" width="4%">{{ $number }}</td>
+                                        <td class="text-center" width="8%">{{ $item->an }}</td> 
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td> 
+                                        <td class="text-center" width="7%">{{ $item->cid }}</td> 
+                                        <td class="text-start">{{ $item->ptname }}</td> 
+                                        <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
+                                        <td class="text-center" width="7%">{{ $item->pttype }}</td>
                                         
-                                        <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
-                                            onclick="acc_107_debt_outbook({{ $item->acc_1102050102_107_id }})"
-                                            data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                            data-bs-placement="top" title="ออกจดหมาย">
-                                            <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
-                                            <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
-                                        </a>
-                                    </td> 
-                                    <td class="text-center" width="5%">
-                                        <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
-                                        <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
-                                    </td> 
-                                    
-                                </tr> 
+                                        @if ($item->paid_money <> ($item->sumtotal_amount+$item->debit_total))
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(243, 141, 7)">{{ number_format($item->income, 2) }}</td> 
+                                        @else
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(54, 230, 156)">{{ number_format($item->income, 2) }}</td> 
+                                        @endif
+                                        <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
+                                        @if ($item->sumtotal_amount == $item->debit_total)
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->debit_total, 2) }}</td>
+                                        @else
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
+                                        @endif
+                                        
+                                        <td class="text-center" width="6%">
+                                            
+                                            <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
+                                                onclick="acc_107_debt_outbook({{ $item->acc_1102050102_107_id }})"
+                                                data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                data-bs-placement="top" title="ออกจดหมาย">
+                                                <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
+                                                <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
+                                            </a>
+                                        </td> 
+                                        <td class="text-center" width="5%">
+                                            <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
+                                            <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
+                                        </td> 
+                                        
+                                    </tr> 
 
                             
                                 
@@ -251,11 +266,11 @@
                             <thead>
                                 <tr class="Head1">
                                     <th class="text-center">ลำดับ</th>
-                                    {{-- <th class="text-center">an</th>  --}}
+                                    <th class="text-center">an</th> 
                                     <th class="text-center">hn</th>
                                     <th class="text-center">cid</th>
                                     <th class="text-center">ชื่อ-สกุล</th>
-                                    <th class="text-center">วันที่รับบริการ</th>
+                                    <th class="text-center">วันที่จำหน่าย</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
@@ -275,15 +290,15 @@
                                     ?>
                                     <tr height="20" class="detail">
                                     <td class="text-center" width="4%">{{ $number }}</td>
-                                    {{-- <td class="text-center" width="8%">{{ $item->an }}</td>  --}}
+                                    <td class="text-center" width="8%">{{ $item->an }}</td> 
                                     <td class="text-center" width="5%">{{ $item->hn }}</td> 
                                     <td class="text-center" width="7%">{{ $item->cid }}</td> 
                                     <td class="text-start">{{ $item->ptname }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                    <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                     <td class="text-center" width="7%">{{ $item->pttype }}</td>
                                     <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td> 
                                     <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
-                                    <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                    <td class="text-end" width="6%">{{ number_format($item->sumtotal_amount, 2) }}</td> 
                                     <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
                                     <td class="text-center" width="6%">
                                         
@@ -340,76 +355,76 @@
                 });
 
                 $('.PulldataAll').click(function() {  
-                var months = $('#months').val();
-                var year = $('#year').val();
-                // alert(months);
-                Swal.fire({
-                        title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
-                        text: "You Sync Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Sync it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show();  
-                                
-                                $.ajax({
-                                    url: "{{ url('acc_107_debt_sync') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {months,year},
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ซิ้งค์ข้อมูลสำเร็จ',
-                                                text: "You Sync data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
+                    var months = $('#months').val();
+                    var year = $('#year').val();
+                    // alert(months);
+                    Swal.fire({
+                            title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
+                            text: "You Sync Data!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Sync it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show();  
+                                    
+                                    $.ajax({
+                                        url: "{{ url('acc_107_debt_sync') }}",
+                                        type: "POST",
+                                        dataType: 'json',
+                                        data: {months,year},
+                                        success: function(data) {
+                                            if (data.status == 200) { 
+                                                Swal.fire({
+                                                    title: 'ซิ้งค์ข้อมูลสำเร็จ',
+                                                    text: "You Sync data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                            setTimeout(function(){
+                                                                $("#overlay").fadeOut(300);
+                                                            },500);
+                                                    }
+                                                })
 
-                                        } else if (data.status == 100) { 
-                                            Swal.fire({
-                                                title: 'ยังไม่ได้ลงเลขที่หนังสือ',
-                                                text: "Please enter the number of the book.",
-                                                icon: 'warning',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                   
-                                                }
-                                            })
-                                            
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                    })
-            });
+                                            } else if (data.status == 100) { 
+                                                Swal.fire({
+                                                    title: 'ยังไม่ได้ลงเลขที่หนังสือ',
+                                                    text: "Please enter the number of the book.",
+                                                    icon: 'warning',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                    
+                                                    }
+                                                })
+                                                
+                                            } else {
+                                                
+                                            }
+                                        },
+                                    });
+                                    
+                                }
+                        })
+                });
 
             });
 

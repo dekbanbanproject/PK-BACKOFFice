@@ -1721,6 +1721,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_106_debt',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt'])->name('acc.acc_106_debt');//  ทวงหนี้
     Route::match(['get','post'],'acc_106_debt_outbook/{id}',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_outbook'])->name('acc.acc_106_debt_outbook');// 
     Route::match(['get','post'],'acc_106_debt_print/{id}',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_print'])->name('acc.acc_106_debt_print');//  ทวงหนี้
+    Route::match(['get','post'],'acc_106_debt_sync',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_sync'])->name('acc.acc_106_debt_sync');//  ทวงหนี้
     // ************107 IPD**********************
 
     Route::match(['get','post'],'acc_107_dashboard',[App\Http\Controllers\Account107Controller::class, 'acc_107_dashboard'])->name('acc.acc_107_dashboard');//

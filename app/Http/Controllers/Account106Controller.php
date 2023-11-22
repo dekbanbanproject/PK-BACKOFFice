@@ -391,6 +391,7 @@ class Account106Controller extends Controller
         if ($startdate =='') {
             $datashow = DB::connection('mysql')->select('        
                     SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                    ,U1.sumtotal_amount
                     FROM acc_1102050102_106 U1
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
@@ -400,6 +401,7 @@ class Account106Controller extends Controller
         } else {
             $datashow = DB::connection('mysql')->select('        
                 SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                ,U1.sumtotal_amount
                 FROM acc_1102050102_106 U1
                 LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                 LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
@@ -417,6 +419,34 @@ class Account106Controller extends Controller
             'datashow'      =>  $datashow,
         ]);
     }
+
+    public function acc_106_debt_sync(Request $request)
+    { 
+        $sync = DB::connection('mysql2')->select(' 
+                SELECT r.vn,r.finance_number,r.hn,r.bill_amount,r.total_amount
+                ,SUM(r.bill_amount) as s_bill
+                FROM rcpt_print r  
+                WHERE department ="OPD" 
+                AND r.vn IN(SELECT vn FROM pkbackoffice.acc_1102050102_106)
+                GROUP BY r.vn
+            '); 
+            foreach ($sync as $key => $value) { 
+                     
+                Acc_1102050102_106::where('vn',$value->vn) 
+                        ->update([  
+                            'sumtotal_amount'    => $value->s_bill
+                    ]);
+            }
+            return response()->json([
+                'status'    => '200'
+            ]);
+        
+        
+    }
+
+
+
+
     public function acc_106_debt_outbook(Request $request, $id)
     { 
         function Convert($amount_number)

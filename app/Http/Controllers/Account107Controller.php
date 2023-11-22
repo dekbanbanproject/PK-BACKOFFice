@@ -371,7 +371,8 @@ class Account107Controller extends Controller
 
         if ($startdate =='') {
             $datashow = DB::connection('mysql')->select('        
-                    SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                    SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                    ,U1.sumtotal_amount
                     FROM acc_1102050102_107 U1
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
@@ -380,7 +381,8 @@ class Account107Controller extends Controller
             ');
         } else {
             $datashow = DB::connection('mysql')->select('        
-                SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                ,U1.sumtotal_amount
                 FROM acc_1102050102_107 U1
                 LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
                 LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
@@ -397,26 +399,27 @@ class Account107Controller extends Controller
         ]);
     }
     public function acc_107_debt_sync(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $sync = DB::connection('mysql')->select(' 
-                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ac.dchdate 
-                FROM hos.an_stat a
-                LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
-                LEFT JOIN pkbackoffice.acc_1102050102_603 ac ON ac.an = a.an
-                WHERE a.dchdate BETWEEN "'.$startdate.'" 
-                AND "'.$enddate.'" 
-                AND ip.nhso_ownright_pid  <> "" AND ip.nhso_docno  <> "" AND ac.acc_1102050102_603_id <> ""
-                GROUP BY a.an
-                
+    { 
+        $sync = DB::connection('mysql2')->select(' 
+                SELECT a.an,r.finance_number,r.hn,a.pttype,r.bill_amount,r.total_amount
+                ,SUM(r.bill_amount) as s_bill
+
+                FROM rcpt_print r 
+            
+                LEFT OUTER JOIN vn_stat v on v.vn=r.vn  
+                LEFT OUTER JOIN an_stat a on a.an = r.vn  
+                LEFT OUTER JOIN patient p on p.hn=r.hn  
+                LEFT OUTER JOIN pttype t on t.pttype=r.pttype  
+                WHERE department ="IPD" AND a.an IN(SELECT an FROM pkbackoffice.acc_1102050102_107)
+                GROUP BY a.an 
             ');
+            // ,SUM(r.bill_amount) as s_bill 
+            // LEFT OUTER JOIN rcpt_arrear rp on rp.vn = r.vn 
             foreach ($sync as $key => $value) { 
                      
                 Acc_1102050102_107::where('an',$value->an) 
-                        ->update([ 
-                            'nhso_docno'           => $value->nhso_docno ,
-                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                        ->update([  
+                            'sumtotal_amount'    => $value->s_bill
                     ]);
             }
             return response()->json([

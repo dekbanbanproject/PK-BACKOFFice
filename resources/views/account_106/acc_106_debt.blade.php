@@ -190,7 +190,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                     data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -203,6 +203,10 @@
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
+                    </button>
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                        <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
+                        Sync Data All 
                     </button>
                 </div>
             </div>
@@ -249,10 +253,23 @@
                                     <td class="text-start">{{ $item->ptname }}</td> 
                                     <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                     <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                    <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td> 
-                                    <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
-                                    <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                    <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
+                                    @if ($item->paid_money <> ($item->sumtotal_amount+$item->debit_total))
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(243, 141, 7)">{{ number_format($item->income, 2) }}</td> 
+                                        @else
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(54, 230, 156)">{{ number_format($item->income, 2) }}</td> 
+                                        @endif
+                                        <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
+                                        @if ($item->sumtotal_amount == $item->debit_total)
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->debit_total, 2) }}</td>
+                                        @else
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
+                                        @endif
+                                    {{-- <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td>  --}}
+                                    {{-- <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td>  --}}
+                                    {{-- <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td>  --}}
+                                    {{-- <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>   --}}
                                     <td class="text-center" width="6%">
                                         
                                         <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
@@ -560,6 +577,78 @@
                     }
                 });
             });
+
+            $('.PulldataAll').click(function() {  
+                    var months = $('#months').val();
+                    var year = $('#year').val();
+                    // alert(months);
+                    Swal.fire({
+                            title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
+                            text: "You Sync Data!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, Sync it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show();  
+                                    
+                                    $.ajax({
+                                        url: "{{ url('acc_106_debt_sync') }}",
+                                        type: "POST",
+                                        dataType: 'json',
+                                        data: {months,year},
+                                        success: function(data) {
+                                            if (data.status == 200) { 
+                                                Swal.fire({
+                                                    title: 'ซิ้งค์ข้อมูลสำเร็จ',
+                                                    text: "You Sync data success",
+                                                    icon: 'success',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                        $('#spinner').hide();//Request is complete so hide spinner
+                                                            setTimeout(function(){
+                                                                $("#overlay").fadeOut(300);
+                                                            },500);
+                                                    }
+                                                })
+
+                                            } else if (data.status == 100) { 
+                                                Swal.fire({
+                                                    title: 'ยังไม่ได้ลงเลขที่หนังสือ',
+                                                    text: "Please enter the number of the book.",
+                                                    icon: 'warning',
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: '#06D177',
+                                                    confirmButtonText: 'เรียบร้อย'
+                                                }).then((result) => {
+                                                    if (result
+                                                        .isConfirmed) {
+                                                        console.log(
+                                                            data);
+                                                        window.location.reload();
+                                                    
+                                                    }
+                                                })
+                                                
+                                            } else {
+                                                
+                                            }
+                                        },
+                                    });
+                                    
+                                }
+                        })
+                });
         </script>
 
 
