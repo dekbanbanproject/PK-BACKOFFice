@@ -253,7 +253,8 @@
                                     <td class="text-start">{{ $item->ptname }}</td> 
                                     <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                     <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                    @if ($item->paid_money <> ($item->sumtotal_amount+$item->debit_total))
+                                    
+                                        @if ($item->paid_money <> ($item->sumtotal_amount+$item->debit_total))
                                             <td class="text-end" width="8%" style="font-size:12px;color: rgb(243, 141, 7)">{{ number_format($item->income, 2) }}</td> 
                                         @else
                                             <td class="text-end" width="8%" style="font-size:12px;color: rgb(54, 230, 156)">{{ number_format($item->income, 2) }}</td> 
@@ -338,10 +339,34 @@
                                     <td class="text-start">{{ $item->ptname }}</td> 
                                     <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                     <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                    <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td> 
-                                    <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
-                                    <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td> 
-                                    <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>  
+
+                                    @if ($item->paid_money <> ($item->sumtotal_amount+$item->debit_total))
+                                        <td class="text-end" width="8%" style="font-size:12px;color: rgb(243, 141, 7)">{{ number_format($item->income, 2) }}</td> 
+                                    @else
+                                        <td class="text-end" width="8%" style="font-size:12px;color: rgb(54, 230, 156)">{{ number_format($item->income, 2) }}</td> 
+                                    @endif
+
+                                        <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
+                                   
+                                    @if ($item->sumtotal_amount == $item->debit_total)
+                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->debit_total, 2) }}</td>
+                                    @else
+                                            {{-- @if ($item->sumtotal_amount == $item->debit_total)
+                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(23, 235, 129)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(23, 235, 129)">{{ number_format($item->debit_total, 2) }}</td>
+                                            @else
+                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
+                                            @endif --}}
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
+                                        
+                                    @endif
+                                    {{-- <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td>  --}}
+                                    {{-- <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td>  --}}
+                                    {{-- <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td>  --}}
+                                    {{-- <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>   --}}
                                     <td class="text-center" width="6%">
                                         
                                         <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
