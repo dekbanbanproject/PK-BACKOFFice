@@ -197,10 +197,8 @@
                                                                         <label for="fname" class="form-label"
                                                                         style="color: rgb(247, 84, 43)">{{ $collection2 }}
                                                                             {{ $collection3 }}</label>
-                                                                        <input type="hidden" class="form-control" id="fname"
-                                                                            value="{{ $collection2 }}">
-                                                                        <input type="hidden" class="form-control" id="lname"
-                                                                            value="{{ $collection3 }}">
+                                                                        <input type="hidden" class="form-control" id="fname" value="{{ $collection2 }}">
+                                                                        <input type="hidden" class="form-control" id="lname" value="{{ $collection3 }}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -374,7 +372,7 @@
                                                                                 <div class="row">
                                                                                     <div class="col-md-1 text-end">   <label for="mobile" class="form-label">คำนำหน้า </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="" id="" class="form-control" style="width: 100%">
+                                                                                            <select name="pname_p" id="pname_p" class="form-control" style="width: 100%">
                                                                                                 @foreach ($pname as $item_p)
                                                                                                 @if ($collection15 == $item_p->provis_code)
                                                                                                 <option value="{{$item_p->name}}" selected>{{$item_p->name}}</option>
@@ -384,25 +382,24 @@
                                                                                                 @endforeach 
                                                                                             </select>  
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end"><label for="mobile" class="form-label">ชื่อ </label> </div>
+                                                                                    <div class="col-md-1 text-end"><label for="fname" class="form-label">ชื่อ </label> </div>
                                                                                     <div class="col-md-2 mb-2">  
-                                                                                            <input type="text" class="form-control form-control-sm" id="fname" name="fname" value="{{$collection2}}" style="font-size: 13px"> 
+                                                                                            <input type="text" class="form-control form-control-sm" id="fname_p" name="fname_p" value="{{$collection2}}" style="font-size: 13px"> 
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end"><label for="mobile" class="form-label">นามสกุล </label> </div>
+                                                                                    <div class="col-md-1 text-end"><label for="lname" class="form-label">นามสกุล </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <input type="text" class="form-control form-control-sm" id="lname" name="lname" value="{{$collection3}}" style="font-size: 13px"> 
+                                                                                            <input type="text" class="form-control form-control-sm" id="lname_p" name="lname_p" value="{{$collection3}}" style="font-size: 13px"> 
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end"><label for="mobile" class="form-label">CID </label> </div>
+                                                                                    <div class="col-md-1 text-end"><label for="cid" class="form-label">CID </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <input type="text" class="form-control form-control-sm" id="cid" name="cid" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px">
+                                                                                            <input type="text" class="form-control form-control-sm" id="cid_p" name="cid_p" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px">
                                                                                         
-                                                                                    </div>
-                                                                                    
+                                                                                    </div>                                                                                    
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สถานภาพ </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="marrystatus_p" class="form-label">สถานภาพ </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="marrystatus" id="marrystatus" class="form-control" style="width: 100%">
+                                                                                            <select name="marrystatus_p" id="marrystatus_p" class="form-control" style="width: 100%">
                                                                                                 @foreach ($marrystatus as $item_ma)
                                                                                                 <option value="{{$item_ma->code}}">{{$item_ma->name}}</option>
                                                                                                 @endforeach 
@@ -410,7 +407,7 @@
                                                                                     </div>
                                                                                     <div class="col-md-1 text-end"> <label for="mobile" class="form-label">เชื้อชาติ </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="citizenship" id="citizenship" class="form-control " style="width: 100%">
+                                                                                            <select name="citizenship_p" id="citizenship_p" class="form-control " style="width: 100%">
                                                                                                 @foreach ($nationality as $item_na)
                                                                                                 @if ($collection14 == $item_na->code)
                                                                                                 <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
@@ -422,7 +419,7 @@
                                                                                     </div> 
                                                                                     <div class="col-md-1 text-end">   <label for="mobile" class="form-label">สัญชาติ </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="nationality" id="nationality" class="form-control" style="width: 100%">
+                                                                                            <select name="nationality_p" id="nationality_p" class="form-control" style="width: 100%">
                                                                                                 @foreach ($nationality as $item_na)
                                                                                                 @if ($collection14 == $item_na->code)
                                                                                                 <option value="{{$item_na->code}}" selected>{{$item_na->name}}</option>
@@ -435,35 +432,35 @@
                                                                                     <div class="col-md-1 text-end">   <label for="mobile" class="form-label">เพศ </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
                                                                                             @if ($collection13 =='ชาย') 
-                                                                                            <input type="hidden" class="form-control" id="sex" name="sex" value="1">
+                                                                                            <input type="hidden" class="form-control" id="sex_p" name="sex_p" value="1">
                                                                                             <input type="text" class="form-control form-control-sm" id="" name="" value="ชาย">
                                                                                             @else 
-                                                                                            <input type="hidden" class="form-control" id="sex" name="sex" value="2">
+                                                                                            <input type="hidden" class="form-control" id="sex_p" name="sex_p" value="2">
                                                                                             <input type="text" class="form-control form-control-sm" id="" name="" value="หญิง">
                                                                                             @endif  
                                                                                     </div> 
                                                                                 </div>  
                                                                                 <div class="row">
-                                                                                    <div class="col-md-1 text-end">   <label for="mobile" class="form-label">บ้านเลขที่ </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="addrpart_p" class="form-label">บ้านเลขที่ </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                        <input type="text" class="form-control form-control-sm" id="addrpart" name="addrpart" style="font-size: 13px">
+                                                                                        <input type="text" class="form-control form-control-sm" id="addrpart_p" name="addrpart_p" style="font-size: 13px">
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end">   <label for="mobile" class="form-label">หมู่ที่ </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="moopart_p" class="form-label">หมู่ที่ </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                        <input type="text" class="form-control form-control-sm" id="moopart" name="moopart" value="{{$primary_moo}}" style="font-size: 13px">
+                                                                                        <input type="text" class="form-control form-control-sm" id="moopart_p" name="moopart_p" value="{{$primary_moo}}" style="font-size: 13px">
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end">   <label for="hometel" class="form-label">เบอร์โทร </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="hometel_p" class="form-label">เบอร์โทร </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
                                                                                         @if ($hometel == '')
-                                                                                            <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" style="font-size: 13px;background-color: rgb(252, 163, 157)">
+                                                                                            <input type="text" class="form-control shadow-lg" id="hometel_p" name="hometel_p" style="font-size: 13px;background-color: rgb(252, 163, 157)">
                                                                                         @else
-                                                                                            <input type="text" class="form-control shadow-lg" id="hometel" name="hometel" value="{{ $hometel }}" style="font-size: 13px;background-color: aquamarine">
+                                                                                            <input type="text" class="form-control shadow-lg" id="hometel_p" name="hometel_p" value="{{ $hometel }}" style="font-size: 13px;background-color: aquamarine">
                                                                                         @endif 
                                                                                         {{-- <input type="text" class="form-control form-control-sm" id="hometel" name="hometel" style="font-size: 13px"> --}}
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end">   <label for="province" class="form-label">หมู่เลือด </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="bloodgrp_p" class="form-label">หมู่เลือด </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="bloodgrp" id="bloodgrp" class="form-control" style="width: 100%">
+                                                                                            <select name="bloodgrp_p" id="bloodgrp_p" class="form-control" style="width: 100%">
                                                                                                 <option value="">--Choose--</option>
                                                                                                 @foreach ($blood_group as $item_bloo)
                                                                                                 @if ($bloodgrp == $item_bloo->name)
@@ -477,22 +474,21 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row">
-                                                                                    <div class="col-md-1 text-end">   <label for="province" class="form-label">จังหวัด </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="chwpart_p" class="form-label">จังหวัด </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="province" id="province" class="form-control province" style="width: 100%">
+                                                                                            <select name="chwpart_p" id="chwpart_p" class="form-control province" style="width: 100%">
                                                                                                 @foreach ($thaiaddress_provine as $item_prov)
                                                                                                 @if ($chwpart == $item_prov->name)
                                                                                                 <option value="{{$item_prov->chwpart}}" selected>{{$item_prov->name}}</option>
                                                                                                 @else
                                                                                                 <option value="{{$item_prov->chwpart}}">{{$item_prov->name}}</option>
-                                                                                                @endif
-                                                                                                
+                                                                                                @endif                                                                                                
                                                                                                 @endforeach 
                                                                                             </select>  
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end">   <label for="amphur" class="form-label">อำเภอ </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="amppart_p" class="form-label">อำเภอ </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="amphur" id="amphur" class="form-control amphur" style="width: 100%">
+                                                                                            <select name="amppart_p" id="amppart_p" class="form-control amphur" style="width: 100%">
                                                                                                 @foreach ($thaiaddress_amphur as $item_amp)
                                                                                                 @if ($amppart == $item_amp->name)
                                                                                                 <option value="{{$item_amp->amppart}}" selected>{{$item_amp->name}}</option>
@@ -503,11 +499,10 @@
                                                                                                 @endforeach 
                                                                                             </select>  
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end">   <label for="tumbon" class="form-label">ตำบล </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="tmbpart_p" class="form-label">ตำบล </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="tumbon" id="tumbon" class="form-control tumbon" style="width: 100%">
-                                                                                                @foreach ($thaiaddress_tumbon as $item_tum)
-                                                                                            
+                                                                                            <select name="tmbpart_p" id="tmbpart_p" class="form-control tumbon" style="width: 100%">
+                                                                                                @foreach ($thaiaddress_tumbon as $item_tum)                                                                                            
                                                                                                 @if ($tmbpart == $item_tum->name)
                                                                                                 <option value="{{$item_tum->tmbpart}}" selected>{{$item_tum->name}}</option>
                                                                                                 @else
@@ -517,23 +512,27 @@
                                                                                                 @endforeach 
                                                                                             </select>  
                                                                                     </div>
-                                                                                    <div class="col-md-1 text-end">   <label for="pocode" class="form-label">รหัสไปรษณีย์ </label> </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="po_code_p" class="form-label">รหัสไปรษณีย์ </label> </div>
                                                                                     <div class="col-md-2 mb-2">    
                                                                                             {{-- <select name="pocode" id="pocode" class="form-control pocode" style="width: 100%">
                                                                                                 @foreach ($thaiaddress_po_code as $item_po)
                                                                                                 <option value="{{$item_po->po_code}}">{{$item_po->po_code}}</option>                                                                                            
                                                                                                 @endforeach 
                                                                                                 </select>  --}}
-                                                                                                <input class="form-control pocode" type="text" name="pocode" id="pocode" value="{{$po_code}}">
+                                                                                                <input class="form-control pocode" type="text" name="po_code_p" id="po_code_p" value="{{$po_code}}">
                                                                                     </div>
                                                                                 </div>  
                                                                                        
                                                                         </div>
                                                                     </div> 
+ 
+                                                                    <input type="hidden" class="form-control" id="hos_guid_p" name="hos_guid_p" value="{{ $hos_guid }}">  
+                                                                    <input type="hidden" class="form-control" id="hcode_p" name="hcode_p" value="{{ $hcode }}">  
+                                                                    
                                                                     <div class="row mt-3">
                                                                         <div class="col"></div>
                                                                         <div class="col-md-8 text-center">  
-                                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="OpenVisit"> 
+                                                                            <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Registerpatient"> 
                                                                                 <i class="fa-solid fa-heart-circle-bolt ms-4 me-4 mt-2" style="font-size: 18px;color:rgb(136, 43, 241)"></i>
                                                                                 <label for="" style="font-size: 18px;color:rgb(136, 43, 241)" class="me-3 mt-2">ลงทะเบียนผู้ป่วย</label>
                                                                             </button>
@@ -1122,7 +1121,7 @@
                     var pt_walk        = $('#pt_walk').val(); 
                     var cc             = $('#cc').val(); 
                     var time           = $('#time').val(); 
-                // alert(hos_guid);
+                   // alert(hos_guid);
                     $.ajax({
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         url: "{{ route('a.authencode_visit_save') }}",
@@ -1158,7 +1157,7 @@
 
                         },
                     });
-            });
+                }); 
 
             });
 
@@ -1213,6 +1212,72 @@
                         }) 
                     }        
             });
+
+
+            $('#Registerpatient').click(function() { 
+                    var pname_p           = $('#pname_p').val();
+                    var fname_p           = $('#fname_p').val();
+                    var lname_p           = $('#lname_p').val();
+                    var cid_p             = $('#cid_p').val(); 
+                    var marrystatus_p     = $('#marrystatus_p').val(); 
+                    var citizenship_p     = $('#citizenship_p').val(); 
+                    var nationality_p     = $('#nationality_p').val(); 
+                    var sex_p             = $('#sex_p').val(); 
+                    var addrpart_p        = $('#addrpart_p').val(); 
+                    var moopart_p         = $('#moopart_p').val(); 
+                    var hometel_p         = $('#hometel_p').val(); 
+                    var bloodgrp_p        = $('#bloodgrp_p').val(); 
+                    var chwpart_p         = $('#chwpart_p').val(); 
+                    var amppart_p         = $('#amppart_p').val(); 
+                    var tmbpart_p         = $('#tmbpart_p').val(); 
+                    var po_code_p         = $('#po_code_p').val(); 
+                    var hos_guid_p        = $('#hos_guid_p').val(); 
+                    var hcode_p           = $('#hcode_p').val(); 
+                    // var cc             = $('#cc').val(); 
+                    // var time           = $('#time').val(); 
+                    alert(hos_guid_p);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });  
+                    $.ajax({             
+                        url: "{{ route('a.authencode_patient_save') }}",
+                        type: "POST",
+                        dataType: 'json',
+                        // processData: false, 
+                        // contentType: false,
+                        data: { 
+                            hos_guid,pname_p,fname_p,lname_p
+                            ,cid_p,marrystatus_p ,citizenship_p,nationality_p
+                            ,sex_p,addrpart_p,moopart_p,hometel_p
+                            ,bloodgrp_p,chwpart_p,amppart_p,tmbpart_p
+                            ,po_code_p,hos_guid_p,hcode_p
+                        },                        
+                        success: function(data) {
+                            if (data.status == 200) {
+                                Swal.fire({
+                                    title: 'ลงทะเบียนผู้ป่วยสำเร็จ',
+                                    text: "Successfully registered patient",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result
+                                        .isConfirmed) {
+                                        console.log(
+                                            data);
+                                        window.location.reload();
+                                        // window.location="{{ url('warehouse/warehouse_index') }}";
+                                    }
+                                })
+                            } else {
+
+                            }
+                        },
+                    });
+                });
  
     </script>
     

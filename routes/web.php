@@ -130,6 +130,7 @@ Route::match(['get','post'],'fetch_pocode', [App\Http\Controllers\AuthencodeCont
 
 Route::POST('authencode', [App\Http\Controllers\AuthencodeController::class, 'authencode'])->name('a.authencode');
 Route::match(['get','post'],'authencode_visit', [App\Http\Controllers\AuthencodeController::class, 'authencode_visit'])->name('a.authencode_visit');
+Route::match(['get','post'],'authencode_patient_save', [App\Http\Controllers\AuthencodeController::class, 'authencode_patient_save'])->name('a.authencode_patient_save');
 Route::match(['get','post'],'authencode_visit_save', [App\Http\Controllers\AuthencodeController::class, 'authencode_visit_save'])->name('a.authencode_visit_save');
 Route::POST('authen_save', [App\Http\Controllers\AuthencodeController::class, 'authen_save'])->name('a.authen_save');
 Route::match(['get','post'],'authencode_index',[App\Http\Controllers\AUTHENCHECKController::class,'authencode_index'])->name('aa.authencode_index');

@@ -359,6 +359,53 @@ class AuthencodeController extends Controller
 
     }
 
+    public function authencode_patient_save(Request $request)
+    {
+        $hos_guid                  = $request->hos_guid_p;
+        $pname                     = $request->pname_p;
+        $fname                     = $request->fname_p;
+        $lname                     = $request->lname_p;
+        $cid                       = $request->cid_p;
+        $marrystatus               = $request->marrystatus_p;
+        $citizenship               = $request->citizenship_p;
+        $nationality               = $request->nationality_p;
+        $sex                       = $request->sex_p;
+        $addrpart                  = $request->addrpart_p;
+        $moopart                   = $request->moopart_p;
+        $hometel                   = $request->hometel_p;
+        $bloodgrp                  = $request->bloodgrp_p;
+        $chwpart                   = $request->chwpart_p;
+        $amppart                   = $request->amppart_p;
+        $tmbpart                   = $request->tmbpart_p;
+        $po_code                   = $request->po_code_p;
+        $hcode                     = $request->hcode_p;
+       dd($hos_guid);
+        $max_hn = Patient::max('hn')+1;
+        Patient::insert([
+            'hos_guid'             => $hos_guid,
+            'pname'                => $pname,
+            'fname'                => $fname,
+            'cid'                  => $cid,
+            'marrystatus'          => $marrystatus,
+            'citizenship'          => $citizenship,
+            'nationality'          => $nationality,
+            'sex'                  => $sex,
+            'addrpart'             => $addrpart,
+            'moopart'              => $moopart,
+            'hometel'              => $hometel,
+            'bloodgrp'             => $bloodgrp,
+            'chwpart'              => $chwpart,
+            'amppart'              => $amppart,
+            'tmbpart'              => $tmbpart,
+            'po_code'              => $po_code,
+            'hcode'                => $hcode,
+            'hn'                   => $max_hn,
+        ]);
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
+
     public function authencode_visit_save(Request $request)
     {
         $hos_guid       = $request->hos_guid;
