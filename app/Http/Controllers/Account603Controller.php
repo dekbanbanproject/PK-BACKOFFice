@@ -322,7 +322,7 @@ class Account603Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+            SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.nhso_ownright_name
             ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
                 from acc_1102050102_603 U1
                 
@@ -342,7 +342,7 @@ class Account603Controller extends Controller
         $months = $request->months;
         $year = $request->year;
         $sync = DB::connection('mysql')->select(' 
-                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ac.dchdate 
+                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ip.nhso_ownright_name,ac.dchdate 
                 FROM hos.an_stat a
                 LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
                 LEFT JOIN pkbackoffice.acc_1102050102_603 ac ON ac.an = a.an
@@ -357,7 +357,8 @@ class Account603Controller extends Controller
                     Acc_1102050102_603::where('an',$value->an) 
                         ->update([ 
                             'nhso_docno'           => $value->nhso_docno ,
-                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid,
+                            'nhso_ownright_name'   => $value->nhso_ownright_name
                     ]);
             }
             return response()->json([
@@ -488,7 +489,7 @@ class Account603Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+            SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.nhso_ownright_name
             ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
                 from acc_1102050102_603 U1
                 
@@ -507,7 +508,7 @@ class Account603Controller extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $sync = DB::connection('mysql')->select(' 
-                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ac.dchdate 
+                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ac.dchdate ,ip.nhso_ownright_name
                 FROM hos.an_stat a
                 LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
                 LEFT JOIN pkbackoffice.acc_1102050102_603 ac ON ac.an = a.an
@@ -522,7 +523,8 @@ class Account603Controller extends Controller
                     Acc_1102050102_603::where('an',$value->an) 
                         ->update([ 
                             'nhso_docno'           => $value->nhso_docno ,
-                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid,
+                            'nhso_ownright_name'   => $value->nhso_ownright_name
                     ]);
             }
             return response()->json([

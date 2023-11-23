@@ -323,7 +323,7 @@ class Account602Controller extends Controller
         $data = DB::select('
        
             SELECT U1.acc_1102050102_602_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-            ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
+            ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.nhso_ownright_name 
             from acc_1102050102_602 U1 
            
             WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"           
@@ -491,7 +491,7 @@ class Account602Controller extends Controller
         $months = $request->months;
         $year = $request->year;
         $sync = DB::connection('mysql')->select('   
-                SELECT ac.acc_1102050102_602_id,o.an,o.hn,v.vn,ac.vstdate,v.pttype,v.nhso_ownright_pid,v.nhso_docno 
+                SELECT ac.acc_1102050102_602_id,o.an,o.hn,v.vn,ac.vstdate,v.pttype,v.nhso_ownright_pid,v.nhso_docno,v.nhso_ownright_name 
                 from hos.visit_pttype v
                 LEFT JOIN hos.ovst o ON o.vn = v.vn
                 LEFT JOIN pkbackoffice.acc_1102050102_602 ac ON ac.vn = v.vn                   
@@ -507,7 +507,8 @@ class Account602Controller extends Controller
                     Acc_1102050102_602::where('acc_1102050102_602_id',$value->acc_1102050102_602_id) 
                         ->update([ 
                             'nhso_docno'           => $value->nhso_docno ,
-                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid,
+                            'nhso_ownright_name'   => $value->nhso_ownright_name
                     ]);
             }
             return response()->json([
@@ -525,7 +526,7 @@ class Account602Controller extends Controller
         $data = DB::select('
        
             SELECT U1.acc_1102050102_602_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
-            ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
+            ,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.nhso_ownright_name 
             from acc_1102050102_602 U1 
            
             WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"           
@@ -582,12 +583,11 @@ class Account602Controller extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $sync = DB::connection('mysql')->select('   
-                SELECT ac.acc_1102050102_602_id,o.an,o.hn,v.vn,ac.vstdate,v.pttype,v.nhso_ownright_pid,v.nhso_docno 
+                SELECT ac.acc_1102050102_602_id,o.an,o.hn,v.vn,ac.vstdate,v.pttype,v.nhso_ownright_pid,v.nhso_docno ,v.nhso_ownright_name
                 from hos.visit_pttype v
                 LEFT JOIN hos.ovst o ON o.vn = v.vn
                 LEFT JOIN pkbackoffice.acc_1102050102_602 ac ON ac.vn = v.vn                   
-                WHERE o.vstdate BETWEEN "'.$startdate.'" 
-                AND  "'.$enddate.'"
+                WHERE o.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
                 AND v.nhso_docno  <> ""
                 AND ac.acc_1102050102_602_id <> ""
                 GROUP BY v.vn
@@ -598,7 +598,8 @@ class Account602Controller extends Controller
                     Acc_1102050102_602::where('acc_1102050102_602_id',$value->acc_1102050102_602_id) 
                         ->update([ 
                             'nhso_docno'           => $value->nhso_docno ,
-                            'nhso_ownright_pid'    => $value->nhso_ownright_pid
+                            'nhso_ownright_pid'    => $value->nhso_ownright_pid,
+                            'nhso_ownright_name'   => $value->nhso_ownright_name
                     ]);
             }
             return response()->json([

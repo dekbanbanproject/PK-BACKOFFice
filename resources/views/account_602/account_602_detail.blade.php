@@ -112,6 +112,7 @@
                                     <th class="text-center">ยอดชดเชย</th> 
                                     <th class="text-center" width="5%">ลูกหนี้</th>
                                     <th class="text-center">เลขที่หนังสือ</th>
+                                    <th class="text-center">วันที่</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -148,6 +149,7 @@
                                                 </button>
                                             @endif 
                                         </td>
+                                        <td class="text-center" width="10%">{{ $item->nhso_ownright_name }}</td>
                                     </tr>
 
                                     {{-- @endif --}}

@@ -82,8 +82,52 @@ class AuthencodeController extends Controller
                 // $patient =  DB::connection('mysql')->select('select cid,hometel from patient limit 10');
                 $output2 = Arr::sort($collection);
                 $hcode = $output2['hospMain']['hcode'];
-                //  dd($collection);
-                $data_patient_ = DB::connection('mysql2')->select(' 
+                //  dd($collection['pid']);   
+                $pidscheck = $collection['pid'];            
+                $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+                foreach ($token_data as $key => $value) {
+                    $cid_    = $value->cid;
+                    $token_  = $value->token;
+                }
+                $client = new SoapClient(
+                    "http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                    array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace" => 1, "exceptions" => 0, "cache_wsdl" => 0)
+                );
+                $params = array(
+                    'sequence' => array(
+                        "user_person_id" => "$cid_",
+                        "smctoken"       => "$token_",
+                        "person_id"      => "$pidscheck"
+                    )
+                );
+                $contents = $client->__soapCall('searchCurrentByPID', $params);
+                // dd($contents);
+                foreach ($contents as $v) {
+                    @$status                   = $v->status;
+                    @$maininscl                = $v->maininscl;  // maininscl": "WEL"
+                    @$startdate                = $v->startdate;  //"25650728"
+                    @$hmain                    = $v->hmain;   //"11066"
+                    @$subinscl                 = $v->subinscl;    //subinscl": "73"
+                    @$person_id_nhso           = $v->person_id;
+                    if (@$maininscl == 'WEL') {
+                        @$cardid                    = $v->cardid;  // "R73450035286038"
+                    } else {
+                        $cardid = '';
+                    } 
+                    @$hmain_op                 = $v->hmain_op;  //"10978"
+                    @$hmain_op_name            = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                    @$hsub                     = $v->hsub;    //"04047"
+                    @$hsub_name                = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                    @$subinscl_name            = $v->subinscl_name; //"ช่วงอายุ 12-59 ปี"
+                    @$primary_amphur_name      = $v->primary_amphur_name;  // อำเภอ  "โพนทอง"
+                    @$primary_moo              = $v->primary_moo;    //หมู่ที่ 01
+                    @$primary_mooban_name      = $v->primary_mooban_name;  // ชื่อหมู่บ้าน  "หนองนกแก้ว"
+                    @$primary_tumbon_name      = $v->primary_tumbon_name;   //ชื่อตำบล   "สระนกแก้ว"
+                    @$primary_province_name    = $v->primary_province_name;  //ชื่อจังหวัด
+                }
+                $check_cid = DB::connection('mysql2')->table('patient')->where('cid','=',$collection['pid'])->count();
+                if ($check_cid > 0) {
+                    $data_patient_ = DB::connection('mysql2')->select(' 
                                 SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
                                 ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,p.cid,p.hcode,p.last_visit,p.hometel
                                 ,p.bloodgrp
@@ -93,19 +137,34 @@ class AuthencodeController extends Controller
                                 LEFT OUTER JOIN hospcode h ON h.chwpart = p.chwpart AND h.amppart = p.amppart AND h.tmbpart = p.tmbpart
                                 WHERE p.cid = "' . $collection['pid'] . '"
                                 GROUP BY p.hn
-                ');
-                foreach ($data_patient_ as $key => $value) {
-                    $pids          = $value->cid;
-                    $hcode         = $value->hcode;
-                    $hn            = $value->hn;
-                    $last_visit    = $value->last_visit;
-                    $hometel       = $value->hometel;
-                    $chwpart       = $value->chwpart;
-                    $amppart       = $value->amppart;
-                    $tmbpart       = $value->tmbpart;
-                    $po_code       = $value->po_code;
-                    $bloodgrp       = $value->bloodgrp;
+                    ');
+                    foreach ($data_patient_ as $key => $value) {
+                        $pids          = $value->cid;
+                        $hcode         = $value->hcode;
+                        $hn            = $value->hn;
+                        $last_visit    = $value->last_visit;
+                        $hometel       = $value->hometel;
+                        $chwpart       = $value->chwpart;
+                        $amppart       = $value->amppart;
+                        $tmbpart       = $value->tmbpart;
+                        $po_code       = $value->po_code;
+                        $bloodgrp      = $value->bloodgrp;
+                    }
+                } else {
+                        $pids          = $collection['pid'];
+                        $hcode         = '';
+                        $hn            = '';
+                        $last_visit    = '';
+                        $hometel       = '';
+                        $chwpart       = $primary_province_name;
+                        $amppart       = $primary_amphur_name;
+                        $tmbpart       = $primary_tumbon_name;
+                        $po_code       = '';
+                        $bloodgrp      = '';
+                    
                 }
+                
+                
                 // dd($hcode);
                 $year = substr(date("Y"), 2) + 43;
                 $mounts = date('m');
@@ -160,47 +219,7 @@ class AuthencodeController extends Controller
                     $hos_guid = $value_->keygen;
                 }
 
-                $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-                foreach ($token_data as $key => $value) {
-                    $cid_    = $value->cid;
-                    $token_  = $value->token;
-                }
-                $client = new SoapClient(
-                    "http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
-                    array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace" => 1, "exceptions" => 0, "cache_wsdl" => 0)
-                );
-                $params = array(
-                    'sequence' => array(
-                        "user_person_id" => "$cid_",
-                        "smctoken"       => "$token_",
-                        "person_id"      => "$pids"
-                    )
-                );
-                $contents = $client->__soapCall('searchCurrentByPID', $params);
-                // dd($contents);
-                foreach ($contents as $v) {
-                    @$status                   = $v->status;
-                    @$maininscl                = $v->maininscl;  // maininscl": "WEL"
-                    @$startdate                = $v->startdate;  //"25650728"
-                    @$hmain                    = $v->hmain;   //"11066"
-                    @$subinscl                 = $v->subinscl;    //subinscl": "73"
-                    @$person_id_nhso           = $v->person_id;
-                    if (@$maininscl == 'WEL') {
-                        @$cardid                    = $v->cardid;  // "R73450035286038"
-                    } else {
-                        $cardid = '';
-                    } 
-                    @$hmain_op                 = $v->hmain_op;  //"10978"
-                    @$hmain_op_name            = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
-                    @$hsub                     = $v->hsub;    //"04047"
-                    @$hsub_name                = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
-                    @$subinscl_name            = $v->subinscl_name; //"ช่วงอายุ 12-59 ปี"
-                    @$primary_amphur_name      = $v->primary_amphur_name;  // อำเภอ  "โพนทอง"
-                    @$primary_moo              = $v->primary_moo;    //หมู่ที่ 01
-                    @$primary_mooban_name      = $v->primary_mooban_name;  // ชื่อหมู่บ้าน  "หนองนกแก้ว"
-                    @$primary_tumbon_name      = $v->primary_tumbon_name;   //ชื่อตำบล   "สระนกแก้ว"
-                    @$primary_province_name    = $v->primary_province_name;  //ชื่อจังหวัด
-                }
+                
               
                 // foreach ($output5 as $key => $value_ovst_key) { 
                 //     $ovst_key = $value_ovst_key->ovst_key; 

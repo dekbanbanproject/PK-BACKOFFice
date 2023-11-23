@@ -91,7 +91,7 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-3 text-end">
+                <div class="col-md-4 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -99,18 +99,19 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
+                            <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                                ค้นหา
+                            </button>
                     </div>
                 </div>
-                <div class="col-md-2 text-start">
+                {{-- <div class="col-md-2 text-start">
                     <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    {{-- <a href="{{url('account_603_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                        ดึงข้อมูล
-                    </a> --}}
-                </div>
+                  
+                </div> --}}
 
             </div>
         </form>
