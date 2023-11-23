@@ -198,8 +198,10 @@ class AuthencodeController extends Controller
                 $data['thaiaddress_po_code'] =  DB::connection('mysql10')->select('SELECT chwpart,amppart,tmbpart,po_code FROM hospcode WHERE po_code <>"" GROUP BY po_code');
                 $data['blood_group'] =  DB::connection('mysql10')->select('select name from blood_group order by name');
                 $data['informrelation_list'] =  DB::connection('mysql10')->select('select name from informrelation_list');
-                
+                $data['religion'] =  DB::connection('mysql10')->select('SELECT * FROM religion');
+                $data['occupation'] =  DB::connection('mysql10')->select('SELECT * FROM occupation');
 
+                
                 // $data['thaiaddress_provinces'] =  DB::connection('mysql10')->select(' select * from thaiaddress_provinces');
                 // $data['thaiaddress_amphures'] =  DB::connection('mysql10')->select(' select * from thaiaddress_amphures');
                 // $data['thaiaddress_districts'] =  DB::connection('mysql10')->select(' select * from thaiaddress_districts');
@@ -399,6 +401,8 @@ class AuthencodeController extends Controller
         $spslname_p                = $request->spslname_p;
         $father_cid                = $request->father_cid_p;
         $mother_cid                = $request->mother_cid_p;
+        $religion                  = $request->religion_p;
+        $occupation                = $request->occupation_p;
         
         // dd($amppart);
 
@@ -456,6 +460,8 @@ class AuthencodeController extends Controller
             'hcode'                => $hcode,
             'birthday'             => $birthday_,
             'firstday'             => $date,
+            'religion'             => $religion,
+            'occupation'           => $occupation,
             // 'pttype'               => $pttype,
             'last_update'          => $last_update,
             'country'              => $country_p,
