@@ -286,7 +286,7 @@
                                                                         @if ($hometel == '')
                                                                             <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" required style="background-color: rgb(252, 163, 157);color:white">
                                                                         @else
-                                                                            <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" value="{{ $hometel }}" style="background-color: aquamarine;color:white">
+                                                                            <input type="text" class="form-control shadow-lg" id="mobile" name="mobile" value="{{ $hometel }}" style="background-color: aquamarine;color:rgb(6, 115, 187)">
                                                                         @endif  
                                                                 </div>  
                                                             </div>
@@ -310,7 +310,7 @@
                                                                         @if ($hn == '')
                                                                             <input type="text" class="form-control shadow-lg" id="hn" name="hn" style="background-color: rgb(252, 163, 157);color:white" readonly>
                                                                         @else
-                                                                            <input type="text" class="form-control shadow-lg" id="hn" name="hn" value="{{ $hn }}" style="background-color: aquamarine;color:white" readonly>
+                                                                            <input type="text" class="form-control shadow-lg" id="hn" name="hn" value="{{ $hn }}" style="background-color: aquamarine;color:rgb(6, 115, 187)" readonly>
                                                                         @endif  
                                                                 </div>
                                                                 <div class="col"></div>
@@ -571,6 +571,10 @@
                                                                                                 @endforeach 
                                                                                             </select>  
                                                                                     </div> 
+                                                                                    <div class="col-md-1 text-end">   <label for="informtel_p" class="form-label">เบอร์โทร </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control form-control-sm" id="informtel_p" name="informtel_p" style="font-size: 13px">
+                                                                                    </div>
                                                                                 </div>
 
                                                                                 <div class="row">
@@ -1192,7 +1196,7 @@
                     var mother_cid_p      = $('#mother_cid_p').val(); 
                     var religion_p        = $('#religion_p').val(); 
                     var occupation_p      = $('#occupation_p').val(); 
-                    
+                    var informtel_p      = $('#informtel_p').val(); 
                     // alert(hos_guid_p);
                       
                     $.ajax({     
@@ -1206,7 +1210,7 @@
                             ,sex_p,addrpart_p,moopart_p,hometel_p,bloodgrp_p,chwpart_p,amppart_p,tmbpart_p
                             ,po_code_p,hos_guid_p,hcode_p,birthDate_p,lang_p,country_p,informname_p,informrelation_p
                             ,fathername_p,fatherlname_p,mothername_p,motherlname_p,spsname_p,spslname_p,father_cid_p
-                            ,mother_cid_p,religion_p,occupation_p
+                            ,mother_cid_p,religion_p,occupation_p,informtel_p
                         },                        
                         success: function(data) {
                             if (data.status == 200) {

@@ -403,6 +403,7 @@ class AuthencodeController extends Controller
         $mother_cid                = $request->mother_cid_p;
         $religion                  = $request->religion_p;
         $occupation                = $request->occupation_p;
+        $informtel                 = $request->informtel_p;
         
         // dd($amppart);
 
@@ -462,6 +463,7 @@ class AuthencodeController extends Controller
             'firstday'             => $date,
             'religion'             => $religion,
             'occupation'           => $occupation,
+            'informtel'            => $informtel,
             // 'pttype'               => $pttype,
             'last_update'          => $last_update,
             'country'              => $country_p,
