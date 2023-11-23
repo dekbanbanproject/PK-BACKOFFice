@@ -102,6 +102,7 @@ class AuthencodeController extends Controller
                 );
                 $contents = $client->__soapCall('searchCurrentByPID', $params);
                 // dd($contents);
+                //   dd($hcode);
                 foreach ($contents as $v) {
                     @$status                   = $v->status;
                     @$maininscl                = $v->maininscl;  // maininscl": "WEL"
@@ -126,6 +127,7 @@ class AuthencodeController extends Controller
                     @$primary_province_name    = $v->primary_province_name;  //ชื่อจังหวัด
                 }
                 $check_cid = DB::connection('mysql2')->table('patient')->where('cid','=',$collection['pid'])->count();
+                $check_hcode = DB::connection('mysql')->table('orginfo')->where('orginfo_id','=','1')->first();
                 if ($check_cid > 0) {
                     $data_patient_ = DB::connection('mysql2')->select(' 
                                 SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
@@ -152,7 +154,7 @@ class AuthencodeController extends Controller
                     }
                 } else {
                         $pids          = $collection['pid'];
-                        $hcode         = '';
+                        $hcode         = $check_hcode->orginfo_code;
                         $hn            = '';
                         $last_visit    = '';
                         $hometel       = '';
@@ -164,6 +166,7 @@ class AuthencodeController extends Controller
                     
                 }
                 
+                $check_pttype = DB::connection('mysql2')->table('pttype')->where('hipdata_pttype','=',$subinscl)->get();
                 
                 // dd($hcode);
                 $year = substr(date("Y"), 2) + 43;
@@ -188,12 +191,15 @@ class AuthencodeController extends Controller
                 $data['pt_subtype'] =  DB::connection('mysql10')->select('select * from pt_subtype order by pt_subtype');
                 $data['pname'] =  DB::connection('mysql10')->select('select * from pname order by name');
                 $data['marrystatus'] =  DB::connection('mysql10')->select('select code,name from marrystatus');
-                $data['nationality'] =  DB::connection('mysql10')->select(' select nationality as code,name from nationality ');
+                $data['nationality'] =  DB::connection('mysql10')->select(' select nationality as code,name from nationality order by nationality desc');
                 $data['thaiaddress_provine'] =  DB::connection('mysql10')->select('select chwpart,name from thaiaddress WHERE codetype="1"');
                 $data['thaiaddress_amphur'] =  DB::connection('mysql10')->select('select amppart,name from thaiaddress WHERE codetype="2"');
                 $data['thaiaddress_tumbon'] =  DB::connection('mysql10')->select('select tmbpart,name from thaiaddress WHERE codetype="3"');
                 $data['thaiaddress_po_code'] =  DB::connection('mysql10')->select('SELECT chwpart,amppart,tmbpart,po_code FROM hospcode WHERE po_code <>"" GROUP BY po_code');
                 $data['blood_group'] =  DB::connection('mysql10')->select('select name from blood_group order by name');
+                $data['informrelation_list'] =  DB::connection('mysql10')->select('select name from informrelation_list');
+                
+
                 // $data['thaiaddress_provinces'] =  DB::connection('mysql10')->select(' select * from thaiaddress_provinces');
                 // $data['thaiaddress_amphures'] =  DB::connection('mysql10')->select(' select * from thaiaddress_amphures');
                 // $data['thaiaddress_districts'] =  DB::connection('mysql10')->select(' select * from thaiaddress_districts');
@@ -264,6 +270,8 @@ class AuthencodeController extends Controller
                     'primary_tumbon_name'        => $primary_tumbon_name ,
                     'primary_amphur_name'        => $primary_amphur_name ,
                     'primary_province_name'      => $primary_province_name ,
+
+                    'check_pttype'               => $check_pttype
                    
 
                 ]);
@@ -360,7 +368,7 @@ class AuthencodeController extends Controller
     }
 
     public function authencode_patient_save(Request $request)
-    {
+    {       
         $hos_guid                  = $request->hos_guid_p;
         $pname                     = $request->pname_p;
         $fname                     = $request->fname_p;
@@ -379,12 +387,48 @@ class AuthencodeController extends Controller
         $tmbpart                   = $request->tmbpart_p;
         $po_code                   = $request->po_code_p;
         $hcode                     = $request->hcode_p;
-       dd($hos_guid);
-        $max_hn = Patient::max('hn')+1;
+        $lang                      = $request->lang_p;
+        $country_p                 = $request->country_p;
+        $informname                = $request->informname_p;
+        $informrelation            = $request->informrelation_p;
+        $fathername                = $request->fathername_p;
+        $fatherlname               = $request->fatherlname_p;
+        $mathername                = $request->mothername_p;
+        $motherlname               = $request->motherlname_p; 
+        $spsname_p                 = $request->spsname_p;
+        $spslname_p                = $request->spslname_p;
+        $father_cid                = $request->father_cid_p;
+        $mother_cid                = $request->mother_cid_p;
+        
+        // dd($amppart);
+
+        $data['thaiaddress_provine'] =  DB::connection('mysql10')->select('select chwpart,name from thaiaddress WHERE codetype="1"');
+        $data['thaiaddress_amphur'] =  DB::connection('mysql10')->select('select amppart,name from thaiaddress WHERE codetype="2"');
+        $data['thaiaddress_tumbon'] =  DB::connection('mysql10')->select('select tmbpart,name from thaiaddress WHERE codetype="3"');
+
+        $chwpart_ =  DB::connection('mysql10')->table('thaiaddress')->where('codetype','=','1')->where('chwpart','=',$chwpart)->first(); 
+        $amphur_ =  DB::connection('mysql10')->table('thaiaddress')->where('codetype','=','2')->where('chwpart','=',$chwpart)->where('amppart','=',$amppart)->first(); 
+        $tumbon_ =  DB::connection('mysql10')->table('thaiaddress')->where('codetype','=','3')->where('chwpart','=',$chwpart)->where('amppart','=',$amppart)->where('tmbpart','=',$tmbpart)->first(); 
+
+        // dd($tumbon_->name);
+        $informaddr_               = $addrpart.' หมู่ '.$moopart.' ต.'.$tumbon_->name.' อ.'.$amphur_->name.' จ.'.$chwpart_->name;            
+        
+        $birthday_                  = $request->birthDate_p; 
+        $ye      = substr($birthday_, 0, 4)-543;
+        $mo      = substr($birthday_, 4, 2);
+        $day     = substr($birthday_, 6, 2);            
+        $birthday = $ye.'-'.$mo.'-'.$day;
+     
+        $max_hn          = Patient::whereNotIn('hn',['1111111', '2222222','3333333','4444444'])->max('hn')+1;
+        $date            = date('Y-m-d');
+        $reg_time        = date("H:i:s");
+        $last_update     = date('Y-m-d H:i:s');
         Patient::insert([
-            'hos_guid'             => $hos_guid,
+            'hos_guid'             => '{'.$hos_guid.'}',
+            'hn'                   => $max_hn,
             'pname'                => $pname,
             'fname'                => $fname,
+            'lname'                => $lname,
             'cid'                  => $cid,
             'marrystatus'          => $marrystatus,
             'citizenship'          => $citizenship,
@@ -392,14 +436,34 @@ class AuthencodeController extends Controller
             'sex'                  => $sex,
             'addrpart'             => $addrpart,
             'moopart'              => $moopart,
+            'informname'           => $informname,
+            'informrelation'       => $informrelation,
+            'fathername'           => $fathername,
+            'fatherlname'          => $fatherlname, 
+            'father_cid'           => $father_cid, 
+            'mathername'           => $mathername,
+            'motherlname'          => $motherlname, 
+            'mother_cid'           => $mother_cid, 
+            'spsname'              => $spsname_p,
+            'spslname'             => $spslname_p,
             'hometel'              => $hometel,
+            'informaddr'           => $informaddr_,
             'bloodgrp'             => $bloodgrp,
             'chwpart'              => $chwpart,
             'amppart'              => $amppart,
             'tmbpart'              => $tmbpart,
             'po_code'              => $po_code,
             'hcode'                => $hcode,
-            'hn'                   => $max_hn,
+            'birthday'             => $birthday_,
+            'firstday'             => $date,
+            // 'pttype'               => $pttype,
+            'last_update'          => $last_update,
+            'country'              => $country_p,
+            'death'                => 'N',
+            'last_visit'           => $date,
+            'reg_time'             => $reg_time,
+            'lang'                 => $lang,
+           
         ]);
         return response()->json([
             'status'     => '200',

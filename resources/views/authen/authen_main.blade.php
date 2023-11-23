@@ -226,8 +226,7 @@
                                                                     <div class="mb-2">
                                                                         <label for="birthDate" class="form-label"
                                                                         style="color: rgb(247, 84, 43)">{{ $collection4 }}</label>
-                                                                        <input type="hidden" class="form-control" id="birthDate"
-                                                                            value="{{ $collection4 }}">
+                                                                        <input type="hidden" class="form-control" id="birthDate" value="{{ $collection4 }}">
                                                                     </div>
                                                                 </div> 
                                                             </div>
@@ -460,8 +459,8 @@
                                                                                     </div>
                                                                                     <div class="col-md-1 text-end">   <label for="bloodgrp_p" class="form-label">หมู่เลือด </label> </div>
                                                                                     <div class="col-md-2 mb-2"> 
-                                                                                            <select name="bloodgrp_p" id="bloodgrp_p" class="form-control" style="width: 100%">
-                                                                                                <option value="">--Choose--</option>
+                                                                                            <select name="bloodgrp_p" id="bloodgrp_p" class="form-control" style="width: 100%"> 
+                                                                                                <option value="">-เลือก-</option>
                                                                                                 @foreach ($blood_group as $item_bloo)
                                                                                                 @if ($bloodgrp == $item_bloo->name)
                                                                                                 <option value="{{$item_bloo->name}}" selected>{{$item_bloo->name}}</option>
@@ -522,10 +521,91 @@
                                                                                                 <input class="form-control pocode" type="text" name="po_code_p" id="po_code_p" value="{{$po_code}}">
                                                                                     </div>
                                                                                 </div>  
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-1 text-end">   <label for="informname_p" class="form-label">ชื่อผู้ติดต่อ </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="informname_p" name="informname_p">
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="informrelation_p" class="form-label">ความสำคัญกับผู้ป่วย </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                            <select name="informrelation_p" id="informrelation_p" class="form-control" style="width: 100%">  
+                                                                                                @foreach ($informrelation_list as $item_la) 
+                                                                                                <option value="{{$item_la->name}}">{{$item_la->name}}</option>                                    
+                                                                                                @endforeach 
+                                                                                            </select>  
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="lang_p" class="form-label">ภาษา </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                            <select name="lang_p" id="lang_p" class="form-control" style="width: 100%"> 
+                                                                                                <option value="TH">TH</option>              
+                                                                                                <option value="EN">EN</option> 
+                                                                                            </select>  
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="country_p" class="form-label">ประเทศ </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                            <select name="country_p" id="country_p" class="form-control" style="width: 100%">  
+                                                                                                @foreach ($nationality as $item_con) 
+                                                                                                <option value="{{$item_con->code}}">{{$item_con->name}}</option>                                    
+                                                                                                @endforeach 
+                                                                                            </select>  
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-1 text-end">   <label for="fathername_p" class="form-label">ชื่อบิดา </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="fathername_p" name="fathername_p">
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="fatherlname_p" class="form-label">นามสกุล </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="fatherlname_p" name="fatherlname_p">
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="father_cid_p" class="form-label">cid </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="father_cid_p" name="father_cid_p">
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-1 text-end">   <label for="mothername_p" class="form-label">ชื่อมารดา </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="mothername_p" name="mothername_p">
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="motherlname_p" class="form-label">นามสกุล </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="motherlname_p" name="motherlname_p">
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="mother_cid_p" class="form-label">cid </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="mother_cid_p" name="mother_cid_p">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row">
+                                                                                    <div class="col-md-1 text-end">   <label for="spsname_p" class="form-label">ชื่อคู่สมรส </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="spsname_p" name="spsname_p">
+                                                                                    </div>
+                                                                                    <div class="col-md-1 text-end">   <label for="spslname_p" class="form-label">นามสกุล </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="spslname_p" name="spslname_p">
+                                                                                    </div>
+                                                                                    {{-- <div class="col-md-1 text-end">   <label for="mothername_p" class="form-label">ชื่อมารดา </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="mothername_p" name="mothername_p">
+                                                                                    </div> --}}
+                                                                                    {{-- <div class="col-md-1 text-end">   <label for="motherlname_p" class="form-label">นามสกุล </label> </div>
+                                                                                    <div class="col-md-2 mb-2"> 
+                                                                                        <input type="text" class="form-control" id="motherlname_p" name="motherlname_p">
+                                                                                    </div> --}}
+                                                                                </div>
                                                                                        
                                                                         </div>
                                                                     </div> 
- 
+
+                                                                    <input type="hidden" class="form-control" id="birthDate_p" value="{{ $collection4 }}">
                                                                     <input type="hidden" class="form-control" id="hos_guid_p" name="hos_guid_p" value="{{ $hos_guid }}">  
                                                                     <input type="hidden" class="form-control" id="hcode_p" name="hcode_p" value="{{ $hcode }}">  
                                                                     
@@ -1054,6 +1134,83 @@
                     });
                 }); 
 
+                $('#Registerpatient').click(function() { 
+                    var pname_p           = $('#pname_p').val();
+                    var fname_p           = $('#fname_p').val();
+                    var lname_p           = $('#lname_p').val();
+                    var cid_p             = $('#cid_p').val(); 
+                    var marrystatus_p     = $('#marrystatus_p').val(); 
+                    var citizenship_p     = $('#citizenship_p').val(); 
+                    var nationality_p     = $('#nationality_p').val(); 
+                    var sex_p             = $('#sex_p').val(); 
+                    var addrpart_p        = $('#addrpart_p').val(); 
+                    var moopart_p         = $('#moopart_p').val(); 
+                    var hometel_p         = $('#hometel_p').val(); 
+                    var bloodgrp_p        = $('#bloodgrp_p').val(); 
+                    var chwpart_p         = $('#chwpart_p').val(); 
+                    var amppart_p         = $('#amppart_p').val(); 
+                    var tmbpart_p         = $('#tmbpart_p').val(); 
+                    var po_code_p         = $('#po_code_p').val(); 
+                    var hos_guid_p        = $('#hos_guid_p').val(); 
+                    var hcode_p           = $('#hcode_p').val(); 
+                    var birthDate_p       = $('#birthDate_p').val(); 
+                    var lang_p            = $('#lang_p').val(); 
+                    var country_p         = $('#country_p').val(); 
+                    var informname_p      = $('#informname_p').val(); 
+                    var informrelation_p  = $('#informrelation_p').val(); 
+                    var fathername_p      = $('#fathername_p').val(); 
+                    var fatherlname_p     = $('#fatherlname_p').val(); 
+                    var mothername_p      = $('#mothername_p').val(); 
+                    var motherlname_p     = $('#motherlname_p').val(); 
+                    var spsname_p         = $('#spsname_p').val(); 
+                    var spslname_p        = $('#spslname_p').val(); 
+
+                    var father_cid_p      = $('#father_cid_p').val(); 
+                    var mother_cid_p      = $('#mother_cid_p').val(); 
+                    
+                    
+                    
+                    // alert(hos_guid_p);
+                      
+                    $.ajax({     
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},        
+                        url: "{{ route('a.authencode_patient_save') }}",
+                        type: "POST",
+                        dataType: 'json', 
+                        data: { 
+                            _token:"{{ csrf_token() }}",
+                            hos_guid_p,pname_p,fname_p,lname_p,cid_p,marrystatus_p ,citizenship_p,nationality_p
+                            ,sex_p,addrpart_p,moopart_p,hometel_p,bloodgrp_p,chwpart_p,amppart_p,tmbpart_p
+                            ,po_code_p,hos_guid_p,hcode_p,birthDate_p,lang_p,country_p,informname_p,informrelation_p
+                            ,fathername_p,fatherlname_p,mothername_p,motherlname_p,spsname_p,spslname_p,father_cid_p
+                            ,mother_cid_p
+                        },                        
+                        success: function(data) {
+                            if (data.status == 200) {
+                                Swal.fire({
+                                    title: 'ลงทะเบียนผู้ป่วยสำเร็จ',
+                                    text: "Successfully registered patient",
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#06D177',
+                                    confirmButtonText: 'เรียบร้อย'
+                                }).then((result) => {
+                                    if (result
+                                        .isConfirmed) {
+                                        console.log(
+                                            data);
+                                        window.location.reload();
+                                        // window.location="{{ url('warehouse/warehouse_index') }}";
+                                    }
+                                })
+                            } else {
+
+                            }
+                        },
+                    });
+                });
+ 
+
             });
 
              //------------------------ จังหวัด ------------------
@@ -1109,71 +1266,7 @@
             });
 
 
-            $('#Registerpatient').click(function() { 
-                    var pname_p           = $('#pname_p').val();
-                    var fname_p           = $('#fname_p').val();
-                    var lname_p           = $('#lname_p').val();
-                    var cid_p             = $('#cid_p').val(); 
-                    var marrystatus_p     = $('#marrystatus_p').val(); 
-                    var citizenship_p     = $('#citizenship_p').val(); 
-                    var nationality_p     = $('#nationality_p').val(); 
-                    var sex_p             = $('#sex_p').val(); 
-                    var addrpart_p        = $('#addrpart_p').val(); 
-                    var moopart_p         = $('#moopart_p').val(); 
-                    var hometel_p         = $('#hometel_p').val(); 
-                    var bloodgrp_p        = $('#bloodgrp_p').val(); 
-                    var chwpart_p         = $('#chwpart_p').val(); 
-                    var amppart_p         = $('#amppart_p').val(); 
-                    var tmbpart_p         = $('#tmbpart_p').val(); 
-                    var po_code_p         = $('#po_code_p').val(); 
-                    var hos_guid_p        = $('#hos_guid_p').val(); 
-                    var hcode_p           = $('#hcode_p').val(); 
-                    // var cc             = $('#cc').val(); 
-                    // var time           = $('#time').val(); 
-                    alert(hos_guid_p);
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });  
-                    $.ajax({             
-                        url: "{{ route('a.authencode_patient_save') }}",
-                        type: "POST",
-                        dataType: 'json',
-                        // processData: false, 
-                        // contentType: false,
-                        data: { 
-                            hos_guid,pname_p,fname_p,lname_p
-                            ,cid_p,marrystatus_p ,citizenship_p,nationality_p
-                            ,sex_p,addrpart_p,moopart_p,hometel_p
-                            ,bloodgrp_p,chwpart_p,amppart_p,tmbpart_p
-                            ,po_code_p,hos_guid_p,hcode_p
-                        },                        
-                        success: function(data) {
-                            if (data.status == 200) {
-                                Swal.fire({
-                                    title: 'ลงทะเบียนผู้ป่วยสำเร็จ',
-                                    text: "Successfully registered patient",
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#06D177',
-                                    confirmButtonText: 'เรียบร้อย'
-                                }).then((result) => {
-                                    if (result
-                                        .isConfirmed) {
-                                        console.log(
-                                            data);
-                                        window.location.reload();
-                                        // window.location="{{ url('warehouse/warehouse_index') }}";
-                                    }
-                                })
-                            } else {
-
-                            }
-                        },
-                    });
-                });
- 
+            
     </script>
     
 
