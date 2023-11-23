@@ -225,6 +225,14 @@
                                                 FROM kphis.ipd_summary s 
                                                 WHERE an = "'.$item->an.'" 
                                         ');
+                                        $icd_ = DB::connection('mysql10')->select( '
+                                            SELECT a.an,o.icd10 DIAG,i.name as name_eng,i.tname as name_th,o.diagtype DXTYPE  
+                                                FROM an_stat a
+                                                LEFT OUTER JOIN iptdiag o on o.an = a.an 
+                                                INNER JOIN icd101 i on i.code = o.icd10 
+                                                WHERE a.an = "'.$item->an.'" 
+                                        ');   
+                                                 
                                         ?>
                                     </td>
                                     <td class="text-start" style="font-size: 13px">{{ $item->sum_adjrw }}</td>
@@ -242,240 +250,275 @@
                                   
                                         </div>
                                         <div class="modal-body">
-                                          @foreach ($data_sub_ as $item_s)
-                                          {{-- principal_diagnosis ,pre_admission_comorbidity,post_admission_comorbidity,other_diagnosis --}}
-                                              
-                                                <div class="form-check"> 
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">principal diagnosis : </label> 
-                                                    @if ($item_s->principal_diagnosis =='')
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
-                                                    @else
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->principal_diagnosis }} </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
-                                                    @endif
+                                                        <div class="row ">
+                                                            <div class="col"></div> 
+                                                            <div class="col-md-3"><h3>โรคที่บันทึกใน HOSXP</h3></div> 
+                                                            <div class="col"></div>
+                                                        </div>
+
+                                                        <div class="row Head1 mt-3">
+                                                            <div class="col"></div>
+                                                            <div class="col-md-1">รหัสโรค</div>
+                                                            <div class="col-md-4">ชื่อโรค EN</div>
+                                                            <div class="col-md-4">ชื่อโรคไทย</div>
+                                                            <div class="col-md-1">Type</div>
+                                                            <div class="col"></div>
+                                                        </div>
+                                                        <hr>
+                                            <?php $j = 0; $total1 = 0; ?>
+                                                @foreach ($icd_ as $item_icd)
+                                                    <?php $j++; ?>
+                                                        
+                                                        <div class="row detail">
+                                                            <div class="col"></div>
+                                                            <div class="col-md-1">{{ $item_icd->DIAG }}</div>
+                                                            <div class="col-md-4">{{ $item_icd->name_eng }}</div>
+                                                            <div class="col-md-4">{{ $item_icd->name_th }}</div>
+                                                            <div class="col-md-1">{{ $item_icd->DXTYPE }}</div>
+                                                            <div class="col"></div>
+                                                        </div>
+                                                        <hr>
+                                                @endforeach
                                                     
+                                           <br>  
+                                            <div class="row mt-4">
+                                                <div class="col-12">
 
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">pre admission comorbidity : </label> 
-                                                    @if ($item_s->pre_admission_comorbidity == '')
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null</label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
-                                                    @else
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->pre_admission_comorbidity }} </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
-                                                    @endif
-                                                    
+                                                    @foreach ($data_sub_ as $item_s)
+                                                
+                                                        
+                                                            <div class="form-check"> 
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">principal diagnosis : </label> 
+                                                                @if ($item_s->principal_diagnosis =='')
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
+                                                                @else
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->principal_diagnosis }} </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
+                                                                @endif
+                                                                
 
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">post admission comorbidity : </label> 
-                                                    @if ($item_s->post_admission_comorbidity =='')
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null</label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
-                                                    @else
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->post_admission_comorbidity }} </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
-                                                    @endif
-                                                   
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">pre admission comorbidity : </label> 
+                                                                @if ($item_s->pre_admission_comorbidity == '')
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null</label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
+                                                                @else
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->pre_admission_comorbidity }} </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
+                                                                @endif
+                                                                
 
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">other diagnosis : </label> 
-                                                    @if ($item_s->other_diagnosis =='')
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label>
-                                                    @else
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->other_diagnosis }} </label>
-                                                    @endif
-                                                   
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">post admission comorbidity : </label> 
+                                                                @if ($item_s->post_admission_comorbidity =='')
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null</label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
+                                                                @else
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->post_admission_comorbidity }} </label> <label class="form-check-label" for="" style="font-size: 18px;color:rgb(255, 80, 124)"><B>||</B> </label>
+                                                                @endif
+                                                            
+
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">other diagnosis : </label> 
+                                                                @if ($item_s->other_diagnosis =='')
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label>
+                                                                @else
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->other_diagnosis }} </label>
+                                                                @endif
+                                                            
+                                                            </div>
+                                                            
+                                                                
+                                                            @if ($item_s->TRACHEOSTOMY == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="TRACHEOSTOMY" checked>
+                                                                    <label class="form-check-label" for="TRACHEOSTOMY"> TRACHEOSTOMY </label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="TRACHEOSTOMY">
+                                                                    <label class="form-check-label" for="TRACHEOSTOMY"> TRACHEOSTOMY </label>
+                                                                </div>
+                                                            @endif  
+
+                                                            @if ($item_s->MECHANICAL_VENTILATION == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION" checked>
+                                                                    <label class="form-check-label" for="MECHANICAL_VENTILATION">MECHANICAL VENTILATION </label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION">
+                                                                    <label class="form-check-label" for="MECHANICAL_VENTILATION"> MECHANICAL VENTILATION </label>
+                                                                </div>
+                                                            @endif  
+
+                                                            @if ($item_s->MECHANICAL_VENTILATION1 == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION1" checked>
+                                                                    <label class="form-check-label" for="MECHANICAL_VENTILATION1">มากกว่า 96 ชม.</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION1">
+                                                                    <label class="form-check-label" for="MECHANICAL_VENTILATION1"> มากกว่า 96 ชม. </label>
+                                                                </div>
+                                                            @endif  
+
+                                                            @if ($item_s->MECHANICAL_VENTILATION2 == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION2" checked>
+                                                                    <label class="form-check-label" for="MECHANICAL_VENTILATION2">น้อยกว่า 96 ชม.</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION2">
+                                                                    <label class="form-check-label" for="MECHANICAL_VENTILATION2"> น้อยกว่า 96 ชม. </label>
+                                                                </div>
+                                                            @endif  
+
+                                                            @if ($item_s->PACKED_RED_CELLS == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="PACKED_RED_CELLS" checked>
+                                                                    <label class="form-check-label" for="PACKED_RED_CELLS">PACKED RED CELLS</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="PACKED_RED_CELLS">
+                                                                    <label class="form-check-label" for="PACKED_RED_CELLS">PACKED RED CELLS</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            @if ($item_s->FRESH_FROZEN_PLASMA == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="FRESH_FROZEN_PLASMA" checked>
+                                                                    <label class="form-check-label" for="FRESH_FROZEN_PLASMA">FRESH FROZEN PLASMA</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="FRESH_FROZEN_PLASMA">
+                                                                    <label class="form-check-label" for="FRESH_FROZEN_PLASMA">FRESH FROZEN PLASMA</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            @if ($item_s->PLATELETS == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="PLATELETS" checked>
+                                                                    <label class="form-check-label" for="PLATELETS">PLATELETS</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="PLATELETS">
+                                                                    <label class="form-check-label" for="PLATELETS">PLATELETS</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            @if ($item_s->CRYOPRECIPITATE == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="CRYOPRECIPITATE" checked>
+                                                                    <label class="form-check-label" for="CRYOPRECIPITATE">CRYOPRECIPITATE</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="CRYOPRECIPITATE">
+                                                                    <label class="form-check-label" for="CRYOPRECIPITATE">CRYOPRECIPITATE</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            @if ($item_s->WHOLE_BLOOD == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="WHOLE_BLOOD" checked>
+                                                                    <label class="form-check-label" for="WHOLE_BLOOD">WHOLE BLOOD</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="WHOLE_BLOOD">
+                                                                    <label class="form-check-label" for="WHOLE_BLOOD">WHOLE BLOOD</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            @if ($item_s->COMPUTER_TOMOGRAPHY == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="COMPUTER_TOMOGRAPHY" checked>
+                                                                    <label class="form-check-label" for="COMPUTER_TOMOGRAPHY">COMPUTER TOMOGRAPHY </label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="COMPUTER_TOMOGRAPHY">
+                                                                    <label class="form-check-label" for="COMPUTER_TOMOGRAPHY">COMPUTER TOMOGRAPHY</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            <div class="form-check"> 
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">computer_tomography_text : </label> 
+                                                                @if ($item_s->computer_tomography_text =='')
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label>
+                                                                @else
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->computer_tomography_text }} </label>
+                                                                @endif
+                                                            </div>
+
+                                                            @if ($item_s->CHEMOTHERAPY == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="CHEMOTHERAPY" checked>
+                                                                    <label class="form-check-label" for="CHEMOTHERAPY">CHEMOTHERAPY </label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="CHEMOTHERAPY">
+                                                                    <label class="form-check-label" for="CHEMOTHERAPY">CHEMOTHERAPY</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            @if ($item_s->MRI == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MRI" checked>
+                                                                    <label class="form-check-label" for="MRI">MRI</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="MRI">
+                                                                    <label class="form-check-label" for="MRI">MRI</label>
+                                                                </div>
+                                                            @endif 
+
+                                                            @if ($item_s->HEMODIALYSIS == 'Y')
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="HEMODIALYSIS" checked>
+                                                                    <label class="form-check-label" for="HEMODIALYSIS">HEMODIALYSIS</label>
+                                                                </div>
+                                                            @else 
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="HEMODIALYSIS">
+                                                                    <label class="form-check-label" for="HEMODIALYSIS">HEMODIALYSIS</label>
+                                                                </div>
+                                                            @endif 
+                                                        
+                                                            @if ($item_s->OTHER == 'Y' )
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="other" checked>
+                                                                    <label class="form-check-label" for="other"> อื่น ๆ </label>
+                                                                </div>
+                                                            @else
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="" id="other" >
+                                                                    <label class="form-check-label" for="other"> อื่น ๆ </label>
+                                                                </div>
+                                                            @endif
+                                                            <div class="form-check"> 
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">non_or_other_text : </label> 
+                                                                @if ($item_s->non_or_other_text =='')
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label>
+                                                                @else
+                                                                <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->non_or_other_text }} </label>
+                                                                @endif
+                                                            </div>
+
+                                                            
+                                                                
+                                                        
+                                                    @endforeach
+                                                         
                                                 </div>
-                                                 
-                                                    
-                                                @if ($item_s->TRACHEOSTOMY == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="TRACHEOSTOMY" checked>
-                                                        <label class="form-check-label" for="TRACHEOSTOMY"> TRACHEOSTOMY </label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="TRACHEOSTOMY">
-                                                        <label class="form-check-label" for="TRACHEOSTOMY"> TRACHEOSTOMY </label>
-                                                    </div>
-                                                @endif  
+                                            </div>
 
-                                                @if ($item_s->MECHANICAL_VENTILATION == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION" checked>
-                                                        <label class="form-check-label" for="MECHANICAL_VENTILATION">MECHANICAL VENTILATION </label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION">
-                                                        <label class="form-check-label" for="MECHANICAL_VENTILATION"> MECHANICAL VENTILATION </label>
-                                                    </div>
-                                                @endif  
-
-                                                @if ($item_s->MECHANICAL_VENTILATION1 == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION1" checked>
-                                                        <label class="form-check-label" for="MECHANICAL_VENTILATION1">มากกว่า 96 ชม.</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION1">
-                                                        <label class="form-check-label" for="MECHANICAL_VENTILATION1"> มากกว่า 96 ชม. </label>
-                                                    </div>
-                                                @endif  
-
-                                                @if ($item_s->MECHANICAL_VENTILATION2 == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION2" checked>
-                                                        <label class="form-check-label" for="MECHANICAL_VENTILATION2">น้อยกว่า 96 ชม.</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MECHANICAL_VENTILATION2">
-                                                        <label class="form-check-label" for="MECHANICAL_VENTILATION2"> น้อยกว่า 96 ชม. </label>
-                                                    </div>
-                                                @endif  
-
-                                                @if ($item_s->PACKED_RED_CELLS == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="PACKED_RED_CELLS" checked>
-                                                        <label class="form-check-label" for="PACKED_RED_CELLS">PACKED RED CELLS</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="PACKED_RED_CELLS">
-                                                        <label class="form-check-label" for="PACKED_RED_CELLS">PACKED RED CELLS</label>
-                                                    </div>
-                                                @endif 
-
-                                                @if ($item_s->FRESH_FROZEN_PLASMA == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="FRESH_FROZEN_PLASMA" checked>
-                                                        <label class="form-check-label" for="FRESH_FROZEN_PLASMA">FRESH FROZEN PLASMA</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="FRESH_FROZEN_PLASMA">
-                                                        <label class="form-check-label" for="FRESH_FROZEN_PLASMA">FRESH FROZEN PLASMA</label>
-                                                    </div>
-                                                @endif 
-
-                                                @if ($item_s->PLATELETS == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="PLATELETS" checked>
-                                                        <label class="form-check-label" for="PLATELETS">PLATELETS</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="PLATELETS">
-                                                        <label class="form-check-label" for="PLATELETS">PLATELETS</label>
-                                                    </div>
-                                                @endif 
-
-                                                @if ($item_s->CRYOPRECIPITATE == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="CRYOPRECIPITATE" checked>
-                                                        <label class="form-check-label" for="CRYOPRECIPITATE">CRYOPRECIPITATE</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="CRYOPRECIPITATE">
-                                                        <label class="form-check-label" for="CRYOPRECIPITATE">CRYOPRECIPITATE</label>
-                                                    </div>
-                                                @endif 
-
-                                                @if ($item_s->WHOLE_BLOOD == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="WHOLE_BLOOD" checked>
-                                                        <label class="form-check-label" for="WHOLE_BLOOD">WHOLE BLOOD</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="WHOLE_BLOOD">
-                                                        <label class="form-check-label" for="WHOLE_BLOOD">WHOLE BLOOD</label>
-                                                    </div>
-                                                @endif 
-
-                                                @if ($item_s->COMPUTER_TOMOGRAPHY == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="COMPUTER_TOMOGRAPHY" checked>
-                                                        <label class="form-check-label" for="COMPUTER_TOMOGRAPHY">COMPUTER TOMOGRAPHY </label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="COMPUTER_TOMOGRAPHY">
-                                                        <label class="form-check-label" for="COMPUTER_TOMOGRAPHY">COMPUTER TOMOGRAPHY</label>
-                                                    </div>
-                                                @endif 
-
-                                                <div class="form-check"> 
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">computer_tomography_text : </label> 
-                                                    @if ($item_s->computer_tomography_text =='')
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label>
-                                                    @else
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->computer_tomography_text }} </label>
-                                                    @endif
-                                                </div>
-
-                                                @if ($item_s->CHEMOTHERAPY == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="CHEMOTHERAPY" checked>
-                                                        <label class="form-check-label" for="CHEMOTHERAPY">CHEMOTHERAPY </label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="CHEMOTHERAPY">
-                                                        <label class="form-check-label" for="CHEMOTHERAPY">CHEMOTHERAPY</label>
-                                                    </div>
-                                                @endif 
-
-                                                @if ($item_s->MRI == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MRI" checked>
-                                                        <label class="form-check-label" for="MRI">MRI</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="MRI">
-                                                        <label class="form-check-label" for="MRI">MRI</label>
-                                                    </div>
-                                                @endif 
-
-                                                @if ($item_s->HEMODIALYSIS == 'Y')
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="HEMODIALYSIS" checked>
-                                                        <label class="form-check-label" for="HEMODIALYSIS">HEMODIALYSIS</label>
-                                                    </div>
-                                                @else 
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="HEMODIALYSIS">
-                                                        <label class="form-check-label" for="HEMODIALYSIS">HEMODIALYSIS</label>
-                                                    </div>
-                                                @endif 
-                                            
-                                                @if ($item_s->OTHER == 'Y' )
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="other" checked>
-                                                        <label class="form-check-label" for="other"> อื่น ๆ </label>
-                                                    </div>
-                                                @else
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="other" >
-                                                        <label class="form-check-label" for="other"> อื่น ๆ </label>
-                                                    </div>
-                                                @endif
-                                                <div class="form-check"> 
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 17px;">non_or_other_text : </label> 
-                                                    @if ($item_s->non_or_other_text =='')
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">Null </label>
-                                                    @else
-                                                    <label class="form-check-label" for="principal_diagnosis" style="font-size: 16px;color:coral">{{ $item_s->non_or_other_text }} </label>
-                                                    @endif
-                                                </div>
-
-                                                   
-                                                     
-                                               
-                                          @endforeach
                                         </div>
                                         <div class="modal-footer">
                                           <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2" data-bs-dismiss="modal"><i class="fa-solid fa-xmark me-2"></i>Close</button>
-                                            {{-- <a href="{{ url('audiovisual_work') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
-                                                    <i class="fa-solid fa-xmark me-2"></i>
-                                                    Close
-                                            </a> --}}
+                                           
                                         </div>
                                       </div>
                                     </div>

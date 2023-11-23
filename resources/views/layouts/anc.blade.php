@@ -17,7 +17,13 @@
         integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- Fonts -->
+    <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+<link href="https://fonts.googleapis.com/css2?family=Srisakdi:wght@400;700&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300&display=swap" rel="stylesheet">
 
     {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -96,6 +102,24 @@
         background-image: url('/pkbackoffice/public/images/bgheader.jpg');
         background-repeat: no-repeat;
     }
+    .Head1{
+			font-family: 'Srisakdi', sans-serif;
+            /* font-size: 17px; */
+            /* font-style: normal; */
+          font-weight: 800;
+          font-size: 17px;
+		}
+        .detail{
+            font-size: 14px;
+        }
+        .bgbody{
+            background-color: rgb(252, 225, 240);
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+            background-size: 100% 100%; 
+            font-family: 'Noto Sans Thai', sans-serif;
+            font-size: 14px; 
+        }
  
 </style>
 <?php
