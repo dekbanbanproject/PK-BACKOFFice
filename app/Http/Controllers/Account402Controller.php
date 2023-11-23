@@ -97,12 +97,12 @@ class Account402Controller extends Controller
         $leave_year = DB::table('leave_year')->orderBy('year', 'ASC')->get();
         
         $date = date('Y-m-d');
-        $y = date('Y') + 543;
+        $y = date('Y');
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 

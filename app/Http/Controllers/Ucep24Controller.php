@@ -343,6 +343,57 @@ class Ucep24Controller extends Controller
                     ]);
                 }
 
+                $data_opitem_inst = DB::connection('mysql')->select('   
+                        SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+                        ,i.dchdate,ii.pttype,p.hipdata_code
+                        ,o.icode,n.`name` as namelist,a.vstdate,o.rxdate,a.vsttime,o.rxtime,o.income,o.qty,o.unitprice,o.sum_price
+                        ,hour(TIMEDIFF(concat(a.vstdate," ",a.vsttime),concat(o.rxdate,"",o.rxtime))) ssz
+                        FROM hos.ipt i
+                        LEFT JOIN hos.opitemrece o on i.an = o.an 
+                        LEFT JOIN hos.ovst a on a.an = o.an
+                        left JOIN hos.er_regist e on e.vn = i.vn
+                        LEFT JOIN hos.ipt_pttype ii on ii.an = i.an
+                        LEFT JOIN hos.pttype p on p.pttype = ii.pttype 
+                        LEFT JOIN hos.s_drugitems n on n.icode = o.icode
+                        LEFT JOIN hos.patient pt on pt.hn = a.hn
+                        LEFT JOIN hos.pttype ptt on a.pttype = ptt.pttype	                        
+                        WHERE i.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" 
+                        and o.an is not null
+                        and o.paidst ="02"
+                        and p.hipdata_code ="ucs" 
+                        and e.er_emergency_level_id  in("1","2")  
+                        and o.income IN("02","18")                    
+                        group BY i.an,o.icode,o.rxdate
+                        ORDER BY i.an;
+                ');   
+                foreach ($data_opitem_inst as $key => $value_ins) {    
+                    $check_ins = D_ucep24::where('an',$value_ins->an)->where('icode','=','icode')->count();
+                    if ($check_ins > 0) {
+                        # code...
+                    } else {
+                        D_ucep24::insert([
+                            'vn'                => $value_ins->vn,
+                            'hn'                => $value_ins->hn,
+                            'an'                => $value_ins->an, 
+                            'cid'               => $value_ins->cid,
+                            'ptname'            => $value_ins->ptname,
+                            'pttype'            => $value_ins->pttype,
+                            'hipdata_code'      => $value_ins->hipdata_code,
+                            'vstdate'           => $value_ins->vstdate,
+                            'rxdate'            => $value_ins->rxdate,
+                            'dchdate'           => $value_ins->dchdate, 
+                            'icode'             => $value_ins->icode, 
+                            'name'              => $value_ins->namelist,
+                            'qty'               => $value_ins->qty,
+                            'unitprice'         => $value_ins->unitprice,
+                            'sum_price'         => $value_ins->sum_price, 
+                            'user_id'           => Auth::user()->id 
+                        ]);
+                    }
+                    
+                    
+                }       
+
                 $data_opitem0218 = DB::connection('mysql')->select('   
                         SELECT a.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                         ,i.dchdate,ii.pttype,p.hipdata_code
@@ -804,56 +855,78 @@ class Ucep24Controller extends Controller
                     ]);
                 }
                 //D_adp
+                // $data_adp_ = DB::connection('mysql2')->select('
+                //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //     from
+                //     (SELECT v.hn HN
+                //     ,if(v.an is null,"",v.an) AN
+                //     ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
+                  
+                //     ,n.nhso_adp_type_id TYPE
+                //     ,n.nhso_adp_code CODE 
+                //     ,sum(v.QTY) QTY
+                //     ,round(v.unitprice,2) RATE
+                //     ,if(v.an is null,v.vn,"") SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
+                //     ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                //     from hos.opitemrece v
+                //     JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
+                   
+                //     left join hos.ipt i on i.an = v.an
+                //     AND i.an is not NULL 
+                //     WHERE i.vn IN("'.$va1->vn.'")
+                //     GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                //     GROUP BY an,CODE,rate
+                //     UNION
+                //     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
+                //     from
+                //     (SELECT v.hn HN
+                //     ,if(v.an is null,"",v.an) AN
+                //     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
+                //     ,n.nhso_adp_type_id TYPE
+                //     ,n.nhso_adp_code CODE 
+                //     ,sum(v.QTY) QTY
+                //     ,round(v.unitprice,2) RATE
+                //     ,if(v.an is null,v.vn,"") SEQ
+                //     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
+                //     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
+                //     ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
+                //     from hos.opitemrece v
+                //     JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                //     left join hos.vn_stat vv on vv.vn = v.vn
+                //     WHERE vv.vn IN("'.$va1->vn.'")
+                //     AND v.an is NULL
+                //     GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                //     GROUP BY seq,CODE,rate;                
+                // ');
+                // ,ic.drg_chrgitem_id TYPE
+                // LEFT JOIN hos.income ic ON ic.income = n.income
+
                 $data_adp_ = DB::connection('mysql2')->select('
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
+                    select  
+                    o.hn as HN,o.an as AN,DATE_FORMAT(u.vstdate,"%Y%m%d") as DATEOPD 
+                    ,n.nhso_adp_type_id as TYPE 
+                    ,n.nhso_adp_code as CODE 
+                    ,(SELECT sum(qty) from pkbackoffice.d_ucep24 where an = o.an and icode = o.icode) as QTY 
+                    ,(SELECT sum(sum_price) from pkbackoffice.d_ucep24 where an = o.an and icode = o.icode) as RATE
+                    ,o.vn as SEQ
                     ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                     ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                    ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
-                    from
-                    (SELECT v.hn HN
-                    ,if(v.an is null,"",v.an) AN
-                    ,DATE_FORMAT(v.rxdate,"%Y%m%d") DATEOPD
-                    ,ic.drg_chrgitem_id TYPE
-                    ,n.nhso_adp_code CODE 
-                    ,sum(v.QTY) QTY
-                    ,round(v.unitprice,2) RATE
-                    ,if(v.an is null,v.vn,"") SEQ
-                    ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                    ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
-                    ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
-                    from hos.opitemrece v
-                    JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                    LEFT JOIN hos.income ic ON ic.income = n.income
-                    left join hos.ipt i on i.an = v.an
-                    AND i.an is not NULL 
-                    WHERE i.vn IN("'.$va1->vn.'")
-                    GROUP BY i.vn,n.nhso_adp_code,rate) a 
-                    GROUP BY an,CODE,rate
-                    UNION
-                    SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ
-                    ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                    ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                    ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
-                    from
-                    (SELECT v.hn HN
-                    ,if(v.an is null,"",v.an) AN
-                    ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
-                    ,ic.drg_chrgitem_id TYPE
-                    ,n.nhso_adp_code CODE 
-                    ,sum(v.QTY) QTY
-                    ,round(v.unitprice,2) RATE
-                    ,if(v.an is null,v.vn,"") SEQ
-                    ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
-                    ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER
-                    ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
-                    from hos.opitemrece v
-                    JOIN hos.s_drugitems n on n.icode = v.icode and n.nhso_adp_code is not null
-                    LEFT JOIN hos.income ic ON ic.income = n.income
-                    left join hos.vn_stat vv on vv.vn = v.vn
-                    WHERE vv.vn IN("'.$va1->vn.'")
-                    AND v.an is NULL
-                    GROUP BY vv.vn,n.nhso_adp_code,rate) b 
-                    GROUP BY seq,CODE,rate;                
+                    ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,"01"SP_ITEM 
+                    ,u.vstdate,o.icode
+                    from hos.opitemrece o 
+                    left outer join hos.s_drugitems n on n.icode = o.icode 
+                    inner join pkbackoffice.d_ucep24 u on u.icode = o.icode
+                    WHERE o.an IN("'.$va1->an.'")
+                    AND (SELECT sum(sum_price) from pkbackoffice.d_ucep24 where an = o.an and icode = o.icode) > 0 
+                    group by o.icode 
                 ');
                 foreach ($data_adp_ as $va10) {
                     d_adp::insert([
@@ -1184,10 +1257,10 @@ class Ucep24Controller extends Controller
     {   
             $data_ = DB::connection('mysql')->select('SELECT vn,an,hn,vstdate,dchdate,icode,qty FROM d_ucep24'); 
             foreach ($data_ as $key => $val) {                
-                D_adp::where('AN',$val->an)->where('icode',$val->icode)
-                ->update([
-                    'SP_ITEM' => '01'
-                ]);
+                // D_adp::where('AN',$val->an)->where('icode',$val->icode)
+                // ->update([
+                //     'SP_ITEM' => '01'
+                // ]);
                 D_dru::where('AN',$val->an)->where('DID',$val->icode)
                 // D_dru::where('AN',$val->an)->where('DID',$val->icode)->where('vstdate',$val->vstdate)
                 ->update([
@@ -1195,17 +1268,17 @@ class Ucep24Controller extends Controller
                     'AMOUNT'      => $val->qty
                 ]);                
             }
-            $data_room = DB::connection('mysql')->select('SELECT CODE FROM d_adp');
-            foreach ($data_room as $key => $valroom) {
-                if ($valroom->CODE == '21101') {
-                    D_adp::where('CODE',$valroom->CODE)
-                        ->update([
-                            'QTY'   => '1',
-                            'RATE'  => '400'
-                        ]);
-                    } else { 
-                    } 
-            } 
+            // $data_room = DB::connection('mysql')->select('SELECT CODE FROM d_adp');
+            // foreach ($data_room as $key => $valroom) {
+            //     if ($valroom->CODE == '21101') {
+            //         D_adp::where('CODE',$valroom->CODE)
+            //             ->update([
+            //                 'QTY'   => '1',
+            //                 'RATE'  => '400'
+            //             ]);
+            //         } else { 
+            //         } 
+            // } 
             // D_adp::where('SP_ITEM','=',NULL)->delete();          
             // D_dru::where('SP_ITEM',NULL)->delete();         
 
