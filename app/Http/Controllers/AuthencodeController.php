@@ -132,7 +132,8 @@ class AuthencodeController extends Controller
                     $data_patient_ = DB::connection('mysql2')->select(' 
                                 SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
                                 ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,p.cid,p.hcode,p.last_visit,p.hometel
-                                ,p.bloodgrp
+                                ,p.bloodgrp,p.addrpart,p.informname,p.informrelation,p.informtel,p.fathername,p.fatherlname
+                                ,p.father_cid,p.mathername,p.motherlname,p.mother_cid,p.spsname,p.spslname
                                 ,h.chwpart,h.amppart,h.tmbpart,h.po_code
                                 FROM patient p 
                                 LEFT OUTER JOIN person pe ON pe.patient_hn = p.hn 
@@ -149,20 +150,46 @@ class AuthencodeController extends Controller
                         $chwpart       = $value->chwpart;
                         $amppart       = $value->amppart;
                         $tmbpart       = $value->tmbpart;
+                        $addrpart       = $value->addrpart;
                         $po_code       = $value->po_code;
                         $bloodgrp      = $value->bloodgrp;
+
+                        $informname      = $value->informname;
+                        $informrelation  = $value->informrelation;
+                        $informtel       = $value->informtel;
+                        $fathername      = $value->fathername;
+                        $fatherlname     = $value->fatherlname;
+                        $father_cid      = $value->father_cid;
+                        $mathername      = $value->mathername;
+                        $motherlname     = $value->motherlname;
+                        $mother_cid      = $value->mother_cid;
+                        $spsname         = $value->spsname;
+                        $spslname        = $value->spslname;
+
                     }
                 } else {
-                        $pids          = $collection['pid'];
-                        $hcode         = $check_hcode->orginfo_code;
-                        $hn            = '';
-                        $last_visit    = '';
-                        $hometel       = '';
-                        $chwpart       = $primary_province_name;
-                        $amppart       = $primary_amphur_name;
-                        $tmbpart       = $primary_tumbon_name;
-                        $po_code       = '';
-                        $bloodgrp      = '';
+                        $pids            = $collection['pid'];
+                        $hcode           = $check_hcode->orginfo_code;
+                        $hn              = '';
+                        $last_visit      = '';
+                        $hometel         = '';
+                        $chwpart         = $primary_province_name;
+                        $amppart         = $primary_amphur_name;
+                        $tmbpart         = $primary_tumbon_name;
+                        $addrpart        = '';
+                        $po_code         = '';
+                        $bloodgrp        = '';
+                        $informname      = '';
+                        $informrelation  = '';
+                        $informtel       = '';
+                        $fathername      = '';
+                        $fatherlname     = '';
+                        $father_cid      = '';
+                        $mathername      = '';
+                        $motherlname     = '';
+                        $mother_cid      = '';
+                        $spsname         = '';
+                        $spslname        = '';
                     
                 }
                 
@@ -245,7 +272,7 @@ class AuthencodeController extends Controller
                     'tmbpart'                    =>  $tmbpart,
                     'po_code'                    =>  $po_code,
                     'bloodgrp'                   =>  $bloodgrp,
-                    
+                    'addrpart'                   =>  $addrpart,
                     'last_visit'                 =>  $last_visit,
                     'hcode'                      =>  $hcode,
                     'hos_guid'                   =>  $hos_guid,
@@ -272,8 +299,19 @@ class AuthencodeController extends Controller
                     'primary_tumbon_name'        => $primary_tumbon_name ,
                     'primary_amphur_name'        => $primary_amphur_name ,
                     'primary_province_name'      => $primary_province_name ,
+                    'check_pttype'               => $check_pttype, 
 
-                    'check_pttype'               => $check_pttype
+                    'informname'                 =>$informname,
+                    'informrelation'             =>$informrelation,
+                    'informtel'                  =>$informtel ,
+                    'fathername'                 =>$fathername ,
+                    'fatherlname'                =>$fatherlname ,
+                    'father_cid'                 =>$father_cid,
+                    'mathername'                 =>$mathername,
+                    'motherlname'                =>$motherlname,
+                    'mother_cid'                 =>$mother_cid,
+                    'spsname'                    =>$spsname,
+                    'spslname'                   =>$spslname,
                    
 
                 ]);
