@@ -901,7 +901,7 @@
                                         {{-- <img src="{{ asset('images/logo_350.jpg') }}" width="100" height="100" alt="IMG">
                                         <br> --}}
                                         <span class="login100-form-title">
-                                            <img src="{{ asset('images/logo_350.jpg') }}" width="120" height="120" alt="IMG"><br>
+                                            <img src="{{ asset('images/logo_350.jpg') }}" width="120" height="120" alt="IMG"><br><br>
                                             เข้าสู่ระบบ
                                         </span>
                     

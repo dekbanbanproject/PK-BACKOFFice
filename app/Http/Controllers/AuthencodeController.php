@@ -536,7 +536,7 @@ class AuthencodeController extends Controller
             $pttype        = $value->pttype;
             $pttypeno      = $value->pttypeno;
             $begindate     = $value->begindate;
-            $cid           = $value->cid;
+            // $cid           = $value->cid;
         }
         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
         foreach ($token_data as $key => $value) {
@@ -656,7 +656,7 @@ class AuthencodeController extends Controller
     // จังหวัด
     function fetch_province(Request $request)
     { 
-        // =  DB::connection('mysql10')->select(' select chwpart,name from thaiaddress WHERE codetype="1"');
+            // =  DB::connection('mysql10')->select(' select chwpart,name from thaiaddress WHERE codetype="1"');
             $id = $request->get('select');
             $result=array();
             // $query=DB::connection('mysql10')->select('select chwpart,name,amppart from thaiaddress WHERE codetype IN("1","2")');
