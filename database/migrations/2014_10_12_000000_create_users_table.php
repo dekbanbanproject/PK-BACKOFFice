@@ -93,6 +93,8 @@ return new class extends Migration
             $table->double('money', 10, 2)->nullable(); 
             $table->string('color_ot')->nullable();
             $table->string('staff')->nullable();  
+            $table->string('loginname')->nullable(); 
+            $table->string('passweb')->nullable(); 
             $table->rememberToken();
             $table->timestamps('created_at')->useCurrent();
             $table->timestamps('updated_at')->nullable();

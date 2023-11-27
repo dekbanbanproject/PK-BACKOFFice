@@ -466,6 +466,7 @@ class AuthencodeController extends Controller
         $religion                  = $request->religion_p;
         $occupation                = $request->occupation_p;
         $informtel                 = $request->informtel_p;
+        $pttype                    = $request->pttype_p;
         
         // dd($amppart);
 
@@ -526,7 +527,7 @@ class AuthencodeController extends Controller
             'religion'             => $religion,
             'occupation'           => $occupation,
             'informtel'            => $informtel,
-            // 'pttype'               => $pttype,
+            'pttype'               => $pttype,
             'last_update'          => $last_update,
             'country'              => $country_p,
             'death'                => 'N',
@@ -632,18 +633,26 @@ class AuthencodeController extends Controller
         }
 
         Vn_insert::insert([
-            'vn'         => $vn
+            'vn'         => $vn,
+            'hos_guid'   => $hos_guid 
         ]);
-        // Pttypehistory::insert([ 
-        //     'hn'                => $value->hn,
-        //     'expiredate'        => $value->expiredate,
-        //     'hospmain'          => $value->hospmain,
-        //     'hospsub'           => $value->hospsub,
-        //     'pttype'            => $value->pttype,
-        //     'pttypeno'          => $value->pttypeno,
-        //     'begindate'         => $value->begindate, 
-        //     'hos_guid'          => $hos_guid 
-        // ]);
+        $check_ptt = Pttypehistory::where('hn',$hn)->count();
+        if ($check_ptt > 0) {
+            # code...
+        } else {
+            Pttypehistory::insert([ 
+                'hn'                => $hn,
+                'expiredate'        => $expiredate,
+                'hospmain'          => $hospmain,
+                'hospsub'           => $hospsub,
+                'pttype'            => $pttype,
+                'pttypeno'          => $pttypeno,
+                'begindate'         => $begindate, 
+                'hos_guid'          => $hos_guid 
+            ]);
+        }
+        
+       
         $max_q = Ovst::max('oqueue')+1;
         Ovst::insert([
             'hos_guid'          => $hos_guid,
@@ -680,7 +689,8 @@ class AuthencodeController extends Controller
             // 'outdepcode'        => $outdepcode,
             'outtime'           => $outtime,
             // 'staff'             => $staff, 
-            'outdate'           => $vstdate 
+            'outdate'           => $vstdate,
+            'hos_guid'          => $hos_guid, 
         ]);
 
         Service_time::insert([ 

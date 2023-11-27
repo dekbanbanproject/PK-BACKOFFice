@@ -1072,7 +1072,7 @@
                                                                                     </div>                                     
                                                                                 </div> 
 
-                                                                                <div class="row">
+                                                                                <div class="row mt-2">
                                                                                     <div class="col"></div>
                                                                                     <div class="col-md-8 text-center">  
                                                                                         <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info" id="OpenVisit"> 
@@ -1322,6 +1322,7 @@
                     var religion_p        = $('#religion_p').val(); 
                     var occupation_p      = $('#occupation_p').val(); 
                     var informtel_p      = $('#informtel_p').val(); 
+                    var pttype_p         = $('#pttype_p').val(); 
                     // alert(hos_guid_p);
                       
                     $.ajax({     
@@ -1335,7 +1336,7 @@
                             ,sex_p,addrpart_p,moopart_p,hometel_p,bloodgrp_p,chwpart_p,amppart_p,tmbpart_p
                             ,po_code_p,hos_guid_p,hcode_p,birthDate_p,lang_p,country_p,informname_p,informrelation_p
                             ,fathername_p,fatherlname_p,mothername_p,motherlname_p,spsname_p,spslname_p,father_cid_p
-                            ,mother_cid_p,religion_p,occupation_p,informtel_p
+                            ,mother_cid_p,religion_p,occupation_p,informtel_p,pttype_p
                         },                        
                         success: function(data) {
                             if (data.status == 200) {
