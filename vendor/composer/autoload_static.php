@@ -972,6 +972,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Imports\\OtImport' => __DIR__ . '/../..' . '/app/Imports/OtImport.php',
         'App\\Imports\\Suppliesimport' => __DIR__ . '/../..' . '/app/Imports/Suppliesimport.php',
         'App\\Models\\Acc_106_debt_print' => __DIR__ . '/../..' . '/app/Models/Acc_106_debt_print.php',
+        'App\\Models\\Acc_107_debt_print' => __DIR__ . '/../..' . '/app/Models/Acc_107_debt_print.php',
         'App\\Models\\Acc_1102050101_102' => __DIR__ . '/../..' . '/app/Models/Acc_1102050101_102.php',
         'App\\Models\\Acc_1102050101_103' => __DIR__ . '/../..' . '/app/Models/Acc_1102050101_103.php',
         'App\\Models\\Acc_1102050101_109' => __DIR__ . '/../..' . '/app/Models/Acc_1102050101_109.php',

@@ -92,8 +92,8 @@ use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
 use App\Imports\ImportAcc_stm_lgoexcel_import;
-use App\Models\D_ofc_repexcel;
-use App\Models\D_ofc_rep;
+use App\Models\Acc_1102050101_217_stam;
+use App\Models\Acc_opitemrece_stm;
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -108,34 +108,8 @@ use PhpParser\Node\Stmt\If_;
 use Stevebauman\Location\Facades\Location; 
 use Illuminate\Filesystem\Filesystem;
 
-use Mail;
-use Illuminate\Support\Facades\Storage;
-  
- 
-date_default_timezone_set("Asia/Bangkok");
-
 class Ofc401Controller extends Controller
 { 
-    public function ofc_401_main(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $data['users']     = User::get();  
-        $data['d_claim']   = DB::connection('mysql')->select('
-            SELECT d.vn,d.hn,d.an,d.cid,d.ptname,d.vstdate,d.pttype,d.sum_price,s.rep_a,s.tranid_c,s.price1_k,s.income_ad,s.pp_gep_ae,s.claim_true_af,s.claim_false_ag,s.cash_money_ah
-            ,s.pay_ai,s.IPCS_ao,s.IPCS_ORS_ap,s.OPCS_aq,s.PACS_ar,s.INSTCS_as,s.OTCS_at,s.PP_au,s.DRUG_av
-            FROM d_claim d
-            LEFT OUTER JOIN d_ofc_rep s ON s.hn_d = d.hn AND s.vstdate_i = d.vstdate
-            WHERE d.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-            ORDER BY s.tranid_c DESC
-        '); 
-
-
-        return view('ofc.ofc_401_main',$data,[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate, 
-        ]);
-    }
     public function ofc_401(Request $request)
     {
         $startdate = $request->startdate;
@@ -192,9 +166,7 @@ class Ofc401Controller extends Controller
                         ]);
                     $check = D_claim::where('vn',$value->vn)->count();
                     if ($check > 0) {
-                        D_claim::where('vn',$value->vn)->update([ 
-                            'sum_price'          => $value->price_ofc,  
-                        ]);
+                        # code...
                     } else {
                         D_claim::insert([
                             'vn'                => $value->vn,
@@ -1533,265 +1505,6 @@ class Ofc401Controller extends Controller
             return redirect()->route('claim.ofc_401');
 
     }
-
-    public function ofc_401_rep(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $data['users'] = User::get(); 
-        $countc = DB::table('d_ofc_repexcel')->count();
-        $datashow = DB::table('d_ofc_repexcel')->get();
-
-
-        return view('ofc.ofc_401_rep',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate, 
-            'datashow'      =>     $datashow,
-            'countc'        =>     $countc
-        ]);
-    }
-
-    function ofc_401_repsave(Request $request)
-    { 
-        // $this->validate($request, [
-        //     'file' => 'required|file|mimes:xls,xlsx'
-        // ]);
-        $the_file = $request->file('file'); 
-        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-        // dd($file_);
-            try{                
-                // Cheet 2  originalName
-                // $spreadsheet = IOFactory::createReader($the_file);
-                // $spreadsheet = IOFactory::load($the_file->getRealPath()); 
-                $spreadsheet = IOFactory::load($the_file); 
-                $sheet        = $spreadsheet->setActiveSheetIndex(0);
-                $row_limit    = $sheet->getHighestDataRow();
-                $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( 8, $row_limit );
-                $column_range = range( 'AO', $column_limit );
-                $startcount = 8;
-                $data = array();
-                foreach ($row_range as $row ) {
-                    $vst = $sheet->getCell( 'I' . $row )->getValue();  
-                    $day = substr($vst,0,2);
-                    $mo = substr($vst,3,2);
-                    $year = substr($vst,6,4);
-                    $vstdate = $year.'-'.$mo.'-'.$day;
-
-                    $reg = $sheet->getCell( 'J' . $row )->getValue(); 
-                    $regday = substr($reg, 0, 2);
-                    $regmo = substr($reg, 3, 2);
-                    $regyear = substr($reg, 6, 4);
-                    $dchdate = $regyear.'-'.$regmo.'-'.$regday;
-
-                    $k = $sheet->getCell( 'K' . $row )->getValue();
-                    $del_k = str_replace(",","",$k);
-                    $l= $sheet->getCell( 'L' . $row )->getValue();
-                    $del_l = str_replace(",","",$l);
-
-                    $ad = $sheet->getCell( 'AD' . $row )->getValue();
-                    $del_ad = str_replace(",","",$ad);
-                    $ae = $sheet->getCell( 'AE' . $row )->getValue();
-                    $del_ae = str_replace(",","",$ae);
-                    $af = $sheet->getCell( 'AF' . $row )->getValue();
-                    $del_af = str_replace(",","",$af);
-                    $ag = $sheet->getCell( 'AG' . $row )->getValue();
-                    $del_ag = str_replace(",","",$ag);
-                    $ah = $sheet->getCell( 'AH' . $row )->getValue();
-                    $del_ah = str_replace(",","",$ah);
-                    $ai = $sheet->getCell( 'AI' . $row )->getValue();
-                    $del_ai = str_replace(",","",$ai); 
-                    $an= $sheet->getCell( 'AN' . $row )->getValue();
-                    $del_an = str_replace(",","",$an);
-                    $ao = $sheet->getCell( 'AO' . $row )->getValue();
-                    $del_ao = str_replace(",","",$ao);
-                    $ap = $sheet->getCell( 'AP' . $row )->getValue();
-                    $del_ap = str_replace(",","",$ap);
-                    $aq = $sheet->getCell( 'AQ' . $row )->getValue();
-                    $del_aq = str_replace(",","",$aq);
-                    $ar = $sheet->getCell( 'AR' . $row )->getValue();
-                    $del_ar = str_replace(",","",$ar);                  
-                    $as = $sheet->getCell( 'AS' . $row )->getValue();
-                    $del_as = str_replace(",","",$as);
-                    $at = $sheet->getCell( 'AT' . $row )->getValue();
-                    $del_at = str_replace(",","",$at);
-                    $au = $sheet->getCell( 'AU' . $row )->getValue();
-                    $del_au = str_replace(",","",$au);
-                    $av = $sheet->getCell( 'AV' . $row )->getValue();
-                    $del_av = str_replace(",","",$av);
-                    
-                    $data[] = [
-                        'a'                   =>$sheet->getCell( 'A' . $row )->getValue(),
-                        'b'                   =>$sheet->getCell( 'B' . $row )->getValue(),
-                        'c'                   =>$sheet->getCell( 'C' . $row )->getValue(),
-                        'd'                   =>$sheet->getCell( 'D' . $row )->getValue(),
-                        'e'                   =>$sheet->getCell( 'E' . $row )->getValue(),
-                        'f'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                        'g'                   =>$sheet->getCell( 'G' . $row )->getValue(), 
-                        'h'                   =>$sheet->getCell( 'H' . $row )->getValue(),
-                        'i'                   =>$vstdate,
-                        'j'                   =>$dchdate,  
-                        'k'                   =>$del_k,
-                        'l'                   =>$del_l,  
-                        'm'                   =>$sheet->getCell( 'M' . $row )->getValue(),
-                        'n'                   =>$sheet->getCell( 'N' . $row )->getValue(),
-                        'o'                   =>$sheet->getCell( 'O' . $row )->getValue(),
-                        'p'                   =>$sheet->getCell( 'P' . $row )->getValue(),
-                        'q'                   =>$sheet->getCell( 'Q' . $row )->getValue(), 
-                        'r'                   =>$sheet->getCell( 'R' . $row )->getValue(), 
-                        's'                   =>$sheet->getCell( 'S' . $row )->getValue(), 
-                        't'                   =>$sheet->getCell( 'T' . $row )->getValue(), 
-                        'u'                   =>$sheet->getCell( 'U' . $row )->getValue(), 
-                        'v'                   =>$sheet->getCell( 'V' . $row )->getValue(), 
-                        'w'                   =>$sheet->getCell( 'W' . $row )->getValue(), 
-                        'x'                   =>$sheet->getCell( 'X' . $row )->getValue(), 
-                        'y'                   =>$sheet->getCell( 'Y' . $row )->getValue(), 
-                        'z'                   =>$sheet->getCell( 'Z' . $row )->getValue(), 
-                        'aa'                  =>$sheet->getCell( 'AA' . $row )->getValue(), 
-                        'ab'                  =>$sheet->getCell( 'AB' . $row )->getValue(), 
-                        'ac'                  =>$sheet->getCell( 'AC' . $row )->getValue(), 
-
-                        'ad'                  =>$del_ad, 
-                        'ae'                  =>$del_ae, 
-                        'af'                  =>$del_af, 
-                        'ag'                  =>$del_ag, 
-                        'ah'                  =>$del_ah, 
-                        'ai'                  =>$del_ai, 
-
-                        'ak'                  =>$sheet->getCell( 'AK' . $row )->getValue(), 
-                        'al'                  =>$sheet->getCell( 'AL' . $row )->getValue(), 
-                        'am'                  =>$sheet->getCell( 'AM' . $row )->getValue(), 
-                        'an'                  =>$del_an,
-                        'ao'                  =>$del_ao,
-                        'ap'                  =>$del_ap,
-                        'aq'                  =>$del_aq,
-                        'ar'                  =>$del_ar,
-                        'as'                  =>$del_as, 
-                        'at'                  =>$del_at, 
-                        'au'                  =>$del_au, 
-                        'av'                  =>$del_av, 
-                        'aw'                  =>$sheet->getCell( 'AW' . $row )->getValue(), 
-                        'ax'                  =>$sheet->getCell( 'AX' . $row )->getValue(), 
-                        'ay'                  =>$sheet->getCell( 'AY' . $row )->getValue(), 
-                        'az'                  =>$sheet->getCell( 'AZ' . $row )->getValue(), 
-                        'ba'                  =>$sheet->getCell( 'BA' . $row )->getValue(), 
-                        'bb'                  =>$sheet->getCell( 'BB' . $row )->getValue(),
-                        'bc'                  =>$sheet->getCell( 'BC' . $row )->getValue(),  
-                        'STMdoc'              =>$file_ 
-                    ];
-                    $startcount++; 
-
-                }
-             
-                foreach (array_chunk($data,500) as $t)  
-                { 
-                    DB::table('d_ofc_repexcel')->insert($t);
-                }
- 
-                // $the_file->delete('public/File_eclaim/'.$file_); 
-                $the_file->storeAs('Import/',$file_);   // ย้าย ไฟล์   
-                Storage::delete('File_eclaim/'.$file_);   // ลบไฟล์  
-                // ลบไฟล์   
-                if(file_exists(public_path('File_eclaim/'.$file_))){
-                    unlink(public_path('File_eclaim/'.$file_));
-                    // Storage::delete('File_eclaim/'.$file_);   // ลบไฟล์  
-                }else{
-                    dd('File does not exists.');
-                }
-               
-                
-                
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
-            // return redirect()->back();
-            return response()->json([
-                'status'    => '200',
-            ]);
-    }
-
-    public function ofc_401_repsend(Request $request)
-    {
-
-        try{
-            $data_ = DB::connection('mysql')->select(' SELECT * FROM d_ofc_repexcel');
-                foreach ($data_ as $key => $value) {
-                    if ($value->b != '') {
-                        $check = D_ofc_rep::where('rep_a','=',$value->a)->where('no_b','=',$value->b)->count();
-                        if ($check > 0) {
-                        } else {
-                            D_ofc_rep::insert([
-                                'rep_a'                   =>$value->a,
-                                'no_b'                    =>$value->b,
-                                'tranid_c'                =>$value->c,
-                                'hn_d'                    =>$value->d,
-                                'an_e'                    =>$value->e,
-                                'pid_f'                   =>$value->f,
-                                'ptname_g'                =>$value->g, 
-                                'type_h'                  =>$value->h,
-                                'vstdate_i'               =>$value->i,
-                                'dchdate_j'               =>$value->j,  
-                                'price1_k'                =>$value->k,
-                                'pp_spsch_l'              =>$value->l,
-                                'errorcode_m'             =>$value->m,
-                                'kongtoon_n'              =>$value->n,
-                                'typeservice_o'           =>$value->o,
-                                'refer_p'                 =>$value->p,
-                                'pttype_have_q'           =>$value->q, 
-                                'pttype_true_r'           =>$value->r, 
-                                'mian_pttype_s'           =>$value->s, 
-                                'secon_pttype_t'          =>$value->t, 
-                                'href_u'                  =>$value->u, 
-                                'HCODE_v'                 =>$value->v, 
-                                'prov1_w'                 =>$value->w, 
-                                'code_dep_x'              =>$value->x, 
-                                'name_dep_y'              =>$value->y, 
-                                'proj_z'                  =>$value->z, 
-                                'pa_aa'                   =>$value->aa, 
-                                'drg_ab'                  =>$value->ab, 
-                                'rw_ac'                   =>$value->ac, 
-                                'income_ad'               =>$value->ad, 
-                                'pp_gep_ae'               =>$value->ae, 
-                                'claim_true_af'           =>$value->af, 
-                                'claim_false_ag'          =>$value->ag, 
-                                'cash_money_ah'           =>$value->ah, 
-                                'pay_ai'                  =>$value->ai, 
-                                'ps_aj'                   =>$value->aj, 
-                                'ps_percent_ak'           =>$value->ak, 
-                                'ccuf_al'                 =>$value->al,
-                                'AdjRW_am'                =>$value->am,
-                                'plb_an'                  =>$value->an,
-                                'IPCS_ao'                 =>$value->ao,
-                                'IPCS_ORS_ap'             =>$value->ap,
-                                'OPCS_aq'                 =>$value->aq,
-                                'PACS_ar'                 =>$value->ar, 
-                                'INSTCS_as'               =>$value->as, 
-                                'OTCS_at'                 =>$value->at, 
-                                'PP_au'                   =>$value->au, 
-                                'DRUG_av'                 =>$value->av, 
-                                'IPCS_aw'                 =>$value->aw,
-                                'OPCS_AX'                 =>$value->ax,
-                                'PACS_ay'                 =>$value->ay, 
-                                'INSTCS_az'               =>$value->az, 
-                                'OTCS_ba'                 =>$value->ba,
-                                'ORS_bb'                  =>$value->bb, 
-                                'VA_bc'                   =>$value->bc, 
-                                'STMdoc'                  =>$value->STMdoc
-                            ]);
-                            
-                        }
-                    } else {
-                    }
-                }
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
-            D_ofc_repexcel::truncate();
-
-
-        return redirect()->back();
-    }
+    
  
 }

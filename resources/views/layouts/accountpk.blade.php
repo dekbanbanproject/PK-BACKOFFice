@@ -347,51 +347,52 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="javascript: void(0);" class="has-arrow">301-OPเครือข่าย</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_301_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_301_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_301_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_301_pull') }}">ดึงลูกหนี้</a> </li>
+                                            <li><a href="{{ url('account_301_detail_date') }}">ลูกหนี้</a> </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">302-IPเครือข่าย</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_302_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_302_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_302_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_302_pull') }}">ดึงลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_302_detail_date') }}">ลูกหนี้</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">304-IPเครือข่าย</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_304_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_304_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_304_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_304_pull') }}">ดึงลูกหนี้</a></li>
+                                       
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">307-กองทุนทดแทน</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_307_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_307_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_307_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_307_pull') }}">ดึงลูกหนี้</a></li>
+                                        
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">308-72ชั่วโมงแรก</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_308_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_308_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_308_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_308_pull') }}">ดึงลูกหนี้</a></li>
+                                         
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">309-ค่าใช้จ่ายสูง/อุบัติเหตุ/ฉุกเฉิน OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_309_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_309_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_309_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_309_pull') }}">ดึงลูกหนี้</a></li>
+                                        
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">310-ค่าใช้จ่ายสูง IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_310_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_310_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_310_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_310_pull') }}">ดึงลูกหนี้</a></li>
+                                            <li><a href="{{ url('account_310_detail_date') }}">ลูกหนี้</a></li>
+                                            
                                         </ul>
                                     </li>
                                 </ul>
@@ -407,16 +408,16 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="javascript: void(0);" class="has-arrow">401-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_401_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_401_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_401_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_401_pull') }}">ดึงลูกหนี้</a></li>
+                                      
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">402-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_402_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_402_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_402_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_402_pull') }}">ดึงลูกหนี้</a></li>
+                                        
                                         </ul>
                                     </li>
                                 </ul>
@@ -432,30 +433,30 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="javascript: void(0);" class="has-arrow">801-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_801_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_801_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_801_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_801_pull') }}">ดึงลูกหนี้</a></li>
+                                      
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">802-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_802_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_802_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_802_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_802_pull') }}">ดึงลูกหนี้</a></li>
+                                     
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">803-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.รูปแบบพิเศษ OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_803_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_803_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_803_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_803_pull') }}">ดึงลูกหนี้</a></li>
+                                      
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">804-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.รูปแบบพิเศษ IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_804_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_804_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_804_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_804_pull') }}">ดึงลูกหนี้</a></li>
+                                          
                                         </ul>
                                     </li>
                                 </ul>
@@ -472,16 +473,16 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <ul class="sub-menu" aria-expanded="true"> 
                                     <li><a href="javascript: void(0);" class="has-arrow">602-ลูกหนี้ค่ารักษา-พรบ.รถ OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_602_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_602_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_602_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_602_pull') }}">ดึงลูกหนี้</a></li>
+                                           
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">603-ลูกหนี้ค่ารักษา-พรบ.รถ IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_603_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_603_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_603_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_603_pull') }}">ดึงลูกหนี้</a></li>
+                                       
                                         </ul>
                                     </li>
                                 </ul>
@@ -517,23 +518,23 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">4022-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงกรมบัญชีกลาง.IP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkti4022_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkti4022_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkti4022_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_pkti4022_pull') }}">ดึงลูกหนี้</a></li>
+                                            
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">8011-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.รูปแบบพิเศษ.OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkti8011_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkti8011_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkti8011_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_pkti8011_pull') }}">ดึงลูกหนี้</a></li>
+                                            
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">2166-ลูกหนี้ค่ารักษา-บริการเฉพาะ(CR)(ฟอกไต) OP</a>
                                         <ul class="sub-menu" aria-expanded="true"> 
-                                            <li><a href="{{ url('account_pkti2166_dash') }}">dashboard</a>
-                                            <li><a href="{{ url('account_pkti2166_pull') }}">ดึงลูกหนี้</a>
-                                            </li>
+                                            <li><a href="{{ url('account_pkti2166_dash') }}">dashboard</a></li>
+                                            <li><a href="{{ url('account_pkti2166_pull') }}">ดึงลูกหนี้</a></li>
+                                           
                                         </ul>
                                     </li>
                                     <li><a href="javascript: void(0);" class="has-arrow">3099-ลูกหนี้ค่ารักษา-ประกันสังคม(ค่าใช้จ่ายสูง)(ฟอกไต) OP</a>
@@ -555,23 +556,23 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             <ul class="sub-menu" aria-expanded="true"> 
                                 <li><a href="javascript: void(0);" class="has-arrow">701-บุคคลที่มีปัญหาสถานะและสิทธิ OP ใน CUP</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('account_701_dash') }}">dashboard</a>
-                                        <li><a href="{{ url('account_701_pull') }}">ดึงลูกหนี้</a>
-                                        </li>
+                                        <li><a href="{{ url('account_701_dash') }}">dashboard</a></li>
+                                        <li><a href="{{ url('account_701_pull') }}">ดึงลูกหนี้</a></li>
+                                       
                                     </ul>
                                 </li>
                                 <li><a href="javascript: void(0);" class="has-arrow">702-บุคคลที่มีปัญหาสถานะและสิทธิ OP นอก CUP</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('account_702_dash') }}">dashboard</a>
-                                        <li><a href="{{ url('account_702_pull') }}">ดึงลูกหนี้</a>
-                                        </li>
+                                        <li><a href="{{ url('account_702_dash') }}">dashboard</a></li>
+                                        <li><a href="{{ url('account_702_pull') }}">ดึงลูกหนี้</a></li>
+                                       
                                     </ul>
                                 </li>
                                 <li><a href="javascript: void(0);" class="has-arrow">704-บุคคลที่มีปัญหาสถานะและสิทธิ เบิกจากส่วนกลาง IP</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('account_704_dash') }}">dashboard</a>
-                                        <li><a href="{{ url('account_704_pull') }}">ดึงลูกหนี้</a>
-                                        </li>
+                                        <li><a href="{{ url('account_704_dash') }}">dashboard</a></li>
+                                        <li><a href="{{ url('account_704_pull') }}">ดึงลูกหนี้</a></li>
+                                        
                                     </ul>
                                 </li>
                             </ul>

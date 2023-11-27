@@ -378,5 +378,25 @@ class Account310Controller extends Controller
             'months'        =>     $months
         ]);
     }
+
+    public function account_310_detail_date(Request $request)
+    {
+        $datenow = date('Y-m-d'); 
+        // dd($id);
+        $data['users'] = User::get();
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $data = DB::select('
+        SELECT an,vn,hn,cid,ptname,dchdate,pttype,debit,debit_total
+            from acc_1102050101_310
+        
+            WHERE dchdate BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
+        '); 
+        return view('account_310.account_310_detail_date', $data, [ 
+            'data'           =>     $data,
+            'startdate'      =>     $startdate,
+            'enddate'        =>     $enddate
+        ]);
+    }
    
  }

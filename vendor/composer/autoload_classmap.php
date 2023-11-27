@@ -307,6 +307,7 @@ return array(
     'App\\Imports\\OtImport' => $baseDir . '/app/Imports/OtImport.php',
     'App\\Imports\\Suppliesimport' => $baseDir . '/app/Imports/Suppliesimport.php',
     'App\\Models\\Acc_106_debt_print' => $baseDir . '/app/Models/Acc_106_debt_print.php',
+    'App\\Models\\Acc_107_debt_print' => $baseDir . '/app/Models/Acc_107_debt_print.php',
     'App\\Models\\Acc_1102050101_102' => $baseDir . '/app/Models/Acc_1102050101_102.php',
     'App\\Models\\Acc_1102050101_103' => $baseDir . '/app/Models/Acc_1102050101_103.php',
     'App\\Models\\Acc_1102050101_109' => $baseDir . '/app/Models/Acc_1102050101_109.php',

@@ -71,9 +71,31 @@ $pos = strrpos($url, '/') + 1;
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
-            </div>
-
+            </div> 
         </div>
+
+        <form action="{{ url('account_302_detail_date') }}" method="GET">
+            @csrf
+    <div class="row mb-2"> 
+            <div class="col"></div>
+            <div class="col-md-1 text-end mt-2">วันที่</div>
+            <div class="col-md-4 text-end">
+                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $startdate }}" required/>
+                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                        data-date-language="th-th" value="{{ $enddate }}"/>  
+              
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                        ค้นหา
+                    </button>  
+                    
+                </div> 
+            </div>
+          
+        </div>
+    </form>
 
         <div class="row">
             <div class="col-md-12">
@@ -93,7 +115,7 @@ $pos = strrpos($url, '/') + 1;
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
                                     {{-- <th class="text-center" width="5%">repno</th> --}}
-                                    {{-- <th class="text-center">an</th> --}}
+                                    <th class="text-center">an</th>
                                     <th class="text-center" >vn</th>
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
@@ -114,7 +136,7 @@ $pos = strrpos($url, '/') + 1;
                                    
                                         <tr height="20" style="font-size: 14px;">
                                             <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                            {{-- <td class="text-center" width="10%">{{ $item->repno }}</td>   --}}
+                                            <td class="text-center" width="10%">{{ $item->an }}</td>  
                                                     <td class="text-center" width="10%">{{ $item->vn }}</td> 
                                                     <td class="text-center" width="10%">{{ $item->hn }}</td>   
                                                     <td class="text-center" width="10%">{{ $item->cid }}</td>  
