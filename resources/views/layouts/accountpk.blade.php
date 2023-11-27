@@ -577,6 +577,30 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 </li>
                             </ul>
                         </li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-brands fa-btc" style="color: #55595a"></i>
+                                <span>คนต่างด้าว</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true"> 
+                                <li><a href="javascript: void(0);" class="has-arrow">501-คนต่างด้าวและแรงงานต่างด้าว OP </a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_501_dash') }}">dashboard</a></li>
+                                        <li><a href="{{ url('account_501_pull') }}">ดึงลูกหนี้</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">502-คนต่างด้าวและแรงงานต่างด้าว OP </a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_502_dash') }}">dashboard</a></li>
+                                        <li><a href="{{ url('account_502_pull') }}">ดึงลูกหนี้</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                
+                            </ul>
+                        </li>
                       
  
                         <li>

@@ -1026,7 +1026,7 @@ class Lgo801Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='12001_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='lgo_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost
@@ -1509,6 +1509,26 @@ class Lgo801Controller extends Controller
             return redirect()->route('claim.LGO_801');
 
     }
-    
+
+    public function lgo_801_main(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $data['users']     = User::get();  
+        $data['d_claim']   = DB::connection('mysql')->select('
+            SELECT d.vn,d.hn,d.an,d.cid,d.ptname,d.vstdate,d.pttype,d.sum_price,s.rep_a,s.tranid_c,s.price1_k,s.income_ad,s.pp_gep_ae,s.claim_true_af,s.claim_false_ag,s.cash_money_ah
+            ,s.pay_ai,s.IPCS_ao,s.IPCS_ORS_ap,s.OPCS_aq,s.PACS_ar,s.INSTCS_as,s.OTCS_at,s.PP_au,s.DRUG_av
+            FROM d_claim d
+            LEFT OUTER JOIN d_ofc_rep s ON s.hn_d = d.hn AND s.vstdate_i = d.vstdate
+            WHERE d.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+            ORDER BY s.tranid_c DESC
+        '); 
+
+
+        return view('lgo.lgo_801_main',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
  
 }

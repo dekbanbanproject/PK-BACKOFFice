@@ -237,7 +237,7 @@
                                 <li><a href="javascript: void(0);" class="has-arrow">OFC</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('ofc_401_main') }}">OFC-MAIN </a></li>
-                                        <li><a href="{{ url('ofc_401') }}">OFC-401 </a></li>
+                                        <li><a href="{{ url('ofc_401') }}">OFC-CLAIM </a></li>
                                         <li><a href="{{ url('ofc_401_rep') }}">OFC-REP </a></li>
                                         {{-- <li><a href="{{ url('ktb_spawn') }}">การตรวจหลังคลอด ANC</a></li> --}}
                                         {{-- <li><a href="{{ url('ktb_ferrofolic') }}">บริการยาเสริมธาตุเหล็ก </a></li> --}}
@@ -246,7 +246,9 @@
                                 </li>
                                 <li><a href="javascript: void(0);" class="has-arrow">LGO</a>
                                     <ul class="sub-menu" aria-expanded="true"> 
-                                        <li><a href="{{ url('lgo_801') }}">LGO-801 </a></li> 
+                                        <li><a href="{{ url('lgo_801_main') }}">LGO-MAIN </a></li> 
+                                        <li><a href="{{ url('lgo_801') }}">LGO-CLAIM </a></li> 
+                                        <li><a href="{{ url('lgo_801_rep') }}">LGO-REP </a></li> 
                                     </ul>
                                 </li>
                                 {{-- <li><a href="{{ url('six') }}">ส่งออก 16 แฟ้ม</a></li> --}}

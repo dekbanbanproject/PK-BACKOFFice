@@ -48,7 +48,7 @@
         }
     </style>
 
-    <div class="tabs-animation mb-5">
+    <div class="tabs-animation">
 
         <div class="row text-center">
             <div id="overlay">
@@ -59,11 +59,11 @@
 
         </div>
 
-        <div class="row ms-3 me-3 mt-2">
+        <div class="row">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
-                    รายละเอียด 1102050101.701
+                    รายละเอียด 1102050101.501
                         <div class="btn-actions-pane-right">
 
                         </div>
@@ -76,40 +76,36 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center" width="5%">vn</th> 
-                                    {{-- <th class="text-center" >vn</th> --}}
+                                    <th class="text-center" width="5%">vn</th>
+                                    {{-- <th class="text-center">an</th> --}}
                                     <th class="text-center" >hn</th>
                                     <th class="text-center" >cid</th>
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
-                                    <th class="text-center">pttype</th> 
-                                    <th class="text-center">ลูกหนี้</th>
-                                    <th class="text-center">ยอดชดเชย</th>
-                                    <th class="text-center">STMdoc</th>
+                                    <th class="text-center">pttype</th>
+                                    <th class="text-center">hospmain</th>
+                                    <th class="text-center">income</th> 
+                                    <th class="text-center">rcpt_money</th> 
+                                    <th class="text-center">ลูกหนี้</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0; ?>
-                                @foreach ($datashow as $item)
+                                @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
-                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
-                                        <td class="text-center" width="8%">{{ $item->vn }}</td>
-                                        {{-- <td class="text-center" width="8%">{{ $item->an }}</td> --}}
-                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
-                                        <td class="text-center" width="10%">{{ $item->cid }}</td>
-                                        <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td>
-                                        {{-- <td class="text-center" width="7%">{{ $item->dchdate }}</td> --}}
-                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
-                                        
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td> 
-                                        @if ($item->pricereq_all < $item->debit_total)
-                                            <td class="text-end" style="color:rgb(243, 74, 45)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
-                                        @else
-                                            <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->pricereq_all, 2) }}</td>
-                                        @endif
-                                        <td class="text-center" width="12%">{{ $item->STMdoc }}</td>
+                                        <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td>  
+                                        <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                        {{-- <td class="text-center" width="8%">{{ $item->an }}</td>  --}}
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td>   
+                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                        <td class="p-2" >{{ $item->ptname }}</td>  
+                                        <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
+                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>  
+                                        <td class="text-center" width="5%">{{ $item->hospmain }}</td>
+                                        <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                        <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
+                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                     </tr>
  
                                 @endforeach
