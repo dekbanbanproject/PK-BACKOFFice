@@ -391,12 +391,24 @@
                                                                                             <div class="col-md-2 mb-2"> 
                                                                                                     <input type="text" class="form-control form-control-sm" id="lname_p" name="lname_p" value="{{$collection3}}" style="font-size: 13px"> 
                                                                                             </div>
-                                                                                            <div class="col-md-1 text-end"><label for="cid" class="form-label">CID </label> </div>
+                                                                                            <div class="col-md-1 text-end"><label for="pttype_p" class="form-label">สิทธิ์การรักษา </label> </div>
                                                                                             <div class="col-md-2 mb-2"> 
-                                                                                                    <input type="text" class="form-control form-control-sm" id="cid_p" name="cid_p" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px">
-                                                                                                
+                                                                                                    {{-- <input type="text" class="form-control form-control-sm" id="pttype_p" name="pttype_p"  placeholder="สิทธิ์การรักษา" style="font-size: 13px">  --}}
+                                                                                                    <select name="pttype_p" id="pttype_p" class="form-control" style="width: 100%">
+                                                                                                        @foreach ($pttype as $item_pt)
+                                                                                                        {{-- @if ($subinscl == $item_pt->hipdata_pttype && $pttype == $item_pt->pttype) --}}
+                                                                                                        @if ($ori_pttype == $item_pt->pttype)
+                                                                                                        <option value="{{$item_pt->pttype}}" selected>{{$item_pt->name}}</option>
+                                                                                                        @else
+                                                                                                        <option value="{{$item_pt->pttype}}">{{$item_pt->name}}</option>
+                                                                                                        @endif                                                                                            
+                                                                                                        @endforeach 
+                                                                                                    </select> 
                                                                                             </div>                                                                                    
                                                                                         </div>
+
+                                                                                        <input type="hidden" class="form-control form-control-sm" id="cid_p" name="cid_p" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px">  
+
                                                                                         <div class="row">
                                                                                             <div class="col-md-1 text-end">   <label for="marrystatus_p" class="form-label">สถานภาพ </label> </div>
                                                                                             <div class="col-md-2 mb-2"> 
@@ -699,10 +711,20 @@
                                                                                             <div class="col-md-2 mb-2"> 
                                                                                                     <input type="text" class="form-control form-control-sm" id="lname" name="lname" value="{{$collection3}}" style="font-size: 13px"> 
                                                                                             </div>
-                                                                                            <div class="col-md-1 text-end"><label for="mobile" class="form-label">CID </label> </div>
+                                                                                            <div class="col-md-1 text-end"><label for="mobile" class="form-label">สิทธิ์การรักษา </label> </div>
                                                                                             <div class="col-md-2 mb-2"> 
-                                                                                                    <input type="text" class="form-control form-control-sm" id="cid" name="cid" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px">
-                                                                                                
+                                                                                                    {{-- <input type="text" class="form-control form-control-sm" id="cid" name="cid" value="{{$collection1}}" placeholder="เลขบัตรประชาชน" style="font-size: 13px"> --}}
+                                                                                                    
+                                                                                                        <select name="pttype" id="pttype" class="form-control" style="width: 100%">
+                                                                                                            @foreach ($pttype as $item_pt) 
+                                                                                                            @if ($ori_pttype == $item_pt->pttype)
+                                                                                                            <option value="{{$item_pt->pttype}}" selected>{{$item_pt->name}}</option>
+                                                                                                            @else
+                                                                                                            <option value="{{$item_pt->pttype}}">{{$item_pt->name}}</option>
+                                                                                                            @endif                                                                                            
+                                                                                                            @endforeach 
+                                                                                                        </select> 
+                                                                                               
                                                                                             </div> 
                                                                                         </div>
 

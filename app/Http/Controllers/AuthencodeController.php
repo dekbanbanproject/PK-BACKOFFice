@@ -108,7 +108,7 @@ class AuthencodeController extends Controller
                     @$maininscl                = $v->maininscl;  // maininscl": "WEL"
                     @$startdate                = $v->startdate;  //"25650728"
                     @$hmain                    = $v->hmain;   //"11066"
-                    @$subinscl                 = $v->subinscl;    //subinscl": "73"
+                    @$subinscl                  = $v->subinscl;    //subinscl": "73"
                     @$person_id_nhso           = $v->person_id;
                     if (@$maininscl == 'WEL') {
                         @$cardid                    = $v->cardid;  // "R73450035286038"
@@ -129,44 +129,52 @@ class AuthencodeController extends Controller
                 $check_cid = DB::connection('mysql2')->table('patient')->where('cid','=',$collection['pid'])->count();
                 $check_hcode = DB::connection('mysql')->table('orginfo')->where('orginfo_id','=','1')->first();
                 if ($check_cid > 0) {
-                    $data_patient_ = DB::connection('mysql2')->select(' 
-                                SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
-                                ,p.pttype ,pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,p.cid,p.hcode,p.last_visit,p.hometel
-                                ,p.bloodgrp,p.addrpart,p.informname,p.informrelation,p.informtel,p.fathername,p.fatherlname
-                                ,p.father_cid,p.mathername,p.motherlname,p.mother_cid,p.spsname,p.spslname
-                                ,h.chwpart,h.amppart,h.tmbpart,h.po_code
-                                FROM patient p 
-                                LEFT OUTER JOIN person pe ON pe.patient_hn = p.hn 
-                                LEFT OUTER JOIN hospcode h ON h.chwpart = p.chwpart AND h.amppart = p.amppart AND h.tmbpart = p.tmbpart
-                                WHERE p.cid = "' . $collection['pid'] . '"
-                                GROUP BY p.hn
-                    ');
-                    foreach ($data_patient_ as $key => $value) {
-                        $pids          = $value->cid;
-                        $hcode         = $value->hcode;
-                        $hn            = $value->hn;
-                        $last_visit    = $value->last_visit;
-                        $hometel       = $value->hometel;
-                        $chwpart       = $value->chwpart;
-                        $amppart       = $value->amppart;
-                        $tmbpart       = $value->tmbpart;
-                        $addrpart       = $value->addrpart;
-                        $po_code       = $value->po_code;
-                        $bloodgrp      = $value->bloodgrp;
+                            $data_patient_ = DB::connection('mysql2')->select(' 
+                                        SELECT p.hn ,pe.pttype_expire_date as expiredate ,pe.pttype_hospmain as hospmain ,pe.pttype_hospsub as hospsub 
+                                        ,p.pttype,pt.name as ptname,pt.hipdata_pttype, pe.pttype_no as pttypeno ,pe.pttype_begin_date as begindate,p.cid,p.hcode,p.last_visit,p.hometel
+                                        ,p.bloodgrp,p.addrpart,p.informname,p.informrelation,p.informtel,p.fathername,p.fatherlname
+                                        ,p.father_cid,p.mathername,p.motherlname,p.mother_cid,p.spsname,p.spslname
+                                        ,h.chwpart,h.amppart,h.tmbpart,h.po_code
+                                        FROM patient p 
+                                        LEFT OUTER JOIN person pe ON pe.patient_hn = p.hn 
+                                        LEFT OUTER JOIN pttype pt ON pt.pttype = p.pttype
+                                        LEFT OUTER JOIN hospcode h ON h.chwpart = p.chwpart AND h.amppart = p.amppart AND h.tmbpart = p.tmbpart
+                                        WHERE p.cid = "'.$collection['pid'].'"
+                                        GROUP BY p.hn
+                            ');
+                            foreach ($data_patient_ as $key => $value) {
+                                $pids          = $value->cid;
+                                $hcode         = $value->hcode;
+                                $hn            = $value->hn;
+                                $last_visit    = $value->last_visit;
+                                $hometel       = $value->hometel;
+                                $chwpart       = $value->chwpart;
+                                $amppart       = $value->amppart;
+                                $tmbpart       = $value->tmbpart;
+                                $addrpart       = $value->addrpart;
+                                $po_code       = $value->po_code;
+                                $bloodgrp      = $value->bloodgrp;
 
-                        $informname      = $value->informname;
-                        $informrelation  = $value->informrelation;
-                        $informtel       = $value->informtel;
-                        $fathername      = $value->fathername;
-                        $fatherlname     = $value->fatherlname;
-                        $father_cid      = $value->father_cid;
-                        $mathername      = $value->mathername;
-                        $motherlname     = $value->motherlname;
-                        $mother_cid      = $value->mother_cid;
-                        $spsname         = $value->spsname;
-                        $spslname        = $value->spslname;
+                                $informname      = $value->informname;
+                                $informrelation  = $value->informrelation;
+                                $informtel       = $value->informtel;
+                                $fathername      = $value->fathername;
+                                $fatherlname     = $value->fatherlname;
+                                $father_cid      = $value->father_cid;
+                                $mathername      = $value->mathername;
+                                $motherlname     = $value->motherlname;
+                                $mother_cid      = $value->mother_cid;
+                                $spsname         = $value->spsname;
+                                $spslname        = $value->spslname;
+                                $ptname          = $value->ptname;
+                                $hipdata_pttype  = $value->hipdata_pttype;
+                                $pttype_s        = $value->pttype;
 
-                    }
+                            }
+                           
+                            $check_pttype = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->where('pttype','=',$pttype_s)->get();
+
+
                 } else {
                         $pids            = $collection['pid'];
                         $hcode           = $check_hcode->orginfo_code;
@@ -190,11 +198,18 @@ class AuthencodeController extends Controller
                         $mother_cid      = '';
                         $spsname         = '';
                         $spslname        = '';
+                        $ptname          = '';
+                        $hipdata_pttype  = '';
+                        $pttype_s          = '';
+
+                        // $check_pttype = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->get();
                     
                 }
                 
-                $check_pttype = DB::connection('mysql2')->table('pttype')->where('hipdata_pttype','=',$subinscl)->get();
                 
+                // dd($check_pttype);
+                // $check_pttype = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->where('pttype','=',$pttype)->get();
+                // $data['check_pttype'] = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->get();
                 // dd($hcode);
                 $year = substr(date("Y"), 2) + 43;
                 $mounts = date('m');
@@ -227,12 +242,18 @@ class AuthencodeController extends Controller
                 $data['informrelation_list'] =  DB::connection('mysql10')->select('select name from informrelation_list');
                 $data['religion'] =  DB::connection('mysql10')->select('SELECT * FROM religion');
                 $data['occupation'] =  DB::connection('mysql10')->select('SELECT * FROM occupation');
+                $data_patient =  DB::connection('mysql10')->select('SELECT pttype FROM patient WHERE cid = "'.$collection['pid'].'" ');
+                $data['pttype'] =  DB::connection('mysql10')->select('SELECT * FROM pttype');
 
-                
+                foreach ($data_patient as $key => $value_pat) {
+                    $check_pttype_ = DB::connection('mysql10')->table('pttype')->where('hipdata_pttype','=',$subinscl)->where('pttype','=',$value_pat->pttype)->first();
+                }
+                $ori_pttype  = $check_pttype_->pttype;
+                // dd($ori_pttype);
                 // $data['thaiaddress_provinces'] =  DB::connection('mysql10')->select(' select * from thaiaddress_provinces');
                 // $data['thaiaddress_amphures'] =  DB::connection('mysql10')->select(' select * from thaiaddress_amphures');
                 // $data['thaiaddress_districts'] =  DB::connection('mysql10')->select(' select * from thaiaddress_districts');
-
+                
 
                 //ที่เก็บรูปภาพ
                 $data['patient_image'] =  DB::connection('mysql10')->select('select * from patient_image where image_name = "OPD" limit 100');
@@ -299,7 +320,7 @@ class AuthencodeController extends Controller
                     'primary_tumbon_name'        => $primary_tumbon_name ,
                     'primary_amphur_name'        => $primary_amphur_name ,
                     'primary_province_name'      => $primary_province_name ,
-                    'check_pttype'               => $check_pttype, 
+                    // 'check_pttype'               => $check_pttype, 
 
                     'informname'                 =>$informname,
                     'informrelation'             =>$informrelation,
@@ -312,8 +333,11 @@ class AuthencodeController extends Controller
                     'mother_cid'                 =>$mother_cid,
                     'spsname'                    =>$spsname,
                     'spslname'                   =>$spslname,
-                   
-
+                    'ptname'                     =>$ptname,
+                    'hipdata_pttype'             =>$hipdata_pttype,
+                    'subinscl'                   =>$subinscl,
+                    'ori_pttype'                 =>$ori_pttype,
+                    'pttype_s'                   =>$pttype_s
                 ]);
             }
         }
