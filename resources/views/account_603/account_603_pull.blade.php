@@ -67,6 +67,12 @@
                     <span class="spinner"></span>
                 </div>
             </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
+            </div>
         </div>
        
         <div class="row"> 
@@ -100,13 +106,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body shadow-lg">
-                        <div class="row mt-3 text-center">  
-                            <div id="overlay">
-                                <div class="cv-spinner">
-                                <span class="spinner"></span>
-                                </div>
-                            </div>
-                        </div> 
+                        
                       
                         <div class="row">
                             <div class="col-md-4">

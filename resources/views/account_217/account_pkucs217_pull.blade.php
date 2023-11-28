@@ -66,8 +66,13 @@
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
-
         </div>
      
         <div class="row mb-3"> 

@@ -133,7 +133,7 @@ class Account8011Controller extends Controller
                     and account_code="1102050102.8011"
                     group by month(a.vstdate) 
                     
-                    order by a.vstdate desc limit 6;
+                    order by a.vstdate desc limit 3;
             '); 
             // 
             // order by month(a.vstdate),year(a.vstdate) desc limit 6;
@@ -335,7 +335,7 @@ class Account8011Controller extends Controller
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total 
+            SELECT *
             from acc_1102050102_8011 U1            
             WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
             GROUP BY U1.vn
@@ -395,7 +395,7 @@ class Account8011Controller extends Controller
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total 
+            SELECT *
             from acc_1102050102_8011 U1            
             WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             GROUP BY U1.vn

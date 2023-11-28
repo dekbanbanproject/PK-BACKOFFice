@@ -78,16 +78,16 @@
         $yb =  date('Y')+542;
     ?>
 
-   <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                </div>
+<div class="tabs-animation">
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
+    </div>
         <form action="{{ route('acc.account_402_dash') }}" method="GET">
             @csrf
-            <div class="row ms-2 me-2 mt-2">
+            <div class="row mt-2">
                 <div class="col-md-3">
                     <h5 class="card-title">Detail 1102050101.402</h5>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.402</p>
@@ -95,11 +95,7 @@
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end">
-                    {{-- <select name="year" id="year" class="form-control" style="width: 100%">
-                        @foreach ($leave_year as $item)
-                            <option value="{{$item->year}}">{{$item->year}}</option>
-                        @endforeach
-                    </select> --}}
+                     
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -107,19 +103,14 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
-                    </div>
-                </div>
-                <div class="col-md-3 text-start">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                     
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="fa-solid fa-magnifying-glass text-info"></i>
                         ค้นหา
                     </button>
-                    {{-- <a href="{{url('account_402_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                        ดึงข้อมูล
-                    </a> --}}
+                    
                 </div>
-
+            </div>
             </div>
         </form>
         <div class="row ">

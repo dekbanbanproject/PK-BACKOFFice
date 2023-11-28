@@ -204,6 +204,15 @@
                             </a>
                         </li>
                         <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-file-invoice-dollar text-warning"></i>
+                                <span>New-Eclaim</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('check_auth') }}" target="_blank">Check User Api</a></li> 
+                            </ul> 
+                        </li>
+                        <li>
                             <a href="{{ url('fdh_data') }}"> 
                                 <i class="fa-solid fa-notes-medical text-primary"></i>
                                 <span>FDH</span> 
@@ -466,7 +475,7 @@
                                                 target="_blank">ลูกหนี้รายตัวผัง 2UC</a></li>
                                         <li><a href="https://docs.google.com/spreadsheets/d/1t2HkWE8wvtrwc6GKLXMBr5I-XblVFtnD/edit#gid=1056463907"
                                                 target="_blank">ทะเบียนเปลี่ยนสิทธิ์</a></li>
-                                        <li><a href="https://docs.google.com/spreadsheets/d/1CrZY07Wa1CzrP3dN9uTZTnsjTRMRTdsZwctGyK3L7Nw/edit#gid=997207048"
+                                        <li><a href="https://docs.google.com/spreadsheets/d/1gzmOl_SjYxEyiqJUNPR1-QBtSKWNEJiyT6eQs48rmqw/edit#gid=0"
                                                 target="_blank">ลูกหนี้ชำระเงิน/สิ่งส่งตรวจ</a></li>
                                         <li><a href="https://docs.google.com/spreadsheets/d/1LRUyXxWmRzBXu-z2-192rMorSBn6aRu6ncnPr71bBks/edit#gid=1232079612"
                                                 target="_blank">ลูกหนี้เรียกเก็บจังหวัด 203</a></li>

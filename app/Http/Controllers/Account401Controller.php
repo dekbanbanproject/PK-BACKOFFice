@@ -117,7 +117,7 @@ class Account401Controller extends Controller
                     WHERE a.vstdate between "'.$start.'" and "'.$end.'"
                     and account_code="1102050101.401"
                     and income <> 0
-                    group by month(a.vstdate) order by a.vstdate desc limit 3;
+                    group by month(a.vstdate) order by a.vstdate desc limit 1;
             ');
         } else {
             $datashow = DB::select('
@@ -157,20 +157,14 @@ class Account401Controller extends Controller
             // $data_vn = DB::select(' SELECT vn FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N"');
             // foreach ($data_vn as $key => $value) {
                 $acc_debtor = DB::select(' 
-                        SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl 
-                   
-                    from acc_debtor a
-                    left join checksit_hos c on c.vn = a.vn  
-                    WHERE a.account_code="1102050101.401"
-                    AND a.stamp = "N"
-                    GROUP BY a.vn
-                    order by a.vstdate asc;
-
-                ');
-            // }
-            // a.*,c.subinscl 
-            
-            // and month(a.dchdate) = "'.$months.'" and year(a.dchdate) = "'.$year.'"
+                        SELECT a.acc_debtor_id,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.pttype,a.debit_total,c.subinscl  
+                        from acc_debtor a
+                        left join checksit_hos c on c.vn = a.vn  
+                        WHERE a.account_code="1102050101.401"
+                        AND a.stamp = "N"
+                        GROUP BY a.vn
+                        order by a.vstdate asc; 
+                '); 
         } else {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
@@ -322,7 +316,7 @@ class Account401Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+        SELECT *
             from acc_1102050101_401 U1
             WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
             GROUP BY U1.vn
@@ -386,7 +380,7 @@ class Account401Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+        SELECT *
             from acc_1102050101_401 U1
             WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
             GROUP BY U1.vn

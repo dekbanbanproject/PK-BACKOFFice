@@ -259,17 +259,15 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
                         <li class="menu-title">Menu</li>
-                        <li>
+                        {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-success"></i>
                                 <span>New-Eclaim</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
-                                <li><a href="{{ url('check_auth') }}" target="_blank">Check User Api</a></li>
-
-                            </ul>
-
-                        </li>
+                                <li><a href="{{ url('check_auth') }}" target="_blank">Check User Api</a></li> 
+                            </ul> 
+                        </li> --}}
                         {{-- <li>
                             <a href="{{url('sit_acc_debtorauto')}}" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-invoice-dollar text-success"></i>
@@ -294,7 +292,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         @if ($permiss_ucs != 0)
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-brands fa-btc" style="color: rgb(250, 124, 187)"></i>
+                                    <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(250, 124, 187)"></i>
                                     <span>UCS</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
@@ -341,7 +339,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         @if ($permiss_sss != 0)
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-brands fa-btc" style="color: rgb(134, 216, 27)"></i>
+                                    <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(134, 216, 27)"></i>
                                     <span>SSS</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
@@ -402,7 +400,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         @if ($permiss_ofc != 0)                           
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-brands fa-btc" style="color: rgb(39, 131, 236)"></i>
+                                    <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(39, 131, 236)"></i>
                                     <span>OFC</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
@@ -427,7 +425,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         @if ($permiss_lgo != 0) 
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-brands fa-btc" style="color: rgb(253, 38, 85)"></i>
+                                    <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(253, 38, 85)"></i>
                                     <span>LGO</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
@@ -467,7 +465,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                            
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-brands fa-btc" style="color: #e42ad4"></i>
+                                    <i class="fa-solid fa-file-invoice-dollar" style="color: #e42ad4"></i>
                                     <span>พรบ</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
@@ -505,7 +503,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                             </li> --}}
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-brands fa-btc" style="color: rgb(253, 124, 38)"></i>
+                                    <i class="fa-solid fa-file-invoice-dollar" style="color: rgb(253, 124, 38)"></i>
                                     <span>ไต</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="true"> 
@@ -550,7 +548,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-brands fa-btc" style="color: #28d9f8"></i>
+                                <i class="fa-solid fa-file-invoice-dollar" style="color: #28d9f8"></i>
                                 <span>สถานะสิทธิ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
@@ -580,7 +578,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-brands fa-btc" style="color: #55595a"></i>
+                                <i class="fa-solid fa-file-invoice-dollar" style="color: #55595a"></i>
                                 <span>คนต่างด้าว</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true"> 
@@ -595,6 +593,20 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('account_502_dash') }}">dashboard</a></li>
                                         <li><a href="{{ url('account_502_pull') }}">ดึงลูกหนี้</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">503-คนต่างด้าวและแรงงานต่างด้าว OP นอก CUP</a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_503_dash') }}">dashboard</a></li>
+                                        <li><a href="{{ url('account_503_pull') }}">ดึงลูกหนี้</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                <li><a href="javascript: void(0);" class="has-arrow">504-คนต่างด้าวและแรงงานต่างด้าว IP นอก CUP </a>
+                                    <ul class="sub-menu" aria-expanded="true"> 
+                                        <li><a href="{{ url('account_504_dash') }}">dashboard</a></li>
+                                        <li><a href="{{ url('account_504_pull') }}">ดึงลูกหนี้</a></li>
                                        
                                     </ul>
                                 </li>

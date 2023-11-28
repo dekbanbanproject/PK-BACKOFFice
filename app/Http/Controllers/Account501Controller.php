@@ -115,7 +115,7 @@ class Account501Controller extends Controller
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$start.'" and "'.$end.'"
-                    and account_code="1102050101.701"
+                    and account_code="1102050101.501"
                     and income <> 0
                     group by month(a.vstdate) order by a.vstdate desc limit 6;
             ');
@@ -130,7 +130,7 @@ class Account501Controller extends Controller
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.701"
+                    and account_code="1102050101.501"
                     and income <>0
                     
             ');
@@ -180,7 +180,7 @@ class Account501Controller extends Controller
                 ,o.vstdate,o.vsttime
                 ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
                 ,ptt.pttype_eclaim_id,vp.pttype
-                ,e.code as acc_code
+                ,"21" as acc_code
                 ,"1102050101.501" as account_code
                 ,"ลูกหนี้ค่ารักษา-คนต่างด้าวและแรงงานต่างด้าว OP" as account_name
                 ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 

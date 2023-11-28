@@ -48,16 +48,13 @@
         }
     </style>
 
-    <div class="tabs-animation">
-
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
-                </div>
+<div class="tabs-animation">
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
-
         </div>
+    </div>
 
         <div class="row">
             <div class="col-md-12">
@@ -90,7 +87,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0; 
+                                 $total1 = 0;
+                                $total2 = 0;
+                                $total3 = 0;
+                                $total4 = 0;
+                                ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
@@ -107,10 +109,20 @@
                                         <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                     </tr>
- 
+                                    <?php
+                                    $total1 = $total1 + $item->income;
+                                    $total2 = $total2 + $item->rcpt_money;
+                                    $total3 = $total3 + $item->debit_total; 
+                            ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                            </tr>  
                         </table>
                     </div>
                 </div>

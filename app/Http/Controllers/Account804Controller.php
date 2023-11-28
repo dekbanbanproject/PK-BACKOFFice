@@ -198,7 +198,10 @@ class Account804Controller extends Controller
                 SELECT i.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                     ,a.regdate,a.dchdate,v.vstdate,op.income as income_group
                     ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income 
-                    ,pt.hcode,o.vsttime,e.code as acc_code,e.ar_ipd as account_code,e.name as account_name
+                    ,pt.hcode,o.vsttime
+                    ,"19" as acc_code
+                    ,"1102050102.804" as account_code
+                    ,"เบิกจ่ายตรง อปท.รูปแบบพิเศษ (กทม)" as account_name
                     ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                     ,a.rcpno_list as rcpno
                     ,a.income-a.discount_money-a.rcpt_money as debit

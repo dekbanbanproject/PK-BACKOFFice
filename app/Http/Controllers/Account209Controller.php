@@ -337,6 +337,7 @@ class Account209Controller extends Controller
         $data = DB::select('
             SELECT *  from acc_1102050101_209 
             WHERE month(vstdate) = "'.$months.'" and year(vstdate) = "'.$year.'" 
+            GROUP BY vn
         ');
          
         return view('account_209.account_pkucs209_detail', $data, [
@@ -417,6 +418,7 @@ class Account209Controller extends Controller
         $data = DB::select('
             SELECT *  from acc_1102050101_209 
             WHERE vstdate between "'.$startdate.'" and  "'.$enddate.'" 
+            GROUP BY vn
         ');
          
         return view('account_209.account_pkucs209_detail_date', $data, [

@@ -133,7 +133,7 @@ class Account4011Controller extends Controller
                     and account_code="1102050101.4011"
                     group by month(a.vstdate) 
                     
-                    order by a.vstdate desc limit 6;
+                    order by a.vstdate desc limit 3;
             '); 
             // 
             // order by month(a.vstdate),year(a.vstdate) desc limit 6;
@@ -382,12 +382,12 @@ class Account4011Controller extends Controller
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total 
+            SELECT *
             from acc_1102050101_4011 U1            
             WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
             GROUP BY U1.vn
         ');
-      
+        // U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total 
         return view('account_4011.account_pkti4011_detail', $data, [ 
             'data'       =>     $data,
             'months'     =>     $months,
@@ -401,7 +401,7 @@ class Account4011Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc 
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc,U1.income,U1.rcpt_money 
                 from acc_1102050101_4011 U1
                 LEFT JOIN acc_stm_ti_total am on am.hn = U1.hn AND am.vstdate = U1.vstdate
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
@@ -442,7 +442,7 @@ class Account4011Controller extends Controller
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total 
+            SELECT *
             from acc_1102050101_4011 U1            
             WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             GROUP BY U1.vn

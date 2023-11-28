@@ -101,14 +101,18 @@ $pos = strrpos($url, '/') + 1;
 
                                     <th class="text-center">vstdate</th>
                                     {{-- <th class="text-center">dchdate</th> --}}
-                                    <th class="text-center">pttype</th>
-                                    
+                                    <th class="text-center">pttype</th> 
                                     <th class="text-center">ลูกหนี้</th>
                                     {{-- <th class="text-center">ยอดชดเชย</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0;
+                                 $total1 = 0;
+                                $total2 = 0;
+                                $total3 = 0;
+                                $total4 = 0;
+                                 ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                    
@@ -127,11 +131,17 @@ $pos = strrpos($url, '/') + 1;
                                                 </td>
                                         </tr>
                                         
-                                    
+                                        <?php
+                                        $total1 = $total1 + $item->debit_total; 
+                                      ?>
  
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td> 
+                            </tr> 
                         </table>
                     </div>
                 </div>

@@ -82,7 +82,7 @@
         </div>
         <form action="{{ url('account_pkti4011_dash') }}" method="GET">
             @csrf
-            <div class="row ms-3 me-3 mt-3"> 
+            <div class="row mt-3"> 
                 <div class="col-md-3">
                     <h4 class="card-title">Detail 1102050101.4011</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.4011</p>
@@ -98,21 +98,20 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div> 
-                </div>
-                <div class="col-md-3 text-start">
-                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                    
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="fa-solid fa-magnifying-glass text-info"></i>
                         ค้นหา
                     </button>
-                    <a href="{{url('account_pkti4011_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
+                    {{-- <a href="{{url('account_pkti4011_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
+                        <i class="fa-solid fa-file-circle-plus text-primary"></i>
                         ดึงข้อมูล
-                    </a>
+                    </a> --}}
+                </div>
                 </div>
             </div>
         </form>  
-        <div class="row ms-3 me-3"> 
+        <div class="row "> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
                 <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 

@@ -143,8 +143,7 @@
                                                     SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                             from acc_1102050101_209
                                                             WHERE month(vstdate) = "'.$item->months.'"
-                                                            and year(vstdate) = "'.$item->year.'"
-                                                            AND status = "N"
+                                                            and year(vstdate) = "'.$item->year.'" 
                                                 ');
                                                 // AND status = "N"
                                                 foreach ($datasum_ as $key => $value2) {
@@ -321,8 +320,7 @@
                                                 SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
                                                         from acc_1102050101_209
                                                         WHERE vstdate BETWEEN "'.$startdate.'"
-                                                        AND  "'.$enddate.'"
-                                                        AND status = "N"
+                                                        AND  "'.$enddate.'" 
                                             ');
                                             // AND status = "N"
                                             foreach ($datasum_ as $key => $value2) {

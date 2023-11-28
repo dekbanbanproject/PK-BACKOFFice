@@ -192,9 +192,9 @@ class Account402Controller extends Controller
                 ,v.vstdate ,a.dchdate
                 ,ptt.pttype_eclaim_id
                 ,ipt.pttype,ptt.name as namelist
-                ,e.code as acc_code
-                ,e.ar_ipd as account_code
-                ,e.name as account_name 
+                ,"17" as acc_code
+                ,"1102050101.402" as account_code
+                ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name 
                 ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                 ,a.rcpno_list as rcpno
                 ,a.income-a.discount_money-a.rcpt_money as debit
@@ -221,6 +221,9 @@ class Account402Controller extends Controller
                             
                 GROUP BY i.an 
         '); 
+        // ,e.code as acc_code
+        // ,e.ar_ipd as account_code
+
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
@@ -327,12 +330,12 @@ class Account402Controller extends Controller
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total ,U1.adjrw,U1.total_adjrw_income
+            SELECT *
             from acc_1102050101_402 U1            
             WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
             GROUP BY U1.an
         ');
-      
+        // U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total ,U1.adjrw,U1.total_adjrw_income
         return view('account_402.account_402_detail', $data, [ 
             'data'       =>     $data,
             'months'     =>     $months,
@@ -346,14 +349,14 @@ class Account402Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc ,U1.adjrw,U1.total_adjrw_income
+            SELECT *
                 from acc_1102050101_402 U1
                 LEFT JOIN acc_stm_ofc U2 on U2.an = U1.an 
                 WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
                 AND U2.pricereq_all is not null 
                 group by U1.an
         ');
-       
+        // U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc ,U1.adjrw,U1.total_adjrw_income
         return view('account_402.account_402_stm', $data, [ 
             'data'          =>     $data,
             'months'        =>     $months,
@@ -387,7 +390,7 @@ class Account402Controller extends Controller
         $datenow = date('Y-m-d');  
         $data['users'] = User::get();  
         $data = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total 
+            SELECT *
             from acc_1102050101_402 U1            
             WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             GROUP BY U1.an

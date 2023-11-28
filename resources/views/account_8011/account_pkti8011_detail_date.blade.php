@@ -101,11 +101,18 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">pttype</th> 
+                                    <th class="text-center">income</th> 
+                                    <th class="text-center">rcpt_money</th> 
                                     <th class="text-center">ลูกหนี้</th> 
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0;
+                                $total1 = 0;
+                                $total2 = 0;
+                                $total3 = 0;
+                                $total4 = 0;
+                                 ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                    
@@ -117,12 +124,24 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="p-2" >{{ $item->ptname }}</td>  
                                             <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
                                             <td class="text-center" width="10%">{{ $item->pttype }}</td>  
+                                            <td class="text-center" width="10%">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-center" width="10%">{{ number_format($item->rcpt_money, 2) }}</td> 
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
-                                         
+                                        <?php
+                                        $total1 = $total1 + $item->income;
+                                        $total2 = $total2 + $item->rcpt_money;
+                                        $total3 = $total3 + $item->debit_total; 
+                                ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                            </tr> 
                         </table>
                     </div>
                 </div>

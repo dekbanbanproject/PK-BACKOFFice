@@ -78,16 +78,16 @@
         $yb =  date('Y')+542;
     ?>
 
-   <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                </div>
+<div class="tabs-animation">
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
+    </div>
         <form action="{{ route('acc.account_401_dash') }}" method="GET">
             @csrf
-            <div class="row ms-2 me-2 mt-2">
+            <div class="row mt-2">
                 <div class="col-md-3">
                     <h5 class="card-title">Detail 1102050101.401</h5>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.401</p>
@@ -102,19 +102,14 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
-                    </div>
-                </div>
-                <div class="col-md-3 text-start">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
+                  
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <i class="fa-solid fa-magnifying-glass text-info"></i>
                         ค้นหา
                     </button>
-                    {{-- <a href="{{url('account_401_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                        ดึงข้อมูล
-                    </a> --}}
+                    
                 </div>
-
+            </div>
             </div>
         </form>
         <div class="row ">
@@ -364,11 +359,11 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end mt-2 me-2">
-                                                    <a href="{{url('account_401_pull')}}" target="_blank">
+                                                    
                                                         <div class="widget-chart widget-chart-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="จำนวนลูกหนี้ที่ต้องตั้ง">
                                                             <h6 class="text-end">{{$count_N}} Visit</h6>
                                                         </div>
-                                                    </a>
+                                                  
                                                 </div>
                                             </div>
 
@@ -383,14 +378,14 @@
                                                 </div>
                                                 <div class="col"></div>
                                                 <div class="col-md-5 text-end me-2">
-                                                    <a href="" target="_blank">
+                                              
                                                         <div class="widget-chart widget-chart-hover" >
                                                             <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
                                                                     {{ number_format($sum_N, 2) }}
                                                                     <i class="fa-brands fa-btc text-secondary ms-2"></i>
                                                             </p>
                                                         </div>
-                                                    </a>
+                                            
                                                 </div>
                                             </div>
 
