@@ -109,8 +109,8 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
                     </a>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
-                        <i class="fa-solid fa-upload text-primary me-2"></i>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="SenddataAPI">
+                        <i class="fa-solid fa-spinner text-success me-2"></i>
                         ส่ง New Eclaim
                     </button>
                 </div> 
@@ -902,7 +902,102 @@ $pos = strrpos($url, '/') + 1;
                             </div>
                         </div>
                     </div>
-                   
+                    {{-- <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#ADP" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                        <span class="d-none d-sm-block">ADP</span>    
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#DRU" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                        <span class="d-none d-sm-block">DRU</span>    
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content p-3 text-muted">
+                                <div class="tab-pane active" id="ADP" role="tabpanel">
+                                    <p class="mb-0">
+                                        <table id="example11" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                                <tr style="font-size: 13px">
+                                                    <th class="text-center">ลำดับ</th>
+                                                    <th class="text-center">HN</th>
+                                                    <th class="text-center">AN</th>
+                                                    <th class="text-center">DATEOPD</th> 
+                                                    <th class="text-center">TYPE</th> 
+                                                    <th class="text-center">CODE</th> 
+                                                    <th class="text-center">QTY</th> 
+                                                    <th class="text-center">RATE</th> 
+                                                    <th class="text-center">SEQ</th> 
+                                                    <th class="text-center">CAGCODE</th>
+                                                    <th class="text-center">DOSE</th>
+                                                    <th class="text-center">CA_TYPE</th>
+                                                    <th class="text-center">SERIALNO</th>
+                                                    <th class="text-center">TOTCOPAY</th>
+                                                    <th class="text-center">USE_STATUS</th>
+                                                    <th class="text-center">TOTAL</th>
+                                                    <th class="text-center">QTYDAY</th>
+                                                    <th class="text-center">TMLTCODE</th>
+                                                    <th class="text-center">STATUS1</th>
+                                                    <th class="text-center">BI</th>
+                                                    <th class="text-center">CLINIC</th>
+                                                    <th class="text-center">ITEMSRC</th>
+                                                    <th class="text-center">PROVIDER</th>
+                                                    <th class="text-center">GRAVIDA</th>
+                                                    <th class="text-center">GA_WEEK</th>
+                                                    <th class="text-center">DCIP</th>
+                                                    <th class="text-center">LMP</th>
+                                                    <th class="text-center">SP_ITEM</th> 
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $f = 0; ?>
+                                                @foreach ($data_adp as $itemadp)
+                                                <?php $f++; ?> 
+                                                    <tr height="20" style="font-size: 12px;">
+                                                        <td class="text-font" style="text-align: center;" width="5%">{{ $f }}</td>
+                                                        <td class="text-center" width="5%">{{$itemadp->HN }}</td>
+                                                        <td class="text-center" width="7%">{{$itemadp->AN }}</td>
+                                                        <td class="text-center" width="5%">{{ $itemadp->DATEOPD }}</td>  
+                                                        <td class="text-center" >{{$itemadp->TYPE }}</td>
+                                                        <td class="text-center" >{{$itemadp->CODE }}</td>
+                                                        <td class="text-center" >{{$itemadp->QTY }}</td>
+                                                        <td class="text-center" >{{$itemadp->RATE }}</td>
+                                                        <td class="text-center" >{{$itemadp->SEQ }}</td> 
+                                                        <td class="text-center" >{{$itemadp->CAGCODE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->DOSE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->CA_TYPE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->SERIALNO }}</td> 
+                                                        <td class="text-center" >{{$itemadp->TOTCOPAY }}</td> 
+                                                        <td class="text-center" >{{$itemadp->USE_STATUS }}</td> 
+                                                        <td class="text-center" >{{$itemadp->TOTAL }}</td> 
+                                                        <td class="text-center" >{{$itemadp->QTYDAY }}</td> 
+                                                        <td class="text-center" >{{$itemadp->TMLTCODE }}</td> 
+                                                        <td class="text-center" >{{$itemadp->STATUS1 }}</td> 
+                                                        <td class="text-center" >{{$itemadp->BI }}</td> 
+                                                        <td class="text-center" >{{$itemadp->CLINIC }}</td> 
+                                                        <td class="text-center" >{{$itemadp->ITEMSRC }}</td> 
+                                                        <td class="text-center" >{{$itemadp->PROVIDER }}</td> 
+                                                        <td class="text-center">{{$itemadp->GRAVIDA }}</td> 
+                                                        <td class="text-center" >{{$itemadp->GA_WEEK }}</td> 
+                                                        <td class="text-center" >{{$itemadp->DCIP }}</td> 
+                                                        <td class="text-center" >{{$itemadp->LMP }}</td> 
+                                                        <td class="text-center" >{{$itemadp->SP_ITEM }}</td>  
+                                                    </tr>  
+                                                @endforeach 
+                                            </tbody>
+                                        </table>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        --}}
+
                    
                 </div>
             </div>
@@ -965,61 +1060,6 @@ $pos = strrpos($url, '/') + 1;
                                             Swal.fire({
                                                 title: 'ประมวลผลข้อมูลสำเร็จ',
                                                 text: "You Process data success",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    window.location.reload();
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            
-                                        }
-                                    },
-                                });
-                                
-                            }
-                })
-        });
-
-        $('#SenddataAPI').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                Swal.fire({
-                        title: 'ต้องการส่งข้อมูลไป New Eclaim ใช่ไหม ?',
-                        text: "You Warn Send Data!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, send it!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
-                                
-                                $.ajax({
-                                    url: "{{ route('claim.ofc_401_sendapi') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({
-                                                title: 'ส่งข้อมูลสำเร็จ',
-                                                text: "You Send data success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',

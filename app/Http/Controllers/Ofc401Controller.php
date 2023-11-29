@@ -2029,5 +2029,27 @@ class Ofc401Controller extends Controller
 
         return redirect()->back();
     }
+
+    public function ofc_401_sendapi(Request $request)
+    { 
+        $username        = $request->username;
+        $password        = $request->password;        
+        // $response = Http::withHeaders([ 
+        //     'User-Agent:<platform>/<version> <10978>',
+        //     'Accept' => 'application/json',
+        // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
+        //     'username'    =>  $username ,
+        //     'password'    =>  $password 
+        // ]);   
+        // $token = $response->json('token');
+
+         // $response = Http::withToken('thetoken')->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth');
+        // dump($response->json('token'));
+        // dump($response->status());
+        // dump($response->message());
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
  
 }
