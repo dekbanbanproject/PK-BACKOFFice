@@ -2018,7 +2018,7 @@ class AccountController extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y');
+        $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
@@ -2034,9 +2034,10 @@ class AccountController extends Controller
                     left outer join hos.rcpt_print r on r.vn = i.vn
                     WHERE a.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
                     AND (a.paid_money > 0 and a.rcpt_money = 0 and a.remain_money = 0)
-                    GROUP BY MONTH(a.dchdate)
-                    ORDER BY a.dchdate desc  
+                    
             ');
+            // GROUP BY MONTH(a.dchdate)
+            // ORDER BY a.dchdate desc  
             // AND (v.paid_money > 0 AND v.rcpt_money = 0 and v.remain_money = 0 )
             // AND (a.paid_money>0 and a.rcpt_money=0 )
             // AND a.rcpno_list = """"

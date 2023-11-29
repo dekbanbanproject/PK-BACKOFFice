@@ -52,7 +52,7 @@ use App\Models\Bookrepdelete;
 use App\Models\Car_status;
 use App\Models\Car_index;
 use App\Models\Article_status;
-use App\Models\Car_type;
+use App\Models\Acc_doc;
 use App\Models\Product_brand;
 use App\Models\Product_color;  
 use App\Models\Land;
@@ -344,6 +344,7 @@ class Account107Controller extends Controller
             $add->filename             = $file_name;
         }
         $add->save();
+
         return redirect()->route('acc.acc_107_file');
         // return response()->json([
         //     'status'    => '200' 

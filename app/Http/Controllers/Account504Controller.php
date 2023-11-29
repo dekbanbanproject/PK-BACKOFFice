@@ -187,24 +187,17 @@ class Account504Controller extends Controller
         // Acc_opitemrece::truncate();
         $acc_debtor = DB::connection('mysql2')->select('             
                 SELECT i.vn,i.an,a.hn,pt.cid
-                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
-                ,pt.hcode,op.income as income_group
-                ,v.vstdate ,a.dchdate
-                ,ptt.pttype_eclaim_id
-                ,ipt.pttype,ptt.name as namelist
-                ,"22" as acc_code
-                ,"1102050101.504" as account_code
-                ,"ลูกหนี้ค่ารักษา-แรงงานต่างด้าว IP นอก CUP" as account_name
-                ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
-                ,a.rcpno_list as rcpno
+                ,concat(pt.pname,pt.fname," ",pt.lname) as ptname,pt.nationality,ipt.hospmain
+                ,pt.hcode,op.income as income_group ,v.vstdate ,a.dchdate,ptt.pttype_eclaim_id ,ipt.pttype,ptt.name as namelist
+                ,"22" as acc_code ,"1102050101.504" as account_code ,"ลูกหนี้ค่ารักษา-คนต่างด้าวและแรงงานต่างด้าว IPนอกCUP" as account_name
+                ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money ,a.rcpno_list as rcpno
                 ,a.income-a.discount_money-a.rcpt_money as debit
                 ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                ,ptt.max_debt_money
-                ,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income
+                ,ptt.max_debt_money ,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income
                 
                 from ipt i
                 left join an_stat a on a.an=i.an
@@ -217,8 +210,9 @@ class Account504Controller extends Controller
                 LEFT JOIN vn_stat v on v.vn = i.vn
                 
                 WHERE i.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND opdipd ="IPD") 
-				AND ipt.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND hospmain <> "")
+                AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504" AND opdipd ="IPD")
+                AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.504") 
+                AND pt.nationality <> "99" 
                 GROUP BY i.an 
         '); 
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
@@ -233,6 +227,8 @@ class Account504Controller extends Controller
                         'cid'                => $value->cid,
                         'ptname'             => $value->ptname,
                         'pttype'             => $value->pttype,
+                        'nationality'        => $value->nationality,
+                        'hospmain'           => $value->hospmain,
                         'vstdate'            => $value->vstdate,
                         'dchdate'            => $value->dchdate,
                         'acc_code'           => $value->acc_code,
@@ -295,6 +291,8 @@ class Account504Controller extends Controller
                             'regdate'           => $value->regdate,
                             'dchdate'           => $value->dchdate,
                             'pttype'            => $value->pttype,
+                            'nationality'       => $value->nationality,
+                            'hospmain'          => $value->hospmain,
                             'pttype_nhso'       => $value->pttype_spsch,
                             'acc_code'          => $value->acc_code,
                             'account_code'      => $value->account_code,

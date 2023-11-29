@@ -142,52 +142,42 @@ class Account217Controller extends Controller
         $acc_debtor = DB::connection('mysql2')->select(' 
                 SELECT ip.vn,ip.an,ip.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                 ,ip.regdate,ip.dchdate,v.vstdate,op.income as income_group
-                ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount
+                ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount,ipt.hospmain
                 ,ip.rw,ip.adjrw,ip.adjrw*8350 as total_adjrw_income
+                
                 ,CASE 
-                WHEN  ipt.pttype_number ="2" THEN "03" 
-                ELSE "03" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "03" 
+                ELSE ec.code 
                 END as code
+
                 ,CASE 
-                WHEN  ipt.pttype_number ="2" THEN "1102050101.217" 
-                ELSE "1102050101.217" 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "1102050101.217" 
+                ELSE ec.ar_ipd
                 END as account_code 
+                                
                 ,CASE 
-                WHEN  ipt.pttype_number ="2" THEN "UC-IP บริการเฉพาะ (CR)" 
-                ELSE "UC-IP บริการเฉพาะ (CR)" 
-                END as account_name 
+                WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+sum(if(op.icode IN("3001412","3001417"),sum_price,0))+sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
+                ELSE ec.`name` 
+                END as account_name
+
                 ,ipt.nhso_ownright_pid
                 ,a.income as income ,a.uc_money,a.rcpt_money,a.discount_money
                 
                 ,CASE 
-                WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36","39") THEN ipt.max_debt_amount 
+                WHEN  ipt.pttype_number ="1" AND ipt.pttype IN ("31","36") THEN ipt.max_debt_amount 
                 ELSE a.income - ipt.max_debt_amount 
                 END as debit_prb
-                
-                ,CASE 
-                WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income	
-
-                WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
-                (sum(if(op.income="02",sum_price,0))) +
-                (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) +
-                (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) +
-                (sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))) 
-                
-                
-                WHEN ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36","39") AND ipt.max_debt_amount <> "" THEN ipt.max_debt_amount  		
-                ELSE                 
-                sum(if(op.income="02",sum_price,0)) +
-                sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
-                sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
-                sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0))
-
-
-                END as debit
-                                    
+                            
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
+                
+                ,sum(if(op.income="02",sum_price,0)) +
+                sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
+                sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
+                sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit
+                                
                 from hos.ipt ip
                 LEFT OUTER JOIN hos.an_stat a ON ip.an = a.an
                 LEFT OUTER JOIN hos.patient pt on pt.hn=a.hn
@@ -205,6 +195,20 @@ class Account217Controller extends Controller
                 GROUP BY ip.an;
                 
         ');
+        // ,CASE 
+        // WHEN sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) > 0 THEN a.income 
+        // WHEN  ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36") AND ipt.max_debt_amount = "" OR sum(if(op.income="02",sum_price,0)) > 0 THEN 
+        // (sum(if(op.income="02",sum_price,0))) +
+        // (sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))) +
+        // (sum(if(op.icode IN ("3001412","3001417"),sum_price,0))) +
+        // (sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)))   
+        // WHEN ipt.pttype_number ="2" AND ipt.pttype NOT IN ("31","36") AND ipt.max_debt_amount <> "" THEN ipt.max_debt_amount  		
+        // ELSE                 
+        // sum(if(op.income="02",sum_price,0)) +
+        // sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
+        // sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
+        // sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) 
+        // END as debit
      
         // icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918")  289 บาท
 
@@ -212,7 +216,7 @@ class Account217Controller extends Controller
         // AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
         // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
         foreach ($acc_debtor as $key => $value) {
-            if ($value->debit >0) {
+            if ($value->debit > 0) {
                 $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->whereBetween('dchdate', [$startdate, $enddate])->count();
                 if ($check == 0) {
                     Acc_debtor::insert([
@@ -222,6 +226,7 @@ class Account217Controller extends Controller
                         'cid'                => $value->cid,
                         'ptname'             => $value->ptname,
                         'pttype'             => $value->pttype,
+                        'hospmain'           => $value->hospmain,
                         'vstdate'            => $value->vstdate,
                         'regdate'            => $value->regdate,
                         'dchdate'            => $value->dchdate,
@@ -584,7 +589,6 @@ class Account217Controller extends Controller
 
         $datashow = DB::select('
         
-
             SELECT s.tranid,a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,s.dmis_money2
             ,a.income_group,s.inst,s.hc,s.hc_drug,s.ae,s.ae_drug,s.STMdoc,a.debit_total,s.ip_paytrue as STM202
             ,s.inst+s.hc+s.hc_drug+s.ae+s.ae_drug+s.dmis_money2+s.dmis_drug as stm217

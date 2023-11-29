@@ -91,6 +91,53 @@
                                     // $("#sid" + acc_1102050102_106_id).remove();
                                     // window.location.reload();
                                       window.location = "acc_106_debt_print"+ '/' + acc_1102050102_106_id; //     
+                                    //   window.location = "acc_106_debt_printbook"+ '/' + acc_1102050102_106_id; // 
+                                }
+                            })
+                            // } else {
+
+                            // }
+
+                        }
+                    })
+                }
+            })
+        }
+
+        function acc_106_debt_downloadbook(acc_1102050102_106_id) {
+            Swal.fire({
+                title: 'ต้องการ Download File ใช่ไหม?',
+                // text: "ข้อมูลนี้จะถูก !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, Download เดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('acc_106_debt_downloadbook') }}" + '/' + acc_1102050102_106_id,
+                        type: 'POST',
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
+                            // if (response.status == 200) {
+                            Swal.fire({
+                                title: 'Download File สำเร็จ!',
+                                text: "You Download File success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // $("#sid" + acc_1102050102_106_id).remove();
+                                    // window.location.reload();
+                                    //   window.location = "acc_106_debt_print"+ '/' + acc_1102050102_106_id; //     
+                                    //   window.location = "acc_106_debt_printbook"+ '/' + acc_1102050102_106_id; // 
                                 }
                             })
                             // } else {
@@ -233,6 +280,8 @@
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
                                     <th class="text-center">ชำระแล้ว</th>
                                     <th class="text-center">ค้างชำระ</th>
+                                    {{-- <th class="text-center">Download File</th>  --}}
+                                    <th class="text-center">Print</th> 
                                     <th class="text-center">ออกจดหมาย</th> 
                                     <th class="text-center">จำนวนที่ออก</th> 
                                 </tr>
@@ -272,7 +321,29 @@
                                     {{-- <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td>  --}}
                                     {{-- <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>   --}}
                                     <td class="text-center" width="6%">
-                                        
+                                        <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="javascript:void(0)"
+                                        onclick="acc_106_debt_downloadbook({{ $item->acc_1102050102_106_id }})"
+                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                        data-bs-placement="top" title="Print File">
+                                        <i class="fa-solid fa-print ms-2 me-2" style="font-size:12px;color: rgb(184, 84, 241)"></i>
+                                         
+                                        <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Print</label>
+                                    </a>
+                                        {{-- <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="javascript:void(0)"
+                                            onclick="acc_106_debt_downloadbook({{ $item->acc_1102050102_106_id }})"
+                                            data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                            data-bs-placement="top" title="Download File">
+                                            <i class="fa-solid fa-download ms-2 me-2" style="font-size:12px;color: rgb(184, 84, 241)"></i> 
+                                            <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Download</label>
+                                        </a> --}}
+                                        {{-- <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{url('acc_106_debt_downloadbook/'.$item->acc_1102050102_106_id)}}" 
+                                            data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                            data-bs-placement="top" title="Download File">
+                                            <i class="fa-solid fa-download ms-2 me-2" style="font-size:12px;color: rgb(184, 84, 241)"></i> 
+                                            <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Download</label>
+                                        </a> --}}
+                                    </td> 
+                                    <td class="text-center" width="6%">                                        
                                         <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
                                             onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
                                             data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"

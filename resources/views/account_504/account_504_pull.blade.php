@@ -132,6 +132,8 @@
                                             <th class="text-center">vstdate</th>  
                                             <th class="text-center">dchdate</th> 
                                             <th class="text-center">pttype</th> 
+                                            <th class="text-center">hospmain</th> 
+                                            <th class="text-center">nationality</th> 
                                             <th class="text-center">spsch</th>  
                                             <th class="text-center">ลูกหนี้</th>  
                                         </tr>
@@ -160,7 +162,8 @@
                                                 <td class="text-center" width="7%">{{ $item->vstdate }}</td>   
                                                 <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td> 
-                                                
+                                                <td class="text-center" style="color:rgb(11, 94, 189)" width="5%">{{ $item->hospmain }}</td> 
+                                                <td class="text-center" style="color:rgb(51, 70, 243)" width="5%">{{ $item->nationality }}</td> 
                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td>  
                                                 <td class="text-end" width="10%">{{ number_format($item->debit_total, 2) }}</td> 
  

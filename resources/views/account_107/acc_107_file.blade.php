@@ -111,6 +111,45 @@
         .is-hide {
             display: none;
         }
+
+        .modal-dialog {
+            max-width: 50%;
+        }
+
+        .modal-dialog-slideout {
+            min-height: 100%;
+            margin: 0 0 0 auto;
+            background: #fff;
+        }
+
+        .modal.fade .modal-dialog.modal-dialog-slideout {
+            -webkit-transform: translate(100%, 0)scale(1);
+            transform: translate(100%, 0)scale(1);
+        }
+
+        .modal.fade.show .modal-dialog.modal-dialog-slideout {
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+            display: flex;
+            align-items: stretch;
+            -webkit-box-align: stretch;
+            height: 100%;
+        }
+
+        .modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .modal-dialog-slideout .modal-content {
+            border: 0;
+        }
+
+        .modal-dialog-slideout .modal-header,
+        .modal-dialog-slideout .modal-footer {
+            height: 4rem;
+            display: block;
+        }
     </style>
     <?php
     use App\Http\Controllers\StaticController;
@@ -224,12 +263,11 @@
                                 </tr> 
 
                                 <div class="modal fade" id="FileModalshow{{ $item->acc_1102050102_107_id }}"  tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-dialog modal-dialog-slideout" role="document">
                                         <div class="modal-content ">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="addFileModalLabel">ไฟล์หนังสือยอมรับสภาพหนี้</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                </button>
+                                                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button> --}}
                                             </div>
                                             <div class="modal-body">
                              
@@ -248,7 +286,7 @@
                                                                                     @foreach ($data_file_ as $item3) 
                                                                                     
                                                                                         <div id="sid{{ $item3->acc_doc_id }}">
-                                                                                            <iframe src="{{ asset('storage/account_107/'.$item3->filename) }}" height="500px;" width="100%" ></iframe>  
+                                                                                            <iframe src="{{ asset('storage/account_107/'.$item3->filename) }}" height="900px" width="100%" ></iframe>  
                                                                                              
                                                                                         </div>
                                                                                     @endforeach
@@ -272,12 +310,11 @@
                                 </div>
 
                                 <div class="modal fade" id="FileModal{{ $item->acc_1102050102_107_id }}"  tabindex="-1" role="dialog" aria-labelledby="addFileModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-dialog modal-dialog-slideout" role="document">
                                         <div class="modal-content ">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="addFileModalLabel">ไฟล์หนังสือยอมรับสภาพหนี้</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                                </button>
+                                                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button> --}}
                                             </div>
                                             <div class="modal-body">
                             
@@ -313,7 +350,7 @@
                                                                                     @foreach ($data_file_ as $item3) 
                                                                                     
                                                                                         <div id="sid{{ $item3->acc_doc_id }}">
-                                                                                            <iframe src="{{ asset('storage/account_106/'.$item3->filename) }}" height="500px;" width="100%" ></iframe>  
+                                                                                            <iframe src="{{ asset('storage/account_107/'.$item3->filename) }}" height="900px" width="100%" ></iframe>  
                                                                                             
                                                                                             <a class="dropdown-item menu btn btn-outline-danger btn-sm"
                                                                                                     href="javascript:void(0)"
@@ -336,7 +373,7 @@
                                                 <input type="hidden" name="user_id" id="edituser_id"> 
                                                 <input type="hidden" name="acc_1102050102_107_id" id="acc_1102050102_107_id" value="{{ $item->acc_1102050102_107_id }}"> 
                                             </div>
-                                            <div class="modal-footer">
+                                            <div class="modal-footer text-center">
                                                 <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                                     <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
                                                 </button>

@@ -780,7 +780,70 @@
                 </div>
             </div>
         </div>
- 
+
+
+        {{-- <div class="row">
+            <div class="col-md-2">
+                <div class="main-card card">
+                    <h6 class="card-title mt-2 ms-2">Report </h6> 
+                        <div style="height:auto;" class="p-2"> 
+                            
+                        <br>
+                        <h6 class="text-center" style="color:rgb(241, 137, 155)">OPD แยกตามสิทธิ์ </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="main-card card">
+                    <h6 class="card-title mt-2 ms-2">Report </h6> 
+                        <div style="height:auto;" class="p-2"> 
+                            
+                        <br>
+                        <h6 class="text-center" style="color:rgb(241, 137, 155)">OPD แยกตามสิทธิ์ </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="main-card card">
+                    <h6 class="card-title mt-2 ms-2">Report </h6> 
+                        <div style="height:auto;" class="p-2"> 
+                            
+                        <br>
+                        <h6 class="text-center" style="color:rgb(241, 137, 155)">OPD แยกตามสิทธิ์ </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="main-card card">
+                    <h6 class="card-title mt-2 ms-2">Report </h6> 
+                        <div style="height:auto;" class="p-2"> 
+                            
+                        <br>
+                        <h6 class="text-center" style="color:rgb(241, 137, 155)">OPD แยกตามสิทธิ์ </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="main-card card">
+                    <h6 class="card-title mt-2 ms-2">Report </h6> 
+                        <div style="height:auto;" class="p-2"> 
+                            
+                        <br>
+                        <h6 class="text-center" style="color:rgb(241, 137, 155)">OPD แยกตามสิทธิ์ </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="main-card card">
+                    <h6 class="card-title mt-2 ms-2">Report </h6> 
+                        <div style="height:auto;" class="p-2"> 
+                            
+                        <br>
+                        <h6 class="text-center" style="color:rgb(241, 137, 155)">OPD แยกตามสิทธิ์ </h6>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
         <div class="row">
             <div class="col-md-8">
                 <div class="main-card card">
@@ -804,7 +867,41 @@
             </div>
         </div>
 
-      
+        {{-- <div class="row ms-2 me-3">
+            <div class="col-xl-3 col-md-3">
+                <div class="main-card card">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover">
+                                    <div class="no-shadow rm-border bg-transparent widget-chart text-start card">
+                                        <div class="progress-circle-wrapper">
+                                            <div class="circle-progress circle-progress-gradient-lg">
+                                                <small></small>
+                                            </div>
+                                        </div>
+                                        <div class="widget-chart-content">
+                                            <div class="widget-subheading">Capital Gains</div>
+                                            <div class="widget-numbers text-success">
+                                                <span>$563</span>
+                                            </div>
+                                            <div class="widget-description text-focus">
+                                                Increased by
+                                                <span class="text-warning ps-1">
+                                                    <i class="fa fa-angle-up"></i>
+                                                    <span class="ps-1">7.35%</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
 
 
     </div>

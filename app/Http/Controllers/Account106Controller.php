@@ -65,7 +65,12 @@ use App\Models\Acc_1102050102_106;
 use App\Models\Acc_debtor;
 use Auth;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Http; 
+use App\Mail\DissendeMail;
+use Mail;
+use Illuminate\Support\Facades\Storage;
+ 
+use SoapClient;
 
 class Account106Controller extends Controller
 {
@@ -590,6 +595,15 @@ class Account106Controller extends Controller
         $this->_toc[]=array('t'=>$txt,'l'=>$level,'p'=>$this->numPageNo());
     }
 
+    public function acc_106_debt_downloadbook(Request $request, $id)
+    { 
+        $dataedit = acc_doc::where('acc_doc_pang', '=',"1102050102.106")->where('acc_doc_pangid', '=', $id)->first();
+        return Storage::download('account_106/'.$dataedit->filename);
+
+        // return response()->json([
+        //     'status'    => '200'
+        // ]);
+    }
 
     public function acc_106_debt_print(Request $request, $id)
     { 

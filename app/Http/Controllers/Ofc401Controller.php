@@ -123,7 +123,7 @@ class Ofc401Controller extends Controller
         $data['users']     = User::get();  
         $data['d_claim']   = DB::connection('mysql')->select('
             SELECT d.vn,d.hn,d.an,d.cid,d.ptname,d.vstdate,d.pttype,d.sum_price,s.rep_a,s.tranid_c,s.price1_k,s.income_ad,s.pp_gep_ae,s.claim_true_af,s.claim_false_ag,s.cash_money_ah
-            ,s.pay_ai,s.IPCS_ao,s.IPCS_ORS_ap,s.OPCS_aq,s.PACS_ar,s.INSTCS_as,s.OTCS_at,s.PP_au,s.DRUG_av
+            ,s.pay_ai,s.IPCS_ao,s.IPCS_ORS_ap,s.OPCS_aq,s.PACS_ar,s.INSTCS_as,s.OTCS_at,s.PP_au,s.DRUG_av,s.errorcode_m
             FROM d_claim d
             LEFT OUTER JOIN d_ofc_rep s ON s.hn_d = d.hn AND s.vstdate_i = d.vstdate
             WHERE d.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
@@ -947,7 +947,10 @@ class Ofc401Controller extends Controller
                         ,oo.nhso_authorize_code PA_NO 
                         ,"" TOTCOPAY
                         ,if(v.item_type="H","2","1") USE_STATUS
-                        ,"" TOTAL,d.sks_drug_code as SIGCODE,d.sks_dfs_text as SIGTEXT,""  PROVIDER,v.vstdate
+                        ,"" TOTAL
+                        ,"" as SIGCODE
+                        ,"" as SIGTEXT
+                        ,""  PROVIDER,v.vstdate
                         FROM opitemrece v
                         LEFT OUTER JOIN drugitems d on d.icode = v.icode
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
@@ -978,7 +981,7 @@ class Ofc401Controller extends Controller
                         ,oo.nhso_authorize_code PA_NO 
                         ,"" TOTCOPAY
                         ,if(v.item_type="H","2","1") USE_STATUS
-                        ,"" TOTAL,d.sks_drug_code as SIGCODE,d.sks_dfs_text as SIGTEXT,""  PROVIDER,v.vstdate
+                        ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
                         FROM opitemrece v
                         LEFT OUTER JOIN drugitems d on d.icode = v.icode
                         LEFT OUTER JOIN patient pt  on v.hn = pt.hn
@@ -989,7 +992,8 @@ class Ofc401Controller extends Controller
                     AND d.did is not null AND v.qty<>"0"
                     GROUP BY v.an,d.icode,USE_STATUS;              
                 ');
-              
+                // ,d.sks_drug_code as SIGCODE
+                // ,d.sks_dfs_text as SIGTEXT
                 foreach ($data_dru_ as $va11) {
                     D_dru::insert([ 
                         'HN'             => $va11->HN,
@@ -1050,7 +1054,7 @@ class Ofc401Controller extends Controller
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
         // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
-        $folder='12001_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
+        $folder='OFC_'.$sss_date_now_preg.'-'.$sss_time_now_preg;
 
          mkdir ('Export/'.$folder, 0777, true);  //Web
         //  mkdir ('C:Export/'.$folder, 0777, true); //localhost

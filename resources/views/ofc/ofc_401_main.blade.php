@@ -149,7 +149,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <th class="text-center">เบิกได้</th> 
                                                     <th class="text-center">เบิกไม่ได้</th> 
                                                     <th class="text-center">ชำระเอง</th> 
-
+                                                    <th class="text-center">error</th>
                                                     <th class="text-center">IPCS</th> 
                                                     <th class="text-center">IPCS_ORS</th> 
                                                     <th class="text-center">OPCS</th> 
@@ -178,7 +178,7 @@ $pos = strrpos($url, '/') + 1;
                                                     <td class="text-center" width="5%" style="color: rgb(8, 212, 110)">{{ $item1->claim_true_af }}</td> 
                                                     <td class="text-center" width="5%" style="color: rgb(253, 100, 62)">{{ $item1->claim_false_ag }}</td> 
                                                     <td class="text-center" width="5%">{{ $item1->cash_money_ah }}</td> 
-
+                                                    <td class="text-center" width="5%">{{ $item1->errorcode_m }}</td>
                                                     <td class="text-center" width="5%">{{ $item1->IPCS_ao }}</td> 
                                                     <td class="text-center" width="5%">{{ $item1->IPCS_ORS_ap }}</td> 
                                                     <td class="text-center" width="5%">{{ $item1->OPCS_aq }}</td> 
