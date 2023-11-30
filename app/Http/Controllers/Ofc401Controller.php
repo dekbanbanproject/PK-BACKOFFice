@@ -2119,12 +2119,14 @@ class Ofc401Controller extends Controller
            $blob_dru = $val_dru->blob;
            $size_dru = $val_dru->size;
         }
-       
+        // dd($size_dru);
         $response = Http::withHeaders([ 
             'Authorization : Bearer '.$token,
             // 'Authorization' => 'Bearer<"'.$token.'">',
+                 
             'User-Agent : <platform>/<version> <10978>',
-            'Accept     : application/json',
+            // 'Accept     : application/json',
+            'Content-Type: application/json', 
         ])->POST('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
                 "fileType"      => "txt",
                 "maininscl"     => "OFC",
