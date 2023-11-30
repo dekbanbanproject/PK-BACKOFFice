@@ -135,7 +135,7 @@
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // $("#sid" + acc_1102050102_106_id).remove();
-                                    // window.location.reload();
+                                    window.location.reload();
                                     //   window.location = "acc_106_debt_print"+ '/' + acc_1102050102_106_id; //     
                                     //   window.location = "acc_106_debt_printbook"+ '/' + acc_1102050102_106_id; // 
                                 }
@@ -241,10 +241,10 @@
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                     data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required />
                     <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}" required />
 
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
@@ -295,67 +295,61 @@
                                     
                                     ?>
                                     <tr height="20" class="detail">
-                                    <td class="text-center" width="4%">{{ $number }}</td>
-                                    <td class="text-center" width="8%">{{ $item->vn }}</td> 
-                                    <td class="text-center" width="5%">{{ $item->hn }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->cid }}</td> 
-                                    <td class="text-start">{{ $item->ptname }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                    
-                                        @if ($item->paid_money <> ($item->sumtotal_amount+$item->debit_total))
-                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(243, 141, 7)">{{ number_format($item->income, 2) }}</td> 
-                                        @else
-                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(54, 230, 156)">{{ number_format($item->income, 2) }}</td> 
-                                        @endif
-                                        <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
-                                        @if ($item->sumtotal_amount == $item->debit_total)
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 222, 110))">{{ number_format($item->debit_total, 2) }}</td>
-                                        @else
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-center" width="4%">{{ $number }}</td>
+                                            <td class="text-center" width="8%">{{ $item->vn }}</td> 
+                                            <td class="text-center" width="5%">{{ $item->hn }}</td> 
+                                            <td class="text-center" width="7%">{{ $item->cid }}</td> 
+                                            <td class="text-start">{{ $item->ptname }}</td> 
+                                            <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                            <td class="text-center" width="7%">{{ $item->pttype }}</td>
+                                            
+                                            
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->debit, 2) }}</td> 
+                                            <td class="text-end" width="8%" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
+                                           
+                                            
+                                            @if ($item->debit_total == "0") 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
+                                            @else       
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
                                             <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
-                                        @endif
-                                    {{-- <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td>  --}}
-                                    {{-- <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td>  --}}
-                                    {{-- <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td>  --}}
-                                    {{-- <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>   --}}
-                                    <td class="text-center" width="6%">
-                                        <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="javascript:void(0)"
-                                        onclick="acc_106_debt_downloadbook({{ $item->acc_1102050102_106_id }})"
-                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                        data-bs-placement="top" title="Print File">
-                                        <i class="fa-solid fa-print ms-2 me-2" style="font-size:12px;color: rgb(184, 84, 241)"></i>
-                                         
-                                        <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Print</label>
-                                    </a>
-                                        {{-- <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="javascript:void(0)"
-                                            onclick="acc_106_debt_downloadbook({{ $item->acc_1102050102_106_id }})"
-                                            data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                            data-bs-placement="top" title="Download File">
-                                            <i class="fa-solid fa-download ms-2 me-2" style="font-size:12px;color: rgb(184, 84, 241)"></i> 
-                                            <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Download</label>
-                                        </a> --}}
-                                        {{-- <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{url('acc_106_debt_downloadbook/'.$item->acc_1102050102_106_id)}}" 
-                                            data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                            data-bs-placement="top" title="Download File">
-                                            <i class="fa-solid fa-download ms-2 me-2" style="font-size:12px;color: rgb(184, 84, 241)"></i> 
-                                            <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Download</label>
-                                        </a> --}}
-                                    </td> 
-                                    <td class="text-center" width="6%">                                        
-                                        <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
-                                            onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
-                                            data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                            data-bs-placement="top" title="ออกจดหมาย">
-                                            <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
-                                            <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
-                                        </a>
-                                    </td> 
-                                    <td class="text-center" width="5%">
-                                        <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
-                                        <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
-                                    </td> 
+                                            @endif
+                                        
+                                            @if ($item->debit_total == "0")
+                                                <td class="text-center" width="6%"></td>
+                                                <td class="text-center" width="6%"></td>
+                                            @else
+                                                <td class="text-center" width="6%">
+                                                    <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" 
+                                                        
+                                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                        data-bs-placement="top" title="Print File"> 
+                                                        @if ($item->file == '') 
+                                                            <img src="{{ asset('assets/images/defailt_img.jpg' ) }}" height="20px;" width="20px" ></img>   
+                                                        @else 
+                                                            <a href="{{ asset('storage/account_106/'.$item->filename)}}" ><img src="{{ asset('storage/account_106/'.$item->filename) }}" height="20px;" width="20px" ></img>  </a>
+                                                            
+                                                        @endif 
+                                                        <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Print</label>
+                                                    </button>
+                                                    
+                                                </td> 
+                                                <td class="text-center" width="6%">                                        
+                                                    <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
+                                                        onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
+                                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                        data-bs-placement="top" title="ออกจดหมาย">
+                                                        <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
+                                                        <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
+                                                    </a>
+                                                </td> 
+                                            @endif
+                                            
+                                            <td class="text-center" width="5%">
+                                                <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
+                                                <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
+                                            </td> 
                                     
                                 </tr> 
 
@@ -410,44 +404,47 @@
                                     <td class="text-start">{{ $item->ptname }}</td> 
                                     <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                     <td class="text-center" width="7%">{{ $item->pttype }}</td>
-
-                                    @if ($item->paid_money <> ($item->sumtotal_amount+$item->debit_total))
-                                        <td class="text-end" width="8%" style="font-size:12px;color: rgb(243, 141, 7)">{{ number_format($item->income, 2) }}</td> 
-                                    @else
-                                        <td class="text-end" width="8%" style="font-size:12px;color: rgb(54, 230, 156)">{{ number_format($item->income, 2) }}</td> 
-                                    @endif
-
-                                        <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td> 
+ 
+                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->debit, 2) }}</td> 
+                                    <td class="text-end" width="8%" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                    
-                                    @if ($item->sumtotal_amount == $item->debit_total)
-                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(3, 97, 47))">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(3, 97, 47))">{{ number_format($item->debit_total, 2) }}</td>
-                                    @else
-                                            {{-- @if ($item->sumtotal_amount == $item->debit_total)
-                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(23, 235, 129)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(23, 235, 129)">{{ number_format($item->debit_total, 2) }}</td>
-                                            @else
-                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                                <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
-                                            @endif --}}
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
-                                        
+                                    
+                                    @if ($item->debit_total == "0") 
+                                    <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                    <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
+                                    @else       
+                                    <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
+                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
                                     @endif
-                                    {{-- <td class="text-end" width="8%">{{ number_format($item->income, 2) }}</td>  --}}
-                                    {{-- <td class="text-end" width="8%">{{ number_format($item->paid_money, 2) }}</td>  --}}
-                                    {{-- <td class="text-end" width="6%">{{ number_format($item->rcpt_money, 2) }}</td>  --}}
-                                    {{-- <td class="text-end" width="6%">{{ number_format($item->debit_total, 2) }}</td>   --}}
-                                    <td class="text-center" width="6%">
-                                        
-                                        <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
-                                            onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
+                                
+                                    @if ($item->debit_total == "0")
+                                        <td class="text-center" width="6%"></td>
+                                        <td class="text-center" width="6%"></td>
+                                    @else
+                                        <td class="text-center" width="6%">
+                                            <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" 
+                                                        
                                             data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                            data-bs-placement="top" title="ออกจดหมาย">
-                                            <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
-                                            <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
-                                        </a>
-                                    </td> 
+                                            data-bs-placement="top" title="Print File"> 
+                                            @if ($item->file == '') 
+                                                <img src="{{ asset('assets/images/defailt_img.jpg' ) }}" height="20px;" width="20px" ></img>   
+                                            @else 
+                                                <a href="{{ asset('storage/account_106/'.$item->filename)}}" ><img src="{{ asset('storage/account_106/'.$item->filename) }}" height="20px;" width="20px" ></img>  </a>
+                                                
+                                            @endif 
+                                            <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Print</label>
+                                        </button>
+                                        </td> 
+                                        <td class="text-center" width="6%">                                        
+                                            <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
+                                                onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
+                                                data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                data-bs-placement="top" title="ออกจดหมาย">
+                                                <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
+                                                <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
+                                            </a>
+                                        </td> 
+                                    @endif
                                     <td class="text-center" width="5%">
                                         <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
                                         <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>

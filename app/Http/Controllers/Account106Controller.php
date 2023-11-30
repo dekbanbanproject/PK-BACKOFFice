@@ -395,26 +395,28 @@ class Account106Controller extends Controller
 
         if ($startdate =='') {
             $datashow = DB::connection('mysql')->select('        
-                    SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                    SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
                     ,U1.sumtotal_amount
                     FROM acc_1102050102_106 U1
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
-                    WHERE U1.debit_total > 0
+                  
                     GROUP BY U1.vn ORDER BY U1.acc_1102050102_106_id DESC
             ');
+            // WHERE U1.debit_total > 0
         } else {
             $datashow = DB::connection('mysql')->select('        
-                SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
                 ,U1.sumtotal_amount
                 FROM acc_1102050102_106 U1
                 LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                 LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
-                WHERE U1.debit_total > 0 AND U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
+                WHERE U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
                 GROUP BY U1.vn
                 ORDER BY U1.acc_1102050102_106_id DESC
         ');
         }
+        // WHERE U1.debit_total > 0 AND U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
         
  
         
@@ -428,19 +430,39 @@ class Account106Controller extends Controller
     public function acc_106_debt_sync(Request $request)
     { 
         $sync = DB::connection('mysql2')->select(' 
-                SELECT r.vn,r.finance_number,r.hn,r.bill_amount,r.total_amount
+                SELECT r.vn,r.finance_number,r.hn,r.bill_amount,r.total_amount,v.paid_money,v.remain_money
                 ,SUM(r.bill_amount) as s_bill
                 FROM rcpt_print r  
+                LEFT OUTER JOIN vn_stat v On v.vn = r.vn 
                 WHERE department ="OPD" 
                 AND r.vn IN(SELECT vn FROM pkbackoffice.acc_1102050102_106)
                 GROUP BY r.vn
             '); 
+
             foreach ($sync as $key => $value) { 
                      
-                Acc_1102050102_106::where('vn',$value->vn) 
-                        ->update([  
-                            'sumtotal_amount'    => $value->s_bill
-                    ]);
+                $total_ = Acc_1102050102_106::where('vn',$value->vn)->first();
+                $deb = $total_->debit;
+                $d =  $deb - $value->s_bill;
+
+                if ($d < 0) {
+                    Acc_1102050102_106::where('vn',$value->vn) 
+                    ->update([  
+                        'sumtotal_amount'    => $value->s_bill,
+                        // 'paid_money'         => $value->paid_money,
+                        'debit_total'        => "0.00"
+                ]);
+                } else {
+                    Acc_1102050102_106::where('vn',$value->vn) 
+                    ->update([  
+                        'sumtotal_amount'    => $value->s_bill,
+                        // 'paid_money'         => $value->paid_money,
+                        'debit_total'        => $deb - $value->s_bill
+                ]);
+                }
+                
+
+               
             }
             return response()->json([
                 'status'    => '200'
@@ -598,11 +620,14 @@ class Account106Controller extends Controller
     public function acc_106_debt_downloadbook(Request $request, $id)
     { 
         $dataedit = acc_doc::where('acc_doc_pang', '=',"1102050102.106")->where('acc_doc_pangid', '=', $id)->first();
-        return Storage::download('account_106/'.$dataedit->filename);
+        // $file = public_path('account_106/S__14704827.jpg');
+        // $file = Storage::download('account_106/'.$dataedit->filename);
 
+            return view('account_106.acc_106_debt');
         // return response()->json([
         //     'status'    => '200'
         // ]);
+        // return response()->download($file);
     }
 
     public function acc_106_debt_print(Request $request, $id)
