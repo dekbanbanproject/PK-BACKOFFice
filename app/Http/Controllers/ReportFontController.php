@@ -935,7 +935,7 @@ class ReportFontController extends Controller
         $icd9       = $request->icd9;
         $datashow_  = DB::connection('mysql2')->select('
                 SELECT 
-                i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,i.icd9,i.doctor,ol.enter_date
+                i.an,op.hn,pt.cid,concat(pt.pname,pt.fname,"  ",pt.lname) as ptname,a.pttype,i.icd9,i.doctor,ol.enter_date,a.dchdate
                 ,op.icode,op.qty,op.unitprice 
                 ,group_concat(distinct n.name) as nameknee
                 ,U2.inst,U2.total_approve,u2.STMdoc
@@ -949,11 +949,11 @@ class ReportFontController extends Controller
                 LEFT OUTER JOIN nondrugitems n on n.icode = op.icode
                 LEFT OUTER JOIN pkbackoffice.acc_stm_ucs u2 on u2.an = i.an 
                 WHERE i.icd9 = "'.$icd9.'" 
-                AND ol.enter_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND op.income = "02"
                 GROUP BY i.an  
         ');
-       
+        // AND ol.enter_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
         return view('dashboard.check_icd9_ipd',[
             'startdate'     => $startdate,
             'enddate'       => $enddate ,

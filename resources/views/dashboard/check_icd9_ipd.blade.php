@@ -50,6 +50,44 @@
             .headtable{
                 font-size: 14px;
             }
+            .modal-dialog {
+            max-width: 90%;
+        }
+
+        .modal-dialog-slideout {
+            min-height: 100%;
+            margin: 0 0 0 auto;
+            background: #fff;
+        }
+
+        .modal.fade .modal-dialog.modal-dialog-slideout {
+            -webkit-transform: translate(100%, 0)scale(1);
+            transform: translate(100%, 0)scale(1);
+        }
+
+        .modal.fade.show .modal-dialog.modal-dialog-slideout {
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+            display: flex;
+            align-items: stretch;
+            -webkit-box-align: stretch;
+            height: 100%;
+        }
+
+        .modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .modal-dialog-slideout .modal-content {
+            border: 0;
+        }
+
+        .modal-dialog-slideout .modal-header,
+        .modal-dialog-slideout .modal-footer {
+            height: 4rem;
+            display: block;
+        }
 </style>
   
 <div class="tabs-animation">
@@ -97,18 +135,20 @@
                         
  
                         <div class="table-responsive mt-3">
-                            <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example">
+                            {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
+                                <table id="example" class="table table-striped table-bordered "
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr class="headtable">
                                         <th>ลำดับ</th> 
                                         <th>hn</th>
                                         <th>an</th> 
-                                        <th>enter_date</th>
+                                        <th>dchdate</th>
                                         <th>pttype</th>
                                         <th>ptname</th> 
-                                        <th>icode</th> 
-                                        <th>qty</th> 
-                                        <th>ราคา</th>  
+                                        {{-- <th>icode</th>  --}}
+                                        {{-- <th>qty</th>  --}}
+                                        {{-- <th>ราคา</th>   --}}
                                         <th>อุปกรณ์</th>  
                                         <th>ชดเชย</th> 
                                         <th>ชดเชย Total</th> 
@@ -118,18 +158,28 @@
                                 <tbody>
                                     <?php $ia = 1; ?>
                                     @foreach ($datashow_ as $item)  
+                                   
                                         <tr class="detail">
                                             <td>{{ $ia++ }}</td>
                                             <td>{{ $item->hn }}</td> 
                                             <td>{{ $item->an }}</td>   
                                            
-                                            <td>{{ $item->enter_date }}</td>  
+                                            <td width="8%">{{ $item->dchdate }}</td>  
                                             <td>{{ $item->pttype }}</td> 
-                                            <td>{{ $item->ptname }}</td>   
-                                            <td>{{ $item->icode }}</td>    
-                                            <td>{{ $item->qty }}</td>                                          
-                                            <td>{{ number_format($item->unitprice,2) }}</td> 
-                                            <td class="p-2">{{ $item->nameknee }}</td>  
+                                            <td class="p-2" width="12%">{{ $item->ptname }}</td>   
+                                            {{-- <td>{{ $item->icode }}</td>     --}}
+                                            {{-- <td>{{ $item->qty }}</td>                                           --}}
+                                            {{-- <td>{{ number_format($item->unitprice,2) }}</td>  --}}
+                                            <td class="p-2" width="15%">
+                                              
+                                                <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" 
+                                                data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal{{$item->an}}"
+                                                data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                data-bs-placement="top" title="Print File"> 
+                                                
+                                                <label for="" style="font-size:12px;color: rgb(184, 84, 241)">  {{ $item->nameknee }}</label>
+                                            </button>
+                                            </td>  
                                             <td> 
                                                 @if ($item->inst =='')
                                                     <span class="badge bg-danger rounded-pill"> 0.00 </span>
@@ -144,8 +194,50 @@
                                                     <span class="badge bg-success rounded-pill">{{$item->total_approve}} </span>
                                                 @endif
                                             </td> 
-                                            <td>{{ $item->STMdoc }}</td> 
-                                        </tr>    
+                                            <td class="text-center" width="10%">{{ $item->STMdoc }}</td> 
+                                        </tr>  
+                                        
+                                        <?php 
+                                                $datas = DB::connection('mysql2')->select('
+                                                    SELECT o.icode,n.name as nname,n.unitcost,o.unitprice,o.qty,o.sum_price,n.nhso_adp_code
+                                                        FROM
+                                                        opitemrece o 
+                                                        LEFT OUTER JOIN nondrugitems n ON n.icode = o.icode
+                                                        WHERE o.an ="'.$item->an.'" AND n.income ="02" 
+                                                ');
+                                                  
+                                        ?>
+                                        <div class="modal fade" id="exampleModal{{$item->an}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                {{-- <div class="modal-dialog modal-dialog-slideout"> --}}
+                                                <div class="modal-content"> 
+                                                        <div class="modal-body p-3">
+                                                            <div class="row">
+                                                                <div class="col-md-2 ms-2">รหัส</div>
+                                                                <div class="col-md-5">ชื่อรายการ</div>
+                                                                <div class="col-md-1">unitcost</div>
+                                                                <div class="col-md-1">unitprice</div>
+                                                                <div class="col-md-1">จำนวน</div>
+                                                                <div class="col-md-1">รวม</div>
+                                                                <div class="col-md-1"></div>
+                                                            </div>
+                                                            <hr>
+                                                            @foreach ($datas as $item_s)
+                                                                <div class="row">
+                                                                    <div class="col-md-2 ms-2">{{$item_s->icode}}</div>
+                                                                    <div class="col-md-5">{{$item_s->nname}}</div>
+                                                                    <div class="col-md-1">{{$item_s->unitcost}}</div>
+                                                                    <div class="col-md-1">{{$item_s->unitprice}}</div>
+                                                                    <div class="col-md-1">{{$item_s->qty}}</div>
+                                                                    <div class="col-md-1">{{$item_s->sum_price}}</div>
+                                                                    <div class="col-md-1"></div>
+                                                                </div>
+                                                                <hr>
+                                                            @endforeach
+                                                        </div>         
+                                                    </div>
+                                                </div>
+                                            </div>  
                                     @endforeach
                                     
                                 </tbody>
