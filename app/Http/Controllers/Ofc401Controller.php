@@ -2033,7 +2033,9 @@ class Ofc401Controller extends Controller
     public function ofc_401_sendapi(Request $request)
     { 
         $username        = $request->username;
-        $password        = $request->password;        
+        $password        = $request->password; 
+        $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');      
+       
         // $response = Http::withHeaders([ 
         //     'User-Agent:<platform>/<version> <10978>',
         //     'Accept' => 'application/json',
