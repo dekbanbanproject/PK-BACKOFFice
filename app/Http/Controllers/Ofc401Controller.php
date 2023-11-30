@@ -2031,24 +2031,272 @@ class Ofc401Controller extends Controller
     }
 
     public function ofc_401_sendapi(Request $request)
-    { 
-        $username        = $request->username;
-        $password        = $request->password; 
-        $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');      
+    {  
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token        = $val_to->api_neweclaim_token;
+        } 
+        // dd($token);
+        $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');   
+        foreach ($data_ins_ as $key => $val_ins) {
+           $blob_ins = $val_ins->blob;
+           $size_ins = $val_ins->size;
+        } 
+        $data_pat_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_pat');   
+        foreach ($data_pat_ as $key => $val_pat) {
+           $blob_pat = $val_pat->blob;
+           $size_pat = $val_pat->size;
+        }   
+        $data_opd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_opd');   
+        foreach ($data_opd_ as $key => $val_opd) {
+           $blob_opd = $val_opd->blob;
+           $size_opd = $val_opd->size;
+        } 
+        $data_orf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_orf');   
+        foreach ($data_orf_ as $key => $val_orf) {
+           $blob_orf = $val_orf->blob;
+           $size_orf = $val_orf->size;
+        } 
+        $data_odx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_odx');   
+        foreach ($data_odx_ as $key => $val_odx) {
+           $blob_odx = $val_odx->blob;
+           $size_odx = $val_odx->size;
+        } 
+        $data_oop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_oop');   
+        foreach ($data_oop_ as $key => $val_oop) {
+           $blob_oop = $val_oop->blob;
+           $size_oop = $val_oop->size;
+        } 
+        $data_ipd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ipd');   
+        foreach ($data_ipd_ as $key => $val_ipd) {
+           $blob_ipd = $val_ipd->blob;
+           $size_ipd = $val_ipd->size;
+        } 
+        $data_irf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_irf');   
+        foreach ($data_irf_ as $key => $val_irf) {
+           $blob_irf = $val_irf->blob;
+           $size_irf = $val_irf->size;
+        } 
+        $data_idx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_idx');   
+        foreach ($data_idx_ as $key => $val_idx) {
+           $blob_idx = $val_idx->blob;
+           $size_idx = $val_idx->size;
+        }
+        $data_iop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_iop');   
+        foreach ($data_iop_ as $key => $val_iop) {
+           $blob_iop = $val_iop->blob;
+           $size_iop = $val_iop->size;
+        }
+        $data_cht_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cht');   
+        foreach ($data_cht_ as $key => $val_cht) {
+           $blob_cht = $val_cht->blob;
+           $size_cht = $val_cht->size;
+        }
+        $data_cha_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cha');   
+        foreach ($data_cha_ as $key => $val_cha) {
+           $blob_cha = $val_cha->blob;
+           $size_cha = $val_cha->size;
+        }
+        $data_aer_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_aer');   
+        foreach ($data_aer_ as $key => $val_aer) {
+           $blob_aer = $val_aer->blob;
+           $size_aer = $val_aer->size;
+        }
+        $data_adp_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_adp');   
+        foreach ($data_adp_ as $key => $val_adp) {
+           $blob_adp = $val_adp->blob;
+           $size_adp = $val_adp->size;
+        }
+        $data_lvd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ldv');   
+        foreach ($data_lvd_ as $key => $val_lvd) {
+           $blob_lvd = $val_lvd->blob;
+           $size_lvd = $val_lvd->size;
+        }
+        $data_dru_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_dru');   
+        foreach ($data_dru_ as $key => $val_dru) {
+           $blob_dru = $val_dru->blob;
+           $size_dru = $val_dru->size;
+        }
        
-        // $response = Http::withHeaders([ 
-        //     'User-Agent:<platform>/<version> <10978>',
-        //     'Accept' => 'application/json',
-        // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
-        //     'username'    =>  $username ,
-        //     'password'    =>  $password 
-        // ]);   
+        $response = Http::withHeaders([ 
+            'Authorization : Bearer '.$token,
+            // 'Authorization' => 'Bearer<"'.$token.'">',
+            'User-Agent : <platform>/<version> <10978>',
+            'Accept     : application/json',
+        ])->POST('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
+                "fileType"      => "txt",
+                "maininscl"     => "OFC",
+                "dataTypes"     => ["OP","IP"],
+                "opRefer"       => false,
+                "importDup"     => true,   //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "assignToMe"    => true,   //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+                "file" => [ 
+                    "ins" => [
+                        "blobName"  => "INS.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ins,
+                        "size"      => $size_ins,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"pat" => [
+                        "blobName"  => "PAT.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_pat,
+                        "size"      => $size_pat,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"opd" => [
+                        "blobName"  => "OPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_opd,
+                        "size"      => $size_opd,
+                        "encoding"  => "UTF-8"
+                    ] 
+                    ,"orf" => [
+                        "blobName"  => "ORF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_orf,
+                        "size"      => $size_orf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"odx" => [
+                        "blobName"  => "ODX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      =>  $blob_odx,
+                        "size"      =>  $size_odx,
+                        "encoding"  => "UTF-8"
+                    ]  
+                    ,"oop" => [
+                        "blobName"  => "OOP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_oop,
+                        "size"      => $size_oop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"ipd" => [
+                        "blobName"  => "IPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ipd,
+                        "size"      => $size_ipd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"irf" => [
+                        "blobName"  => "IRF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_irf,
+                        "size"      => $size_irf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"idx" => [
+                        "blobName"  => "IDX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_idx,
+                        "size"      => $size_idx,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"iop" => [
+                        "blobName"  => "IOP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_iop,
+                        "size"      => $size_iop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cht" => [
+                        "blobName"  => "CHT.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_cht,
+                        "size"      => $size_cht,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cha" => [
+                        "blobName"  => "CHA.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_cha,
+                        "size"      => $size_cha,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"aer" => [
+                        "blobName"  => "AER.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_aer,
+                        "size"      => $size_aer,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"adp" => [
+                        "blobName"  => "ADP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_adp,
+                        "size"      => $size_adp,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lvd" => [
+                        "blobName"  => "LDV.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_lvd,
+                        "size"      => $size_lvd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"dru" => [
+                        "blobName"  => "DRUG.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_dru,
+                        "size"      => $size_dru,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lab" => null
+                ] 
+        ]);   
         // $token = $response->json('token');
-
+        $status = $response->json('status');
+        $message = $response->json('message');
          // $response = Http::withToken('thetoken')->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth');
         // dump($response->json('token'));
         // dump($response->status());
         // dump($response->message());
+        // $status2 = $response->getStatusCode();
+
+        dd($response);
+        
+            // $headers_send  = [
+            //     'Authorization : Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10975>'
+                    
+            // ];
+
+            #https://tnhsoapi.nhso.go.th/ecimp/v1/send  test_zone
+            #https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send
+            // curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            // curl_setopt($fame_send, CURLOPT_POST, 1);
+            // curl_setopt($fame_send, CURLOPT_RETURNTRANSFER, 1);
+            // curl_setopt($fame_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+            // curl_setopt($fame_send, CURLOPT_HTTPHEADER, $headers_send);
+            // $send_fame_outp     = curl_exec ($fame_send);
+            // $statusCode_send_fame_outp = curl_getinfo($fame_send, CURLINFO_HTTP_CODE);
+            // $content_send_fame_outp = $send_fame_outp;
+            // $result_send_fame_outp = json_decode($content_send_fame_outp, true);
+            // #echo "<BR>";
+            // @$status_send = "status_send :".$result_send_fame_outp['status'];
+            // #echo "<BR>";
+            // @$message_send = "message_send :".$result_send_fame_outp['message'];
+
+            // ************************
+            // $response_send = Http::withHeaders([ 
+            //     'Authorization : Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10978>'  
+            // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
+            //     'postData_send'    =>  $postData_send , 
+            // ]);    
+            // $token = $response_send->json('token');
+            // dump($response_send->json('token'));
+            // dump($response_send->status());
+            // dump($response_send->message());
+
+
+        
         return response()->json([
             'status'    => '200'
         ]);

@@ -1,4 +1,4 @@
-@extends('layouts.accountpk')
+@extends('layouts.pkclaim')
 @section('title', 'PK-BACKOFFice || New-Eclaim')
 @section('content')
     <style>

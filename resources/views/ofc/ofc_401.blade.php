@@ -84,8 +84,9 @@ $pos = strrpos($url, '/') + 1;
 
     </div>
     <form action="{{ url('ofc_401') }}" method="POST">
-            @csrf
+        @csrf
     <div class="row"> 
+      
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-6 text-end">
@@ -94,13 +95,13 @@ $pos = strrpos($url, '/') + 1;
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                {{-- </div>  --}}
-            {{-- </div> --}}
-            {{-- <div class="col-md-4">  --}}
+        
                     <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>  
+
+                </form>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
@@ -109,15 +110,22 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
                     </a>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
+                    <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">
+                        @csrf
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
                         <i class="fa-solid fa-upload text-primary me-2"></i>
                         ส่ง New Eclaim
                     </button>
+                </form>
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
+                        <i class="fa-solid fa-upload text-primary me-2"></i>
+                        ส่ง New Eclaim
+                    </button> --}}
                 </div> 
             </div>
           
         </div>
-    </form>
+    {{-- </form> --}}
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
