@@ -205,7 +205,7 @@ iframe {
 /*------------------------------------------------------------------
 [  ]*/
 .login100-form {
-  width: 290px;
+  width: 190px;
 }
 
 .login100-form-title {
@@ -375,7 +375,7 @@ iframe {
 
 @media (max-width: 768px) {
   .wrap-login100 {
-    padding: 100px 80px 33px 80px;
+    padding: 20px 80px 33px 80px;
   }
 
   .login100-pic {
@@ -389,7 +389,7 @@ iframe {
 
 @media (max-width: 576px) {
   .wrap-login100 {
-    padding: 100px 15px 33px 15px;
+    padding: 20px 15px 33px 15px;
   }
 }
 

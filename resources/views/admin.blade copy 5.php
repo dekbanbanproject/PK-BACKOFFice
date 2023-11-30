@@ -45,7 +45,7 @@
 
         <div class="row">
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(199, 181, 240)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -92,7 +92,7 @@
                                             <a href="{{ url('otone') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                  
+                                                    {{-- <i class="fa-solid fa-3x fa-people-line font-size-25" style="color: rgb(171, 149, 223)"></i> --}}
                                                     <i class="fa-solid fa-3x fa-clock-rotate-left font-size-25"
                                                         style="color: rgb(171, 149, 223)"></i>
                                                 </button>
@@ -106,38 +106,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
-                    <div class="grid-menu-col">
-                        <div class="g-0 row">
-                            <div class="col-sm-12">
-                                <div class="widget-chart widget-chart-hover rounded-pill">
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
-                                            <a href="{{ url('time_dashboard') }}" target="_blank">
-                                                <h5 class="text-start mb-2">TIME</h5>
-                                            </a>
-                                        </div>
-                                        <div class="avatar ms-2">
-                                            <a href="{{ url('time_dashboard') }}" target="_blank">
-                                                <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-
-                                                    <i class="fa-solid fa-3x fa-clock font-size-25 ms-2"
-                                                        style="color: rgb(119, 218, 215)"></i>
-                                                </button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(245, 176, 250)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -163,9 +132,8 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
-           
-            {{-- <div class="col-xl-2 col-md-2">
+            </div>
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(207, 248, 253)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -180,7 +148,9 @@
 
 
                                             <a>
-                                            
+                                                {{-- <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <i class="fa-solid fa-3x fa-book-open-reader font-size-25" style="color: rgb(194, 137, 199)"></i>
+                                                    </button>  --}}
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
 
@@ -195,12 +165,12 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
 
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 217, 217)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -229,8 +199,7 @@
                     </div>
                 </div>
             </div>
-            
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(174, 180, 177, 0.781)">
                     <div class="grid-menu-col">
@@ -245,13 +214,13 @@
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a href="{{ url('article/article_index') }}" target="_blank">
+                                            {{-- <a href="{{ url('article/article_index') }}" target="_blank"> --}}
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                     <i class="fa-solid fa-3x fa-building-shield font-size-25"
                                                         style="color: rgba(131, 150, 140, 0.692)"></i>
                                                 </button>
-                                            </a>
+                                            {{-- </a> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -259,9 +228,8 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
-
-            <div class="col-xl-3 col-md-3">
+            </div>
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 222, 161)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -290,8 +258,7 @@
                     </div>
                 </div>
             </div>
-
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(171, 175, 173)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -319,9 +286,8 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
-
-            <div class="col-xl-3 col-md-3">
+            </div>
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(170, 167, 250)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -350,8 +316,7 @@
                     </div>
                 </div>
             </div>
-
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(190, 223, 248)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -379,12 +344,12 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
 
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(145, 220, 231)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -501,7 +466,7 @@
             </div> --}}
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -530,9 +495,8 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-xl-3 col-md-3">
-                <div class="main-card mb-2 card shadow-lg rounded-pill"
+            <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(237, 199, 247, 0.781)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -542,15 +506,15 @@
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
                                             <a href="{{ url('account_pk_dash') }}" target="_blank">
-                                                <h5 class="text-start mb-2">ACCOUNT</h5>
+                                                <h5 class="text-start mb-2">ACCOUNTING</h5>
                                             </a>
                                         </div>
                                         <div class="avatar">
                                             <a href="{{ url('account_pk_dash') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                    <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-26"
-                                                        style="color: rgba(230, 171, 245, 0.781)"></i>
+                                                    <i class="fa-solid fa-3x fa-file-invoice-dollar font-size-25"
+                                                        style="color: rgb(237, 199, 247, 0.781)"></i>
                                                 </button>
                                             </a>
                                         </div>
@@ -564,7 +528,7 @@
 
 
 
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(247, 242, 173, 0.781)">
                     <div class="grid-menu-col">
@@ -592,9 +556,8 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
-
-            {{-- <div class="col-xl-2 col-md-2">
+            </div>
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(125, 148, 252)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -622,9 +585,9 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(93, 218, 114)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -654,8 +617,7 @@
                     </div>
                 </div>
             </div>
-
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(243, 212, 155)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -684,11 +646,11 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 180, 255)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -718,7 +680,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(210, 211, 210, 0.781)">
                     <div class="grid-menu-col">
@@ -777,9 +739,38 @@
                 </div>
             </div> --}}
 
-           
+            <div class="col-xl-2 col-md-2">
+                <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
+                    <div class="grid-menu-col">
+                        <div class="g-0 row">
+                            <div class="col-sm-12">
+                                <div class="widget-chart widget-chart-hover rounded-pill">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
+                                            <a href="{{ url('time_dashboard') }}" target="_blank">
+                                                <h5 class="text-start mb-2">TIME SYSTEM</h5>
+                                            </a>
+                                        </div>
+                                        <div class="avatar ms-2">
+                                            <a href="{{ url('time_dashboard') }}" target="_blank">
+                                                <button
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
 
-            <div class="col-xl-3 col-md-3">
+                                                    <i class="fa-solid fa-3x fa-clock font-size-25 ms-2"
+                                                        style="color: rgb(119, 218, 215)"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 198, 176)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -789,7 +780,7 @@
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
                                             <a href="{{ url('pkclaim_info') }}" target="_blank">
-                                                <h5 class="text-start mb-2">CLAIM </h5>
+                                                <h5 class="text-start mb-2">CLAIM CENTER</h5>
                                             </a>
                                         </div>
                                         <div class="avatar">

@@ -57,7 +57,7 @@
 </head>
 <style>
     .modal-dialog {
-            max-width: 70%;
+            max-width: 80%;
         }
 
         .modal-dialog-slideout {
@@ -120,12 +120,18 @@
             </a>
 
             <nav id="navbar" class="navbar">
-                <ul>                   
-                    <li class="text-center"><a class="nav-link scrollto " href="{{url('/login')}}"> <i class="fa-solid fa-house-chimney me-2"></i> Home</a>
-                    </li> 
-                     <li class="dropdown"><a href="#">
+                <ul>   
+                    <li><a href="{{ url('/login') }}" target="_blank"><i class="fa-solid fa-house-chimney me-2"></i>Home</a></li> 
+                    <li><a href="#exsecutiva" target="_blank"><i class="fa-solid fa-person me-2"></i>คณะผู้บริหารงาน</a></li> 
+                    <li><a href="#vision" target="_blank"><i class="fa-solid fa-person me-2"></i>วิสัยทัศน์/พันธกิจ</a></li> 
+                     {{-- <li class="dropdown "><a href="{{url('/login')}}">
+                        <i class="fa-solid fa-house-chimney me-2"></i>
+                        <span class="text-center">Home</span>  
+                        <i class="bi bi-chevron-down dropdown-indicator" style="color: transparent"></i></a> 
+                    </li> --}}
+                    {{-- <li class="dropdown "><a href="#">
                         <i class="fa-solid fa-address-book me-2"></i>
-                        <span >เกี่ยวกับเรา</span>  
+                        <span class="text-center">เกี่ยวกับเรา</span>  
                         <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                         <ul>
                             <li><a href="">ประวัติโรงพยาบาล</a></li>
@@ -133,14 +139,23 @@
                             <li><a href="#vision">วิสัยทัศน์/พันธกิจ</a></li> 
                             <li><a href="#department">หน่วยงาน</a></li>
                         </ul>
-                    </li>
-                
+                    </li> --}}
+                    {{-- <li class="dropdown "><a href="#contact">
+                        <i class="fa-regular fa-address-book me-2"></i>
+                        <span class="text-center">Contact</span>  
+                        <i class="bi bi-chevron-down dropdown-indicator" style="color: transparent"></i></a> 
+                    </li> --}}
+                    {{-- <li class="dropdown "><a href="{{url('report_dashboard')}}">
+                        <i class="fa-solid fa-chart-line me-2"></i>
+                        <span class="text-center">Report</span>  
+                        <i class="bi bi-chevron-down dropdown-indicator" style="color: transparent"></i></a> 
+                    </li> --}}
                     <li><a class="nav-link scrollto" href="#contact"><i class="fa-regular fa-address-book me-2"></i>Contact</a></li> 
                     <li><a href="{{ url('report_dashboard') }}" target="_blank"><i class="fa-solid fa-chart-line me-2"></i>Report</a></li> 
                
-                    <li class="dropdown"><a href="#"> <i class="fa-solid fa-download me-2"></i><span>Download</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    {{-- <li class="dropdown"><a href="#"> <i class="fa-solid fa-download me-2"></i><span>Download</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                         <ul>
-                          {{-- <li><a href="#">Drop Down 1</a></li> --}}
+                    
                           <li class="dropdown"><a href="#"><span>รายงานการประชุม รพ.</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
                             <ul>
                               <li><a href="#">ปี พศ.2560</a></li>
@@ -174,14 +189,22 @@
                               <li><a href="#">ปี พศ.2566</a></li>
                             </ul>
                           </li>
-                          <li><a href="#">แบบฟอร์มต่างๆ</a></li>
-                          {{-- <li><a href="#">Drop Down 3</a></li> --}}
-                          {{-- <li><a href="#">Drop Down 4</a></li> --}}
+                          <li><a href="#">แบบฟอร์มต่างๆ</a></li> 
                         </ul>
-                      </li>
+                    </li> --}}
 
-                    <li> <a href="{{ url('check_dashboard') }}" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a>
-                        </li> 
+                    {{-- <li class="dropdown "><a data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal">
+                        <i class="fa-solid fa-fingerprint me-2"></i>
+                        <span class="text-center">Login</span>  
+                        <i class="bi bi-chevron-down dropdown-indicator" style="color: transparent"></i></a> 
+                    </li> --}}
+                    {{-- <li class="dropdown "><a href="{{url('authen_main')}}">
+                        <i class="fa-solid fa-person me-2"></i>
+                        <span class="text-center">Authen</span>  
+                        <i class="bi bi-chevron-down dropdown-indicator" style="color: transparent"></i></a> 
+                    </li> --}}
+                    
+                    <li> <a href="{{ url('check_dashboard') }}" data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal"><i class="fa-solid fa-fingerprint me-2"></i>Login</a> </li> 
                     <li><a href="{{ url('authen_main') }}" target="_blank"><i class="fa-solid fa-person me-2" style="font-size: 15px"></i>Authen</a></li> 
                 </ul> 
                 <i class="bi bi-list mobile-nav-toggle d-none"></i>
@@ -882,18 +905,13 @@
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-slideout">
-            <div class="modal-content">
-                {{-- <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">เข้าสู่ระบบ</h1> 
-                </div> --}}
-           
+            <div class="modal-content"> 
                     <div class="modal-body p-0">
                                    
                         <div class="limiter">
                             <div class="container-login100">
                                 <div class="wrap-login100">
-                                    <div class="login100-pic js-tilt" data-tilt>
-                                        {{-- <img src="{{ asset('images/logo_350.jpg') }}" width="300" height="300" alt="IMG"> --}}
+                                    <div class="login100-pic js-tilt" data-tilt> 
                                         <img src="{{ asset('images/team.png') }}" width="500" height="250" alt="IMG">
                                     </div> 
                                     <form method="POST" action="{{ route('login') }}" class="login100-form validate-form">
