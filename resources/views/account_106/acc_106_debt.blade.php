@@ -335,6 +335,12 @@
                                                     </button>
                                                     
                                                 </td> 
+
+
+
+
+
+                                                
                                                 <td class="text-center" width="6%">                                        
                                                     <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
                                                         onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"

@@ -113,9 +113,10 @@
 
                             <form action="{{ route('rep.check_icd9_ipd') }}" method="POST">
                                 @csrf
-                            
+                                   
                                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                       <input type="text" class="form-control" id="icd9" name="icd9" placeholder="ใส่ ICD9 ที่ต้องการค้นหา" value="{{$icd9}}" required>
+                                        <label for="" class="mt-2 me-2" style="font-size: 13px;">รหัสหัตถการ</label>
+                                        <input type="text" class="form-control" id="icd9" name="icd9" placeholder="ใส่ ICD9 ที่ต้องการค้นหา" value="{{$icd9}}" required>
                                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                             data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -136,11 +137,13 @@
  
                         <div class="table-responsive mt-3">
                             {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
-                                <table id="example" class="table table-striped table-bordered "
+                                {{-- <table id="example" class="table table-striped table-bordered "
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
-                                    <tr class="headtable">
-                                        <th>ลำดับ</th> 
+                                    <tr class="headtable text-center">
+                                        <th class="text-center">ลำดับ</th> 
                                         <th>hn</th>
                                         <th>an</th> 
                                         <th>dchdate</th>
@@ -148,10 +151,10 @@
                                         <th>ptname</th> 
                                         {{-- <th>icode</th>  --}}
                                         {{-- <th>qty</th>  --}}
-                                        {{-- <th>ราคา</th>   --}}
+                                        <th>Adjrw</th>  
                                         <th>อุปกรณ์</th>  
-                                        <th>ชดเชย</th> 
-                                        <th>ชดเชย Total</th> 
+                                        <th>ชดเชยอุปกรณ์</th> 
+                                        <th>ชดเชยทั้งหมด</th> 
                                         <th>ไฟล์ STM</th> 
                                     </tr>
                                 </thead>
@@ -160,41 +163,42 @@
                                     @foreach ($datashow_ as $item)  
                                    
                                         <tr class="detail">
-                                            <td>{{ $ia++ }}</td>
-                                            <td>{{ $item->hn }}</td> 
-                                            <td>{{ $item->an }}</td>   
+                                            <td width="3%" class="text-center">{{ $ia++ }}</td>
+                                            <td width="5%" class="text-center">{{ $item->hn }}</td> 
+                                            <td width="8%" class="text-center">{{ $item->an }}</td>   
                                            
-                                            <td width="8%">{{ $item->dchdate }}</td>  
-                                            <td>{{ $item->pttype }}</td> 
-                                            <td class="p-2" width="12%">{{ $item->ptname }}</td>   
-                                            {{-- <td>{{ $item->icode }}</td>     --}}
+                                            <td width="8%" class="text-center">{{ $item->dchdate }}</td>  
+                                            <td width="5%" class="text-center">{{ $item->pttype }}</td> 
+                                            <td class="p-2" width="10%">{{ $item->ptname }}</td>   
+                                            <td width="5%" class="text-center">{{ $item->adjrw }}</td>    
                                             {{-- <td>{{ $item->qty }}</td>                                           --}}
                                             {{-- <td>{{ number_format($item->unitprice,2) }}</td>  --}}
-                                            <td class="p-2" width="15%">
+                                            <td class="text-center" >
                                               
-                                                <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" 
+                                                <button class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" 
                                                 data-bs-toggle="modal" target="_blank" data-bs-target="#exampleModal{{$item->an}}"
                                                 data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
                                                 data-bs-placement="top" title="Print File"> 
                                                 
-                                                <label for="" style="font-size:12px;color: rgb(184, 84, 241)">  {{ $item->nameknee }}</label>
+                                                <label for="" style="font-size:12px;color: rgb(184, 84, 241)">รายการอุปกรณ์ </label>
+                                                {{-- {{ $item->nameknee }} --}}
                                             </button>
                                             </td>  
-                                            <td> 
+                                            <td class="text-center" width="9%"> 
                                                 @if ($item->inst =='')
                                                     <span class="badge bg-danger rounded-pill"> 0.00 </span>
                                                 @else
                                                     <span class="badge bg-success rounded-pill">{{$item->inst}} </span>
                                                 @endif
                                             </td> 
-                                            <td> 
+                                            <td class="text-center" width="9%"> 
                                                 @if ($item->total_approve =='')
                                                     <span class="badge bg-danger rounded-pill"> 0.00 </span>
                                                 @else
                                                     <span class="badge bg-success rounded-pill">{{$item->total_approve}} </span>
                                                 @endif
                                             </td> 
-                                            <td class="text-center" width="10%">{{ $item->STMdoc }}</td> 
+                                            <td class="text-center" width="12%">{{ $item->STMdoc }}</td> 
                                         </tr>  
                                         
                                         <?php 

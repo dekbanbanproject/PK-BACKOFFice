@@ -372,27 +372,28 @@ class Account107Controller extends Controller
 
         if ($startdate =='') {
             $datashow = DB::connection('mysql')->select('        
-                    SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                    SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
                     ,U1.sumtotal_amount
                     FROM acc_1102050102_107 U1
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
-                    WHERE U1.debit_total > 0
+                  
                     GROUP BY U1.an ORDER BY U1.acc_1102050102_107_id DESC
             ');
+            // WHERE U1.debit_total > 0
         } else {
             $datashow = DB::connection('mysql')->select('        
-                SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U3.income,U3.paid_money,U3.rcpt_money,U1.debit_total,U2.file,U2.filename
+                SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
                 ,U1.sumtotal_amount
                 FROM acc_1102050102_107 U1
                 LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
                 LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
-                WHERE U1.debit_total > 0 AND U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
+                WHERE U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
                 GROUP BY U1.an
                 ORDER BY U1.acc_1102050102_107_id DESC
         ');
         }        
-        
+        // U1.debit_total > 0 AND 
         return view('account_107.acc_107_debt',[
             'startdate'     =>  $startdate,
             'enddate'       =>  $enddate,
@@ -402,11 +403,11 @@ class Account107Controller extends Controller
     public function acc_107_debt_sync(Request $request)
     { 
         $sync = DB::connection('mysql2')->select(' 
-                SELECT a.an,r.finance_number,r.hn,a.pttype,r.bill_amount,r.total_amount
+                SELECT a.an,r.finance_number,r.hn,a.pttype,r.bill_amount,r.total_amount,a.paid_money,a.remain_money
                 ,SUM(r.bill_amount) as s_bill
 
                 FROM rcpt_print r 
-            
+         
                 LEFT OUTER JOIN vn_stat v on v.vn=r.vn  
                 LEFT OUTER JOIN an_stat a on a.an = r.vn  
                 LEFT OUTER JOIN patient p on p.hn=r.hn  
@@ -414,14 +415,37 @@ class Account107Controller extends Controller
                 WHERE department ="IPD" AND a.an IN(SELECT an FROM pkbackoffice.acc_1102050102_107)
                 GROUP BY a.an 
             ');
+            // ,rp.amount
+            // LEFT OUTER JOIN rcpt_arrear rp on r.vn = rp.vn 
             // ,SUM(r.bill_amount) as s_bill 
             // LEFT OUTER JOIN rcpt_arrear rp on rp.vn = r.vn 
             foreach ($sync as $key => $value) { 
-                     
-                Acc_1102050102_107::where('an',$value->an) 
+                $total_ = Acc_1102050102_107::where('an',$value->an)->first(); 
+                $deb = $total_->paid_money;
+                // $d =  $deb - $value->total_amount;
+                $d =  $deb - $value->s_bill;   
+                // dd($d);
+                // Acc_1102050102_107::where('an',$value->an) 
+                //         ->update([  
+                //             'sumtotal_amount'    => $value->s_bill
+                //     ]);
+
+                    if ($d < 0) {
+                        Acc_1102050102_107::where('an',$value->an) 
                         ->update([  
-                            'sumtotal_amount'    => $value->s_bill
+                            'sumtotal_amount'    => $value->total_amount,
+                            // 'paid_money'         => $value->paid_money,
+                            'debit_total'        => "0.00"
                     ]);
+                    } else {
+                        Acc_1102050102_107::where('an',$value->an) 
+                        ->update([  
+                            'sumtotal_amount'    => $value->total_amount,
+                            // 'paid_money'         => $value->paid_money,
+                            // 'debit_total'        => $deb - $value->s_bill
+                            'debit_total'        => $d 
+                    ]);
+                    }
             }
             return response()->json([
                 'status'    => '200'
@@ -575,8 +599,10 @@ class Account107Controller extends Controller
 
     public function acc_107_debt_print(Request $request, $id)
     { 
+        $dataedit_count = Acc_107_debt_print::where('acc_1102050102_107_id', '=', $id)->max('acc_107_debt_no');
+        $dataedit = Acc_107_debt_print::where('acc_1102050102_107_id', '=', $id)->where('acc_107_debt_no', '=', $dataedit_count)->first();
         
-        $dataedit = Acc_107_debt_print::where('acc_1102050102_107_id', '=', $id)->first();
+        // dd($dataedit->debit_total);
         $check_max = Acc_107_debt_print::where('acc_1102050102_107_id', '=', $id)->max('acc_107_debt_no');
         $org = DB::table('orginfo')->where('orginfo_id', '=', 1)
             ->leftjoin('users', 'users.id', '=', 'orginfo.orginfo_manage_id')

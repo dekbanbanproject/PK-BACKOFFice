@@ -442,7 +442,8 @@ class Account106Controller extends Controller
             foreach ($sync as $key => $value) { 
                      
                 $total_ = Acc_1102050102_106::where('vn',$value->vn)->first();
-                $deb = $total_->debit;
+                // $deb = $total_->debit;
+                $deb = $total_->paid_money;
                 $d =  $deb - $value->s_bill;
 
                 if ($d < 0) {
