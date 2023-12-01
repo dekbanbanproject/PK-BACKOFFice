@@ -45,7 +45,7 @@
 
         <div class="row">
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(199, 181, 240)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -200,7 +200,7 @@
 
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 217, 217)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -261,7 +261,7 @@
                 </div>
             </div> --}}
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 222, 161)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -321,7 +321,7 @@
                 </div>
             </div> --}}
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(170, 167, 250)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -384,7 +384,7 @@
 
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(145, 220, 231)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -501,7 +501,7 @@
             </div> --}}
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -531,7 +531,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-2 card shadow-lg rounded-pill"
                     style="background-color: rgba(237, 199, 247, 0.781)">
                     <div class="grid-menu-col">
@@ -624,7 +624,7 @@
                 </div>
             </div> --}}
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(93, 218, 114)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -688,7 +688,7 @@
 
 
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 180, 255)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
@@ -718,7 +718,7 @@
                 </div>
             </div>
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(210, 211, 210, 0.781)">
                     <div class="grid-menu-col">
@@ -779,7 +779,7 @@
 
            
 
-            <div class="col-xl-3 col-md-3">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 198, 176)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">

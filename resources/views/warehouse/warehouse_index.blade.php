@@ -279,14 +279,14 @@
                                         <th width="3%" class="text-center">ลำดับ</th>
                                         {{-- <th width="7%" class="text-center">สถานะ</th> --}}
                                         <th width="9%" class="text-center">เลขที่รับ</th>
-                                        <th width="4%" class="text-center">ปีงบ</th>
+                                        {{-- <th width="4%" class="text-center">ปีงบ</th> --}}
                                         <th width="9%" class="text-center">วันที่</th>
                                         <th class="text-center">รับเข้าคลัง</th>
-                                        <th width="8%" class="text-center">ประเภทรับ</th>
+                                        {{-- <th width="8%" class="text-center">ประเภทรับ</th> --}}
                                         {{-- <th width="8%" class="text-center">สถานะส่ง</th> --}}
                                         <th width="8%" class="text-center">สถานะคลัง</th>
                                         {{-- <th class="text-center">ตัวแทนจำหน่าย</th> --}}
-                                        <th width="10%" class="text-center">ผู้รับ</th>
+                                        {{-- <th width="10%" class="text-center">ผู้รับ</th> --}}
                                         <th width="5%" class="text-center">จัดการ</th>
                                     </tr>
                                 </thead>
@@ -299,25 +299,23 @@
                                             <td class="text-center" width="3%">{{ $i++ }}</td>
                                             {{-- <td class="text-center" width="7%">{{ $item->warehouse_rep_status }} </td> --}}
                                             <td class="text-center" width="9%">{{ $item->warehouse_rep_code }} </td>
-                                            <td class="text-center" width="4%">{{ $item->warehouse_rep_year }}</td>
+                                            {{-- <td class="text-center" width="4%">{{ $item->warehouse_rep_year }}</td> --}}
                                             <td class="text-center" width="9%">
                                                 {{ DateThai($item->warehouse_rep_date) }}
                                             </td>
                                             <td class="p-2">{{ $item->warehouse_rep_inven_name }}</td>
 
-                                            @if ($item->warehouse_rep_type == 'ASSET')
-                                                <td class="font-weight-medium text-center" width="10%">
-                                                    {{-- <div class="badge bg-warning">ผ่านพัสดุ</div> --}}
+                                            {{-- @if ($item->warehouse_rep_type == 'ASSET')
+                                                <td class="font-weight-medium text-center" width="10%"> 
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-warning">ผ่านพัสดุ</button>
                                                 </td>
                                             @else
-                                                <td class="font-weight-medium text-center" width="10%">
-                                                    {{-- <div class="badge bg-info">โดยตรง</div> --}}
+                                                <td class="font-weight-medium text-center" width="10%"> 
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info">โดยตรง</button>
                                                 </td>
-                                            @endif
+                                            @endif --}}
 
                                             {{-- @if ($item->warehouse_rep_send == 'FINISH')
                                                 <td class="font-weight-medium text-center" style="font-size:15px"
@@ -353,8 +351,7 @@
                                             @endif
 
                                             {{-- <td class="p-2" width="14%">{{ $item->warehouse_rep_vendor_name }}</td> --}}
-                                            <td class="text-center" width="9%">{{ $item->warehouse_rep_user_name }}
-                                            </td>
+                                            {{-- <td class="text-center" width="9%">{{ $item->warehouse_rep_user_name }} </td> --}}
                                             <td class="text-center" width="5%">
                                                 <div class="dropdown d-inline-block">
                                                     <button type="button" aria-haspopup="true" aria-expanded="false"

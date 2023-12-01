@@ -457,7 +457,8 @@ class Account106Controller extends Controller
                     ->update([  
                         'sumtotal_amount'    => $value->s_bill,
                         // 'paid_money'         => $value->paid_money,
-                        'debit_total'        => $deb - $value->s_bill
+                        // 'debit_total'        => $deb - $value->s_bill
+                        'debit_total'        => $value->remain_money
                 ]);
                 }
                 

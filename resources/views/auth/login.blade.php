@@ -121,9 +121,9 @@
 
             <nav id="navbar" class="navbar">
                 <ul>   
-                    <li><a href="{{ url('/login') }}" target="_blank"><i class="fa-solid fa-house-chimney me-2"></i>Home</a></li> 
-                    <li><a href="#exsecutiva" target="_blank"><i class="fa-solid fa-person me-2"></i>คณะผู้บริหารงาน</a></li> 
-                    <li><a href="#vision" target="_blank"><i class="fa-solid fa-person me-2"></i>วิสัยทัศน์/พันธกิจ</a></li> 
+                    <li><a class="nav-link scrollto" href="{{ url('/login') }}" target="_blank"><i class="fa-solid fa-house-chimney me-2"></i>Home</a></li> 
+                    <li><a class="nav-link scrollto" href="#exsecutiva" target="_blank"><i class="fa-solid fa-person me-2"></i>คณะผู้บริหารงาน</a></li> 
+                    <li><a class="nav-link scrollto" href="#vision" target="_blank"><i class="fa-solid fa-person me-2"></i>วิสัยทัศน์/พันธกิจ</a></li> 
                      {{-- <li class="dropdown "><a href="{{url('/login')}}">
                         <i class="fa-solid fa-house-chimney me-2"></i>
                         <span class="text-center">Home</span>  
