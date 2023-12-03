@@ -102,7 +102,7 @@
     <div id="layout-wrapper">
 
          <header id="page-topbar">
-            <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)" >
+            <div class="navbar-header" style="background-color: rgb(247, 244, 244)" >
 
 
                 <div class="d-flex">
