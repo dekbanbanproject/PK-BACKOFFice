@@ -174,7 +174,7 @@
                                                         <td class="text-center" width="15%" style="font-size: 13px">{{ $item->p4p_work_code }}</td> 
                                                         <td class="text-center" style="font-size: 13px" width="10%">{{ ($item->p4p_work_year)+543 }}</td>
                                                         <td class="p-2" style="font-size: 13px">{{ $item->MONTH_NAME }}</td>                                                          
-                                                        <td class="text-center" width="10%">
+                                                        <td class="text-center" width="10%" style="font-size:12px">
                                                             <a href="{{url('p4p_work_edit/'.$item->p4p_work_id)}}" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" >
                                                                 <i class="fa-solid fa-circle-info me-2 text-info" style="font-size:13px"></i> 
                                                                    แก้ไข 

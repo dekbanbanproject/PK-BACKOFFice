@@ -71,7 +71,7 @@
   		background-image: url('/pkbackoffice/public/images/bgside.jpg');
 		background-repeat: no-repeat;
 	}
-    .myTable thead tr{
+    /* .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;
     text-align: center;
@@ -93,7 +93,7 @@
     }
     .myTable tbody tr .active-row{
         color: #ccbcd1;
-    }
+    } */
 </style>
 
 <body data-topbar="dark">

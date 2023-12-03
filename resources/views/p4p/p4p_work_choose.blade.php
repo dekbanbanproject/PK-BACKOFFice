@@ -224,7 +224,7 @@
                                     <label for="p4p_workset_id" style="font-family: sans-serif;font-size: 13px">ชื่อรายการ
                                     </label>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <select name="p4p_workset_id" id="p4p_workset_id" class="form-select form-select-sm"
                                             style="width: 100%">
@@ -236,8 +236,7 @@
                                                     ->where('p4p_workload_user', '=', $iduser)
                                                     ->count(); ?>
                                                 @if ($ws->p4p_workset_id != '' && $p4p_workload_ == 0)
-                                                    <option value="{{ $ws->p4p_workset_id }}"> {{ $ws->p4p_workset_name }}
-                                                    </option>
+                                                    <option value="{{ $ws->p4p_workset_id }}"> {{ $ws->p4p_workset_name }} (เวลา{{ $ws->p4p_workset_time }}/คะแนน{{ $ws->p4p_workset_score }}) </option>
                                                 @endif
                                             @endforeach
                                         </select>
@@ -265,7 +264,7 @@
                                 </div>
                                 {{-- <div class="col"></div>  --}}
 
-                                <div class="col-md-2 text-end">
+                                <div class="col-md-1 text-end">
                                     <?php $p4p_workloads_ = DB::table('p4p_workload')
                                         ->where('p4p_work_id', '=', $p4p_work_id)
                                         ->where('p4p_workload_user', '=', $iduser)
@@ -396,7 +395,7 @@
                                                                 class="btn btn-success btn-sm waves-effect waves-light"
                                                                 data-bs-toggle="popover" data-bs-trigger="focus"
                                                                 title="ภาระงาน"
-                                                                data-bs-content="{{ $number }} .{{ $item->p4p_workset_name }}">เรื่อง</button>
+                                                                data-bs-content="{{ $number }} .{{ $item->p4p_workset_name }} (เวลา{{ $item->p4p_workset_time }}/คะแนน{{ $item->p4p_workset_score }})">เรื่อง</button>
                                                             <input id="p4p_workset_id0" type="hidden"
                                                                 class="form-control form-control-sm"
                                                                 name="p4p_workset_id[]"

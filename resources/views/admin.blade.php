@@ -564,7 +564,7 @@
 
 
 
-            {{-- <div class="col-xl-2 col-md-2">
+            <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
                     style="background-color: rgba(247, 242, 173, 0.781)">
                     <div class="grid-menu-col">
@@ -592,7 +592,7 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
             {{-- <div class="col-xl-2 col-md-2">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(125, 148, 252)">
