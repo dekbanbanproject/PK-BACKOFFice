@@ -205,12 +205,12 @@ class Account107Controller extends Controller
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.107')->whereBetween('dchdate', [$startdate, $enddate])->count();
                     if ($check > 0) {
-                        Acc_debtor::where('an', $value->an)->where('account_code','1102050102.107')->update([  
-                            'income'             => $value->income, 
-                            'discount_money'     => $value->discount_money, 
-                            'paid_money'         => $value->paid_money, 
-                            'rcpt_money'         => $value->rcpt_money,  
-                        ]);
+                        // Acc_debtor::where('an', $value->an)->where('account_code','1102050102.107')->update([  
+                        //     'income'             => $value->income, 
+                        //     'discount_money'     => $value->discount_money, 
+                        //     'paid_money'         => $value->paid_money, 
+                        //     'rcpt_money'         => $value->rcpt_money,  
+                        // ]);
                         // Acc_1102050102_107::where('an', $value->an)->update([
                         //     'income'             => $value->income, 
                         //     'discount_money'     => $value->discount_money, 
@@ -410,7 +410,7 @@ class Account107Controller extends Controller
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
                   
-                    GROUP BY U1.an ORDER BY U1.acc_1102050102_107_id DESC
+                    GROUP BY U1.an ORDER BY U1.dchdate DESC
             ');
             // WHERE U1.debit_total > 0
         } else {
@@ -422,7 +422,7 @@ class Account107Controller extends Controller
                 LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
                 WHERE U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
                 GROUP BY U1.an
-                ORDER BY U1.acc_1102050102_107_id DESC
+                ORDER BY U1.dchdate DESC
         ');
         }        
         // U1.debit_total > 0 AND 
@@ -436,10 +436,8 @@ class Account107Controller extends Controller
     { 
         $sync = DB::connection('mysql2')->select(' 
                 SELECT a.an,r.finance_number,r.hn,a.pttype,r.bill_amount,r.total_amount,a.paid_money,a.remain_money
-                ,SUM(r.bill_amount) as s_bill
-
-                FROM rcpt_print r 
-         
+                ,SUM(r.bill_amount) as s_bill 
+                FROM rcpt_print r  
                 LEFT OUTER JOIN vn_stat v on v.vn=r.vn  
                 LEFT OUTER JOIN an_stat a on a.an = r.vn  
                 LEFT OUTER JOIN patient p on p.hn=r.hn  

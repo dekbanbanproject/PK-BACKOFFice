@@ -222,42 +222,33 @@
                                         <td class="text-end" width="8%" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                            
                                             
-                                            @if ($item->debit_total == "0") 
+                                        @if ($item->debit_total == "0") 
                                             <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
                                             <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
-                                            @else       
+                                        @else       
                                             <td class="text-end" width="6%" style="font-size:12px;color: rgb(17, 180, 159)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
                                             <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
-                                            @endif
-                                        
-                                            @if ($item->debit_total == "0")
-                                                <td class="text-center" width="6%"></td>
-                                                <td class="text-center" width="6%"></td>
-                                            @else
-                                                <td class="text-center" width="6%">
-                                                    <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" 
-                                                        
-                                                        data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
-                                                        data-bs-placement="top" title="Print File"> 
-                                                        @if ($item->file == '') 
-                                                            <img src="{{ asset('assets/images/defailt_img.jpg' ) }}" height="20px;" width="20px" ></img>   
-                                                        @else 
-                                                            <a href="{{ asset('storage/account_107/'.$item->filename)}}" ><img src="{{ asset('storage/account_106/'.$item->filename) }}" height="20px;" width="20px" ></img>  </a>
-                                                            
-                                                        @endif 
-                                                        <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Print</label>
-                                                    </button>
+                                        @endif
+                                    
+                                        @if ($item->debit_total == "0")
+                                            <td class="text-center" width="6%"></td>
+                                            <td class="text-center" width="6%"></td>
+                                        @else
+                                            <td class="text-center" width="6%">
+                                                <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" 
                                                     
-                                                </td> 
-                                        
-
-
-
-
-
-
-                                        <td class="text-center" width="6%">
-                                            
+                                                    data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
+                                                    data-bs-placement="top" title="Print File"> 
+                                                    @if ($item->file == '') 
+                                                        <img src="{{ asset('assets/images/defailt_img.jpg' ) }}" height="20px;" width="20px" ></img>   
+                                                    @else 
+                                                        <a href="{{ asset('storage/account_107/'.$item->filename)}}" ><img src="{{ asset('storage/account_106/'.$item->filename) }}" height="20px;" width="20px" ></img>  </a>
+                                                        
+                                                    @endif 
+                                                    <label for="" style="font-size:12px;color: rgb(184, 84, 241)">Print</label>
+                                                </button>                                                
+                                            </td> 
+                                        <td class="text-center" width="6%">                                            
                                             <a class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-info" href="javascript:void(0)"
                                                 onclick="acc_107_debt_outbook({{ $item->acc_1102050102_107_id }})"
                                                 data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"

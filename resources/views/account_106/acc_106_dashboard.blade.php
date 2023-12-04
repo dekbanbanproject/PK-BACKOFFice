@@ -102,14 +102,12 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
-                    </div>
-                </div>
-                <div class="col-md-3 text-start">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                 
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    
+                </div>
                 </div>
 
             </div>
@@ -211,52 +209,7 @@
                                                         </a>
                                                     </div>
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-1 text-start ms-4">
-                                                        <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
-                                                    </div>
-                                                    <div class="col-md-4 text-start mt-3">
-                                                        <p class="text-muted mb-0">
-                                                                Statement
-                                                        </p>
-                                                    </div>
-                                                    <div class="col"></div>
-                                                    <div class="col-md-5 text-end me-2">
-                                                        {{-- <a href="{{url('account_401_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                            <div class="widget-chart widget-chart-hover">
-                                                                <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
-                                                                        {{ number_format($sum_stm, 2) }}
-                                                                        <i class="fa-brands fa-btc text-success ms-2"></i>
-                                                                </p>
-                                                            </div>
-                                                        </a> --}}
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-1 text-start ms-4">
-                                                        <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
-                                                    </div>
-                                                    <div class="col-md-4 text-start mt-3">
-                                                        <p class="text-muted mb-0">
-                                                                ยกยอดไปเดือนนี้
-                                                        </p>
-                                                    </div>
-                                                    <div class="col"></div>
-                                                    <div class="col-md-5 text-end me-2"> 
-                                                        {{-- <a href="{{url('account_401_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                            <div class="widget-chart widget-chart-hover">
-                                                                <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokpai}} Visit" >
-                                                                {{ number_format($sum_yokpai, 2) }}  
-                                                                <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
-                                                                </p>
-                                                            </div> 
-                                                        </a> --}}
-                                                    </div>
-                                                </div>
-
-                                        
+ 
 
                                             </div>
                                         </div>
@@ -355,50 +308,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
-                                                </div>
-                                                <div class="col-md-4 text-start mt-3">
-                                                    <p class="text-muted mb-0">
-                                                            Statement
-                                                    </p>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2">
-                                                    {{-- <a href="{{url('account_401_stm/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
-                                                                    {{ number_format($sum_stm, 2) }}
-                                                                    <i class="fa-brands fa-btc text-success ms-2"></i>
-                                                            </p>
-                                                        </div>
-                                                    </a> --}}
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-1 text-start ms-4">
-                                                    <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
-                                                </div>
-                                                <div class="col-md-4 text-start mt-3">
-                                                    <p class="text-muted mb-0">
-                                                            ยกยอดไปเดือนนี้
-                                                    </p>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-5 text-end me-2"> 
-                                                    {{-- <a href="{{url('account_401_stmnull/'.$item->months.'/'.$item->year)}}" target="_blank">
-                                                        <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ยกยอดไปเดือนนี้ {{$count_yokpai}} Visit" >
-                                                            {{ number_format($sum_yokpai, 2) }}  
-                                                            <i class="fa-brands fa-btc ms-2" style="color: rgb(160, 12, 98)"></i>
-                                                            </p>
-                                                        </div> 
-                                                    </a> --}}
-                                                </div>
-                                            </div>
-
+                                           
                                     
 
                                         </div>
