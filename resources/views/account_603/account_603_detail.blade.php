@@ -97,7 +97,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center">ลำดับ</th>
                                     <th class="text-center">vn</th>
                                     <th class="text-center">hn</th>
-                                    <th class="text-center">cid</th>
+                                    {{-- <th class="text-center">cid</th> --}}
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">dchdate</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
@@ -106,6 +106,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" width="5%">ลูกหนี้</th>
                                     <th class="text-center">เลขที่หนังสือ</th>
                                     <th class="text-center">วันที่</th>
+                                    <th class="text-center">บริษัท</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,7 +129,7 @@ $pos = strrpos($url, '/') + 1;
                                             </td>
                                             <td class="text-center" width="10%">{{ $item->vn }}</td>
                                             <td class="text-center" width="10%">{{ $item->hn }}</td>
-                                            <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                            {{-- <td class="text-center" width="10%">{{ $item->cid }}</td> --}}
                                             <td class="p-2">{{ $item->ptname }}</td>
                                             <td class="text-center" width="10%">{{ $item->dchdate }}</td>
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>
@@ -152,6 +153,7 @@ $pos = strrpos($url, '/') + 1;
                                                 @endif 
                                             </td>
                                             <td class="text-center" width="10%">{{ $item->nhso_ownright_name }}</td>
+                                            <td class="text-center" width="10%">{{ $item->nhso_govname }}</td>
                                         </tr>
                                    
                                         {{-- <tr height="20" style="font-size: 14px;">

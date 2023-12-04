@@ -88,7 +88,7 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-3 text-end">
+                <div class="col-md-4 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -96,17 +96,12 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div> 
-                </div>
-                <div class="col-md-3 text-start">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                  
+                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    {{-- <a href="{{url('account_pkucs217_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                        ดึงข้อมูล
-                    </a> --}}
+                </div>
                 </div>
             </div>
         </form>  
@@ -127,7 +122,7 @@
                                                 // ลูกหนี้ทั้งหมด
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT vn) as Can
-                                                        ,SUM(debit) as sumdebit
+                                                        ,SUM(debit_total) as sumdebit
                                                         from acc_debtor
                                                             WHERE account_code="1102050101.209"
                                                             AND stamp = "N"
@@ -306,7 +301,7 @@
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
                                                 SELECT count(DISTINCT vn) as Can
-                                                    ,SUM(debit) as sumdebit
+                                                    ,SUM(debit_total) as sumdebit
                                                     from acc_debtor
                                                         WHERE account_code="1102050101.209"
                                                         AND stamp = "N" AND vstdate BETWEEN "'.$startdate.'" and "'.$startdate.'" 
@@ -316,52 +311,18 @@
                                                 $sum_N = $value->sumdebit;
                                             }
                                             // ตั้งลูกหนี้
-                                            $datasum_ = DB::select('
-                                                SELECT sum(debit_total) as debit_total,count(DISTINCT vn) as Cvit
+                                            $datasum_d = DB::select('
+                                                SELECT sum(debit_total) as debit_total ,count(DISTINCT vn) as Cvit
                                                         from acc_1102050101_209
-                                                        WHERE vstdate BETWEEN "'.$startdate.'"
-                                                        AND  "'.$enddate.'" 
+                                                        WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+                                                      
                                             ');
                                             // AND status = "N"
-                                            foreach ($datasum_ as $key => $value2) {
-                                                $sum_Y = $value2->debit_total;
-                                                $count_Y = $value2->Cvit;
+                                            foreach ($datasum_d as $key => $value4) {
+                                                $sum_Y = $value4->debit_total;
+                                                $count_Y = $value4->Cvit;
                                             }
-                                            // สีเขียว STM
-                                            // $sumapprove_ = DB::select('
-                                            //         SELECT count(DISTINCT a.vn) as Apvit ,sum(s.hc_drug)+sum(s.hc)+sum(s.ae)+sum(s.ae_drug)+sum(s.inst)+sum(s.dmis_money2)+sum(s.dmis_drug) as STM216
-                                            //             ,sum(s.pp) as stm209
-                                            //             FROM acc_1102050101_209 a
-                                            //             LEFT JOIN acc_stm_ucs s ON s.hn = a.hn AND s.vstdate = a.vstdate 
-                                            //             WHERE year(a.vstdate) = "'.$item->year.'"
-                                            //             AND month(a.vstdate) = "'.$item->months.'" 
-                                            //             AND s.pp > 0
-                                                        
-                                            //     ');
-                                                // AND (s.hc_drug >0 or s.hc >0 or s.ae >0 or s.ae_drug >0 or s.inst >0 or s.dmis_money2 >0 or s.dmis_drug >0)
-                                                // AND au.ip_paytrue IS NOT NULL
-                                                // foreach ($sumapprove_ as $key => $value3) {
-                                                //     $amountpay = $value3->stm209;
-                                                //     $stm_count = $value3->Apvit;
-                                                // }
-                                                 
-                                                // $mo = $item->months;
-                                                // $sumyokma_all_ = DB::select('
-                                                //     SELECT count(DISTINCT U1.vn) as anyokma ,sum(U1.debit_total) as debityokma
-                                                //             FROM acc_1102050101_209 U1
-                                                //             LEFT JOIN acc_stm_ucs s ON s.hn = U1.hn AND s.vstdate = U1.vstdate
-                                                //             WHERE U1.status ="N" 
-                                                //             AND year(U1.vstdate) = "'.$item->year.'"
-                                                //             AND month(U1.vstdate) = "'.$item->months.'"
-                                                //             AND (s.pp is null or s.pp = "0.00")
-                                                            
-                                                // ');
-                                                // AND month(U1.dchdate) < "'.$mo.'"
-                                                // AND U2.rep IS NULL
-                                                // foreach ($sumyokma_all_ as $key => $value6) {
-                                                //     $total_yokma_all = $value6->debityokma;
-                                                //     $count_yokma_all = $value6->anyokma;
-                                                // }
+                                            
 
                                         ?>
                                         <div class="row">

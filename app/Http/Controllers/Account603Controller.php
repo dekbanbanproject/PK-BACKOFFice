@@ -322,7 +322,7 @@ class Account603Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.nhso_ownright_name
+            SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.nhso_ownright_name,U1.nhso_govname
             ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
                 from acc_1102050102_603 U1
                 
@@ -342,7 +342,7 @@ class Account603Controller extends Controller
         $months = $request->months;
         $year = $request->year;
         $sync = DB::connection('mysql')->select(' 
-                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ip.nhso_ownright_name,ac.dchdate 
+                SELECT ac.acc_1102050102_603_id,a.an,a.pttype,ip.nhso_ownright_pid,ip.nhso_docno,ip.nhso_ownright_name,ac.dchdate,ip.nhso_govname 
                 FROM hos.an_stat a
                 LEFT JOIN hos.ipt_pttype ip ON ip.an = a.an
                 LEFT JOIN pkbackoffice.acc_1102050102_603 ac ON ac.an = a.an
@@ -358,7 +358,8 @@ class Account603Controller extends Controller
                         ->update([ 
                             'nhso_docno'           => $value->nhso_docno ,
                             'nhso_ownright_pid'    => $value->nhso_ownright_pid,
-                            'nhso_ownright_name'   => $value->nhso_ownright_name
+                            'nhso_ownright_name'   => $value->nhso_ownright_name,
+                            'nhso_govname'         => $value->nhso_govname
                     ]);
             }
             return response()->json([
@@ -490,7 +491,7 @@ class Account603Controller extends Controller
 
         $data = DB::select('
             SELECT U1.acc_1102050102_603_id,U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.nhso_ownright_name
-            ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date 
+            ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date ,U1.nhso_govname
                 from acc_1102050102_603 U1
                 
                 WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"

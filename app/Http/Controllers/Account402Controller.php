@@ -223,11 +223,12 @@ class Account402Controller extends Controller
         '); 
         // ,e.code as acc_code
         // ,e.ar_ipd as account_code
-
+// dd($acc_debtor);
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
-                $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                // $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
+                $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->count();
                 if ($check == 0) {
                     Acc_debtor::insert([
                         'hn'                 => $value->hn,

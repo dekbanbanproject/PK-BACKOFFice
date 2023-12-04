@@ -85,37 +85,69 @@ class Account107Controller extends Controller
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
-        $data['startdate'] = $request->startdate;
-        $data['enddate'] = $request->enddate;
-        if ($data['startdate'] == '') {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        if ($startdate == '') {
             $data['datashow'] = DB::connection('mysql')->select('
-                SELECT month(a.dchdate) as months,year(a.dchdate) as year ,l.MONTH_NAME
-                ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
-                    from hos.rcpt_arrear r  
-                    LEFT OUTER JOIN hos.an_stat a ON r.vn = a.an  
-                    LEFT OUTER JOIN hos.patient p ON p.hn = a.hn   
-                    LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                    WHERE a.dchdate BETWEEN "'.$newDate.'" and "'.$date.'"
-                    AND r.paid ="N" AND r.pt_type="IPD"
-                    GROUP BY month(a.dchdate)
-                    ORDER BY a.dchdate desc limit 6; 
+                    SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.an) as an
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$newDate.'" and "'.$date.'"
+                    and account_code="1102050102.107"
+                    and income <> 0
+                    group by month(a.dchdate) 
+                    order by a.dchdate desc limit 6; 
+              
             '); 
+            // SELECT month(a.dchdate) as months,year(a.dchdate) as year ,l.MONTH_NAME
+            // ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
+            //     from hos.rcpt_arrear r  
+            //     LEFT OUTER JOIN hos.an_stat a ON r.vn = a.an  
+            //     LEFT OUTER JOIN hos.patient p ON p.hn = a.hn   
+            //     LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+            //     WHERE a.dchdate BETWEEN "'.$newDate.'" and "'.$date.'"
+            //     AND r.paid ="N" AND r.pt_type="IPD"
+            //     GROUP BY month(a.dchdate)
+            //     ORDER BY a.dchdate desc limit 6; 
         } else {
             $data['datashow'] = DB::connection('mysql')->select('
-                    SELECT month(a.dchdate) as months,year(a.dchdate) as year ,l.MONTH_NAME
-                    ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
-                        from hos.rcpt_arrear r  
-                        LEFT OUTER JOIN hos.an_stat a ON r.vn = a.an  
-                        LEFT OUTER JOIN hos.patient p ON p.hn = a.hn   
-                        LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
-                        WHERE a.dchdate BETWEEN "'.$data['startdate'].'" and "'.$data['enddate'].'" 
-                        AND r.paid ="N" AND r.pt_type="IPD"
-                        ORDER BY a.dchdate desc limit 6;  
+            SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
+                    ,count(distinct a.hn) as hn
+                    ,count(distinct a.an) as an
+                    ,sum(a.paid_money) as paid_money
+                    ,sum(a.income) as income
+                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+                    FROM acc_debtor a
+                    left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
+                    WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
+                    and account_code="1102050102.107"
+                    and income <> 0
+                   
+                   
             '); 
         }
+        // group by month(a.dchdate) 
+        // order by a.dchdate desc limit 6; 
+
+        // SELECT month(a.dchdate) as months,year(a.dchdate) as year ,l.MONTH_NAME
+        // ,COUNT(DISTINCT r.vn) countvn,SUM(r.amount) sumamount
+        //     from hos.rcpt_arrear r  
+        //     LEFT OUTER JOIN hos.an_stat a ON r.vn = a.an  
+        //     LEFT OUTER JOIN hos.patient p ON p.hn = a.hn   
+        //     LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.dchdate)
+        //     WHERE a.dchdate BETWEEN "'.$data['startdate'].'" and "'.$data['enddate'].'" 
+        //     AND r.paid ="N" AND r.pt_type="IPD"
+        //     ORDER BY a.dchdate desc limit 6;  
         
-        
-        return view('account_107.acc_107_dashboard', $data );
+        return view('account_107.acc_107_dashboard', $data ,[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+        ]);
     }
     public function acc_107_pull(Request $request)
     {
@@ -132,7 +164,7 @@ class Account107Controller extends Controller
                 left join checksit_hos c on c.an = a.an  
                 WHERE a.account_code="1102050102.107"
                 AND a.stamp = "N"
-                group by a.vn
+                group by a.an
                 order by a.dchdate asc;
 
             ');
@@ -434,6 +466,7 @@ class Account107Controller extends Controller
                         Acc_1102050102_107::where('an',$value->an) 
                         ->update([  
                             'sumtotal_amount'    => $value->total_amount,
+                            // 'sumtotal_amount'    => $value->s_bill,
                             // 'paid_money'         => $value->paid_money,
                             'debit_total'        => "0.00"
                     ]);
@@ -441,9 +474,11 @@ class Account107Controller extends Controller
                         Acc_1102050102_107::where('an',$value->an) 
                         ->update([  
                             'sumtotal_amount'    => $value->total_amount,
+                            // 'sumtotal_amount'    => $value->s_bill,
                             // 'paid_money'         => $value->paid_money,
                             // 'debit_total'        => $deb - $value->s_bill
                             'debit_total'        => $d 
+                            // 'debit_total'        => $value->remain_money
                     ]);
                     }
             }

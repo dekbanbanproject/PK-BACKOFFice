@@ -207,8 +207,8 @@ class Account401Controller extends Controller
                 LEFT JOIN opitemrece op ON op.vn = o.vn
                 WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401")
-                 
-                AND v.income <> 0
+                  
+                and v.income-v.discount_money-v.rcpt_money <> 0
                 and (o.an="" or o.an is null)
                 GROUP BY v.vn
         ');

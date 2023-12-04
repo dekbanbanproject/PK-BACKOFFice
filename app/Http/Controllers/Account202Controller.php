@@ -300,13 +300,11 @@ class Account202Controller extends Controller
                      ,count(distinct a.an) as an
                      ,sum(a.income) as income
                      ,sum(a.paid_money) as paid_money
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
- 
+                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total 
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$start.'" and "'.$end.'"
-                     and account_code="1102050101.202"
- 
+                     and account_code="1102050101.202" 
                      group by month(a.dchdate) order by month(a.dchdate) desc limit 3;
              ');
              // and stamp = "N"
@@ -318,14 +316,11 @@ class Account202Controller extends Controller
                      ,count(distinct a.an) as an
                      ,sum(a.income) as income
                      ,sum(a.paid_money) as paid_money
-                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
- 
+                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total 
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-                     and account_code="1102050101.202"
- 
-                     
+                     and account_code="1102050101.202" 
              ');
          }
         //  group by month(a.dchdate) order by month(a.dchdate) desc;

@@ -138,7 +138,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $i = 1; ?>
+                                        <?php $i = 1; 
+                                            $total1 = 0;
+                                            
+                                        ?>
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
@@ -165,8 +168,17 @@
                                                 <td class="text-center" width="10%">{{ number_format($item->debit, 2) }}</td> 
  
                                             </tr>
+                                            <?php
+                                                    $total1 = $total1 + $item->debit;
+                                                    
+                                            ?>
                                         @endforeach
                                     </tbody>
+                                    <tr style="background-color: #f3fca1">
+                                        <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label> </td> 
+                                       
+                                    </tr>  
                                 </table>
                             </div>
                         </p>

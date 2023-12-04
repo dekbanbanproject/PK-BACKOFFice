@@ -106,6 +106,7 @@ $pos = strrpos($url, '/') + 1;
                                     <th class="text-center" width="5%">ลูกหนี้</th>
                                     <th class="text-center">เลขที่หนังสือ</th>
                                     <th class="text-center">วันที่</th>
+                                    <th class="text-center">บริษัท</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,6 +153,7 @@ $pos = strrpos($url, '/') + 1;
                                                 @endif 
                                             </td>
                                             <td class="text-center" width="10%">{{ $item->nhso_ownright_name }}</td>
+                                            <td class="text-center" width="10%">{{ $item->nhso_govname }}</td>
                                         </tr>
                                    
                                         {{-- <tr height="20" style="font-size: 14px;">

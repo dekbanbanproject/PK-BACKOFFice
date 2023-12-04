@@ -128,7 +128,7 @@
                                                 // ลูกหนี้ทั้งหมด
                                                 $datas = DB::select('
                                                     SELECT count(DISTINCT vn) as Can
-                                                        ,SUM(debit) as sumdebit
+                                                        ,SUM(debit_total) as sumdebit
                                                         from acc_debtor
                                                             WHERE account_code="1102050101.401"
                                                             AND stamp = "N"

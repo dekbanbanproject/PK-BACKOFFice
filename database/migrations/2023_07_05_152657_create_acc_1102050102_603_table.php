@@ -56,7 +56,8 @@ return new class extends Migration
 
                 $table->string('nhso_docno')->nullable();// เลขที่หนังสือ
                 $table->string('nhso_ownright_pid')->nullable();//ลงรับใน hos    
-                $table->string('nhso_ownright_name')->nullable();//   วันที่                  
+                $table->string('nhso_ownright_name')->nullable();//   วันที่    
+                $table->string('nhso_govname')->nullable();//    
                 $table->string('recieve_true')->nullable();//รับจริง
                 $table->string('difference')->nullable();//ส่วนต่าง
                 $table->string('recieve_no')->nullable();//เลขที่ใบเสร็จ
