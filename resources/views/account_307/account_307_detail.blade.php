@@ -84,10 +84,12 @@
                                     {{-- <th class="text-center" width="5%">repno</th> --}}
                                     {{-- <th class="text-center">an</th> --}}
                                     <th class="text-center">vn</th>
+                                    <th class="text-center">an</th>
                                     <th class="text-center">hn</th>
-                                    <th class="text-center">cid</th>
+                                    {{-- <th class="text-center">cid</th> --}}
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
+                                    <th class="text-center">dchdate</th> 
                                     <th class="text-center">pttype</th> 
                                     <th class="text-center">Sync Data / เลขหนังสือ </th>
                                     <th class="text-center">ลูกหนี้</th>
@@ -124,11 +126,13 @@
                                         </td>
                                         {{-- <td class="text-center" width="10%">{{ $item->repno }}</td>   --}}
                                         <td class="text-center" width="10%">{{ $item->vn }}</td>
-                                        <td class="text-center" width="10%">{{ $item->hn }}</td>
-                                        <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                        <td class="text-center" width="8%">{{ $item->an }}</td>
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                        {{-- <td class="text-center" width="10%">{{ $item->cid }}</td> --}}
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>
-                                        <td class="text-center" width="10%">{{ $item->pttype }}</td>
+                                        <td class="text-center" width="8%">{{ $item->vstdate }}</td>
+                                        <td class="text-center" width="8%">{{ $item->dchdate }}</td>
+                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         <td class="text-center" width="5%">
                                             
                                             @if ($item->nhso_docno != '' )
@@ -161,7 +165,7 @@
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
                                 <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
                                 <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>

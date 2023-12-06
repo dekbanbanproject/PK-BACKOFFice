@@ -278,10 +278,9 @@ class Account307Controller extends Controller
             // AND a.pttype IN("35","06","C5")
             // AND v.hospmain = "10702"
             foreach ($acc_debtor as $key => $value) {
-                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.307')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                    $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.307')->count();
                     if ($value->pttype == 'SS') {
                         $pttype = 'ss';
-
                         // if ( $value->looknee < "900") {
                         //     $data_debit = $value->debit;
                         //  } else {
@@ -312,6 +311,7 @@ class Account307Controller extends Controller
                             'ptname'             => $value->ptname,
                             'pttype'             => $pttype,
                             'vstdate'            => $value->vstdate,
+                            'dchdate'            => $value->dchdate,
                             'acc_code'           => $value->acc_code,
                             'account_code'       => $value->account_code,
                             'account_name'       => $value->account_name,
@@ -399,11 +399,21 @@ class Account307Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+                SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
                 from acc_1102050101_307 U1
              
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 GROUP BY U1.vn
+
+                UNION
+
+                SELECT U2.vn,U2.an,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.pttype,U2.debit_total,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.dchdate
+                from acc_1102050101_307 U2
+             
+                WHERE month(U2.dchdate) = "'.$months.'" AND year(U2.dchdate) = "'.$year.'"
+                GROUP BY U2.an
+
+
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_307.account_307_detail', $data, [ 
@@ -421,12 +431,24 @@ class Account307Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
                 from acc_1102050101_307 U1
              
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 AND U1.recieve_true is not null
                 GROUP BY U1.vn
+
+                UNION
+
+                SELECT U2.vn,U2.an,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.pttype,U2.debit_total,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.dchdate
+                from acc_1102050101_307 U2
+             
+                WHERE month(U2.dchdate) = "'.$months.'" AND year(U2.dchdate) = "'.$year.'"
+                AND U2.recieve_true is not null
+                GROUP BY U2.an
+
+           
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_307.account_307_stm', $data, [ 
@@ -523,12 +545,34 @@ class Account307Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
+            SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
                 from acc_1102050101_307 U1
              
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 GROUP BY U1.vn
+
+                UNION
+
+                SELECT U2.vn,U2.an,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.pttype,U2.debit_total,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.dchdate
+                from acc_1102050101_307 U2
+                
+                WHERE U2.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY U2.an
         ');
+        // SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+        //         from acc_1102050101_307 U1
+             
+        //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
+        //         GROUP BY U1.vn
+
+        //         UNION
+
+        //         SELECT U2.vn,U2.an,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.pttype,U2.debit_total,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.dchdate
+        //         from acc_1102050101_307 U2
+             
+        //         WHERE month(U2.dchdate) = "'.$months.'" AND year(U2.dchdate) = "'.$year.'"
+        //         GROUP BY U2.an
+
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_307.account_307_detail_date', $data, [ 
             'data'          =>     $data,
@@ -542,12 +586,22 @@ class Account307Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
-                from acc_1102050101_307 U1
-             
-                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                AND U1.recieve_true is not null
-                GROUP BY U1.vn
+        SELECT U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.dchdate
+        from acc_1102050101_307 U1
+     
+        WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+        AND U1.recieve_true is not null
+        GROUP BY U1.vn
+
+        UNION
+
+        SELECT U2.vn,U2.an,U2.hn,U2.cid,U2.ptname,U2.vstdate,U2.pttype,U2.debit_total,U2.nhso_docno,U2.nhso_ownright_pid,U2.recieve_true,U2.difference,U2.recieve_no,U2.recieve_date,U2.dchdate
+        from acc_1102050101_307 U2
+        
+        WHERE U2.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+        AND U2.recieve_true is not null
+        GROUP BY U2.an
+ 
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
         return view('account_307.account_307_stm_date', $data, [ 

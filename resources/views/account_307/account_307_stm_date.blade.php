@@ -82,8 +82,9 @@
                                 <tr>
                                     <th class="text-center">ลำดับ</th> 
                                     <th class="text-center">vn</th>
+                                    <th class="text-center">an</th>
                                     <th class="text-center">hn</th>
-                                    <th class="text-center">cid</th>
+                                    {{-- <th class="text-center">cid</th> --}}
                                     <th class="text-center">ptname</th>
                                     <th class="text-center">vstdate</th> 
                                     <th class="text-center">pttype</th> 
@@ -102,11 +103,12 @@
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number++ }} </td> 
                                         <td class="text-center" width="10%">{{ $item->vn }}</td>
-                                        <td class="text-center" width="10%">{{ $item->hn }}</td>
-                                        <td class="text-center" width="10%">{{ $item->cid }}</td>
+                                        <td class="text-center" width="8%">{{ $item->an }}</td>
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td>
+                                        {{-- <td class="text-center" width="10%">{{ $item->cid }}</td> --}}
                                         <td class="p-2">{{ $item->ptname }}</td>
-                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>
-                                        <td class="text-center" width="10%">{{ $item->pttype }}</td>
+                                        <td class="text-center" width="8%">{{ $item->vstdate }}</td>
+                                        <td class="text-center" width="5%">{{ $item->pttype }}</td>
                                         <td class="text-center" width="5%"> 
                                             <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-success">
                                                 <i class="fa-solid fa-book-open text-success me-2"></i> 

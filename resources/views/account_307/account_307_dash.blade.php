@@ -89,7 +89,7 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-3 text-end">
+                <div class="col-md-4 text-end">
                     {{-- <select name="acc_trimart_id" id="acc_trimart_id" class="form-control">
                         <option value="">--เลือก--</option>
                         @foreach ($trimart as $item)
@@ -103,17 +103,12 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div> 
-                </div>
-                <div class="col-md-3 text-start">
+                  
                     <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    {{-- <a href="{{url('account_307_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                        ดึงข้อมูล
-                    </a> --}}
+                </div>
                 </div>
             </div>
         </form>  
@@ -146,7 +141,7 @@
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
                                                 }
-                                                // ตั้งลูกหนี้
+                                                // ตั้งลูกหนี้ OPD
                                                 $datasum_ = DB::select('
                                                     SELECT sum(debit_total) as debit_total,count(vn) as Cvit
                                                     from acc_1102050101_307
@@ -158,6 +153,22 @@
                                                     $sum_Y = $value2->debit_total;
                                                     $count_Y = $value2->Cvit;
                                                 }
+
+                                                // ตั้งลูกหนี้ IPD
+                                                $datasumipd_ = DB::select('
+                                                    SELECT sum(debit_total) as debit_totali,count(an) as Avit
+                                                    from acc_1102050101_307
+                                                    where month(dchdate) = "'.$item->months.'"
+                                                    AND year(dchdate) = "'.$item->year.'"; 
+                                                    
+                                                ');   
+                                                foreach ($datasumipd_ as $key => $valueip) {
+                                                    $sum_iY = $valueip->debit_totali;
+                                                    $count_iY = $valueip->Avit;
+                                                }
+
+                                                $total_sumY   = $sum_Y + $sum_iY;
+                                                $total_countY = $count_Y + $count_iY;
                                                 
                                             // STM
                                             $sumapprove_ = DB::select('
@@ -245,8 +256,8 @@
                                                 <div class="col-md-5 text-end me-2">
                                                     <a href="{{url('account_307_detail/'.$item->months.'/'.$item->year)}}" target="_blank">
                                                         <div class="widget-chart widget-chart-hover">
-                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
-                                                                    {{ number_format($sum_Y, 2) }}
+                                                            <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$total_countY}} Visit">
+                                                                    {{ number_format($total_sumY, 2) }}
                                                                     <i class="fa-brands fa-btc text-danger ms-2"></i>
                                                             </p>
                                                         </div>
@@ -339,6 +350,22 @@
                                                 $sum_Y = $value2->debit_total;
                                                 $count_Y = $value2->Cvit;
                                             }
+
+                                            // ตั้งลูกหนี้ IPD
+                                            $datasumipd_ = DB::select('
+                                                    SELECT sum(debit_total) as debit_totali,count(an) as Avit
+                                                    from acc_1102050101_307
+                                                    where month(dchdate) = "'.$item->months.'"
+                                                    AND year(dchdate) = "'.$item->year.'"; 
+                                                    
+                                                ');   
+                                                foreach ($datasumipd_ as $key => $valueip) {
+                                                    $sum_iY = $valueip->debit_totali;
+                                                    $count_iY = $valueip->Avit;
+                                                }
+
+                                                $total_sumY   = $sum_Y + $sum_iY;
+                                                $total_countY = $count_Y + $count_iY;
                                             
                                         // STM
                                         $sumapprove_ = DB::select('
@@ -412,8 +439,8 @@
                                             <div class="col-md-5 text-end me-2">
                                                 <a href="{{url('account_307_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
-                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
-                                                                {{ number_format($sum_Y, 2) }}
+                                                        <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$total_countY}} Visit">
+                                                                {{ number_format($total_sumY, 2) }}
                                                                 <i class="fa-brands fa-btc text-danger ms-2"></i>
                                                         </p>
                                                     </div>
