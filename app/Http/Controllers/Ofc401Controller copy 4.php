@@ -1067,9 +1067,11 @@ class Ofc401Controller extends Controller
 
         //1 ins.txt
         $file_d_ins = "Export/".$folder."/INS.txt";
-        $objFopen_ins = fopen($file_d_ins, 'w'); 
+        $objFopen_ins = fopen($file_d_ins, 'w');
+        $objFopen_ins_utf = fopen($file_d_ins, 'w');
         $opd_head = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
-        fwrite($objFopen_ins, $opd_head); 
+        fwrite($objFopen_ins, $opd_head);
+        fwrite($objFopen_ins_utf, $opd_head);
         $ins = DB::connection('mysql')->select('
             SELECT * from d_ins where d_anaconda_id = "OFC_401"
         ');
@@ -1094,14 +1096,29 @@ class Ofc401Controller extends Controller
             $a18 = $value1->RELINSCL;
             $a19 = $value1->HTYPE;
             $str_ins="\n".$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16."|".$a17."|".$a18."|".$a19;
-            $ansitxt_ins = iconv('UTF-8', 'TIS-620', $str_ins); 
-            fwrite($objFopen_ins, $ansitxt_ins); 
+            $ansitxt_ins = iconv('UTF-8', 'TIS-620', $str_ins);
+            $ansitxt_ins_utf = iconv('UTF-8', 'UTF-8', $str_ins);
+            fwrite($objFopen_ins, $ansitxt_ins);
+            fwrite($objFopen_ins_utf, $ansitxt_ins_utf);
         }
-        fclose($objFopen_ins); 
+        fclose($objFopen_ins);
+        fclose($objFopen_ins_utf);
+        D_apiofc_ins::truncate();
+        $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
+        $fread_file_ins_endcode = base64_encode($fread_file_ins);
+        $read_file_ins_size = filesize($file_d_ins);
+        D_apiofc_ins::insert([
+            'blobName'   =>  'INS.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_ins_endcode,
+            'size'       =>   $read_file_ins_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //2 pat.txt
         $file_d_pat = "Export/".$folder."/PAT.txt";
-        $objFopen_pat = fopen($file_d_pat, 'w'); 
+        $objFopen_pat = fopen($file_d_pat, 'w');
+        $objFopen_pat_utf = fopen($file_d_pat, 'w');
         $opd_head_pat = 'HCODE|HN|CHANGWAT|AMPHUR|DOB|SEX|MARRIAGE|OCCUPA|NATION|PERSON_ID|NAMEPAT|TITLE|FNAME|LNAME|IDTYPE';
         fwrite($objFopen_pat, $opd_head_pat);
         $pat = DB::connection('mysql')->select('
@@ -1124,17 +1141,29 @@ class Ofc401Controller extends Controller
             $i14 = $value9->LNAME;
             $i15 = $value9->IDTYPE;      
             $str_pat="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
-            $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat); 
+            $ansitxt_pat = iconv('UTF-8', 'TIS-620', $str_pat);
+            $ansitxt_pat_utf = iconv('UTF-8', 'UTF-8', $str_pat);
             fwrite($objFopen_pat, $ansitxt_pat);
-            
+            fwrite($objFopen_pat_utf, $ansitxt_pat_utf);
         }
         fclose($objFopen_pat);
-        
+        fclose($objFopen_pat_utf);
+        D_apiofc_pat::truncate();
+        $fread_file_pat = fread(fopen($file_d_pat,"r"),filesize($file_d_pat));
+        $fread_file_pat_endcode = base64_encode($fread_file_pat);
+        $read_file_pat_size = filesize($file_d_pat);
+        D_apiofc_pat::insert([
+            'blobName'   =>  'PAT.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_pat_endcode,
+            'size'       =>   $read_file_pat_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //3 opd.txt
         $file_d_opd = "Export/".$folder."/OPD.txt";
         $objFopen_opd = fopen($file_d_opd, 'w');
-     
+        $objFopen_opd_utf = fopen($file_d_opd, 'w');
         $opd_head_opd = 'HN|CLINIC|DATEOPD|TIMEOPD|SEQ|UUC|DETAIL|BTEMP|SBP|DBP|PR|RR|OPTYPE|TYPEIN|TYPEOUT';
         fwrite($objFopen_opd, $opd_head_opd);
         $opd = DB::connection('mysql')->select('
@@ -1148,16 +1177,29 @@ class Ofc401Controller extends Controller
             $o5 = $value15->SEQ; 
             $o6 = $value15->UUC;  
             $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
-            $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd); 
+            $ansitxt_opd = iconv('UTF-8', 'TIS-620', $str_opd);
+            $ansitxt_opd_utf = iconv('UTF-8', 'UTF-8', $str_opd);
             fwrite($objFopen_opd, $ansitxt_opd);
-            
+            fwrite($objFopen_opd_utf, $ansitxt_opd_utf);
         }
         fclose($objFopen_opd);
-       
+        fclose($objFopen_opd_utf);
+        D_apiofc_opd::truncate();
+        $fread_file_opd = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
+        $fread_file_opd_endcode = base64_encode($fread_file_opd);
+        $read_file_opd_size = filesize($file_d_opd);
+        D_apiofc_opd::insert([
+            'blobName'   =>  'OPD.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_opd_endcode,
+            'size'       =>   $read_file_opd_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //4 orf.txt
         $file_d_orf = "Export/".$folder."/ORF.txt";
-        $objFopen_orf = fopen($file_d_orf, 'w'); 
+        $objFopen_orf = fopen($file_d_orf, 'w');
+        $objFopen_orf_utf = fopen($file_d_orf, 'w');
         $opd_head_orf = 'HN|DATEOPD|CLINIC|REFER|REFERTYPE|SEQ';
         fwrite($objFopen_orf, $opd_head_orf);
         $orf = DB::connection('mysql')->select('
@@ -1171,15 +1213,29 @@ class Ofc401Controller extends Controller
             $p5 = $value16->REFERTYPE; 
             $p6 = $value16->SEQ;  
             $str_orf="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
-            $ansitxt_orf = iconv('UTF-8', 'TIS-620', $str_orf); 
-            fwrite($objFopen_orf, $ansitxt_orf); 
+            $ansitxt_orf = iconv('UTF-8', 'TIS-620', $str_orf);
+            $ansitxt_orf_utf = iconv('UTF-8', 'UTF-8', $str_orf);
+            fwrite($objFopen_orf, $ansitxt_orf);
+            fwrite($objFopen_orf_utf, $ansitxt_orf_utf);
         }
         fclose($objFopen_orf);
-        
+        fclose($objFopen_orf_utf);
+        D_apiofc_orf::truncate();
+        $fread_file_orf = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
+        $fread_file_orf_endcode = base64_encode($fread_file_orf);
+        $read_file_orf_size = filesize($file_d_orf);
+        D_apiofc_orf::insert([
+            'blobName'   =>  'ORF.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_orf_endcode,
+            'size'       =>   $read_file_orf_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //5 odx.txt
         $file_d_odx = "Export/".$folder."/ODX.txt";
-        $objFopen_odx = fopen($file_d_odx, 'w'); 
+        $objFopen_odx = fopen($file_d_odx, 'w');
+        $objFopen_odx_utf = fopen($file_d_odx, 'w');
         $opd_head_odx = 'HN|DATEDX|CLINIC|DIAG|DXTYPE|DRDX|PERSON_ID|SEQ';
         fwrite($objFopen_odx, $opd_head_odx);
         $odx = DB::connection('mysql')->select('
@@ -1195,14 +1251,29 @@ class Ofc401Controller extends Controller
             $m7 = $value13->PERSON_ID; 
             $m8 = $value13->SEQ; 
             $str_odx="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
-            $ansitxt_odx = iconv('UTF-8', 'TIS-620', $str_odx); 
-            fwrite($objFopen_odx, $ansitxt_odx); 
+            $ansitxt_odx = iconv('UTF-8', 'TIS-620', $str_odx);
+            $ansitxt_odx_utf = iconv('UTF-8', 'UTF-8', $str_odx);
+            fwrite($objFopen_odx, $ansitxt_odx);
+            fwrite($objFopen_odx_utf, $ansitxt_odx_utf);
         }
-        fclose($objFopen_odx); 
+        fclose($objFopen_odx);
+        fclose($objFopen_odx_utf);
+        D_apiofc_odx::truncate();
+        $fread_file_odx = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
+        $fread_file_odx_endcode = base64_encode($fread_file_odx);
+        $read_file_odx_size = filesize($file_d_odx);
+        D_apiofc_odx::insert([
+            'blobName'   =>  'ODX.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_odx_endcode,
+            'size'       =>   $read_file_odx_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //6 oop.txt
         $file_d_oop = "Export/".$folder."/OOP.txt";
-        $objFopen_oop = fopen($file_d_oop, 'w'); 
+        $objFopen_oop = fopen($file_d_oop, 'w');
+        $objFopen_oop_utf = fopen($file_d_oop, 'w');
         $opd_head_oop = 'HN|DATEOPD|CLINIC|OPER|DROPID|PERSON_ID|SEQ';
         fwrite($objFopen_oop, $opd_head_oop);
         $oop = DB::connection('mysql')->select('
@@ -1217,14 +1288,29 @@ class Ofc401Controller extends Controller
             $n6 = $value14->PERSON_ID; 
             $n7 = $value14->SEQ;  
             $str_oop="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
-            $ansitxt_oop = iconv('UTF-8', 'TIS-620', $str_oop); 
-            fwrite($objFopen_oop, $ansitxt_oop); 
+            $ansitxt_oop = iconv('UTF-8', 'TIS-620', $str_oop);
+            $ansitxt_oop_utf = iconv('UTF-8', 'UTF-8', $str_oop);
+            fwrite($objFopen_oop, $ansitxt_oop);
+            fwrite($objFopen_oop_utf, $ansitxt_oop_utf);
         }
-        fclose($objFopen_oop); 
+        fclose($objFopen_oop);
+        fclose($objFopen_oop_utf);
+        D_apiofc_oop::truncate();
+        $fread_file_oop = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
+        $fread_file_oop_endcode = base64_encode($fread_file_oop);
+        $read_file_oop_size = filesize($file_d_oop);
+        D_apiofc_oop::insert([
+            'blobName'   =>  'OOP.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_oop_endcode,
+            'size'       =>   $read_file_oop_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //7 ipd.txt
         $file_d_ipd = "Export/".$folder."/IPD.txt";
-        $objFopen_ipd = fopen($file_d_ipd, 'w'); 
+        $objFopen_ipd = fopen($file_d_ipd, 'w');
+        $objFopen_ipd_utf = fopen($file_d_ipd, 'w');
         $opd_head_ipd = 'HN|AN|DATEADM|TIMEADM|DATEDSC|TIMEDSC|DISCHS|DISCHT|WARDDSC|DEPT|ADM_W|UUC|SVCTYPE';
         fwrite($objFopen_ipd, $opd_head_ipd);
         $ipd = DB::connection('mysql')->select('
@@ -1245,14 +1331,29 @@ class Ofc401Controller extends Controller
             $j12 = $value10->UUC;
             $j13 = $value10->SVCTYPE;    
             $str_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
-            $ansitxt_ipd = iconv('UTF-8', 'TIS-620', $str_ipd); 
-            fwrite($objFopen_ipd, $ansitxt_ipd); 
+            $ansitxt_ipd = iconv('UTF-8', 'TIS-620', $str_ipd);
+            $ansitxt_ipd_utf = iconv('UTF-8', 'UTF-8', $str_ipd);
+            fwrite($objFopen_ipd, $ansitxt_ipd);
+            fwrite($objFopen_ipd_utf, $ansitxt_ipd_utf);
         }
-        fclose($objFopen_ipd); 
+        fclose($objFopen_ipd);
+        fclose($objFopen_ipd_utf);
+        D_apiofc_ipd::truncate();
+        $fread_file_ipd = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
+        $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
+        $read_file_ipd_size = filesize($file_d_ipd);
+        D_apiofc_ipd::insert([
+            'blobName'   =>  'IPD.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_ipd_endcode,
+            'size'       =>   $read_file_ipd_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //8 irf.txt
         $file_d_irf = "Export/".$folder."/IRF.txt";
-        $objFopen_irf = fopen($file_d_irf, 'w'); 
+        $objFopen_irf = fopen($file_d_irf, 'w');
+        $objFopen_irf_utf = fopen($file_d_irf, 'w');
         $opd_head_irf = 'AN|REFER|REFERTYPE';
         fwrite($objFopen_irf, $opd_head_irf);
         $irf = DB::connection('mysql')->select('
@@ -1263,14 +1364,29 @@ class Ofc401Controller extends Controller
             $k2 = $value11->REFER;
             $k3 = $value11->REFERTYPE; 
             $str_irf="\n".$k1."|".$k2."|".$k3;
-            $ansitxt_irf = iconv('UTF-8', 'TIS-620', $str_irf); 
-            fwrite($objFopen_irf, $ansitxt_irf); 
+            $ansitxt_irf = iconv('UTF-8', 'TIS-620', $str_irf);
+            $ansitxt_irf_utf = iconv('UTF-8', 'UTF-8', $str_irf);
+            fwrite($objFopen_irf, $ansitxt_irf);
+            fwrite($objFopen_irf_utf, $ansitxt_irf_utf);
         }
-        fclose($objFopen_irf); 
+        fclose($objFopen_irf);
+        fclose($objFopen_irf_utf);
+        D_apiofc_irf::truncate();
+        $fread_file_irf = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
+        $fread_file_irf_endcode = base64_encode($fread_file_irf);
+        $read_file_irf_size = filesize($file_d_irf);
+        D_apiofc_irf::insert([
+            'blobName'   =>  'IRF.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_irf_endcode,
+            'size'       =>   $read_file_irf_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
         //9 idx.txt
         $file_d_idx = "Export/".$folder."/IDX.txt";
-        $objFopen_idx = fopen($file_d_idx, 'w'); 
+        $objFopen_idx = fopen($file_d_idx, 'w');
+        $objFopen_idx_utf = fopen($file_d_idx, 'w');
         $opd_head_idx = 'AN|DIAG|DXTYPE|DRDX';
         fwrite($objFopen_idx, $opd_head_idx);
         $idx = DB::connection('mysql')->select('
@@ -1282,14 +1398,29 @@ class Ofc401Controller extends Controller
             $h3 = $value8->DXTYPE;
             $h4 = $value8->DRDX; 
             $str_idx="\n".$h1."|".$h2."|".$h3."|".$h4;
-            $ansitxt_idx = iconv('UTF-8', 'TIS-620', $str_idx); 
-            fwrite($objFopen_idx, $ansitxt_idx); 
+            $ansitxt_idx = iconv('UTF-8', 'TIS-620', $str_idx);
+            $ansitxt_idx_utf = iconv('UTF-8', 'UTF-8', $str_idx);
+            fwrite($objFopen_idx, $ansitxt_idx);
+            fwrite($objFopen_idx_utf, $ansitxt_idx_utf);
         }
-        fclose($objFopen_idx); 
+        fclose($objFopen_idx);
+        fclose($objFopen_idx_utf);
+        D_apiofc_idx::truncate();
+        $fread_file_idx = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
+        $fread_file_idx_endcode = base64_encode($fread_file_idx);
+        $read_file_idx_size = filesize($file_d_idx);
+        D_apiofc_idx::insert([
+            'blobName'   =>  'IDX.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_idx_endcode,
+            'size'       =>   $read_file_idx_size,
+            'encoding'   =>  'UTF-8'
+        ]);
                    
         //10 iop.txt
         $file_d_iop = "Export/".$folder."/IOP.txt";
-        $objFopen_iop = fopen($file_d_iop, 'w'); 
+        $objFopen_iop = fopen($file_d_iop, 'w');
+        $objFopen_iop_utf = fopen($file_d_iop, 'w');
         $opd_head_iop = 'AN|OPER|OPTYPE|DROPID|DATEIN|TIMEIN|DATEOUT|TIMEOUT';
         fwrite($objFopen_iop, $opd_head_iop);
         $iop = DB::connection('mysql')->select('
@@ -1306,13 +1437,29 @@ class Ofc401Controller extends Controller
             $b8 = $value2->TIMEOUT;
            
             $str_iop="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
-            $ansitxt_iop = iconv('UTF-8', 'TIS-620', $str_iop); 
-            fwrite($objFopen_iop, $ansitxt_iop); 
+            $ansitxt_iop = iconv('UTF-8', 'TIS-620', $str_iop);
+            $ansitxt_iop_utf = iconv('UTF-8', 'UTF-8', $str_iop);
+            fwrite($objFopen_iop, $ansitxt_iop);
+            fwrite($objFopen_iop_utf, $ansitxt_iop_utf);
         }
-        fclose($objFopen_iop); 
+        fclose($objFopen_iop);
+        fclose($objFopen_iop_utf);
+        D_apiofc_iop::truncate();
+        $fread_file_iop = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
+        $fread_file_iop_endcode = base64_encode($fread_file_iop);
+        $read_file_iop_size = filesize($file_d_iop);
+        D_apiofc_iop::insert([
+            'blobName'   =>  'IOP.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_iop_endcode,
+            'size'       =>   $read_file_iop_size,
+            'encoding'   =>  'UTF-8'
+        ]);
+
         //11 cht.txt
         $file_d_cht = "Export/".$folder."/CHT.txt";
-        $objFopen_cht = fopen($file_d_cht, 'w'); 
+        $objFopen_cht = fopen($file_d_cht, 'w');
+        $objFopen_cht_utf = fopen($file_d_cht, 'w');
         $opd_head_cht = 'HN|AN|DATE|TOTAL|PAID|PTTYPE|PERSON_ID|SEQ';
         fwrite($objFopen_cht, $opd_head_cht);
         $cht = DB::connection('mysql')->select('
@@ -1328,13 +1475,29 @@ class Ofc401Controller extends Controller
             $f7 = $value6->PERSON_ID; 
             $f8 = $value6->SEQ;
             $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
-            $ansitxt_cht = iconv('UTF-8', 'TIS-620', $str_cht); 
-            fwrite($objFopen_cht, $ansitxt_cht); 
+            $ansitxt_cht = iconv('UTF-8', 'TIS-620', $str_cht);
+            $ansitxt_cht_utf = iconv('UTF-8', 'UTF-8', $str_cht);
+            fwrite($objFopen_cht, $ansitxt_cht);
+            fwrite($objFopen_cht_utf, $ansitxt_cht_utf);
         }
-        fclose($objFopen_cht); 
+        fclose($objFopen_cht);
+        fclose($objFopen_cht_utf);
+        D_apiofc_cht::truncate();
+        $fread_file_cht = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
+        $fread_file_cht_endcode = base64_encode($fread_file_cht);
+        $read_file_cht_size = filesize($file_d_cht);
+        D_apiofc_cht::insert([
+            'blobName'   =>  'CHT.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_cht_endcode,
+            'size'       =>   $read_file_cht_size,
+            'encoding'   =>  'UTF-8'
+        ]);
+               
         //12 cha.txt
         $file_d_cha = "Export/".$folder."/CHA.txt";
-        $objFopen_cha = fopen($file_d_cha, 'w'); 
+        $objFopen_cha = fopen($file_d_cha, 'w');
+        $objFopen_cha_utf = fopen($file_d_cha, 'w');
         $opd_head_cha = 'HN|AN|DATE|CHRGITEM|AMOUNT|PERSON_ID|SEQ';
         fwrite($objFopen_cha, $opd_head_cha);
         $cha = DB::connection('mysql')->select('
@@ -1349,14 +1512,29 @@ class Ofc401Controller extends Controller
             $e6 = $value5->PERSON_ID;
             $e7 = $value5->SEQ; 
             $str_cha="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
-            $ansitxt_cha = iconv('UTF-8', 'TIS-620', $str_cha); 
-            fwrite($objFopen_cha, $ansitxt_cha); 
+            $ansitxt_cha = iconv('UTF-8', 'TIS-620', $str_cha);
+            $ansitxt_cha_utf = iconv('UTF-8', 'UTF-8', $str_cha);
+            fwrite($objFopen_cha, $ansitxt_cha);
+            fwrite($objFopen_cha_utf, $ansitxt_cha_utf);
         }
-        fclose($objFopen_cha); 
+        fclose($objFopen_cha);
+        fclose($objFopen_cha_utf);
+        D_apiofc_cha::truncate();
+        $fread_file_cha = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
+        $fread_file_cha_endcode = base64_encode($fread_file_cha);
+        $read_file_cha_size = filesize($file_d_cha);
+        D_apiofc_cha::insert([
+            'blobName'   =>  'CHA.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_cha_endcode,
+            'size'       =>   $read_file_cha_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
          //13 aer.txt
          $file_d_aer = "Export/".$folder."/AER.txt";
-         $objFopen_aer = fopen($file_d_aer, 'w'); 
+         $objFopen_aer = fopen($file_d_aer, 'w');
+         $objFopen_aer_utf = fopen($file_d_aer, 'w');
          $opd_head_aer = 'HN|AN|DATEOPD|AUTHAE|AEDATE|AETIME|AETYPE|REFER_NO|REFMAINI|IREFTYPE|REFMAINO|OREFTYPE|UCAE|EMTYPE|SEQ|AESTATUS|DALERT|TALERT';
          fwrite($objFopen_aer, $opd_head_aer);
          $aer = DB::connection('mysql')->select('
@@ -1382,14 +1560,29 @@ class Ofc401Controller extends Controller
              $d17 = $value4->DALERT;
              $d18 = $value4->TALERT;        
              $str_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
-             $ansitxt_aer = iconv('UTF-8', 'TIS-620', $str_aer); 
-             fwrite($objFopen_aer, $ansitxt_aer); 
+             $ansitxt_aer = iconv('UTF-8', 'TIS-620', $str_aer);
+             $ansitxt_aer_utf = iconv('UTF-8', 'UTF-8', $str_aer);
+             fwrite($objFopen_aer, $ansitxt_aer);
+             fwrite($objFopen_aer_utf, $ansitxt_aer_utf);
          }
-         fclose($objFopen_aer); 
+         fclose($objFopen_aer);
+         fclose($objFopen_aer_utf);
+         D_apiofc_aer::truncate();
+         $fread_file_aer = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
+         $fread_file_aer_endcode = base64_encode($fread_file_aer);
+         $read_file_aer_size = filesize($file_d_aer);
+         D_apiofc_aer::insert([
+             'blobName'   =>  'AER.txt',
+             'blobType'   =>  'text/plain',
+             'blob'       =>   $fread_file_aer_endcode,
+             'size'       =>   $read_file_aer_size,
+             'encoding'   =>  'UTF-8'
+         ]);
                    
         //14 adp.txt
         $file_d_adp = "Export/".$folder."/ADP.txt";
-        $objFopen_adp = fopen($file_d_adp, 'w'); 
+        $objFopen_adp = fopen($file_d_adp, 'w');
+        $objFopen_adp_utf = fopen($file_d_adp, 'w');
         $opd_head_adp = 'HN|AN|DATEOPD|TYPE|CODE|QTY|RATE|SEQ|CAGCODE|DOSE|CA_TYPE|SERIALNO|TOTCOPAY|USE_STATUS|TOTAL|QTYDAY|TMLTCODE|STATUS1|BI|CLINIC|ITEMSRC|PROVIDER|GRAVIDA|GA_WEEK|DCIP|LMP|SP_ITEM';
         fwrite($objFopen_adp, $opd_head_adp);
         $adp = DB::connection('mysql')->select('
@@ -1424,14 +1617,29 @@ class Ofc401Controller extends Controller
             $c26 = $value3->LMP;
             $c27 = $value3->SP_ITEM;           
             $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
-            $ansitxt_adp = iconv('UTF-8', 'TIS-620', $str_adp); 
-            fwrite($objFopen_adp, $ansitxt_adp); 
+            $ansitxt_adp = iconv('UTF-8', 'TIS-620', $str_adp);
+            $ansitxt_adp_utf = iconv('UTF-8', 'UTF-8', $str_adp);
+            fwrite($objFopen_adp, $ansitxt_adp);
+            fwrite($objFopen_adp_utf, $ansitxt_adp_utf);
         }
-        fclose($objFopen_adp); 
+        fclose($objFopen_adp);
+        fclose($objFopen_adp_utf);
+        D_apiofc_adp::truncate();
+        $fread_file_adp = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
+        $fread_file_adp_endcode = base64_encode($fread_file_adp);
+        $read_file_adp_size = filesize($file_d_adp);
+        D_apiofc_adp::insert([
+            'blobName'   =>  'ADP.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_adp_endcode,
+            'size'       =>   $read_file_adp_size,
+            'encoding'   =>  'UTF-8'
+        ]);
         
          //15 lvd.txt
          $file_d_lvd = "Export/".$folder."/LVD.txt";
-         $objFopen_lvd = fopen($file_d_lvd, 'w'); 
+         $objFopen_lvd = fopen($file_d_lvd, 'w');
+         $objFopen_lvd_utf = fopen($file_d_lvd, 'w');
          $opd_head_lvd = 'SEQLVD|AN|DATEOUT|TIMEOUT|DATEIN|TIMEIN|QTYDAY';
          fwrite($objFopen_lvd, $opd_head_lvd);
          $lvd = DB::connection('mysql')->select('
@@ -1446,14 +1654,29 @@ class Ofc401Controller extends Controller
              $L6 = $value12->TIMEIN; 
              $L7 = $value12->QTYDAY; 
              $str_lvd="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
-             $ansitxt_lvd = iconv('UTF-8', 'TIS-620', $str_lvd); 
-             fwrite($objFopen_lvd, $ansitxt_lvd); 
+             $ansitxt_lvd = iconv('UTF-8', 'TIS-620', $str_lvd);
+             $ansitxt_lvd_utf = iconv('UTF-8', 'UTF-8', $str_lvd);
+             fwrite($objFopen_lvd, $ansitxt_lvd);
+             fwrite($objFopen_lvd_utf, $ansitxt_lvd_utf);
          }
-         fclose($objFopen_lvd); 
+         fclose($objFopen_lvd);
+         fclose($objFopen_lvd_utf);
+         D_apiofc_ldv::truncate();
+         $fread_file_lvd = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
+         $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
+         $read_file_lvd_size = filesize($file_d_lvd);
+         D_apiofc_ldv::insert([
+             'blobName'   =>  'LDV.txt',
+             'blobType'   =>  'text/plain',
+             'blob'       =>   $fread_file_lvd_endcode,
+             'size'       =>   $read_file_lvd_size,
+             'encoding'   =>  'UTF-8'
+         ]);
 
         //16 dru.txt
         $file_d_dru = "Export/".$folder."/DRU.txt";
-        $objFopen_dru = fopen($file_d_dru, 'w'); 
+        $objFopen_dru = fopen($file_d_dru, 'w');
+        $objFopen_dru_utf = fopen($file_d_dru, 'w');
         $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGTYPE|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         $dru = DB::connection('mysql')->select('
@@ -1484,10 +1707,24 @@ class Ofc401Controller extends Controller
             $g22 = $value7->SIGTEXT;  
             $g23 = $value7->SIGTEXT;      
             $str_dru="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23;
-            $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru); 
-            fwrite($objFopen_dru, $ansitxt_dru); 
+            $ansitxt_dru = iconv('UTF-8', 'TIS-620', $str_dru);
+            $ansitxt_dru_utf = iconv('UTF-8', 'UTF-8', $str_dru);
+            fwrite($objFopen_dru, $ansitxt_dru);
+            fwrite($objFopen_dru_utf, $ansitxt_dru_utf);
         }
-        fclose($objFopen_dru); 
+        fclose($objFopen_dru);
+        fclose($objFopen_dru_utf);
+        D_apiofc_dru::truncate();
+        $fread_file_dru = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
+        $fread_file_dru_endcode = base64_encode($fread_file_dru);
+        $read_file_dru_size = filesize($file_d_dru);
+        D_apiofc_dru::insert([
+            'blobName'   =>  'DRU.txt',
+            'blobType'   =>  'text/plain',
+            'blob'       =>   $fread_file_dru_endcode,
+            'size'       =>   $read_file_dru_size,
+            'encoding'   =>  'UTF-8'
+        ]);
 
          //17 lab.txt
          $file_d_lab = "Export/".$folder."/LAB.txt";
@@ -1793,6 +2030,531 @@ class Ofc401Controller extends Controller
         return redirect()->back();
     }
 
-    
+    public function ofc_401_sendapi_2(Request $request)
+    {  
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token        = $val_to->api_neweclaim_token;
+        } 
+        // dd($token);
+        $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');   
+        foreach ($data_ins_ as $key => $val_ins) {
+           $blob_ins = $val_ins->blob;
+           $size_ins = $val_ins->size;
+        } 
+        $data_pat_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_pat');   
+        foreach ($data_pat_ as $key => $val_pat) {
+           $blob_pat = $val_pat->blob;
+           $size_pat = $val_pat->size;
+        }   
+        $data_opd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_opd');   
+        foreach ($data_opd_ as $key => $val_opd) {
+           $blob_opd = $val_opd->blob;
+           $size_opd = $val_opd->size;
+        } 
+        $data_orf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_orf');   
+        foreach ($data_orf_ as $key => $val_orf) {
+           $blob_orf = $val_orf->blob;
+           $size_orf = $val_orf->size;
+        } 
+        $data_odx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_odx');   
+        foreach ($data_odx_ as $key => $val_odx) {
+           $blob_odx = $val_odx->blob;
+           $size_odx = $val_odx->size;
+        } 
+        $data_oop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_oop');   
+        foreach ($data_oop_ as $key => $val_oop) {
+           $blob_oop = $val_oop->blob;
+           $size_oop = $val_oop->size;
+        } 
+        $data_ipd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ipd');   
+        foreach ($data_ipd_ as $key => $val_ipd) {
+           $blob_ipd = $val_ipd->blob;
+           $size_ipd = $val_ipd->size;
+        } 
+        $data_irf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_irf');   
+        foreach ($data_irf_ as $key => $val_irf) {
+           $blob_irf = $val_irf->blob;
+           $size_irf = $val_irf->size;
+        } 
+        $data_idx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_idx');   
+        foreach ($data_idx_ as $key => $val_idx) {
+           $blob_idx = $val_idx->blob;
+           $size_idx = $val_idx->size;
+        }
+        $data_iop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_iop');   
+        foreach ($data_iop_ as $key => $val_iop) {
+           $blob_iop = $val_iop->blob;
+           $size_iop = $val_iop->size;
+        }
+        $data_cht_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cht');   
+        foreach ($data_cht_ as $key => $val_cht) {
+           $blob_cht = $val_cht->blob;
+           $size_cht = $val_cht->size;
+        }
+        $data_cha_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cha');   
+        foreach ($data_cha_ as $key => $val_cha) {
+           $blob_cha = $val_cha->blob;
+           $size_cha = $val_cha->size;
+        }
+        $data_aer_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_aer');   
+        foreach ($data_aer_ as $key => $val_aer) {
+           $blob_aer = $val_aer->blob;
+           $size_aer = $val_aer->size;
+        }
+        $data_adp_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_adp');   
+        foreach ($data_adp_ as $key => $val_adp) {
+           $blob_adp = $val_adp->blob;
+           $size_adp = $val_adp->size;
+        }
+        $data_lvd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ldv');   
+        foreach ($data_lvd_ as $key => $val_lvd) {
+           $blob_lvd = $val_lvd->blob;
+           $size_lvd = $val_lvd->size;
+        }
+        $data_dru_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_dru');   
+        foreach ($data_dru_ as $key => $val_dru) {
+           $blob_dru = $val_dru->blob;
+           $size_dru = $val_dru->size;
+        }
+        // dd($size_dru);
+        // $response = Http::withHeaders([ 
+        //     'Authorization : Bearer '.$token_test,
+        //     'Content-Type: application/json', 
+        //     // 'Authorization' => 'Bearer<"'.$token.'">',                 
+        //     'User-Agent : <platform>/<version> <10978>'
+        //     // 'Accept     : application/json',
+        $token_test = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDExNjcyLCJpYXQiOjE3MDE0MDA4NzJ9.gav4PMl13gb-VNDpJMZL4P9R-4XPJGX8GxbXs0hAMDqa-J82mkq3vhZQWaTow5nHfXpHtLDPEl6mMC66JMt_KQeyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDExNjcyLCJpYXQiOjE3MDE0MDA4NzJ9.gav4PMl13gb-VNDpJMZL4P9R-4XPJGX8GxbXs0hAMDqa-J82mkq3vhZQWaTow5nHfXpHtLDPEl6mMC66JMt_KQ";
+        $fame_send = curl_init();
+        $postData_send = [
+            "fileType" => "txt",
+            "maininscl" => "",
+            "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+            "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+            "dataTypes" => ["OP","IP"],
+            "opRefer" => false, 
+                "file" => [ 
+                    "ins" => [
+                        "blobName"  => "INS.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ins,
+                        "size"      => $size_ins,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"pat" => [
+                        "blobName"  => "PAT.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_pat,
+                        "size"      => $size_pat,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"opd" => [
+                        "blobName"  => "OPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_opd,
+                        "size"      => $size_opd,
+                        "encoding"  => "UTF-8"
+                    ] 
+                    ,"orf" => [
+                        "blobName"  => "ORF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_orf,
+                        "size"      => $size_orf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"odx" => [
+                        "blobName"  => "ODX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      =>  $blob_odx,
+                        "size"      =>  $size_odx,
+                        "encoding"  => "UTF-8"
+                    ]  
+                    ,"oop" => [
+                        "blobName"  => "OOP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_oop,
+                        "size"      => $size_oop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"ipd" => [
+                        "blobName"  => "IPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ipd,
+                        "size"      => $size_ipd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"irf" => [
+                        "blobName"  => "IRF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_irf,
+                        "size"      => $size_irf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"idx" => [
+                        "blobName"  => "IDX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_idx,
+                        "size"      => $size_idx,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"iop" => [
+                        "blobName"  => "IOP.txt",
+                        "blobType"  => "text",
+                        "blob"      => $blob_iop,
+                        "size"      => $size_iop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cht" => [
+                        "blobName"  => "CHT.txt",
+                        "blobType"  => "text",
+                        "blob"      => $blob_cht,
+                        "size"      => $size_cht,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cha" => [
+                        "blobName"  => "CHA.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_cha,
+                        "size"      => $size_cha,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"aer" => [
+                        "blobName"  => "AER.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_aer,
+                        "size"      => $size_aer,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"adp" => [
+                        "blobName"  => "ADP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_adp,
+                        "size"      => $size_adp,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lvd" => [
+                        "blobName"  => "LDV.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_lvd,
+                        "size"      => $size_lvd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"dru" => [
+                        "blobName"  => "DRUG.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_dru,
+                        "size"      => $size_dru,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lab" => null
+                ] 
+        ];
+        // dd($postData_send);
+            $headers_send  = [
+                'Authorization : Bearer '.$token_test,
+                'Content-Type: application/json',            
+                'User-Agent:<platform>/<version><10978>'
+                    
+            ];
+            // dd($headers_send);
+            #https://tnhsoapi.nhso.go.th/ecimp/v1/send  test_zone
+            #https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send
+            curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            curl_setopt($fame_send, CURLOPT_POST, 1);
+            curl_setopt($fame_send, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($fame_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+            curl_setopt($fame_send, CURLOPT_HTTPHEADER, $headers_send);
+            $send_fame_outp     = curl_exec ($fame_send);
+            $statusCode_send_fame_outp = curl_getinfo($fame_send, CURLINFO_HTTP_CODE);
+            $content_send_fame_outp = $send_fame_outp;
+
+            // dd($statusCode_send_fame_outp);
+
+            $result_send_fame_outp = json_decode($content_send_fame_outp, true);
+            // dd($result_send_fame_outp);
+            #echo "<BR>";
+            @$status_send = "status_send :".$result_send_fame_outp['status'];
+            #echo "<BR>";
+            @$message_send = "message_send :".$result_send_fame_outp['message'];
+
+            dd($message_send);
+            // ************************
+            // $response_send = Http::withHeaders([ 
+            //     'Authorization : Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10978>'  
+            // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
+            //     'postData_send'    =>  $postData_send , 
+            // ]);    
+            // $token = $response_send->json('token');
+            // dump($response_send->json('token'));
+            // dump($response_send->status());
+            // dump($response_send->message());
+
+
+        
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+    public function ofc_401_sendapi(Request $request)
+    {  
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token_        = $val_to->api_neweclaim_token;
+        } 
+        // dd($token);
+        $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');   
+        foreach ($data_ins_ as $key => $val_ins) {
+           $blob_ins = $val_ins->blob;
+           $size_ins = $val_ins->size;
+        } 
+        $data_pat_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_pat');   
+        foreach ($data_pat_ as $key => $val_pat) {
+           $blob_pat = $val_pat->blob;
+           $size_pat = $val_pat->size;
+        }   
+        $data_opd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_opd');   
+        foreach ($data_opd_ as $key => $val_opd) {
+           $blob_opd = $val_opd->blob;
+           $size_opd = $val_opd->size;
+        } 
+        $data_orf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_orf');   
+        foreach ($data_orf_ as $key => $val_orf) {
+           $blob_orf = $val_orf->blob;
+           $size_orf = $val_orf->size;
+        } 
+        $data_odx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_odx');   
+        foreach ($data_odx_ as $key => $val_odx) {
+           $blob_odx = $val_odx->blob;
+           $size_odx = $val_odx->size;
+        } 
+        $data_oop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_oop');   
+        foreach ($data_oop_ as $key => $val_oop) {
+           $blob_oop = $val_oop->blob;
+           $size_oop = $val_oop->size;
+        } 
+        $data_ipd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ipd');   
+        foreach ($data_ipd_ as $key => $val_ipd) {
+           $blob_ipd = $val_ipd->blob;
+           $size_ipd = $val_ipd->size;
+        } 
+        $data_irf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_irf');   
+        foreach ($data_irf_ as $key => $val_irf) {
+           $blob_irf = $val_irf->blob;
+           $size_irf = $val_irf->size;
+        } 
+        $data_idx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_idx');   
+        foreach ($data_idx_ as $key => $val_idx) {
+           $blob_idx = $val_idx->blob;
+           $size_idx = $val_idx->size;
+        }
+        $data_iop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_iop');   
+        foreach ($data_iop_ as $key => $val_iop) {
+           $blob_iop = $val_iop->blob;
+           $size_iop = $val_iop->size;
+        }
+        $data_cht_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cht');   
+        foreach ($data_cht_ as $key => $val_cht) {
+           $blob_cht = $val_cht->blob;
+           $size_cht = $val_cht->size;
+        }
+        $data_cha_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cha');   
+        foreach ($data_cha_ as $key => $val_cha) {
+           $blob_cha = $val_cha->blob;
+           $size_cha = $val_cha->size;
+        }
+        $data_aer_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_aer');   
+        foreach ($data_aer_ as $key => $val_aer) {
+           $blob_aer = $val_aer->blob;
+           $size_aer = $val_aer->size;
+        }
+        $data_adp_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_adp');   
+        foreach ($data_adp_ as $key => $val_adp) {
+           $blob_adp = $val_adp->blob;
+           $size_adp = $val_adp->size;
+        }
+        $data_lvd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ldv');   
+        foreach ($data_lvd_ as $key => $val_lvd) {
+           $blob_lvd = $val_lvd->blob;
+           $size_lvd = $val_lvd->size;
+        }
+        $data_dru_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_dru');   
+        foreach ($data_dru_ as $key => $val_dru) {
+           $blob_dru = $val_dru->blob;
+           $size_dru = $val_dru->size;
+        }
+        // dd($size_dru);
+        // $response = Http::withHeaders([ 
+        //     'Authorization : Bearer '.$token_test,
+        //     'Content-Type: application/json', 
+        //     // 'Authorization' => 'Bearer<"'.$token.'">',                 
+        //     'User-Agent : <platform>/<version> <10978>'
+        //     // 'Accept     : application/json',
+        // $token_test = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDA5ODY0LCJpYXQiOjE3MDEzOTkwNjR9.CxJl2F_ydHy_UEMbG0hdQjYSy3_r6Azzl18rvKEFGuxqHh-C1piNdKn2uHjav6q8l6osE1Sid7SEG6CykFRoTw";
+        $response = Http::withHeaders([ 
+            'Authorization : Bearer '.$token_,
+            'User-Agent:<platform>/<version> <10978>',
+            'Content-Type: application/json'
+            
+            
+        ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
+                "fileType"      => "txt",
+                "maininscl"     => "OFC",
+                "dataTypes"     => ["OP","IP"],
+                "opRefer"       => false,
+                "importDup"     => true,   //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "assignToMe"    => true,   //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+                "file" => [ 
+                    "ins" => [
+                        "blobName"  => "INS.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ins,
+                        "size"      => $size_ins,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"pat" => [
+                        "blobName"  => "PAT.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_pat,
+                        "size"      => $size_pat,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"opd" => [
+                        "blobName"  => "OPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_opd,
+                        "size"      => $size_opd,
+                        "encoding"  => "UTF-8"
+                    ] 
+                    ,"orf" => [
+                        "blobName"  => "ORF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_orf,
+                        "size"      => $size_orf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"odx" => [
+                        "blobName"  => "ODX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      =>  $blob_odx,
+                        "size"      =>  $size_odx,
+                        "encoding"  => "UTF-8"
+                    ]  
+                    ,"oop" => [
+                        "blobName"  => "OOP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_oop,
+                        "size"      => $size_oop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"ipd" => [
+                        "blobName"  => "IPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ipd,
+                        "size"      => $size_ipd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"irf" => [
+                        "blobName"  => "IRF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_irf,
+                        "size"      => $size_irf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"idx" => [
+                        "blobName"  => "IDX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_idx,
+                        "size"      => $size_idx,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"iop" => [
+                        "blobName"  => "IOP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_iop,
+                        "size"      => $size_iop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cht" => [
+                        "blobName"  => "CHT.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_cht,
+                        "size"      => $size_cht,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cha" => [
+                        "blobName"  => "CHA.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_cha,
+                        "size"      => $size_cha,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"aer" => [
+                        "blobName"  => "AER.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_aer,
+                        "size"      => $size_aer,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"adp" => [
+                        "blobName"  => "ADP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_adp,
+                        "size"      => $size_adp,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lvd" => [
+                        "blobName"  => "LDV.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_lvd,
+                        "size"      => $size_lvd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"dru" => [
+                        "blobName"  => "DRUG.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_dru,
+                        "size"      => $size_dru,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lab" => null
+                ] 
+        ]);   
+        // $token = $response->json('token');
+        $status = $response->json('status');
+        $message = $response->json('message');
+         // $response = Http::withToken('thetoken')->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth');
+        // dump($response->json('token'));
+        // dump($response->status());
+        // dump($response->message());
+        // $status2 = $response->getStatusCode();
+
+        dd($response);
+        
+          
+            // ************************
+            // $response_send = Http::withHeaders([ 
+            //     'Authorization : Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10978>'  
+            // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
+            //     'postData_send'    =>  $postData_send , 
+            // ]);    
+            // $token = $response_send->json('token');
+            // dump($response_send->json('token'));
+            // dump($response_send->status());
+            // dump($response_send->message());
+
+
+        
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
  
 }

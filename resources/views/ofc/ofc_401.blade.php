@@ -112,15 +112,15 @@ $pos = strrpos($url, '/') + 1;
                     </a>
                     <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">
                         @csrf
-                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
-                        <i class="fa-solid fa-upload text-primary me-2"></i>
-                        ส่ง New Eclaim
-                    </button>
-                </form>
-                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
+                    {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
                         <i class="fa-solid fa-upload text-primary me-2"></i>
                         ส่ง New Eclaim
                     </button> --}}
+                </form>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
+                        <i class="fa-solid fa-upload text-primary me-2"></i>
+                        ส่ง New Eclaim
+                    </button>
                 </div> 
             </div>
           
