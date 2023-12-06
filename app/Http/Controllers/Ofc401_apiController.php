@@ -186,6 +186,8 @@ class Ofc401_apiController extends Controller
         $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
         $fread_file_ins_endcode = base64_encode($fread_file_ins);
         $read_file_ins_size = filesize($file_d_ins);
+
+        // dd( $fread_file_ins);
         D_apiofc_ins::insert([
             'blobName'   =>  'INS.txt',
             'blobType'   =>  'text/plain',
@@ -864,7 +866,7 @@ class Ofc401_apiController extends Controller
 
     }
   
-    public function ofc_401_sendapi_2(Request $request)
+    public function ofc_401_sendapi(Request $request)
     {  
         $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim');  
         foreach ($data_token_ as $key => $val_to) {
@@ -876,82 +878,163 @@ class Ofc401_apiController extends Controller
         $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');   
         foreach ($data_ins_ as $key => $val_ins) {
            $blob_ins = $val_ins->blob;
-           $size_ins = $val_ins->size;
+           $size_ins_ = $val_ins->size;
         } 
+        if ($size_ins_ == '') {
+            $size_ins = 0;
+        } else {
+            $size_ins = $size_ins_;
+        }
+        
         $data_pat_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_pat');   
         foreach ($data_pat_ as $key => $val_pat) {
            $blob_pat = $val_pat->blob;
-           $size_pat = $val_pat->size;
-        }   
+           $size_pat_ = $val_pat->size;
+        }  
+        if ($size_pat_ == '') {
+            $size_pat = 0;
+        } else {
+            $size_pat = $size_pat_;
+        } 
         $data_opd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_opd');   
         foreach ($data_opd_ as $key => $val_opd) {
            $blob_opd = $val_opd->blob;
-           $size_opd = $val_opd->size;
+           $size_opd_ = $val_opd->size;
         } 
+        if ($size_opd_ == '') {
+            $size_opd = 0;
+        } else {
+            $size_opd = $size_opd_;
+        }
         $data_orf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_orf');   
         foreach ($data_orf_ as $key => $val_orf) {
            $blob_orf = $val_orf->blob;
-           $size_orf = $val_orf->size;
+           $size_orf_ = $val_orf->size;
         } 
+        if ($size_orf_ == '') {
+            $size_orf = 0;
+        } else {
+            $size_orf = $size_orf_;
+        }
         $data_odx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_odx');   
         foreach ($data_odx_ as $key => $val_odx) {
            $blob_odx = $val_odx->blob;
-           $size_odx = $val_odx->size;
+           $size_odx_ = $val_odx->size;
         } 
+        if ($size_odx_ == '') {
+            $size_odx = 0;
+        } else {
+            $size_odx = $size_odx_;
+        }
         $data_oop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_oop');   
         foreach ($data_oop_ as $key => $val_oop) {
            $blob_oop = $val_oop->blob;
-           $size_oop = $val_oop->size;
+           $size_oop_ = $val_oop->size;
         } 
+        if ($size_oop_ == '') {
+            $size_oop = 0;
+        } else {
+            $size_oop = $size_oop_;
+        }
         $data_ipd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ipd');   
         foreach ($data_ipd_ as $key => $val_ipd) {
            $blob_ipd = $val_ipd->blob;
-           $size_ipd = $val_ipd->size;
+           $size_ipd_ = $val_ipd->size;
         } 
+        if ($size_ipd_ == '') {
+            $size_ipd = 0;
+        } else {
+            $size_ipd = $size_ipd_;
+        }
         $data_irf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_irf');   
         foreach ($data_irf_ as $key => $val_irf) {
            $blob_irf = $val_irf->blob;
-           $size_irf = $val_irf->size;
+           $size_irf_ = $val_irf->size;
         } 
+        if ($size_irf_ == '') {
+            $size_irf = 0;
+        } else {
+            $size_irf = $size_irf_;
+        }
         $data_idx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_idx');   
         foreach ($data_idx_ as $key => $val_idx) {
            $blob_idx = $val_idx->blob;
-           $size_idx = $val_idx->size;
+           $size_idx_ = $val_idx->size;
+        }
+        if ($size_idx_ == '') {
+            $size_idx = 0;
+        } else {
+            $size_idx = $size_idx_;
         }
         $data_iop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_iop');   
         foreach ($data_iop_ as $key => $val_iop) {
            $blob_iop = $val_iop->blob;
-           $size_iop = $val_iop->size;
+           $size_iop_ = $val_iop->size;
+        }
+        if ($size_iop_ == '') {
+            $size_iop = 0;
+        } else {
+            $size_iop = $size_iop_;
         }
         $data_cht_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cht');   
         foreach ($data_cht_ as $key => $val_cht) {
            $blob_cht = $val_cht->blob;
-           $size_cht = $val_cht->size;
+           $size_cht_ = $val_cht->size;
+        }
+        if ($size_cht_ == '') {
+            $size_cht = 0;
+        } else {
+            $size_cht = $size_cht_;
         }
         $data_cha_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cha');   
         foreach ($data_cha_ as $key => $val_cha) {
            $blob_cha = $val_cha->blob;
-           $size_cha = $val_cha->size;
+           $size_cha_ = $val_cha->size;
+        }
+        if ($size_cha_ == '') {
+            $size_cha = 0;
+        } else {
+            $size_cha = $size_cha_;
         }
         $data_aer_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_aer');   
         foreach ($data_aer_ as $key => $val_aer) {
            $blob_aer = $val_aer->blob;
-           $size_aer = $val_aer->size;
+           $size_aer_ = $val_aer->size;
+        }
+        if ($size_aer_ == '') {
+            $size_aer = 0;
+        } else {
+            $size_aer = $size_aer_;
         }
         $data_adp_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_adp');   
         foreach ($data_adp_ as $key => $val_adp) {
            $blob_adp = $val_adp->blob;
-           $size_adp = $val_adp->size;
+           $size_adp_ = $val_adp->size;
+        }
+        if ($size_adp_ == '') {
+            $size_adp = 0;
+        } else {
+            $size_adp = $size_adp_;
         }
         $data_lvd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ldv');   
         foreach ($data_lvd_ as $key => $val_lvd) {
            $blob_lvd = $val_lvd->blob;
-           $size_lvd = $val_lvd->size;
+           $size_lvd_ = $val_lvd->size;
+        }
+        if ($size_lvd_ == '') {
+            $size_lvd = 0;
+        } else {
+            $size_lvd = $size_lvd_;
         }
         $data_dru_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_dru');   
         foreach ($data_dru_ as $key => $val_dru) {
            $blob_dru = $val_dru->blob;
-           $size_dru = $val_dru->size;
+           $size_dru_ = $val_dru->size;
+        }
+        if ($size_dru_ == '') {
+            $size_dru = 0;
+        } else {
+            $size_dru = $size_dru_;
         }
         // dd($size_dru);
         // $response = Http::withHeaders([ 
@@ -961,6 +1044,45 @@ class Ofc401_apiController extends Controller
         //     'User-Agent : <platform>/<version> <10978>'
         //     // 'Accept     : application/json',
         $token_test = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDExNjcyLCJpYXQiOjE3MDE0MDA4NzJ9.gav4PMl13gb-VNDpJMZL4P9R-4XPJGX8GxbXs0hAMDqa-J82mkq3vhZQWaTow5nHfXpHtLDPEl6mMC66JMt_KQeyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDExNjcyLCJpYXQiOjE3MDE0MDA4NzJ9.gav4PMl13gb-VNDpJMZL4P9R-4XPJGX8GxbXs0hAMDqa-J82mkq3vhZQWaTow5nHfXpHtLDPEl6mMC66JMt_KQ";
+       
+        // $fam_file = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
+        // foreach ($fam_file as $fam_file_value) {
+        //         // echo "$value <br>";
+        //         $tp_ins = "temp_opd_".str_replace(".","_",$pang)."_export_".$fam_file_value."_base64";
+        //         $s_fam_file_value ="SELECT base_64, file_size FROM $tp_ins LIMIT 1 ";
+        //         @$q_fam_file_value = mysqli_query($con_money, $s_fam_file_value) ; #or die(nl2br ($s_fam_file_value))
+        //         @$r_fam_file_value = mysqli_fetch_assoc($q_fam_file_value);
+        //         @$fam_file_base64[] = $r_fam_file_value["base_64"];
+        //         if(@$r_fam_file_value["file_size"]==''){
+        //             @$fam_file_size[] = 0;
+        //         }else{
+        //             @$fam_file_size[] = $r_fam_file_value["file_size"];
+        //         }                
+        // }
+
+    //     "ins" => [
+    //         "blobName" => "INS.txt",
+    //         "blobType" => "text/plain",
+    //         "blob" => "$fam_file_base64[0]",
+    //         "size" => $fam_file_size[0],
+    //         "encoding" => "UTF-8"
+    //    ]
+    //    ,"pat" => [
+    //         "blobName" => "PAT.txt",
+    //         "blobType" => "text/plain",
+    //         "blob" => "$fam_file_base64[1]",
+    //         "size" => $fam_file_size[1],
+    //         "encoding" => "UTF-8"
+    //    ]
+    //    ,"opd" => [
+    //         "blobName" => "OPD.txt",
+    //         "blobType" => "text/plain",
+    //         "blob" => "$fam_file_base64[2]",
+    //         "size" => $fam_file_size[2],
+    //         "encoding" => "UTF-8"
+    //     ]   
+       
+       
         $fame_send = curl_init();
         $postData_send = [
             "fileType" => "txt",
@@ -1085,9 +1207,9 @@ class Ofc401_apiController extends Controller
                     ,"lab" => null
                 ] 
         ];
-        // dd($postData_send);
+        dd($postData_send);
             $headers_send  = [
-                'Authorization : Bearer '.$token_test,
+                'Authorization : Bearer '.$token,
                 'Content-Type: application/json',            
                 'User-Agent:<platform>/<version><10978>'
                     
@@ -1113,7 +1235,7 @@ class Ofc401_apiController extends Controller
             #echo "<BR>";
             @$message_send = "message_send :".$result_send_fame_outp['message'];
 
-            dd($message_send);
+            dd($status_send);
             // ************************
             // $response_send = Http::withHeaders([ 
             //     'Authorization : Bearer '.$token,
@@ -1133,7 +1255,7 @@ class Ofc401_apiController extends Controller
             'status'    => '200'
         ]);
     }
-    public function ofc_401_sendapi(Request $request)
+    public function ofc_401_sendapi_(Request $request)
     {  
         $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim');  
         foreach ($data_token_ as $key => $val_to) {
@@ -1233,9 +1355,7 @@ class Ofc401_apiController extends Controller
         $response = Http::withHeaders([ 
             'Authorization : Bearer '.$token_,
             'User-Agent:<platform>/<version> <10978>',
-            'Content-Type: application/json'
-            
-            
+            'Accept' => 'application/json', 
         ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
                 "fileType"      => "txt",
                 "maininscl"     => "OFC",

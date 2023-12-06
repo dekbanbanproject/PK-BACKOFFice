@@ -106,21 +106,32 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    {{-- <a href="{{url('ofc_401_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
-                    </a>
+                    </a> --}}
+                    {{-- <form action="{{url('ofc_401_exportapi')}}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
+                            <i class="fa-solid fa-upload text-primary me-2"></i>
+                            Export
+                        </button> --}}
+                        <a href="{{url('ofc_401_exportapi')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                            <i class="fa-solid fa-file-export text-danger me-2"></i>
+                            Export
+                        </a>
+                    {{-- </form> --}}
                     <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">
                         @csrf
-                    {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
+                        <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
+                            <i class="fa-solid fa-upload text-primary me-2"></i>
+                            ส่ง New Eclaim
+                        </button>
+                    </form>
+                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
                         <i class="fa-solid fa-upload text-primary me-2"></i>
                         ส่ง New Eclaim
                     </button> --}}
-                </form>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
-                        <i class="fa-solid fa-upload text-primary me-2"></i>
-                        ส่ง New Eclaim
-                    </button>
                 </div> 
             </div>
           
