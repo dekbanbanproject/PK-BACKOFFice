@@ -219,7 +219,7 @@
                                         
                                         <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
                                         <td class="text-end" width="8%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
-                                        <td class="text-end" width="8%" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
+                                        <td class="text-end" width="8%" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                            
                                             
                                         @if ($item->debit_total == "0") 

@@ -435,10 +435,10 @@ class Account107Controller extends Controller
     public function acc_107_debt_sync(Request $request)
     { 
         $sync = DB::connection('mysql2')->select(' 
-                SELECT a.an,r.finance_number,r.hn,a.pttype,r.bill_amount,r.total_amount,a.paid_money,a.remain_money
+                SELECT a.an,r.finance_number,r.hn,a.pttype,r.bill_amount,r.total_amount,a.paid_money,a.remain_money,a.income
                 ,SUM(r.bill_amount) as s_bill 
                 FROM rcpt_print r  
-                LEFT OUTER JOIN vn_stat v on v.vn=r.vn  
+                 
                 LEFT OUTER JOIN an_stat a on a.an = r.vn  
                 LEFT OUTER JOIN patient p on p.hn=r.hn  
                 LEFT OUTER JOIN pttype t on t.pttype=r.pttype  
@@ -451,7 +451,7 @@ class Account107Controller extends Controller
             // LEFT OUTER JOIN rcpt_arrear rp on rp.vn = r.vn 
             foreach ($sync as $key => $value) { 
                 $total_ = Acc_1102050102_107::where('an',$value->an)->first(); 
-                $deb = $total_->paid_money;
+                $deb = $total_->debit;
                 // $d =  $deb - $value->total_amount;
                 $d =  $deb - $value->s_bill;   
                 // dd($d);
@@ -460,24 +460,41 @@ class Account107Controller extends Controller
                 //             'sumtotal_amount'    => $value->s_bill
                 //     ]);
 
-                    if ($d < 0) {
+                    if ($value->s_bill > $deb) {
                         Acc_1102050102_107::where('an',$value->an) 
                         ->update([  
-                            'sumtotal_amount'    => $value->total_amount,
-                            // 'sumtotal_amount'    => $value->s_bill,
-                            // 'paid_money'         => $value->paid_money,
-                            'debit_total'        => "0.00"
-                    ]);
+                            // 'sumtotal_amount'    => $value->total_amount,
+                            'income'             => $value->income,
+                            'sumtotal_amount'    => $value->s_bill,
+                            'paid_money'         => $deb,
+                            'debit_total'        => $deb
+                        ]);
                     } else {
-                        Acc_1102050102_107::where('an',$value->an) 
-                        ->update([  
-                            'sumtotal_amount'    => $value->total_amount,
-                            // 'sumtotal_amount'    => $value->s_bill,
-                            // 'paid_money'         => $value->paid_money,
-                            // 'debit_total'        => $deb - $value->s_bill
-                            'debit_total'        => $d 
-                            // 'debit_total'        => $value->remain_money
-                    ]);
+                        // if ($value->pttype == '10') {
+                        //     Acc_1102050102_107::where('an',$value->an) 
+                        //         ->update([  
+                        //             // 'sumtotal_amount'    => $value->total_amount,
+                        //             'income'    => $value->income,
+                        //             'sumtotal_amount'    => $value->s_bill,
+                        //             'paid_money'         => $deb,
+                        //             // 'debit_total'        => $deb - $value->s_bill
+                        //             'debit_total'        => $d 
+                        //             // 'debit_total'        => $value->remain_money
+                        //         ]);
+                        // } else {
+                            Acc_1102050102_107::where('an',$value->an) 
+                                ->update([  
+                                    // 'sumtotal_amount'    => $value->total_amount,
+                                    'income'    => $value->income,
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $deb,
+                                    // 'debit_total'        => $deb - $value->s_bill
+                                    'debit_total'        => $d 
+                                    // 'debit_total'        => $value->remain_money
+                                ]);
+                        // }
+                        
+                        
                     }
             }
             return response()->json([
