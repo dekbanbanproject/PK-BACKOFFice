@@ -85,7 +85,7 @@ class Account106Controller extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
 
@@ -392,6 +392,11 @@ class Account106Controller extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $data['users'] = User::get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
         if ($startdate =='') {
             $datashow = DB::connection('mysql')->select('        
@@ -400,7 +405,7 @@ class Account106Controller extends Controller
                     FROM acc_1102050102_106 U1
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
-                  
+                    WHERE U1.vstdate BETWEEN  "'.$newDate.'" and "'.$date.'"
                     GROUP BY U1.vn ORDER BY U1.acc_1102050102_106_id DESC
             ');
             // WHERE U1.debit_total > 0
@@ -429,42 +434,107 @@ class Account106Controller extends Controller
 
     public function acc_106_debt_sync(Request $request)
     { 
-        $sync = DB::connection('mysql2')->select(' 
-                SELECT r.vn,r.finance_number,r.hn,r.bill_amount,r.total_amount,v.paid_money,v.remain_money
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 3 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew = date('Y')+1;
+        $yearold = date('Y');
+        $start = (''.$yearold.'-10-01');
+        $end = (''.$yearnew.'-09-30'); 
+        if ($startdate == '') {
+            $sync = DB::connection('mysql2')->select(' 
+                SELECT r.vn,r.finance_number,r.hn,r.bill_amount,r.total_amount,v.paid_money,v.remain_money,v.income
                 ,SUM(r.bill_amount) as s_bill
                 FROM rcpt_print r  
                 LEFT OUTER JOIN vn_stat v On v.vn = r.vn 
                 WHERE department ="OPD" 
-                AND r.vn IN(SELECT vn FROM pkbackoffice.acc_1102050102_106)
+               
+                AND r.vn IN(SELECT vn FROM pkbackoffice.acc_1102050102_106 WHERE vstdate BETWEEN "'.$newDate.'" and "'.$date.'")
                 GROUP BY r.vn
             '); 
+            
+        } else {
+            $sync = DB::connection('mysql2')->select(' 
+                SELECT r.vn,r.finance_number,r.hn,r.bill_amount,r.total_amount,v.paid_money,v.remain_money,v.income
+                ,SUM(r.bill_amount) as s_bill
+                FROM rcpt_print r  
+                LEFT OUTER JOIN vn_stat v On v.vn = r.vn 
+                WHERE department ="OPD"
+                AND r.vn IN(SELECT vn FROM pkbackoffice.acc_1102050102_106 WHERE vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'")
+                 
+                GROUP BY r.vn
+            '); 
+        }
+        
+        // AND department ="OPD"
 
-            foreach ($sync as $key => $value) { 
-                     
+            foreach ($sync as $key => $value) {  
                 $total_ = Acc_1102050102_106::where('vn',$value->vn)->first();
-                // $deb = $total_->debit;
-                $deb = $total_->paid_money;
-                $d =  $deb - $value->s_bill;
-
-                if ($d < 0) {
-                    Acc_1102050102_106::where('vn',$value->vn) 
-                    ->update([  
-                        'sumtotal_amount'    => $value->s_bill,
-                        // 'paid_money'         => $value->paid_money,
-                        'debit_total'        => "0.00"
-                ]);
+                $deb = $total_->debit;
+                $deb_paid = $total_->paid_money; 
+               
+                if ($value->paid_money < $deb) {
+                    $d =  $deb - $value->s_bill;
                 } else {
-                    Acc_1102050102_106::where('vn',$value->vn) 
-                    ->update([  
-                        'sumtotal_amount'    => $value->s_bill,
-                        // 'paid_money'         => $value->paid_money,
-                        // 'debit_total'        => $deb - $value->s_bill
-                        'debit_total'        => $value->remain_money
-                ]);
+                    $d =  $deb_paid - $value->s_bill;
                 }
                 
-
-               
+                // $d2 =  $deb_paid2 - $value->s_bill; 
+                if ($value->s_bill > $deb) {
+                        if ($value->s_bill == $deb_paid) {
+                            Acc_1102050102_106::where('vn',$value->vn) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money, 
+                                    'debit_total'        => "0.00"
+                            ]);
+                        }elseif ($value->s_bill < $value->paid_money) {
+                            Acc_1102050102_106::where('vn',$value->vn) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money, 
+                                    'debit_total'        => $value->paid_money - $value->s_bill
+                            ]);
+                    
+                        } else {                        
+                            Acc_1102050102_106::where('vn',$value->vn) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money, 
+                                    'debit_total'        => $value->s_bill - ($deb + $value->paid_money)
+                            ]);
+                        } 
+                } else { 
+                        if ($value->paid_money < 1) {
+                            if ($value->remain_money - $value->s_bill < 1) {
+                                Acc_1102050102_106::where('vn',$value->vn) 
+                                    ->update([   
+                                        'sumtotal_amount'    => $value->s_bill,
+                                        'paid_money'         => $value->remain_money,
+                                        'debit_total'        => "0.00"
+                                ]);
+                            } else {
+                                Acc_1102050102_106::where('vn',$value->vn) 
+                                    ->update([   
+                                        'sumtotal_amount'    => $value->s_bill,
+                                        'paid_money'         => $value->remain_money,
+                                        'debit_total'        => $value->remain_money - $value->s_bill
+                                ]);
+                            } 
+                        } else {
+                            Acc_1102050102_106::where('vn',$value->vn) 
+                                ->update([   
+                                    'sumtotal_amount'    => $value->s_bill,
+                                    'paid_money'         => $value->paid_money,
+                                    'debit_total'        => $d
+                            ]);
+                        }
+                     
+                } 
             }
             return response()->json([
                 'status'    => '200'
@@ -862,34 +932,27 @@ class Account106Controller extends Controller
         
         $pdf->SetFont('THSarabunNew', '', 16);
         $pdf->Text(23, 55, iconv('UTF-8', 'TIS-620', 'ที่ ชย ๐๐๓๓.๓๐๓/........'));
-
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(138, 55, iconv('UTF-8', 'TIS-620', '' . $org->orginfo_name)); 
-
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(138, 63, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว  จังหวัดชัยภูมิ ๓๖๑๑๐')); 
-
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(105, 70, iconv('UTF-8', 'TIS-620', '' . thainumDigit($datnow_ddd).'  '. $datnow_mmm.'  '. thainumDigit($datnow_yyy) ));
-       
-        $pdf->SetFont('THSarabunNew', '', 16);
+        
         $pdf->Text(23, 80, iconv('UTF-8', 'TIS-620', 'เรื่อง   ขอติดตามค่ารักษาพยาบาลค้างชำระ ครั้งที่ ' .thainumDigit($check_max)));
-
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(23, 88, iconv('UTF-8', 'TIS-620', 'เรียน  '));
         $pdf->SetFont('THSarabunNew Bold', '', 16);
         $pdf->Text(34, 88, iconv('UTF-8', 'TIS-620', '' .$dataedit->ptname));
 
         $pdf->SetFont('THSarabunNew', '', 16);
         $pdf->Text(23, 96, iconv('UTF-8', 'TIS-620', 'อ้างถึง  คำร้องขอค้างค่ารักษาพยาบาล  ลงวันที่' ));
-        $pdf->SetFont('THSarabunNew', '', 16);
+       
         $pdf->Text(92, 96, iconv('UTF-8', 'TIS-620', '  ' .thainumDigit($datnow_vstddd).'  ' . $datnow_vstmmm.'  ' .thainumDigit($datnow_vstyyy)));
-        $pdf->SetFont('THSarabunNew', '', 16); 
-               
+             
         // $pdf->SetFont('THSarabunNew', '', 16);
         // $pdf->Text(32, 104, iconv('UTF-8', 'TIS-620', 'ตามที่ ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name.' เมื่อวันที่ ' .thainumDigit($datnow_vstddd). ' '.$datnow_vstmmm.' '.thainumDigit($datnow_vstyyy)));
-
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(46, 104, iconv('UTF-8', 'TIS-620', 'ตามที่   ท่านได้เข้ารับการรักษาพยาบาลจาก' .$org->orginfo_name ));
 
         // $pdf->SetFont('THSarabunNew', '', 16);
@@ -903,47 +966,39 @@ class Account106Controller extends Controller
  
         $pdf->Text(23, 112, iconv('UTF-8', 'TIS-620','เมื่อวันที่ ' .thainumDigit($datnow_vstddd). ' '.$datnow_vstmmm.' '.thainumDigit($datnow_vstyyy).' มีค่ารักษาพยาบาล  เป็นจำนวนเงิน                                                                    '));
         
-        $pdf->Text(128, 112, iconv('UTF-8', 'TIS-620',  thainumDigit(number_format($dataedit->debit_total, 2)).' บาท  '.'( '.$dataedit->debit_total_thai.' ) '));   
+        $pdf->Text(125, 112, iconv('UTF-8', 'TIS-620',  thainumDigit(number_format($dataedit->debit_total, 2)).' บาท  '.'( '.$dataedit->debit_total_thai.' ) '));   
+        
         $pdf->Text(23, 120, iconv('UTF-8', 'TIS-620', 'ปรากฎว่าท่านยังไม่ได้ชำระเงินจำนวนเงินดังกล่าวให้แก่'. $org->orginfo_name.'  จึงขอให้ท่านดำเนินการ'));
 
-        $pdf->Text(23, 128, iconv('UTF-8', 'TIS-620', 'ชำระเงินดังกล่าวให้เสร็จสิ้นภายใน 30 วัน นับจากวันที่ได้รับหนังสือฉบับนี้  หากท่านมีข้อสอบถามเพิ่มเติม'));
-        
+        $pdf->Text(23, 128, iconv('UTF-8', 'TIS-620', 'ชำระเงินดังกล่าวให้เสร็จสิ้นภายใน 30 วัน นับจากวันที่ได้รับหนังสือฉบับนี้  หากท่านมีข้อสอบถามเพิ่มเติม'));      
         // $pdf->Text(20, 120, iconv('UTF-8', 'TIS-620', 'ดังกล่าวให้แก่'. $org->orginfo_name.'  จึงขอให้ท่านดำเนินการชำระเงินดังกล่าวให้เสร็จสิ้นภายใน 30 วัน'));
-
-       
         // $pdf->Text(20, 128, iconv('UTF-8', 'TIS-620', 'นับจากวันที่ได้รับหนังสือฉบับนี้  หากท่านมีข้อสอบถามเพิ่มเติมสามารถติดต่อสอบถามได้ที่หมายเลขโทรศัพท์ตามที่'));
          
         $pdf->Text(23, 136, iconv('UTF-8', 'TIS-620', 'สามารถติดต่อสอบถามได้ที่หมายเลขโทรศัพท์ตามที่แจ้งไว้ด้านล่างหนังสือฉบับนี้'));
 
-    
         $pdf->Text(46, 144, iconv('UTF-8', 'TIS-620', 'ทั้งนี้ หากท่านได้ชำระเงินก่อนที่ท่านจะได้รับหนังสือฉบับนี้ ทาง'. $org->orginfo_name.' '));
 
-       
         $pdf->Text(23, 152, iconv('UTF-8', 'TIS-620', 'ต้องขออภัยมา ณ โอกาสนี้ ด้วย'));
  
         $pdf->Text(46, 160, iconv('UTF-8', 'TIS-620', 'จึงเรียนมาเพื่อโปรดทราบและดำเนินการต่อไป'));
 
-        $pdf->SetFont('THSarabunNew', '', 16);
         $pdf->Text(97, 185, iconv('UTF-8', 'TIS-620', 'ขอแสดงความนับถือ' ));
        
         //ผอ 
-        $pdf->SetFont('THSarabunNew', '', 16);
         $pdf->Text(93, 210, iconv('UTF-8', 'TIS-620', '( นาย'. $orgpo->orginfo_po_name.' )')); 
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(77, 216, iconv('UTF-8', 'TIS-620', 'ผู้อำนวยการ' . $orgpo->orginfo_name));
         
-        $pdf->SetFont('THSarabunNew', '', 16);
         $pdf->Text(20, 240, iconv('UTF-8', 'TIS-620', 'กลุ่มภารกิจด้านพัฒนาระบบบริการและสนับสนุนบริการสุขภาพ'));
-        $pdf->SetFont('THSarabunNew', '', 16);
+  
         $pdf->Text(20, 248, iconv('UTF-8', 'TIS-620', 'โทร. ๐ ๔๔๘๖ ๑๗๐๐-๔  ต่อ  ๑๐๙,๑๑๙'));
-        $pdf->SetFont('THSarabunNew', '', 16);
+  
         $pdf->Text(20, 256, iconv('UTF-8', 'TIS-620', 'Email : phukhieohospital.info@gmail.com'));
 
 
         $pdf->SetFont('THSarabunNew Bold', '', 16);
         $pdf->Text(145, 256, iconv('UTF-8', 'TIS-620',''.thainumDigit($dataedit->hn))); 
  
-        $pdf->SetFont('THSarabunNew Bold', '', 16);
         $pdf->Text(55, 276, iconv('UTF-8', 'TIS-620','อัตลักษณ์ รพ.ภูเขียวเฉลิมพระเกียรติ  '.'"'.'ตรงเวลา รู้หน้าที่ มีวินัย'.'"'));
    
         //Page 2
@@ -951,21 +1006,19 @@ class Account106Controller extends Controller
         $pdf->Image('assets/images/crut.png', 15, 100, 22, 24);
         $pdf->SetFont('THSarabunNew', '', 16);
         $pdf->Text(42, 115, iconv('UTF-8', 'TIS-620', '' . $orgpo->orginfo_name));
-        $pdf->SetFont('THSarabunNew', '', 16);
+       
         $pdf->Text(42, 122, iconv('UTF-8', 'TIS-620', 'อำเภอภูเขียว จังหวัดชัยภูมิ' ));
-
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(152, 108, iconv('UTF-8', 'TIS-620', 'ชําระค่าฝากส่งเป็นรายเดือน'));
-        $pdf->SetFont('THSarabunNew', '', 16);
+      
         $pdf->Text(161, 115, iconv('UTF-8', 'TIS-620', 'ใบอนุญาตที่ ๓๖๑๑๐'));
-        $pdf->SetFont('THSarabunNew', '', 16);
+    
         $pdf->Text(168, 122, iconv('UTF-8', 'TIS-620', 'ไปรษณีย์ ภูเขียว '));
-
-        $pdf->SetFont('THSarabunNew', '', 16);
+ 
         $pdf->Text(90, 155, iconv('UTF-8', 'TIS-620', '' . $dataedit->ptname));
-        $pdf->SetFont('THSarabunNew', '', 16);
+  
         $pdf->Text(90, 163, iconv('UTF-8', 'TIS-620', '' . $dataedit->acc_106_debt_address));
-        $pdf->SetFont('THSarabunNew', '', 16);
+    
         $pdf->Text(90, 171, iconv('UTF-8', 'TIS-620', 'อำเภอ' . $dataedit->amphur_name. 'จังหวัด' . $dataedit->chw_name. '' . $dataedit->provincode));
 
         $pdf->Output();

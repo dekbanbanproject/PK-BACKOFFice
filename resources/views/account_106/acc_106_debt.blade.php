@@ -277,6 +277,7 @@
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
+                                    <th class="text-center">ลูกหนี้ดึงครั้งแรก</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
                                     <th class="text-center">ชำระแล้ว</th>
                                     <th class="text-center">ค้างชำระ</th>
@@ -303,9 +304,9 @@
                                             <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                             <td class="text-center" width="7%">{{ $item->pttype }}</td>
                                             
-                                            
-                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->debit, 2) }}</td> 
-                                            <td class="text-end" width="8%" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
+                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                            
                                             
                                             @if ($item->debit_total == "0") 
@@ -387,6 +388,7 @@
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
+                                    <th class="text-center">ลูกหนี้ดึงครั้งแรก</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
                                     <th class="text-center">ชำระแล้ว</th>
                                     <th class="text-center">ค้างชำระ</th>
@@ -411,8 +413,9 @@
                                     <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
                                     <td class="text-center" width="7%">{{ $item->pttype }}</td>
  
-                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->debit, 2) }}</td> 
-                                    <td class="text-end" width="8%" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
+                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
+                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
+                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                    
                                     
                                     @if ($item->debit_total == "0") 
@@ -678,9 +681,9 @@
             });
 
             $('.PulldataAll').click(function() {  
-                    var months = $('#months').val();
-                    var year = $('#year').val();
-                    // alert(months);
+                    var startdate = $('#datepicker').val();
+                    var enddate = $('#datepicker2').val();
+                    // alert(startdate);
                     Swal.fire({
                             title: 'ต้องการซิ้งค์ข้อมูลใช่ไหม ?',
                             text: "You Sync Data!",
@@ -698,7 +701,7 @@
                                         url: "{{ url('acc_106_debt_sync') }}",
                                         type: "POST",
                                         dataType: 'json',
-                                        data: {months,year},
+                                        data: {startdate,enddate},
                                         success: function(data) {
                                             if (data.status == 200) { 
                                                 Swal.fire({
@@ -723,8 +726,8 @@
 
                                             } else if (data.status == 100) { 
                                                 Swal.fire({
-                                                    title: 'ยังไม่ได้ลงเลขที่หนังสือ',
-                                                    text: "Please enter the number of the book.",
+                                                    title: 'ซิ้งค์ข้อมูลไม่สำเร็จ',
+                                                    text: "You Sync data Unsuccess.",
                                                     icon: 'warning',
                                                     showCancelButton: false,
                                                     confirmButtonColor: '#06D177',
@@ -746,7 +749,7 @@
                                     });
                                     
                                 }
-                        })
+                    })
                 });
         </script>
 
