@@ -117,7 +117,6 @@
     $newDate = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
     use Illuminate\Support\Facades\DB;
     use App\Http\Controllers\PlanController;
-    use App\Models\Plan_control_money;
     $refnumber = PlanController::refnumber();
     ?>
     <div class="tabs-animation">
@@ -144,13 +143,19 @@
                     </div>
                     <div class="card-body py-0 px-2 mt-2">
                         <div class="table-responsive">
-                            <table class="align-middle mb-0 table table-borderless" id="example"> 
+                            <table class="align-middle mb-0 table table-borderless" id="example">
+                                {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example"> --}}
                                 <thead>
                                     <tr style="font-size: 13px">
                                         <th width="5%" class="text-center">ลำดับ</th>
-                                        <th class="text-center"> แผนงาน/โครงการ</th> 
-                                        <th class="text-center">Qty / Total Price</th> 
-                                        {{-- <th class="text-center">ครั้ง</th>  --}}
+                                        <th class="text-center"> แผนงาน/โครงการ</th>
+                                        {{-- <th class="text-center">วัตถุประสงค์ /ตัวชี้วัด</th>  --}}
+                                        {{-- <th class="text-center">แหล่งงบประมาณ</th>  --}}
+                                        {{-- <th class="text-center">งบประมาณ</th>  --}}
+                                        {{-- <th class="text-center">ระยะเวลา</th>       --}}
+                                        {{-- <th class="text-center">กลุ่มงาน</th>   --}}
+                                        <th class="text-center">รวมเบิก</th>
+                                        {{-- <th class="text-center" width="7%">จัดการ</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -158,7 +163,8 @@
                                     @foreach ($plan_control as $va)
                                         <?php
                                         $data_sub_ = DB::connection('mysql')->select(
-                                            ' SELECT 
+                                            '
+                                            SELECT 
                                                 plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
                                                 FROM
                                                 plan_control p
@@ -166,7 +172,7 @@
                                                 LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
                                                 WHERE plan_control_id = "' .
                                                 $va->plan_control_id .
-                                            '"',
+                                                '"',
                                         );
                                         
                                         ?>
@@ -229,27 +235,40 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <?php
-                                                    $maxno = Plan_control_money::where('plan_control_id',$va->plan_control_id)->max('plan_control_money_no');
-                                                    // $maxno = $maxno_+1;
-                                                    // $data_sub_count_ = DB::connection('mysql')->select(
-                                                    //     ' SELECT COUNT(plan_control_money_id) as repno FROM plan_control_money
-                                                    //       WHERE plan_control_id = "' . $va->plan_control_id . '"',
-                                                    // );
-                                                    $data_sub_count_ = DB::connection('mysql')->select(' 
-                                                            SELECT COUNT(plan_control_money_id) as repno,SUM(plan_control_moneyprice) as total FROM plan_control_money
-                                                            WHERE plan_control_id = "' . $va->plan_control_id . '" 
-                                                        ');
-                                                    foreach ($data_sub_count_ as $key => $value_count) {
-                                                        $data_sub_total  = $value_count->total;
-                                                        $data_sub_count  = $value_count->repno ;
-                                                    }
-                                                    // ORDER plan_control_money_no DESC LIMIT 1
-                                                   
-                                                                
-                                            ?>
-                                            <td class="text-center" width="10%">   {{$maxno}} / {{ number_format($data_sub_total, 2) }}</td>
-                                            {{-- <td class="text-center">{{$maxno}} </td> --}}
+                                            {{-- <td class="text-start">{{$va->plan_obj}}</td> --}}
+                                            {{-- <td class="text-start">{{$va->plan_control_typename}}</td> --}}
+                                            {{-- <td class="text-start">{{$va->plan_price}}</td> --}}
+                                            {{-- <td class="text-start">{{DateThai($va->plan_starttime)}}ถึง{{DateThai($va->plan_endtime)}}</td>  --}}
+                                            {{-- <td class="text-start">{{$va->DEPARTMENT_SUB_SUB_NAME}}</td> --}}
+                                            {{-- data-bs-toggle="modal" data-bs-target="#UpdateModal{{ $va->plan_control_id }}" --}}
+                                            <td class="text-center">{{ $va->plan_reqtotal }}</td>
+                                           
+
+                                            {{-- <td class="text-center" width="7%">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info dropdown-toggle menu btn-sm"
+                                                        type="button" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">ทำรายการ</button>
+                                                    <ul class="dropdown-menu">
+                                                       
+                                                        <a href="{{ url('plan_control_edit/' . $va->plan_control_id) }}" class="dropdown-item menu"  data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข">
+                                                            <i class="fa-solid fa-pen-to-square ms-2 me-2 text-warning"></i>
+                                                            <label for=""
+                                                                style="font-size:13px;color: rgb(255, 185, 34)">แก้ไข</label>
+                                                        </a>
+                                                        <button type="button"class="dropdown-item menu MoneyModal_" 
+                                                            value="{{ $va->plan_control_id }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="left"
+                                                            title="เบิกเงิน">
+                                                          
+                                                            <i class="fa-solid fa-hand-holding-dollar ms-2 me-2" style="font-size:13px;color: rgb(34, 122, 255)"></i>
+                                                            <label for=""
+                                                                style="font-size:13px;color: rgb(34, 122, 255)">เบิกเงิน</label>
+                                                        </button> 
+                                                    </ul>
+                                                </div>
+                                            </td> --}}
+
 
                                         </tr>
  
@@ -423,14 +442,17 @@
             <div class="modal-dialog modal-dialog-slideout">
             <div class="modal-content">
                 <div class="modal-header">
-                    
                     <div class="row">
-                        <div class="col-md-7 text-start"><h2>เบิกเงินทะเบียนควบคุมแผนงานโครงการ</h2> </div>
+                        <div class="col-md-7 text-start">
+                            <h2>เบิกเงินทะเบียนควบคุมแผนงานโครงการ</h2>
+                            
+                        </div>
                         <div class="col"></div>
                         <div class="col-md-3 text-end">
-                            {{-- <button class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> 
-                                ครั้งที่  {{$maxno}} 
-                            </button> --}}
+                            <button  
+                            class="btn-icon btn-shadow btn-dashed btn btn-outline-success"> 
+                            ครั้งที่ 222
+                        </button>
                         </div>
                     </div>
                 
@@ -496,8 +518,7 @@
                         <div class="form-group">
                             <button type="button" id="SaveMoneyBtn"
                                 class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2">
-                                {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
-                                <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>
+                                <i class="fa-solid fa-floppy-disk me-2"></i>
                                 Save
                             </button>
                             <button type="button"
@@ -772,7 +793,6 @@
                     url: "{{ url('plan_control_moneyedit') }}" + '/' + plan_control_id,
                     success: function(data) { 
                         $('#update_plan_control_id').val(data.data_show.plan_control_id)
-                        $('#data_sub_count').val(data.data_show.plan_control_money_no)
                     },
                 });
             });

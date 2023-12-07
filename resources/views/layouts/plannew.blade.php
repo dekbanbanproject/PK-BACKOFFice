@@ -90,8 +90,9 @@
          
         </style>
         
-        <body data-topbar="dark">
-         
+        {{-- <body data-topbar="dark"> --}}
+            <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed">
+
             <!-- Begin page -->
             <div id="layout-wrapper">
         
@@ -104,10 +105,11 @@
                             <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                                 <a href="" class="logo logo-dark">
                                     <span class="logo-sm">
-                                        <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
+                                        <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
                                     </span>
                                     <span class="logo-lg">
-                                        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20">
+                                        {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-dark" height="20"> --}}
+                                        <h4 style="color:rgba(247, 217, 217, 0.781)" class="mt-4">PK-BACKOFFice</h4>
                                     </span>
                                 </a>
         
@@ -372,6 +374,8 @@
                 $('#example3').DataTable();
                 $('#example4').DataTable();
                 $('#example5').DataTable(); 
+
+                
             });
          
             $(document).ready(function() {

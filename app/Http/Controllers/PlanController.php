@@ -158,13 +158,14 @@ class PlanController extends Controller
     public function plan_control_moneyedit(Request $request,$id)
     {
     //    dd($id);
-        $data_show = Plan_control::leftJoin('plan_control_money', 'plan_control.plan_control_id', '=', 'plan_control_money.plan_control_id')
-        ->where('plan_control.plan_control_id',$id)->first();
+        // $data_show = Plan_control::leftJoin('plan_control_money', 'plan_control.plan_control_id', '=', 'plan_control_money.plan_control_id')
+        // ->where('plan_control.plan_control_id',$id)->first();
+        $data_show = Plan_control::where('plan_control_id',$id)->first();
         // $data_show = Plan_control_money::where('plan_control_id',$ids)->get();
 
         // $data_show = DB::connection('mysql')->select('
         //     SELECT 
-        //     *
+ 
         //     FROM
         //     plan_control p
         //     JOIN Plan_control_money s ON s.plan_control_id = p.plan_control_id 
@@ -178,6 +179,24 @@ class PlanController extends Controller
         ]);
     }
 
+    // Plan_control_money
+    public function plan_control_repmoney(Request $request)
+    { 
+        $maxno_ = Plan_control_money::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
+        $maxno = $maxno_+1;
+        $add = new Plan_control_money();
+        $add->plan_control_id                = $request->input('update_plan_control_id'); 
+        $add->plan_control_money_no          = $maxno;
+        $add->plan_control_moneydate         = $request->input('plan_control_moneydate');
+        $add->plan_control_moneyprice        = $request->input('plan_control_moneyprice');
+        $add->plan_control_moneyuser_id      = $request->input('plan_control_moneyuser_id');
+        $add->plan_control_moneycomment      = $request->input('plan_control_moneycomment'); 
+        $add->save();
+
+        return response()->json([
+            'status'     => '200',
+        ]);
+    }
 
 
     public function plan_development(Request $request)
