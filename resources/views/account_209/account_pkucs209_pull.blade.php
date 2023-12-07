@@ -84,13 +84,7 @@
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div> 
-            </div>
-            <div class="col-md-2">
-                {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                    <i class="fa-solid fa-magnifying-glass"></i> 
-                    ค้นหา 
-                </button>    --}}
+                
                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                     ดึงข้อมูล</button>    
@@ -98,7 +92,7 @@
                     <i class="fa-solid fa-2 me-2"></i> 
                     ตรวจสอบสิทธิ์
                 </button>    --}}
-                                      
+            </div>                  
             </div>
             {{-- <div class="col"></div> --}}
         </div>

@@ -95,7 +95,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;?>
+                                <?php $number = 0; 
+                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;
+                                ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
@@ -127,9 +129,10 @@
                                         </td>  --}}
                                     </tr>
                                         <?php
-                                            $total1 = $total1 + ($item->debit_total-$item->ip_paytrue); 
-                                            $total2 = $total2 + $item->ip_paytrue;
-                                            $total3 = $total3 + $item->total_approve;
+                                            $total1 = $total1 + $item->debit_total;
+                                            $total2 = $total2 + ($item->debit_total-$item->ip_paytrue); 
+                                            $total3 = $total3 + $item->ip_paytrue;
+                                            $total4 = $total4 + $item->total_approve;
                                         ?>
 
                                     <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -211,14 +214,14 @@
                                 @endforeach  
                                
                             </tbody>
-                                        {{-- <tr style="background-color: #f3fca1">
-                                            <td colspan="7" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($sum_debit_total,2)}}</td> 
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total3,2)}}</td>  
+                                        <tr style="background-color: #f3fca1">
+                                            <td colspan="9" class="text-end" style="background-color: #ff9d9d"></td>
+                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($total1,2)}}</td> 
+                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total2,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total3,2)}}</td> 
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total4,2)}}</td>  
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
-                                        </tr>   --}}
+                                        </tr>  
                         </table>
                     </div>
                 </div>

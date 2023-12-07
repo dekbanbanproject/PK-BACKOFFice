@@ -95,20 +95,18 @@
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
-                    </div>
-                </div>
-                <div class="col-md-3 text-start">
+                 
                     <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                     
+                </div>
                 </div>
 
             </div>
         </form>
 
-        <div class="row mb-5 mt-2">
+        <div class="row mb-5">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -145,7 +143,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0;
+                                 $total1 = 0;
+                                    $total2 = 0;
+                                    $total3 = 0;
+                                    $total4 = 0;
+                                     ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20">
@@ -171,9 +174,17 @@
                       
                                                 </td>
                                     </tr>
+                                    <?php
+                                    $total1 = $total1 + $item->debit_total; 
+                            ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="11" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                               
+                            </tr>  
                         </table>
                     </div>
                 </div>

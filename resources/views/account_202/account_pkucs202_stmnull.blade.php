@@ -95,7 +95,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; $total1 = 0; $total2 = 0;$total3 = 0;?>
+                                <?php $number = 0; 
+                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;
+                                ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
@@ -112,9 +114,10 @@
                                                 
                                                 <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
                                                
-                                                <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
+                                               
 
                                                 <td class="text-end" style="color:rgb(184, 12, 169)" width="7%">{{ number_format(($item->debit_total-$item->inst),2)}}</td> 
+                                                 <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td> 
                                                 {{-- <td class="text-end" style="color:rgb(216, 95, 14)" width="7%">{{ number_format($item->ip_paytrue,2)}}</td>  --}}
                                                 <td class="text-end" style="color:rgb(9, 196, 180)" width="8%">{{ number_format($item->total_approve,2)}}</td>  
                                                  
@@ -123,9 +126,10 @@
                                                 </td>  --}}
                                     </tr>
                                         <?php
-                                            $total1 = $total1 + ($item->debit_total-$item->inst); 
-                                            $total2 = $total2 + $item->ip_paytrue;
-                                            $total3 = $total3 + $item->total_approve;
+                                            $total1 = $total1 + $item->debit_total;
+                                            $total2 = $total2 + ($item->debit_total-$item->ip_paytrue); 
+                                            $total3 = $total3 + $item->ip_paytrue;
+                                            $total4 = $total4 + $item->total_approve;
                                         ?>
 
                                     <div class="modal fade" id="DetailModal{{ $item->an }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

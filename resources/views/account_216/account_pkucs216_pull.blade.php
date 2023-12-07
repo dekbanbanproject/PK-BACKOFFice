@@ -84,13 +84,7 @@
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div> 
-            </div>
-            <div class="col-md-2">
-                {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                    <i class="fa-solid fa-magnifying-glass"></i> 
-                    ค้นหา 
-                </button>    --}}
+        
                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                     ดึงข้อมูล</button>    
@@ -98,7 +92,7 @@
                     <i class="fa-solid fa-2 me-2"></i> 
                     ตรวจสอบสิทธิ์
                 </button>    --}}
-                                      
+            </div>                    
             </div>
             {{-- <div class="col"></div> --}}
         </div>
@@ -148,7 +142,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $i = 1; ?>
+                                        <?php $i = 1; 
+                                            $total1 = 0;
+                                            $total2 = 0;
+                                            $total3 = 0;
+                                            $total4 = 0;
+                                            $total5 = 0;
+                                            $total6 = 0;
+                                        ?>
                                         @foreach ($acc_debtor as $item) 
                                             <tr id="tr_{{$item->acc_debtor_id}}">                                                  
                                                 <td class="text-center" width="5%">{{ $i++ }}</td>  
@@ -178,8 +179,25 @@
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_toa, 2) }}</td> 
                                                 <td class="text-end" width="5%">{{ number_format($item->debit_refer, 2) }}</td> 
                                             </tr>
+                                            <?php
+                                                    $total1 = $total1 + $item->income;
+                                                    $total2 = $total2 + $item->debit_total;
+                                                    $total3 = $total3 + $item->debit_instument;
+                                                    $total4 = $total4 + $item->debit_drug;
+                                                    $total5 = $total5 + $item->debit_toa;
+                                                    $total6 = $total6 + $item->debit_refer;
+                                            ?>
                                         @endforeach
                                     </tbody>
+                                    <tr style="background-color: #f3fca1">
+                                        <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>
+                                        <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td>
+                                    </tr>  
                                 </table>
                             </div>
                         </p>
