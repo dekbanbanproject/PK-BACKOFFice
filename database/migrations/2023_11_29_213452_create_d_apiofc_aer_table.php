@@ -20,7 +20,7 @@ return new class extends Migration
                 $table->bigIncrements('d_apiofc_aer_id'); 
                 $table->string('blobName')->nullable();//   "AER.txt” 
                 $table->string('blobType')->nullable();//   “text/plain”
-                $table->string('blob')->nullable();//       “SE58SU5T”
+                $table->text('blob')->nullable();//       “SE58SU5T”
                 $table->string('size')->nullable();//       "32"
                 $table->string('encoding')->nullable();//   “UTF-8”
                 $table->timestamps();

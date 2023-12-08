@@ -103,7 +103,7 @@ class Account804Controller extends Controller
          $y = date('Y') + 543; 
          $yearnew = date('Y');
          $yearnew = date('Y')+1;
-         $yearold = date('Y')-1;
+         $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
  

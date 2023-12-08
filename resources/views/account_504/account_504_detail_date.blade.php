@@ -104,7 +104,7 @@ $pos = strrpos($url, '/') + 1;
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0;  $total1 = 0;?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                    
@@ -120,10 +120,20 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="5%">{{ $item->pttype }}</td>  
                                             <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                         </tr>
-                                         
+                                        <?php
+                                        $total1 = $total1 + $item->debit_total;
+                                        
+                                ?>
+                                    
+ 
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                
+                            </tr>  
                         </table>
                     </div>
                 </div>

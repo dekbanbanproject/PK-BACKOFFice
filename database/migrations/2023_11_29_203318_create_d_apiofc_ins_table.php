@@ -19,7 +19,7 @@ return new class extends Migration
                 $table->bigIncrements('d_apiofc_ins_id'); 
                 $table->string('blobName')->nullable();//   "INS.txt” 
                 $table->string('blobType')->nullable();//   “text/plain”
-                $table->string('blob')->nullable();//       “SE58SU5T”
+                $table->text('blob')->nullable();//       “SE58SU5T”
                 $table->string('size')->nullable();//       "32"
                 $table->string('encoding')->nullable();//   “UTF-8”
                 $table->timestamps();

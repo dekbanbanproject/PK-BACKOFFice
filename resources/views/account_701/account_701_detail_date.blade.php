@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="row ms-3 me-3 mt-2">
+        <div class="row ">
             <div class="col-md-12">
                 <div class="main-card mb-3 card">
                     <div class="card-header">
@@ -90,7 +90,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0; $total1 = 0; ?>
                                 @foreach ($data as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
@@ -105,10 +105,17 @@
                                         <td class="text-center" width="5%">{{ $item->pttype }}</td>  
                                         <td class="text-end" style="color:rgb(73, 147, 231)" width="7%"> {{ number_format($item->debit_total, 2) }}</td>  
                                     </tr>
- 
+                                    <?php
+                                    $total1 = $total1 + $item->debit_total; 
+                            ?>
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                            
+                            </tr> 
                         </table>
                     </div>
                 </div>

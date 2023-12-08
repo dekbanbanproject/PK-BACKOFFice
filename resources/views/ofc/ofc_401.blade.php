@@ -116,22 +116,26 @@ $pos = strrpos($url, '/') + 1;
                             <i class="fa-solid fa-upload text-primary me-2"></i>
                             Export
                         </button> --}}
-                        <a href="{{url('ofc_401_exportapi')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                        {{-- <a href="{{url('ofc_401_exportapi')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                             <i class="fa-solid fa-file-export text-danger me-2"></i>
                             Export
-                        </a>
+                        </a> --}}
                     {{-- </form> --}}
-                    <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">
+                    {{-- <form action="{{ route('claim.ofc_401_sendapi') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" >
                             <i class="fa-solid fa-upload text-primary me-2"></i>
                             ส่ง New Eclaim
                         </button>
-                    </form>
-                    {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
+                    </form> --}}
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
+                        <i class="fa-solid fa-upload text-danger me-2"></i>
+                        Export
+                    </button>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
                         <i class="fa-solid fa-upload text-primary me-2"></i>
                         ส่ง New Eclaim
-                    </button> --}}
+                    </button>
                 </div> 
             </div>
           
@@ -1039,6 +1043,60 @@ $pos = strrpos($url, '/') + 1;
                                             Swal.fire({
                                                 title: 'ส่งข้อมูลสำเร็จ',
                                                 text: "You Send data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+        });
+        $('#ExportdataAPI').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการส่งออก ใช่ไหม ?',
+                        text: "You Warn Send Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, send it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('claim.ofc_401_exportapi') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ส่งออกสำเร็จ',
+                                                text: "You Export data success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',

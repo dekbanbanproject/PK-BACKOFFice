@@ -110,7 +110,12 @@ $pos = strrpos($url, '/') + 1;
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $number = 0; ?>
+                                <?php $number = 0; 
+                                $total1 = 0;
+                                $total2 = 0;
+                                $total3 = 0;
+                                $total4 = 0;
+                                ?>
                                 @foreach ($data as $item)
                                     <?php $number++; 
                                         $sync = DB::connection('mysql3')->select('
@@ -136,7 +141,7 @@ $pos = strrpos($url, '/') + 1;
                                             <td class="text-center" width="10%">{{ $item->recieve_no }}</td>
                                             <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> {{ number_format($item->recieve_true, 2) }}</td>
                                         
-                                            <td class="text-end" width="10%">{{ $item->nhso_ownright_pid }}</td>
+                                            <td class="text-end" width="10%" style="color: #06a513">{{ $item->nhso_ownright_pid }}</td>
                                             <td class="text-center" width="5%">
                                                 @if ($item->nhso_docno != '')
                                                     <button type="button"
@@ -185,12 +190,24 @@ $pos = strrpos($url, '/') + 1;
                                                     </div>
                                                 </td> 
                                         </tr> --}}
-                                        
+                                        <?php
+                                                $total1 = $total1 + $item->debit_total;
+                                                $total2 = $total2 + $item->recieve_true;
+                                                $total3 = $total3 + $item->nhso_ownright_pid; 
+                                        ?>
                                     
  
                                 @endforeach
 
                             </tbody>
+                            <tr style="background-color: #f3fca1">
+                                <td colspan="5" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                <td colspan="1" class="text-end" style="background-color: #fca1a1"></td>
+                                <td class="text-end" style="background-color: #FCA533" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-end" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                                <td colspan="3" class="text-end" style="background-color: #fca1a1"></td>
+                            </tr> 
                         </table>
                     </div>
                 </div>

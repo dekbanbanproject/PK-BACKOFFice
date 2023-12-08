@@ -827,41 +827,43 @@ class Ofc401_apiController extends Controller
          $objFopen_lab = fopen($file_d_lab, 'w');
          $opd_head_lab = 'HCODE|HN|PERSON_ID|DATESERV|SEQ|LABTEST|LABRESULT';
          fwrite($objFopen_lab, $opd_head_lab);
-         fclose($objFopen_lab);
- 
-        //  ZIP ********************************
-            // $pathdir =  "Export/".$folder."/";
-            // $zipcreated = $folder.".zip";
-            // $newzip = new ZipArchive;
-            // if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
-            // $dir = opendir($pathdir);        
-            // while($file = readdir($dir)) {
-            //     if(is_file($pathdir.$file)) {
-            //         $newzip -> addFile($pathdir.$file, $file);
-            //     }
-            // }
-            // $newzip ->close();
-            //         if (file_exists($zipcreated)) {
-            //             header('Content-Type: application/zip');
-            //             header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
-            //             header('Content-Length: ' . filesize($zipcreated));
-            //             flush();
-            //             readfile($zipcreated); 
-            //             unlink($zipcreated);   
-            //             $files = glob($pathdir . '/*');   
-            //             foreach($files as $file) {   
-            //                 if(is_file($file)) {      
-            //                     // unlink($file); 
-            //                 } 
-            //             }                      
-            //             return redirect()->route('claim.ofc_401');                    
-            //         }
-            // } 
 
-            // return redirect()->route('claim.ofc_401');
-            return response()->json([
-                'status'    => '200'
-            ]);
+         fclose($objFopen_lab);
+
+
+
+        $pathdir =  "Export/".$folder."/";
+        $zipcreated = $folder.".zip";
+
+        $newzip = new ZipArchive;
+        if($newzip -> open($zipcreated, ZipArchive::CREATE ) === TRUE) {
+        $dir = opendir($pathdir);
+        
+        while($file = readdir($dir)) {
+            if(is_file($pathdir.$file)) {
+                $newzip -> addFile($pathdir.$file, $file);
+            }
+        }
+        $newzip ->close();
+                if (file_exists($zipcreated)) {
+                    header('Content-Type: application/zip');
+                    header('Content-Disposition: attachment; filename="'.basename($zipcreated).'"');
+                    header('Content-Length: ' . filesize($zipcreated));
+                    flush();
+                    readfile($zipcreated); 
+                    unlink($zipcreated);   
+                    $files = glob($pathdir . '/*');   
+                    foreach($files as $file) {   
+                        if(is_file($file)) {      
+                            // unlink($file); 
+                        } 
+                    }                      
+                    return redirect()->route('claim.ofc_401');                    
+                }
+        } 
+
+            return redirect()->route('claim.ofc_401');
+
     }
   
     public function ofc_401_sendapi(Request $request)
@@ -873,229 +875,237 @@ class Ofc401_apiController extends Controller
             $token        = $val_to->api_neweclaim_token;
         } 
         // dd($token);
-          
+        // $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');   
+        // foreach ($data_ins_ as $key => $val_ins) {
+        //    $blob_ins = $val_ins->blob;
+        //    $size_ins_ = $val_ins->size;
+        // } 
+        // if ($size_ins_ == '') {
+        //     $size_ins = 0;
+        // } else {
+        //     $size_ins = $size_ins_;
+        // }
+        
+        // $data_pat_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_pat');   
+        // foreach ($data_pat_ as $key => $val_pat) {
+        //    $blob_pat = $val_pat->blob;
+        //    $size_pat_ = $val_pat->size;
+        // }  
+        // if ($size_pat_ == '') {
+        //     $size_pat = 0;
+        // } else {
+        //     $size_pat = $size_pat_;
+        // } 
+        // $data_opd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_opd');   
+        // foreach ($data_opd_ as $key => $val_opd) {
+        //    $blob_opd = $val_opd->blob;
+        //    $size_opd_ = $val_opd->size;
+        // } 
+        // if ($size_opd_ == '') {
+        //     $size_opd = 0;
+        // } else {
+        //     $size_opd = $size_opd_;
+        // }
+        // $data_orf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_orf');   
+        // foreach ($data_orf_ as $key => $val_orf) {
+        //    $blob_orf = $val_orf->blob;
+        //    $size_orf_ = $val_orf->size;
+        // } 
+        // if ($size_orf_ == '') {
+        //     $size_orf = 0;
+        // } else {
+        //     $size_orf = $size_orf_;
+        // }
+        // $data_odx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_odx');   
+        // foreach ($data_odx_ as $key => $val_odx) {
+        //    $blob_odx = $val_odx->blob;
+        //    $size_odx_ = $val_odx->size;
+        // } 
+        // if ($size_odx_ == '') {
+        //     $size_odx = 0;
+        // } else {
+        //     $size_odx = $size_odx_;
+        // }
+        // $data_oop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_oop');   
+        // foreach ($data_oop_ as $key => $val_oop) {
+        //    $blob_oop = $val_oop->blob;
+        //    $size_oop_ = $val_oop->size;
+        // } 
+        // if ($size_oop_ == '') {
+        //     $size_oop = 0;
+        // } else {
+        //     $size_oop = $size_oop_;
+        // }
+        // $data_ipd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ipd');   
+        // foreach ($data_ipd_ as $key => $val_ipd) {
+        //    $blob_ipd = $val_ipd->blob;
+        //    $size_ipd_ = $val_ipd->size;
+        // } 
+        // if ($size_ipd_ == '') {
+        //     $size_ipd = 0;
+        // } else {
+        //     $size_ipd = $size_ipd_;
+        // }
+        // $data_irf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_irf');   
+        // foreach ($data_irf_ as $key => $val_irf) {
+        //    $blob_irf = $val_irf->blob;
+        //    $size_irf_ = $val_irf->size;
+        // } 
+        // if ($size_irf_ == '') {
+        //     $size_irf = 0;
+        // } else {
+        //     $size_irf = $size_irf_;
+        // }
+        // $data_idx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_idx');   
+        // foreach ($data_idx_ as $key => $val_idx) {
+        //    $blob_idx = $val_idx->blob;
+        //    $size_idx_ = $val_idx->size;
+        // }
+        // if ($size_idx_ == '') {
+        //     $size_idx = 0;
+        // } else {
+        //     $size_idx = $size_idx_;
+        // }
+        // $data_iop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_iop');   
+        // foreach ($data_iop_ as $key => $val_iop) {
+        //    $blob_iop = $val_iop->blob;
+        //    $size_iop_ = $val_iop->size;
+        // }
+        // if ($size_iop_ == '') {
+        //     $size_iop = 0;
+        // } else {
+        //     $size_iop = $size_iop_;
+        // }
+        // $data_cht_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cht');   
+        // foreach ($data_cht_ as $key => $val_cht) {
+        //    $blob_cht = $val_cht->blob;
+        //    $size_cht_ = $val_cht->size;
+        // }
+        // if ($size_cht_ == '') {
+        //     $size_cht = 0;
+        // } else {
+        //     $size_cht = $size_cht_;
+        // }
+        // $data_cha_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cha');   
+        // foreach ($data_cha_ as $key => $val_cha) {
+        //    $blob_cha = $val_cha->blob;
+        //    $size_cha_ = $val_cha->size;
+        // }
+        // if ($size_cha_ == '') {
+        //     $size_cha = 0;
+        // } else {
+        //     $size_cha = $size_cha_;
+        // }
+        // $data_aer_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_aer');   
+        // foreach ($data_aer_ as $key => $val_aer) {
+        //    $blob_aer = $val_aer->blob;
+        //    $size_aer_ = $val_aer->size;
+        // }
+        // if ($size_aer_ == '') {
+        //     $size_aer = 0;
+        // } else {
+        //     $size_aer = $size_aer_;
+        // }
+        // $data_adp_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_adp');   
+        // foreach ($data_adp_ as $key => $val_adp) {
+        //    $blob_adp = $val_adp->blob;
+        //    $size_adp_ = $val_adp->size;
+        // }
+        // if ($size_adp_ == '') {
+        //     $size_adp = 0;
+        // } else {
+        //     $size_adp = $size_adp_;
+        // }
+        // $data_lvd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ldv');   
+        // foreach ($data_lvd_ as $key => $val_lvd) {
+        //    $blob_lvd = $val_lvd->blob;
+        //    $size_lvd_ = $val_lvd->size;
+        // }
+        // if ($size_lvd_ == '') {
+        //     $size_lvd = 0;
+        // } else {
+        //     $size_lvd = $size_lvd_;
+        // }
+
+        // $data_dru_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_dru');   
+        // foreach ($data_dru_ as $key => $val_dru) {
+        //    $blob_dru = $val_dru->blob;
+        //    $size_dru_ = $val_dru->size;
+        // }
+        // if ($size_dru_ == '') {
+        //     $size_dru = 0;
+        // } else {
+        //     $size_dru = $size_dru_;
+        // }
+
         $data_table = array("d_apiofc_ins","d_apiofc_pat","d_apiofc_opd","d_apiofc_orf","d_apiofc_odx","d_apiofc_oop","d_apiofc_ipd","d_apiofc_irf","d_apiofc_idx","d_apiofc_iop","d_apiofc_cht","d_apiofc_cha","d_apiofc_aer","d_apiofc_adp","d_apiofc_ldv","d_apiofc_dru");
-        // $data_table = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
-        foreach ($data_table as $key => $val_t) {        
-                $data_all_ = DB::connection('mysql')->select('
-                SELECT * FROM '.$val_t.'
-                ');                
-                foreach ($data_all_ as $val_field) {
+            foreach ($data_table as $key => $val_t) {        
+                $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.'');                
+                foreach ($data_all_ as $key => $val_field) {
                     $blob[] = $val_field->blob;
                     $size[] = $val_field->size;
-                     
-                 }     
+                 }               
             }
- 
-            // dd($blob[5]);
-            $fame_send = curl_init();
-            $postData_send = [
-                "fileType" => "txt",
-                "maininscl" => "OFC",
-                "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
-                "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
-                "dataTypes" => ["OP","IP"],
-                "opRefer" => false, 
-                    "file" => [ 
-                        "ins" => [
-                            "blobName"  => "INS.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[0],
-                            "size"      => $size[0],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"pat" => [
-                            "blobName"  => "PAT.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[1],
-                            "size"      => $size[1],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"opd" => [
-                            "blobName"  => "OPD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[2],
-                            "size"      => $size[2],
-                            "encoding"  => "UTF-8"
-                        ] 
-                        ,"orf" => [
-                            "blobName"  => "ORF.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[3],
-                            "size"      => $size[3],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"odx" => [
-                            "blobName"  => "ODX.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[4],
-                            "size"      => $size[4],
-                            "encoding"  => "UTF-8"
-                        ]  
-                        ,"oop" => [
-                            "blobName"  => "OOP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[5],
-                            "size"      => $size[5],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"ipd" => [
-                            "blobName"  => "IPD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[6],
-                            "size"      => $size[6],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"irf" => [
-                            "blobName"  => "IRF.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[7],
-                            "size"      => $size[7],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"idx" => [
-                            "blobName"  => "IDX.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[8],
-                            "size"      => $size[8],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"iop" => [
-                            "blobName"  => "IOP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[9],
-                            "size"      => $size[9],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"cht" => [
-                            "blobName"  => "CHT.txt",
-                            "blobType"  => "text",
-                            "blob"      => $blob[10],
-                            "size"      => $size[10],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"cha" => [
-                            "blobName"  => "CHA.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[11],
-                            "size"      => $size[11],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"aer" => [
-                            "blobName"  => "AER.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[12],
-                            "size"      => $size[12],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"adp" => [
-                            "blobName"  => "ADP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[13],
-                            "size"      => $size[13],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"lvd" => [
-                            "blobName"  => "LVD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[14],
-                            "size"      => $size[14],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"dru" => [
-                            "blobName" => "DRU.txt",
-                            "blobType" => "text/plain",
-                            "blob"     => $blob[15],
-                            "size"     => $size[15],
-                            "encoding" => "UTF-8"
-                    ]
-                        ,"dru" => [
-                            "blobName"  => "DRU.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[15],
-                            "size"      => $size[15],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"lab" => null
-                    ] 
-            ];        
-            // dd($postData_send);
-            $headers_send  = [
-                'Authorization : Bearer '.$token,
-                'Content-Type: application/json',            
-                'User-Agent:<platform>/<version><10978>'
-                    
-            ];
 
-            curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
-            curl_setopt($fame_send, CURLOPT_POST, 1);
-            curl_setopt($fame_send, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($fame_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-            curl_setopt($fame_send, CURLOPT_HTTPHEADER, $headers_send);
-  
-            $server_output     = curl_exec ($fame_send);
-            $statusCode = curl_getinfo($fame_send, CURLINFO_HTTP_CODE);
-            
-            $content = $server_output;
-            $result = json_decode($content, true);
-            
-            #echo "<BR>";
-            @$status = $result['status'];
-            #echo "<BR>";
-            @$message = $result['message'];
-            #echo "<BR>";
+
            
-        
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
-    public function ofc_401_sendapi_no(Request $request)
-    {  
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim');  
-        foreach ($data_token_ as $key => $val_to) {
-            $username     = $val_to->api_neweclaim_user;
-            $password     = $val_to->api_neweclaim_pass;
-            $token        = $val_to->api_neweclaim_token;
-        } 
-        // dd($token);
-          
-        $data_table = array("d_apiofc_ins","d_apiofc_pat","d_apiofc_opd","d_apiofc_orf","d_apiofc_odx","d_apiofc_oop","d_apiofc_ipd","d_apiofc_irf","d_apiofc_idx","d_apiofc_iop","d_apiofc_cht","d_apiofc_cha","d_apiofc_aer","d_apiofc_adp","d_apiofc_ldv","d_apiofc_dru");
-        // $data_table = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
-        foreach ($data_table as $key => $val_t) {        
-                $data_all_ = DB::connection('mysql')->select('
-                SELECT * FROM '.$val_t.'
-                ');                
-                foreach ($data_all_ as $val_field) {
-                    $blob[] = $val_field->blob;
-                    $size[] = $val_field->size; 
-                    
-                 }      
 
-            }
- 
+        // dd($size_dru);
         // $response = Http::withHeaders([ 
-        //     'User-Agent:<platform>/<version> <10978>',
-        //     'Accept' => 'application/json',
-        // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
-        //     'username'    =>  $username ,
-        //     'password'    =>  $password 
-        // ]);    
-        // dd($blob[15]);
-        $response = Http::withHeaders([  
-            'Authorization : Bearer '.$token,
-            'User-Agent:<platform>/<version> <10978>',           
-            'Content-Type: application/json',            
-            // 'User-Agent:<platform>/<version><10978>'
-             // 'Accept' => 'application/json' 
-        ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
-            "fileType"   => "txt",
-            "maininscl"  => "OFC",
-            "importDup"  => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+        //     'Authorization : Bearer '.$token_test,
+        //     'Content-Type: application/json', 
+        //     // 'Authorization' => 'Bearer<"'.$token.'">',                 
+        //     'User-Agent : <platform>/<version> <10978>'
+        //     // 'Accept     : application/json',
+        $token_test = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDExNjcyLCJpYXQiOjE3MDE0MDA4NzJ9.gav4PMl13gb-VNDpJMZL4P9R-4XPJGX8GxbXs0hAMDqa-J82mkq3vhZQWaTow5nHfXpHtLDPEl6mMC66JMt_KQeyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDExNjcyLCJpYXQiOjE3MDE0MDA4NzJ9.gav4PMl13gb-VNDpJMZL4P9R-4XPJGX8GxbXs0hAMDqa-J82mkq3vhZQWaTow5nHfXpHtLDPEl6mMC66JMt_KQ";
+       
+        // $fam_file = array("ins","pat","opd","orf","odx","oop","ipd","irf","idx","iop","cht","cha","aer","adp","lvd","dru");
+        // foreach ($fam_file as $fam_file_value) {
+        //         // echo "$value <br>";
+        //         $tp_ins = "temp_opd_".str_replace(".","_",$pang)."_export_".$fam_file_value."_base64";
+        //         $s_fam_file_value ="SELECT base_64, file_size FROM $tp_ins LIMIT 1 ";
+        //         @$q_fam_file_value = mysqli_query($con_money, $s_fam_file_value) ; #or die(nl2br ($s_fam_file_value))
+        //         @$r_fam_file_value = mysqli_fetch_assoc($q_fam_file_value);
+        //         @$fam_file_base64[] = $r_fam_file_value["base_64"];
+        //         if(@$r_fam_file_value["file_size"]==''){
+        //             @$fam_file_size[] = 0;
+        //         }else{
+        //             @$fam_file_size[] = $r_fam_file_value["file_size"];
+        //         }                
+        // }
+
+    //     "ins" => [
+    //         "blobName" => "INS.txt",
+    //         "blobType" => "text/plain",
+    //         "blob" => "$fam_file_base64[0]",
+    //         "size" => $fam_file_size[0],
+    //         "encoding" => "UTF-8"
+    //    ]
+    //    ,"pat" => [
+    //         "blobName" => "PAT.txt",
+    //         "blobType" => "text/plain",
+    //         "blob" => "$fam_file_base64[1]",
+    //         "size" => $fam_file_size[1],
+    //         "encoding" => "UTF-8"
+    //    ]
+    //    ,"opd" => [
+    //         "blobName" => "OPD.txt",
+    //         "blobType" => "text/plain",
+    //         "blob" => "$fam_file_base64[2]",
+    //         "size" => $fam_file_size[2],
+    //         "encoding" => "UTF-8"
+    //     ]   
+       
+       
+        $fame_send = curl_init();
+        $postData_send = [
+            "fileType" => "txt",
+            "maininscl" => "",
+            "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
             "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
-            "dataTypes"  => ["OP","IP"],
-            "opRefer"    => false, 
-                "file"   => [ 
+            "dataTypes" => ["OP","IP"],
+            "opRefer" => false, 
+                "file" => [ 
                     "ins" => [
                         "blobName"  => "INS.txt",
                         "blobType"  => "text/plain",
@@ -1161,7 +1171,7 @@ class Ofc401_apiController extends Controller
                     ]
                     ,"iop" => [
                         "blobName"  => "IOP.txt",
-                        "blobType"  => "text/plain",
+                        "blobType"  => "text",
                         "blob"      => $blob[9],
                         "size"      => $size[9],
                         "encoding"  => "UTF-8"
@@ -1195,24 +1205,291 @@ class Ofc401_apiController extends Controller
                         "encoding"  => "UTF-8"
                     ]
                     ,"lvd" => [
-                        "blobName"  => "LVD.txt",
+                        "blobName"  => "LDV.txt",
                         "blobType"  => "text/plain",
                         "blob"      => $blob[14],
                         "size"      => $size[14],
                         "encoding"  => "UTF-8"
                     ]
                     ,"dru" => [
-                        "blobName" => "DRU.txt",
-                        "blobType" => "text/plain",
-                        "blob"     => $blob[15],
-                        "size"     => $size[15],
-                        "encoding" => "UTF-8"
-                   ]
-                    ,"dru" => [
-                        "blobName"  => "DRU.txt",
+                        "blobName"  => "DRUG.txt",
                         "blobType"  => "text/plain",
                         "blob"      => $blob[15],
                         "size"      => $size[15],
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lab" => null
+                ] 
+        ];
+        
+        dd($postData_send);
+
+            $headers_send  = [
+                'Authorization : Bearer '.$token,
+                'Content-Type: application/json',            
+                'User-Agent:<platform>/<version><10978>'
+                    
+            ];
+            // dd($headers_send);
+            #https://tnhsoapi.nhso.go.th/ecimp/v1/send  test_zone
+            #https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send
+            curl_setopt($fame_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            curl_setopt($fame_send, CURLOPT_POST, 1);
+            curl_setopt($fame_send, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($fame_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
+            curl_setopt($fame_send, CURLOPT_HTTPHEADER, $headers_send);
+            $send_fame_outp     = curl_exec ($fame_send);
+            $statusCode_send_fame_outp = curl_getinfo($fame_send, CURLINFO_HTTP_CODE);
+            $content_send_fame_outp = $send_fame_outp;
+
+            // dd($statusCode_send_fame_outp);
+
+            $result_send_fame_outp = json_decode($content_send_fame_outp, true);
+            // dd($result_send_fame_outp);
+            #echo "<BR>";
+            @$status_send = "status_send :".$result_send_fame_outp['status'];
+            #echo "<BR>";
+            @$message_send = "message_send :".$result_send_fame_outp['message'];
+
+            dd($status_send);
+            // ************************
+            // $response_send = Http::withHeaders([ 
+            //     'Authorization : Bearer '.$token,
+            //     'Content-Type: application/json',            
+            //     'User-Agent:<platform>/<version><10978>'  
+            // ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
+            //     'postData_send'    =>  $postData_send , 
+            // ]);    
+            // $token = $response_send->json('token');
+            // dump($response_send->json('token'));
+            // dump($response_send->status());
+            // dump($response_send->message());
+
+
+        
+        return response()->json([
+            'status'    => '200'
+        ]);
+    }
+    public function ofc_401_sendapi_(Request $request)
+    {  
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token_        = $val_to->api_neweclaim_token;
+        } 
+        // dd($token);
+        $data_ins_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ins');   
+        foreach ($data_ins_ as $key => $val_ins) {
+           $blob_ins = $val_ins->blob;
+           $size_ins = $val_ins->size;
+        } 
+        $data_pat_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_pat');   
+        foreach ($data_pat_ as $key => $val_pat) {
+           $blob_pat = $val_pat->blob;
+           $size_pat = $val_pat->size;
+        }   
+        $data_opd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_opd');   
+        foreach ($data_opd_ as $key => $val_opd) {
+           $blob_opd = $val_opd->blob;
+           $size_opd = $val_opd->size;
+        } 
+        $data_orf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_orf');   
+        foreach ($data_orf_ as $key => $val_orf) {
+           $blob_orf = $val_orf->blob;
+           $size_orf = $val_orf->size;
+        } 
+        $data_odx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_odx');   
+        foreach ($data_odx_ as $key => $val_odx) {
+           $blob_odx = $val_odx->blob;
+           $size_odx = $val_odx->size;
+        } 
+        $data_oop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_oop');   
+        foreach ($data_oop_ as $key => $val_oop) {
+           $blob_oop = $val_oop->blob;
+           $size_oop = $val_oop->size;
+        } 
+        $data_ipd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ipd');   
+        foreach ($data_ipd_ as $key => $val_ipd) {
+           $blob_ipd = $val_ipd->blob;
+           $size_ipd = $val_ipd->size;
+        } 
+        $data_irf_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_irf');   
+        foreach ($data_irf_ as $key => $val_irf) {
+           $blob_irf = $val_irf->blob;
+           $size_irf = $val_irf->size;
+        } 
+        $data_idx_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_idx');   
+        foreach ($data_idx_ as $key => $val_idx) {
+           $blob_idx = $val_idx->blob;
+           $size_idx = $val_idx->size;
+        }
+        $data_iop_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_iop');   
+        foreach ($data_iop_ as $key => $val_iop) {
+           $blob_iop = $val_iop->blob;
+           $size_iop = $val_iop->size;
+        }
+        $data_cht_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cht');   
+        foreach ($data_cht_ as $key => $val_cht) {
+           $blob_cht = $val_cht->blob;
+           $size_cht = $val_cht->size;
+        }
+        $data_cha_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_cha');   
+        foreach ($data_cha_ as $key => $val_cha) {
+           $blob_cha = $val_cha->blob;
+           $size_cha = $val_cha->size;
+        }
+        $data_aer_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_aer');   
+        foreach ($data_aer_ as $key => $val_aer) {
+           $blob_aer = $val_aer->blob;
+           $size_aer = $val_aer->size;
+        }
+        $data_adp_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_adp');   
+        foreach ($data_adp_ as $key => $val_adp) {
+           $blob_adp = $val_adp->blob;
+           $size_adp = $val_adp->size;
+        }
+        $data_lvd_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_ldv');   
+        foreach ($data_lvd_ as $key => $val_lvd) {
+           $blob_lvd = $val_lvd->blob;
+           $size_lvd = $val_lvd->size;
+        }
+        $data_dru_ = DB::connection('mysql')->select(' SELECT * FROM d_apiofc_dru');   
+        foreach ($data_dru_ as $key => $val_dru) {
+           $blob_dru = $val_dru->blob;
+           $size_dru = $val_dru->size;
+        }
+        // dd($size_dru);
+        // $response = Http::withHeaders([ 
+        //     'Authorization : Bearer '.$token_test,
+        //     'Content-Type: application/json', 
+        //     // 'Authorization' => 'Bearer<"'.$token.'">',                 
+        //     'User-Agent : <platform>/<version> <10978>'
+        //     // 'Accept     : application/json',
+        // $token_test = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NTA4NjM0Mjk2Njg4IiwiZXhwIjoxNzAxNDA5ODY0LCJpYXQiOjE3MDEzOTkwNjR9.CxJl2F_ydHy_UEMbG0hdQjYSy3_r6Azzl18rvKEFGuxqHh-C1piNdKn2uHjav6q8l6osE1Sid7SEG6CykFRoTw";
+        $response = Http::withHeaders([ 
+            'Authorization : Bearer '.$token_,
+            'User-Agent:<platform>/<version> <10978>',
+            'Accept' => 'application/json', 
+        ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send', [
+                "fileType"      => "txt",
+                "maininscl"     => "OFC",
+                "dataTypes"     => ["OP","IP"],
+                "opRefer"       => false,
+                "importDup"     => true,   //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "assignToMe"    => true,   //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+                "file" => [ 
+                    "ins" => [
+                        "blobName"  => "INS.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ins,
+                        "size"      => $size_ins,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"pat" => [
+                        "blobName"  => "PAT.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_pat,
+                        "size"      => $size_pat,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"opd" => [
+                        "blobName"  => "OPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_opd,
+                        "size"      => $size_opd,
+                        "encoding"  => "UTF-8"
+                    ] 
+                    ,"orf" => [
+                        "blobName"  => "ORF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_orf,
+                        "size"      => $size_orf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"odx" => [
+                        "blobName"  => "ODX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      =>  $blob_odx,
+                        "size"      =>  $size_odx,
+                        "encoding"  => "UTF-8"
+                    ]  
+                    ,"oop" => [
+                        "blobName"  => "OOP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_oop,
+                        "size"      => $size_oop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"ipd" => [
+                        "blobName"  => "IPD.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_ipd,
+                        "size"      => $size_ipd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"irf" => [
+                        "blobName"  => "IRF.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_irf,
+                        "size"      => $size_irf,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"idx" => [
+                        "blobName"  => "IDX.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_idx,
+                        "size"      => $size_idx,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"iop" => [
+                        "blobName"  => "IOP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_iop,
+                        "size"      => $size_iop,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cht" => [
+                        "blobName"  => "CHT.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_cht,
+                        "size"      => $size_cht,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"cha" => [
+                        "blobName"  => "CHA.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_cha,
+                        "size"      => $size_cha,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"aer" => [
+                        "blobName"  => "AER.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_aer,
+                        "size"      => $size_aer,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"adp" => [
+                        "blobName"  => "ADP.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_adp,
+                        "size"      => $size_adp,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"lvd" => [
+                        "blobName"  => "LDV.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_lvd,
+                        "size"      => $size_lvd,
+                        "encoding"  => "UTF-8"
+                    ]
+                    ,"dru" => [
+                        "blobName"  => "DRUG.txt",
+                        "blobType"  => "text/plain",
+                        "blob"      => $blob_dru,
+                        "size"      => $size_dru,
                         "encoding"  => "UTF-8"
                     ]
                     ,"lab" => null
@@ -1227,7 +1504,7 @@ class Ofc401_apiController extends Controller
         // dump($response->message());
         // $status2 = $response->getStatusCode();
 
-        dd($status);
+        dd($response);
         
           
             // ************************
