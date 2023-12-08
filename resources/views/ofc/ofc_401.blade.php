@@ -144,7 +144,7 @@ $pos = strrpos($url, '/') + 1;
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
-                <div class="card-header">
+                <div class="card-header shadow-lg" style="background-color: #fcd6c1">
                      OFC ข้าราชการ
                     <div class="btn-actions-pane-right">
                         {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
@@ -1041,8 +1041,8 @@ $pos = strrpos($url, '/') + 1;
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({
-                                                title: 'ส่งข้อมูลสำเร็จ',
-                                                text: "You Send data success",
+                                                title: 'ส่งข้อมูลไป New Eclaim สำเร็จ',
+                                                text: "You Send data New Eclaim success",
                                                 icon: 'success',
                                                 showCancelButton: false,
                                                 confirmButtonColor: '#06D177',

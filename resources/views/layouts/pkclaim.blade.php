@@ -54,6 +54,7 @@
     <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet"> --}}
     <!-- Plugins css -->
     {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
      <!-- Responsive datatable examples -->
@@ -88,6 +89,8 @@
 </style>
 
 <body data-topbar="dark">
+    {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
+        {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
     {{-- <body style="background-image: url('my_bg.jpg');"> --}}
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -101,10 +104,11 @@
                     <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20">
+                                {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
+                                <h4 style="color:rgba(247, 217, 217, 0.781)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
 

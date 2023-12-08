@@ -2545,6 +2545,9 @@ Route::match(['get','post'],'ucep24_claim_process',[App\Http\Controllers\Ucep24C
 Route::match(['get','post'],'ucep24_claim_upucep',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim_upucep'])->name('data.ucep24_claim_upucep');//  UCEP24
 Route::match(['get','post'],'ucep24_claim_export',[App\Http\Controllers\Ucep24Controller::class, 'ucep24_claim_export'])->name('data.ucep24_claim_export');//  UCEP24
 
+Route::match(['get','post'],'ucep24_claim_export_api',[App\Http\Controllers\Ucep24_APiController::class, 'ucep24_claim_export_api'])->name('data.ucep24_claim_export_api');//  UCEP24
+Route::match(['get','post'],'UCEP24_sendapi',[App\Http\Controllers\Ucep24_APiController::class, 'UCEP24_sendapi'])->name('data.UCEP24_sendapi');//  UCEP24
+
 Route::match(['get','post'],'imc',[App\Http\Controllers\ImcController::class, 'imc'])->name('data.imc');//  IMC
 
 Route::match(['get','post'],'six',[App\Http\Controllers\SixteenController::class, 'six'])->name('data.six');//

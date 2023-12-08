@@ -86,9 +86,9 @@ $pos = strrpos($url, '/') + 1;
     <form action="{{ url('ucep24_claim') }}" method="POST">
             @csrf
     <div class="row"> 
-            <div class="col"></div>
+            {{-- <div class="col"></div> --}}
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-11 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
@@ -103,14 +103,22 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
                     </button>
-                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
-                        <i class="fa-solid fa-spinner text-info me-2"></i> 
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-warning Updatedata" >
+                        <i class="fa-solid fa-spinner text-warning me-2"></i> 
                         Update Ucep24
                     </button>
-                    <a href="{{url('ucep24_claim_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
+                    {{-- <a href="{{url('ucep24_claim_export')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger">
                         <i class="fa-solid fa-file-export text-danger me-2"></i>
                         Export
-                    </a>
+                    </a> --}}
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" id="ExportdataAPI">
+                        <i class="fa-solid fa-upload text-danger me-2"></i>
+                        Export
+                    </button>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="SenddataAPI">
+                        <i class="fa-solid fa-upload text-primary me-2"></i>
+                        ส่ง New Eclaim
+                    </button>
                 </div>
             </div>
           
@@ -119,7 +127,7 @@ $pos = strrpos($url, '/') + 1;
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
-                <div class="card-header" style="background-color: rgb(180, 250, 227)">
+                <div class="card-header shadow-lg" style="background-color: rgb(180, 250, 227)">
                     รายละเอียด UCEP 24
                     <div class="btn-actions-pane-right">
                         {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Updatedata" >
@@ -1051,7 +1059,117 @@ $pos = strrpos($url, '/') + 1;
                                 
                             }
                     })
-            });
+        });
+
+        $('#SenddataAPI').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการส่งข้อมูลไป New Eclaim ใช่ไหม ?',
+                        text: "You Warn Send Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, send it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('data.UCEP24_sendapi') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ส่งข้อมูลไป New Eclaim สำเร็จ',
+                                                text: "You Send data New Eclaim success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+        });
+
+        $('#ExportdataAPI').click(function() {
+                var datepicker = $('#datepicker').val(); 
+                var datepicker2 = $('#datepicker2').val(); 
+                Swal.fire({
+                        title: 'ต้องการส่งออก ใช่ไหม ?',
+                        text: "You Warn Send Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, send it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('data.ucep24_claim_export_api') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {
+                                        datepicker,
+                                        datepicker2                        
+                                    },
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({
+                                                title: 'ส่งออกสำเร็จ',
+                                                text: "You Export data success",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    window.location.reload();
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+        });
 
     });
 </script>
