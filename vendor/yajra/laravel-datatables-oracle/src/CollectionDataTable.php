@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -72,7 +73,7 @@ class CollectionDataTable extends DataTableAbstract
     /**
      * Factory method, create and return an instance for the DataTable engine.
      *
-     * @param  array|\Illuminate\Support\Collection<array-key, array>  $source
+     * @param  AnonymousResourceCollection|array|\Illuminate\Support\Collection<array-key, array>  $source
      * @return static
      */
     public static function create($source)
@@ -91,7 +92,7 @@ class CollectionDataTable extends DataTableAbstract
      */
     public function count(): int
     {
-        return ($this->collection->count() > $this->totalRecords) ? $this->totalRecords : $this->collection->count();
+        return $this->collection->count();
     }
 
     /**
@@ -111,8 +112,6 @@ class CollectionDataTable extends DataTableAbstract
             if (! $this->request->isColumnSearchable($i) || $this->isBlacklisted($column)) {
                 continue;
             }
-
-            $this->isFilterApplied = true;
 
             $regex = $this->request->isRegex($i);
             $keyword = $this->request->columnKeyword($i);
@@ -188,16 +187,6 @@ class CollectionDataTable extends DataTableAbstract
     }
 
     /**
-     * Count total items.
-     *
-     * @return int
-     */
-    public function totalCount(): int
-    {
-        return $this->totalRecords ?: $this->collection->count();
-    }
-
-    /**
      * Get results.
      *
      * @return \Illuminate\Support\Collection<array-key, array>
@@ -254,8 +243,6 @@ class CollectionDataTable extends DataTableAbstract
         $keyword = $this->config->isCaseInsensitive() ? Str::lower($keyword) : $keyword;
 
         $this->collection = $this->collection->filter(function ($row) use ($keyword) {
-            $this->isFilterApplied = true;
-
             $data = $this->serialize($row);
             foreach ($this->request->searchableColumnIndex() as $index) {
                 $column = $this->getColumnName($index);
@@ -330,9 +317,9 @@ class CollectionDataTable extends DataTableAbstract
                         $cmp = 0;
                     }
                 } elseif ($this->config->isCaseInsensitive()) {
-                    $cmp = strnatcasecmp($first[$column] ?? null, $second[$column] ?? null);
+                    $cmp = strnatcasecmp($first[$column] ?? '', $second[$column] ?? '');
                 } else {
-                    $cmp = strnatcmp($first[$column] ?? null, $second[$column] ?? null);
+                    $cmp = strnatcmp($first[$column] ?? '', $second[$column] ?? '');
                 }
                 if ($cmp != 0) {
                     return $cmp;
@@ -347,10 +334,10 @@ class CollectionDataTable extends DataTableAbstract
     /**
      * Resolve callback parameter instance.
      *
-     * @return static
+     * @return array<int|string, mixed>
      */
-    protected function resolveCallbackParameter(): self
+    protected function resolveCallbackParameter(): array
     {
-        return $this;
+        return [$this, false];
     }
 }

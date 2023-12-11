@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Yajra\DataTables\Exceptions\Exception;
 
 /**
@@ -19,22 +20,15 @@ class EloquentDataTable extends QueryDataTable
     /**
      * EloquentEngine constructor.
      *
-     * @param  \Illuminate\Database\Eloquent\Model|EloquentBuilder  $model
-     *
-     * @throws \Yajra\DataTables\Exceptions\Exception
+     * @param  Model|EloquentBuilder  $model
      */
-    public function __construct($model)
+    public function __construct(Model|EloquentBuilder $model)
     {
-        switch ($model) {
-            case $model instanceof Model:
-                $builder = $model->newQuery();
-                break;
-            case $model instanceof EloquentBuilder:
-                $builder = $model;
-                break;
-            default:
-                throw new Exception('Invalid model type. Must be an instance of Eloquent Model or Eloquent Builder.');
-        }
+        $builder = match (true) {
+            $model instanceof Model => $model->newQuery(),
+            $model instanceof Relation => $model->getQuery(),
+            $model instanceof EloquentBuilder => $model,
+        };
 
         parent::__construct($builder->getQuery());
 
@@ -87,23 +81,48 @@ class EloquentDataTable extends QueryDataTable
     /**
      * @inheritDoc
      */
-    protected function compileQuerySearch($query, string $column, string $keyword, string $boolean = 'or'): void
+    protected function compileQuerySearch($query, string $column, string $keyword, string $boolean = 'or', bool $nested = false): void
     {
+        if (substr_count($column, '.') > 1) {
+            $parts = explode('.', $column);
+            $firstRelation = array_shift($parts);
+            $column = implode('.', $parts);
+
+            if ($this->isMorphRelation($firstRelation)) {
+                $query->{$boolean.'WhereHasMorph'}(
+                    $firstRelation,
+                    '*',
+                    function (EloquentBuilder $query) use ($column, $keyword) {
+                        parent::compileQuerySearch($query, $column, $keyword, '');
+                    }
+                );
+            } else {
+                $query->{$boolean.'WhereHas'}($firstRelation, function (EloquentBuilder $query) use ($column, $keyword) {
+                    self::compileQuerySearch($query, $column, $keyword, '', true);
+                });
+            }
+
+            return;
+        }
+
         $parts = explode('.', $column);
         $newColumn = array_pop($parts);
         $relation = implode('.', $parts);
 
-        if ($this->isNotEagerLoaded($relation)) {
+        if (! $nested && $this->isNotEagerLoaded($relation)) {
             parent::compileQuerySearch($query, $column, $keyword, $boolean);
 
             return;
         }
 
         if ($this->isMorphRelation($relation)) {
-            $query->{$boolean.'WhereHasMorph'}($relation, '*',
+            $query->{$boolean.'WhereHasMorph'}(
+                $relation,
+                '*',
                 function (EloquentBuilder $query) use ($newColumn, $keyword) {
                     parent::compileQuerySearch($query, $newColumn, $keyword, '');
-                });
+                }
+            );
         } else {
             $query->{$boolean.'WhereHas'}($relation, function (EloquentBuilder $query) use ($newColumn, $keyword) {
                 parent::compileQuerySearch($query, $newColumn, $keyword, '');
@@ -188,7 +207,7 @@ class EloquentDataTable extends QueryDataTable
 
                     $related = $model->getRelated();
                     $table = $related->getTable();
-                    $tablePK = $related->getForeignKey();
+                    $tablePK = $model->getRelatedPivotKeyName();
                     $foreign = $pivot.'.'.$tablePK;
                     $other = $related->getQualifiedKeyName();
 
@@ -199,15 +218,17 @@ class EloquentDataTable extends QueryDataTable
 
                 case $model instanceof HasOneThrough:
                     $pivot = explode('.', $model->getQualifiedParentKeyName())[0]; // extract pivot table from key
-                    $pivotPK = $pivot.'.'.$model->getLocalKeyName();
+                    $pivotPK = $pivot.'.'.$model->getFirstKeyName();
                     $pivotFK = $model->getQualifiedLocalKeyName();
                     $this->performJoin($pivot, $pivotPK, $pivotFK);
 
                     $related = $model->getRelated();
                     $table = $related->getTable();
-                    $tablePK = $related->getForeignKey();
+                    $tablePK = $model->getSecondLocalKeyName();
                     $foreign = $pivot.'.'.$tablePK;
                     $other = $related->getQualifiedKeyName();
+
+                    $lastQuery->addSelect($lastQuery->getModel()->getTable().'.*');
 
                     break;
 

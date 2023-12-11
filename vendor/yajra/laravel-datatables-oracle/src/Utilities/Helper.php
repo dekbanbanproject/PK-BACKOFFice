@@ -2,10 +2,13 @@
 
 namespace Yajra\DataTables\Utilities;
 
+use Closure;
 use DateTime;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use ReflectionFunction;
+use ReflectionMethod;
 
 class Helper
 {
@@ -52,6 +55,36 @@ class Helper
     }
 
     /**
+     * Gets the parameter of a callable thing (from is_callable) and returns it's arguments using reflection.
+     *
+     * @param  callable  $callable
+     * @return \ReflectionParameter[]
+     *
+     * @throws \ReflectionException
+     * @throws \InvalidArgumentException
+     */
+    private static function reflectCallableParameters($callable)
+    {
+        /*
+        loosely after https://github.com/technically-php/callable-reflection/blob/main/src/CallableReflection.php#L72-L86.
+        Licence is compatible, both project use MIT
+        */
+        if ($callable instanceof Closure) {
+            $reflection = new ReflectionFunction($callable);
+        } elseif (is_string($callable) && function_exists($callable)) {
+            $reflection = new ReflectionFunction($callable);
+        } elseif (is_string($callable) && str_contains($callable, '::')) {
+            $reflection = new ReflectionMethod($callable);
+        } elseif (is_object($callable) && method_exists($callable, '__invoke')) {
+            $reflection = new ReflectionMethod($callable, '__invoke');
+        } else {
+            throw new \InvalidArgumentException('argument is not callable or the code is wrong');
+        }
+
+        return $reflection->getParameters();
+    }
+
+    /**
      * Determines if content is callable or blade string, processes and returns.
      *
      * @param  mixed  $content  Pre-processed content
@@ -59,14 +92,28 @@ class Helper
      * @param  array|object  $param  parameter to call with callable
      * @return mixed
      *
-     * @throws \Exception
+     * @throws \ReflectionException
      */
     public static function compileContent($content, array $data, array|object $param)
     {
         if (is_string($content)) {
             return static::compileBlade($content, static::getMixedValue($data, $param));
-        } elseif (is_callable($content)) {
+        }
+
+        if (is_callable($content)) {
+            $arguments = self::reflectCallableParameters($content);
+
+            if (count($arguments) > 0) {
+                return app()->call($content, [$arguments[0]->name => $param]);
+            }
+
             return $content($param);
+        }
+
+        if (is_array($content)) {
+            [$view, $viewData] = $content;
+
+            return static::compileBlade($view, static::getMixedValue($data, $param) + $viewData);
         }
 
         return $content;
@@ -78,8 +125,6 @@ class Helper
      * @param  string  $str
      * @param  array  $data
      * @return false|string
-     *
-     * @throws \Exception
      */
     public static function compileBlade($str, $data = [])
     {
@@ -157,12 +202,29 @@ class Helper
      */
     public static function convertToArray($row, $filters = [])
     {
+        if (Arr::get($filters, 'ignore_getters') && is_object($row) && method_exists($row, 'getAttributes')) {
+            $data = $row->getAttributes();
+            if (method_exists($row, 'getRelations')) {
+                foreach ($row->getRelations() as $relationName => $relation) {
+                    if (is_iterable($relation)) {
+                        foreach ($relation as $relationItem) {
+                            $data[$relationName][] = self::convertToArray($relationItem, ['ignore_getters' => true]);
+                        }
+                    } else {
+                        $data[$relationName] = self::convertToArray($relation, ['ignore_getters' => true]);
+                    }
+                }
+            }
+
+            return $data;
+        }
+
         $row = is_object($row) && method_exists($row, 'makeHidden') ? $row->makeHidden(Arr::get($filters, 'hidden',
             [])) : $row;
         $row = is_object($row) && method_exists($row, 'makeVisible') ? $row->makeVisible(Arr::get($filters, 'visible',
             [])) : $row;
-        $data = $row instanceof Arrayable ? $row->toArray() : (array) $row;
 
+        $data = $row instanceof Arrayable ? $row->toArray() : (array) $row;
         foreach ($data as &$value) {
             if (is_object($value) || is_array($value)) {
                 $value = self::convertToArray($value);
@@ -197,8 +259,8 @@ class Helper
             if ($value instanceof DateTime) {
                 $row[$key] = $value->format('Y-m-d H:i:s');
             } else {
-                if (is_object($value)) {
-                    $row[$key] = (string) $value;
+                if (is_object($value) && method_exists($value, '__toString')) {
+                    $row[$key] = $value->__toString();
                 } else {
                     $row[$key] = $value;
                 }
@@ -341,7 +403,7 @@ class Helper
         return str_replace($replacements, $values, $json);
     }
 
-    public static function isJavascript(string|array|object $value, string $key): bool
+    public static function isJavascript(string|array|object|null $value, string $key): bool
     {
         if (empty($value) || is_array($value) || is_object($value)) {
             return false;
@@ -349,6 +411,10 @@ class Helper
 
         /** @var array $callbacks */
         $callbacks = config('datatables.callback', ['$', '$.', 'function']);
+
+        if (Str::startsWith($key, 'language.')) {
+            return false;
+        }
 
         return Str::startsWith(trim($value), $callbacks) || Str::contains($key, ['editor', 'minDate', 'maxDate']);
     }

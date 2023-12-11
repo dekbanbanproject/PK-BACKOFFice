@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Traits\Macroable;
 use Yajra\DataTables\Exceptions\Exception;
+use Yajra\DataTables\Html\Builder;
 
 class DataTables
 {
@@ -21,11 +22,9 @@ class DataTables
     /**
      * HTML builder instance.
      *
-     * @phpstan-ignore-next-line
-     *
      * @var \Yajra\DataTables\Html\Builder|null
      */
-    protected $html = null;
+    protected ?Builder $html = null;
 
     /**
      * Make a DataTable instance from source.
@@ -60,8 +59,10 @@ class DataTables
                 $callback = [$engines[$engine], 'create'];
 
                 if (is_callable($callback)) {
-                    // @phpstan-ignore-next-line
-                    return call_user_func_array($callback, $args);
+                    /** @var \Yajra\DataTables\DataTableAbstract $instance */
+                    $instance = call_user_func_array($callback, $args);
+
+                    return $instance;
                 }
             }
         }
@@ -72,8 +73,10 @@ class DataTables
                 $create = [$engine, 'create'];
 
                 if (is_callable($create)) {
-                    // @phpstan-ignore-next-line
-                    return call_user_func_array($create, $args);
+                    /** @var \Yajra\DataTables\DataTableAbstract $instance */
+                    $instance = call_user_func_array($create, $args);
+
+                    return $instance;
                 }
             }
         }
@@ -109,7 +112,12 @@ class DataTables
      */
     public function query(QueryBuilder $builder): QueryDataTable
     {
-        return QueryDataTable::create($builder);
+        /** @var string */
+        $dataTable = config('datatables.engines.query');
+
+        $this->validateDataTable($dataTable, QueryDataTable::class);
+
+        return $dataTable::create($builder);
     }
 
     /**
@@ -120,7 +128,12 @@ class DataTables
      */
     public function eloquent(EloquentBuilder $builder): EloquentDataTable
     {
-        return EloquentDataTable::create($builder);
+        /** @var string */
+        $dataTable = config('datatables.engines.eloquent');
+
+        $this->validateDataTable($dataTable, EloquentDataTable::class);
+
+        return $dataTable::create($builder);
     }
 
     /**
@@ -131,24 +144,64 @@ class DataTables
      */
     public function collection($collection): CollectionDataTable
     {
-        return CollectionDataTable::create($collection);
+        /** @var string */
+        $dataTable = config('datatables.engines.collection');
+
+        $this->validateDataTable($dataTable, CollectionDataTable::class);
+
+        return $dataTable::create($collection);
+    }
+
+    /**
+     * DataTables using Collection.
+     *
+     * @param  \Illuminate\Http\Resources\Json\AnonymousResourceCollection<array-key, array>|array  $resource
+     * @return ApiResourceDataTable|DataTableAbstract
+     */
+    public function resource($resource)
+    {
+        return ApiResourceDataTable::create($resource);
     }
 
     /**
      * Get html builder instance.
      *
-     * @phpstan-ignore-next-line
-     *
      * @return \Yajra\DataTables\Html\Builder
      *
-     * @throws Exception
+     * @throws \Yajra\DataTables\Exceptions\Exception
      */
     public function getHtmlBuilder()
     {
-        if (! class_exists('\Yajra\DataTables\Html\Builder')) {
+        if (! class_exists(Builder::class)) {
             throw new Exception('Please install yajra/laravel-datatables-html to be able to use this function.');
         }
 
         return $this->html ?: $this->html = app('datatables.html');
+    }
+
+    /**
+     * @param  string  $engine
+     * @param  string  $parent
+     * @return void
+     *
+     * @throws \Yajra\DataTables\Exceptions\Exception
+     */
+    public function validateDataTable(string $engine, string $parent): void
+    {
+        if (! ($engine == $parent || is_subclass_of($engine, $parent))) {
+            $this->throwInvalidEngineException($engine, $parent);
+        }
+    }
+
+    /**
+     * @param  string  $engine
+     * @param  string  $parent
+     * @return void
+     *
+     * @throws \Yajra\DataTables\Exceptions\Exception
+     */
+    public function throwInvalidEngineException(string $engine, string $parent): void
+    {
+        throw new Exception("The given datatable engine `{$engine}` is not compatible with `{$parent}`.");
     }
 }

@@ -5,9 +5,11 @@ namespace Yajra\DataTables;
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Expression;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Utilities\Helper;
 
@@ -42,18 +44,68 @@ class QueryDataTable extends DataTableAbstract
     protected $limitCallback = null;
 
     /**
-     * Flag to skip total records count query.
-     *
-     * @var bool
-     */
-    protected bool $skipTotalRecords = false;
-
-    /**
      * Flag to keep the select bindings.
      *
      * @var bool
      */
     protected bool $keepSelectBindings = false;
+
+    /**
+     * Flag to ignore the selects in count query.
+     *
+     * @var bool
+     */
+    protected bool $ignoreSelectInCountQuery = false;
+
+    /**
+     * Enable scout search and use this model for searching.
+     *
+     * @var Model|null
+     */
+    protected ?Model $scoutModel = null;
+
+    /**
+     * Maximum number of hits to return from scout.
+     *
+     * @var int
+     */
+    protected int $scoutMaxHits = 1000;
+
+    /**
+     * Add dynamic filters to scout search.
+     *
+     * @var callable|null
+     */
+    protected $scoutFilterCallback = null;
+
+    /**
+     * Flag if scout search was performed.
+     *
+     * @var bool
+     */
+    protected bool $scoutSearched = false;
+
+    /**
+     * Scout index name.
+     *
+     * @var string
+     */
+    protected string $scoutIndex;
+
+    /**
+     * Scout key name.
+     *
+     * @var string
+     */
+    protected string $scoutKey;
+
+    /**
+     * Flag to disable user ordering if a fixed ordering was performed (e.g. scout search).
+     * Only works with corresponding javascript listener.
+     *
+     * @var bool
+     */
+    protected $disableUserOrdering = false;
 
     /**
      * @param  QueryBuilder  $builder
@@ -89,7 +141,7 @@ class QueryDataTable extends DataTableAbstract
      */
     public static function canCreate($source): bool
     {
-        return $source instanceof QueryBuilder;
+        return $source instanceof QueryBuilder && ! ($source instanceof EloquentBuilder);
     }
 
     /**
@@ -103,9 +155,7 @@ class QueryDataTable extends DataTableAbstract
     public function make($mDataSupport = true): JsonResponse
     {
         try {
-            $this->prepareQuery();
-
-            $results = $this->results();
+            $results = $this->prepareQuery()->results();
             $processed = $this->processResults($results, $mDataSupport);
             $data = $this->transform($results, $processed);
 
@@ -116,37 +166,33 @@ class QueryDataTable extends DataTableAbstract
     }
 
     /**
-     * Prepare query by executing count, filter, order and paginate.
+     * Get paginated results.
+     *
+     * @return \Illuminate\Support\Collection<int, array>
      */
-    protected function prepareQuery(): void
+    public function results(): Collection
+    {
+        return $this->query->get();
+    }
+
+    /**
+     * Prepare query by executing count, filter, order and paginate.
+     *
+     * @return $this
+     */
+    public function prepareQuery(): static
     {
         if (! $this->prepared) {
             $this->totalRecords = $this->totalCount();
 
-            if ($this->totalRecords) {
-                $this->filterRecords();
-                $this->ordering();
-                $this->paginate();
-            }
+            $this->filterRecords();
+            $this->ordering();
+            $this->paginate();
         }
 
         $this->prepared = true;
-    }
 
-    /**
-     * Count total items.
-     *
-     * @return int
-     */
-    public function totalCount(): int
-    {
-        if ($this->skipTotalRecords) {
-            $this->isFilterApplied = true;
-
-            return 1;
-        }
-
-        return $this->totalRecords ?: $this->count();
+        return $this;
     }
 
     /**
@@ -169,9 +215,20 @@ class QueryDataTable extends DataTableAbstract
         $builder = clone $this->query;
 
         if ($this->isComplexQuery($builder)) {
-            $table = $this->getConnection()->raw('('.$builder->toSql().') count_row_table');
+            $builder->select(DB::raw('1 as dt_row_count'));
+            if ($this->ignoreSelectInCountQuery || ! $this->isComplexQuery($builder)) {
+                return $this->getConnection()
+                    ->query()
+                    ->fromRaw('('.$builder->toSql().') count_row_table')
+                    ->setBindings($builder->getBindings());
+            }
 
-            return $this->getConnection()->table($table)->setBindings($builder->getBindings());
+            $builder = clone $this->query;
+
+            return $this->getConnection()
+                ->query()
+                ->fromRaw('('.$builder->toSql().') count_row_table')
+                ->setBindings($builder->getBindings());
         }
 
         $row_count = $this->wrap('row_count');
@@ -206,38 +263,44 @@ class QueryDataTable extends DataTableAbstract
     }
 
     /**
-     * Get paginated results.
-     *
-     * @return \Illuminate\Support\Collection<int, array>
-     */
-    public function results(): Collection
-    {
-        return $this->query->get();
-    }
-
-    /**
-     * Skip total records and set the recordsTotal equals to recordsFiltered.
-     * This will improve the performance by skipping the total count query.
-     *
-     * @return static
-     */
-    public function skipTotalRecords(): self
-    {
-        $this->skipTotalRecords = true;
-
-        return $this;
-    }
-
-    /**
      * Keep the select bindings.
      *
-     * @return static
+     * @return $this
      */
-    public function keepSelectBindings(): self
+    public function keepSelectBindings(): static
     {
         $this->keepSelectBindings = true;
 
         return $this;
+    }
+
+    /**
+     * Perform column search.
+     *
+     * @return void
+     */
+    protected function filterRecords(): void
+    {
+        $initialQuery = clone $this->query;
+
+        if ($this->autoFilter && $this->request->isSearchable()) {
+            $this->filtering();
+        }
+
+        if (is_callable($this->filterCallback)) {
+            call_user_func_array($this->filterCallback, $this->resolveCallbackParameter());
+        }
+
+        $this->columnSearch();
+        $this->searchPanesSearch();
+
+        // If no modification between the original query and the filtered one has been made
+        // the filteredRecords equals the totalRecords
+        if ($this->query == $initialQuery) {
+            $this->filteredRecords ??= $this->totalRecords;
+        } else {
+            $this->filteredCount();
+        }
     }
 
     /**
@@ -268,8 +331,6 @@ class QueryDataTable extends DataTableAbstract
                 $keyword = $this->getColumnSearchKeyword($index);
                 $this->compileColumnSearch($index, $column, $keyword);
             }
-
-            $this->isFilterApplied = true;
         }
     }
 
@@ -299,6 +360,19 @@ class QueryDataTable extends DataTableAbstract
         }
 
         return $this->setupKeyword($keyword);
+    }
+
+    protected function getColumnNameByIndex(int $index): string
+    {
+        $name = (isset($this->columns[$index]) && $this->columns[$index] != '*')
+            ? $this->columns[$index]
+            : $this->getPrimaryKeyName();
+
+        if ($name instanceof Expression) {
+            $name = $name->getValue($this->query->getGrammar());
+        }
+
+        return in_array($name, $this->extraColumns, true) ? $this->getPrimaryKeyName() : $name;
     }
 
     /**
@@ -345,6 +419,16 @@ class QueryDataTable extends DataTableAbstract
         }
 
         return $instance;
+    }
+
+    /**
+     * Get query builder instance.
+     *
+     * @return QueryBuilder
+     */
+    public function getQuery(): QueryBuilder
+    {
+        return $this->query;
     }
 
     /**
@@ -460,9 +544,15 @@ class QueryDataTable extends DataTableAbstract
     {
         if (! str_contains($column, '.')) {
             $q = $this->getBaseQueryBuilder($query);
+            $from = $q->from;
+
             /** @phpstan-ignore-next-line */
-            if (! $q->from instanceof Expression) {
-                $column = $q->from.'.'.$column;
+            if (! $from instanceof Expression) {
+                if (str_contains($from, ' as ')) {
+                    $from = explode(' as ', $from)[1];
+                }
+
+                $column = $from.'.'.$column;
             }
         }
 
@@ -477,12 +567,12 @@ class QueryDataTable extends DataTableAbstract
      */
     protected function prepareKeyword(string $keyword): string
     {
-        if ($this->config->isStartsWithSearch()) {
-            return "$keyword%";
-        }
-
         if ($this->config->isCaseInsensitive()) {
             $keyword = Str::lower($keyword);
+        }
+
+        if ($this->config->isStartsWithSearch()) {
+            return "$keyword%";
         }
 
         if ($this->config->isWildcard()) {
@@ -501,9 +591,9 @@ class QueryDataTable extends DataTableAbstract
      *
      * @param  string  $column
      * @param  callable  $callback
-     * @return static
+     * @return $this
      */
-    public function filterColumn($column, callable $callback): self
+    public function filterColumn($column, callable $callback): static
     {
         $this->columnDef['filter'][$column] = ['method' => $callback];
 
@@ -516,9 +606,9 @@ class QueryDataTable extends DataTableAbstract
      * @param  array  $columns
      * @param  string  $sql
      * @param  array  $bindings
-     * @return static
+     * @return $this
      */
-    public function orderColumns(array $columns, $sql, $bindings = []): self
+    public function orderColumns(array $columns, $sql, $bindings = []): static
     {
         foreach ($columns as $column) {
             $this->orderColumn($column, str_replace(':column', $column, $sql), $bindings);
@@ -533,11 +623,11 @@ class QueryDataTable extends DataTableAbstract
      * @param  string  $column
      * @param  string|\Closure  $sql
      * @param  array  $bindings
-     * @return static
+     * @return $this
      *
      * @internal string $1 Special variable that returns the requested order direction of the column.
      */
-    public function orderColumn($column, $sql, $bindings = []): self
+    public function orderColumn($column, $sql, $bindings = []): static
     {
         $this->columnDef['order'][$column] = compact('sql', 'bindings');
 
@@ -547,25 +637,11 @@ class QueryDataTable extends DataTableAbstract
     /**
      * Set datatables to do ordering with NULLS LAST option.
      *
-     * @return static
+     * @return $this
      */
-    public function orderByNullsLast(): self
+    public function orderByNullsLast(): static
     {
         $this->nullsLast = true;
-
-        return $this;
-    }
-
-    /**
-     * Paginate dataTable using limit without offset
-     * with additional where clause via callback.
-     *
-     * @param  callable  $callback
-     * @return static
-     */
-    public function limit(callable $callback): self
-    {
-        $this->limitCallback = $callback;
 
         return $this;
     }
@@ -591,14 +667,28 @@ class QueryDataTable extends DataTableAbstract
     }
 
     /**
+     * Paginate dataTable using limit without offset
+     * with additional where clause via callback.
+     *
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function limit(callable $callback): static
+    {
+        $this->limitCallback = $callback;
+
+        return $this;
+    }
+
+    /**
      * Add column in collection.
      *
      * @param  string  $name
      * @param  string|callable  $content
      * @param  bool|int  $order
-     * @return static
+     * @return $this
      */
-    public function addColumn($name, $content, $order = false): self
+    public function addColumn($name, $content, $order = false): static
     {
         $this->pushToBlacklist($name);
 
@@ -628,34 +718,17 @@ class QueryDataTable extends DataTableAbstract
             } else {
                 $this->query->whereIn($column, $values);
             }
-
-            $this->isFilterApplied = true;
         }
-    }
-
-    /**
-     * Count filtered items.
-     *
-     * @return int
-     */
-    protected function filteredCount(): int
-    {
-        $this->filteredRecords = $this->filteredRecords ?: $this->count();
-        if ($this->skipTotalRecords) {
-            $this->totalRecords = $this->filteredRecords;
-        }
-
-        return $this->filteredRecords;
     }
 
     /**
      * Resolve callback parameter instance.
      *
-     * @return QueryBuilder
+     * @return array<int|string, mixed>
      */
-    protected function resolveCallbackParameter()
+    protected function resolveCallbackParameter(): array
     {
-        return $this->query;
+        return [$this->query, $this->scoutSearched];
     }
 
     /**
@@ -680,7 +753,9 @@ class QueryDataTable extends DataTableAbstract
             ->each(function ($orderable) {
                 $column = $this->resolveRelationColumn($orderable['name']);
 
-                if ($this->hasOrderColumn($column)) {
+                if ($this->hasOrderColumn($orderable['name'])) {
+                    $this->applyOrderColumn($orderable['name'], $orderable);
+                } elseif ($this->hasOrderColumn($column)) {
                     $this->applyOrderColumn($column, $orderable);
                 } else {
                     $nullsLastSql = $this->getNullsLastSql($column, $orderable['direction']);
@@ -754,6 +829,11 @@ class QueryDataTable extends DataTableAbstract
      */
     protected function globalSearch(string $keyword): void
     {
+        // Try scout search first & fall back to default search if disabled/failed
+        if ($this->applyScoutSearch($keyword)) {
+            return;
+        }
+
         $this->query->where(function ($query) use ($keyword) {
             collect($this->request->searchableColumnIndex())
                 ->map(function ($index) {
@@ -769,8 +849,6 @@ class QueryDataTable extends DataTableAbstract
                     } else {
                         $this->compileQuerySearch($query, $column, $keyword);
                     }
-
-                    $this->isFilterApplied = true;
                 });
         });
     }
@@ -785,8 +863,8 @@ class QueryDataTable extends DataTableAbstract
     {
         $query_log = $this->getConnection()->getQueryLog();
         array_walk_recursive($query_log, function (&$item) {
-            if (is_string($item)) {
-                $item = utf8_encode($item);
+            if (is_string($item) && extension_loaded('iconv')) {
+                $item = iconv('iso-8859-1', 'utf-8', $item);
             }
         });
 
@@ -813,6 +891,9 @@ class QueryDataTable extends DataTableAbstract
             }
         }
 
+        // Set flag to disable ordering
+        $appends['disableOrdering'] = $this->disableUserOrdering;
+
         return array_merge($data, $appends);
     }
 
@@ -829,12 +910,226 @@ class QueryDataTable extends DataTableAbstract
     }
 
     /**
-     * Get query builder instance.
+     * Ignore the selects in count query.
      *
-     * @return QueryBuilder
+     * @return $this
      */
-    public function getQuery(): QueryBuilder
+    public function ignoreSelectsInCountQuery(): static
     {
-        return $this->query;
+        $this->ignoreSelectInCountQuery = true;
+
+        return $this;
+    }
+
+    /**
+     * Perform sorting of columns.
+     *
+     * @return void
+     */
+    public function ordering(): void
+    {
+        // Skip if user ordering is disabled (e.g. scout search)
+        if ($this->disableUserOrdering) {
+            return;
+        }
+
+        parent::ordering();
+    }
+
+    /**
+     * Enable scout search and use provided model for searching.
+     * $max_hits is the maximum number of hits to return from scout.
+     *
+     * @param  string  $model
+     * @param  int  $max_hits
+     * @return $this
+     *
+     * @throws \Exception
+     */
+    public function enableScoutSearch(string $model, int $max_hits = 1000): static
+    {
+        $scout_model = new $model;
+        if (! class_exists($model) || ! ($scout_model instanceof Model)) {
+            throw new \Exception("$model must be an Eloquent Model.");
+        }
+        if (! method_exists($scout_model, 'searchableAs') || ! method_exists($scout_model, 'getScoutKeyName')) {
+            throw new \Exception("$model must use the Searchable trait.");
+        }
+
+        $this->scoutModel = $scout_model;
+        $this->scoutMaxHits = $max_hits;
+        $this->scoutIndex = $this->scoutModel->searchableAs();
+        $this->scoutKey = $this->scoutModel->getScoutKeyName();
+
+        return $this;
+    }
+
+    /**
+     * Add dynamic filters to scout search.
+     *
+     * @param  callable  $callback
+     * @return $this
+     */
+    public function scoutFilter(callable $callback): static
+    {
+        $this->scoutFilterCallback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Apply scout search to query if enabled.
+     *
+     * @param  string  $search_keyword
+     * @return bool
+     */
+    protected function applyScoutSearch(string $search_keyword): bool
+    {
+        if ($this->scoutModel == null) {
+            return false;
+        }
+
+        try {
+            // Perform scout search
+            $search_filters = '';
+            if (is_callable($this->scoutFilterCallback)) {
+                $search_filters = ($this->scoutFilterCallback)($search_keyword);
+            }
+
+            $search_results = $this->performScoutSearch($search_keyword, $search_filters);
+
+            // Apply scout search results to query
+            $this->query->where(function ($query) use ($search_results) {
+                $this->query->whereIn($this->scoutKey, $search_results);
+            });
+
+            // Order by scout search results & disable user ordering (if db driver is supported)
+            if (count($search_results) > 0 && $this->applyFixedOrderingToQuery($this->scoutKey, $search_results)) {
+                // Disable user ordering because we already ordered by search relevancy
+                $this->disableUserOrdering = true;
+            }
+
+            $this->scoutSearched = true;
+
+            return true;
+        } catch (\Exception) {
+            // Scout search failed, fallback to default search
+            return false;
+        }
+    }
+
+    /**
+     * Apply fixed ordering to query by a fixed set of values depending on database driver (used for scout search).
+     *
+     * Currently supported drivers: MySQL
+     *
+     * @param  string  $keyName
+     * @param  array  $orderedKeys
+     * @return bool
+     */
+    protected function applyFixedOrderingToQuery(string $keyName, array $orderedKeys)
+    {
+        $connection = $this->getConnection();
+        $driverName = $connection->getDriverName();
+
+        // Escape keyName and orderedKeys
+        $keyName = $connection->getQueryGrammar()->wrap($keyName);
+        $orderedKeys = collect($orderedKeys)
+            ->map(function ($value) use ($connection) {
+                return $connection->escape($value);
+            });
+
+        switch ($driverName) {
+            case 'mysql':
+                $this->query->orderByRaw("FIELD($keyName, ".$orderedKeys->implode(',').')');
+
+                return true;
+
+            case 'pgsql':
+            case 'oracle':
+                $this->query->orderByRaw(
+                    'CASE '
+                    .
+                    $orderedKeys
+                        ->map(fn ($value, $index) => "WHEN $keyName=$value THEN $index")
+                        ->implode(' ')
+                    .
+                    ' END'
+                );
+
+                return true;
+
+            case 'sqlite':
+            case 'sqlsrv':
+                $this->query->orderByRaw(
+                    "CASE $keyName "
+                    .
+                    $orderedKeys
+                        ->map(fn ($value, $index) => "WHEN $value THEN $index")
+                        ->implode(' ')
+                    .
+                    ' END'
+                );
+
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Perform a scout search with the configured engine and given parameters. Return matching model IDs.
+     *
+     * @param  string  $searchKeyword
+     * @param  mixed  $searchFilters
+     * @return array
+     *
+     * @throws \Exception
+     */
+    protected function performScoutSearch(string $searchKeyword, mixed $searchFilters = []): array
+    {
+        if (! class_exists('\Laravel\Scout\EngineManager')) {
+            throw new \Exception('Laravel Scout is not installed.');
+        }
+        $engine = app(\Laravel\Scout\EngineManager::class)->engine();
+
+        if ($engine instanceof \Laravel\Scout\Engines\MeilisearchEngine) {
+            /** @var \Meilisearch\Client $engine */
+            $search_results = $engine
+                ->index($this->scoutIndex)
+                ->rawSearch($searchKeyword, [
+                    'limit' => $this->scoutMaxHits,
+                    'attributesToRetrieve' => [$this->scoutKey],
+                    'filter' => $searchFilters,
+                ]);
+
+            /** @var array<int, array<string, mixed>> $hits */
+            $hits = $search_results['hits'] ?? [];
+
+            return collect($hits)
+                ->pluck($this->scoutKey)
+                ->all();
+        } elseif ($engine instanceof \Laravel\Scout\Engines\AlgoliaEngine) {
+            /** @var \Algolia\AlgoliaSearch\SearchClient $engine */
+            $algolia = $engine->initIndex($this->scoutIndex);
+
+            $search_results = $algolia->search($searchKeyword, [
+                'offset' => 0,
+                'length' => $this->scoutMaxHits,
+                'attributesToRetrieve' => [$this->scoutKey],
+                'attributesToHighlight' => [],
+                'filters' => $searchFilters,
+            ]);
+
+            /** @var array<int, array<string, mixed>> $hits */
+            $hits = $search_results['hits'] ?? [];
+
+            return collect($hits)
+                ->pluck($this->scoutKey)
+                ->all();
+        } else {
+            throw new \Exception('Unsupported Scout Engine. Currently supported: Meilisearch, Algolia');
+        }
     }
 }
