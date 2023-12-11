@@ -21,10 +21,12 @@ return new class extends Migration
                 $table->string('plan_name')->nullable();//         แผนงาน/โครงการ
                 $table->string('plan_obj')->nullable();//          วัตถุประสงค์ /ตัวชี้วัด
                 $table->string('plan_type')->nullable();//         แหล่งงบประมาณ
-                $table->string('plan_price')->nullable();//       งบประมาณ 
                 $table->date('plan_starttime')->nullable();//     ระยะเวลา 
                 $table->date('plan_endtime')->nullable();//       ระยะเวลา  
+                $table->string('plan_price')->nullable();//       งบประมาณ   
+                $table->string('plan_req_no')->nullable();//              
                 $table->string('plan_reqtotal')->nullable();//   รวมเบิก
+                $table->string('plan_price_total')->nullable();//  คงเหลือ
                 $table->string('department')->nullable();//              กลุ่มงาน
                 $table->string('user_id')->nullable();//         ผู้รับผิดชอบ
                 $table->string('comment')->nullable();//                 หมายเหตุ

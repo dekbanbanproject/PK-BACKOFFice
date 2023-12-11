@@ -144,45 +144,115 @@
                     </div>
                     <div class="card-body py-0 px-2 mt-2">
                         <div class="table-responsive">
-                            <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
-                            {{-- <table class="align-middle mb-0 table table-borderless" id="example">  --}}
-                                {{-- <table class="align-middle mb-0 table table-borderless" id="example">  --}}
+                            <table class="align-middle mb-0 table table-borderless" id="example"> 
                                 <thead>
                                     <tr style="font-size: 13px">
                                         <th width="5%" class="text-center">ลำดับ</th>
                                         <th class="text-center"> แผนงาน/โครงการ</th> 
-                                        <th class="text-center">งบประมาณ</th> 
-                                        <th class="text-center">เบิก</th> 
-                                        <th class="text-center">คงเหลือ</th> 
-                                        <th width="10%" class="text-center">จัดการ</th>
-                                   
+                                        <th class="text-center">Qty / Total Price</th> 
                                         {{-- <th class="text-center">ครั้ง</th>  --}}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $i = 1; ?>
                                     @foreach ($plan_control as $va)
-                                       
+                                        <?php
+                                        $data_sub_ = DB::connection('mysql')->select(
+                                            ' SELECT 
+                                                plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+                                                FROM
+                                                plan_control p
+                                                LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
+                                                LEFT OUTER JOIN plan_control_type pt ON pt.plan_control_type_id = p.plan_type
+                                                WHERE plan_control_id = "' .
+                                                $va->plan_control_id .
+                                            '"',
+                                        );
+                                        
+                                        ?>
                                         <tr style="font-size: 13px">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
-                                            <td class="text-start">{{$va->plan_name}}</td>
-                                            <td class="text-end">{{ number_format($va->plan_price, 2) }}</td>
-                                            <td class="text-center">{{$va->plan_req_no}}</td>
-                                            <td class="text-end">{{ number_format($va->plan_price_total, 2) }}</td>
-                                            <td>
-                                                <a href="{{ url('plan_control_edit/' . $va->plan_control_id) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข"
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning">
-                                                    <i class="fa-solid fa-pen-to-square text-warning" ></i> 
-                                                </a>
-                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="เบิกเงิน"> 
-                                                    <i class="fa-brands fa-bitcoin" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
-                                                </button> 
+                                            <td class="text-start">
+
+                                                <div id="headingTwo" class="b-radius-0 card-header">
+                                                    @if ($va->plan_name == '0')
+                                                        <button type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#collapseOne2{{ $va->plan_control_id }}"
+                                                            aria-expanded="false" aria-controls="collapseTwo"
+                                                            class="text-start m-0 p-0 btn btn-link btn-block">
+                                                            <h7 style="color: rgb(207, 204, 204)">{{ $va->plan_name }}
+                                                                <label for="" style="color: red"> !! รายละเอียด คลิก
+                                                                    !!</label></h7>
+                                                        </button>
+                                                    @else
+                                                        <button type="button" data-bs-toggle="collapse"
+                                                            data-bs-target="#collapseOne2{{ $va->plan_control_id }}"
+                                                            aria-expanded="false" aria-controls="collapseTwo"
+                                                            class="text-start m-0 p-0 btn btn-link btn-block">
+                                                            <h7>{{ $va->plan_name }} <label for=""
+                                                                    style="color: red"> !! รายละเอียด คลิก !!</label></h7>
+                                                        </button>
+                                                    @endif
+
+                                                </div>
+                                                <div data-parent="#accordion" id="collapseOne2{{ $va->plan_control_id }}"
+                                                    class="collapse">
+                                                    <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-md-3 text-primary"> วัตถุประสงค์ /ตัวชี้วัด</div>
+                                                                <div class="col-md-2 text-primary"> แหล่งงบประมาณ</div>
+                                                                <div class="col-md-1 text-primary"> งบประมาณ</div>
+                                                                <div class="col-md-3 text-primary">ระยะเวลา </div>
+                                                                <div class="col-md-2 text-primary">กลุ่มงาน </div>
+                                                                <div class="col-md-1 text-primary"> จัดการ</div>
+                                                            </div>
+                                                        @foreach ($data_sub_ as $itemsub)
+                                                            <hr>
+                                                            <div class="row mt-2">
+                                                                <div class="col-md-3">{{ $itemsub->plan_obj }} </div>
+                                                                <div class="col-md-2">{{ $itemsub->plan_control_typename }} </div>
+                                                                <div class="col-md-1"> {{ $itemsub->plan_price }}</div>
+                                                                <div class="col-md-3">{{ $itemsub->plan_starttime }} ถึง {{ $itemsub->plan_endtime }} </div>
+                                                                <div class="col-md-2"> {{ $itemsub->DEPARTMENT_SUB_SUB_NAME }} </div>
+                                                                <div class="col-md-1">
+                                                                    <a href="{{ url('plan_control_edit/' . $va->plan_control_id) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข"
+                                                                        class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning">
+                                                                        <i class="fa-solid fa-pen-to-square text-warning" ></i> 
+                                                                    </a>
+                                                                    <button type="button"class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger menu MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="เบิกเงิน"> 
+                                                                    <i class="fa-brands fa-bitcoin" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
+                                                                </button> 
+                                                                </div>
+                                                            </div>
+                                                         
+                                                        @endforeach
+                                                    </div>
+                                                </div>
                                             </td>
-            
-                                   
-                                            {{-- <td class="text-center text-danger" width="10%">
-                                                {{ number_format($va->plan_price_total, 2) }}
-                                           </td> --}}
+                                            <?php
+                                                    $maxno = Plan_control_money::where('plan_control_id',$va->plan_control_id)->max('plan_control_money_no');
+                                                    // $maxno = $maxno_+1;
+                                                    // $data_sub_count_ = DB::connection('mysql')->select(
+                                                    //     ' SELECT COUNT(plan_control_money_id) as repno FROM plan_control_money
+                                                    //       WHERE plan_control_id = "' . $va->plan_control_id . '"',
+                                                    // );
+                                                    $data_sub_count_ = DB::connection('mysql')->select(' 
+                                                            SELECT COUNT(plan_control_money_id) as repno,SUM(plan_control_moneyprice) as total FROM plan_control_money
+                                                            WHERE plan_control_id = "' . $va->plan_control_id . '" 
+                                                        ');
+                                                    foreach ($data_sub_count_ as $key => $value_count) {
+                                                        $data_sub_total  = $value_count->total;
+                                                        $data_sub_count  = $value_count->repno ;
+                                                    }
+                                                    // ORDER plan_control_money_no DESC LIMIT 1
+                                                   
+                                                                
+                                            ?>
+                                            <td class="text-center text-danger" width="10%">
+                                                   {{$maxno}} / {{ number_format($data_sub_total, 2) }}
+                                            </td>
+                                            {{-- <td class="text-center">{{$maxno}} </td> --}}
+
                                         </tr>
  
 

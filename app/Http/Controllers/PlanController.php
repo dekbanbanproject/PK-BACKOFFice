@@ -61,6 +61,7 @@ class PlanController extends Controller
         $data['plan_control'] = DB::connection('mysql')->select('
             SELECT 
             plan_control_id,billno,plan_obj,plan_name,plan_reqtotal,pt.plan_control_typename,p.plan_price,p.plan_starttime,p.plan_endtime,p.`status`,s.DEPARTMENT_SUB_SUB_NAME
+            ,p.plan_price_total,p.plan_req_no
             FROM
             plan_control p
             LEFT OUTER JOIN department_sub_sub s ON s.DEPARTMENT_SUB_SUB_ID = p.department
@@ -192,6 +193,23 @@ class PlanController extends Controller
         $add->plan_control_moneyuser_id      = $request->input('plan_control_moneyuser_id');
         $add->plan_control_moneycomment      = $request->input('plan_control_moneycomment'); 
         $add->save();
+
+        $planid = $request->input('update_plan_control_id');
+        $check_price = Plan_control::where('plan_control_id',$planid)->first();
+        // $maxno_ = Plan_control::where('plan_control_id',$request->input('update_plan_control_id'))->max('plan_control_money_no');
+
+        $check = Plan_control::where('plan_control_id',$planid)->count();
+        // dd($request->plan_price);
+        if ($check > 0) {
+            Plan_control::where('plan_control_id',$planid)->update([
+                'plan_req_no'        =>  ($check_price->plan_req_no) + 1,
+                'plan_reqtotal'      =>  ($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')),
+                'plan_price_total'   =>  ($check_price->plan_price) - (($check_price->plan_reqtotal) + ($request->input('plan_control_moneyprice')))
+            ]);
+        } else {
+             
+        }
+        
 
         return response()->json([
             'status'     => '200',
