@@ -321,7 +321,6 @@ class AuthencodeController extends Controller
                     'primary_amphur_name'        => $primary_amphur_name ,
                     'primary_province_name'      => $primary_province_name ,
                     // 'check_pttype'               => $check_pttype, 
-
                     'informname'                 =>$informname,
                     'informrelation'             =>$informrelation,
                     'informtel'                  =>$informtel ,

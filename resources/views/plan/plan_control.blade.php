@@ -144,7 +144,7 @@
                     </div>
                     <div class="card-body py-0 px-2 mt-2">
                         <div class="table-responsive">
-                            <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
+                            <table id="example" class="table table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
                             {{-- <table class="align-middle mb-0 table table-borderless" id="example">  --}}
                                 {{-- <table class="align-middle mb-0 table table-borderless" id="example">  --}}
                                 <thead>
@@ -166,14 +166,18 @@
                                         <tr style="font-size: 13px">
                                             <td class="text-center" width="4%">{{ $i++ }}</td>
                                             <td class="text-start">{{$va->plan_name}}</td>
-                                            <td class="text-end">{{ number_format($va->plan_price, 2) }}</td>
-                                            <td class="text-center">{{$va->plan_req_no}}</td>
-                                            <td class="text-end">{{ number_format($va->plan_price_total, 2) }}</td>
-                                            <td>
+                                            <td class="text-center" width="8%">{{ number_format($va->plan_price, 2) }}</td>
+                                            <td class="text-center" width="8%">{{$va->plan_req_no}}</td>
+                                            <td class="text-center" width="8%">{{ number_format($va->plan_price_total, 2) }}</td>
+                                            <td width="10%">
+                                               
                                                 <a href="{{ url('plan_control_edit/' . $va->plan_control_id) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="แก้ไข"
                                                     class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-warning">
                                                     <i class="fa-solid fa-pen-to-square text-warning" ></i> 
                                                 </a>
+                                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-info DetailModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="รายละเอียด"> 
+                                                    <i class="fa-brands fa-bitcoin" style="font-size:17px;color: rgb(34, 148, 255)"></i> 
+                                                </button>
                                                 <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-danger MoneyModal_"  value="{{ $va->plan_control_id }}" data-bs-toggle="tooltip" data-bs-placement="right" title="เบิกเงิน"> 
                                                     <i class="fa-brands fa-bitcoin" style="font-size:17px;color: rgb(255, 34, 89)"></i> 
                                                 </button> 
