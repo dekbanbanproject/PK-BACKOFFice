@@ -75,13 +75,12 @@
                                     <div class="col"></div>
                                     <div class="col-md-1 text-end">วันที่</div>
                                     <div class="col-md-4 text-center">
-                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                            data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                            <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" autocomplete="off"
                                                 data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                                                 data-date-language="th-th" value="{{ $startdate }}" />
                                             <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                                                data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $enddate }}" />
                                         </div>
                                     </div>
@@ -123,6 +122,7 @@
                                     <th class="text-center">cid</th>
                                     <th class="text-center">hn</th>
                                     <th class="text-center">ชื่อ-นามสกุล</th>
+                                    <th class="text-center">เลขรับ</th>
                                     <th class="text-center">โรงพยาบาล</th>
                                     <th class="text-center">สิทธิ์</th>
                                     <th class="text-center">vstdate</th> 
@@ -169,6 +169,7 @@
                                         <td class="text-font text-pedding" style="text-align: center;width: 7%;" > {{ $item->cid }}</td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->hn }}</td>
                                         <td class="text-font text-pedding" style="text-align: left;width: 10%;"> {{ $item->ptname }} </td>
+                                        <td class="text-font text-pedding" style="text-align: left;width: 10%;"> {{ $item->icd }} </td>
                                         <td class="text-font text-pedding" style="text-align: left;width: 12%;"> {{ $item->hospmain }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 5%;"> {{ $item->pttype }} </td>
                                         <td class="text-font text-pedding" style="text-align: center;width: 7%;"> {{ $item->vstdate }}</td> 

@@ -1153,7 +1153,7 @@ class ReportFontController extends Controller
             $datashow_ = DB::connection('mysql3')->select('
             SELECT * FROM
             (
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
                         ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name,ee.er_emergency_level_id
                         ,sum(if(op.income = "02",sum_price,0)) as sum_inst
                         ,case
@@ -1169,6 +1169,7 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join referin ro on ro.vn = v.vn 
                         left outer join er_regist g on g.vn=v.vn 
                         left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
@@ -1186,7 +1187,7 @@ class ReportFontController extends Controller
 
                         UNION
 
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
                         ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name,ee.er_emergency_level_id
                         ,sum(if(op.income = "02",sum_price,0)) as sum_inst
                         ,case
@@ -1202,6 +1203,7 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join referin ro on ro.vn = v.vn 
                         left outer join er_regist g on g.vn=v.vn 
                         left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
@@ -1250,7 +1252,7 @@ class ReportFontController extends Controller
             $datashow_ = DB::connection('mysql3')->select('
                     SELECT * FROM
                         (
-                            SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                            SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
                         ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 1000 then v.income
@@ -1266,6 +1268,7 @@ class ReportFontController extends Controller
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
                         left outer join er_regist g on g.vn=v.vn 
+                        left outer join referin ro on ro.vn = v.vn  
                         left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
                         and DATE_FORMAT(DATE_ADD((m.DATEADM), INTERVAL -543 YEAR),"%Y-%m-%d") = v.vstdate
@@ -1283,7 +1286,7 @@ class ReportFontController extends Controller
 
                         UNION
 
-                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
+                        SELECT i.an,v.hn,v.vn,v.cid,v.vstdate,ov.vsttime,concat(p.pname,p.fname," ",p.lname) as ptname,v.pttype,d.cc,h.hospcode,ro.icd10 as icd,h.name as hospmain,v.pdx,v.dx0,v.dx1,v.dx2,v.dx3,v.dx4,v.dx5,v.income
                         ,sum(if(op.icode IN ("3010829","3010400","3010401","3010539","3010726"),sum_price,0)) as refer,ee.er_emergency_level_name
                         ,case
                         when v.income < 700 then v.income
@@ -1298,6 +1301,7 @@ class ReportFontController extends Controller
                         left join opdscreen d on d.vn = v.vn
                         left join hospcode h on h.hospcode = v.hospmain
                         left join ovst ov on ov.vn = v.vn
+                        left outer join referin ro on ro.vn = v.vn
                         left outer join er_regist g on g.vn=v.vn 
                         left outer join er_emergency_level ee on ee.er_emergency_level_id = g.er_emergency_level_id
                         left join eclaimdb.m_registerdata m on m.hn = v.hn
