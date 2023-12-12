@@ -216,12 +216,12 @@
                                 <li><a href="{{ url('check_auth') }}" target="_blank">Check User Api</a></li> 
                             </ul> 
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="{{ url('fdh_data') }}"> 
                                 <i class="fa-solid fa-notes-medical text-primary"></i>
                                 <span>FDH</span> 
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ url('report_zero') }}">  
                                 <i class="fa-solid fa-chart-column text-success"></i>
@@ -314,6 +314,25 @@
                                     </ul>
                                 </li>
                             </ul> 
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="fa-solid fa-chart-column text-primary"></i>
+                                <span>รายงาน</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('rep_crrt') }}">CRRT</a></li>
+                                {{-- <li><a href="{{ url('prb_repopd') }}">OPD</a></li>  --}}
+                                <li><a href="javascript: void(0);" class="has-arrow">วัณโรค</a>
+                                    <ul class="sub-menu" aria-expanded="true">
+                                        <li><a href="{{ url('phthisis_opd') }}">OPD </a></li>
+                                        <li><a href="{{ url('phthisis_ipd') }}">IPD</a></li>
+                                        {{-- <li><a href="{{ url('prb_repipdover') }}">Admit อยู่แต่วงเงินเกิน 30000</a> --}}
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
                         </li>
                         {{-- <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -516,25 +535,7 @@
                                 <li><a href="{{ url('opdtoipd') }}">ตรวจสอบ</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-chart-column text-success"></i>
-                                <span>รายงาน</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true">
-                                {{-- <li><a href="{{ url('prb_cpo') }}">คปอ</a></li> --}}
-                                {{-- <li><a href="{{ url('prb_repopd') }}">OPD</a></li>  --}}
-                                <li><a href="javascript: void(0);" class="has-arrow">วัณโรค</a>
-                                    <ul class="sub-menu" aria-expanded="true">
-                                        <li><a href="{{ url('phthisis_opd') }}">OPD </a></li>
-                                        <li><a href="{{ url('phthisis_ipd') }}">IPD</a></li>
-                                        {{-- <li><a href="{{ url('prb_repipdover') }}">Admit อยู่แต่วงเงินเกิน 30000</a> --}}
-                                        </li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
+                       
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                 <i class="fa-solid fa-cloud-arrow-up text-primary"></i>
