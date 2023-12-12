@@ -369,10 +369,10 @@ class Account302Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+        SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
             from acc_1102050101_302 U1
         
-            WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+            WHERE U1.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             GROUP BY U1.vn
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
@@ -390,10 +390,10 @@ class Account302Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total
+        SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
             from acc_1102050101_302 U1
         
-            WHERE U1.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+            WHERE U1.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             GROUP BY U1.vn
         '); 
         return view('account_302.account_302_detail_date', $data, [ 

@@ -1735,6 +1735,8 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_106_debt_pic',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_pic'])->name('acc.acc_106_debt_pic');// 
     Route::match(['get','post'],'acc_106_debt_downloadbook/{id}',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_downloadbook'])->name('acc.acc_106_debt_downloadbook');// 
     Route::match(['get','post'],'acc_106_debt_sync',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_sync'])->name('acc.acc_106_debt_sync');//  ทวงหนี้
+    Route::match(['get','post'],'acc_106_debt_checksit',[App\Http\Controllers\Account106Controller::class, 'acc_106_debt_checksit'])->name('acc.acc_106_debt_checksit');// 
+
     // ************107 IPD**********************
 
     Route::match(['get','post'],'acc_107_dashboard',[App\Http\Controllers\Account107Controller::class, 'acc_107_dashboard'])->name('acc.acc_107_dashboard');//
@@ -1755,6 +1757,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'acc_107_debt_outbook/{id}',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt_outbook'])->name('acc.acc_107_debt_outbook');// 
     Route::match(['get','post'],'acc_107_debt_print/{id}',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt_print'])->name('acc.acc_107_debt_print');//  ทวงหนี้
     Route::match(['get','post'],'acc_107_debt_sync',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt_sync'])->name('acc.acc_107_debt_sync');//  ทวงหนี้
+    Route::match(['get','post'],'acc_107_debt_check_sit',[App\Http\Controllers\Account107Controller::class, 'acc_107_debt_check_sit'])->name('acc.acc_107_debt_check_sit');// 
 
     Route::match(['get','post'],'account_201_dash',[App\Http\Controllers\Account201Controller::class, 'account_201_dash'])->name('acc.account_201_dash');// 
     Route::match(['get','post'],'account_201_pull',[App\Http\Controllers\Account201Controller::class, 'account_201_pull'])->name('acc.account_201_pull');// OPD

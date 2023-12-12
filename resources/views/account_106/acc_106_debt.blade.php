@@ -237,7 +237,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
+            <div class="col-md-6 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                     data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                     <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
@@ -251,9 +251,13 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                         <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
                         Sync Data All 
+                    </button>
+                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary Checksit" >
+                       <i class="fa-solid fa-user-check text-primary me-2"></i>
+                        Check Sit 
                     </button>
                 </div>
             </div>
@@ -276,13 +280,14 @@
                                     <th class="text-center">ชื่อ-สกุล</th>
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
+                                    <th class="text-center">สปสช</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">ลูกหนี้ดึงครั้งแรก</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
                                     <th class="text-center">ชำระแล้ว</th>
                                     <th class="text-center">ค้างชำระ</th>
                                     {{-- <th class="text-center">Download File</th>  --}}
-                                    <th class="text-center">Print</th> 
+                                    <th class="text-center">พิมพ์</th> 
                                     <th class="text-center">ออกจดหมาย</th> 
                                     <th class="text-center">จำนวนที่ออก</th> 
                                 </tr>
@@ -296,32 +301,32 @@
                                     
                                     ?>
                                     <tr height="20" class="detail">
-                                            <td class="text-center" width="4%">{{ $number }}</td>
-                                            <td class="text-center" width="8%">{{ $item->vn }}</td> 
-                                            <td class="text-center" width="5%">{{ $item->hn }}</td> 
-                                            <td class="text-center" width="7%">{{ $item->cid }}</td> 
-                                            <td class="text-start">{{ $item->ptname }}</td> 
-                                            <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                            <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                            
-                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
-                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
-                                            <td class="text-end" width="8%" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
+                                        <td class="text-center" width="4%">{{ $number }}</td>
+                                        <td class="text-center" width="7%">{{ $item->vn }}</td> 
+                                        <td class="text-center" width="5%">{{ $item->hn }}</td> 
+                                        <td class="text-center" width="7%">{{ $item->cid }}</td> 
+                                        <td class="text-start" width="8%">{{ $item->ptname }}</td> 
+                                        <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                        <td class="text-center" width="4%">{{ $item->pttype }}</td>
+                                        <td class="text-center" width="4%">{{ $item->pttype_nhso }}</td>
+                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
+                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
+                                        <td class="text-end" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                            
                                             
                                             @if ($item->debit_total == "0") 
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
+                                            <td class="text-end" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
                                             @else       
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
+                                            <td class="text-end" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
+                                            <td class="text-end" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
                                             @endif
                                         
                                             @if ($item->debit_total == "0")
-                                                <td class="text-center" width="6%"></td>
-                                                <td class="text-center" width="6%"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
                                             @else
-                                                <td class="text-center" width="6%">
+                                                <td class="text-center">
                                                     <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" 
                                                         
                                                         data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
@@ -347,14 +352,14 @@
                                                         onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
                                                         data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
                                                         data-bs-placement="top" title="ออกจดหมาย">
-                                                        <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
+                                                        <i class="fa-solid fa-envelope" style="font-size:12px;color: rgb(111, 144, 252)"></i>
                                                         <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
                                                     </a>
                                                 </td> 
                                             @endif
                                             
                                             <td class="text-center" width="5%">
-                                                <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
+                                                <i class="fa-solid fa-envelope me-2" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
                                                 <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
                                             </td> 
                                     
@@ -387,11 +392,13 @@
                                     <th class="text-center">ชื่อ-สกุล</th>
                                     <th class="text-center">วันที่รับบริการ</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
+                                    <th class="text-center">สปสช</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">ลูกหนี้ดึงครั้งแรก</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
                                     <th class="text-center">ชำระแล้ว</th>
                                     <th class="text-center">ค้างชำระ</th>
+                                    <th class="text-center">พิมพ์</th> 
                                     <th class="text-center">ออกจดหมาย</th> 
                                     <th class="text-center">จำนวนที่ออก</th> 
                                 </tr>
@@ -405,30 +412,30 @@
                                     
                                     ?>
                                     <tr height="20" class="detail">
-                                    <td class="text-center" width="4%">{{ $number }}</td>
-                                    <td class="text-center" width="8%">{{ $item->vn }}</td> 
-                                    <td class="text-center" width="5%">{{ $item->hn }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->cid }}</td> 
-                                    <td class="text-start">{{ $item->ptname }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->pttype }}</td>
- 
-                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
-                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
-                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
+                                            <td class="text-center" width="4%">{{ $number }}</td>
+                                            <td class="text-center" width="7%">{{ $item->vn }}</td> 
+                                            <td class="text-center" width="5%">{{ $item->hn }}</td> 
+                                            <td class="text-center" width="7%">{{ $item->cid }}</td> 
+                                            <td class="text-start" width="8%">{{ $item->ptname }}</td> 
+                                            <td class="text-center" width="7%">{{ $item->vstdate }}</td> 
+                                            <td class="text-center" width="4%">{{ $item->pttype }}</td>
+                                            <td class="text-center" width="4%">{{ $item->pttype_nhso }}</td>
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
+                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
+                                            <td class="text-end" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                    
                                     
                                     @if ($item->debit_total == "0") 
-                                    <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                    <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
+                                    <td class="text-end" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                    <td class="text-end" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
                                     @else       
-                                    <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
-                                        <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
+                                    <td class="text-end" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
+                                        <td class="text-end" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
                                     @endif
                                 
                                     @if ($item->debit_total == "0")
-                                        <td class="text-center" width="6%"></td>
-                                        <td class="text-center" width="6%"></td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"></td>
                                     @else
                                         <td class="text-center" width="6%">
                                             <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" 
@@ -449,13 +456,13 @@
                                                 onclick="acc_106_debt_outbook({{ $item->acc_1102050102_106_id }})"
                                                 data-bs-toggle="tooltip" data-bs-toggle="custom-tooltip"
                                                 data-bs-placement="top" title="ออกจดหมาย">
-                                                <i class="fa-solid fa-envelope ms-2 me-2" style="font-size:12px;color: rgb(111, 144, 252)"></i>
+                                                <i class="fa-solid fa-envelope" style="font-size:12px;color: rgb(111, 144, 252)"></i>
                                                 <label for="" style="font-size:12px;color: rgb(111, 144, 252)">ออกจดหมาย</label>
                                             </a>
                                         </td> 
                                     @endif
                                     <td class="text-center" width="5%">
-                                        <i class="fa-solid fa-envelope me-3" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
+                                        <i class="fa-solid fa-envelope me-2" style="font-size:12px;color: rgb(11, 222, 110))">  </i>
                                         <label for="" style="font-size:12px;color: rgb(245, 25, 25)">{{$check_count}}</label>
                                     </td> 
                                     
@@ -750,7 +757,67 @@
                                     
                                 }
                     })
-                });
+            });
+
+            $('.Checksit').click(function() {
+                var startdate = $('#datepicker').val(); 
+                var enddate = $('#datepicker2').val(); 
+                //    alert(startdate);
+                Swal.fire({
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner    acc.acc_106_debt_checksit
+                            $.ajax({
+                                url: "{{ route('acc.acc_106_debt_checksit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    startdate,
+                                    enddate                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            title: "กรุณาเลือกวันที่!",
+                                            text: "Please select a date !",
+                                            icon: "warning"
+                                        });
+                                        window.location.reload();
+                                    }
+
+                                },
+                            });
+                        }
+                })
+            });
         </script>
 
 

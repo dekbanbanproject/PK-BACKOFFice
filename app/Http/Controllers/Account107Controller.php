@@ -67,6 +67,7 @@ use App\Models\Acc_107_debt_print;
 use Auth;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use SoapClient;
 
 class Account107Controller extends Controller
 {
@@ -401,26 +402,31 @@ class Account107Controller extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $data['users'] = User::get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
         if ($startdate =='') {
             $datashow = DB::connection('mysql')->select('        
                     SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
-                    ,U1.sumtotal_amount
+                    ,U1.sumtotal_amount,U1.pttype_nhso
                     FROM acc_1102050102_107 U1
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
-                  
+                    WHERE U1.dchdate BETWEEN  "'.$newDate.'" and "'.$date.'"
                     GROUP BY U1.an ORDER BY U1.dchdate DESC
             ');
             // WHERE U1.debit_total > 0
         } else {
             $datashow = DB::connection('mysql')->select('        
                 SELECT U1.acc_1102050102_107_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
-                ,U1.sumtotal_amount
+                ,U1.sumtotal_amount,U1.pttype_nhso
                 FROM acc_1102050102_107 U1
                 LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_107_id
                 LEFT OUTER JOIN acc_debtor U3 ON U3.an = U1.an
-                WHERE U1.vstdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
+                WHERE U1.dchdate BETWEEN  "'.$startdate.'" and "'.$enddate.'"
                 GROUP BY U1.an
                 ORDER BY U1.dchdate DESC
         ');
@@ -502,6 +508,73 @@ class Account107Controller extends Controller
             ]);
         
         
+    }
+    public function acc_107_debt_check_sit(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        // dd($startdate);
+        if ($startdate != '') { 
+               
+                $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+                foreach ($token_data as $key => $value) {
+                    $cid_    = $value->cid;
+                    $token_  = $value->token;
+                }
+                // dd($token_);
+                $data_107 = DB::connection('mysql')->select('
+                    SELECT cid FROM acc_1102050102_107 
+                    WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                ');
+                foreach ($data_107 as $key => $v) {
+                        $pid = $v->cid; 
+                    // }
+                        // dd($pid);
+                        $client = new SoapClient(
+                            "http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                            array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace" => 1, "exceptions" => 0, "cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id" => "$cid_",
+                                "smctoken"       => "$token_",
+                                "person_id"      => "$pid"
+                            )
+                        );
+                        // dd($params);
+                        $contents = $client->__soapCall('searchCurrentByPID', $params);
+                        // dd($contents);
+
+                        foreach ($contents as $v) {
+                            @$status           = $v->status;
+                            @$maininscl        = $v->maininscl;
+                            @$startdate_        = $v->startdate;
+                            @$hmain            = $v->hmain;
+                            @$subinscl         = $v->subinscl;
+                            @$person_id_nhso   = $v->person_id;
+                            @$hmain_op         = $v->hmain_op;  //"10978"
+                            @$hmain_op_name    = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                            @$hsub             = $v->hsub;    //"04047"
+                            @$hsub_name        = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                            @$subinscl_name    = $v->subinscl_name; //"ช่วงอายุ 12-59 ปี"
+                        }
+                        Acc_1102050102_107::where('cid',$pid)->whereBetween('dchdate', [$startdate, $enddate])
+                            ->update([   
+                                'pttype_nhso'    => @$subinscl
+                        ]);
+ 
+                }
+
+        } else {
+            // return redirect()->back();
+            return response()->json([
+                'status'    => '100'
+            ]);
+        }
+        return response()->json([
+            'status'    => '200'
+        ]);
+       
     }
     public function acc_107_debt_outbook(Request $request, $id)
     { 

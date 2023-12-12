@@ -401,7 +401,7 @@ class Account106Controller extends Controller
         if ($startdate =='') {
             $datashow = DB::connection('mysql')->select('        
                     SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
-                    ,U1.sumtotal_amount
+                    ,U1.sumtotal_amount,U1.pttype_nhso
                     FROM acc_1102050102_106 U1
                     LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                     LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
@@ -412,7 +412,7 @@ class Account106Controller extends Controller
         } else {
             $datashow = DB::connection('mysql')->select('        
                 SELECT U1.acc_1102050102_106_id,U1.vn,U1.an,U1.hn,U1.cid,U1.ptname,U1.account_code,U1.vstdate,U1.pttype,U1.income,U1.paid_money,U1.rcpt_money,U1.debit,U1.debit_total,U2.file,U2.filename
-                ,U1.sumtotal_amount
+                ,U1.sumtotal_amount,U1.pttype_nhso
                 FROM acc_1102050102_106 U1
                 LEFT OUTER JOIN acc_doc U2 ON U2.acc_doc_pangid = U1.acc_1102050102_106_id
                 LEFT OUTER JOIN acc_debtor U3 ON U3.vn = U1.vn
@@ -541,6 +541,75 @@ class Account106Controller extends Controller
             ]);
         
         
+    }
+
+
+    public function acc_106_debt_checksit(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate; 
+        // dd($startdate);
+        if ($startdate != '') { 
+               
+                $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+                foreach ($token_data as $key => $value) {
+                    $cid_    = $value->cid;
+                    $token_  = $value->token;
+                }
+                // dd($token_);
+                $data_106 = DB::connection('mysql')->select('
+                    SELECT cid FROM acc_1102050102_106 
+                    WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                ');
+                foreach ($data_106 as $key => $v) {
+                        $pid = $v->cid; 
+                    // }
+                        // dd($pid);
+                        $client = new SoapClient(
+                            "http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                            array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1', "trace" => 1, "exceptions" => 0, "cache_wsdl" => 0)
+                        );
+                        $params = array(
+                            'sequence' => array(
+                                "user_person_id" => "$cid_",
+                                "smctoken"       => "$token_",
+                                "person_id"      => "$pid"
+                            )
+                        );
+                        // dd($params);
+                        $contents = $client->__soapCall('searchCurrentByPID', $params);
+                        // dd($contents);
+
+                        foreach ($contents as $v) {
+                            @$status           = $v->status;
+                            @$maininscl        = $v->maininscl;
+                            @$startdate_        = $v->startdate;
+                            @$hmain            = $v->hmain;
+                            @$subinscl         = $v->subinscl;
+                            @$person_id_nhso   = $v->person_id;
+                            @$hmain_op         = $v->hmain_op;  //"10978"
+                            @$hmain_op_name    = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                            @$hsub             = $v->hsub;    //"04047"
+                            @$hsub_name        = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                            @$subinscl_name    = $v->subinscl_name; //"ช่วงอายุ 12-59 ปี"
+                        }
+                        Acc_1102050102_106::where('cid',$pid)->whereBetween('vstdate', [$startdate, $enddate])
+                            ->update([   
+                                'pttype_nhso'    => @$subinscl
+                        ]);
+ 
+                }
+
+        } else {
+            // return redirect()->back();
+            return response()->json([
+                'status'    => '100'
+            ]);
+        }
+        return response()->json([
+            'status'    => '200'
+        ]);
+       
     }
 
 

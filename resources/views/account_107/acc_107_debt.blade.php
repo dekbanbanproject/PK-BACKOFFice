@@ -146,7 +146,7 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
+            <div class="col-md-6 text-end">
                 <form action="{{ route('acc.acc_107_debt') }}" method="GET">
                     @csrf
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
@@ -162,10 +162,14 @@
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button>
-                    <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll" >
                         <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
                         Sync Data All 
                     </button>
+                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary Checksit" >
+                        <i class="fa-solid fa-user-check text-primary me-2"></i>
+                         Check Sit 
+                     </button>
                 </form>
                 </div>
             </div>
@@ -189,6 +193,7 @@
                                     <th class="text-center">ชื่อ-สกุล</th>
                                     <th class="text-center">วันที่จำหน่าย</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
+                                    <th class="text-center">สปสช</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">ลูกหนี้ดึงครั้งแรก</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
@@ -216,7 +221,7 @@
                                         <td class="text-start">{{ $item->ptname }}</td> 
                                         <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
                                         <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                        
+                                        <td class="text-center" width="4%">{{ $item->pttype_nhso }}</td>
                                         <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
                                         <td class="text-end" width="8%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
                                         <td class="text-end" width="8%" style="font-size:12px;color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
@@ -293,6 +298,7 @@
                                     <th class="text-center">ชื่อ-สกุล</th>
                                     <th class="text-center">วันที่จำหน่าย</th>
                                     <th class="text-center">สิทธิ์การรักษา</th>
+                                    <th class="text-center">สปสช</th>
                                     <th class="text-center">ค่าใช้จ่ายทั้งหมด</th>
                                     <th class="text-center">ลูกหนี้ดึงครั้งแรก</th>
                                     <th class="text-center">ยอดที่ต้องชำระ</th>
@@ -317,25 +323,26 @@
                                     <td class="text-center" width="6%">{{ $item->an }}</td> 
                                     <td class="text-center" width="5%">{{ $item->hn }}</td> 
                                     <td class="text-center" width="7%">{{ $item->cid }}</td> 
-                                    <td class="text-start">{{ $item->ptname }}</td> 
+                                    <td class="text-start" width="8%">{{ $item->ptname }}</td> 
                                     <td class="text-center" width="7%">{{ $item->dchdate }}</td> 
-                                    <td class="text-center" width="7%">{{ $item->pttype }}</td>
-                                    <td class="text-end" width="8%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
-                                        <td class="text-end" width="8%" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
-                                        <td class="text-end" width="8%" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
+                                    <td class="text-center" width="4%">{{ $item->pttype }}</td>
+                                    <td class="text-center" width="4%">{{ $item->pttype_nhso }}</td>
+                                    <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 63, 30)">{{ number_format($item->income, 2) }}</td> 
+                                        <td class="text-end" style="font-size:12px;color: rgb(30, 148, 245)">{{ number_format($item->debit, 2) }}</td> 
+                                        <td class="text-end" style="color: rgb(207, 19, 198)">{{ number_format($item->paid_money, 2) }}</td> 
                                            
                                             
                                             @if ($item->debit_total == "0") 
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
+                                            <td class="text-end" style="font-size:12px;color: rgb(11, 96, 222)">{{ number_format($item->sumtotal_amount, 2) }}</td> 
+                                            <td class="text-end" style="font-size:12px;color: rgb(11, 202, 84)">{{ number_format($item->debit_total, 2) }}</td>
                                             @else       
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(17, 180, 159)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
-                                            <td class="text-end" width="6%" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
+                                            <td class="text-end" style="font-size:12px;color: rgb(17, 180, 159)">{{ number_format($item->sumtotal_amount, 2) }}</td>                                  
+                                            <td class="text-end" style="font-size:12px;color: rgb(245, 25, 25)">{{ number_format($item->debit_total, 2) }}</td>
                                             @endif
                                         
                                             @if ($item->debit_total == "0")
-                                                <td class="text-center" width="6%"></td>
-                                                <td class="text-center" width="6%"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
                                             @else
                                                 <td class="text-center" width="6%">
                                                     <button class="dropdown-item menu btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" 
@@ -486,6 +493,66 @@
                                 }
                         })
                 });
+
+                $('.Checksit').click(function() {
+                var startdate = $('#datepicker').val(); 
+                var enddate = $('#datepicker2').val(); 
+                //    alert(startdate);
+                Swal.fire({
+                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+                        text: "You Check Sit Data!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, pull it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner-div").show(); //Load button clicked show spinner    acc.acc_106_debt_checksit
+                            $.ajax({
+                                url: "{{ route('acc.acc_107_debt_check_sit') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {
+                                    startdate,
+                                    enddate                        
+                                },
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({
+                                            title: 'เช็คสิทธิ์สำเร็จ',
+                                            text: "You Check sit success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                window.location.reload();
+                                                $('#spinner-div').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            title: "กรุณาเลือกวันที่!",
+                                            text: "Please select a date !",
+                                            icon: "warning"
+                                        });
+                                        window.location.reload();
+                                    }
+
+                                },
+                            });
+                        }
+                })
+            });
 
             });
 
