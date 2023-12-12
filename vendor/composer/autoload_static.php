@@ -897,6 +897,7 @@ class ComposerStaticInit0033bc2c62e76c1049f468db4acbe1a0
         'App\\Http\\Controllers\\RepairController' => __DIR__ . '/../..' . '/app/Http/Controllers/RepairController.php',
         'App\\Http\\Controllers\\RepaireScanController' => __DIR__ . '/../..' . '/app/Http/Controllers/RepaireScanController.php',
         'App\\Http\\Controllers\\RepairnarmalController' => __DIR__ . '/../..' . '/app/Http/Controllers/RepairnarmalController.php',
+        'App\\Http\\Controllers\\ReportCRRTController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportCRRTController.php',
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
         'App\\Http\\Controllers\\ReportFontController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportFontController.php',
         'App\\Http\\Controllers\\ReportIncomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportIncomeController.php',

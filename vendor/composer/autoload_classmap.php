@@ -198,6 +198,7 @@ return array(
     'App\\Http\\Controllers\\RepairController' => $baseDir . '/app/Http/Controllers/RepairController.php',
     'App\\Http\\Controllers\\RepaireScanController' => $baseDir . '/app/Http/Controllers/RepaireScanController.php',
     'App\\Http\\Controllers\\RepairnarmalController' => $baseDir . '/app/Http/Controllers/RepairnarmalController.php',
+    'App\\Http\\Controllers\\ReportCRRTController' => $baseDir . '/app/Http/Controllers/ReportCRRTController.php',
     'App\\Http\\Controllers\\ReportController' => $baseDir . '/app/Http/Controllers/ReportController.php',
     'App\\Http\\Controllers\\ReportFontController' => $baseDir . '/app/Http/Controllers/ReportFontController.php',
     'App\\Http\\Controllers\\ReportIncomeController' => $baseDir . '/app/Http/Controllers/ReportIncomeController.php',
