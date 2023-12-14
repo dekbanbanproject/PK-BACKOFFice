@@ -23,45 +23,24 @@ use App\Models\Department;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
 use App\Models\Position;
-use App\Models\Product_spyprice;
-use App\Models\Products;
-use App\Models\Products_type;
-use App\Models\Product_group;
-use App\Models\Product_unit;
-use App\Models\Products_category;
-use App\Models\Article;
-use App\Models\Product_prop;
-use App\Models\Product_decline;
-use App\Models\Department_sub_sub;
-use App\Models\Products_vendor;
-use App\Models\Status; 
-use App\Models\Products_request;
-use App\Models\Products_request_sub;   
-use App\Models\Leave_leader;
-use App\Models\Leave_leader_sub;
-use App\Models\Book_type;
-use App\Models\Book_import_fam;
-use App\Models\Book_signature;
-use App\Models\Bookrep;
-use App\Models\Book_objective;
-use App\Models\Book_senddep;
-use App\Models\Book_senddep_sub;
-use App\Models\Book_send_person;
-use App\Models\Book_sendteam;
-use App\Models\Bookrepdelete;
-use App\Models\Car_status;
-use App\Models\Car_index;
-use App\Models\Article_status;
-use App\Models\Car_type;
-use App\Models\Product_brand;
-use App\Models\Product_color;  
-use App\Models\Land;
-use App\Models\Building;
-use App\Models\Product_budget;
-use App\Models\Product_method;
-use App\Models\Product_buy;
-use App\Models\Users_prefix;
-use App\Models\Acc_1102050102_106;
+
+use App\Models\Dapiherb_adp;
+use App\Models\Dapiherb_aer;
+use App\Models\Dapiherb_cha;
+use App\Models\Dapiherb_cht;
+use App\Models\Dapiherb_dru;
+use App\Models\Dapiherb_idx;
+use App\Models\Dapiherb_ins;
+use App\Models\Dapiherb_iop;
+use App\Models\Dapiherb_ipd;
+use App\Models\Dapiherb_irf;
+use App\Models\Dapiherb_odx;
+use App\Models\Dapiherb_ldv; 
+use App\Models\Dapiherb_oop;
+use App\Models\Dapiherb_opd;
+use App\Models\Dapiherb_orf;   
+use App\Models\Dapiherb_pat; 
+ 
 use App\Models\D_12001;
 use App\Models\D_ins;
 use App\Models\D_pat;
@@ -78,8 +57,7 @@ use App\Models\D_idx;
 use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
-use App\Models\D_irf;
-// use App\Models\D_HERB;
+use App\Models\D_irf; 
 use App\Models\D_ucep24_main;
 use App\Models\D_herb;
 use App\Models\D_claim_db_hipdata_code;
@@ -88,12 +66,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http; 
 use SoapClient;
 use Arr; 
-use App\Imports\ImportAcc_stm_ti;
-use App\Imports\ImportAcc_stm_tiexcel_import;
-use App\Imports\ImportAcc_stm_ofcexcel_import;
-use App\Imports\ImportAcc_stm_lgoexcel_import;
-use App\Models\Acc_1102050101_217_stam;
-use App\Models\Acc_opitemrece_stm;
+ 
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -140,7 +113,7 @@ class Herb9Controller extends Controller
 
                         WHERE v.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND d.nhso_adp_code IN ("HERB1","HERB2","HERB3","HERB4","HERB5","HERB6","HERB7","HERB8","HERB9")
-                        AND pt.pttype NOT IN( "W1","49","50")
+                        AND pt.pttype NOT IN( "W1","49","50","S1","S2","s3","s4","s5","s7")
                         and v.uc_money >"0" AND pt.hipdata_code ="UCS" 
                         AND op.an is null
                         AND v.pdx <> ""
@@ -691,26 +664,28 @@ class Herb9Controller extends Controller
                             ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                             ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC
                             ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
-                        FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
-                        LEFT OUTER JOIN ipt i on i.an = v.an
-                        AND i.an is not NULL 
-                        WHERE i.vn IN("'.$va1->vn.'")
-                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
-                        GROUP BY an,CODE,rate
+                            FROM opitemrece v
+                            JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                            LEFT OUTER JOIN ipt i on i.an = v.an
+                            AND i.an is not NULL 
+                            WHERE i.vn IN("'.$va1->vn.'")
+                            GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                            GROUP BY an,CODE,rate
+
                             UNION
+
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                             ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate
                             FROM
                             (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                             ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate
-                        FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
-                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                        WHERE vv.vn IN("'.$va1->vn.'")
-                        AND v.an is NULL
-                        GROUP BY vv.vn,n.nhso_adp_code,rate) b 
-                        GROUP BY seq,CODE,rate;
+                            FROM opitemrece v
+                            JOIN nondrugitems n on n.icode = v.icode and n.nhso_adp_code is not null 
+                            LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                            WHERE vv.vn IN("'.$va1->vn.'")
+                            AND v.an is NULL
+                            GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                            GROUP BY seq,CODE,rate;
                 '); 
                 // ,n.nhso_adp_type_id TYPE
                 // ,ic.drg_chrgitem_id TYPE
@@ -2140,13 +2115,13 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_ins);
         fclose($objFopen_ins_utf);
-        D_apiofc_ins::truncate();
+        Dapiherb_ins::truncate();
         $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
         $fread_file_ins_endcode = base64_encode($fread_file_ins);
         $read_file_ins_size = filesize($file_d_ins);
 
         // dd( $fread_file_ins);
-        D_apiofc_ins::insert([
+        Dapiherb_ins::insert([
             'blobName'   =>  'INS.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_ins_endcode,
@@ -2188,11 +2163,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_pat);
         fclose($objFopen_pat_utf);
-        D_apiofc_pat::truncate();
+        Dapiherb_pat::truncate();
         $fread_file_pat = fread(fopen($file_d_pat,"r"),filesize($file_d_pat));
         $fread_file_pat_endcode = base64_encode($fread_file_pat);
         $read_file_pat_size = filesize($file_d_pat);
-        D_apiofc_pat::insert([
+        Dapiherb_pat::insert([
             'blobName'   =>  'PAT.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_pat_endcode,
@@ -2225,11 +2200,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_opd);
         fclose($objFopen_opd_utf);
-        D_apiofc_opd::truncate();
+        Dapiherb_opd::truncate();
         $fread_file_opd = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
         $fread_file_opd_endcode = base64_encode($fread_file_opd);
         $read_file_opd_size = filesize($file_d_opd);
-        D_apiofc_opd::insert([
+        Dapiherb_opd::insert([
             'blobName'   =>  'OPD.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_opd_endcode,
@@ -2262,11 +2237,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_orf);
         fclose($objFopen_orf_utf);
-        D_apiofc_orf::truncate();
+        Dapiherb_orf::truncate();
         $fread_file_orf = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
         $fread_file_orf_endcode = base64_encode($fread_file_orf);
         $read_file_orf_size = filesize($file_d_orf);
-        D_apiofc_orf::insert([
+        Dapiherb_orf::insert([
             'blobName'   =>  'ORF.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_orf_endcode,
@@ -2301,11 +2276,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_odx);
         fclose($objFopen_odx_utf);
-        D_apiofc_odx::truncate();
+        Dapiherb_odx::truncate();
         $fread_file_odx = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
         $fread_file_odx_endcode = base64_encode($fread_file_odx);
         $read_file_odx_size = filesize($file_d_odx);
-        D_apiofc_odx::insert([
+        Dapiherb_odx::insert([
             'blobName'   =>  'ODX.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_odx_endcode,
@@ -2339,11 +2314,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_oop);
         fclose($objFopen_oop_utf);
-        D_apiofc_oop::truncate();
+        Dapiherb_oop::truncate();
         $fread_file_oop = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
         $fread_file_oop_endcode = base64_encode($fread_file_oop);
         $read_file_oop_size = filesize($file_d_oop);
-        D_apiofc_oop::insert([
+        Dapiherb_oop::insert([
             'blobName'   =>  'OOP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_oop_endcode,
@@ -2383,11 +2358,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_ipd);
         fclose($objFopen_ipd_utf);
-        D_apiofc_ipd::truncate();
+        Dapiherb_ipd::truncate();
         $fread_file_ipd = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
         $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
         $read_file_ipd_size = filesize($file_d_ipd);
-        D_apiofc_ipd::insert([
+        Dapiherb_ipd::insert([
             'blobName'   =>  'IPD.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_ipd_endcode,
@@ -2417,11 +2392,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_irf);
         fclose($objFopen_irf_utf);
-        D_apiofc_irf::truncate();
+        Dapiherb_irf::truncate();
         $fread_file_irf = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
         $fread_file_irf_endcode = base64_encode($fread_file_irf);
         $read_file_irf_size = filesize($file_d_irf);
-        D_apiofc_irf::insert([
+        Dapiherb_irf::insert([
             'blobName'   =>  'IRF.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_irf_endcode,
@@ -2452,11 +2427,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_idx);
         fclose($objFopen_idx_utf);
-        D_apiofc_idx::truncate();
+        Dapiherb_idx::truncate();
         $fread_file_idx = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
         $fread_file_idx_endcode = base64_encode($fread_file_idx);
         $read_file_idx_size = filesize($file_d_idx);
-        D_apiofc_idx::insert([
+        Dapiherb_idx::insert([
             'blobName'   =>  'IDX.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_idx_endcode,
@@ -2492,11 +2467,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_iop);
         fclose($objFopen_iop_utf);
-        D_apiofc_iop::truncate();
+        Dapiherb_iop::truncate();
         $fread_file_iop = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
         $fread_file_iop_endcode = base64_encode($fread_file_iop);
         $read_file_iop_size = filesize($file_d_iop);
-        D_apiofc_iop::insert([
+        Dapiherb_iop::insert([
             'blobName'   =>  'IOP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_iop_endcode,
@@ -2531,11 +2506,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_cht);
         fclose($objFopen_cht_utf);
-        D_apiofc_cht::truncate();
+        Dapiherb_cht::truncate();
         $fread_file_cht = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
         $fread_file_cht_endcode = base64_encode($fread_file_cht);
         $read_file_cht_size = filesize($file_d_cht);
-        D_apiofc_cht::insert([
+        Dapiherb_cht::insert([
             'blobName'   =>  'CHT.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_cht_endcode,
@@ -2569,11 +2544,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_cha);
         fclose($objFopen_cha_utf);
-        D_apiofc_cha::truncate();
+        Dapiherb_cha::truncate();
         $fread_file_cha = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
         $fread_file_cha_endcode = base64_encode($fread_file_cha);
         $read_file_cha_size = filesize($file_d_cha);
-        D_apiofc_cha::insert([
+        Dapiherb_cha::insert([
             'blobName'   =>  'CHA.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_cha_endcode,
@@ -2618,11 +2593,11 @@ class Herb9Controller extends Controller
          }
         //  fclose($objFopen_aer);
          fclose($objFopen_aer_utf);
-         D_apiofc_aer::truncate();
+         Dapiherb_aer::truncate();
          $fread_file_aer = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
          $fread_file_aer_endcode = base64_encode($fread_file_aer);
          $read_file_aer_size = filesize($file_d_aer);
-         D_apiofc_aer::insert([
+         Dapiherb_aer::insert([
              'blobName'   =>  'AER.txt',
              'blobType'   =>  'text/plain',
              'blob'       =>   $fread_file_aer_endcode,
@@ -2676,11 +2651,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_adp);
         fclose($objFopen_adp_utf);
-        D_apiofc_adp::truncate();
+        Dapiherb_adp::truncate();
         $fread_file_adp = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
         $fread_file_adp_endcode = base64_encode($fread_file_adp);
         $read_file_adp_size = filesize($file_d_adp);
-        D_apiofc_adp::insert([
+        Dapiherb_adp::insert([
             'blobName'   =>  'ADP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_adp_endcode,
@@ -2714,11 +2689,11 @@ class Herb9Controller extends Controller
          }
         //  fclose($objFopen_lvd);
          fclose($objFopen_lvd_utf);
-         D_apiofc_ldv::truncate();
+         Dapiherb_ldv::truncate();
          $fread_file_lvd = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
          $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
          $read_file_lvd_size = filesize($file_d_lvd);
-         D_apiofc_ldv::insert([
+         Dapiherb_ldv::insert([
              'blobName'   =>  'LDV.txt',
              'blobType'   =>  'text/plain',
              'blob'       =>   $fread_file_lvd_endcode,
@@ -2768,11 +2743,11 @@ class Herb9Controller extends Controller
         }
         // fclose($objFopen_dru);
         fclose($objFopen_dru_utf);
-        D_apiofc_dru::truncate();
+        Dapiherb_dru::truncate();
         $fread_file_dru = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
         $fread_file_dru_endcode = base64_encode($fread_file_dru);
         $read_file_dru_size = filesize($file_d_dru);
-        D_apiofc_dru::insert([
+        Dapiherb_dru::insert([
             'blobName'   =>  'DRU.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_dru_endcode,
@@ -2790,6 +2765,185 @@ class Herb9Controller extends Controller
             return response()->json([
                 'status'    => '200'
             ]);
+    }
+    public function herb9_send_api(Request $request)
+    {  
+        $iduser = Auth::user()->id;
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token        = $val_to->api_neweclaim_token;
+        } 
+        // dd($token);
+          
+        $data_table = array("dapiherb_ins","dapiherb_pat","dapiherb_opd","dapiherb_orf","dapiherb_odx","dapiherb_oop","dapiherb_ipd","dapiherb_irf","dapiherb_idx","dapiherb_iop","dapiherb_cht","dapiherb_cha","dapiherb_aer","dapiherb_adp","dapiherb_ldv","dapiherb_dru");
+        
+        foreach ($data_table as $key => $val_t) {        
+                $data_all_ = DB::connection('mysql')->select('
+                SELECT * FROM '.$val_t.'
+                ');                
+                foreach ($data_all_ as $val_field) {
+                    $blob[] = $val_field->blob;
+                    $size[] = $val_field->size;                     
+                 }     
+            }
+ 
+            // dd($blob[5]);
+            $ch = curl_init();
+            $Data_send = [
+                "fileType" => "txt",
+                "maininscl" => "UCS",
+                "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+                "dataTypes" => ["OP","IP"],
+                "opRefer" => false, 
+                    "file" => [ 
+                        "ins" => [
+                            "blobName"  => "INS.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[0],
+                            "size"      => $size[0],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"pat" => [
+                            "blobName"  => "PAT.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[1],
+                            "size"      => $size[1],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"opd" => [
+                            "blobName"  => "OPD.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[2],
+                            "size"      => $size[2],
+                            "encoding"  => "UTF-8"
+                        ] 
+                        ,"orf" => [
+                            "blobName"  => "ORF.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[3],
+                            "size"      => $size[3],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"odx" => [
+                            "blobName"  => "ODX.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[4],
+                            "size"      => $size[4],
+                            "encoding"  => "UTF-8"
+                        ]  
+                        ,"oop" => [
+                            "blobName"  => "OOP.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[5],
+                            "size"      => $size[5],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"ipd" => [
+                            "blobName"  => "IPD.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[6],
+                            "size"      => $size[6],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"irf" => [
+                            "blobName"  => "IRF.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[7],
+                            "size"      => $size[7],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"idx" => [
+                            "blobName"  => "IDX.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[8],
+                            "size"      => $size[8],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"iop" => [
+                            "blobName"  => "IOP.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[9],
+                            "size"      => $size[9],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"cht" => [
+                            "blobName"  => "CHT.txt",
+                            "blobType"  => "text",
+                            "blob"      => $blob[10],
+                            "size"      => $size[10],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"cha" => [
+                            "blobName"  => "CHA.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[11],
+                            "size"      => $size[11],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"aer" => [
+                            "blobName"  => "AER.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[12],
+                            "size"      => $size[12],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"adp" => [
+                            "blobName"  => "ADP.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[13],
+                            "size"      => $size[13],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"lvd" => [
+                            "blobName"  => "LVD.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[14],
+                            "size"      => $size[14],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"dru" => [
+                            "blobName" => "DRU.txt",
+                            "blobType" => "text/plain",
+                            "blob"     => $blob[15],
+                            "size"     => $size[15],
+                            "encoding" => "UTF-8"
+                        ]                        
+                        ,"lab" => null
+                    ] 
+            ];        
+            // dd($Data_send);
+            $headers_send  = [
+                'Authorization : Bearer '.$token,
+                'Content-Type: application/json',            
+                'User-Agent:<platform>/<version><10978>'
+                    
+            ];
+
+            curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($Data_send, JSON_UNESCAPED_SLASHES));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers_send);
+  
+            $server_output     = curl_exec ($ch);
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            
+            $content = $server_output;
+            $result = json_decode($content, true);
+            
+            #echo "<BR>";
+            @$status = $result['status'];
+            #echo "<BR>";
+            @$message = $result['message'];
+            #echo "<BR>";
+           
+        
+        return response()->json([
+            'status'    => '200'
+        ]);
     }
     
  

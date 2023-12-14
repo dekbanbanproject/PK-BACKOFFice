@@ -266,15 +266,15 @@
                                     </ul>
                                 </li>
                                 {{-- <li><a href="{{ url('six') }}">ส่งออก 16 แฟ้ม</a></li> --}}
-                                <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
+                                {{-- <li><a href="javascript: void(0);" class="has-arrow">KTB</a>
                                     <ul class="sub-menu" aria-expanded="true">
-                                        {{-- <li><a href="{{ url('anc_Pregnancy_test') }}">การทดสอบการตั้งครรภ์ (Pregnancy test)</a></li> --}}
+                                        <li><a href="{{ url('anc_Pregnancy_test') }}">การทดสอบการตั้งครรภ์ (Pregnancy test)</a></li>
                                         <li><a href="{{ url('ktb') }}">การฝากครรภ์ ANC</a></li>
                                         <li><a href="{{ url('ktb_spawn') }}">การตรวจหลังคลอด ANC</a></li>
                                         <li><a href="{{ url('ktb_ferrofolic') }}">บริการยาเสริมธาตุเหล็ก </a></li>
                                         <li><a href="{{ url('ktb_kids_glasses') }}">แว่นตาเด็ก </a></li>
                                     </ul>
-                                </li>
+                                </li> --}}
                                 <li><a href="{{ url('ssop') }}">SSOP</a></li>
                                 {{-- <li><a href="{{ url('ssop_recheck') }}">SSOP RECHECK</a></li> --}}
                                 <li><a href="{{ url('aipn') }}">AIPN</a></li>
