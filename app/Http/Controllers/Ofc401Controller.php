@@ -83,7 +83,7 @@ use App\Models\D_aer;
 use App\Models\D_irf;
 use App\Models\D_ofc_401;
 use App\Models\D_ucep24_main;
-use App\Models\D_ucep24;
+use App\Models\D_dru_out;
 use App\Models\D_claim_db_hipdata_code;
 use Auth;
 use GuzzleHttp\Client;
@@ -214,7 +214,57 @@ class Ofc401Controller extends Controller
                             'claimdate'         => $date, 
                             'userid'            => $iduser, 
                         ]);
-                    }   
+                    } 
+                    $data_dru_ = DB::connection('mysql2')->select('
+                    SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+                        ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                        ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                        ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                        ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,""  PROVIDER,v.vstdate
+                        FROM opitemrece v
+                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                
+                    WHERE v.vn IN("'.$value->vn.'")
+                    AND d.did is not null 
+                    GROUP BY v.vn,did
+
+                    UNION all
+
+                    SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+                        ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                        ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                        ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                        ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
+                        FROM opitemrece v
+                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                        LEFT OUTER JOIN patient pt  on v.hn = pt.hn
+                        INNER JOIN ipt v1 on v1.an = v.an
+                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                 
+                    WHERE v1.vn IN("'.$value->vn.'")
+                    AND d.did is not null AND v.qty<>"0"
+                    GROUP BY v.an,d.icode,USE_STATUS;              
+                ');
+            
+                foreach ($data_dru_ as $va_14) {
+                    D_dru_out::insert([ 
+                        'HN'             => $va_14->HN, 
+                        'PERSON_ID'      => $va_14->PERSON_ID, 
+                        'DID'            => $va_14->DID,
+                        'DIDNAME'        => $va_14->DIDNAME, 
+                        'AMOUNT'         => $va_14->AMOUNT,
+                        'DRUGPRIC'       => $va_14->DRUGPRIC,
+                        'DRUGCOST'       => $va_14->DRUGCOST,
+                        'DIDSTD'         => $va_14->DIDSTD,
+                        'UNIT'           => $va_14->UNIT,
+                        'UNIT_PACK'      => $va_14->UNIT_PACK,
+                        'SEQ'            => $va_14->SEQ,
+                        'DRUGREMARK'     => $va_14->DRUGREMARK,
+                        'PA_NO'          => $va_14->PA_NO 
+                    ]);
+                } 
+                    
+                       
                 }
                 $data_maindb_ = DB::connection('mysql2')->select(' 
                         SELECT count(distinct v.vn) as vn
@@ -257,15 +307,19 @@ class Ofc401Controller extends Controller
                         'income_vn'          => $val2->Apphos, 
                         'hipdata_code'       => $val2->hipdata_code  
                     ]);
-                }
-                
-                   
+                } 
                     
                 }
 
- 
-                
+                // $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_401');
+                // foreach ($data_vn_1 as $key => $value08) {
+                    //D_dru OK
+                   
+                // }
+  
         }
+
+                
             $data['d_ofc_401'] = DB::connection('mysql')->select('SELECT * from d_ofc_401');  
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_401"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="OFC_401"'); 
@@ -288,40 +342,51 @@ class Ofc401Controller extends Controller
             'enddate'       =>     $enddate, 
         ]);
     }
+    public function ofc_401_check(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $data['datashow'] = DB::connection('mysql')->select('SELECT * from d_dru_out WHERE DRUGREMARK IS NOT NULL');
+
+        return view('ofc.ofc_401_check',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
     public function ofc_401_process(Request $request)
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ofc_401');
         $iduser = Auth::user()->id; 
-        D_opd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_orf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_oop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_odx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_idx::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ipd::where('d_anaconda_id','=','OFC_401')->delete();
-        D_irf::where('d_anaconda_id','=','OFC_401')->delete();
-        D_aer::where('d_anaconda_id','=','OFC_401')->delete();
-        D_iop::where('d_anaconda_id','=','OFC_401')->delete();
-        D_adp::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_dru::where('d_anaconda_id','=','OFC_401')->delete();   
-        D_pat::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cht::where('d_anaconda_id','=','OFC_401')->delete();
-        D_cha::where('d_anaconda_id','=','OFC_401')->delete();
-        D_ins::where('d_anaconda_id','=','OFC_401')->delete();
-        // D_opd::truncate();
-        // D_orf::truncate();
-        // D_oop::truncate();
-        // D_odx::truncate();
-        // D_idx::truncate();
-        // D_ipd::truncate();
-        // D_irf::truncate();
-        // D_aer::truncate();
-        // D_iop::truncate();
-        // D_adp::truncate();  
-        // D_dru::truncate();   
-        // D_pat::truncate();
-        // D_cht::truncate();
-        // D_cha::truncate();
-        // D_ins::truncate();
+        // D_opd::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_orf::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_oop::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_odx::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_idx::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_ipd::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_irf::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_aer::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_iop::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_adp::where('d_anaconda_id','=','OFC_401')->delete();   
+        // D_dru::where('d_anaconda_id','=','OFC_401')->delete();   
+        // D_pat::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_cht::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_cha::where('d_anaconda_id','=','OFC_401')->delete();
+        // D_ins::where('d_anaconda_id','=','OFC_401')->delete();
+        D_opd::truncate();
+        D_orf::truncate();
+        D_oop::truncate();
+        D_odx::truncate();
+        D_idx::truncate();
+        D_ipd::truncate();
+        D_irf::truncate();
+        D_aer::truncate();
+        D_iop::truncate();
+        D_adp::truncate();  
+        D_dru::truncate();   
+        D_pat::truncate();
+        D_cht::truncate();
+        D_cha::truncate();
+        D_ins::truncate();
 
          foreach ($data_vn_1 as $key => $va1) {
                 //D_ins OK

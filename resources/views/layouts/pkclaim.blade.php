@@ -251,6 +251,7 @@
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('ofc_401_main') }}">OFC-MAIN </a></li>
                                         <li><a href="{{ url('ofc_401') }}">OFC-CLAIM </a></li>
+                                        <li><a href="{{ url('ofc_401_check') }}">OFC-CHECK </a></li>
                                         <li><a href="{{ url('ofc_401_rep') }}">OFC-REP </a></li>
                                         {{-- <li><a href="{{ url('ktb_spawn') }}">การตรวจหลังคลอด ANC</a></li> --}}
                                         {{-- <li><a href="{{ url('ktb_ferrofolic') }}">บริการยาเสริมธาตุเหล็ก </a></li> --}}

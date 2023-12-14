@@ -294,6 +294,7 @@ Route::match(['get','post'],'ofc_401_export',[App\Http\Controllers\Ofc401Control
 Route::match(['get','post'],'ofc_401_rep',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_rep'])->name('claim.ofc_401_rep');//
 Route::match(['get','post'],'ofc_401_repsave',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_repsave'])->name('claim.ofc_401_repsave');//
 Route::match(['get','post'],'ofc_401_repsend',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_repsend'])->name('claim.ofc_401_repsend');//
+Route::match(['get','post'],'ofc_401_check',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_check'])->name('claim.ofc_401_check');//
 // Route::match(['get','post'],'ofc_401_sendapi',[App\Http\Controllers\Ofc401Controller::class, 'ofc_401_sendapi'])->name('claim.ofc_401_sendapi');//
 
 Route::match(['get','post'],'ofc_401_exportapi',[App\Http\Controllers\Ofc401_apiController::class, 'ofc_401_exportapi'])->name('claim.ofc_401_exportapi');//
@@ -332,14 +333,16 @@ Route::match(['get','post'],'ppfs_12004_process',[App\Http\Controllers\PPfs12004
 Route::match(['get','post'],'ppfs_12004_export',[App\Http\Controllers\PPfs12004Controller::class, 'ppfs_12004_export'])->name('claim.ppfs_12004_export');//
 
 // *******************30101 บริการคัดกรองการขาดธาตุเหล็ก 13-45 ปี*******************
-Route::match(['get','post'],'ppfs_30101',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101'])->name('claim.ppfs_30101');//
-Route::match(['get','post'],'ppfs_30101_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_process'])->name('claim.ppfs_30101_process');//
-Route::match(['get','post'],'ppfs_30101_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_export'])->name('claim.ppfs_30101_export');//
+// Route::match(['get','post'],'ppfs_30101',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101'])->name('claim.ppfs_30101');//
+// Route::match(['get','post'],'ppfs_30101_process',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_process'])->name('claim.ppfs_30101_process');//
+// Route::match(['get','post'],'ppfs_30101_export',[App\Http\Controllers\PPfs66Controller::class, 'ppfs_30101_export'])->name('claim.ppfs_30101_export');//
 
 // ******************* HERB ยาสมุนไพร *******************
 Route::match(['get','post'],'herb9',[App\Http\Controllers\Herb9Controller::class, 'herb9'])->name('claim.herb9');//
 Route::match(['get','post'],'herb9_process',[App\Http\Controllers\Herb9Controller::class, 'herb9_process'])->name('claim.herb9_process');//
 Route::match(['get','post'],'herb9_export',[App\Http\Controllers\Herb9Controller::class, 'herb9_export'])->name('claim.herb9_export');//
+Route::match(['get','post'],'herb9_export_api',[App\Http\Controllers\Herb9Controller::class, 'herb9_export_api'])->name('claim.herb9_export_api');//
+Route::match(['get','post'],'herb9_send_api',[App\Http\Controllers\Herb9Controller::class, 'herb9_send_api'])->name('claim.herb9_send_api');//
 
 // *******************30011 บริการดูแลและฝากครรภ์*******************
 Route::match(['get','post'],'ppfs_30011',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011'])->name('claim.ppfs_30011');//
