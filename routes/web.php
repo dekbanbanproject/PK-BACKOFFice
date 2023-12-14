@@ -304,6 +304,8 @@ Route::match(['get','post'],'ofc_401_sendapi',[App\Http\Controllers\Ofc401_apiCo
 Route::match(['get','post'],'lgo_801',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801'])->name('claim.lgo_801');//
 Route::match(['get','post'],'lgo_801_process',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_process'])->name('claim.lgo_801_process');//
 Route::match(['get','post'],'lgo_801_export',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_export'])->name('claim.lgo_801_export');//
+Route::match(['get','post'],'lgo_801_export_api',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_export_api'])->name('claim.lgo_801_export_api');//
+Route::match(['get','post'],'lgo_801_send_api',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_send_api'])->name('claim.lgo_801_send_api');//
 Route::match(['get','post'],'lgo_801_main',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_main'])->name('claim.lgo_801_main');//
 Route::match(['get','post'],'lgo_801_rep',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_rep'])->name('claim.lgo_801_rep');//
 
