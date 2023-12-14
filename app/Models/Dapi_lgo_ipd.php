@@ -8,12 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Dapi_lgo_dru extends Authenticatable
+class Dapi_lgo_ipd extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'dapi_lgo_dru';
-    protected $primaryKey = 'dapi_lgo_dru_id';
+    protected $table = 'dapi_lgo_ipd';
+    protected $primaryKey = 'dapi_lgo_ipd_id';
     protected $fillable = [
         'blobName',
         'blobType',

@@ -23,22 +23,22 @@ use App\Models\Department;
 use App\Models\Departmentsub;
 use App\Models\Departmentsubsub;
 use App\Models\Position;
-use App\Models\Product_spyprice;
-use App\Models\Products;
-use App\Models\Products_type;
-use App\Models\Product_group;
-use App\Models\Product_unit;
-use App\Models\Products_category;
-use App\Models\Article;
-use App\Models\Product_prop;
-use App\Models\Product_decline;
-use App\Models\Department_sub_sub;
-use App\Models\Products_vendor;
-use App\Models\Status; 
-use App\Models\Products_request;
-use App\Models\Products_request_sub;   
-use App\Models\Leave_leader;
-use App\Models\Leave_leader_sub;
+use App\Models\Dapi_lgo_ins;
+use App\Models\Dapi_lgo_dru;
+use App\Models\Dapi_lgo_pat;
+use App\Models\Dapi_lgo_opd;
+use App\Models\Dapi_lgo_orf;
+use App\Models\Dapi_lgo_odx;
+use App\Models\Dapi_lgo_oop;
+use App\Models\Dapi_lgo_ipd;
+use App\Models\Dapi_lgo_irf;
+use App\Models\Dapi_lgo_idx;
+use App\Models\Dapi_lgo_iop;
+use App\Models\Dapi_lgo_cht; 
+use App\Models\Dapi_lgo_cha;
+use App\Models\Dapi_lgo_aer;   
+use App\Models\Dapi_lgo_adp;
+use App\Models\Dapi_lgo_ldv;
 use App\Models\Book_type;
 use App\Models\Book_import_fam;
 use App\Models\Book_signature;
@@ -2181,13 +2181,13 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_ins);
         fclose($objFopen_ins_utf);
-        DapiLGO_801_ins::truncate();
+        Dapi_lgo_ins::truncate();
         $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
         $fread_file_ins_endcode = base64_encode($fread_file_ins);
         $read_file_ins_size = filesize($file_d_ins);
 
         // dd( $fread_file_ins);
-        DapiLGO_801_ins::insert([
+        Dapi_lgo_ins::insert([
             'blobName'   =>  'INS.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_ins_endcode,
@@ -2229,11 +2229,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_pat);
         fclose($objFopen_pat_utf);
-        DapiLGO_801_pat::truncate();
+        Dapi_lgo_pat::truncate();
         $fread_file_pat = fread(fopen($file_d_pat,"r"),filesize($file_d_pat));
         $fread_file_pat_endcode = base64_encode($fread_file_pat);
         $read_file_pat_size = filesize($file_d_pat);
-        DapiLGO_801_pat::insert([
+        Dapi_lgo_pat::insert([
             'blobName'   =>  'PAT.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_pat_endcode,
@@ -2266,11 +2266,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_opd);
         fclose($objFopen_opd_utf);
-        DapiLGO_801_opd::truncate();
+        Dapi_lgo_opd::truncate();
         $fread_file_opd = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
         $fread_file_opd_endcode = base64_encode($fread_file_opd);
         $read_file_opd_size = filesize($file_d_opd);
-        DapiLGO_801_opd::insert([
+        Dapi_lgo_opd::insert([
             'blobName'   =>  'OPD.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_opd_endcode,
@@ -2303,11 +2303,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_orf);
         fclose($objFopen_orf_utf);
-        DapiLGO_801_orf::truncate();
+        Dapi_lgo_orf::truncate();
         $fread_file_orf = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
         $fread_file_orf_endcode = base64_encode($fread_file_orf);
         $read_file_orf_size = filesize($file_d_orf);
-        DapiLGO_801_orf::insert([
+        Dapi_lgo_orf::insert([
             'blobName'   =>  'ORF.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_orf_endcode,
@@ -2342,11 +2342,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_odx);
         fclose($objFopen_odx_utf);
-        DapiLGO_801_odx::truncate();
+        Dapi_lgo_odx::truncate();
         $fread_file_odx = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
         $fread_file_odx_endcode = base64_encode($fread_file_odx);
         $read_file_odx_size = filesize($file_d_odx);
-        DapiLGO_801_odx::insert([
+        Dapi_lgo_odx::insert([
             'blobName'   =>  'ODX.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_odx_endcode,
@@ -2380,11 +2380,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_oop);
         fclose($objFopen_oop_utf);
-        DapiLGO_801_oop::truncate();
+        Dapi_lgo_oop::truncate();
         $fread_file_oop = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
         $fread_file_oop_endcode = base64_encode($fread_file_oop);
         $read_file_oop_size = filesize($file_d_oop);
-        DapiLGO_801_oop::insert([
+        Dapi_lgo_oop::insert([
             'blobName'   =>  'OOP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_oop_endcode,
@@ -2424,11 +2424,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_ipd);
         fclose($objFopen_ipd_utf);
-        DapiLGO_801_ipd::truncate();
+        Dapi_lgo_ipd::truncate();
         $fread_file_ipd = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
         $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
         $read_file_ipd_size = filesize($file_d_ipd);
-        DapiLGO_801_ipd::insert([
+        Dapi_lgo_ipd::insert([
             'blobName'   =>  'IPD.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_ipd_endcode,
@@ -2458,11 +2458,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_irf);
         fclose($objFopen_irf_utf);
-        DapiLGO_801_irf::truncate();
+        Dapi_lgo_irf::truncate();
         $fread_file_irf = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
         $fread_file_irf_endcode = base64_encode($fread_file_irf);
         $read_file_irf_size = filesize($file_d_irf);
-        DapiLGO_801_irf::insert([
+        Dapi_lgo_irf::insert([
             'blobName'   =>  'IRF.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_irf_endcode,
@@ -2493,11 +2493,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_idx);
         fclose($objFopen_idx_utf);
-        DapiLGO_801_idx::truncate();
+        Dapi_lgo_idx::truncate();
         $fread_file_idx = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
         $fread_file_idx_endcode = base64_encode($fread_file_idx);
         $read_file_idx_size = filesize($file_d_idx);
-        DapiLGO_801_idx::insert([
+        Dapi_lgo_idx::insert([
             'blobName'   =>  'IDX.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_idx_endcode,
@@ -2533,11 +2533,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_iop);
         fclose($objFopen_iop_utf);
-        DapiLGO_801_iop::truncate();
+        Dapi_lgo_iop::truncate();
         $fread_file_iop = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
         $fread_file_iop_endcode = base64_encode($fread_file_iop);
         $read_file_iop_size = filesize($file_d_iop);
-        DapiLGO_801_iop::insert([
+        Dapi_lgo_iop::insert([
             'blobName'   =>  'IOP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_iop_endcode,
@@ -2572,11 +2572,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_cht);
         fclose($objFopen_cht_utf);
-        DapiLGO_801_cht::truncate();
+        Dapi_lgo_cht::truncate();
         $fread_file_cht = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
         $fread_file_cht_endcode = base64_encode($fread_file_cht);
         $read_file_cht_size = filesize($file_d_cht);
-        DapiLGO_801_cht::insert([
+        Dapi_lgo_cht::insert([
             'blobName'   =>  'CHT.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_cht_endcode,
@@ -2610,11 +2610,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_cha);
         fclose($objFopen_cha_utf);
-        DapiLGO_801_cha::truncate();
+        Dapi_lgo_cha::truncate();
         $fread_file_cha = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
         $fread_file_cha_endcode = base64_encode($fread_file_cha);
         $read_file_cha_size = filesize($file_d_cha);
-        DapiLGO_801_cha::insert([
+        Dapi_lgo_cha::insert([
             'blobName'   =>  'CHA.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_cha_endcode,
@@ -2659,11 +2659,11 @@ class Lgo801Controller extends Controller
          }
         //  fclose($objFopen_aer);
          fclose($objFopen_aer_utf);
-         DapiLGO_801_aer::truncate();
+         Dapi_lgo_aer::truncate();
          $fread_file_aer = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
          $fread_file_aer_endcode = base64_encode($fread_file_aer);
          $read_file_aer_size = filesize($file_d_aer);
-         DapiLGO_801_aer::insert([
+         Dapi_lgo_aer::insert([
              'blobName'   =>  'AER.txt',
              'blobType'   =>  'text/plain',
              'blob'       =>   $fread_file_aer_endcode,
@@ -2717,11 +2717,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_adp);
         fclose($objFopen_adp_utf);
-        DapiLGO_801_adp::truncate();
+        Dapi_lgo_adp::truncate();
         $fread_file_adp = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
         $fread_file_adp_endcode = base64_encode($fread_file_adp);
         $read_file_adp_size = filesize($file_d_adp);
-        DapiLGO_801_adp::insert([
+        Dapi_lgo_adp::insert([
             'blobName'   =>  'ADP.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_adp_endcode,
@@ -2755,11 +2755,11 @@ class Lgo801Controller extends Controller
          }
         //  fclose($objFopen_lvd);
          fclose($objFopen_lvd_utf);
-         DapiLGO_801_ldv::truncate();
+         Dapi_lgo_ldv::truncate();
          $fread_file_lvd = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
          $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
          $read_file_lvd_size = filesize($file_d_lvd);
-         DapiLGO_801_ldv::insert([
+         Dapi_lgo_ldv::insert([
              'blobName'   =>  'LDV.txt',
              'blobType'   =>  'text/plain',
              'blob'       =>   $fread_file_lvd_endcode,
@@ -2809,11 +2809,11 @@ class Lgo801Controller extends Controller
         }
         // fclose($objFopen_dru);
         fclose($objFopen_dru_utf);
-        DapiLGO_801_dru::truncate();
+        Dapi_lgo_dru::truncate();
         $fread_file_dru = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
         $fread_file_dru_endcode = base64_encode($fread_file_dru);
         $read_file_dru_size = filesize($file_d_dru);
-        DapiLGO_801_dru::insert([
+        Dapi_lgo_dru::insert([
             'blobName'   =>  'DRU.txt',
             'blobType'   =>  'text/plain',
             'blob'       =>   $fread_file_dru_endcode,
@@ -2831,6 +2831,185 @@ class Lgo801Controller extends Controller
             return response()->json([
                 'status'    => '200'
             ]);
+    }
+    public function lgo_801_send_api(Request $request)
+    {  
+        $iduser = Auth::user()->id;
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
+        foreach ($data_token_ as $key => $val_to) {
+            $username     = $val_to->api_neweclaim_user;
+            $password     = $val_to->api_neweclaim_pass;
+            $token        = $val_to->api_neweclaim_token;
+        } 
+        // dd($token);
+          
+        $data_table = array("dapi_lgo_ins","dapi_lgo_pat","dapi_lgo_opd","dapi_lgo_orf","dapi_lgo_odx","dapi_lgo_oop","dapi_lgo_ipd","dapi_lgo_irf","dapi_lgo_idx","dapi_lgo_iop","dapi_lgo_cht","dapi_lgo_cha","dapi_lgo_aer","dapi_lgo_adp","dapi_lgo_ldv","dapi_lgo_dru");
+        
+        foreach ($data_table as $key => $val_t) {        
+                $data_all_ = DB::connection('mysql')->select('
+                SELECT * FROM '.$val_t.'
+                ');                
+                foreach ($data_all_ as $val_field) {
+                    $blob[] = $val_field->blob;
+                    $size[] = $val_field->size;                     
+                 }     
+            }
+ 
+            // dd($blob[5]);
+            $ch = curl_init();
+            $Data_send = [
+                "fileType" => "txt",
+                "maininscl" => "LGO",
+                "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
+                "dataTypes" => ["OP","IP"],
+                "opRefer" => false, 
+                    "file" => [ 
+                        "ins" => [
+                            "blobName"  => "INS.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[0],
+                            "size"      => $size[0],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"pat" => [
+                            "blobName"  => "PAT.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[1],
+                            "size"      => $size[1],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"opd" => [
+                            "blobName"  => "OPD.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[2],
+                            "size"      => $size[2],
+                            "encoding"  => "UTF-8"
+                        ] 
+                        ,"orf" => [
+                            "blobName"  => "ORF.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[3],
+                            "size"      => $size[3],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"odx" => [
+                            "blobName"  => "ODX.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[4],
+                            "size"      => $size[4],
+                            "encoding"  => "UTF-8"
+                        ]  
+                        ,"oop" => [
+                            "blobName"  => "OOP.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[5],
+                            "size"      => $size[5],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"ipd" => [
+                            "blobName"  => "IPD.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[6],
+                            "size"      => $size[6],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"irf" => [
+                            "blobName"  => "IRF.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[7],
+                            "size"      => $size[7],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"idx" => [
+                            "blobName"  => "IDX.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[8],
+                            "size"      => $size[8],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"iop" => [
+                            "blobName"  => "IOP.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[9],
+                            "size"      => $size[9],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"cht" => [
+                            "blobName"  => "CHT.txt",
+                            "blobType"  => "text",
+                            "blob"      => $blob[10],
+                            "size"      => $size[10],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"cha" => [
+                            "blobName"  => "CHA.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[11],
+                            "size"      => $size[11],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"aer" => [
+                            "blobName"  => "AER.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[12],
+                            "size"      => $size[12],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"adp" => [
+                            "blobName"  => "ADP.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[13],
+                            "size"      => $size[13],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"lvd" => [
+                            "blobName"  => "LVD.txt",
+                            "blobType"  => "text/plain",
+                            "blob"      => $blob[14],
+                            "size"      => $size[14],
+                            "encoding"  => "UTF-8"
+                        ]
+                        ,"dru" => [
+                            "blobName" => "DRU.txt",
+                            "blobType" => "text/plain",
+                            "blob"     => $blob[15],
+                            "size"     => $size[15],
+                            "encoding" => "UTF-8"
+                        ]                        
+                        ,"lab" => null
+                    ] 
+            ];        
+            // dd($Data_send);
+            $headers_send  = [
+                'Authorization : Bearer '.$token,
+                'Content-Type: application/json',            
+                'User-Agent:<platform>/<version><10978>'
+                    
+            ];
+
+            curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($Data_send, JSON_UNESCAPED_SLASHES));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers_send);
+  
+            $server_output     = curl_exec ($ch);
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            
+            $content = $server_output;
+            $result = json_decode($content, true);
+            
+            #echo "<BR>";
+            @$status = $result['status'];
+            #echo "<BR>";
+            @$message = $result['message'];
+            #echo "<BR>";
+           
+        
+        return response()->json([
+            'status'    => '200'
+        ]);
     }
  
 }
