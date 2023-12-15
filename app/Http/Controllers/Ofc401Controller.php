@@ -469,18 +469,18 @@ class Ofc401Controller extends Controller
                     ]);
                 }
                 //D_opd OK
-                $data_opd = DB::connection('mysql')->select('
+                $data_opd = DB::connection('mysql2')->select('
                         SELECT  v.hn HN
                         ,v.spclty CLINIC
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD
                         ,v.vn SEQ
                         ,"1" UUC ,"" DETAIL,""BTEMP,""SBP,""DBP,""PR,""RR,""OPTYPE,""TYPEIN,""TYPEOUT
-                        from hos.vn_stat v
-                        LEFT OUTER JOIN hos.ovst o on o.vn = v.vn
-                        LEFT OUTER JOIN hos.pttype p on p.pttype = v.pttype
-                        LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
-                        LEFT OUTER JOIN hos.patient pt on pt.hn = v.hn
+                        from vn_stat v
+                        LEFT OUTER JOIN ovst o on o.vn = v.vn
+                        LEFT OUTER JOIN pttype p on p.pttype = v.pttype
+                        LEFT OUTER JOIN ipt i on i.vn = v.vn
+                        LEFT OUTER JOIN patient pt on pt.hn = v.hn
                         WHERE v.vn IN("'.$va1->vn.'")                  
                 '); 
                 foreach ($data_opd as $val3) {       

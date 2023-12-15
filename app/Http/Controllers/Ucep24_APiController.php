@@ -886,8 +886,8 @@ class Ucep24_APiController extends Controller
             $fame_send = curl_init();
             $postData_send = [
                 "fileType" => "txt",
-                "maininscl" => "",
-                "importDup" => true, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
+                "maininscl" => "UCS",
+                "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
                 "assignToMe" => true,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น
                 "dataTypes" => ["OP","IP"],
                 "opRefer" => false, 

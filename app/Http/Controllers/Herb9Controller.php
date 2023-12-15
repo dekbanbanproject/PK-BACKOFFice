@@ -326,7 +326,7 @@ class Herb9Controller extends Controller
                     ]);
                 }
                 //D_opd OK
-                $data_opd = DB::connection('mysql')->select('
+                $data_opd = DB::connection('mysql2')->select('
                         SELECT  v.hn HN
                         ,v.spclty CLINIC
                         ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD

@@ -647,6 +647,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <span>UP STM</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ url('upstm_all') }}">STM ALL</a></li>
                                 <li><a href="{{ url('upstm_ucs') }}">UCS(Excel-202)OK</a></li>
                                 <li><a href="{{ url('upstm_ofcexcel') }}">OFC-BKK(Excel)OK</a></li> 
                                 <li><a href="{{ url('upstm_lgoexcel') }}">LGO(Excel)OK</a></li>  

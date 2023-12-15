@@ -350,6 +350,8 @@ Route::match(['get','post'],'herb9_send_api',[App\Http\Controllers\Herb9Controll
 Route::match(['get','post'],'ppfs_30011',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011'])->name('claim.ppfs_30011');//
 Route::match(['get','post'],'ppfs_30011_process',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_process'])->name('claim.ppfs_30011_process');//
 Route::match(['get','post'],'ppfs_30011_export',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_export'])->name('claim.ppfs_30011_export');//
+Route::match(['get','post'],'ppfs_30011_export_api',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_export_api'])->name('claim.ppfs_30011_export_api');//
+Route::match(['get','post'],'ppfs_30011_send_api',[App\Http\Controllers\PPfs30011Controller::class, 'ppfs_30011_send_api'])->name('claim.ppfs_30011_send_api');//
 
 // *******************30015 บริการตรวจหลังคลอด*******************
 Route::match(['get','post'],'ppfs_30015',[App\Http\Controllers\PPfs30015Controller::class, 'ppfs_30015'])->name('claim.ppfs_30015');//
@@ -1666,6 +1668,7 @@ Route::middleware(['type'])->group(function(){
     Route::match(['get','post'],'upstm_hn',[App\Http\Controllers\AccountPKController::class, 'upstm_hn'])->name('acc.upstm_hn');// ไต
     Route::match(['get','post'],'upstm_ti_importexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ti_importexcel'])->name('acc.upstm_ti_importexcel');// ไต
 
+    Route::match(['get','post'],'upstm_all',[App\Http\Controllers\AccountPKController::class, 'upstm_all'])->name('acc.upstm_all');//
     Route::match(['get','post'],'upstm_ucs',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs'])->name('acc.upstm_ucs');//
     Route::match(['get','post'],'upstm_ucs_excel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_excel'])->name('acc.upstm_ucs_excel');//
     Route::match(['get','post'],'upstm_ucs_sendexcel',[App\Http\Controllers\AccountPKController::class, 'upstm_ucs_sendexcel'])->name('acc.upstm_ucs_sendexcel');//

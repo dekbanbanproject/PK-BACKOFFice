@@ -5665,13 +5665,49 @@ class AccountPKController extends Controller
 
 
     // **********************************************
-
-    public function upstm_ucs(Request $request)
+    public function upstm_all(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
+            SELECT STMDoc ,SUM(total_approve) as total 
+            FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_OPU%" GROUP BY STMDoc'
+        );
+        $data['ucs_ipd'] = DB::connection('mysql')->select('
+            SELECT STMDoc ,SUM(total_approve) as total 
+            FROM acc_stm_ucs WHERE STMDoc LIKE "STM_10978_IPU%" GROUP BY STMDoc'
+        );
+        // ,(SELECT STMDoc WHERE STMDoc LIKE "STM_10978_IPU%") as STMDoc_ipd
+        // ,(SELECT STMDoc WHERE STMDoc LIKE "STM_10978_OPU%") as STMDoc_opd
+        $data['ofc_opd'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_OP%" GROUP BY STMDoc
+        ');
+        $data['ofc_ipd'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(pricereq_all) as total FROM acc_stm_ofc WHERE STMDoc LIKE "STM_10978_IP%" GROUP BY STMDoc
+        ');
+        $data['lgo_opd'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_OP%" GROUP BY STMDoc
+        ');
+        $data['lgo_ipd'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc
+        ');
+
+        $countc = DB::table('acc_stm_ucs_excel')->count();
+        // dd($countc );
+        return view('account_pk.upstm_all',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+    public function upstm_ucs(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('SELECT STMDoc,SUM(total_approve) as total FROM acc_stm_ucs GROUP BY STMDoc
             SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
             FROM acc_stm_ucs_excel
             GROUP BY rep
