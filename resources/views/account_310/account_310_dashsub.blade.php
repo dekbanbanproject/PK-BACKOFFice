@@ -74,26 +74,33 @@
     ?>
 
    <div class="tabs-animation">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner"> 
-                </div>
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
+    </div>
        
-            <div class="row ms-3 me-3"> 
+            <div class="row"> 
                 <div class="col-md-4">
-                    <h4 class="card-title">Detail 1102050101.310</h4>
+                    <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.310</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.310</p>
                 </div>
                 <div class="col"></div>
                
             </div>
         
-        <div class="row ms-3 me-3"> 
+        <div class="row"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="card cardshadow" style="background-color: rgb(246, 235, 247)"> 
  
                     <div class="grid-menu-col">
                         <div class="g-0 row">

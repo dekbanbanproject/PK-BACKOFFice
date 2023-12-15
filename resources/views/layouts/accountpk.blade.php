@@ -63,7 +63,7 @@
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
 
-   
+    <link rel="stylesheet" href="{{ asset('css/dcss.css') }}">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/github.min.css" /> --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script> --}}
  

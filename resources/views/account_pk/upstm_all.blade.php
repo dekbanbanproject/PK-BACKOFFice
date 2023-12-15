@@ -74,8 +74,20 @@
             position: absolute;
             left: 50%;
             color: black;
-        }
+        }       
         .card{
+            border-radius: 3em 3em 3em 3em;
+            /* box-shadow: 0 0 10px teal; */
+        }
+        .card-ucs{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(14, 240, 240);
+        }
+        .card-ofc{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(10, 110, 223);
+        }
+        .card-lgo{
             border-radius: 3em 3em 3em 3em;
             box-shadow: 0 0 10px teal;
         }
@@ -95,31 +107,41 @@
     use Illuminate\Support\Facades\DB;
     $count_meettingroom = StaticController::count_meettingroom();
     ?>
-    <div class="container-fluid">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
 
+        <div class="tabs-animation">
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner">
+    
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="row text-center">
+                <div id="overlay">
+                    <div class="cv-spinner">
+                        <span class="spinner"></span>
+                    </div>
+                </div>
+        
+            </div>
 
         <div class="row">
 
-            <div class="col-xl-12">
+            <div class="col-md-12">
                 {{-- <div class="card shadow-lg rounded-pill"> --}}
                     <div class="card-body ">
 
                         <h4 class="card-title">STM DETAIL GROUP</h4>
                         <p class="card-title-desc">รายการ stm ที่อัพโหลดแล้ว</p>
-                        {{-- btn-shadow btn-dashed btn btn-outline-info bt mb-2 --}}
+                        {{-- btn-shadow btn-dashed btn btn-outline-info bt mb-2 --}} 
+                        {{-- <button type="button" class="btn btn-info btn-rounded waves-effect waves-light">Info</button> --}}
                         <div class="row">
                             <div class="col-md-2">
                                 {{-- <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"> --}}
                                 <div class="nav flex-column" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link bt mb-2 active" id="v-pills-ucs-tab" data-bs-toggle="pill" href="#v-pills-ucs" role="tab" aria-controls="v-pills-ucs" aria-selected="true">UCS</a>
-                                <a class="nav-link mb-2" id="v-pills-ofc-tab" data-bs-toggle="pill" href="#v-pills-ofc" role="tab" aria-controls="v-pills-ofc" aria-selected="false">OFC</a>
-                                <a class="nav-link mb-2" id="v-pills-lgo-tab" data-bs-toggle="pill" href="#v-pills-lgo" role="tab" aria-controls="v-pills-lgo" aria-selected="false">LGO</a>
+                                <a class="nav-link btn btn-info btn-rounded waves-effect waves-light mb-2 active" id="v-pills-ucs-tab" data-bs-toggle="pill" href="#v-pills-ucs" role="tab" aria-controls="v-pills-ucs" aria-selected="true">UCS</a>
+                                <a class="nav-link btn btn-primary btn-rounded waves-effect waves-light mb-2" id="v-pills-ofc-tab" data-bs-toggle="pill" href="#v-pills-ofc" role="tab" aria-controls="v-pills-ofc" aria-selected="false">OFC</a>
+                                <a class="nav-link btn btn-success btn-rounded waves-effect waves-light mb-2" id="v-pills-lgo-tab" data-bs-toggle="pill" href="#v-pills-lgo" role="tab" aria-controls="v-pills-lgo" aria-selected="false">LGO</a>
                                 {{-- <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a> --}}
                                 </div>
                             </div>
@@ -128,63 +150,67 @@
                                     <div class="tab-pane fade show active" id="v-pills-ucs" role="tabpanel" aria-labelledby="v-pills-ucs-tab">
                                         <div class="row"> 
                                             <div class="col-md-6">
-                                                <div class="card p-4">
+                                                <div class="card p-4 card-ucs">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS OPD</h4>
-                                                    <table id="example" class="table table-striped table-bordered "
-                                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center">ลำดับ</th> 
-                                                                <th class="text-center">STMDoc</th> 
-                                                                <th class="text-center">total</th>
-                            
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $number = 0;
-                                                            $total1 = 0; ?>
-                                                            @foreach ($datashow as $item)
-                                                                <?php $number++; ?>
-                            
-                                                                <tr height="20">
-                                                                    <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                    <td class="text-start" style="color:rgb(34, 90, 243);font-size:17px"> {{ $item->STMDoc }}</td>  
-                                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:17px" width="30%">{{ number_format($item->total, 2) }}</td>
+                                                    <div class="table-responsive">
+                                                        <table id="example" class="table table-striped table-bordered "
+                                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th> 
+                                                                    <th class="text-center">total</th>
+                                
                                                                 </tr>
-                                                            @endforeach
-                            
-                                                        </tbody> 
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($datashow as $item)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item->STMDoc }}</td>  
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="card p-4">
+                                                <div class="card p-4 card-ucs">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS IPD</h4>
-                                                    <table id="example2" class="table table-striped table-bordered "
-                                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center">ลำดับ</th> 
-                                                                <th class="text-center">STMDoc</th> 
-                                                                <th class="text-center">total</th>
-                            
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $number = 0;
-                                                            $total1 = 0; ?>
-                                                            @foreach ($ucs_ipd as $item_ip)
-                                                                <?php $number++; ?>
-                            
-                                                                <tr height="20">
-                                                                    <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                    <td class="text-start" style="color:rgb(252, 53, 129);font-size:17px"> {{ $item_ip->STMDoc }}</td>  
-                                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:17px" width="30%">{{ number_format($item_ip->total, 2) }}</td>
+                                                    <div class="table-responsive">
+                                                        <table id="example2" class="table table-striped table-bordered "
+                                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th> 
+                                                                    <th class="text-center">total</th>
+                                
                                                                 </tr>
-                                                            @endforeach
-                            
-                                                        </tbody> 
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ucs_ipd as $item_ip)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> {{ $item_ip->STMDoc }}</td>  
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="30%">{{ number_format($item_ip->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div> 
@@ -193,61 +219,65 @@
                                     <div class="tab-pane fade" id="v-pills-ofc" role="tabpanel" aria-labelledby="v-pills-ofc-tab">
                                         <div class="row">
                                             <div class="col-md-6"> 
-                                                <div class="card p-4">
+                                                <div class="card p-4 card-ofc">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC OPD</h4>
-                                                    <table id="example3" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center">ลำดับ</th> 
-                                                                <th class="text-center">STMDoc</th>
-                                                                <th class="text-center">total</th>
-                            
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $number = 0;
-                                                            $total1 = 0; ?>
-                                                            @foreach ($ofc_opd as $item2)
-                                                                <?php $number++; ?>
-                            
-                                                                <tr height="20">
-                                                                    <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                    <td class="text-start" style="color:rgb(34, 90, 243);font-size:17px"> {{ $item2->STMDoc }}</td> 
-                                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:17px" width="20%">{{ number_format($item2->total, 2) }}</td>
+                                                    <div class="table-responsive">
+                                                        <table id="example3" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
                                                                 </tr>
-                                                            @endforeach
-                            
-                                                        </tbody> 
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ofc_opd as $item2)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(34, 90, 243);font-size:15px"> {{ $item2->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item2->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="card p-4">
+                                                <div class="card p-4 card-ofc">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC IPD</h4>
-                                                    <table id="example4" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center">ลำดับ</th> 
-                                                                <th class="text-center">STMDoc</th>
-                                                                <th class="text-center">total</th>
-                            
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $number = 0;
-                                                            $total1 = 0; ?>
-                                                            @foreach ($ofc_ipd as $item_ofcipd)
-                                                                <?php $number++; ?>
-                            
-                                                                <tr height="20">
-                                                                    <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                    <td class="text-start" style="color:rgb(252, 53, 129);font-size:17px"> {{ $item_ofcipd->STMDoc }}</td> 
-                                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:17px" width="20%">{{ number_format($item_ofcipd->total, 2) }}</td>
+                                                    <div class="table-responsive">
+                                                        <table id="example4" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
                                                                 </tr>
-                                                            @endforeach
-                            
-                                                        </tbody> 
-                                                    </table> 
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ofc_ipd as $item_ofcipd)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> {{ $item_ofcipd->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item_ofcipd->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table> 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -257,37 +287,40 @@
                                     <div class="tab-pane fade" id="v-pills-lgo" role="tabpanel" aria-labelledby="v-pills-lgo-tab">
                                         <div class="row">
                                             <div class="col-md-6"> 
-                                                <div class="card p-4">
+                                                <div class="card p-4 card-lgo">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO OPD</h4>
-                                                    <table id="example5" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center">ลำดับ</th> 
-                                                                <th class="text-center">STMDoc</th>
-                                                                <th class="text-center">total</th>
-                            
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $number = 0;
-                                                            $total1 = 0; ?>
-                                                            @foreach ($lgo_opd as $item3)
-                                                                <?php $number++; ?>
-                            
-                                                                <tr height="20">
-                                                                    <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                    <td class="text-start" style="color:rgb(107, 67, 250);font-size:17px"> {{ $item3->STMDoc }}</td> 
-                                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:17px" width="20%">{{ number_format($item3->total, 2) }}</td>
+                                                    <div class="table-responsive">
+                                                        <table id="example5" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
                                                                 </tr>
-                                                            @endforeach
-                            
-                                                        </tbody> 
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($lgo_opd as $item3)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $item3->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item3->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6"> 
-                                                <div class="card p-4">
+                                                <div class="card p-4 card-lgo">
                                                     <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO IPD</h4>
+                                                    <div class="table-responsive">
                                                     <table id="example6" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                                         <thead>
                                                             <tr>
@@ -305,13 +338,14 @@
                             
                                                                 <tr height="20">
                                                                     <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                                                    <td class="text-start" style="color:rgb(252, 53, 129);font-size:17px"> {{ $item_lgoi->STMDoc }}</td> 
-                                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:17px" width="20%">{{ number_format($item_lgoi->total, 2) }}</td>
+                                                                    <td class="text-start" style="color:rgb(252, 53, 129);font-size:15px"> {{ $item_lgoi->STMDoc }}</td> 
+                                                                    <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($item_lgoi->total, 2) }}</td>
                                                                 </tr>
                                                             @endforeach
                             
                                                         </tbody> 
                                                     </table>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div> 

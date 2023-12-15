@@ -73,24 +73,31 @@
         $yb =  date('Y')+542;
     ?>
 
-   <div class="tabs-animation mb-5">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner"> 
-                </div>
+   <div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
+    </div>
         <form action="{{ url('account_301_dash') }}" method="GET">
             @csrf
-            <div class="row ms-3 me-3 mt-2"> 
+            <div class="row mt-2"> 
                 <div class="col-md-3">
-                    <h4 class="card-title">Detail 1102050101.301</h4>
+                    <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.301</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.301</p>
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-4 text-end">
-                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control">
+                <div class="col-md-4 text-center">
+                    <select name="acc_trimart_id" id="acc_trimart_id" class="form-control d-shadow">
                         <option value="">--เลือก--</option>
                         @foreach ($trimart as $item)
                             {{-- <option value="{{$item->acc_trimart_id}}">{{$item->acc_trimart_name}} {{$item->acc_trimart_start_date}} {{$item->acc_trimart_end_date}}</option> --}}
@@ -105,12 +112,18 @@
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
                     </div>  --}}
-                </div>
-                <div class="col-md-3 text-start">
-                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                {{-- </div>
+                <div class="col-md-3 text-start"> --}}
+                    {{-- <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
-                    </button>
+                    </button> --}}
+                </div>
+                    <div class="col-md-2 text-start">
+                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow" data-style="expand-left">
+                        <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                        <span class="ladda-spinner"></span>
+                    </button> 
                     {{-- <a href="{{url('account_301_pull')}}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
                         <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
                         ดึงข้อมูล
@@ -118,10 +131,10 @@
                 </div>
             </div>
         </form>  
-        <div class="row ms-3 me-3"> 
+        <div class="row "> 
             @foreach ($data_trimart as $item)   
             <div class="col-xl-4 col-md-6">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(235, 242, 247)"> 
+                <div class="card cardshadow" style="background-color: rgb(235, 242, 247)"> 
 
                     {{-- @if ($startdate == '') --}}
                     <div class="grid-menu-col">
@@ -324,7 +337,7 @@
         $(document).ready(function() {
             $('#example').DataTable();
             $('#example2').DataTable();
-            $('#p4p_work_month').select2({
+            $('#acc_trimart_id').select2({
                 placeholder: "--เลือก--",
                 allowClear: true
             });

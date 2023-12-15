@@ -71,22 +71,28 @@
                 <div class="cv-spinner">
                     <span class="spinner"></span>
                 </div>
+            </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
-
         </div>
 
-        <div class="row ms-3 me-3">
-            <div class="col-md-12">
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
+        <div class="row mt-3">
+            <div class="col-xl-12">
+                <div class="card cardshadow">
+                    {{-- <div class="card-header">
                         รายละเอียด 1102050101.310
                         <div class="btn-actions-pane-right">
 
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
-                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                        <div class="table-responsive">
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">รายละเอียด 1102050101.310</h4>
+                       
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -134,6 +140,7 @@
                                 <td class="text-center" style="background-color:rgb(226, 118, 45)"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> 
                             </tr> 
                         </table>
+                    </div>
                     </div>
                 </div>
             </div>

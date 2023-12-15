@@ -72,6 +72,12 @@ $pos = strrpos($url, '/') + 1;
                     <span class="spinner"></span>
                 </div>
             </div> 
+        </div> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
+            </div>
         </div>
 
         <form action="{{ url('account_302_detail_date') }}" method="GET">
@@ -79,17 +85,21 @@ $pos = strrpos($url, '/') + 1;
     <div class="row mb-2"> 
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control d-shadow" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control d-shadow" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
               
-                    <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
-                    </button>  
+                    </button>   --}}
+                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow" data-style="expand-left">
+                        <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                        <span class="ladda-spinner"></span>
+                    </button> 
                     
                 </div> 
             </div>
@@ -97,64 +107,65 @@ $pos = strrpos($url, '/') + 1;
         </div>
     </form>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
+    <div class="row mt-3">
+        <div class="col-xl-12">
+                <div class="card cardshadow">
+                    {{-- <div class="card-header">
                     รายละเอียด 1102050101.302
                         <div class="btn-actions-pane-right">
 
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
-                            {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                        <h4 class="card-title" style="color:rgb(10, 151, 85)">รายละเอียด 1102050101.302</h4>
+                        <div class="table-responsive">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ลำดับ</th>
-                                    {{-- <th class="text-center" width="5%">repno</th> --}}
-                                    <th class="text-center">an</th>
-                                    <th class="text-center" >vn</th>
-                                    <th class="text-center" >hn</th>
-                                    <th class="text-center" >cid</th>
-                                    <th class="text-center">ptname</th>
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ลำดับ</th>
+                                        {{-- <th class="text-center" width="5%">repno</th> --}}
+                                        <th class="text-center">an</th>
+                                        <th class="text-center" >vn</th>
+                                        <th class="text-center" >hn</th>
+                                        <th class="text-center" >cid</th>
+                                        <th class="text-center">ptname</th>
 
-                                    <th class="text-center">vstdate</th>
-                                    {{-- <th class="text-center">dchdate</th> --}}
-                                    <th class="text-center">pttype</th>
-                                    
-                                    <th class="text-center">ลูกหนี้</th>
-                                    {{-- <th class="text-center">ยอดชดเชย</th> --}}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $number = 0; ?>
-                                @foreach ($data as $item)
-                                    <?php $number++; ?>
-                                   
-                                        <tr height="20" style="font-size: 14px;">
-                                            <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                            <td class="text-center" width="10%">{{ $item->an }}</td>  
-                                                    <td class="text-center" width="10%">{{ $item->vn }}</td> 
-                                                    <td class="text-center" width="10%">{{ $item->hn }}</td>   
-                                                    <td class="text-center" width="10%">{{ $item->cid }}</td>  
-                                                    <td class="p-2" >{{ $item->ptname }}</td>  
-                                                    <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
-                                                    <td class="text-center" width="10%">{{ $item->pttype }}</td> 
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
-                                                    {{-- <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> 
-                                                        {{ number_format($item->pricereq_all,2)}}   --}}
-                                                </td>
-                                        </tr>
+                                        <th class="text-center">vstdate</th>
+                                        {{-- <th class="text-center">dchdate</th> --}}
+                                        <th class="text-center">pttype</th>
                                         
+                                        <th class="text-center">ลูกหนี้</th>
+                                        {{-- <th class="text-center">ยอดชดเชย</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $number = 0; ?>
+                                    @foreach ($data as $item)
+                                        <?php $number++; ?>
                                     
- 
-                                @endforeach
+                                            <tr height="20" style="font-size: 14px;">
+                                                <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
+                                                <td class="text-center" width="10%">{{ $item->an }}</td>  
+                                                        <td class="text-center" width="10%">{{ $item->vn }}</td> 
+                                                        <td class="text-center" width="10%">{{ $item->hn }}</td>   
+                                                        <td class="text-center" width="10%">{{ $item->cid }}</td>  
+                                                        <td class="p-2" >{{ $item->ptname }}</td>  
+                                                        <td class="text-center" width="10%">{{ $item->vstdate }}</td>    
+                                                        <td class="text-center" width="10%">{{ $item->pttype }}</td> 
+                                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="7%">{{ number_format($item->debit_total,2)}}</td>
+                                                        {{-- <td class="text-end" width="10%" style="color:rgb(216, 95, 14)"> 
+                                                            {{ number_format($item->pricereq_all,2)}}   --}}
+                                                    </td>
+                                            </tr>
+                                            
+                                        
+    
+                                    @endforeach
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
