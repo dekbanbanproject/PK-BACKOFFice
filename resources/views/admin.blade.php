@@ -871,10 +871,10 @@
                     </div>
                 </div> 
             </div> --}}
-
+            
              <div class="col-xl-4 col-md-4">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
-                    style="background-color: rgba(253, 186, 197, 0.74)">
+                    style="background-color: rgba(23, 189, 147, 0.74)">
                     <div class="grid-menu-col">
                         <div class="g-0 row">
                             <div class="col-sm-12">
@@ -883,14 +883,14 @@
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-BACKOFFice</p>
                                             <a href="" target="_blank">
-                                                <h5 class="text-start mb-2">DIALYSIS</h5>
+                                                <h5 class="text-start mb-2">DIALYSIS CT</h5>
                                             </a>
                                         </div>
                                         <div class="avatar ms-2">
-                                            <a>
+                                            <a href="{{ url('ct_rep') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                        <i class="fas fa-3x fa-lungs-virus font-size-25" style="color: rgba(253, 186, 197, 0.74)"></i>
+                                                        <i class="fas fa-3x fa-lungs-virus font-size-25" style="color: rgba(23, 189, 147, 0.74)"></i>
                                                       
                                                 </button>
                                             </a>

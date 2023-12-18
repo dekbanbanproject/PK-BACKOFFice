@@ -5722,13 +5722,14 @@ class AccountPKController extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $datashow = DB::connection('mysql')->select('SELECT STMDoc,SUM(total_approve) as total FROM acc_stm_ucs GROUP BY STMDoc
+        $datashow = DB::connection('mysql')->select('
             SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
             FROM acc_stm_ucs_excel
             GROUP BY rep
             ');
         $countc = DB::table('acc_stm_ucs_excel')->count();
         // dd($countc );
+        // SELECT STMDoc,SUM(total_approve) as total FROM acc_stm_ucs GROUP BY STMDoc
         return view('account_pk.upstm_ucs',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
