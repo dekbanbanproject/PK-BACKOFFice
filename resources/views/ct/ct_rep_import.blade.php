@@ -196,7 +196,7 @@
                                     @else
                                         <td width="10%" class="text-center">ธันวาคม</td>
                                     @endif
-                                        <td class="text-end" style="color:rgb(248, 12, 12)" width="7%"> {{ $item->STMdoc }}</td>
+                                        <td class="text-end" style="color:rgb(248, 12, 12)" > {{ $item->STMdoc }}</td>
                                     </tr>
                                 @endforeach
 
