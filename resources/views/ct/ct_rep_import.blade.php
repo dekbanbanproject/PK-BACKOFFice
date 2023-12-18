@@ -156,7 +156,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    <th class="text-center">rep</th>
+                                    <th class="text-center">no</th>
                                     <th class="text-center">months</th>
                                     <th class="text-center">filename</th>
 
