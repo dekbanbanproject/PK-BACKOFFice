@@ -244,20 +244,20 @@ class Account4011Controller extends Controller
                     // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->count();
                     // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.4011')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     if ($check > 0) {
-                        Acc_debtor::where('vn',$value->vn)->update([ 
-                            'pttype'             => $value->pttype, 
-                            'income'             => $value->income,
-                            'uc_money'           => $value->uc_money,
-                            'discount_money'     => $value->discount_money,
-                            'paid_money'         => $value->paid_money,
-                            'rcpt_money'         => $value->rcpt_money,
-                            'debit'              => $value->debit,
-                            'debit_drug'         => $value->debit_drug,
-                            'debit_instument'    => $value->debit_instument,
-                            'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer,
-                            'debit_total'        => $value->debit, 
-                        ]);
+                        // Acc_debtor::where('vn',$value->vn)->update([ 
+                        //     'pttype'             => $value->pttype, 
+                        //     'income'             => $value->income,
+                        //     'uc_money'           => $value->uc_money,
+                        //     'discount_money'     => $value->discount_money,
+                        //     'paid_money'         => $value->paid_money,
+                        //     'rcpt_money'         => $value->rcpt_money,
+                        //     'debit'              => $value->debit,
+                        //     'debit_drug'         => $value->debit_drug,
+                        //     'debit_instument'    => $value->debit_instument,
+                        //     'debit_toa'          => $value->debit_toa,
+                        //     'debit_refer'        => $value->debit_refer,
+                        //     'debit_total'        => $value->debit, 
+                        // ]);
                     } else {
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
