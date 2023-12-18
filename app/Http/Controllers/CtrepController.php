@@ -264,11 +264,11 @@ class CtrepController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
-            SELECT rep,vstdate,SUM(ip_paytrue) as Sumprice,STMdoc,month(vstdate) as months
-            FROM acc_stm_ucs_excel
-            GROUP BY rep
+            SELECT ct_no,ct_date,SUM(remain) as Sumprice,STMdoc,month(ct_date) as months
+            FROM a_stm_ct_excel
+            GROUP BY ct_no
             ');
-        $countc = DB::table('acc_stm_ucs_excel')->count(); 
+        $countc = DB::table('a_stm_ct_excel')->count(); 
         return view('ct.ct_rep_import',[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,

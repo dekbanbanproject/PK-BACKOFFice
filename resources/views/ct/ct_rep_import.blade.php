@@ -170,7 +170,7 @@
 
                                     <tr height="20" style="font-size: 14px;color:rgb(235, 6, 6)">
                                         <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
-                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->rep }}</td>
+                                        <td class="text-center" width="10%" style="color:rgb(248, 12, 12)"> {{ $item->ct_no }}</td>
                                         @if ($item->months == '1')
                                         <td width="10%" class="text-center" >มกราคม </td>
                                     @elseif ($item->months == '2')
