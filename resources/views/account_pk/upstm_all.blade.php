@@ -81,13 +81,29 @@
         }
         .card-ucs{
             border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px rgb(14, 240, 240);
+            box-shadow: 0 0 10px rgb(3, 136, 252);
         }
         .card-ofc{
             border-radius: 3em 3em 3em 3em;
             box-shadow: 0 0 10px rgb(10, 110, 223);
         }
         .card-lgo{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px teal;
+        }
+        .card-ucsti{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(252, 144, 3);
+        }
+        .card-ofcti{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(252, 3, 82);
+        }
+        .card-sssti{
+            border-radius: 3em 3em 3em 3em;
+            box-shadow: 0 0 10px rgb(94, 93, 93);
+        }
+        .card-lgoti{
             border-radius: 3em 3em 3em 3em;
             box-shadow: 0 0 10px teal;
         }
@@ -142,8 +158,12 @@
                                 <a class="nav-link btn btn-info btn-rounded waves-effect waves-light mb-2 active" id="v-pills-ucs-tab" data-bs-toggle="pill" href="#v-pills-ucs" role="tab" aria-controls="v-pills-ucs" aria-selected="true">UCS</a>
                                 <a class="nav-link btn btn-primary btn-rounded waves-effect waves-light mb-2" id="v-pills-ofc-tab" data-bs-toggle="pill" href="#v-pills-ofc" role="tab" aria-controls="v-pills-ofc" aria-selected="false">OFC</a>
                                 <a class="nav-link btn btn-success btn-rounded waves-effect waves-light mb-2" id="v-pills-lgo-tab" data-bs-toggle="pill" href="#v-pills-lgo" role="tab" aria-controls="v-pills-lgo" aria-selected="false">LGO</a>
+                                <a class="nav-link btn btn-warning btn-rounded waves-effect waves-light mb-2" id="v-pills-ucsti-tab" data-bs-toggle="pill" href="#v-pills-ucsti" role="tab" aria-controls="v-pills-ucsti" aria-selected="false">UCS ไต</a>
+                                <a class="nav-link btn btn-danger btn-rounded waves-effect waves-light mb-2" id="v-pills-ofcti-tab" data-bs-toggle="pill" href="#v-pills-ofcti" role="tab" aria-controls="v-pills-ofcti" aria-selected="false">OFC ไต</a>
+                                <a class="nav-link btn btn-secondary btn-rounded waves-effect waves-light mb-2" id="v-pills-sssti-tab" data-bs-toggle="pill" href="#v-pills-sssti" role="tab" aria-controls="v-pills-sssti" aria-selected="false">SSS ไต</a>
+                                <a class="nav-link btn btn-success btn-rounded waves-effect waves-light mb-2" id="v-pills-lgoti-tab" data-bs-toggle="pill" href="#v-pills-lgoti" role="tab" aria-controls="v-pills-lgoti" aria-selected="false">LGO ไต</a>
                                 {{-- <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a> --}}
-                                </div>
+                                </div>  
                             </div>
                             <div class="col-md-10">
                                 <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
@@ -351,21 +371,188 @@
                                         </div> 
                                         
                                     </div>
-                                    {{-- <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                                        <p>
-                                            Trust fund seitan letterpress, keytar raw denim keffiyeh etsy
-                                            art party before they sold out master cleanse gluten-free squid
-                                            scenester freegan cosby sweater. Fanny pack portland seitan DIY,
-                                            art party locavore wolf cliche high life echo park Austin. Cred
-                                            vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
-                                            farm-to-table.
-                                        </p>
-                                        <p class="mb-0">Fanny pack portland seitan DIY,
-                                            art party locavore wolf cliche high life echo park Austin. Cred
-                                            vinyl keffiyeh DIY salvia PBR, banh mi before they sold out
-                                            farm-to-table.
-                                        </p>
-                                    </div> --}}
+
+                                    <div class="tab-pane fade" id="v-pills-ucsti" role="tabpanel" aria-labelledby="v-pills-ucsti-tab">
+                                        <div class="row">
+                                            <div class="col-md-8"> 
+                                                <div class="card p-4 card-ucsti">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL UCS TI</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example7" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ucs_ti as $itemucsti)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $itemucsti->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemucsti->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             
+                                        </div>                                         
+                                    </div>
+
+                                    <div class="tab-pane fade" id="v-pills-ofcti" role="tabpanel" aria-labelledby="v-pills-ofcti-tab">
+                                        <div class="row">
+                                            <div class="col-md-8"> 
+                                                <div class="card p-4 card-ofcti">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL OFC TI</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example8" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($ofc_ti as $itemofcti)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $itemofcti->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemofcti->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             
+                                        </div>                                         
+                                    </div>
+
+                                    <div class="tab-pane fade" id="v-pills-sssti" role="tabpanel" aria-labelledby="v-pills-sssti-tab">
+                                        <div class="row">
+                                            <div class="col-md-8"> 
+                                                <div class="card p-4 card-sssti">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL SSS TI</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example9" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($sss_ti as $itemsssti)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $itemsssti->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($itemsssti->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             
+                                        </div>                                         
+                                    </div>
+
+                                    
+                                    <div class="tab-pane fade" id="v-pills-lgoti" role="tabpanel" aria-labelledby="v-pills-lgoti-tab">
+                                        <div class="row">
+                                            <div class="col-md-6"> 
+                                                <div class="card p-4 card-lgoti">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO TI OPD</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example10" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($lgo_opdti as $lgoopdti)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $lgoopdti->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($lgoopdti->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6"> 
+                                                <div class="card p-4 card-lgoti">
+                                                    <h4 class="card-title" style="color:rgb(10, 151, 85)">STM DETAIL LGO TI IPD</h4>
+                                                    <div class="table-responsive">
+                                                        <table id="example11" class="table table-striped table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">ลำดับ</th> 
+                                                                    <th class="text-center">STMDoc</th>
+                                                                    <th class="text-center">total</th>
+                                
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php $number = 0;
+                                                                $total1 = 0; ?>
+                                                                @foreach ($lgo_ipdti as $lgoipdti)
+                                                                    <?php $number++; ?>
+                                
+                                                                    <tr height="20">
+                                                                        <td class="text-font" style="text-align: center;" width="4%" style="color:rgb(248, 12, 12)">{{ $number }}</td>
+                                                                        <td class="text-start" style="color:rgb(107, 67, 250);font-size:15px"> {{ $lgoipdti->STMDoc }}</td> 
+                                                                        <td class="text-end" style="color:rgb(10, 151, 85);font-size:15px" width="20%">{{ number_format($lgoipdti->total, 2) }}</td>
+                                                                    </tr>
+                                                                @endforeach
+                                
+                                                            </tbody> 
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                             
+                                        </div>                                         
+                                    </div>
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -455,6 +642,11 @@
             $('#example5').DataTable();
             $('#example6').DataTable();
             $('#example7').DataTable();
+            $('#example8').DataTable();
+            $('#example9').DataTable();
+            $('#example10').DataTable();
+            $('#example11').DataTable();
+
             $('#datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });

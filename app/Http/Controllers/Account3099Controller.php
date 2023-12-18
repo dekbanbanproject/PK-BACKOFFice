@@ -407,7 +407,7 @@ class Account3099Controller extends Controller
         $data['users'] = User::get();
 
         $data = DB::select('
-            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount 
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc
                 from acc_1102050101_3099 U1
                 LEFT JOIN acc_stm_ti_total am on am.cid = U1.cid AND am.vstdate = U1.vstdate
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"

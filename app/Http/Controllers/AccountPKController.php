@@ -5692,6 +5692,21 @@ class AccountPKController extends Controller
         $data['lgo_ipd'] = DB::connection('mysql')->select('
             SELECT STMDoc,SUM(claim_true_af) as total FROM acc_stm_lgo WHERE STMDoc LIKE "eclaim_10978_IP%" GROUP BY STMDoc
         ');
+        $data['ucs_ti'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("WEL","UCS") GROUP BY STMDoc
+        ');
+        $data['ofc_ti'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COC") GROUP BY STMDoc
+        ');
+        $data['sss_ti'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(Total_amount) as total FROM acc_stm_ti_total WHERE HDflag IN("COS") GROUP BY STMDoc
+        ');
+        $data['lgo_opdti'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยนอก%" GROUP BY STMDoc
+        ');
+        $data['lgo_ipdti'] = DB::connection('mysql')->select('
+            SELECT STMDoc,SUM(pay_amount) as total FROM acc_stm_lgoti WHERE type LIKE "ผู้ป่วยใน%" GROUP BY STMDoc
+        ');
 
         $countc = DB::table('acc_stm_ucs_excel')->count();
         // dd($countc );

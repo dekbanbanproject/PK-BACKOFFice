@@ -88,6 +88,7 @@
                                     <th class="text-center">pttype</th>   
                                     <th class="text-center">ลูกหนี้</th> 
                                     <th class="text-center">STM</th>  
+                                    <th class="text-center">STMdoc</th>  
                                 </tr>
                             </thead>
                             <tbody>
@@ -109,7 +110,7 @@
                                         @else
                                             <td class="text-end" style="color:rgb(32, 216, 124)" width="7%"> {{ number_format($item->Total_amount, 2) }}</td>
                                         @endif
-                                        
+                                        <td class="text-center" width="12%">{{ $item->STMdoc }}</td>
                                     </tr>
                                 @endforeach
 
