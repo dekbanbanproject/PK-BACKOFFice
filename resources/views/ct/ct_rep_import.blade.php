@@ -114,10 +114,10 @@
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
                                     @if ($countc > 0)
-                                        <a href="{{ url('ct_rep_import_send') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
+                                        {{-- <a href="{{ url('ct_rep_import_send') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
-                                        </a>
+                                        </a> --}}
                                     @else
                                         <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
