@@ -262,6 +262,7 @@
                                     <ul class="sub-menu" aria-expanded="true"> 
                                         <li><a href="{{ url('lgo_801_main') }}">LGO-MAIN </a></li> 
                                         <li><a href="{{ url('lgo_801') }}">LGO-CLAIM </a></li> 
+                                        <li><a href="{{ url('lgo_801_check') }}">LGO-CHECK </a></li>
                                         <li><a href="{{ url('lgo_801_rep') }}">LGO-REP </a></li> 
                                     </ul>
                                 </li>

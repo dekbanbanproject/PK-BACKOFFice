@@ -15,6 +15,7 @@ return new class extends Migration
         {
             Schema::create('d_dru_out', function (Blueprint $table) {
                 $table->bigIncrements('d_dru_out_id'); 
+                $table->date('vstdate')->nullable();//   
                 $table->string('HN')->nullable();//   
                 $table->string('PERSON_ID')->nullable();//  
                 $table->string('DID')->nullable();// 

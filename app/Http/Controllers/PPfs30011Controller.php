@@ -2800,7 +2800,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_ins);
         fclose($objFopen_ins_utf);
-        Dapianc_ins::where('claim','=','ANC')->delete();
+        Dapianc_ins::truncate();
         $fread_file_ins = fread(fopen($file_d_ins,"r"),filesize($file_d_ins));
         $fread_file_ins_endcode = base64_encode($fread_file_ins);
         $read_file_ins_size = filesize($file_d_ins);
@@ -2812,7 +2812,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_ins_endcode,
             'size'       =>   $read_file_ins_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+           
         ]);
 
         //2 pat.txt
@@ -2849,7 +2849,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_pat);
         fclose($objFopen_pat_utf);
-        Dapianc_pat::where('claim','=','ANC')->delete();
+        Dapianc_pat::truncate();
         $fread_file_pat = fread(fopen($file_d_pat,"r"),filesize($file_d_pat));
         $fread_file_pat_endcode = base64_encode($fread_file_pat);
         $read_file_pat_size = filesize($file_d_pat);
@@ -2859,7 +2859,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_pat_endcode,
             'size'       =>   $read_file_pat_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+           
         ]);
 
         //3 opd.txt
@@ -2887,7 +2887,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_opd);
         fclose($objFopen_opd_utf);
-        Dapianc_opd::where('claim','=','ANC')->delete();
+        Dapianc_opd::truncate();
         $fread_file_opd = fread(fopen($file_d_opd,"r"),filesize($file_d_opd));
         $fread_file_opd_endcode = base64_encode($fread_file_opd);
         $read_file_opd_size = filesize($file_d_opd);
@@ -2897,7 +2897,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_opd_endcode,
             'size'       =>   $read_file_opd_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+         
         ]);
 
         //4 orf.txt
@@ -2925,7 +2925,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_orf);
         fclose($objFopen_orf_utf);
-        Dapianc_orf::where('claim','=','ANC')->delete();
+        Dapianc_orf::truncate();
         $fread_file_orf = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
         $fread_file_orf_endcode = base64_encode($fread_file_orf);
         $read_file_orf_size = filesize($file_d_orf);
@@ -2935,7 +2935,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_orf_endcode,
             'size'       =>   $read_file_orf_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+       
         ]);
 
         //5 odx.txt
@@ -2965,7 +2965,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_odx);
         fclose($objFopen_odx_utf);
-        Dapianc_odx::where('claim','=','ANC')->delete();
+        Dapianc_odx::truncate();
         $fread_file_odx = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
         $fread_file_odx_endcode = base64_encode($fread_file_odx);
         $read_file_odx_size = filesize($file_d_odx);
@@ -2975,7 +2975,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_odx_endcode,
             'size'       =>   $read_file_odx_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+       
         ]);
 
         //6 oop.txt
@@ -3004,7 +3004,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_oop);
         fclose($objFopen_oop_utf);
-        Dapianc_oop::where('claim','=','ANC')->delete();
+        Dapianc_oop::truncate();
         $fread_file_oop = fread(fopen($file_d_oop,"r"),filesize($file_d_oop));
         $fread_file_oop_endcode = base64_encode($fread_file_oop);
         $read_file_oop_size = filesize($file_d_oop);
@@ -3014,7 +3014,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_oop_endcode,
             'size'       =>   $read_file_oop_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+       
         ]);
 
         //7 ipd.txt
@@ -3049,7 +3049,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_ipd);
         fclose($objFopen_ipd_utf);
-        Dapianc_ipd::where('claim','=','ANC')->delete();
+        Dapianc_ipd::truncate();
         $fread_file_ipd = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
         $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
         $read_file_ipd_size = filesize($file_d_ipd);
@@ -3059,7 +3059,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_ipd_endcode,
             'size'       =>   $read_file_ipd_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+         
         ]);
 
         //8 irf.txt
@@ -3084,7 +3084,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_irf);
         fclose($objFopen_irf_utf);
-        Dapianc_irf::where('claim','=','ANC')->delete();
+        Dapianc_irf::truncate();
         $fread_file_irf = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
         $fread_file_irf_endcode = base64_encode($fread_file_irf);
         $read_file_irf_size = filesize($file_d_irf);
@@ -3094,7 +3094,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_irf_endcode,
             'size'       =>   $read_file_irf_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+        
         ]);
 
         //9 idx.txt
@@ -3120,7 +3120,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_idx);
         fclose($objFopen_idx_utf);
-        Dapianc_idx::where('claim','=','ANC')->delete();
+        Dapianc_idx::truncate();
         $fread_file_idx = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
         $fread_file_idx_endcode = base64_encode($fread_file_idx);
         $read_file_idx_size = filesize($file_d_idx);
@@ -3130,7 +3130,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_idx_endcode,
             'size'       =>   $read_file_idx_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+         
         ]);
                    
         //10 iop.txt
@@ -3161,7 +3161,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_iop);
         fclose($objFopen_iop_utf);
-        Dapianc_iop::where('claim','=','ANC')->delete();
+        Dapianc_iop::truncate();
         $fread_file_iop = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
         $fread_file_iop_endcode = base64_encode($fread_file_iop);
         $read_file_iop_size = filesize($file_d_iop);
@@ -3171,7 +3171,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_iop_endcode,
             'size'       =>   $read_file_iop_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+         
         ]);
 
         //11 cht.txt
@@ -3201,7 +3201,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_cht);
         fclose($objFopen_cht_utf);
-        Dapianc_cht::where('claim','=','ANC')->delete();
+        Dapianc_cht::truncate();
         $fread_file_cht = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
         $fread_file_cht_endcode = base64_encode($fread_file_cht);
         $read_file_cht_size = filesize($file_d_cht);
@@ -3211,7 +3211,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_cht_endcode,
             'size'       =>   $read_file_cht_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+       
         ]);
                
         //12 cha.txt
@@ -3240,7 +3240,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_cha);
         fclose($objFopen_cha_utf);
-        Dapianc_cha::where('claim','=','ANC')->delete();
+        Dapianc_cha::truncate();
         $fread_file_cha = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
         $fread_file_cha_endcode = base64_encode($fread_file_cha);
         $read_file_cha_size = filesize($file_d_cha);
@@ -3250,7 +3250,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_cha_endcode,
             'size'       =>   $read_file_cha_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+          
         ]);
 
          //13 aer.txt
@@ -3290,7 +3290,7 @@ class PPfs30011Controller extends Controller
          }
         //  fclose($objFopen_aer);
          fclose($objFopen_aer_utf);
-         Dapianc_aer::where('claim','=','ANC')->delete();
+         Dapianc_aer::truncate();
          $fread_file_aer = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
          $fread_file_aer_endcode = base64_encode($fread_file_aer);
          $read_file_aer_size = filesize($file_d_aer);
@@ -3300,7 +3300,7 @@ class PPfs30011Controller extends Controller
              'blob'       =>   $fread_file_aer_endcode,
              'size'       =>   $read_file_aer_size,
              'encoding'   =>  'UTF-8',
-             'claim'      =>   "ANC"
+          
          ]);
                    
         //14 adp.txt
@@ -3349,7 +3349,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_adp);
         fclose($objFopen_adp_utf);
-        Dapianc_adp::where('claim','=','ANC')->delete();
+        Dapianc_adp::truncate();
         $fread_file_adp = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
         $fread_file_adp_endcode = base64_encode($fread_file_adp);
         $read_file_adp_size = filesize($file_d_adp);
@@ -3359,7 +3359,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_adp_endcode,
             'size'       =>   $read_file_adp_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+           
         ]);
         
          //15 lvd.txt
@@ -3388,7 +3388,7 @@ class PPfs30011Controller extends Controller
          }
         //  fclose($objFopen_lvd);
          fclose($objFopen_lvd_utf);
-         Dapianc_ldv::where('claim','=','ANC')->delete();
+         Dapianc_ldv::truncate();
          $fread_file_lvd = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
          $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
          $read_file_lvd_size = filesize($file_d_lvd);
@@ -3398,7 +3398,7 @@ class PPfs30011Controller extends Controller
              'blob'       =>   $fread_file_lvd_endcode,
              'size'       =>   $read_file_lvd_size,
              'encoding'   =>  'UTF-8',
-             'claim'      =>   "ANC"
+         
          ]);
 
         //16 dru.txt
@@ -3443,7 +3443,7 @@ class PPfs30011Controller extends Controller
         }
         // fclose($objFopen_dru);
         fclose($objFopen_dru_utf);
-        Dapianc_dru::where('claim','=','ANC')->delete();
+        Dapianc_dru::truncate();
         $fread_file_dru = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
         $fread_file_dru_endcode = base64_encode($fread_file_dru);
         $read_file_dru_size = filesize($file_d_dru);
@@ -3453,7 +3453,7 @@ class PPfs30011Controller extends Controller
             'blob'       =>   $fread_file_dru_endcode,
             'size'       =>   $read_file_dru_size,
             'encoding'   =>  'UTF-8',
-            'claim'      =>   "ANC"
+          
         ]);
 
          //17 lab.txt

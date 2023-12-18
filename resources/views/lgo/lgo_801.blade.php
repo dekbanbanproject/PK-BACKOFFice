@@ -101,6 +101,7 @@ $pos = strrpos($url, '/') + 1;
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
                     </button> 
+                </form>
                     <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success" id="Processdata">
                         <i class="fa-solid fa-spinner text-success me-2"></i>
                         ประมวลผล
@@ -122,7 +123,7 @@ $pos = strrpos($url, '/') + 1;
             </div>
           
         </div>
-    </form>
+    {{-- </form> --}}
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="main-card mb-3 card">

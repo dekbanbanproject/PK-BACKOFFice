@@ -215,54 +215,56 @@ class Ofc401Controller extends Controller
                             'userid'            => $iduser, 
                         ]);
                     } 
+                    D_dru_out::truncate();
                     $data_dru_ = DB::connection('mysql2')->select('
-                    SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                        ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
-                        ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
-                        ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
-                        ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,""  PROVIDER,v.vstdate
-                        FROM opitemrece v
-                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
-                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                
-                    WHERE v.vn IN("'.$value->vn.'")
-                    AND d.did is not null 
-                    GROUP BY v.vn,did
+                        SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+                            ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                            ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                            ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                            ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,""  PROVIDER,v.vstdate
+                            FROM opitemrece v
+                            LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                            LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                            LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                
+                        WHERE v.vn IN("'.$value->vn.'")
+                        AND d.did is not null 
+                        GROUP BY v.vn,did
 
-                    UNION all
+                        UNION all
 
-                    SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                        ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
-                        ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
-                        ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
-                        ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
-                        FROM opitemrece v
-                        LEFT OUTER JOIN drugitems d on d.icode = v.icode
-                        LEFT OUTER JOIN patient pt  on v.hn = pt.hn
-                        INNER JOIN ipt v1 on v1.an = v.an
-                        LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                 
-                    WHERE v1.vn IN("'.$value->vn.'")
-                    AND d.did is not null AND v.qty<>"0"
-                    GROUP BY v.an,d.icode,USE_STATUS;              
-                ');
+                        SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+                            ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                            ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                            ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                            ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
+                            FROM opitemrece v
+                            LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                            LEFT OUTER JOIN patient pt  on v.hn = pt.hn
+                            INNER JOIN ipt v1 on v1.an = v.an
+                            LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                 
+                        WHERE v1.vn IN("'.$value->vn.'")
+                        AND d.did is not null AND v.qty<>"0"
+                        GROUP BY v.an,d.icode,USE_STATUS;              
+                    ');
             
-                foreach ($data_dru_ as $va_14) {
-                    D_dru_out::insert([ 
-                        'HN'             => $va_14->HN, 
-                        'PERSON_ID'      => $va_14->PERSON_ID, 
-                        'DID'            => $va_14->DID,
-                        'DIDNAME'        => $va_14->DIDNAME, 
-                        'AMOUNT'         => $va_14->AMOUNT,
-                        'DRUGPRIC'       => $va_14->DRUGPRIC,
-                        'DRUGCOST'       => $va_14->DRUGCOST,
-                        'DIDSTD'         => $va_14->DIDSTD,
-                        'UNIT'           => $va_14->UNIT,
-                        'UNIT_PACK'      => $va_14->UNIT_PACK,
-                        'SEQ'            => $va_14->SEQ,
-                        'DRUGREMARK'     => $va_14->DRUGREMARK,
-                        'PA_NO'          => $va_14->PA_NO 
-                    ]);
-                } 
+                    foreach ($data_dru_ as $va_14) {
+                        D_dru_out::insert([ 
+                            'vstdate'        => $va_14->vstdate, 
+                            'HN'             => $va_14->HN, 
+                            'PERSON_ID'      => $va_14->PERSON_ID, 
+                            'DID'            => $va_14->DID,
+                            'DIDNAME'        => $va_14->DIDNAME, 
+                            'AMOUNT'         => $va_14->AMOUNT,
+                            'DRUGPRIC'       => $va_14->DRUGPRIC,
+                            'DRUGCOST'       => $va_14->DRUGCOST,
+                            'DIDSTD'         => $va_14->DIDSTD,
+                            'UNIT'           => $va_14->UNIT,
+                            'UNIT_PACK'      => $va_14->UNIT_PACK,
+                            'SEQ'            => $va_14->SEQ,
+                            'DRUGREMARK'     => $va_14->DRUGREMARK,
+                            'PA_NO'          => $va_14->PA_NO 
+                        ]);
+                    } 
                     
                        
                 }

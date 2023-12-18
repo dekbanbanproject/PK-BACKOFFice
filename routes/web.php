@@ -308,7 +308,7 @@ Route::match(['get','post'],'lgo_801_export_api',[App\Http\Controllers\Lgo801Con
 Route::match(['get','post'],'lgo_801_send_api',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_send_api'])->name('claim.lgo_801_send_api');//
 Route::match(['get','post'],'lgo_801_main',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_main'])->name('claim.lgo_801_main');//
 Route::match(['get','post'],'lgo_801_rep',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_rep'])->name('claim.lgo_801_rep');//
-
+Route::match(['get','post'],'lgo_801_check',[App\Http\Controllers\Lgo801Controller::class, 'lgo_801_check'])->name('claim.lgo_801_check');//
 
 // Route::match(['get','post'],'thalassemia_opd_process',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_process'])->name('claim.thalassemia_opd_process');//
 // Route::match(['get','post'],'thalassemia_opd_export',[App\Http\Controllers\D_thalassemiaController::class, 'thalassemia_opd_export'])->name('claim.thalassemia_opd_export');//

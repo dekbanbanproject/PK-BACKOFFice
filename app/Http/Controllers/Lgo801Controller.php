@@ -59,7 +59,7 @@ use App\Models\Land;
 use App\Models\Building;
 use App\Models\Product_budget;
 use App\Models\Product_method;
-use App\Models\Product_buy;
+use App\Models\D_dru_out;
 
 use App\Models\Acc_1102050102_106;
 use App\Models\D_12001;
@@ -79,7 +79,7 @@ use App\Models\D_iop;
 use App\Models\D_ipd;
 use App\Models\D_aer;
 use App\Models\D_irf;
-use App\Models\D_LGO_801;
+use App\Models\D_lgo_801;
 use App\Models\D_ucep24_main;
 use App\Models\D_ucep24;
 use App\Models\Acc_ucep24; 
@@ -122,7 +122,7 @@ class Lgo801Controller extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
+        $yearold = date('Y');
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30'); 
         if ($startdate == '') {  
@@ -130,18 +130,19 @@ class Lgo801Controller extends Controller
         } else {
                 $iduser = Auth::user()->id;
                 D_lgo_801::truncate(); 
+                D_dru_out::truncate();
                 $data_main_ = DB::connection('mysql2')->select(' 
                     SELECT v.vn,o.an,v.cid,v.hn,concat(pt.pname,pt.fname," ",pt.lname) ptname
                         ,v.vstdate,v.pttype 
                         ,rd.amount AS price_lgo,v.income,ptt.hipdata_code  
-                        FROM hos.vn_stat v
-                        LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn
-                        LEFT OUTER JOIN hos.ovstdiag ov ON v.vn=ov.vn
-                        LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn
-                        LEFT OUTER JOIN hos.opdscreen op ON v.vn = op.vn
-                        LEFT OUTER JOIN hos.pttype ptt ON v.pttype=ptt.pttype 
-                        LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn=rd.vn 
-                        LEFT OUTER JOIN hos.ipt i on i.vn = v.vn 
+                        FROM vn_stat v
+                        LEFT OUTER JOIN patient pt ON v.hn=pt.hn
+                        LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                        LEFT OUTER JOIN ovst o ON v.vn=o.vn
+                        LEFT OUTER JOIN opdscreen op ON v.vn = op.vn
+                        LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype 
+                        LEFT OUTER JOIN rcpt_debt rd ON v.vn=rd.vn 
+                        LEFT OUTER JOIN ipt i on i.vn = v.vn 
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
                         AND v.pttype in ("L1","L2","L3","L4","l5","l6") 
                         AND v.uc_money >"0"
@@ -180,50 +181,103 @@ class Lgo801Controller extends Controller
                             'userid'            => $iduser, 
                         ]);
                     }  
+
+               
+                    $data_dru_ = DB::connection('mysql2')->select('
+                        SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
+                            ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                            ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                            ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                            ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,""  PROVIDER,v.vstdate
+                            FROM opitemrece v
+                            LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                            LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
+                            LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                
+                        WHERE v.vn IN("'.$value->vn.'")
+                        AND d.did is not null 
+                        GROUP BY v.vn,did
+
+                        UNION all
+
+                        SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
+                            ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
+                            ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
+                            ,oo.presc_reason DRUGREMARK ,oo.nhso_authorize_code PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
+                            ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
+                            FROM opitemrece v
+                            LEFT OUTER JOIN drugitems d on d.icode = v.icode
+                            LEFT OUTER JOIN patient pt  on v.hn = pt.hn
+                            INNER JOIN ipt v1 on v1.an = v.an
+                            LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode                 
+                        WHERE v1.vn IN("'.$value->vn.'")
+                        AND d.did is not null AND v.qty<>"0"
+                        GROUP BY v.an,d.icode,USE_STATUS;              
+                    ');
+            
+                    foreach ($data_dru_ as $va_14) {
+                        
+                        D_dru_out::insert([ 
+                            'vstdate'        => $va_14->vstdate, 
+                            'HN'             => $va_14->HN, 
+                            'PERSON_ID'      => $va_14->PERSON_ID, 
+                            'DID'            => $va_14->DID,
+                            'DIDNAME'        => $va_14->DIDNAME, 
+                            'AMOUNT'         => $va_14->AMOUNT,
+                            'DRUGPRIC'       => $va_14->DRUGPRIC,
+                            'DRUGCOST'       => $va_14->DRUGCOST,
+                            'DIDSTD'         => $va_14->DIDSTD,
+                            'UNIT'           => $va_14->UNIT,
+                            'UNIT_PACK'      => $va_14->UNIT_PACK,
+                            'SEQ'            => $va_14->SEQ,
+                            'DRUGREMARK'     => $va_14->DRUGREMARK,
+                            'PA_NO'          => $va_14->PA_NO 
+                        ]);
+                    } 
                     
                    
                     
                 }
 
-                $data_maindb_ = DB::connection('mysql2')->select(' 
-                        SELECT count(distinct v.vn) as vn
-                        ,count(distinct o.an) as an,day(v.vstdate) as days,o.vstdate,ptt.hipdata_code
-                          ,month(v.vstdate) as months,year(v.vstdate) as year,SUM(v.income) as income
-                        FROM hos.vn_stat v
-                        LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn
-                        LEFT OUTER JOIN hos.ovstdiag ov ON v.vn=ov.vn
-                        LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn
-                        LEFT OUTER JOIN hos.opdscreen op ON v.vn = op.vn
-                        LEFT OUTER JOIN hos.pttype ptt ON v.pttype=ptt.pttype 
-                        LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn=rd.vn
-                        LEFT OUTER JOIN hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
-                        LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
+                // $data_maindb_ = DB::connection('mysql2')->select(' 
+                //         SELECT count(distinct v.vn) as vn
+                //         ,count(distinct o.an) as an,day(v.vstdate) as days,o.vstdate,ptt.hipdata_code
+                //           ,month(v.vstdate) as months,year(v.vstdate) as year,SUM(v.income) as income
+                //         FROM hos.vn_stat v
+                //         LEFT OUTER JOIN hos.patient pt ON v.hn=pt.hn
+                //         LEFT OUTER JOIN hos.ovstdiag ov ON v.vn=ov.vn
+                //         LEFT OUTER JOIN hos.ovst o ON v.vn=o.vn
+                //         LEFT OUTER JOIN hos.opdscreen op ON v.vn = op.vn
+                //         LEFT OUTER JOIN hos.pttype ptt ON v.pttype=ptt.pttype 
+                //         LEFT OUTER JOIN hos.rcpt_debt rd ON v.vn=rd.vn
+                //         LEFT OUTER JOIN hos.hpc11_ktb_approval hh on hh.pid = pt.cid and hh.transaction_date = v.vstdate 
+                //         LEFT OUTER JOIN hos.ipt i on i.vn = v.vn
                         
-                        WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND v.pttype in ("L1","L2","L3","L4","L5")  
-                        and v.uc_money >"0"
-                        AND o.an is null
-                        AND v.pdx <> ""
-                        GROUP BY days; 
-                ');  
-                foreach ($data_maindb_ as $key => $val2) {  
-                        $data_max_ = D_claim_db_hipdata_code::where('vstdate',$val2->vstdate)->where('hipdata_code',$val2->hipdata_code)->count();
-                        if ($data_max_ >0) {
-                            # code...
-                        } else {
-                            D_claim_db_hipdata_code::insert([ 
-                                'vstdate'            => $val2->vstdate, 
-                                'mo'                 => $val2->months,
-                                'ye'                 => $val2->year,
-                                'vn'                 => $val2->vn, 
-                                'an'                 => $val2->an,
-                                'income_vn'          => $val2->income, 
-                                'hipdata_code'       => $val2->hipdata_code  
-                            ]);
-                        }
-                    }
-               
+                //         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
+                //         AND v.pttype in ("L1","L2","L3","L4","L5")  
+                //         and v.uc_money >"0"
+                //         AND o.an is null
+                //         AND v.pdx <> ""
+                //         GROUP BY days; 
+                // ');  
+                // foreach ($data_maindb_ as $key => $val2) {  
+                //     $data_max_ = D_claim_db_hipdata_code::where('vstdate',$val2->vstdate)->where('hipdata_code',$val2->hipdata_code)->count();
+                //     if ($data_max_ >0) {
+                //         # code...
+                //     } else {
+                //         D_claim_db_hipdata_code::insert([ 
+                //             'vstdate'            => $val2->vstdate, 
+                //             'mo'                 => $val2->months,
+                //             'ye'                 => $val2->year,
+                //             'vn'                 => $val2->vn, 
+                //             'an'                 => $val2->an,
+                //             'income_vn'          => $val2->income, 
+                //             'hipdata_code'       => $val2->hipdata_code  
+                //         ]);
+                //     }
+                // }
+                               
         }
+
         $data['d_lgo_801'] = DB::connection('mysql')->select('SELECT * from d_lgo_801');  
         $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="LGO_801"'); 
         $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="LGO_801"'); 
@@ -2114,6 +2168,17 @@ class Lgo801Controller extends Controller
 
 
         return view('lgo.lgo_801_main',$data,[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate, 
+        ]);
+    }
+    public function lgo_801_check(Request $request)
+    {
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $data['datashow'] = DB::connection('mysql')->select('SELECT * from d_dru_out WHERE DRUGREMARK IS NOT NULL');
+
+        return view('lgo.lgo_801_check',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate, 
         ]);
