@@ -76,38 +76,44 @@
         </div>
        
         <div class="row"> 
+            <div class="col-md-4">
+                <h5 class="card-title">Detail 1102050101.201</h5>
+                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.201</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 
-              
-                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardshadowacc" data-style="expand-left" id="Pulldata">
+                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                    ดึงข้อมูล</button>    
+                    ดึงข้อมูล
+                </button>     --}}
                 </div>
-            </div>
-            
+            </div> 
         </div>
           
-        <div class="row mt-2">
+        <div class="row">
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body shadow-lg">
-                        
-                      
-                        <div class="row">
-                            <div class="col-md-4">
+                <div class="card cardshadowacc">
+                    <div class="card-body"> 
+                        <div class="row mb-3">
+                            {{-- <div class="col-md-4">
                                 <h5 class="card-title">Detail 1102050101.201</h5>
                                 <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.201</p>
-                            </div>
+                            </div> --}}
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_201_stam')}}">
+                               
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardshadowacc Savestamp" data-url="{{url('account_201_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -121,7 +127,7 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="d-checkbox" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>

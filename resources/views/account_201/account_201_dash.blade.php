@@ -71,17 +71,33 @@
         .is-hide {
             display: none;
         }
+        /* .cardacc{
+            border-radius: 4em 4em 4em 4em;
+            box-shadow: 0 0 10px pink;
+        
+        }
+        .inputacc{
+            border-radius: 4em 4em 4em 4em;
+            box-shadow: 0 0 10px pink;
+        } */
     </style>
 
      
 
-   <div class="tabs-animation">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                </div>
+<div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
+    </div>
         <form action="{{ route('acc.account_201_dash') }}" method="GET">
             @csrf
             <div class="row">
@@ -92,20 +108,28 @@
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end">
-                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
                         <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
                         <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                            data-date-language="th-th" value="{{ $enddate }}" required/>
-                    </div>
-                </div>
-                <div class="col-md-3 text-start">
+                            data-date-language="th-th" value="{{ $enddate }}" required/>                   
                     <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
-                    </button>
+                    </button> --}}
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $startdate }}" required/>
+                        <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                            data-date-language="th-th" value="{{ $enddate }}" required/>   
+                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
+                        <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                        <span class="ladda-spinner"></span>
+                    </button> 
                      
                 </div>
 
@@ -114,7 +138,7 @@
         <div class="row">
             @foreach ($datashow as $item)
             <div class="col-xl-4 col-md-12">
-                <div class="main-card card shadow" style="background-color: rgb(246, 235, 247)">
+                <div class="card cardacc" style="background-color: rgb(246, 235, 247)">
                   
                     @if ($startdate =='')
                         

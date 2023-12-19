@@ -215,7 +215,7 @@ background-repeat: no-repeat;
                     </div>
                     <!-- End Page-content -->
 
-                    {{-- <footer class="footer">
+                    <footer class="footer">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -230,7 +230,7 @@ background-repeat: no-repeat;
                                 </div>
                             </div>
                         </div>
-                    </footer> --}}
+                    </footer>
 
 
                 </div>

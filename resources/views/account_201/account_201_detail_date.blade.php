@@ -67,30 +67,32 @@
         }
     </style>
 
-    <div class="tabs-animation">
-
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
-                </div>
+<div class="tabs-animation">
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
             </div>
-
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
+            </div>
         </div>
+    </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="card-title">Detail 1102050101.201</h5>
+                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.201</p>
+            </div>
+            <div class="col"></div>
+        </div> 
 
-        <div class="row mb-5 ms-3 me-3 mt-2">
+        <div class="row">
             <div class="col-md-12">
-                <div class="main-card mb-3 card">
-                    <div class="card-header">
-                        รายละเอียด 1102050101.201
-                        <div class="btn-actions-pane-right">
-                            {{-- <button type="button"
-                                class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger PulldataAll">
-                                <i class="fa-solid fa-arrows-rotate text-danger me-2"></i>
-                                Sync Data All
-                            </button> --}}
-                        </div>
-                    </div>
+                <div class="card cardshadowacc">
+                   
                     <div class="card-body">
                         {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}

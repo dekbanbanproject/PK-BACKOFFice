@@ -62,14 +62,8 @@
     <link rel="stylesheet"
         href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
-
-    <link rel="stylesheet" href="{{ asset('css/dcss.css') }}">
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/github.min.css" /> --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js"></script> --}}
+    <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
  
-    {{-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> --}}
-    <!-- Plugins css -->
-    {{-- <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" /> --}}
 </head>
 <style>
     body {
@@ -146,8 +140,8 @@ $permiss_ti = StaticController::permiss_ti($iduser);
 $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
 ?>
-
-<body data-topbar="dark">
+ <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed">
+{{-- <body data-topbar="dark"> --}}
     {{-- <body style="background-image: url('my_bg.jpg');"> --}}
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -161,10 +155,11 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                         <a href="" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-sm" height="22">
+                                <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20">
+                                {{-- <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-dark" height="20"> --}}
+                                <h4 style="color:rgba(237, 199, 247, 0.74)" class="mt-4">PK-BACKOFFice</h4>
                             </span>
                         </a>
 
@@ -252,7 +247,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
         {{-- <div class="vertical-menu "> --}}
         <div class="vertical-menu">
             {{-- <div class="vertical-menu" style="background-color: rgb(128, 216, 209)"> --}}
-            <div data-simplebar class="h-100">
+            {{-- <div data-simplebar class="h-100"> --}}
                 {{-- <div data-simplebar class="h-100 nom6"> --}}
                 <!--- Sidemenu -->
                 <div id="sidebar-menu">
@@ -758,7 +753,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     </ul>
                 </div>
                 <!-- Sidebar -->
-            </div>
+            {{-- </div> --}}
         </div>
         <!-- Left Sidebar End -->
 
