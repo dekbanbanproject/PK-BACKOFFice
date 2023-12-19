@@ -187,6 +187,18 @@ background-repeat: no-repeat;
                             <ul class="metismenu list-unstyled" id="side-menu">
                                 <li class="menu-title">Menu</li> 
                                 <li>
+                                    <a href="{{ url('ct_rep') }}">  
+                                        <i class="fa fa-lungs-virus text-danger"></i>
+                                        <span>CT Report</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('ct_rep_import') }}">  
+                                        <i class="fa fa-lungs-virus text-primary"></i>
+                                        <span>Import Excel CT</span>
+                                    </a>
+                                </li>
+                                {{-- <li>
                                     <a href="javascript: void(0);" class="has-arrow waves-effect"> 
                                         <i class="fa fa-lungs-virus text-danger"></i>
                                         <span>CT Report</span>
@@ -195,7 +207,7 @@ background-repeat: no-repeat;
                                         <li><a href="{{ url('ct_rep') }}">Ct</a></li> 
                                         <li><a href="{{ url('ct_rep_import') }}">Import Excel CT</a></li>  
                                     </ul>
-                                </li>
+                                </li> --}}
                                  
                                 
                             </ul>
