@@ -223,7 +223,7 @@
 
                             </tbody>
                             <tr style="background-color: #f3fca1">
-                                <td colspan="9" class="text-end" style="background-color: #ff9d9d"></td>
+                                <td colspan="10" class="text-end" style="background-color: #ff9d9d"></td>
                                 <td class="text-end" style="background-color: #e09be9">{{ number_format($total1,2)}}</td>
                                 <td class="text-end" style="background-color: #36a9f7">{{ number_format($total4,2)}}</td>
                                 <td class="text-end" style="background-color: #6187f0">{{ number_format($total6,2)}}</td>

@@ -1179,7 +1179,7 @@ class ReportFontController extends Controller
                         and i.an is null                       
                         and v.hospmain = "'.$hospcode.'"
 
-                        and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
+                        and v.pttype IN ("98","99")
 
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
@@ -1213,7 +1213,7 @@ class ReportFontController extends Controller
                         and i.an is null                        
                         and v.hospmain = "'.$hospcode.'"
 
-                        and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
+                        and v.pttype IN ("98","99")
 
                         and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
@@ -1227,7 +1227,8 @@ class ReportFontController extends Controller
                     ) As Refer
             ');
            
-           
+            // and pt.hipdata_code ="UCS" and v.pttype NOT IN ("W1","49")
+            
            foreach ($datashow_ as $key => $va2) {
                 Refer_cross::insert([
                     'hn'                 => $va2->hn,

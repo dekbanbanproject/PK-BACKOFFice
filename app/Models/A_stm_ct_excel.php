@@ -16,27 +16,47 @@ class A_stm_ct_excel extends Authenticatable
 
     protected $table = 'a_stm_ct_excel'; 
     // protected $primaryKey = 'a_stm_ct_excel_id';
-    protected $fillable = [
-        'ct_no',
+    protected $fillable = [ 
         'ct_date', 
         'ct_timein',
         'hn',
+        'an',
+        'cid',
         'ptname', 
-        'hname', 
+        'sfhname', 
+        'typename', 
         'pttypename',
+        'hname',
+        'cardno',
         'ward',
+        'service',
+        'ct_check',
+        'price_check',
+        'total_price_check',
+        'opaque',
+        'opaque_price',
+        'total_opaque_price',
+        'other',
+        'other_price',
+        'total_other_price',
+        'before_price',
+        'discount',
+        'total',
+        'sumprice',
+        'paid',
+        'remain', 
         'doctor',
         'doctor_read',
-        'check' ,
-        'price_check',
-        'price_drug',
-        'qty_drug',
-        'remain',
+        'technician' ,
+        'technician_sub',
+        'nurse',
+        'icd9',
         'user_id',
         'STMDoc',
         'vn',
-        'an',
-        'cid'
+        'hos_check',
+        'hos_price_check',
+        'hos_total_price_check'
     ];
     // public $timestamps = false; 
 
