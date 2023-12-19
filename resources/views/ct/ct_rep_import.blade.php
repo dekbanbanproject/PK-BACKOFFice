@@ -119,11 +119,15 @@
                                                 ส่งข้อมูล
                                         </a> --}}
                                     @else
-                                        <button type="submit"
+                                        {{-- <button type="submit"
                                             class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="UP STM"></i>
                                             UP STM
-                                        </button>
+                                        </button> --}}
+                                        <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow mb-3 me-2 " data-style="expand-left">
+                                            <span class="ladda-label"> <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i> UP STM</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button> 
                                     @endif
                                 </div>
                                 <div class="col"></div>

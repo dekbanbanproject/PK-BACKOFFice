@@ -33,6 +33,7 @@ return new class extends Migration
                 $table->string('paid')->nullable();// ชำระแล้ว
                 $table->string('remain')->nullable();// ค้างชำระ 
                 $table->string('user_id')->nullable();//   
+                $table->string('STMDoc')->nullable();//   
                 $table->timestamps();
             });
         }

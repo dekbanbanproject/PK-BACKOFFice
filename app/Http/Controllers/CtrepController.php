@@ -195,8 +195,7 @@ class CtrepController extends Controller
         $the_file = $request->file('file'); 
         $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
         // dd($file_);
-            try{                
-             
+            try{       
                 $spreadsheet = IOFactory::load($the_file); 
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
@@ -217,9 +216,6 @@ class CtrepController extends Controller
                     } else {
                         $ct_date = '0000-00-00';
                     }
-
-                    // $year = ($year_.'-'.'543');
- 
                     $o = $sheet->getCell( 'O' . $row )->getValue();
                     $del_o = str_replace(",","",$o);
                     $p = $sheet->getCell( 'P' . $row )->getValue();
@@ -323,59 +319,123 @@ class CtrepController extends Controller
                         'nurse'                   =>$sheet->getCell( 'AH' . $row )->getValue(), 
                         'icd9'                    =>$sheet->getCell( 'AI' . $row )->getValue(),  
                         'user_id'                 =>$iduser,  
-                        'STMDoc'                  =>$file_ 
-                        
+                        'STMDoc'                  =>$file_                         
                     ]);
 
                 } 
                 // foreach (array_chunk($data,500) as $t)  
                 // { 
                 //     DB::table('a_stm_ct_excel')->insert($t);
-                // }
-                 
-                
+                // }    
             } catch (Exception $e) {
                 $error_code = $e->errorInfo[1];
                 return back()->withErrors('There was a problem uploading the data!');
             }
 
-            $data_ = DB::connection('mysql')->select('SELECT * FROM a_stm_ct_excel');
-       
-                foreach ($data_ as $key => $value) {
-                    // if ($value->ct_check != '') {
-                    //     $check = A_stm_ct_item::where('ct_date','=',$value->ct_date)->where('cid','=',$value->cid)->count();
-                    //     if ($check > 0) {
-                    //     } else {
-                    //         A_stm_ct_item::insert([
-                    //             'ct_date'                  =>$value->ct_date, 
-                    //             'hn'                       =>$value->hn,
-                    //             'an'                       =>$value->an,
-                    //             'cid'                      =>$value->cid,
-                    //             'ptname'                   =>$value->ptname, 
-                    //             'ct_check'                 =>$value->ct_check,
-                    //             'price_check'              =>$value->price_check,
-                    //             'total_price_check'        =>$value->total_price_check, 
-                    //             'opaque_price'             =>$value->opaque_price, 
-                    //             'total_opaque_price'       =>$value->total_opaque_price,   
-                    //             'before_price'             =>$value->before_price, 
-                    //             'discount'                 =>$value->discount, 
-                    //             'vat'                      =>$value->vat, 
-                    //             'total'                    =>$value->total, 
-                    //             'sumprice'                 =>$value->sumprice, 
-                    //             'paid'                     =>$value->paid, 
-                    //             'remain'                   =>$value->remain,  
-                    //             'user_id'                  =>$value->user_id,  
-                    //         ]);
-                            
-                    //     }
-                    // } else {
-                    // }
+            $data_excel = DB::connection('mysql')->select('
+                SELECT  
+                    ct_date,ct_timein,hn,an,cid ,ptname,sfhname,typename,pttypename,hname,cardno,ward,service,ct_check
+                    ,sum(price_check) price_check,sum(total_price_check) total_price_check,opaque,sum(opaque_price) opaque_price,sum(total_opaque_price) total_opaque_price
+                    ,other,sum(other_price) other_price,sum(total_other_price) total_other_price
+                    ,sum(before_price) before_price,sum(discount) discount,sum(vat) vat,sum(total) total,sum(sumprice) sumprice,sum(paid) paid,sum(remain) remain
+                    ,doctor,doctor_read,technician,technician_sub,nurse,icd9,user_id,STMDoc
+                FROM a_stm_ct_excel
+                GROUP BY cid
+            ');
+            foreach ($data_excel as $key => $v) {
+                if ($v->cid !='') { 
+                
+                    // $check = A_stm_ct::where('STMDoc','=',$file_)->count();
+                    // dd($check );
+                    // if ($check == '0') {
+                        A_stm_ct::insert([
+                            'ct_date'                 =>$v->ct_date,
+                            'ct_timein'               =>$v->ct_timein,
+                            'hn'                      =>$v->hn,
+                            'an'                      =>$v->an,
+                            'cid'                     =>$v->cid,
+                            'ptname'                  =>$v->ptname,
+                            'sfhname'                 =>$v->sfhname, 
+                            'typename'                =>$v->typename, 
+                            'pttypename'              =>$v->pttypename,  
+                            'hname'                   =>$v->hname, 
+                            'cardno'                  =>$v->cardno,
+                            'ward'                    =>$v->ward,
+                            'service'                 =>$v->service,
+                            'ct_check'                =>$v->ct_check,
+                            'price_check'             =>$v->price_check,
+                            'total_price_check'       =>$v->total_price_check,
+                            'opaque'                  =>$v->opaque,
+                            'opaque_price'            =>$v->opaque_price, 
+                            'other'                   =>$v->other, 
+                            'other_price'             =>$v->other_price, 
+                            'total_other_price'       =>$v->total_other_price, 
+                            'before_price'            =>$v->before_price,
+                            'discount'                =>$v->discount,
+                            'vat'                     =>$v->vat,
+                            'total'                   =>$v->total,
+                            'sumprice'                =>$v->sumprice,
+                            'paid'                    =>$v->paid,
+                            'remain'                  =>$v->remain, 
+                            'doctor'                  =>$v->doctor, 
+                            'doctor_read'             =>$v->doctor_read, 
+                            'technician'              =>$v->technician, 
+                            'technician_sub'          =>$v->technician_sub, 
+                            'nurse'                   =>$v->nurse, 
+                            'icd9'                    =>$v->icd9,  
+                            'user_id'                 =>$iduser,  
+                            'STMDoc'                  =>$file_   
+                        ]);
+                    // } else {                       
+                    // }     
+                    
+                } else {
+                    # code...
                 }
+               
+            }
 
+            $data_ = DB::connection('mysql')->select('
+                SELECT  
+                    ct_date,hn,an,cid ,ptname,ct_check,price_check,total_price_check,opaque_price,total_opaque_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
+                FROM a_stm_ct_excel
+                GROUP BY cid,ct_check
+            ');
+            // GROUP BY cid
+            foreach ($data_ as $key => $value) {
+                if ($value->cid != '') {
+                    // $check = A_stm_ct_item::where('ct_date','=',$value->ct_date)->where('cid','=',$value->cid)->where('ct_check','=',$value->ct_check)->count();
+                    // $check = A_stm_ct_item::where('STMDoc','=',$file_)->count();
+                    // if ($check == '0') {
+                        A_stm_ct_item::insert([
+                            'ct_date'                  =>$value->ct_date, 
+                            'hn'                       =>$value->hn,
+                            'an'                       =>$value->an,
+                            'cid'                      =>$value->cid,
+                            'ptname'                   =>$value->ptname, 
+                            'ct_check'                 =>$value->ct_check,
+                            'price_check'              =>$value->price_check,
+                            'total_price_check'        =>$value->total_price_check, 
+                            'opaque_price'             =>$value->opaque_price, 
+                            'total_opaque_price'       =>$value->total_opaque_price,   
+                            'before_price'             =>$value->before_price, 
+                            'discount'                 =>$value->discount, 
+                            'vat'                      =>$value->vat, 
+                            'total'                    =>$value->total, 
+                            'sumprice'                 =>$value->sumprice, 
+                            'paid'                     =>$value->paid, 
+                            'remain'                   =>$value->remain,  
+                            'user_id'                  =>$iduser,  
+                            'STMDoc'                   =>$value->STMDoc, 
+                        ]);
+                    // } else {   
+                    // }
+                } else {
+                }
+            }
 
-
-                // A_stm_ct_excel::truncate(); 
-
+                
+            A_stm_ct_excel::truncate(); 
             return redirect()->route('ct.ct_rep_import');
             // return response()->json([
             //     'status'    => '200',
