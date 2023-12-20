@@ -95,6 +95,30 @@
                 </div>
             </div>
         </div>
+
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">IMPORT EXCEL CT</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">IMPORT EXCEL</a></li>
+                                <li class="breadcrumb-item active">CT</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+        </div> <!-- container-fluid -->
+
+
         <div class="row">
 
             <div class="col"></div>
@@ -106,9 +130,9 @@
 
                             <div class="row">
                                 <div class="col"></div>
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL => UP STM => ส่งข้อมูล</label>
+                                        <label for="formFileLg" class="form-label">IMPORT EXCEL</label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -125,7 +149,7 @@
                                             UP STM
                                         </button> --}}
                                         <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary d-shadow mb-3 me-2 " data-style="expand-left">
-                                            <span class="ladda-label"> <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i> UP STM</span>
+                                            <span class="ladda-label"> <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i> IMPORT</span>
                                             <span class="ladda-spinner"></span>
                                         </button> 
                                     @endif

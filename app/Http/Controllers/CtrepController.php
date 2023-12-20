@@ -176,9 +176,10 @@ class CtrepController extends Controller
         $enddate = $request->enddate;
         $datashow = DB::connection('mysql')->select('
             SELECT cid,ct_date,SUM(sumprice) as sumprice,SUM(paid) as paid,SUM(remain) as remain,STMdoc,month(ct_date) as months
-            FROM a_stm_ct_excel
+            FROM a_stm_ct
             WHERE cid is not null
             GROUP BY cid
+            ORDER BY STMdoc DESC
             ');
         $countc = DB::table('a_stm_ct_excel')->count(); 
         return view('ct.ct_rep_import',[
@@ -405,7 +406,7 @@ class CtrepController extends Controller
                 SELECT  
                     ct_date,hn,an,cid ,ptname,ct_check,price_check,total_price_check,opaque_price,total_opaque_price,before_price,discount,vat,total,sumprice,paid,remain,STMDoc
                 FROM a_stm_ct_excel
-                GROUP BY cid,ct_check
+                GROUP BY cid 
             ');
             // GROUP BY cid
             foreach ($data_ as $key => $value) {

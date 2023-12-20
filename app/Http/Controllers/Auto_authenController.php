@@ -297,7 +297,7 @@ class Auto_authenController extends Controller
     {
         
         $date_now = date('Y-m-d');
-        $date_start = "2023-08-14";
+        $date_start = "2023-12-12";
         $date_end = "2023-09-21";
         $url = "https://authenservice.nhso.go.th/authencode/api/authencode-report?hcode=10978&provinceCode=3600&zoneCode=09&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=transId,desc";
         // $url = "https://authenservice.nhso.go.th/authencode/api/erm-reg-claim?claimStatus=E&claimDateFrom=$date_now&claimDateTo=$date_now&page=0&size=1000&sort=claimDate,desc";
@@ -404,7 +404,13 @@ class Auto_authenController extends Controller
                                 } else {
                                     $checkcs = Check_authen::where('claimcode','=',$claimCode)->count();
                                     if ($checkcs > 0) {                                       
-
+                                        Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                            'claimcode'       => $claimCode,
+                                            'claimtype'       => $claimType,
+                                            'servicerep'      => $patientType,
+                                            'servicename'     => $claimTypeName,
+                                            'authentication'  => $claimAuthen,
+                                        ]);  
                                     } else {
                                         Check_authen::create([
                                             'cid'                        => $personalId,
@@ -426,6 +432,14 @@ class Auto_authenController extends Controller
                                             'requestauthen'              => $sourceChannel,
                                             'authentication'             => $claimAuthen, 
                                         ]);
+
+                                        Check_sit_auto::where('cid','=',$personalId)->where('vstdate','=',$checkdate)->update([
+                                            'claimcode'       => $claimCode,
+                                            'claimtype'       => $claimType,
+                                            'servicerep'      => $patientType,
+                                            'servicename'     => $claimTypeName,
+                                            'authentication'  => $claimAuthen,
+                                        ]);  
                                     }
 
                                
@@ -442,18 +456,24 @@ class Auto_authenController extends Controller
     public function updaet_authen_to_checksitauto(Request $request)
     {
         $date_now = date('Y-m-d');
-        $date_start = "2023-08-14";
+        $date_start = "2023-12-12";
         $date_end = "2566-07-22";        
         // $data_ = Check_authen
         // $count = Check_sit_auto::where('vn','<>','')->count(); 
         $data_ = DB::connection('mysql')->select('
-                SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication,ca.claimcode as Caclaimcode
+                SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication ,ca.claimcode as Caclaimcode
                 FROM check_authen c   
                 LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
                 WHERE c.vstdate = CURDATE()
-                AND c.claimtype <> "PG0130001" 
-                AND ca.claimcode IS NULL      
+                AND c.claimtype <> "PG0130001"  
+                AND ca.claimcode IS NULL
         '); 
+        // SELECT c.cid,c.vstdate,c.claimcode,c.claimtype,c.servicerep,c.servicename,c.authentication,ca.claimcode as Caclaimcode
+        //         FROM check_authen c   
+        //         LEFT JOIN check_sit_auto ca ON ca.cid = c.cid and c.vstdate = ca.vstdate
+        //         WHERE c.vstdate = "2023-12-12"
+        //         AND c.claimtype <> "PG0130001" 
+        //         AND ca.claimcode IS NULL
         // CURDATE()
         foreach ($data_ as $key => $value) {   
             //  $count = Check_sit_auto::where('claimcode','=',$value->claimcode)->count(); 
