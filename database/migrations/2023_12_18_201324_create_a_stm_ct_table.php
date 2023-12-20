@@ -56,7 +56,8 @@ return new class extends Migration
                 $table->string('vn')->nullable();//  HOS
                 $table->string('hos_check')->nullable();//   ส่วนตรวจ HOS
                 $table->string('hos_price_check')->nullable();// ค่าตรวจ HOS
-                $table->string('hos_total_price_check')->nullable();// รวมค่าตรวจ HOS      
+                $table->string('hos_total_price_check')->nullable();// รวมค่าตรวจ HOS     
+                $table->enum('active', ['N', 'Y', 'W'])->default('W'); 
                 $table->timestamps();
             });
         }
