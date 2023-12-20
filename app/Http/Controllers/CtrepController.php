@@ -222,6 +222,8 @@ class CtrepController extends Controller
                     $del_p = str_replace(",","",$p);
                     $r= $sheet->getCell( 'R' . $row )->getValue();
                     $del_r = str_replace(",","",$r);
+                    $s= $sheet->getCell( 'S' . $row )->getValue();
+                    $del_s = str_replace(",","",$s);
                     $u= $sheet->getCell( 'U' . $row )->getValue();
                     $del_u = str_replace(",","",$u);
                     $v= $sheet->getCell( 'V' . $row )->getValue();
@@ -242,6 +244,7 @@ class CtrepController extends Controller
                     $ac= $sheet->getCell( 'AC' . $row )->getValue();
                     $del_ac = str_replace(",","",$ac);
 
+                    // total_opaque_price
                     $iduser = Auth::user()->id;
                     $data[] = [ 
                         'ct_date'                 =>$ct_date,
@@ -262,6 +265,7 @@ class CtrepController extends Controller
                         'total_price_check'       =>$del_p,
                         'opaque'                  =>$sheet->getCell( 'Q' . $row )->getValue(),
                         'opaque_price'            =>$del_r, 
+                        'total_opaque_price'      =>$del_s, 
                         'other'                   =>$sheet->getCell( 'T' . $row )->getValue(), 
                         'other_price'             =>$del_u, 
                         'total_other_price'       =>$del_v, 
@@ -302,6 +306,7 @@ class CtrepController extends Controller
                         'total_price_check'       =>$del_p,
                         'opaque'                  =>$sheet->getCell( 'Q' . $row )->getValue(),
                         'opaque_price'            =>$del_r, 
+                        'total_opaque_price'      =>$del_s, 
                         'other'                   =>$sheet->getCell( 'T' . $row )->getValue(), 
                         'other_price'             =>$del_u, 
                         'total_other_price'       =>$del_v, 
@@ -367,6 +372,7 @@ class CtrepController extends Controller
                             'total_price_check'       =>$v->total_price_check,
                             'opaque'                  =>$v->opaque,
                             'opaque_price'            =>$v->opaque_price, 
+                            'total_opaque_price'      =>$v->total_opaque_price, 
                             'other'                   =>$v->other, 
                             'other_price'             =>$v->other_price, 
                             'total_other_price'       =>$v->total_other_price, 
