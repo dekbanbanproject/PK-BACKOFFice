@@ -99,7 +99,7 @@
                         <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
-                            <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary inputacc" data-style="expand-left">
+                            <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
                                 <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                                 <span class="ladda-spinner"></span>
                             </button> 
@@ -115,7 +115,7 @@
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <div class="card cardshadowacc">
+                <div class="card cardacc">
                     
                     <div class="card-body">
                         <div class="table-responsive">

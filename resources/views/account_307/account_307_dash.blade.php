@@ -366,8 +366,7 @@
                                             $datasumipd_ = DB::select('
                                                     SELECT sum(debit_total) as debit_totali,count(an) as Avit
                                                     from acc_1102050101_307
-                                                    where month(dchdate) = "'.$item->months.'"
-                                                    AND year(dchdate) = "'.$item->year.'"; 
+                                                    where dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                                                     
                                                 ');   
                                                 foreach ($datasumipd_ as $key => $valueip) {

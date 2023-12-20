@@ -58,6 +58,7 @@
             </div>
 
         </div>
+        
         <form action="{{ route('acc.account_201_stmdate') }}" method="GET">
             @csrf
             <div class="row">
@@ -69,28 +70,32 @@
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                        <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
-                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                        <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>
                     </div>
                 </div>
                 <div class="col-md-3 text-start">
-                    <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                    {{-- <button type="submit" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info cardacc">
                         <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                         ค้นหา
-                    </button>
+                    </button> --}}
+                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
+                        <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                        <span class="ladda-spinner"></span>
+                    </button> 
                      
                 </div>
 
             </div>
         </form>
 
-        <div class="row mb-5">
+        <div class="row mb-2">
             <div class="col-md-12">
-                <div class="main-card mb-3 card">
+                <div class="card cardacc">
                     <div class="card-header">
                     รายละเอียด 1102050101.201
                         <div class="btn-actions-pane-right">
@@ -98,8 +103,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                            {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                        <div class="table-responsive">
                             <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
@@ -139,6 +143,7 @@
 
                             </tbody>
                         </table>
+                    </div>
                     </div>
                 </div>
             </div>

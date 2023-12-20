@@ -58,6 +58,16 @@
                .is-hide{
                display:none;
                }
+               .dcheckbox{         
+                    width: 20px;
+                    height: 20px;       
+                    /* border-radius: 2em 2em 2em 2em; */
+                    border: 10px solid pink;
+                    /* color: teal; */
+                    /* border-color: teal; */
+                    box-shadow: 0 0 10px pink;
+                    /* box-shadow: 0 0 10px teal; */
+                }
     </style>
     
     <div class="tabs-animation">
@@ -89,7 +99,7 @@
                     <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                 
-                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardshadowacc" data-style="expand-left" id="Pulldata">
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
                         </button>
@@ -103,7 +113,7 @@
           
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardshadowacc">
+                <div class="card cardacc">
                     <div class="card-body"> 
                         <div class="row mb-3">
                             {{-- <div class="col-md-4">
@@ -113,7 +123,7 @@
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
                                
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardshadowacc Savestamp" data-url="{{url('account_201_stam')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_201_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -127,7 +137,7 @@
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" class="d-checkbox" name="stamp" id="stamp"> </th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
@@ -155,7 +165,7 @@
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif --}}
-                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                <td class="text-center" width="5%"><input type="checkbox" class="sub_chk dcheckbox" data-id="{{$item->acc_debtor_id}}"> </td> 
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 

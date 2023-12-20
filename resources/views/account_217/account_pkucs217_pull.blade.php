@@ -1,23 +1,26 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-BACKOFFice || ACCOUNT')
- 
+
 @section('content')
-    <script>
-        function TypeAdmin() {
-            window.location.href = '{{ route('index') }}';
-        }
-    </script>
-    <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
     }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    ?>
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+$datenow = date('Y-m-d');
+$ynow = date('Y') + 543;
+$yb = date('Y') + 542;
+?>
     <style>
         #button{
                display:block;
@@ -58,6 +61,16 @@
                .is-hide{
                display:none;
                }
+               .dcheckbox{         
+                    width: 20px;
+                    height: 20px;       
+                    /* border-radius: 2em 2em 2em 2em; */
+                    border: 10px solid pink;
+                    /* color: teal; */
+                    /* border-color: teal; */
+                    box-shadow: 0 0 10px pink;
+                    /* box-shadow: 0 0 10px teal; */
+                }
     </style>
     
     <div class="tabs-animation">
@@ -75,31 +88,25 @@
             </div>
         </div>
      
-        <div class="row mb-3"> 
+        <div class="row "> 
+            <div class="col-md-4">
+                <h5 class="card-title">Detail 1102050101.217</h5>
+                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050101.217</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
-                {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                        data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div>  --}}
+         
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                </div> 
-            </div>
-            <div class="col-md-2">
-                {{-- <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
-                    <i class="fa-solid fa-magnifying-glass"></i> 
-                    ค้นหา 
-                </button>    --}}
-                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
-                    <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                    ดึงข้อมูล</button>    
+               
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
+                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                            <span class="ladda-spinner"></span>
+                        </button>    
                 {{-- <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" id="Check_sitipd">
                     <i class="fa-solid fa-2 me-2"></i> 
                     ตรวจสอบสิทธิ์
@@ -111,17 +118,17 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body shadow-lg"> 
+                <div class="card cardacc">
+                    <div class="card-body"> 
                       
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-4">
-                                <h4 class="card-title">Detail Account ผัง 1102050101.217</h4>
-                                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
+                                {{-- <h4 class="card-title">Detail Account ผัง 1102050101.217</h4>
+                                <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p> --}}
                             </div>
                             <div class="col"></div>
                             <div class="col-md-2 text-end">
-                                <button type="button" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_pkucs217_stam')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_pkucs217_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
@@ -135,7 +142,7 @@
                                     <thead>
                                         <tr>
                                             <th width="5%" class="text-center">ลำดับ</th> 
-                                            <th width="5%" class="text-center"><input type="checkbox" name="stamp" id="stamp"> </th> 
+                                            <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox" name="stamp" id="stamp"> </th> 
                                             <th class="text-center">an</th>
                                             <th class="text-center" >hn</th>
                                             <th class="text-center">ptname</th>
@@ -160,7 +167,7 @@
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="sub_chk dcheckbox" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>   --}}
                                                 <td class="text-center" width="5%">{{ $item->an }}</td> 

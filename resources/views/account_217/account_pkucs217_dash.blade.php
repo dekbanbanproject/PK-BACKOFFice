@@ -73,12 +73,19 @@
     ?>
 
    <div class="tabs-animation">
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner"> 
-                </div>
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
             </div>
         </div>
+    </div>
         <form action="{{ route('acc.account_pkucs217_dash') }}" method="GET">
             @csrf
             <div class="row"> 
@@ -88,32 +95,26 @@
                 </div>
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
-                <div class="col-md-3 text-end">
+                <div class="col-md-4 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                        <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $startdate }}" required/>
-                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                        <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
                             data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                             data-date-language="th-th" value="{{ $enddate }}" required/>  
-                    </div> 
-                </div>
-                <div class="col-md-3 text-start">
-                    <button type="submit" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
-                        <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
-                        ค้นหา
-                    </button>
-                    {{-- <a href="{{url('account_pkucs217_pull')}}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" target="_blank">  
-                        <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                        ดึงข้อมูล
-                    </a> --}}
+                            <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left">
+                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                                <span class="ladda-spinner"></span>
+                            </button>
+                        </div>
                 </div>
             </div>
         </form>  
         <div class="row"> 
             @foreach ($datashow as $item)   
             <div class="col-xl-4 col-md-12">
-                <div class="main-card mb-3 card shadow" style="background-color: rgb(246, 235, 247)"> 
+                <div class="card cardacc" style="background-color: rgb(246, 235, 247)"> 
 
                     @if ($startdate == '')
                         <div class="grid-menu-col">
@@ -188,7 +189,7 @@
  
                                             ?>
                                             <div class="row">
-                                                <div class="col-md-5 text-start mt-4 ms-2">
+                                                <div class="col-md-5 text-start mt-4 ms-4">
                                                     <h5 >{{$item->MONTH_NAME}} {{$ynew}}</h5>
                                                 </div>
                                                 <div class="col"></div>
@@ -201,7 +202,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-2">
+                                                <div class="col-md-1 text-start ms-4">
                                                     <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -223,7 +224,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-2">
+                                                <div class="col-md-1 text-start ms-4">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-danger"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -244,7 +245,7 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-2">
+                                                <div class="col-md-1 text-start ms-4">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle text-success"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -266,7 +267,7 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-1 text-start ms-2">
+                                                <div class="col-md-1 text-start ms-4">
                                                     <i class="fa-brands fa-2x fa-bitcoin me-2 align-middle" style="color: rgb(160, 12, 98)"></i>
                                                 </div>
                                                 <div class="col-md-4 text-start mt-3">
@@ -359,7 +360,7 @@
 
                                         ?>
                                         <div class="row">
-                                            <div class="col-md-5 text-start mt-4 ms-2">
+                                            <div class="col-md-5 text-start mt-4 ms-4">
                                                 <h5 >{{$item->MONTH_NAME}} {{$ynew}}</h5>
                                             </div>
                                             <div class="col"></div>
@@ -372,7 +373,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-1 text-start ms-2">
+                                            <div class="col-md-1 text-start ms-4">
                                                 <i class="fa-solid fa-2x fa-sack-dollar me-2 align-middle text-secondary"></i>
                                             </div>
                                             <div class="col-md-4 text-start mt-3">
@@ -382,7 +383,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
+                                            <div class="col-md-5 text-end me-4">
                                                 {{-- <a href="" target="_blank"> --}}
                                                     <div class="widget-chart widget-chart-hover" >
                                                         <p class="text-end mb-0"  data-bs-toggle="tooltip" data-bs-placement="top" title="ลูกหนี้ที่ต้องตั้ง {{$count_N}} Visit" >
@@ -403,7 +404,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
+                                            <div class="col-md-5 text-end me-4">
                                                 <a href="{{url('account_pkucs217_detail_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="ตั้งลูกหนี้ {{$count_Y}} Visit">
@@ -424,7 +425,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
+                                            <div class="col-md-5 text-end me-4">
                                                 <a href="{{url('account_pkucs217_stm_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$stm_count}} Visit">
@@ -446,7 +447,7 @@
                                                 </p>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col-md-5 text-end me-2">
+                                            <div class="col-md-5 text-end me-4">
                                                 <a href="{{url('account_pkucs217_stmnull_date/'.$startdate.'/'.$enddate)}}" target="_blank">
                                                     <div class="widget-chart widget-chart-hover">
                                                         <p class="text-end mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Statement {{$count_yokma_all}} Visit">
